@@ -1,0 +1,932 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "status-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "status"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "status-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "status"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "status-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "status"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "log-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "log-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "log-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "diff-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "diff-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "diff-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "commit-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "commit"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "commit-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "commit"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "commit-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "commit"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "push-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "push",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "push-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "push",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "push-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "push",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "force-push-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "push",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "force-push-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "push",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "force-push-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "push",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "short-force-push-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "push",
+        "-f"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "short-force-push-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "push",
+        "-f"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "short-force-push-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "push",
+        "-f"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "hard-reset-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "reset",
+        "--hard"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "hard-reset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "reset",
+        "--hard"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "hard-reset-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "reset",
+        "--hard"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unknown-0-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "add",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "add",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-0-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "add",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-1-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-1-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-2-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "-c",
+        "core.pager=sh",
+        "log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "-c",
+        "core.pager=sh",
+        "log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-2-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "-c",
+        "core.pager=sh",
+        "log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-3-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "--no-pager",
+        "push",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "--no-pager",
+        "push",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-3-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "--no-pager",
+        "push",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-4-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "push",
+        "origin",
+        "main",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "push",
+        "origin",
+        "main",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-4-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "push",
+        "origin",
+        "main",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-5-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "config",
+        "--global",
+        "core.hooksPath",
+        "hooks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-5-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "config",
+        "--global",
+        "core.hooksPath",
+        "hooks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-5-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "config",
+        "--global",
+        "core.hooksPath",
+        "hooks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-6-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "remote",
+        "add",
+        "origin",
+        "https://example.com/example.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-6-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "remote",
+        "add",
+        "origin",
+        "https://example.com/example.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-6-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "remote",
+        "add",
+        "origin",
+        "https://example.com/example.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-7-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "submodule",
+        "foreach",
+        "echo example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-7-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "submodule",
+        "foreach",
+        "echo example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-7-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "submodule",
+        "foreach",
+        "echo example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-8-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "clean",
+        "-fd"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-8-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "clean",
+        "-fd"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-8-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "clean",
+        "-fd"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-9-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "branch",
+        "-D",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-9-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "branch",
+        "-D",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-9-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "branch",
+        "-D",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-10-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "stash",
+        "drop"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-10-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "stash",
+        "drop"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-10-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "stash",
+        "drop"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-11-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "worktree",
+        "remove",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-11-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "worktree",
+        "remove",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-11-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "worktree",
+        "remove",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-12-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "fetch"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-12-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "fetch"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-12-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "fetch"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-13-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "clone",
+        "https://example.com/example.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-13-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "clone",
+        "https://example.com/example.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-13-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "clone",
+        "https://example.com/example.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-14-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "checkout",
+        "--",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-14-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "checkout",
+        "--",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-14-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "checkout",
+        "--",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-15-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "rm",
+        "-r",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-15-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "rm",
+        "-r",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-15-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "rm",
+        "-r",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-16-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "gc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-16-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "gc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-16-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "gc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-17-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "bisect",
+        "run",
+        "echo",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-17-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "bisect",
+        "run",
+        "echo",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-17-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "bisect",
+        "run",
+        "echo",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-18-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "unknown"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-18-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "unknown"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-18-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "unknown"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-19-loose",
+      "profile": "loose",
+      "argv": [
+        "sh",
+        "-c",
+        "git status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-19-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sh",
+        "-c",
+        "git status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-19-strict",
+      "profile": "strict",
+      "argv": [
+        "sh",
+        "-c",
+        "git status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-20-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/git",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-20-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/git",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-20-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/git",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-21-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "commit",
+        "-m",
+        "Example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-21-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "commit",
+        "-m",
+        "Example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-21-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "commit",
+        "-m",
+        "Example"
+      ],
+      "expected": "ask"
+    }
+  ]
+}

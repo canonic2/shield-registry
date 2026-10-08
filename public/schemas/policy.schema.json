@@ -1,0 +1,473 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:shield:policy-v1",
+  "title": "Shield policy documents",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/pack"
+    },
+    {
+      "$ref": "#/$defs/custom"
+    },
+    {
+      "$ref": "#/$defs/cases"
+    }
+  ],
+  "$defs": {
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "decision": {
+      "enum": [
+        "allow",
+        "ask",
+        "deny"
+      ]
+    },
+    "profile": {
+      "enum": [
+        "loose",
+        "recommended",
+        "strict"
+      ]
+    },
+    "values": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "type": "string",
+        "maxLength": 4096
+      }
+    },
+    "arguments": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "values"
+          ],
+          "properties": {
+            "kind": {
+              "const": "exact"
+            },
+            "values": {
+              "$ref": "#/$defs/values"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "values"
+          ],
+          "properties": {
+            "kind": {
+              "const": "prefix"
+            },
+            "values": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/values"
+                },
+                {
+                  "type": "array",
+                  "minItems": 1
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "const": "any"
+            }
+          }
+        }
+      ]
+    },
+    "matcher": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "executable",
+        "arguments"
+      ],
+      "properties": {
+        "executable": {
+          "$ref": "#/$defs/text"
+        },
+        "arguments": {
+          "$ref": "#/$defs/arguments"
+        },
+        "cwd": {
+          "$ref": "#/$defs/text"
+        },
+        "project": {
+          "$ref": "#/$defs/text"
+        },
+        "possible_effects": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 11,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "repository-write",
+              "worktree-write",
+              "data-removal",
+              "history-rewrite",
+              "network",
+              "code-execution",
+              "daemon-write",
+              "image-build",
+              "host-exposure",
+              "privileged-runtime",
+              "configuration"
+            ]
+          }
+        }
+      }
+    },
+    "profiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "loose",
+        "recommended",
+        "strict"
+      ],
+      "properties": {
+        "loose": {
+          "$ref": "#/$defs/decision"
+        },
+        "recommended": {
+          "$ref": "#/$defs/decision"
+        },
+        "strict": {
+          "$ref": "#/$defs/decision"
+        }
+      }
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "matcher",
+        "reason",
+        "profiles"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "matcher": {
+          "$ref": "#/$defs/matcher"
+        },
+        "reason": {
+          "$ref": "#/$defs/text"
+        },
+        "profiles": {
+          "$ref": "#/$defs/profiles"
+        }
+      }
+    },
+    "pack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "id",
+        "version",
+        "description",
+        "license",
+        "maintainers",
+        "engine",
+        "capabilities",
+        "rules"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]{1,64}/[a-z0-9-]{1,64}$"
+        },
+        "version": {
+          "$ref": "#/$defs/text"
+        },
+        "description": {
+          "$ref": "#/$defs/text"
+        },
+        "license": {
+          "$ref": "#/$defs/text"
+        },
+        "maintainers": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "engine": {
+          "$ref": "#/$defs/text"
+        },
+        "capabilities": {
+          "enum": [
+            [
+              "argv-v1"
+            ],
+            [
+              "argv-v1",
+              "possible-effects-v1"
+            ],
+            [
+              "argv-v1",
+              "dependencies-v1"
+            ],
+            [
+              "argv-v1",
+              "possible-effects-v1",
+              "dependencies-v1"
+            ]
+          ]
+        },
+        "rules": {
+          "type": "array",
+          "maxItems": 1024,
+          "items": {
+            "$ref": "#/$defs/rule"
+          }
+        },
+        "dependencies": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/$defs/dependency"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "dependencies"
+            ]
+          },
+          "then": {
+            "properties": {
+              "capabilities": {
+                "contains": {
+                  "const": "dependencies-v1"
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "capabilities": {
+                "not": {
+                  "contains": {
+                    "const": "dependencies-v1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "capabilities": {
+                "not": {
+                  "contains": {
+                    "const": "possible-effects-v1"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "rules": {
+                "items": {
+                  "properties": {
+                    "matcher": {
+                      "not": {
+                        "required": [
+                          "possible_effects"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "customRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "scope",
+        "decision",
+        "matcher",
+        "reason"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "scope": {
+          "const": "project"
+        },
+        "decision": {
+          "$ref": "#/$defs/decision"
+        },
+        "matcher": {
+          "$ref": "#/$defs/matcher"
+        },
+        "reason": {
+          "$ref": "#/$defs/text"
+        }
+      }
+    },
+    "custom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "rules"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "rules": {
+          "type": "array",
+          "maxItems": 1024,
+          "items": {
+            "$ref": "#/$defs/customRule"
+          }
+        }
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "profile",
+        "argv",
+        "expected"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "profile": {
+          "$ref": "#/$defs/profile"
+        },
+        "argv": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 257,
+          "items": {
+            "type": "string",
+            "maxLength": 4096
+          }
+        },
+        "expected": {
+          "$ref": "#/$defs/decision"
+        }
+      }
+    },
+    "cases": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "cases"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "cases": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1024,
+          "items": {
+            "$ref": "#/$defs/case"
+          }
+        }
+      }
+    },
+    "dependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pack",
+        "requirement"
+      ],
+      "properties": {
+        "pack": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+/[a-z0-9-]+$",
+          "maxLength": 129
+        },
+        "requirement": {
+          "$ref": "#/$defs/text"
+        },
+        "registry": {
+          "$ref": "#/$defs/text"
+        },
+        "profiles": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "loose",
+            "recommended",
+            "strict"
+          ],
+          "properties": {
+            "loose": {
+              "$ref": "#/$defs/profile"
+            },
+            "recommended": {
+              "$ref": "#/$defs/profile"
+            },
+            "strict": {
+              "$ref": "#/$defs/profile"
+            }
+          }
+        }
+      }
+    }
+  }
+}

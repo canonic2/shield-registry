@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "id": "canonic/git",
+  "version": "0.1.0",
+  "description": "Experimental Git literal policy; unknown operations ask",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engine": ">=0.1.0, <0.2.0",
+  "capabilities": [
+    "argv-v1"
+  ],
+  "rules": [
+    {
+      "id": "status",
+      "matcher": {
+        "executable": "git",
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "status"
+          ]
+        }
+      },
+      "reason": "Literal Git request policy; broader effects are not classified",
+      "profiles": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "log",
+      "matcher": {
+        "executable": "git",
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "log"
+          ]
+        }
+      },
+      "reason": "Literal Git request policy; broader effects are not classified",
+      "profiles": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "diff",
+      "matcher": {
+        "executable": "git",
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "diff"
+          ]
+        }
+      },
+      "reason": "Literal Git request policy; broader effects are not classified",
+      "profiles": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "commit",
+      "matcher": {
+        "executable": "git",
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "commit"
+          ]
+        }
+      },
+      "reason": "Exact commit policy; hooks and configuration require a separate execution boundary",
+      "profiles": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      }
+    },
+    {
+      "id": "push",
+      "matcher": {
+        "executable": "git",
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "push",
+            "origin",
+            "main"
+          ]
+        }
+      },
+      "reason": "Remote scope is not established; review this literal push",
+      "profiles": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      }
+    },
+    {
+      "id": "force-push",
+      "matcher": {
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "push",
+            "--force"
+          ]
+        }
+      },
+      "reason": "Literal Git request policy; broader effects are not classified",
+      "profiles": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "short-force-push",
+      "matcher": {
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "push",
+            "-f"
+          ]
+        }
+      },
+      "reason": "Literal Git request policy; broader effects are not classified",
+      "profiles": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "hard-reset",
+      "matcher": {
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "reset",
+            "--hard"
+          ]
+        }
+      },
+      "reason": "Literal Git request policy; broader effects are not classified",
+      "profiles": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    }
+  ]
+}
