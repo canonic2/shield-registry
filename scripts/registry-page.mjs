@@ -1,4 +1,16 @@
-<!doctype html>
+// The registry's public catalog page. Client installation belongs to Shield docs.
+export function registryPage(entries) {
+  const latest = new Map();
+  for (const entry of entries) {
+    const current = latest.get(entry.id);
+    const compare = (a, b) => {
+      const left = a.split('.').map(Number), right = b.split('.').map(Number);
+      for (let i = 0; i < 3; i++) if (left[i] !== right[i]) return left[i] - right[i];
+      return 0;
+    };
+    if (!current || compare(entry.version, current.version) > 0) latest.set(entry.id, entry);
+  }
+  return `<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -21,7 +33,7 @@
 <main>
 <h2>Available packs</h2>
 <table><thead><tr><th>Pack</th><th>Latest version</th><th>Coverage</th></tr></thead><tbody>
-<tr><td><a href="packs/canonic/git/0.2.0/README.md">canonic/git</a></td><td>0.2.0</td><td>Git inspection, staging, local changes, remote activity and destructive operations</td></tr>
+${[...latest.values()].map(entry => `<tr><td><a href="${entry.path.slice(0, entry.path.lastIndexOf('/'))}/README.md">${entry.id}</a></td><td>${entry.version}</td><td>Git inspection, staging, local changes, remote activity and destructive operations</td></tr>`).join('\n')}
 </tbody></table>
 <h2>Use a pack</h2>
 <p>With Shield installed and a project initialized, inspect and add the Git pack:</p>
@@ -41,3 +53,5 @@ shield add main/git --profile recommended</code></pre>
 </main>
 <footer><a href="https://github.com/canonic2/shield-registry">Source and issues</a> · <a href="LICENSE">MIT license</a></footer>
 </body></html>
+`;
+}

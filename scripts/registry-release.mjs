@@ -3,6 +3,7 @@ import { readFile, writeFile, mkdir, lstat } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import { resolve, dirname } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { registryPage } from './registry-page.mjs';
 
 export const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 const document = bytes => JSON.parse(bytes.toString('utf8'));
@@ -95,7 +96,7 @@ export async function build(root, keyPath, shield) {
     }
     entries.push({ id: pack.id, version: pack.version, path, sha256: digest(bytes) });
     artifacts.push([path, bytes]);
-    for (const name of ['cases.json', 'README.md', 'LICENSE']) {
+    for (const name of ['cases.json', 'README.md', 'LICENSE', ...(pack.capabilities.includes('argv-options-v1') ? ['commands.json'] : [])]) {
       const relative = `${dirname(path)}/${name}`;
       artifacts.push([relative, await regular(root, relative)]);
     }
@@ -117,7 +118,7 @@ export async function build(root, keyPath, shield) {
       (await regular(output, 'catalog.sig')).toString().trim(), key, new Date(0));
     checkPrevious(previous, catalog);
   }
-  const index = `<!doctype html><meta charset="utf-8"><title>Shield Registry</title><h1>Shield Registry</h1><p>Experimental permission content. Packs do not install tool interception.</p><ul>${entries.map(entry => `<li><a href="${dirname(entry.path)}/README.md">${entry.id} ${entry.version}</a></li>`).join('')}</ul><p><a href="catalog.json">Signed catalog</a> · <a href="schemas/policy.schema.json">Policy schema</a> · <a href="https://github.com/canonic2/shield-registry">Source and contributions</a></p>\n`;
+  const index = registryPage(entries);
   artifacts.push(['catalog.json', bytes], ['catalog.sig', Buffer.from(signature + '\n')],
     ['catalog-key.pub', Buffer.from(key + '\n')], ['index.html', Buffer.from(index)]);
   for (const [path, content] of artifacts) {

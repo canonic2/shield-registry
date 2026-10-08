@@ -100,6 +100,123 @@
               "const": "any"
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "prefix",
+            "flags",
+            "values",
+            "operands"
+          ],
+          "properties": {
+            "kind": {
+              "const": "options"
+            },
+            "prefix": {
+              "type": "array",
+              "maxItems": 256,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/text"
+              },
+              "minItems": 1
+            },
+            "flags": {
+              "type": "array",
+              "maxItems": 256,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 128,
+                "pattern": "^-[^=\\u0000]+$"
+              }
+            },
+            "values": {
+              "type": "array",
+              "maxItems": 256,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 128,
+                "pattern": "^-[^=\\u0000]+$"
+              }
+            },
+            "operands": {
+              "type": "boolean"
+            },
+            "require_any": {
+              "type": "array",
+              "maxItems": 256,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 128,
+                "pattern": "^-[^=\\u0000]+$"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "prefix",
+            "tokens",
+            "token_prefixes"
+          ],
+          "properties": {
+            "kind": {
+              "const": "contains"
+            },
+            "prefix": {
+              "type": "array",
+              "maxItems": 256,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/text"
+              },
+              "minItems": 1
+            },
+            "tokens": {
+              "type": "array",
+              "maxItems": 256,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/text"
+              }
+            },
+            "token_prefixes": {
+              "type": "array",
+              "maxItems": 256,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/text"
+              }
+            }
+          },
+          "anyOf": [
+            {
+              "properties": {
+                "tokens": {
+                  "minItems": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "token_prefixes": {
+                  "minItems": 1
+                }
+              }
+            }
+          ]
         }
       ]
     },
@@ -188,7 +305,52 @@
         "profiles": {
           "$ref": "#/$defs/profiles"
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "matcher": {
+                "properties": {
+                  "arguments": {
+                    "properties": {
+                      "kind": {
+                        "const": "contains"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "profiles": {
+                "properties": {
+                  "loose": {
+                    "enum": [
+                      "ask",
+                      "deny"
+                    ]
+                  },
+                  "recommended": {
+                    "enum": [
+                      "ask",
+                      "deny"
+                    ]
+                  },
+                  "strict": {
+                    "enum": [
+                      "ask",
+                      "deny"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "pack": {
       "type": "object",
@@ -239,14 +401,34 @@
             ],
             [
               "argv-v1",
-              "possible-effects-v1"
-            ],
-            [
-              "argv-v1",
               "dependencies-v1"
             ],
             [
               "argv-v1",
+              "possible-effects-v1"
+            ],
+            [
+              "argv-v1",
+              "possible-effects-v1",
+              "dependencies-v1"
+            ],
+            [
+              "argv-v1",
+              "argv-options-v1"
+            ],
+            [
+              "argv-v1",
+              "argv-options-v1",
+              "dependencies-v1"
+            ],
+            [
+              "argv-v1",
+              "argv-options-v1",
+              "possible-effects-v1"
+            ],
+            [
+              "argv-v1",
+              "argv-options-v1",
               "possible-effects-v1",
               "dependencies-v1"
             ]
@@ -324,6 +506,55 @@
               }
             }
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "rules": {
+                "contains": {
+                  "properties": {
+                    "matcher": {
+                      "properties": {
+                        "arguments": {
+                          "properties": {
+                            "kind": {
+                              "enum": [
+                                "options",
+                                "contains"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "kind"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "capabilities": {
+                "contains": {
+                  "const": "argv-options-v1"
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "capabilities": {
+                "not": {
+                  "contains": {
+                    "const": "argv-options-v1"
+                  }
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -353,7 +584,36 @@
         "reason": {
           "$ref": "#/$defs/text"
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "matcher": {
+                "properties": {
+                  "arguments": {
+                    "properties": {
+                      "kind": {
+                        "const": "contains"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "decision": {
+                "enum": [
+                  "ask",
+                  "deny"
+                ]
+              }
+            }
+          }
+        }
+      ]
     },
     "custom": {
       "type": "object",

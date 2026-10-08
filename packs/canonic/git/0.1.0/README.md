@@ -1,7 +1,8 @@
 # Git 0.1.0
 
-This is an experimental literal-argument policy pack, not comprehensive Git
-protection. The executable matcher is the literal name `git`; wrappers and
+This release provides literal-argument rules for a small set of Git forms.
+See [Git 0.2.0](../0.2.0/README.md) for the complete command inventory and
+option-aware policies. The executable matcher is the literal name `git`; wrappers and
 absolute paths do not inherit its permissions. Agent interception and native
 execution support are separate Shield capabilities.
 

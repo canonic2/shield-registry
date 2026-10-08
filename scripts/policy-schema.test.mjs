@@ -25,6 +25,36 @@ test('One schema accepts literal, effect, dependency and combined version-1 pack
   }
 });
 
+test('Option matchers require their ordered capability with effects and dependencies', () => {
+  for (const effects of [false, true]) for (const dependencies of [false, true]) {
+    const value = fixture(effects, dependencies);
+    value.capabilities.splice(1, 0, 'argv-options-v1');
+    value.rules[0].matcher.arguments = { kind: 'options', prefix: ['status'], flags: ['--short'], values: [], operands: true };
+    assert.equal(validate(value), true, JSON.stringify(validate.errors));
+    const missing = structuredClone(value);
+    missing.capabilities = missing.capabilities.filter(capability => capability !== 'argv-options-v1');
+    assert.equal(validate(missing), false);
+  }
+  assert.equal(validate({ ...git, capabilities: ['argv-v1', 'argv-options-v1'] }), false);
+});
+
+test('Risk predicates reject allow, empty tokens, unknown fields and null option lists', () => {
+  const value = structuredClone(git);
+  value.capabilities.push('argv-options-v1');
+  value.rules = [{ id: 'risk', reason: 'Forced push', profiles: { loose: 'ask', recommended: 'deny', strict: 'deny' },
+    matcher: { executable: 'git', arguments: { kind: 'contains', prefix: ['push'], tokens: ['--force'], token_prefixes: [] } } }];
+  assert.equal(validate(value), true, JSON.stringify(validate.errors));
+  for (const invalid of [
+    { ...value.rules[0], profiles: { loose: 'allow', recommended: 'deny', strict: 'deny' } },
+    { ...value.rules[0], matcher: { executable: 'git', arguments: { kind: 'contains', prefix: ['push'], tokens: [], token_prefixes: [] } } },
+    { ...value.rules[0], matcher: { executable: 'git', arguments: { kind: 'options', prefix: ['push'], flags: null, values: [], operands: true } } },
+  ]) assert.equal(validate({ ...value, rules: [invalid] }), false);
+  const custom = { schema_version: 1, rules: [{ id: 'risk', scope: 'project', decision: 'allow', reason: 'Risk', matcher: value.rules[0].matcher }] };
+  assert.equal(validate(custom), false);
+  custom.rules[0].decision = 'deny';
+  assert.equal(validate(custom), true);
+});
+
 test('Custom effect rules and Git decision fixtures use the same initial schema', () => {
   assert.equal(validate({ schema_version: 1, rules: [{ id: 'network', scope: 'project', decision: 'deny',
     reason: 'Review possible network access', matcher: { executable: 'git', arguments: { kind: 'any' }, possible_effects: ['network'] } }] }), true);
