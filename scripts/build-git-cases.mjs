@@ -2,7 +2,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-const root = new URL('../packs/canonic/git/0.2.0/', import.meta.url);
+const root = new URL('../packs/canonic/git/0.3.0/', import.meta.url);
 const inventory = JSON.parse(await readFile(new URL('commands.json', root)));
 const cases = [];
 const add = (name, argv, expected) => {

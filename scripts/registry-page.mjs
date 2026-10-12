@@ -39,7 +39,7 @@ ${[...latest.values()].map(entry => `<tr><td><a href="${entry.path.slice(0, entr
 <p>With Shield installed and a project initialized, inspect and add the Git pack:</p>
 <pre><code>shield info main/git
 shield add main/git --profile recommended</code></pre>
-<p>Review the proposed permissions before confirming installation. To pin a release, use <code>main/git@0.2.0</code>. Installed packs retain their verified bytes for offline evaluation.</p>
+<p>Review the proposed permissions before confirming installation. To pin a release, use <code>main/git@${latest.get('canonic/git')?.version ?? 'VERSION'}</code>. Installed packs retain their verified bytes for offline evaluation.</p>
 <h2>Choose a profile</h2>
 <ul><li><strong>Loose:</strong> allows listed inspection, staging and routine local changes; asks before remote and destructive operations.</li>
 <li><strong>Recommended:</strong> allows listed inspection and staging; asks before commits, working-tree changes and remote access; denies destructive operations.</li>

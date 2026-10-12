@@ -1,8 +1,10 @@
 import { createHash, createPrivateKey, createPublicKey, sign, verify } from 'node:crypto';
-import { readFile, writeFile, mkdir, lstat } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, lstat, mkdtemp, rm } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import { resolve, dirname } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { tmpdir } from 'node:os';
+import Ajv from 'ajv/dist/2020.js';
 import { registryPage } from './registry-page.mjs';
 
 export const digest = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -55,12 +57,12 @@ async function regular(root, path) {
   return bytes;
 }
 
-export async function checkPublication(root, expectedKey) {
+export async function checkPublication(root, expectedKey, now = new Date()) {
   const key = (await regular(root, 'catalog-key.pub')).toString().trim();
   if (expectedKey !== undefined && expectedKey !== key) throw Error('Publication key does not match the reviewed root');
   const bytes = await regular(root, 'catalog.json');
   const signature = (await regular(root, 'catalog.sig')).toString().trim();
-  const catalog = checkCatalog(bytes, signature, key);
+  const catalog = checkCatalog(bytes, signature, key, now);
   for (const entry of catalog.packs) {
     const artifact = await regular(root, entry.path);
     if (digest(artifact) !== entry.sha256) throw Error('Artifact digest mismatch');
@@ -68,6 +70,23 @@ export async function checkPublication(root, expectedKey) {
     if (pack.id !== entry.id || pack.version !== entry.version) throw Error('Artifact identity mismatch');
   }
   return catalog;
+}
+
+async function validateRelease(shield, bytes, cases) {
+  const owner = await mkdtemp(resolve(tmpdir(), 'shield-release-'));
+  try {
+    await writeFile(resolve(owner, 'pack.json'), bytes);
+    await writeFile(resolve(owner, 'cases.json'), cases);
+    for (const args of [
+      ['__internal', 'validate', '--pack', resolve(owner, 'pack.json')],
+      ['__internal', 'test-pack', '--pack', resolve(owner, 'pack.json'), '--cases', resolve(owner, 'cases.json')],
+    ]) {
+      const result = spawnSync(shield, args, { encoding: 'utf8', timeout: 120_000 });
+      if (result.error || result.status !== 0) throw Error('Shield validation failed');
+      const value = JSON.parse(result.stdout);
+      if (!(value.valid === true || value.passed === true)) throw Error('Shield validation did not pass');
+    }
+  } finally { await rm(owner, { recursive: true, force: true }); }
 }
 
 export async function build(root, keyPath, shield) {
@@ -79,26 +98,39 @@ export async function build(root, keyPath, shield) {
   if ((await regular(root, 'keys/main.pub')).toString().trim() !== key) throw Error('Private key does not match the reviewed public root');
   const artifacts = [];
   const entries = [];
+  const output = resolve(root, 'public');
+  let previous;
+  let previousExists = true;
+  try { await lstat(output); }
+  catch (error) { if (error.code !== 'ENOENT') throw error; previousExists = false; }
+  // Authenticate historical policy bytes before allowing retention without
+  // admission by a newer, incompatible engine. Expiry does not erase immutability.
+  if (previousExists) previous = await checkPublication(output, key, new Date(0));
+  const validate = new Ajv({ strict: false, allErrors: true }).compile(document(await regular(root, 'schemas/policy.schema.json')));
   artifacts.push(['schemas/policy.schema.json', await regular(root, 'schemas/policy.schema.json')],
+    ['schemas/policy-legacy.schema.json', await regular(root, 'schemas/policy-legacy.schema.json')],
     ['LICENSE', await regular(root, 'LICENSE')]);
   for (const path of release.packs) {
     const bytes = await regular(root, path);
     const pack = document(bytes);
     if (pack.license === 'UNLICENSED') throw Error('Publication license required');
-    for (const args of [
-      ['__internal', 'validate', '--pack', resolve(root, path)],
-      ['__internal', 'test-pack', '--pack', resolve(root, path), '--cases', resolve(root, dirname(path), 'cases.json')],
-    ]) {
-      const result = spawnSync(shield, args, { encoding: 'utf8', timeout: 120_000 });
-      if (result.error || result.status !== 0) throw Error(`Shield validation failed: ${result.stderr ?? result.error}`);
-      const value = JSON.parse(result.stdout);
-      if (!(value.valid === true || value.passed === true)) throw Error('Shield validation did not pass');
+    const historical = pack.kind !== 'pack';
+    if (historical && !previous?.packs.some(entry => entry.path === path && entry.id === pack.id
+      && entry.version === pack.version && entry.sha256 === digest(bytes))) {
+      throw Error('Historical format requires an unchanged authenticated published release');
+    }
+    const cases = await regular(root, `${dirname(path)}/cases.json`);
+    if (!historical) {
+      if (!validate(pack) || !validate(document(cases))) throw Error('Structured schema validation failed');
+      await validateRelease(shield, bytes, cases);
     }
     entries.push({ id: pack.id, version: pack.version, path, sha256: digest(bytes) });
     artifacts.push([path, bytes]);
-    for (const name of ['cases.json', 'README.md', 'LICENSE', ...(pack.capabilities.includes('argv-options-v1') ? ['commands.json'] : [])]) {
+    for (const name of ['cases.json', 'README.md', 'LICENSE', ...(pack.capabilities.includes('argv-options-v1') || pack.capabilities.includes('argument-rules-v1') ? ['commands.json'] : [])]) {
       const relative = `${dirname(path)}/${name}`;
-      artifacts.push([relative, await regular(root, relative)]);
+      const content = name === 'cases.json' ? cases : await regular(root, relative);
+      if (historical && !content.equals(await regular(output, relative))) throw Error('Historical release assets changed');
+      artifacts.push([relative, content]);
     }
   }
   const catalog = { schema_version: 1, registry_id: 'canonic-shield-main', sequence: release.sequence,
@@ -106,16 +138,7 @@ export async function build(root, keyPath, shield) {
   const bytes = encoded(catalog);
   const signature = sign(null, bytes, privateKey).toString('hex');
   checkCatalog(bytes, signature, key);
-  const output = resolve(root, 'public');
-  let previousExists = false;
-  try { await lstat(output); previousExists = true; }
-  catch (error) { if (error.code !== 'ENOENT') throw error; }
-  if (previousExists) {
-    const oldKey = (await regular(output, 'catalog-key.pub')).toString().trim();
-    if (oldKey !== key) throw Error('Signing key rotation requires explicit review');
-    // An expired previous catalog still constrains immutable releases.
-    const previous = checkCatalog(await regular(output, 'catalog.json'),
-      (await regular(output, 'catalog.sig')).toString().trim(), key, new Date(0));
+  if (previous) {
     checkPrevious(previous, catalog);
   }
   const index = registryPage(entries);

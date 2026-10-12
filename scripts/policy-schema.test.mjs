@@ -1,110 +1,120 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
 import Ajv from 'ajv/dist/2020.js';
+import { schema } from './policy-schema.mjs';
 
-const schema = JSON.parse(readFileSync(new URL('../schemas/policy.schema.json', import.meta.url)));
 const validate = new Ajv({ strict: false, allErrors: true }).compile(schema);
-const git = JSON.parse(readFileSync(new URL('../packs/canonic/git/0.1.0/pack.yml', import.meta.url)));
-const fixture = (effects, dependencies) => {
-  const value = structuredClone(git);
-  if (effects) {
-    value.capabilities.push('possible-effects-v1');
-    value.rules[0].matcher.possible_effects = ['network'];
-  }
-  if (dependencies) {
-    value.capabilities.push('dependencies-v1');
-    value.dependencies = [{ pack: 'canonic/example', requirement: '^1.0' }];
-  }
-  return value;
-};
-
-test('One schema accepts literal, effect, dependency and combined version-1 packs', () => {
-  for (const effects of [false, true]) for (const dependencies of [false, true]) {
-    assert.equal(validate(fixture(effects, dependencies)), true, JSON.stringify(validate.errors));
-  }
+const read = path => JSON.parse(readFileSync(new URL(path, import.meta.url)));
+const pack = (conditions = { domain: 'argv', executable: 'acme', arguments: { kind: 'any' } }, capabilities = ['argument-rules-v1', 'structured-rules-v1']) => ({
+  schema_version: 1, kind: 'pack', id: 'acme/inspection', version: '0.1.0', description: 'Acme inspection fixture',
+  license: 'MIT', maintainers: ['Acme'], engine: '>=0.1.0, <0.2.0', capabilities,
+  rules: [{ id: 'inspect', decision: { loose: 'ask', recommended: 'ask', strict: 'deny' }, conditions }],
 });
-
-test('Option matchers require their ordered capability with effects and dependencies', () => {
-  for (const effects of [false, true]) for (const dependencies of [false, true]) {
-    const value = fixture(effects, dependencies);
-    value.capabilities.splice(1, 0, 'argv-options-v1');
-    value.rules[0].matcher.arguments = { kind: 'options', prefix: ['status'], flags: ['--short'], values: [], operands: true };
-    assert.equal(validate(value), true, JSON.stringify(validate.errors));
-    const missing = structuredClone(value);
-    missing.capabilities = missing.capabilities.filter(capability => capability !== 'argv-options-v1');
-    assert.equal(validate(missing), false);
-  }
-  assert.equal(validate({ ...git, capabilities: ['argv-v1', 'argv-options-v1'] }), false);
-});
-
-test('Risk predicates reject allow, empty tokens, unknown fields and null option lists', () => {
-  const value = structuredClone(git);
-  value.capabilities.push('argv-options-v1');
-  value.rules = [{ id: 'risk', reason: 'Forced push', profiles: { loose: 'ask', recommended: 'deny', strict: 'deny' },
-    matcher: { executable: 'git', arguments: { kind: 'contains', prefix: ['push'], tokens: ['--force'], token_prefixes: [] } } }];
+function core(value) {
+  const owner = mkdtempSync(join(tmpdir(), 'shield-schema-'));
+  try {
+    const path = join(owner, 'document.json');
+    writeFileSync(path, JSON.stringify(value));
+    return spawnSync(process.env.SHIELD_BINARY, ['__internal', 'validate', value.kind === 'custom' ? '--rules' : '--pack', path],
+      { encoding: 'utf8', timeout: 10000 }).status;
+  } finally { rmSync(owner, { recursive: true, force: true }); }
+}
+const accepted = value => {
   assert.equal(validate(value), true, JSON.stringify(validate.errors));
-  for (const invalid of [
-    { ...value.rules[0], profiles: { loose: 'allow', recommended: 'deny', strict: 'deny' } },
-    { ...value.rules[0], matcher: { executable: 'git', arguments: { kind: 'contains', prefix: ['push'], tokens: [], token_prefixes: [] } } },
-    { ...value.rules[0], matcher: { executable: 'git', arguments: { kind: 'options', prefix: ['push'], flags: null, values: [], operands: true } } },
-  ]) assert.equal(validate({ ...value, rules: [invalid] }), false);
-  const custom = { schema_version: 1, rules: [{ id: 'risk', scope: 'project', decision: 'allow', reason: 'Risk', matcher: value.rules[0].matcher }] };
-  assert.equal(validate(custom), false);
-  custom.rules[0].decision = 'deny';
-  assert.equal(validate(custom), true);
-});
-
-test('Custom effect rules and Git decision fixtures use the same initial schema', () => {
-  assert.equal(validate({ schema_version: 1, rules: [{ id: 'network', scope: 'project', decision: 'deny',
-    reason: 'Review possible network access', matcher: { executable: 'git', arguments: { kind: 'any' }, possible_effects: ['network'] } }] }), true);
-  const cases = JSON.parse(readFileSync(new URL('../packs/canonic/git/0.1.0/cases.json', import.meta.url)));
-  assert.equal(validate(cases), true, JSON.stringify(validate.errors));
-});
-
-test('Unsupported document versions refuse every optional feature combination', () => {
-  for (const version of [0, 2, 3, 255]) {
-    for (const effects of [false, true]) for (const dependencies of [false, true]) {
-      assert.equal(validate({ ...fixture(effects, dependencies), schema_version: version }), false);
-    }
-    assert.equal(validate({ schema_version: version, rules: [] }), false);
+  if (process.env.SHIELD_BINARY) assert.equal(core(value), 0, JSON.stringify(value));
+};
+const rejected = value => {
+  assert.equal(validate(value), false, JSON.stringify(value));
+  if (process.env.SHIELD_BINARY) assert.equal(core(value), 2, JSON.stringify(value));
+};
+test('Generated schema is reproducible and immutable historical formats stay separate', () => {
+  assert.deepEqual(read('../schemas/policy.schema.json'), schema);
+  const legacy = new Ajv({ strict: false, allErrors: true }).compile(read('../schemas/policy-legacy.schema.json'));
+  for (const version of ['0.1.0', '0.2.0']) {
+    const old = read(`../packs/canonic/git/${version}/pack.yml`);
+    assert.equal(legacy(old), true);
+    assert.equal(validate(old), false);
   }
 });
-
-test('Dependency declarations and capabilities must agree; order and uniqueness are strict', () => {
-  for (const changed of [
-    { dependencies: [] }, { dependencies: null }, { capabilities: ['argv-v1', 'dependencies-v1'] },
-    { capabilities: ['argv-v1', 'argv-v1'] }, { capabilities: ['argv-v1', 'unknown-v1'] },
-  ]) assert.equal(validate({ ...git, ...changed }), false);
-  const both = fixture(true, true);
-  for (const capabilities of [
-    ['argv-v1', 'dependencies-v1'], ['argv-v1', 'possible-effects-v1'],
-    ['argv-v1', 'dependencies-v1', 'possible-effects-v1'],
-  ]) assert.equal(validate({ ...both, capabilities }), false);
-  assert.equal(validate({ ...git, capabilities: ['argv-v1', 'dependencies-v1'], dependencies: [] }), true);
+test('All six domains and structured grammar agree with Rust admission', () => {
+  accepted(pack());
+  accepted(pack({ domain: 'argv', executable: { root: 'project', path: 'bin/acme' }, arguments: { kind: 'any' } },
+    ['location-v1', 'structured-rules-v1', 'argument-rules-v1']));
+  accepted(pack({ domain: 'argv', executable: { one_of: ['acme', 'acme2'] }, arguments: { kind: 'sequence',
+    prefix: [{ prefix: 'inspect' }, { regex: '(json|csv)' }], rest: { kind: 'each', match: { glob: '*.report' }, min: 1, max: 8 } } },
+    ['structured-rules-v1', 'argument-rules-v1', 'regex-v1', 'glob-v1']));
+  const required = pack({ domain: 'argv', executable: 'acme' }, ['argument-rules-v1', 'requirements-v1', 'structured-rules-v1', 'regex-v1']);
+  required.rules[0].requirements = { arguments: { kind: 'options', prefix: ['inspect'], flags: ['--read-only'], values: [{ name: '--format', match: { regex: 'json|csv' }, repeat: 'last' }],
+    optional_values: ['--color'], operands: false, require_all: ['--read-only'], leading: { flags: ['-v'], values: [] } } };
+  required.rules[0].on_unmet = { decision: 'deny', message: 'Use the read-only option.', alternatives: ['acme inspect --read-only'] };
+  accepted(required);
+  accepted(pack({ domain: 'file', action: 'read', sources: { all: { within: { root: 'project' }, exclude: [{ root: 'project', path: '.git' }] } } },
+    ['structured-rules-v1', 'location-v1']));
+  accepted(pack({ domain: 'web', action: 'fetch', url: { schemes: ['https'], hosts: ['example.com'], path: { regex: '/reports/.*' } },
+    method: { exact: 'PROPFIND' }, request_fields: { '/trace': { exact: null } } }, ['structured-rules-v1', 'regex-v1']));
+  accepted(pack({ domain: 'mcp', server: { prefix: 'acme' }, tool: { one_of: ['inspect', 'report'] },
+    fields: { '/nullable': { exact: null }, '/format': { text: { glob: '*.json' } }, '/opaque': { exact: { regex: 'literal', root: 'project' } } } },
+    ['glob-v1', 'structured-rules-v1']));
+  accepted(pack({ domain: 'shell', source: { glob: 'acme *' }, dialect: { one_of: ['bash', 'posix'] },
+    cwd: { within: { root: 'project' } }, environment: { fields: { ACME_MODE: 'inspection' } } },
+    ['structured-rules-v1', 'location-v1', 'glob-v1']));
+  accepted(pack({ domain: 'exact_request', input: { kind: 'mcp', server: 'acme', tool: 'inspect',
+    arguments: { regex: 'literal', nested: null }, original_input: { description: 'Acme opaque request' } },
+    context: { cwd: '/workspace/acme', environment: null }, executable: null }, ['structured-rules-v1']));
 });
-
-test('Unknown fields, duplicate effects and nullable declarations refuse', () => {
-  const effect = fixture(true, false);
-  for (const possible_effects of [[], null, ['network', 'network'], ['unknown']]) {
-    const invalid = structuredClone(effect);
-    invalid.rules[0].matcher.possible_effects = possible_effects;
-    assert.equal(validate(invalid), false);
-  }
-  const dependency = fixture(false, true);
-  dependency.dependencies[0].registry = null;
-  assert.equal(validate(dependency), false);
-  assert.equal(validate({ ...git, installer: 'unsupported' }), false);
+test('Capability detection ignores exact typed JSON and accepts unordered complete inventories', () => {
+  const value = pack({ domain: 'mcp', server: 'acme', tool: 'inspect',
+    arguments: { requirements: {}, possible_effects: [], glob: '*', regex: 'literal' } }, ['structured-rules-v1']);
+  accepted(value);
+  rejected({ ...value, capabilities: ['structured-rules-v1', 'glob-v1'] });
+  for (const capabilities of [['structured-rules-v1'], ['structured-rules-v1', 'argument-rules-v1', 'regex-v1'],
+    ['structured-rules-v1', 'argument-rules-v1', 'argument-rules-v1'], ['structured-rules-v1', 'unknown-v1']])
+    rejected({ ...pack(), capabilities });
+  const effect = pack();
+  effect.rules[0].conditions.possible_effects = ['network'];
+  effect.capabilities.push('possible-effects-v1');
+  accepted(effect);
+  const dependency = pack();
+  dependency.dependencies = [{ pack: 'acme/base', requirement: '^1.0', profiles: { loose: 'recommended', recommended: 'recommended', strict: 'strict' } }];
+  dependency.capabilities.push('dependencies-v1');
+  accepted(dependency);
+  dependency.dependencies = [];
+  accepted(dependency);
+  rejected({ ...pack(), dependencies: [] });
 });
-
-
-test('Custom documents reject inherited scopes and configurable mandatory authority', () => {
-  const rule = { id: 'local', scope: 'project', decision: 'deny', reason: 'Project restriction',
-    matcher: { executable: 'git', arguments: { kind: 'any' } } };
-  for (const scope of ['user', 'organization']) {
-    assert.equal(validate({ schema_version: 1, rules: [{ ...rule, scope }] }), false);
+test('Reject old matchers, unknown fields, authority claims and invalid requirement branches', () => {
+  for (const change of [{ kind: 'custom' }, { schema_version: 2 }, { installer: 'unsupported' }, { capabilities: null }])
+    rejected({ ...pack(), ...change });
+  for (const arguments_ of [{ kind: 'contains', prefix: [], tokens: ['-f'] }, { kind: 'any', extra: true }, null])
+    rejected(pack({ domain: 'argv', executable: 'acme', arguments: arguments_ }));
+  rejected(pack({ domain: 'argv', executable: { exact: 'acme', prefix: 'ac' }, arguments: { kind: 'any' } }));
+  for (const change of [{ scope: 'organization' }, { mandatory: true },
+    { decision: { loose: 'deny', recommended: 'allow', strict: 'deny' } }, { requirements: {} },
+    { on_unmet: { decision: 'deny' } }, { requirements: { arguments: { kind: 'any' } }, on_unmet: { decision: 'allow' } }]) {
+    const changed = pack();
+    Object.assign(changed.rules[0], change);
+    if ('requirements' in change) changed.capabilities.push('requirements-v1');
+    rejected(changed);
   }
-  for (const mandatory of [false, true]) {
-    assert.equal(validate({ schema_version: 1, rules: [{ ...rule, mandatory }] }), false);
-  }
+  const value = pack();
+  const custom = { schema_version: 1, kind: 'custom', capabilities: value.capabilities,
+    rules: [{ ...value.rules[0], decision: 'deny', expires_at: '2099-01-01T00:00:00Z' }] };
+  accepted(custom);
+  rejected({ ...custom, rules: [{ ...custom.rules[0], decision: value.rules[0].decision }] });
+});
+test('Risk selectors remain restrictions and cannot establish Allow', () => {
+  const value = pack({ domain: 'argv', executable: 'git', arguments: { kind: 'risk_tokens', prefix: ['push'], any_of: ['--force', { prefix: '+' }] } });
+  accepted(value);
+  value.rules[0].decision = 'allow';
+  rejected(value);
+});
+test('Rust is required for semantic option checks beyond structural JSON Schema', { skip: !process.env.SHIELD_BINARY }, () => {
+  const value = pack({ domain: 'argv', executable: 'acme', arguments: { kind: 'options', prefix: [],
+    flags: [], values: [], operands: false, require_all: ['--undeclared'] } });
+  assert.equal(validate(value), true);
+  assert.equal(core(value), 2);
 });

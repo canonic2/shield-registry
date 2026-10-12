@@ -21,7 +21,7 @@ test('Common allowed inspection forms work against a real isolated Git repositor
   git(['config', 'user.name', 'Acme']); git(['config', 'user.email', 'developer@example.com']);
   await writeFile(join(repo, 'README.md'), '# Fixture\nTODO: review\n');
   git(['add', 'README.md']); git(['commit', '-m', 'Initial fixture']);
-  const cases = JSON.parse(await readFile(new URL('../packs/canonic/git/0.2.0/cases.json', import.meta.url)));
+  const cases = JSON.parse(await readFile(new URL('../packs/canonic/git/0.3.0/cases.json', import.meta.url)));
   const commands = [
     ['status', '--short', '--branch'], ['status', '--porcelain=v2', '-z'], ['log', '--oneline', '--graph', '-n5', 'HEAD'],
     ['diff', '--cached', '--stat'], ['diff', '--no-ext-diff', '--no-textconv', '--', 'src'],

@@ -12,9 +12,14 @@ integrations are developed separately.
 
 ## Available packs
 
-| Pack | Latest version | Coverage |
-| --- | --- | --- |
-| [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Git inspection, staging, local changes, remote activity and destructive operations |
+| Pack | Version | Status | Coverage |
+| --- | --- | --- | --- |
+| [canonic/git](packs/canonic/git/0.3.0/README.md) | 0.3.0 | Structured v1 release | Git inspection, staging, local changes, remote activity and destructive operations |
+| [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
+
+The signed `public/` catalog uses sequence 4 and includes structured v1 Git
+0.3.0. Current Shield requires that format. Historical 0.1.0/0.2.0 releases
+retain their original bytes for compatible older clients.
 
 Git includes 173 documented and internal command names, option-aware rules for
 common workflows, and fixtures across all three profiles. See the pack's guide
@@ -22,7 +27,7 @@ for exact coverage and limits. Published older versions remain available.
 
 ## Use the registry
 
-With Shield installed and a project initialized:
+Published releases require a compatible Shield client and an initialized project:
 
 ```sh
 shield search git
@@ -36,7 +41,7 @@ the same pack. Review the proposed permissions before confirming.
 
 Unversioned additions select the latest stable release. Compatible clients must
 support the selected pack's declared capabilities. Use
-`shield add main/git@0.2.0 --profile recommended` to pin an exact version.
+`shield add main/git@0.3.0 --profile recommended` to pin an exact version.
 Updates require a reviewed policy change; installed verified bytes remain
 available for offline evaluation. A pack installs permissions, not the tool or
 its interception integration.
@@ -90,8 +95,11 @@ fixtures, coverage documentation and a license. Include adversarial cases:
 option ordering, short clusters, attached values, separators and unlisted options.
 
 Pack rules are data, not executable plugins or installers. Tool-specific choices
-belong in packs; generic evaluation mechanisms belong in Shield. The common
-`schema_version: 1` contract uses explicit capabilities for optional features.
+belong in packs; generic evaluation mechanisms belong in Shield. The current
+`schema_version: 1` contract requires `kind: pack` or `kind: custom`, explicit
+`conditions`, scalar/profile `decision`, and exact capability inventories.
+Argument predicates use `argument-rules-v1`; the base is `structured-rules-v1`.
+Requirements pair with `on_unmet`, and guidance contains static candidate suggestions.
 Clients reject unsupported capabilities instead of weakening the policy.
 
 ### Validate locally
@@ -105,7 +113,7 @@ SHIELD_BINARY=/absolute/path/to/shield npm test
 
 The test suite validates schema contracts, generated Git artifacts, inventory
 coverage and signed publication integrity. With `SHIELD_BINARY` set, it also
-runs every retained Git release's behavioral fixtures through the Rust evaluator.
+runs the current structured Git release's behavioral fixtures through the Rust evaluator.
 Maintainers must run that check before signing.
 
 Git's reviewed option and profile data live in `scripts/git-policy.mjs`.
@@ -115,6 +123,7 @@ the pinned inventory lives beside the pack. Regenerate after changing them:
 ```sh
 node scripts/build-git-pack.mjs
 node scripts/build-git-cases.mjs
+node scripts/build-policy-schema.mjs
 ```
 
 ### Publish a release
@@ -127,7 +136,20 @@ node scripts/registry-release.mjs build . /path/to/private-ed25519.pem /path/to/
 node scripts/registry-release.mjs check public
 ```
 
-Building validates each source pack and its fixtures with Shield before signing.
+Building checks the structural schema and validates every new source pack and its
+fixtures with the current Shield before signing. Validation uses captured bytes in
+an owned temporary directory so the signed bytes are the bytes that passed.
+The JSON Schema cannot establish Rust regex syntax, native path semantics,
+declared-option relationships, credential refusal or byte/resource limits;
+Rust admission is required and remains authoritative.
+
+Historical formats are retained only when their policy bytes match the previous
+catalog authenticated against the same reviewed root. Their source assets must
+match the retained public assets too. Expired prior metadata still constrains
+immutable bytes. New or altered historical content refuses; it cannot use this
+retention path to bypass current validation. The archived
+[`policy-legacy.schema.json`](schemas/policy-legacy.schema.json) supports
+historical inspection only; current authoring uses [structured v1](schemas/policy.schema.json).
 Review and commit the source and generated `public/` files together. The GitHub
 Actions workflow verifies signatures and artifact digests, then deploys
 `public/` through GitHub Pages on pushes to `main`. Pull requests validate
