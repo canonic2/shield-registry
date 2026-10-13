@@ -66,6 +66,19 @@ test('All six domains and structured grammar agree with Rust admission', () => {
     arguments: { regex: 'literal', nested: null }, original_input: { description: 'Acme opaque request' } },
     context: { cwd: '/workspace/acme', environment: null }, executable: null }, ['structured-rules-v1']));
 });
+test('Approved root capabilities agree with core admission in every path position',()=>{
+  for(const condition of [
+    {domain:'file',action:'read',sources:{all:{exact:{root:'read',path:'notes.txt'}}}},
+    {domain:'file',action:'write',destination:{within:{root:'write'}}},
+    {domain:'argv',executable:'rm',arguments:{kind:'any'},targets:[{action:'remove',all:{within:{root:'project'},exclude:[{root:'write',path:'.git'}]}}]},
+    {domain:'argv',executable:'acme',arguments:{kind:'any'},cwd:{outside:{root:'read'}}},
+  ]){
+    const capabilities=['structured-rules-v1','location-v1','access-paths-v1',...(condition.domain==='argv'?['argument-rules-v1']:[])];
+    accepted(pack(condition,capabilities));
+    rejected(pack(condition,capabilities.filter(c=>c!=='access-paths-v1')));
+  }
+  accepted(pack({domain:'mcp',server:'acme',tool:'inspect',fields:{'/opaque':{exact:{root:'read'}}}},['structured-rules-v1']));
+});
 test('Capability detection ignores exact typed JSON and accepts unordered complete inventories', () => {
   const value = pack({ domain: 'mcp', server: 'acme', tool: 'inspect',
     arguments: { requirements: {}, possible_effects: [], glob: '*', regex: 'literal' } }, ['structured-rules-v1']);

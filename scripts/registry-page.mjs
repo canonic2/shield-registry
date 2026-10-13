@@ -33,7 +33,7 @@ export function registryPage(entries) {
 <main>
 <h2>Available packs</h2>
 <table><thead><tr><th>Pack</th><th>Latest version</th><th>Coverage</th></tr></thead><tbody>
-${[...latest.values()].map(entry => `<tr><td><a href="${entry.path.slice(0, entry.path.lastIndexOf('/'))}/README.md">${entry.id}</a></td><td>${entry.version}</td><td>Git inspection, staging, local changes, remote activity and destructive operations</td></tr>`).join('\n')}
+${[...latest.values()].map(entry => `<tr><td><a href="${entry.path.slice(0, entry.path.lastIndexOf('/'))}/README.md">${entry.id}</a></td><td>${entry.version}</td><td>${entry.id === 'canonic/git' ? 'Git inspection, staging, local changes, remote activity and destructive operations' : entry.id === 'canonic/baseline' ? 'Standard commands and file operations within approved read/write paths' : 'Versioned permission policy'}</td></tr>`).join('\n')}
 </tbody></table>
 <h2>Use a pack</h2>
 <p>With Shield installed and a project initialized, inspect and add the Git pack:</p>

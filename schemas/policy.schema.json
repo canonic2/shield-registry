@@ -204,7 +204,11 @@
           "additionalProperties": false,
           "properties": {
             "root": {
-              "const": "project"
+              "enum": [
+                "project",
+                "read",
+                "write"
+              ]
             },
             "path": {
               "type": "string",
@@ -6465,6 +6469,3121 @@
               "rules": {
                 "type": "array",
                 "contains": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "conditions"
+                      ],
+                      "properties": {
+                        "conditions": {
+                          "type": "object",
+                          "required": [
+                            "executable"
+                          ],
+                          "properties": {
+                            "executable": {
+                              "type": "object",
+                              "required": [
+                                "root"
+                              ],
+                              "properties": {
+                                "root": {
+                                  "enum": [
+                                    "read",
+                                    "write"
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "cwd"
+                              ],
+                              "properties": {
+                                "cwd": {
+                                  "type": "object",
+                                  "required": [
+                                    "exact"
+                                  ],
+                                  "properties": {
+                                    "exact": {
+                                      "type": "object",
+                                      "required": [
+                                        "root"
+                                      ],
+                                      "properties": {
+                                        "root": {
+                                          "enum": [
+                                            "read",
+                                            "write"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "cwd"
+                              ],
+                              "properties": {
+                                "cwd": {
+                                  "type": "object",
+                                  "required": [
+                                    "exact"
+                                  ],
+                                  "properties": {
+                                    "exact": {
+                                      "type": "object",
+                                      "required": [
+                                        "root"
+                                      ],
+                                      "properties": {
+                                        "root": {
+                                          "enum": [
+                                            "read",
+                                            "write"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "destination"
+                              ],
+                              "properties": {
+                                "destination": {
+                                  "type": "object",
+                                  "required": [
+                                    "exact"
+                                  ],
+                                  "properties": {
+                                    "exact": {
+                                      "type": "object",
+                                      "required": [
+                                        "root"
+                                      ],
+                                      "properties": {
+                                        "root": {
+                                          "enum": [
+                                            "read",
+                                            "write"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "destination"
+                              ],
+                              "properties": {
+                                "destination": {
+                                  "type": "object",
+                                  "required": [
+                                    "exact"
+                                  ],
+                                  "properties": {
+                                    "exact": {
+                                      "type": "object",
+                                      "required": [
+                                        "root"
+                                      ],
+                                      "properties": {
+                                        "root": {
+                                          "enum": [
+                                            "read",
+                                            "write"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "sources"
+                              ],
+                              "properties": {
+                                "sources": {
+                                  "type": "object",
+                                  "required": [
+                                    "all"
+                                  ],
+                                  "properties": {
+                                    "all": {
+                                      "type": "object",
+                                      "required": [
+                                        "exact"
+                                      ],
+                                      "properties": {
+                                        "exact": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "sources"
+                              ],
+                              "properties": {
+                                "sources": {
+                                  "type": "object",
+                                  "required": [
+                                    "all"
+                                  ],
+                                  "properties": {
+                                    "all": {
+                                      "type": "object",
+                                      "required": [
+                                        "exact"
+                                      ],
+                                      "properties": {
+                                        "exact": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "object",
+                                  "required": [
+                                    "all"
+                                  ],
+                                  "properties": {
+                                    "all": {
+                                      "type": "object",
+                                      "required": [
+                                        "exact"
+                                      ],
+                                      "properties": {
+                                        "exact": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "object",
+                                  "required": [
+                                    "all"
+                                  ],
+                                  "properties": {
+                                    "all": {
+                                      "type": "object",
+                                      "required": [
+                                        "exact"
+                                      ],
+                                      "properties": {
+                                        "exact": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "required": [
+                                      "all"
+                                    ],
+                                    "properties": {
+                                      "all": {
+                                        "type": "object",
+                                        "required": [
+                                          "exact"
+                                        ],
+                                        "properties": {
+                                          "exact": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "required": [
+                                      "all"
+                                    ],
+                                    "properties": {
+                                      "all": {
+                                        "type": "object",
+                                        "required": [
+                                          "exact"
+                                        ],
+                                        "properties": {
+                                          "exact": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "sources"
+                              ],
+                              "properties": {
+                                "sources": {
+                                  "type": "object",
+                                  "required": [
+                                    "any"
+                                  ],
+                                  "properties": {
+                                    "any": {
+                                      "type": "object",
+                                      "required": [
+                                        "exact"
+                                      ],
+                                      "properties": {
+                                        "exact": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "sources"
+                              ],
+                              "properties": {
+                                "sources": {
+                                  "type": "object",
+                                  "required": [
+                                    "any"
+                                  ],
+                                  "properties": {
+                                    "any": {
+                                      "type": "object",
+                                      "required": [
+                                        "exact"
+                                      ],
+                                      "properties": {
+                                        "exact": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "object",
+                                  "required": [
+                                    "any"
+                                  ],
+                                  "properties": {
+                                    "any": {
+                                      "type": "object",
+                                      "required": [
+                                        "exact"
+                                      ],
+                                      "properties": {
+                                        "exact": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "object",
+                                  "required": [
+                                    "any"
+                                  ],
+                                  "properties": {
+                                    "any": {
+                                      "type": "object",
+                                      "required": [
+                                        "exact"
+                                      ],
+                                      "properties": {
+                                        "exact": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "required": [
+                                      "any"
+                                    ],
+                                    "properties": {
+                                      "any": {
+                                        "type": "object",
+                                        "required": [
+                                          "exact"
+                                        ],
+                                        "properties": {
+                                          "exact": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "required": [
+                                      "any"
+                                    ],
+                                    "properties": {
+                                      "any": {
+                                        "type": "object",
+                                        "required": [
+                                          "exact"
+                                        ],
+                                        "properties": {
+                                          "exact": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "cwd"
+                              ],
+                              "properties": {
+                                "cwd": {
+                                  "type": "object",
+                                  "required": [
+                                    "within"
+                                  ],
+                                  "properties": {
+                                    "within": {
+                                      "type": "object",
+                                      "required": [
+                                        "root"
+                                      ],
+                                      "properties": {
+                                        "root": {
+                                          "enum": [
+                                            "read",
+                                            "write"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "cwd"
+                              ],
+                              "properties": {
+                                "cwd": {
+                                  "type": "object",
+                                  "required": [
+                                    "within"
+                                  ],
+                                  "properties": {
+                                    "within": {
+                                      "type": "object",
+                                      "required": [
+                                        "root"
+                                      ],
+                                      "properties": {
+                                        "root": {
+                                          "enum": [
+                                            "read",
+                                            "write"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "destination"
+                              ],
+                              "properties": {
+                                "destination": {
+                                  "type": "object",
+                                  "required": [
+                                    "within"
+                                  ],
+                                  "properties": {
+                                    "within": {
+                                      "type": "object",
+                                      "required": [
+                                        "root"
+                                      ],
+                                      "properties": {
+                                        "root": {
+                                          "enum": [
+                                            "read",
+                                            "write"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "destination"
+                              ],
+                              "properties": {
+                                "destination": {
+                                  "type": "object",
+                                  "required": [
+                                    "within"
+                                  ],
+                                  "properties": {
+                                    "within": {
+                                      "type": "object",
+                                      "required": [
+                                        "root"
+                                      ],
+                                      "properties": {
+                                        "root": {
+                                          "enum": [
+                                            "read",
+                                            "write"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "sources"
+                              ],
+                              "properties": {
+                                "sources": {
+                                  "type": "object",
+                                  "required": [
+                                    "all"
+                                  ],
+                                  "properties": {
+                                    "all": {
+                                      "type": "object",
+                                      "required": [
+                                        "within"
+                                      ],
+                                      "properties": {
+                                        "within": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "sources"
+                              ],
+                              "properties": {
+                                "sources": {
+                                  "type": "object",
+                                  "required": [
+                                    "all"
+                                  ],
+                                  "properties": {
+                                    "all": {
+                                      "type": "object",
+                                      "required": [
+                                        "within"
+                                      ],
+                                      "properties": {
+                                        "within": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "object",
+                                  "required": [
+                                    "all"
+                                  ],
+                                  "properties": {
+                                    "all": {
+                                      "type": "object",
+                                      "required": [
+                                        "within"
+                                      ],
+                                      "properties": {
+                                        "within": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "object",
+                                  "required": [
+                                    "all"
+                                  ],
+                                  "properties": {
+                                    "all": {
+                                      "type": "object",
+                                      "required": [
+                                        "within"
+                                      ],
+                                      "properties": {
+                                        "within": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "required": [
+                                      "all"
+                                    ],
+                                    "properties": {
+                                      "all": {
+                                        "type": "object",
+                                        "required": [
+                                          "within"
+                                        ],
+                                        "properties": {
+                                          "within": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "required": [
+                                      "all"
+                                    ],
+                                    "properties": {
+                                      "all": {
+                                        "type": "object",
+                                        "required": [
+                                          "within"
+                                        ],
+                                        "properties": {
+                                          "within": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "sources"
+                              ],
+                              "properties": {
+                                "sources": {
+                                  "type": "object",
+                                  "required": [
+                                    "any"
+                                  ],
+                                  "properties": {
+                                    "any": {
+                                      "type": "object",
+                                      "required": [
+                                        "within"
+                                      ],
+                                      "properties": {
+                                        "within": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "sources"
+                              ],
+                              "properties": {
+                                "sources": {
+                                  "type": "object",
+                                  "required": [
+                                    "any"
+                                  ],
+                                  "properties": {
+                                    "any": {
+                                      "type": "object",
+                                      "required": [
+                                        "within"
+                                      ],
+                                      "properties": {
+                                        "within": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "object",
+                                  "required": [
+                                    "any"
+                                  ],
+                                  "properties": {
+                                    "any": {
+                                      "type": "object",
+                                      "required": [
+                                        "within"
+                                      ],
+                                      "properties": {
+                                        "within": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "object",
+                                  "required": [
+                                    "any"
+                                  ],
+                                  "properties": {
+                                    "any": {
+                                      "type": "object",
+                                      "required": [
+                                        "within"
+                                      ],
+                                      "properties": {
+                                        "within": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "required": [
+                                      "any"
+                                    ],
+                                    "properties": {
+                                      "any": {
+                                        "type": "object",
+                                        "required": [
+                                          "within"
+                                        ],
+                                        "properties": {
+                                          "within": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "required": [
+                                      "any"
+                                    ],
+                                    "properties": {
+                                      "any": {
+                                        "type": "object",
+                                        "required": [
+                                          "within"
+                                        ],
+                                        "properties": {
+                                          "within": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "cwd"
+                              ],
+                              "properties": {
+                                "cwd": {
+                                  "type": "object",
+                                  "required": [
+                                    "outside"
+                                  ],
+                                  "properties": {
+                                    "outside": {
+                                      "type": "object",
+                                      "required": [
+                                        "root"
+                                      ],
+                                      "properties": {
+                                        "root": {
+                                          "enum": [
+                                            "read",
+                                            "write"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "cwd"
+                              ],
+                              "properties": {
+                                "cwd": {
+                                  "type": "object",
+                                  "required": [
+                                    "outside"
+                                  ],
+                                  "properties": {
+                                    "outside": {
+                                      "type": "object",
+                                      "required": [
+                                        "root"
+                                      ],
+                                      "properties": {
+                                        "root": {
+                                          "enum": [
+                                            "read",
+                                            "write"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "destination"
+                              ],
+                              "properties": {
+                                "destination": {
+                                  "type": "object",
+                                  "required": [
+                                    "outside"
+                                  ],
+                                  "properties": {
+                                    "outside": {
+                                      "type": "object",
+                                      "required": [
+                                        "root"
+                                      ],
+                                      "properties": {
+                                        "root": {
+                                          "enum": [
+                                            "read",
+                                            "write"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "destination"
+                              ],
+                              "properties": {
+                                "destination": {
+                                  "type": "object",
+                                  "required": [
+                                    "outside"
+                                  ],
+                                  "properties": {
+                                    "outside": {
+                                      "type": "object",
+                                      "required": [
+                                        "root"
+                                      ],
+                                      "properties": {
+                                        "root": {
+                                          "enum": [
+                                            "read",
+                                            "write"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "sources"
+                              ],
+                              "properties": {
+                                "sources": {
+                                  "type": "object",
+                                  "required": [
+                                    "all"
+                                  ],
+                                  "properties": {
+                                    "all": {
+                                      "type": "object",
+                                      "required": [
+                                        "outside"
+                                      ],
+                                      "properties": {
+                                        "outside": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "sources"
+                              ],
+                              "properties": {
+                                "sources": {
+                                  "type": "object",
+                                  "required": [
+                                    "all"
+                                  ],
+                                  "properties": {
+                                    "all": {
+                                      "type": "object",
+                                      "required": [
+                                        "outside"
+                                      ],
+                                      "properties": {
+                                        "outside": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "object",
+                                  "required": [
+                                    "all"
+                                  ],
+                                  "properties": {
+                                    "all": {
+                                      "type": "object",
+                                      "required": [
+                                        "outside"
+                                      ],
+                                      "properties": {
+                                        "outside": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "object",
+                                  "required": [
+                                    "all"
+                                  ],
+                                  "properties": {
+                                    "all": {
+                                      "type": "object",
+                                      "required": [
+                                        "outside"
+                                      ],
+                                      "properties": {
+                                        "outside": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "required": [
+                                      "all"
+                                    ],
+                                    "properties": {
+                                      "all": {
+                                        "type": "object",
+                                        "required": [
+                                          "outside"
+                                        ],
+                                        "properties": {
+                                          "outside": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "required": [
+                                      "all"
+                                    ],
+                                    "properties": {
+                                      "all": {
+                                        "type": "object",
+                                        "required": [
+                                          "outside"
+                                        ],
+                                        "properties": {
+                                          "outside": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "sources"
+                              ],
+                              "properties": {
+                                "sources": {
+                                  "type": "object",
+                                  "required": [
+                                    "any"
+                                  ],
+                                  "properties": {
+                                    "any": {
+                                      "type": "object",
+                                      "required": [
+                                        "outside"
+                                      ],
+                                      "properties": {
+                                        "outside": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "sources"
+                              ],
+                              "properties": {
+                                "sources": {
+                                  "type": "object",
+                                  "required": [
+                                    "any"
+                                  ],
+                                  "properties": {
+                                    "any": {
+                                      "type": "object",
+                                      "required": [
+                                        "outside"
+                                      ],
+                                      "properties": {
+                                        "outside": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "object",
+                                  "required": [
+                                    "any"
+                                  ],
+                                  "properties": {
+                                    "any": {
+                                      "type": "object",
+                                      "required": [
+                                        "outside"
+                                      ],
+                                      "properties": {
+                                        "outside": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "object",
+                                  "required": [
+                                    "any"
+                                  ],
+                                  "properties": {
+                                    "any": {
+                                      "type": "object",
+                                      "required": [
+                                        "outside"
+                                      ],
+                                      "properties": {
+                                        "outside": {
+                                          "type": "object",
+                                          "required": [
+                                            "root"
+                                          ],
+                                          "properties": {
+                                            "root": {
+                                              "enum": [
+                                                "read",
+                                                "write"
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "required": [
+                                      "any"
+                                    ],
+                                    "properties": {
+                                      "any": {
+                                        "type": "object",
+                                        "required": [
+                                          "outside"
+                                        ],
+                                        "properties": {
+                                          "outside": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "required": [
+                                      "any"
+                                    ],
+                                    "properties": {
+                                      "any": {
+                                        "type": "object",
+                                        "required": [
+                                          "outside"
+                                        ],
+                                        "properties": {
+                                          "outside": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "cwd"
+                              ],
+                              "properties": {
+                                "cwd": {
+                                  "type": "object",
+                                  "required": [
+                                    "exclude"
+                                  ],
+                                  "properties": {
+                                    "exclude": {
+                                      "type": "array",
+                                      "contains": {
+                                        "type": "object",
+                                        "required": [
+                                          "root"
+                                        ],
+                                        "properties": {
+                                          "root": {
+                                            "enum": [
+                                              "read",
+                                              "write"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "cwd"
+                              ],
+                              "properties": {
+                                "cwd": {
+                                  "type": "object",
+                                  "required": [
+                                    "exclude"
+                                  ],
+                                  "properties": {
+                                    "exclude": {
+                                      "type": "array",
+                                      "contains": {
+                                        "type": "object",
+                                        "required": [
+                                          "root"
+                                        ],
+                                        "properties": {
+                                          "root": {
+                                            "enum": [
+                                              "read",
+                                              "write"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "destination"
+                              ],
+                              "properties": {
+                                "destination": {
+                                  "type": "object",
+                                  "required": [
+                                    "exclude"
+                                  ],
+                                  "properties": {
+                                    "exclude": {
+                                      "type": "array",
+                                      "contains": {
+                                        "type": "object",
+                                        "required": [
+                                          "root"
+                                        ],
+                                        "properties": {
+                                          "root": {
+                                            "enum": [
+                                              "read",
+                                              "write"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "destination"
+                              ],
+                              "properties": {
+                                "destination": {
+                                  "type": "object",
+                                  "required": [
+                                    "exclude"
+                                  ],
+                                  "properties": {
+                                    "exclude": {
+                                      "type": "array",
+                                      "contains": {
+                                        "type": "object",
+                                        "required": [
+                                          "root"
+                                        ],
+                                        "properties": {
+                                          "root": {
+                                            "enum": [
+                                              "read",
+                                              "write"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "sources"
+                              ],
+                              "properties": {
+                                "sources": {
+                                  "type": "object",
+                                  "required": [
+                                    "all"
+                                  ],
+                                  "properties": {
+                                    "all": {
+                                      "type": "object",
+                                      "required": [
+                                        "exclude"
+                                      ],
+                                      "properties": {
+                                        "exclude": {
+                                          "type": "array",
+                                          "contains": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "sources"
+                              ],
+                              "properties": {
+                                "sources": {
+                                  "type": "object",
+                                  "required": [
+                                    "all"
+                                  ],
+                                  "properties": {
+                                    "all": {
+                                      "type": "object",
+                                      "required": [
+                                        "exclude"
+                                      ],
+                                      "properties": {
+                                        "exclude": {
+                                          "type": "array",
+                                          "contains": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "object",
+                                  "required": [
+                                    "all"
+                                  ],
+                                  "properties": {
+                                    "all": {
+                                      "type": "object",
+                                      "required": [
+                                        "exclude"
+                                      ],
+                                      "properties": {
+                                        "exclude": {
+                                          "type": "array",
+                                          "contains": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "object",
+                                  "required": [
+                                    "all"
+                                  ],
+                                  "properties": {
+                                    "all": {
+                                      "type": "object",
+                                      "required": [
+                                        "exclude"
+                                      ],
+                                      "properties": {
+                                        "exclude": {
+                                          "type": "array",
+                                          "contains": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "required": [
+                                      "all"
+                                    ],
+                                    "properties": {
+                                      "all": {
+                                        "type": "object",
+                                        "required": [
+                                          "exclude"
+                                        ],
+                                        "properties": {
+                                          "exclude": {
+                                            "type": "array",
+                                            "contains": {
+                                              "type": "object",
+                                              "required": [
+                                                "root"
+                                              ],
+                                              "properties": {
+                                                "root": {
+                                                  "enum": [
+                                                    "read",
+                                                    "write"
+                                                  ]
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "required": [
+                                      "all"
+                                    ],
+                                    "properties": {
+                                      "all": {
+                                        "type": "object",
+                                        "required": [
+                                          "exclude"
+                                        ],
+                                        "properties": {
+                                          "exclude": {
+                                            "type": "array",
+                                            "contains": {
+                                              "type": "object",
+                                              "required": [
+                                                "root"
+                                              ],
+                                              "properties": {
+                                                "root": {
+                                                  "enum": [
+                                                    "read",
+                                                    "write"
+                                                  ]
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "sources"
+                              ],
+                              "properties": {
+                                "sources": {
+                                  "type": "object",
+                                  "required": [
+                                    "any"
+                                  ],
+                                  "properties": {
+                                    "any": {
+                                      "type": "object",
+                                      "required": [
+                                        "exclude"
+                                      ],
+                                      "properties": {
+                                        "exclude": {
+                                          "type": "array",
+                                          "contains": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "sources"
+                              ],
+                              "properties": {
+                                "sources": {
+                                  "type": "object",
+                                  "required": [
+                                    "any"
+                                  ],
+                                  "properties": {
+                                    "any": {
+                                      "type": "object",
+                                      "required": [
+                                        "exclude"
+                                      ],
+                                      "properties": {
+                                        "exclude": {
+                                          "type": "array",
+                                          "contains": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "object",
+                                  "required": [
+                                    "any"
+                                  ],
+                                  "properties": {
+                                    "any": {
+                                      "type": "object",
+                                      "required": [
+                                        "exclude"
+                                      ],
+                                      "properties": {
+                                        "exclude": {
+                                          "type": "array",
+                                          "contains": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "object",
+                                  "required": [
+                                    "any"
+                                  ],
+                                  "properties": {
+                                    "any": {
+                                      "type": "object",
+                                      "required": [
+                                        "exclude"
+                                      ],
+                                      "properties": {
+                                        "exclude": {
+                                          "type": "array",
+                                          "contains": {
+                                            "type": "object",
+                                            "required": [
+                                              "root"
+                                            ],
+                                            "properties": {
+                                              "root": {
+                                                "enum": [
+                                                  "read",
+                                                  "write"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "conditions"
+                          ],
+                          "properties": {
+                            "conditions": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "required": [
+                                      "any"
+                                    ],
+                                    "properties": {
+                                      "any": {
+                                        "type": "object",
+                                        "required": [
+                                          "exclude"
+                                        ],
+                                        "properties": {
+                                          "exclude": {
+                                            "type": "array",
+                                            "contains": {
+                                              "type": "object",
+                                              "required": [
+                                                "root"
+                                              ],
+                                              "properties": {
+                                                "root": {
+                                                  "enum": [
+                                                    "read",
+                                                    "write"
+                                                  ]
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "requirements"
+                          ],
+                          "properties": {
+                            "requirements": {
+                              "type": "object",
+                              "required": [
+                                "targets"
+                              ],
+                              "properties": {
+                                "targets": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "required": [
+                                      "any"
+                                    ],
+                                    "properties": {
+                                      "any": {
+                                        "type": "object",
+                                        "required": [
+                                          "exclude"
+                                        ],
+                                        "properties": {
+                                          "exclude": {
+                                            "type": "array",
+                                            "contains": {
+                                              "type": "object",
+                                              "required": [
+                                                "root"
+                                              ],
+                                              "properties": {
+                                                "root": {
+                                                  "enum": [
+                                                    "read",
+                                                    "write"
+                                                  ]
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "required": [
+              "capabilities"
+            ],
+            "properties": {
+              "capabilities": {
+                "contains": {
+                  "const": "access-paths-v1"
+                }
+              }
+            }
+          },
+          "else": {
+            "type": "object",
+            "required": [
+              "capabilities"
+            ],
+            "properties": {
+              "capabilities": {
+                "not": {
+                  "contains": {
+                    "const": "access-paths-v1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "required": [
+              "rules"
+            ],
+            "properties": {
+              "rules": {
+                "type": "array",
+                "contains": {
                   "allOf": [
                     {
                       "type": "object",
@@ -12229,11 +15348,12 @@
               "location-v1",
               "requirements-v1",
               "possible-effects-v1",
-              "dependencies-v1"
+              "dependencies-v1",
+              "access-paths-v1"
             ]
           },
           "minItems": 1,
-          "maxItems": 8,
+          "maxItems": 9,
           "uniqueItems": true,
           "contains": {
             "const": "structured-rules-v1"
@@ -12337,11 +15457,12 @@
               "location-v1",
               "requirements-v1",
               "possible-effects-v1",
-              "dependencies-v1"
+              "dependencies-v1",
+              "access-paths-v1"
             ]
           },
           "minItems": 1,
-          "maxItems": 8,
+          "maxItems": 9,
           "uniqueItems": true,
           "contains": {
             "const": "structured-rules-v1"

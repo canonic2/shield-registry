@@ -106,6 +106,19 @@ test('Historical retention cannot bypass authentication, source integrity or an 
     await assert.rejects(build(f.root, join(f.root, 'test-key.pem'), process.env.SHIELD_BINARY || '/unused-validator'));
   }
 });
+test('A baseline release retains its inventory and publishes its own coverage', {skip:!process.env.SHIELD_BINARY},async t=>{
+  const f=await releaseFixture(t);
+  const prefix='packs/canonic/baseline/0.1.0';
+  for(const name of ['pack.yml','cases.json','README.md','LICENSE','commands.json'])await f.put(`${prefix}/${name}`,await readFile(new URL(`../${prefix}/${name}`,import.meta.url)));
+  f.release.packs.push(`${prefix}/pack.yml`);
+  await f.put('release.json',JSON.stringify(f.release));
+  const result=await build(f.root,join(f.root,'test-key.pem'),process.env.SHIELD_BINARY);
+  assert.equal(result.catalog.packs.length,3);
+  assert.ok(result.catalog.packs.some(p=>p.id==='canonic/baseline'));
+  const page=await readFile(join(f.root,'public/index.html'),'utf8');
+  assert.ok(page.includes('Standard commands and file operations within approved read/write paths'));
+  assert.deepEqual(await readFile(join(f.root,`public/${prefix}/commands.json`)),await readFile(join(f.root,`${prefix}/commands.json`)));
+});
 test('A structurally valid new rule still requires Rust semantics and every expected fixture before signing',
   { skip: !process.env.SHIELD_BINARY }, async t => {
     for (const change of ['pattern', 'expected']) {

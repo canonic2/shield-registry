@@ -97,7 +97,7 @@ function rule(pack, domain) {
 }
 const defs = {
   textSelector: selector(false), identitySelector: selector(true),
-  pathReference: one([object({ root: { const: 'project' }, path: { ...text(1), pattern: '^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).*$' } }, ['root']),
+  pathReference: one([object({ root: { enum: ['project','read','write'] }, path: { ...text(1), pattern: '^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).*$' } }, ['root']),
     object({ root: { const: 'absolute' }, path: { ...text(1), pattern: '^(?:/|[A-Za-z]:[\\\\/]|\\\\\\\\)' } })]),
   pathPredicate: one([object({ exact: ref('pathReference') }), object({ outside: ref('pathReference') }),
     object({ within: ref('pathReference'), exclude: array(ref('pathReference')), match: ref('textSelector') }, ['within'])]),
@@ -130,7 +130,7 @@ defs.input = one([
   input('mcp', { server: text(1), tool: text(1), arguments: jsonObject }),
   input('unknown', { host_tool: text(1) }),
 ]);
-const caps = ['structured-rules-v1', 'argument-rules-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1'];
+const caps = ['structured-rules-v1', 'argument-rules-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1'];
 const domains = [...Object.keys(predicates), 'exact_request'];
 defs.packRule = one(domains.map(domain => rule(true, domain)));
 defs.customRule = one(domains.map(domain => rule(false, domain)));
@@ -153,6 +153,23 @@ const textPaths = [
   ['fields', '@', 'text'], ['request_fields', '@', 'text'], ...pathText,
 ];
 const feature = {
+  'access-paths-v1': any([
+    at(['conditions','executable','root'], { enum:['read','write'] }),
+    ...['exact','within','outside'].flatMap(operator => [
+      ...['cwd','destination'].map(key => eitherPredicate([key,operator,'root'],{enum:['read','write']})),
+      ...['all','any'].flatMap(q => [
+        eitherPredicate(['sources',q,operator,'root'],{enum:['read','write']}),
+        eitherPredicate(['targets',q,operator,'root'],{enum:['read','write']}),
+        eitherPredicate(['targets','*',q,operator,'root'],{enum:['read','write']}),
+      ]),
+    ]),
+    ...['cwd','destination'].map(key => eitherPredicate([key,'exclude','*','root'],{enum:['read','write']})),
+    ...['all','any'].flatMap(q => [
+      eitherPredicate(['sources',q,'exclude','*','root'],{enum:['read','write']}),
+      eitherPredicate(['targets',q,'exclude','*','root'],{enum:['read','write']}),
+      eitherPredicate(['targets','*',q,'exclude','*','root'],{enum:['read','write']}),
+    ]),
+  ]),
   'argument-rules-v1': { allOf: [at(['conditions', 'domain'], { const: 'argv' }), eitherPredicate(['arguments'])] },
   'location-v1': any([at(['conditions', 'domain'], { const: 'file' }), at(['conditions', 'executable', 'root']),
     ...['cwd', 'destination', 'sources', 'targets'].map(key => eitherPredicate([key]))]),
@@ -177,7 +194,7 @@ defs.documentCapabilities = { allOf: [...capabilityChecks, {
 }] };
 const document = pack => {
   const base = { schema_version: { const: 1 }, kind: { const: pack ? 'pack' : 'custom' },
-    capabilities: { ...array(enumeration(caps), 1, true, 8), contains: { const: 'structured-rules-v1' } },
+    capabilities: { ...array(enumeration(caps), 1, true, 9), contains: { const: 'structured-rules-v1' } },
     rules: array(ref(pack ? 'packRule' : 'customRule'), 0, false, 500000) };
   const extra = pack ? { id: { ...text(1, 128), pattern: '^[a-z0-9-]{1,64}/[a-z0-9-]{1,64}$' }, version: text(1, 128),
     description: text(1), license: text(1), maintainers: array(text(1, 128), 1, true), engine: text(1, 1024),

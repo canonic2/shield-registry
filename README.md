@@ -14,12 +14,17 @@ integrations are developed separately.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
+| [canonic/baseline](packs/canonic/baseline/0.1.0/README.md) | 0.1.0 | Reviewed source; publication pending | Standard commands and files bound to approved read/write roots |
 | [canonic/git](packs/canonic/git/0.3.0/README.md) | 0.3.0 | Structured v1 release | Git inspection, staging, local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
 The signed `public/` catalog uses sequence 4 and includes structured v1 Git
 0.3.0. Current Shield requires that format. Historical 0.1.0/0.2.0 releases
 retain their original bytes for compatible older clients.
+
+The baseline source adds `access-paths-v1`; use a Shield build implementing that
+capability. Its removal scope follows operator-confirmed project access paths.
+See its guide for profile decisions, native-hook fixtures and coverage limits.
 
 Git includes 173 documented and internal command names, option-aware rules for
 common workflows, and fixtures across all three profiles. See the pack's guide
