@@ -230,6 +230,147 @@
       "expected": "allow"
     },
     {
+      "name": "grep-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "-nF",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-nF",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "-nF",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-n",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-n",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-n",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-tree-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "Acme",
+        "."
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-tree-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "Acme",
+        "."
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-tree-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "Acme",
+        "."
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-dash-pattern-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "--",
+        "-Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-dash-pattern-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "--",
+        "-Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-dash-pattern-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "--",
+        "-Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
       "name": "echo-loose",
       "profile": "loose",
       "argv": [
@@ -571,6 +712,96 @@
       "argv": [
         "/bin/rm",
         "generated"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "mkdir-loose",
+      "profile": "loose",
+      "argv": [
+        "mkdir",
+        "-p",
+        "generated/nested"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "mkdir-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mkdir",
+        "-p",
+        "generated/nested"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "mkdir-strict",
+      "profile": "strict",
+      "argv": [
+        "mkdir",
+        "-p",
+        "generated/nested"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "touch-loose",
+      "profile": "loose",
+      "argv": [
+        "touch",
+        "-am",
+        "generated.txt"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "touch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "touch",
+        "-am",
+        "generated.txt"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "touch-strict",
+      "profile": "strict",
+      "argv": [
+        "touch",
+        "-am",
+        "generated.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "touch-literal-option-loose",
+      "profile": "loose",
+      "argv": [
+        "touch",
+        "--",
+        "-generated"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "touch-literal-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "touch",
+        "--",
+        "-generated"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "touch-literal-option-strict",
+      "profile": "strict",
+      "argv": [
+        "touch",
+        "--",
+        "-generated"
       ],
       "expected": "ask"
     },
@@ -1076,6 +1307,702 @@
       "expected": "deny"
     },
     {
+      "name": "grep-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "Acme",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "Acme",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "Acme",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-recursive-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "-r",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-recursive-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-r",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-recursive-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "-r",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-config-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-config-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-helper-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--pre",
+        "sh",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-helper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--pre",
+        "sh",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-helper-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--pre",
+        "sh",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-pattern-file-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "-f",
+        "README.md",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-pattern-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-f",
+        "README.md",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-pattern-file-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "-f",
+        "README.md",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-mkdir-loose",
+      "profile": "loose",
+      "argv": [
+        "mkdir",
+        "-p",
+        "/shield-baseline-unapproved/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-mkdir-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mkdir",
+        "-p",
+        "/shield-baseline-unapproved/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-mkdir-strict",
+      "profile": "strict",
+      "argv": [
+        "mkdir",
+        "-p",
+        "/shield-baseline-unapproved/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-touch-loose",
+      "profile": "loose",
+      "argv": [
+        "touch",
+        "/shield-baseline-unapproved/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-touch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "touch",
+        "/shield-baseline-unapproved/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-touch-strict",
+      "profile": "strict",
+      "argv": [
+        "touch",
+        "/shield-baseline-unapproved/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "protected-mkdir-loose",
+      "profile": "loose",
+      "argv": [
+        "mkdir",
+        "-p",
+        ".git/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "protected-mkdir-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mkdir",
+        "-p",
+        ".git/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "protected-mkdir-strict",
+      "profile": "strict",
+      "argv": [
+        "mkdir",
+        "-p",
+        ".git/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "protected-touch-loose",
+      "profile": "loose",
+      "argv": [
+        "touch",
+        ".git/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "protected-touch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "touch",
+        ".git/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "protected-touch-strict",
+      "profile": "strict",
+      "argv": [
+        "touch",
+        ".git/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "mkdir-parent-loose",
+      "profile": "loose",
+      "argv": [
+        "mkdir",
+        "-p",
+        ".git/../generated"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "mkdir-parent-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mkdir",
+        "-p",
+        ".git/../generated"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "mkdir-parent-strict",
+      "profile": "strict",
+      "argv": [
+        "mkdir",
+        "-p",
+        ".git/../generated"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-descriptor-loose",
+      "profile": "loose",
+      "argv": [
+        "touch",
+        "-"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-descriptor-recommended",
+      "profile": "recommended",
+      "argv": [
+        "touch",
+        "-"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-descriptor-strict",
+      "profile": "strict",
+      "argv": [
+        "touch",
+        "-"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-reference-loose",
+      "profile": "loose",
+      "argv": [
+        "touch",
+        "-r",
+        "README.md",
+        "generated.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-reference-recommended",
+      "profile": "recommended",
+      "argv": [
+        "touch",
+        "-r",
+        "README.md",
+        "generated.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-reference-strict",
+      "profile": "strict",
+      "argv": [
+        "touch",
+        "-r",
+        "README.md",
+        "generated.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-trailing-option-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "Acme",
+        "README.md",
+        "-f/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-trailing-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "Acme",
+        "README.md",
+        "-f/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-trailing-option-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "Acme",
+        "README.md",
+        "-f/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-trailing-reference-loose",
+      "profile": "loose",
+      "argv": [
+        "touch",
+        "generated.txt",
+        "--reference=/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-trailing-reference-recommended",
+      "profile": "recommended",
+      "argv": [
+        "touch",
+        "generated.txt",
+        "--reference=/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-trailing-reference-strict",
+      "profile": "strict",
+      "argv": [
+        "touch",
+        "generated.txt",
+        "--reference=/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-trailing-config-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "Acme",
+        "--no-config",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-trailing-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "Acme",
+        "--no-config",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-trailing-config-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "Acme",
+        "--no-config",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-ignore-loading-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-ignore-loading-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-ignore-loading-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-hidden-tree-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--hidden",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-hidden-tree-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--hidden",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-hidden-tree-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--hidden",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-follow-tree-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--follow",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-follow-tree-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--follow",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-follow-tree-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--follow",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-unrestricted-tree-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-uu",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-unrestricted-tree-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-uu",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-unrestricted-tree-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-uu",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-glob-override-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-g",
+        "*",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-glob-override-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-g",
+        "*",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-glob-override-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-g",
+        "*",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-hidden-explicit-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "Acme",
+        ".aws"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-hidden-explicit-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "Acme",
+        ".aws"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-hidden-explicit-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "Acme",
+        ".aws"
+      ],
+      "expected": "deny"
+    },
+    {
       "name": "unknown-loose",
       "profile": "loose",
       "argv": [
@@ -1195,39 +2122,6 @@
         "-c",
         "echo Acme",
         ";"
-      ],
-      "expected": "ask"
-    },
-    {
-      "name": "rg-config-loose",
-      "profile": "loose",
-      "argv": [
-        "rg",
-        "--pre",
-        "sh",
-        "Acme"
-      ],
-      "expected": "ask"
-    },
-    {
-      "name": "rg-config-recommended",
-      "profile": "recommended",
-      "argv": [
-        "rg",
-        "--pre",
-        "sh",
-        "Acme"
-      ],
-      "expected": "ask"
-    },
-    {
-      "name": "rg-config-strict",
-      "profile": "strict",
-      "argv": [
-        "rg",
-        "--pre",
-        "sh",
-        "Acme"
       ],
       "expected": "ask"
     },

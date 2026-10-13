@@ -200,6 +200,7 @@
     {
       "name": "grep",
       "rule_ids": [
+        "read-grep",
         "version-grep",
         "review-grep"
       ]
@@ -246,6 +247,7 @@
     {
       "name": "mkdir",
       "rule_ids": [
+        "write-mkdir",
         "review-mkdir"
       ]
     },
@@ -335,6 +337,7 @@
     {
       "name": "rg",
       "rule_ids": [
+        "read-rg",
         "version-rg",
         "review-rg"
       ]
@@ -455,6 +458,7 @@
     {
       "name": "touch",
       "rule_ids": [
+        "write-touch",
         "review-touch"
       ]
     },

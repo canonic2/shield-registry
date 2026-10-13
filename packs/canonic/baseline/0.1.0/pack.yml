@@ -1163,6 +1163,337 @@
       }
     },
     {
+      "id": "read-grep",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "grep",
+            "/bin/grep",
+            "/usr/bin/grep"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "requirements": {
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-E",
+            "-F",
+            "-G",
+            "-i",
+            "-n",
+            "-l",
+            "-c",
+            "-q",
+            "-v",
+            "-w",
+            "-x",
+            "-H",
+            "-h"
+          ],
+          "values": [],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 2,
+            "max": 256
+          }
+        },
+        "targets": {
+          "action": "read",
+          "all": {
+            "within": {
+              "root": "read"
+            },
+            "exclude": [
+              {
+                "root": "read",
+                "path": ".ssh"
+              },
+              {
+                "root": "read",
+                "path": ".aws"
+              },
+              {
+                "root": "read",
+                "path": ".config/gcloud"
+              },
+              {
+                "root": "read",
+                "path": ".kube"
+              }
+            ]
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Search explicit regular files in approved readable paths; directory walks, pattern files and unknown options are blocked.",
+        "alternatives": [
+          "Use grep FLAGS -- PATTERN FILE... with supported flags before the pattern."
+        ]
+      }
+    },
+    {
+      "id": "read-rg",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "rg",
+            "/bin/rg",
+            "/usr/bin/rg"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "requirements": {
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "--no-config",
+            "--no-ignore",
+            "--no-follow",
+            "--no-hidden",
+            "-i",
+            "-n",
+            "-l",
+            "-c",
+            "-q",
+            "-F",
+            "-w",
+            "-x"
+          ],
+          "values": [],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 2,
+            "max": 256
+          },
+          "require_all": [
+            "--no-config",
+            "--no-ignore"
+          ]
+        },
+        "targets": {
+          "action": "read",
+          "all": {
+            "within": {
+              "root": "read"
+            },
+            "exclude": [
+              {
+                "root": "read",
+                "path": ".ssh"
+              },
+              {
+                "root": "read",
+                "path": ".aws"
+              },
+              {
+                "root": "read",
+                "path": ".config/gcloud"
+              },
+              {
+                "root": "read",
+                "path": ".kube"
+              }
+            ]
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Disable configuration and ignore-file loading; search approved readable files or visible directory trees without following descendant links.",
+        "alternatives": [
+          "Use rg --no-config --no-ignore FLAGS -- PATTERN PATH... with supported flags before the pattern."
+        ]
+      }
+    },
+    {
+      "id": "write-mkdir",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "mkdir",
+            "/bin/mkdir",
+            "/usr/bin/mkdir"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "requirements": {
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-p"
+          ],
+          "values": [],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 1,
+            "max": 256
+          }
+        },
+        "targets": {
+          "action": "write",
+          "all": {
+            "within": {
+              "root": "write"
+            },
+            "exclude": [
+              {
+                "root": "write",
+                "path": ".git"
+              },
+              {
+                "root": "write",
+                "path": ".shield"
+              },
+              {
+                "root": "write",
+                "path": ".claude"
+              },
+              {
+                "root": "write",
+                "path": ".codex"
+              },
+              {
+                "root": "write",
+                "path": ".mcp.json"
+              }
+            ],
+            "match": {
+              "regex": ".+"
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Create directories only in approved writable paths, without parent traversal or protected metadata.",
+        "alternatives": [
+          "Use mkdir -p -- PATH... without .. components or unlisted options."
+        ]
+      }
+    },
+    {
+      "id": "write-touch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "touch",
+            "/bin/touch",
+            "/usr/bin/touch"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "requirements": {
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-a",
+            "-m",
+            "-c"
+          ],
+          "values": [],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 1,
+            "max": 256
+          }
+        },
+        "targets": {
+          "action": "write",
+          "all": {
+            "within": {
+              "root": "write"
+            },
+            "exclude": [
+              {
+                "root": "write",
+                "path": ".git"
+              },
+              {
+                "root": "write",
+                "path": ".shield"
+              },
+              {
+                "root": "write",
+                "path": ".claude"
+              },
+              {
+                "root": "write",
+                "path": ".codex"
+              },
+              {
+                "root": "write",
+                "path": ".mcp.json"
+              }
+            ],
+            "match": {
+              "regex": ".+"
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Touch only approved writable paths; reference files, date options, stdout and protected metadata are blocked.",
+        "alternatives": [
+          "Use touch -- PATH... or listed -a/-m/-c flags before the operands."
+        ]
+      }
+    },
+    {
       "id": "preserve-access-roots",
       "conditions": {
         "domain": "argv",

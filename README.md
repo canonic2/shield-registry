@@ -14,15 +14,15 @@ integrations are developed separately.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
-| [canonic/baseline](packs/canonic/baseline/0.1.0/README.md) | 0.1.0 | Reviewed source; publication pending | Standard commands and files bound to approved read/write roots |
+| [canonic/baseline](packs/canonic/baseline/0.1.0/README.md) | 0.1.0 | Structured v1 release | Standard commands, bounded directory searches and files bound to approved read/write roots |
 | [canonic/git](packs/canonic/git/0.3.0/README.md) | 0.3.0 | Structured v1 release | Git inspection, staging, local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The signed `public/` catalog uses sequence 4 and includes structured v1 Git
-0.3.0. Current Shield requires that format. Historical 0.1.0/0.2.0 releases
+The signed `public/` catalog uses sequence 5 and includes structured v1 Baseline
+0.1.0 and Git 0.3.0. Current Shield requires that format. Historical Git 0.1.0/0.2.0 releases
 retain their original bytes for compatible older clients.
 
-The baseline source adds `access-paths-v1`; use a Shield build implementing that
+Baseline requires `access-paths-v1`; use a Shield build implementing that
 capability. Its removal scope follows operator-confirmed project access paths.
 See its guide for profile decisions, native-hook fixtures and coverage limits.
 
@@ -38,6 +38,7 @@ Published releases require a compatible Shield client and an initialized project
 shield search git
 shield info main/git
 shield add main/git --profile recommended
+shield add main/baseline --profile recommended
 ```
 
 The reserved `main` source points here and pins the release signing key in the

@@ -11,6 +11,9 @@ for(const [name,argv] of [
   ['pwd',['pwd']],['list',['ls','-la']],['read',['cat','README.md']],['head',['head','-n','10','README.md']],
   ['tail',['tail','-c','20','README.md']],['count',['wc','-l','README.md']],['stdin',['cat']],
   ['head-attached',['head','-qn10','README.md']],
+  ['grep',['grep','-nF','Acme','README.md']],['rg',['rg','--no-config','--no-ignore','-n','Acme','README.md']],
+  ['rg-tree',['rg','--no-config','--no-ignore','Acme','.']],
+  ['grep-dash-pattern',['grep','--','-Acme','README.md']],
   ['echo',['echo','Acme']],['printf',['printf','%s','Acme']],['git-status',['git','status','--short']],
   ['version',['node','--version']],['sleep',['sleep','0.01']],
 ])add(name,argv,allow);
@@ -18,6 +21,8 @@ for(const [name,argv] of [
   ['remove',['rm','-rf','generated']],['remove-multiple',['rm','a','b']],['remove-literal-option',['rm','--','-generated']],
   ['rmdir',['rmdir','generated']],['copy',['cp','README.md','copy.md']],['move',['mv','old.md','new.md']],
   ['absolute-remove',['/bin/rm','generated']],
+  ['mkdir',['mkdir','-p','generated/nested']],['touch',['touch','-am','generated.txt']],
+  ['touch-literal-option',['touch','--','-generated']],
 ])add(name,argv,local);
 for(const [name,argv] of [
   ['outside-remove',['rm','/shield-baseline-unapproved/item']],['outside-read',['cat','/shield-baseline-unapproved/item']],
@@ -30,10 +35,28 @@ for(const [name,argv] of [
   ['docker-prune',['docker','system','prune','-af']],
   ['absolute-outside-remove',['/bin/rm','/shield-baseline-unapproved/item']],
   ['credential-read',['cat','.aws/config']],
+  ['grep-outside',['grep','Acme','/shield-baseline-unapproved/item']],
+  ['grep-recursive',['grep','-r','Acme','.']],
+  ['rg-config',['rg','Acme','README.md']],['rg-helper',['rg','--no-config','--no-ignore','--pre','sh','Acme','README.md']],
+  ['grep-pattern-file',['grep','-f','README.md','README.md']],
+  ['outside-mkdir',['mkdir','-p','/shield-baseline-unapproved/new']],
+  ['outside-touch',['touch','/shield-baseline-unapproved/new']],
+  ['protected-mkdir',['mkdir','-p','.git/new']],['protected-touch',['touch','.git/config']],
+  ['mkdir-parent',['mkdir','-p','.git/../generated']],['touch-descriptor',['touch','-']],
+  ['touch-reference',['touch','-r','README.md','generated.txt']],
+  ['grep-trailing-option',['grep','Acme','README.md','-f/outside']],
+  ['touch-trailing-reference',['touch','generated.txt','--reference=/outside']],
+  ['rg-trailing-config',['rg','Acme','--no-config','README.md']],
+  ['rg-ignore-loading',['rg','--no-config','Acme','.']],
+  ['rg-hidden-tree',['rg','--no-config','--no-ignore','--hidden','Acme','.']],
+  ['rg-follow-tree',['rg','--no-config','--no-ignore','--follow','Acme','.']],
+  ['rg-unrestricted-tree',['rg','--no-config','--no-ignore','-uu','Acme','.']],
+  ['rg-glob-override',['rg','--no-config','--no-ignore','-g','*','Acme','.']],
+  ['rg-hidden-explicit',['rg','--no-config','--no-ignore','Acme','.aws']],
 ])add(name,argv,deny);
 for(const [name,argv] of [
   ['unknown',['acme-unlisted','read']],['script',['node','script.mjs']],['build',['cargo','build']],
-  ['find-helper',['find','.','-exec','sh','-c','echo Acme',';']],['rg-config',['rg','--pre','sh','Acme']],
+  ['find-helper',['find','.','-exec','sh','-c','echo Acme',';']],
   ['cloud-inspect',['aws','ec2','describe-instances']],['docker-inspect',['docker','inspect','acme']],
   ['git-global-option',['git','-C','/other','status']],
 ])add(name,argv,ask);

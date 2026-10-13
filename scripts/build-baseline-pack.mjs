@@ -19,11 +19,12 @@ const path = (root, write = false) => ({ within: { root }, ...(write ? {
   match: { regex: '.+' },
 } : { exclude:['.ssh','.aws','.config/gcloud','.kube'].map(path=>({root:'read',path})) }) });
 const target = (action, root, write = false) => ({ action, all: path(root, write) });
-const bounded = (id, executable, grammar, targets, decisions = allow) => rules.push({
+const bounded = (id, executable, grammar, targets, decisions = allow, feedback = {}) => rules.push({
   id, conditions: { domain: 'argv', executable: executableSelector(executable) }, decision: profiles(decisions),
   requirements: { arguments: grammar, targets }, on_unmet: {
     decision: profiles(deny), message: 'Use supported literal options and approved paths; protected metadata and unverified targets are blocked.',
     alternatives: ['Ask the operator to review access_paths in .shield/config.yml and confirm with shield policy.'],
+    ...feedback,
   },
 });
 
@@ -49,6 +50,22 @@ bounded('remove-rm', 'rm', options(['-f','-i','-r','-R','-v'], [], operands), ta
 bounded('remove-rmdir', 'rmdir', options([], [], operands), target('remove', 'write', true), local);
 bounded('copy-cp', 'cp', options(['-i','-n','-v'], [], { match: { regex: '.+' }, min: 2, max: 256 }), [target('read','read'),target('write','write',true)], local);
 bounded('move-mv', 'mv', options(['-i','-n','-v'], [], { match: { regex: '.+' }, min: 2, max: 256 }), [target('remove','write',true),target('write','write',true)], local);
+bounded('read-grep', 'grep', options(['-E','-F','-G','-i','-n','-l','-c','-q','-v','-w','-x','-H','-h'], [], { match: { regex: '.+' }, min: 2, max: 256 }), target('read','read'), allow, {
+  message:'Search explicit regular files in approved readable paths; directory walks, pattern files and unknown options are blocked.',
+  alternatives:['Use grep FLAGS -- PATTERN FILE... with supported flags before the pattern.'],
+});
+bounded('read-rg', 'rg', { ...options(['--no-config','--no-ignore','--no-follow','--no-hidden','-i','-n','-l','-c','-q','-F','-w','-x'], [], { match: { regex: '.+' }, min: 2, max: 256 }), require_all:['--no-config','--no-ignore'] }, target('read','read'), allow, {
+  message:'Disable configuration and ignore-file loading; search approved readable files or visible directory trees without following descendant links.',
+  alternatives:['Use rg --no-config --no-ignore FLAGS -- PATTERN PATH... with supported flags before the pattern.'],
+});
+bounded('write-mkdir', 'mkdir', options(['-p'], [], operands), target('write','write',true), local, {
+  message:'Create directories only in approved writable paths, without parent traversal or protected metadata.',
+  alternatives:['Use mkdir -p -- PATH... without .. components or unlisted options.'],
+});
+bounded('write-touch', 'touch', options(['-a','-m','-c'], [], operands), target('write','write',true), local, {
+  message:'Touch only approved writable paths; reference files, date options, stdout and protected metadata are blocked.',
+  alternatives:['Use touch -- PATH... or listed -a/-m/-c flags before the operands.'],
+});
 // A root itself must remain intact, including an approved root nested in another.
 rules.push({ id: 'preserve-access-roots', conditions: { domain: 'argv', executable: { one_of: ['rm','rmdir','mv'].flatMap(executableNames) }, arguments: { kind: 'any' }, targets: { action:'remove', any:{ exact:{ root:'write' } } } }, decision:profiles(deny) });
 
