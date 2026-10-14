@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { profiles, network, destructive, execution, reason, forms, risks, exact } from './git-policy.mjs';
 
-const root = new URL('../packs/canonic/git/0.3.0/', import.meta.url);
+const root = new URL('../packs/canonic/git/0.4.0/', import.meta.url);
 const inventory = JSON.parse(await readFile(new URL('commands.json', root)));
 const rules = [];
 const decisions = tier => Object.fromEntries(['loose', 'recommended', 'strict'].map((name, index) => [name, profiles[tier][index]]));
@@ -37,7 +37,7 @@ for (const prefix of ['remote show', 'remote update', 'submodule update', 'submo
   add(`network-${prefix.replaceAll(' ', '-')}`, { kind: 'prefix', values: prefix.split(' ') }, 'network');
 }
 for (const command of ['merge', 'cherry-pick', 'revert']) add(`external-strategy-${command}`, { kind: 'risk_tokens', prefix: [command], any_of: command === 'merge' ? ['--strategy', '-s'] : ['--strategy'] }, 'execution');
-const pack = { schema_version: 1, kind: 'pack', id: 'canonic/git', version: '0.3.0',
+const pack = { schema_version: 1, kind: 'pack', id: 'canonic/git', version: '0.4.0',
   description: 'Git permissions for inspection, staging, local changes, remote access and destructive operations.',
   license: 'MIT', maintainers: ['Canonic'], engine: '>=0.1.0, <0.2.0',
   capabilities: ['argument-rules-v1', 'structured-rules-v1'], rules };

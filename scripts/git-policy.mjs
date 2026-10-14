@@ -2,7 +2,7 @@
 export const profiles = {
   inspect: ['allow', 'allow', 'allow'],
   stage: ['allow', 'allow', 'ask'],
-  local: ['allow', 'ask', 'ask'],
+  local: ['allow', 'allow', 'ask'],
   review: ['ask', 'ask', 'ask'],
   network: ['ask', 'ask', 'deny'],
   execution: ['ask', 'ask', 'deny'],
@@ -15,7 +15,7 @@ export const execution = new Set('difftool mergetool gui citool instaweb help'.s
 export const reason = {
   inspect: 'Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.',
   stage: 'Stage local changes for review without recording or publishing a commit.',
-  local: 'Change local repository state; review before changing history or the working tree in Recommended and Strict.',
+  local: 'Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.',
   review: 'Review unclassified options or operations before permitting their effects.',
   network: 'Review remote access, publication or transport/helper execution; Strict denies these operations.',
   execution: 'Review launching editors, viewers or other external programs; Strict denies.',
@@ -101,7 +101,9 @@ export const forms = [
   option('revert', '--no-edit --no-commit -n --abort --continue --skip --quit', '-m --mainline -X --strategy-option', true, 'local'),
   option('reset', '--soft --mixed --quiet -q', '', true, 'local'),
   option('restore', '--staged -S --quiet -q', '--source -s', true, 'local', '--staged -S'),
-  option('init', '--bare --quiet -q', '--initial-branch -b --object-format --ref-format --template --separate-git-dir --shared', true, 'local'),
+  // Initializing the current folder stays contained. A target path, template
+  // hooks or a separate Git directory can reach outside it and need review.
+  option('init', '--bare --quiet -q', '--initial-branch -b --object-format --ref-format --shared', false, 'local'),
   option('stash push', '--keep-index -k --no-keep-index --include-untracked -u --all -a --staged -S --quiet -q', '-m --message', true, 'local'),
   option('stash apply', '--index --quiet -q', '', true, 'local'),
   option('stash pop', '--index --quiet -q', '', true, 'local'),

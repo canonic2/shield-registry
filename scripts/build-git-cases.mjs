@@ -2,7 +2,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-const root = new URL('../packs/canonic/git/0.3.0/', import.meta.url);
+const root = new URL('../packs/canonic/git/0.4.0/', import.meta.url);
 const inventory = JSON.parse(await readFile(new URL('commands.json', root)));
 const cases = [];
 const add = (name, argv, expected) => {
@@ -38,10 +38,14 @@ const examples = {
   ],
   stage: [['add', 'README.md'], ['add', '-A'], ['add', '--', '--force'], ['stage', '-u']],
   local: [
-    ['commit', '-m', 'Implement feature'], ['commit', '-am', 'Fix bug'], ['switch', '-c', 'feature'],
+    ['commit', '-m', 'Implement feature'], ['commit', '-am', 'Fix bug'], ['commit', '-q', '-m', 'Initial commit'],
+    ['commit', '-m', 'Subject', '-m', 'Body'], ['commit', '--message=Fix bug'], ['commit', '-s', '-m', 'Signed'],
+    ['commit', '--allow-empty', '-m', 'Empty'], ['commit', '-m', 'Note', '--trailer', 'Reviewed-by: Acme'],
+    ['-P', 'commit', '-m', 'Implement feature'], ['commit', '-F', 'message.txt'], ['commit', '-C', 'HEAD~1'],
+    ['init'], ['init', '-b', 'main'], ['init', '--initial-branch=main', '--quiet'], ['switch', '-c', 'feature'],
     ['checkout', '-b', 'feature'], ['merge', '--ff-only', 'feature'], ['cherry-pick', 'HEAD~1'],
     ['revert', '--no-edit', 'HEAD'], ['reset', '--soft', 'HEAD~1'], ['reset', 'README.md'],
-    ['restore', '--staged', 'README.md'], ['init', '--initial-branch=main', 'new-repo'],
+    ['restore', '--staged', 'README.md'],
     ['stash', 'push', '-m', 'Before changes'], ['stash', 'apply'], ['stash', 'pop'], ['branch', 'feature'],
     ['tag', '-a', 'v1.0', '-m', 'Release'], ['mv', 'old', 'new'], ['rm', '--cached', 'tracked'],
   ],
@@ -66,12 +70,13 @@ const examples = {
   review: [
     ['log', '--output=outside.txt'], ['diff', '--ext-diff'], ['show', '--textconv', 'HEAD'], ['grep', '--open-files-in-pager', 'TODO'],
     ['log', '-n'], ['status', '--short=yes'], ['log', '--unknown'],
+    ['init', 'new-repo'], ['init', '--template=hooks'], ['init', '--separate-git-dir', '../store'],
     ['-c', 'alias.status=!echo hello', 'status'], ['-C', '../other', 'status'], ['--config-env=user.name=NAME', 'status'],
     ['--git-dir=../other/.git', 'log'], ['custom-extension'], ['config', 'user.name', 'Acme'],
     ['log', '--show-signature'], ['log', '--format', '--output=literal-value'],
   ],
 };
-const expected = { inspect: ['allow','allow','allow'], stage: ['allow','allow','ask'], local: ['allow','ask','ask'], network: ['ask','ask','deny'], destructive: ['ask','deny','deny'], review: ['ask','ask','ask'] };
+const expected = { inspect: ['allow','allow','allow'], stage: ['allow','allow','ask'], local: ['allow','allow','ask'], network: ['ask','ask','deny'], destructive: ['ask','deny','deny'], review: ['ask','ask','ask'] };
 // An output-looking token consumed by --format is a literal format, not an option.
 examples.inspect.push(examples.review.pop());
 for (const [tier, commands] of Object.entries(examples)) {
