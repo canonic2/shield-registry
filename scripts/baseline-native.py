@@ -70,7 +70,8 @@ def run(binary, pack):
             (project / ".shield/pack.yml").write_bytes(Path(pack).read_bytes())
             paths = {"read": [str(read)], "write": [str(write), str(nested)]}
             config = {"schema_version": 1, "access_paths": paths, "packs": [{
-                "id": "canonic/baseline", "version": "0.1.0", "profile": profile, "path": "pack.yml",
+                "id": "canonic/baseline", "version": json.loads(Path(pack).read_text())["version"],
+                "profile": profile, "path": "pack.yml",
             }]}
             (project / ".shield/config.yml").write_text(json.dumps(config))
             env = dict(os.environ, HOME=str(home), XDG_CACHE_HOME=str(home / "cache"))
@@ -97,6 +98,12 @@ def run(binary, pack):
                 ("symlink-escape", "rm escape/item.txt", "deny"),
                 ("read-extra", f"cat '{read}/item.txt'", "allow"),
                 ("head-attached", f"head -qn1 '{read}/item.txt'", "allow"),
+                ("head-count", f"head -5 '{read}/item.txt'", "allow"),
+                ("head-count-outside", f"head -5 '{outside}/item.txt'", "deny"),
+                ("pipe-head-count", "cat item.txt | head -50", "allow"),
+                ("pipe-count-lines", "cat item.txt | wc -l", "allow"),
+                ("null-device-stderr", "cat item.txt 2>/dev/null", "allow"),
+                ("stderr-to-stdout", "cat item.txt 2>&1 | tail -n 5", "allow"),
                 ("read-write", f"cat '{write}/item.txt'", "allow"),
                 ("read-outside", f"cat '{outside}/item.txt'", "deny"),
                 ("credential-read", f"cat '{read}/.aws/config.txt'", "deny"),

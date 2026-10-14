@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import Ajv from 'ajv/dist/2020.js';
-const root = new URL('../packs/canonic/baseline/0.1.0/',import.meta.url);
+const root = new URL('../packs/canonic/baseline/0.1.1/',import.meta.url);
 const read = url => JSON.parse(readFileSync(url));
 const pack=read(new URL('pack.yml',root)), cases=read(new URL('cases.json',root));
 const validate=new Ajv({strict:false,allErrors:true}).compile(read(new URL('../schemas/policy.schema.json',import.meta.url)));
@@ -50,7 +50,7 @@ test('Fresh native hooks enforce additional read/write paths without executing c
   assert.equal(result.status,0,result.stderr);
   const output=JSON.parse(result.stdout);
   assert.equal(output.passed,true);
-  assert.equal(output.cases.length,411);
+  assert.equal(output.cases.length,447);
 });
 
 test('Ripgrep 15.2.0 visible-tree contract skips hidden files and links without loading ignore files',{

@@ -1,0 +1,536 @@
+{
+  "schema_version": 1,
+  "commands": [
+    {
+      "name": ":",
+      "rule_ids": [
+        "constant-colon"
+      ]
+    },
+    {
+      "name": "awk",
+      "rule_ids": [
+        "review-awk"
+      ]
+    },
+    {
+      "name": "aws",
+      "rule_ids": [
+        "review-aws",
+        "deny-aws-s3-rm",
+        "deny-aws-s3-rb"
+      ]
+    },
+    {
+      "name": "az",
+      "rule_ids": [
+        "review-az"
+      ]
+    },
+    {
+      "name": "basename",
+      "rule_ids": [
+        "text-basename"
+      ]
+    },
+    {
+      "name": "bash",
+      "rule_ids": [
+        "review-bash"
+      ]
+    },
+    {
+      "name": "cargo",
+      "rule_ids": [
+        "version-cargo",
+        "review-cargo"
+      ]
+    },
+    {
+      "name": "cat",
+      "rule_ids": [
+        "stdin-cat",
+        "read-cat",
+        "unsupported-cat"
+      ]
+    },
+    {
+      "name": "chmod",
+      "rule_ids": [
+        "review-chmod"
+      ]
+    },
+    {
+      "name": "chown",
+      "rule_ids": [
+        "review-chown"
+      ]
+    },
+    {
+      "name": "cmp",
+      "rule_ids": [
+        "review-cmp"
+      ]
+    },
+    {
+      "name": "cp",
+      "rule_ids": [
+        "copy-cp"
+      ]
+    },
+    {
+      "name": "curl",
+      "rule_ids": [
+        "review-curl"
+      ]
+    },
+    {
+      "name": "cut",
+      "rule_ids": [
+        "review-cut"
+      ]
+    },
+    {
+      "name": "date",
+      "rule_ids": [
+        "date"
+      ]
+    },
+    {
+      "name": "dd",
+      "rule_ids": [
+        "deny-dd"
+      ]
+    },
+    {
+      "name": "df",
+      "rule_ids": [
+        "review-df"
+      ]
+    },
+    {
+      "name": "diff",
+      "rule_ids": [
+        "review-diff"
+      ]
+    },
+    {
+      "name": "dirname",
+      "rule_ids": [
+        "text-dirname"
+      ]
+    },
+    {
+      "name": "diskutil",
+      "rule_ids": [
+        "deny-diskutil"
+      ]
+    },
+    {
+      "name": "doas",
+      "rule_ids": [
+        "deny-doas"
+      ]
+    },
+    {
+      "name": "docker",
+      "rule_ids": [
+        "review-docker",
+        "deny-docker-system-prune",
+        "deny-docker-volume-rm",
+        "deny-docker-rm",
+        "deny-docker-rmi"
+      ]
+    },
+    {
+      "name": "du",
+      "rule_ids": [
+        "review-du"
+      ]
+    },
+    {
+      "name": "echo",
+      "rule_ids": [
+        "text-echo"
+      ]
+    },
+    {
+      "name": "false",
+      "rule_ids": [
+        "constant-false"
+      ]
+    },
+    {
+      "name": "fdisk",
+      "rule_ids": [
+        "deny-fdisk"
+      ]
+    },
+    {
+      "name": "find",
+      "rule_ids": [
+        "review-find"
+      ]
+    },
+    {
+      "name": "gcloud",
+      "rule_ids": [
+        "review-gcloud"
+      ]
+    },
+    {
+      "name": "gh",
+      "rule_ids": [
+        "review-gh"
+      ]
+    },
+    {
+      "name": "git",
+      "rule_ids": [
+        "git-version",
+        "git-status"
+      ]
+    },
+    {
+      "name": "go",
+      "rule_ids": [
+        "version-go",
+        "review-go"
+      ]
+    },
+    {
+      "name": "grep",
+      "rule_ids": [
+        "read-grep",
+        "version-grep",
+        "review-grep"
+      ]
+    },
+    {
+      "name": "halt",
+      "rule_ids": [
+        "deny-halt"
+      ]
+    },
+    {
+      "name": "head",
+      "rule_ids": [
+        "stdin-head",
+        "read-head",
+        "stdin-head-count",
+        "read-head-count",
+        "unsupported-head"
+      ]
+    },
+    {
+      "name": "jq",
+      "rule_ids": [
+        "version-jq",
+        "review-jq"
+      ]
+    },
+    {
+      "name": "kubectl",
+      "rule_ids": [
+        "review-kubectl",
+        "deny-kubectl-delete"
+      ]
+    },
+    {
+      "name": "ls",
+      "rule_ids": [
+        "read-ls"
+      ]
+    },
+    {
+      "name": "make",
+      "rule_ids": [
+        "review-make"
+      ]
+    },
+    {
+      "name": "mkdir",
+      "rule_ids": [
+        "write-mkdir",
+        "review-mkdir"
+      ]
+    },
+    {
+      "name": "mkfs",
+      "rule_ids": [
+        "deny-mkfs"
+      ]
+    },
+    {
+      "name": "mount",
+      "rule_ids": [
+        "deny-mount"
+      ]
+    },
+    {
+      "name": "mv",
+      "rule_ids": [
+        "move-mv",
+        "preserve-access-roots"
+      ]
+    },
+    {
+      "name": "node",
+      "rule_ids": [
+        "version-node",
+        "review-node"
+      ]
+    },
+    {
+      "name": "npm",
+      "rule_ids": [
+        "version-npm",
+        "review-npm"
+      ]
+    },
+    {
+      "name": "npx",
+      "rule_ids": [
+        "review-npx"
+      ]
+    },
+    {
+      "name": "pnpm",
+      "rule_ids": [
+        "version-pnpm",
+        "review-pnpm"
+      ]
+    },
+    {
+      "name": "poweroff",
+      "rule_ids": [
+        "deny-poweroff"
+      ]
+    },
+    {
+      "name": "printf",
+      "rule_ids": [
+        "text-printf"
+      ]
+    },
+    {
+      "name": "pwd",
+      "rule_ids": [
+        "pwd"
+      ]
+    },
+    {
+      "name": "python",
+      "rule_ids": [
+        "review-python"
+      ]
+    },
+    {
+      "name": "python3",
+      "rule_ids": [
+        "version-python3",
+        "review-python3"
+      ]
+    },
+    {
+      "name": "reboot",
+      "rule_ids": [
+        "deny-reboot"
+      ]
+    },
+    {
+      "name": "rg",
+      "rule_ids": [
+        "read-rg",
+        "version-rg",
+        "review-rg"
+      ]
+    },
+    {
+      "name": "rm",
+      "rule_ids": [
+        "remove-rm",
+        "preserve-access-roots"
+      ]
+    },
+    {
+      "name": "rmdir",
+      "rule_ids": [
+        "remove-rmdir",
+        "preserve-access-roots"
+      ]
+    },
+    {
+      "name": "rsync",
+      "rule_ids": [
+        "review-rsync"
+      ]
+    },
+    {
+      "name": "rustc",
+      "rule_ids": [
+        "version-rustc"
+      ]
+    },
+    {
+      "name": "scp",
+      "rule_ids": [
+        "review-scp"
+      ]
+    },
+    {
+      "name": "sed",
+      "rule_ids": [
+        "review-sed"
+      ]
+    },
+    {
+      "name": "sh",
+      "rule_ids": [
+        "review-sh"
+      ]
+    },
+    {
+      "name": "shred",
+      "rule_ids": [
+        "deny-shred"
+      ]
+    },
+    {
+      "name": "shutdown",
+      "rule_ids": [
+        "deny-shutdown"
+      ]
+    },
+    {
+      "name": "sleep",
+      "rule_ids": [
+        "sleep"
+      ]
+    },
+    {
+      "name": "sort",
+      "rule_ids": [
+        "review-sort"
+      ]
+    },
+    {
+      "name": "ssh",
+      "rule_ids": [
+        "review-ssh"
+      ]
+    },
+    {
+      "name": "stat",
+      "rule_ids": [
+        "review-stat"
+      ]
+    },
+    {
+      "name": "su",
+      "rule_ids": [
+        "deny-su"
+      ]
+    },
+    {
+      "name": "sudo",
+      "rule_ids": [
+        "deny-sudo"
+      ]
+    },
+    {
+      "name": "tail",
+      "rule_ids": [
+        "stdin-tail",
+        "read-tail",
+        "stdin-tail-count",
+        "read-tail-count",
+        "unsupported-tail"
+      ]
+    },
+    {
+      "name": "terraform",
+      "rule_ids": [
+        "review-terraform",
+        "deny-terraform-destroy"
+      ]
+    },
+    {
+      "name": "tofu",
+      "rule_ids": [
+        "review-tofu",
+        "deny-tofu-destroy"
+      ]
+    },
+    {
+      "name": "touch",
+      "rule_ids": [
+        "write-touch",
+        "review-touch"
+      ]
+    },
+    {
+      "name": "tr",
+      "rule_ids": [
+        "review-tr"
+      ]
+    },
+    {
+      "name": "true",
+      "rule_ids": [
+        "constant-true"
+      ]
+    },
+    {
+      "name": "umount",
+      "rule_ids": [
+        "deny-umount"
+      ]
+    },
+    {
+      "name": "uname",
+      "rule_ids": [
+        "uname"
+      ]
+    },
+    {
+      "name": "uniq",
+      "rule_ids": [
+        "review-uniq"
+      ]
+    },
+    {
+      "name": "uv",
+      "rule_ids": [
+        "review-uv"
+      ]
+    },
+    {
+      "name": "wc",
+      "rule_ids": [
+        "stdin-wc",
+        "read-wc",
+        "unsupported-wc"
+      ]
+    },
+    {
+      "name": "wget",
+      "rule_ids": [
+        "review-wget"
+      ]
+    },
+    {
+      "name": "yarn",
+      "rule_ids": [
+        "version-yarn",
+        "review-yarn"
+      ]
+    },
+    {
+      "name": "zsh",
+      "rule_ids": [
+        "review-zsh"
+      ]
+    }
+  ]
+}

@@ -2,7 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const root = process.argv[2] ? pathToFileURL(resolve(process.argv[2]) + '/') : new URL('../packs/canonic/baseline/0.1.0/', import.meta.url);
+const root = process.argv[2] ? pathToFileURL(resolve(process.argv[2]) + '/') : new URL('../packs/canonic/baseline/0.1.1/', import.meta.url);
 await mkdir(root, { recursive: true });
 const profiles = values => Object.fromEntries(['loose', 'recommended', 'strict'].map((p, i) => [p, values[i]]));
 const allow = ['allow', 'allow', 'allow'];
@@ -36,6 +36,10 @@ argv('uname', 'uname', options(['-a', '-m', '-n', '-p', '-r', '-s', '-v']));
 argv('sleep', 'sleep', { kind: 'sequence', prefix: [], rest: { kind: 'each', match: { regex: '[0-9]+(?:\\.[0-9]+)?' }, min: 1, max: 1 } });
 
 const operands = { match: { regex: '.+' }, min: 1, max: 256 };
+const readGuidance = {
+  message: 'Use supported literal options and approved paths; protected metadata and unverified targets are blocked.',
+  alternatives: ['Ask the operator to review access_paths in .shield/config.yml and confirm with shield policy.'],
+};
 for (const [executable, flags, values] of [
   ['cat', ['-b','-e','-n','-s','-t','-u','-v','-E','-T'], []],
   ['head', ['-q','-v'], [{ name: '-n', match: { regex: '[0-9]+' } }, { name: '-c', match: { regex: '[0-9]+' } }]],
@@ -43,8 +47,22 @@ for (const [executable, flags, values] of [
   ['wc', ['-c','-l','-m','-w'], []],
   ['ls', ['-a','-A','-d','-F','-h','-i','-l','-m','-n','-p','-q','-r','-s','-S','-t','-1'], []],
 ]) {
-  bounded(`read-${executable}`, executable, options(flags, values, executable === 'ls' ? true : operands), target('read', 'read'));
-  if (executable !== 'ls') argv(`stdin-${executable}`, executable, { kind:'exact', values:[] });
+  if (executable === 'ls') {
+    bounded('read-ls', executable, options(flags, values, true), target('read', 'read'));
+    continue;
+  }
+  // Each supported form is its own conditioned rule, so stdin forms such as
+  // `| wc -l` and historical `head -50` counts never meet a file-form rule.
+  // The argument-free fallback ranks below them and denies every other form.
+  const prefixes = ['head', 'tail'].includes(executable) ? [[], [{ regex: '-[0-9]+' }]] : [[]];
+  for (const prefix of prefixes) {
+    const suffix = prefix.length ? '-count' : '';
+    argv(`stdin-${executable}${suffix}`, executable, options(flags, values, false, prefix));
+    rules.push({ id: `read-${executable}${suffix}`, conditions: { domain: 'argv', executable: executableSelector(executable), arguments: options(flags, values, operands, prefix) },
+      decision: profiles(allow), requirements: { targets: target('read', 'read') }, on_unmet: { decision: profiles(deny), ...readGuidance } });
+  }
+  argv(`unsupported-${executable}`, executable, { kind: 'any' }, deny);
+  rules.at(-1).guidance = readGuidance;
 }
 bounded('remove-rm', 'rm', options(['-f','-i','-r','-R','-v'], [], operands), target('remove', 'write', true), local);
 bounded('remove-rmdir', 'rmdir', options([], [], operands), target('remove', 'write', true), local);
@@ -93,7 +111,7 @@ for (const [executable, prefix] of [
   ['terraform',['destroy']], ['tofu',['destroy']],
 ]) argv(`deny-${executable}-${prefix.join('-')}`,executable,{kind:'prefix',values:prefix},deny);
 
-const pack = { schema_version:1, kind:'pack', id:'canonic/baseline', version:'0.1.0',
+const pack = { schema_version:1, kind:'pack', id:'canonic/baseline', version:'0.1.1',
   description:'Standard command and file permissions with approved read/write paths and conservative review of unmodeled effects.',
   license:'MIT',maintainers:['Canonic'],engine:'>=0.1.0, <0.2.0',
   capabilities:['access-paths-v1','argument-rules-v1','location-v1','regex-v1','requirements-v1','structured-rules-v1'],rules };
