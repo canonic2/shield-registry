@@ -2,7 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const root = process.argv[2] ? pathToFileURL(resolve(process.argv[2]) + '/') : new URL('../packs/canonic/baseline/0.1.1/', import.meta.url);
+const root = process.argv[2] ? pathToFileURL(resolve(process.argv[2]) + '/') : new URL('../packs/canonic/baseline/0.1.2/', import.meta.url);
 await mkdir(root, { recursive: true });
 const profiles = values => Object.fromEntries(['loose', 'recommended', 'strict'].map((p, i) => [p, values[i]]));
 const allow = ['allow', 'allow', 'allow'];
@@ -43,7 +43,7 @@ const readGuidance = {
 for (const [executable, flags, values] of [
   ['cat', ['-b','-e','-n','-s','-t','-u','-v','-E','-T'], []],
   ['head', ['-q','-v'], [{ name: '-n', match: { regex: '[0-9]+' } }, { name: '-c', match: { regex: '[0-9]+' } }]],
-  ['tail', ['-q','-v'], [{ name: '-n', match: { regex: '[0-9]+' } }, { name: '-c', match: { regex: '[0-9]+' } }]],
+  ['tail', ['-q','-v'], [{ name: '-n', match: { regex: '\\+?[0-9]+' } }, { name: '-c', match: { regex: '\\+?[0-9]+' } }]],
   ['wc', ['-c','-l','-m','-w'], []],
   ['ls', ['-a','-A','-d','-F','-h','-i','-l','-m','-n','-p','-q','-r','-s','-S','-t','-1'], []],
 ]) {
@@ -64,6 +64,13 @@ for (const [executable, flags, values] of [
   argv(`unsupported-${executable}`, executable, { kind: 'any' }, deny);
   rules.at(-1).guidance = readGuidance;
 }
+// Text filters reading a pipe open no file. File operands, output files and
+// sort's temporary directory remain with their review rules.
+const list = { regex: '[0-9,-]+' };
+argv('stdin-sort', 'sort', options(['-b','-d','-f','-g','-h','-i','-M','-n','-r','-R','-s','-u','-V'], [{ name: '-k', match: { regex: '[0-9A-Za-z.,]+' } }, { name: '-t', match: { regex: '.+' } }]));
+argv('stdin-uniq', 'uniq', options(['-c','-d','-i','-u'], [{ name: '-f', match: { regex: '[0-9]+' } }, { name: '-s', match: { regex: '[0-9]+' } }]));
+argv('stdin-cut', 'cut', options(['-n','-s'], [{ name: '-b', match: list }, { name: '-c', match: list }, { name: '-f', match: list }, { name: '-d', match: { regex: '.+' } }]));
+argv('text-tr', 'tr', options(['-c','-C','-d','-s'], [], { match: { regex: '.+' }, min: 1, max: 2 }));
 bounded('remove-rm', 'rm', options(['-f','-i','-r','-R','-v'], [], operands), target('remove', 'write', true), local);
 bounded('remove-rmdir', 'rmdir', options([], [], operands), target('remove', 'write', true), local);
 bounded('copy-cp', 'cp', options(['-i','-n','-v'], [], { match: { regex: '.+' }, min: 2, max: 256 }), [target('read','read'),target('write','write',true)], local);
@@ -76,6 +83,17 @@ bounded('read-rg', 'rg', { ...options(['--no-config','--no-ignore','--no-follow'
   message:'Disable configuration and ignore-file loading; search approved readable files or visible directory trees without following descendant links.',
   alternatives:['Use rg --no-config --no-ignore FLAGS -- PATTERN PATH... with supported flags before the pattern.'],
 });
+// find lists the entries that exist in approved trees. Helper actions, output
+// files and link following outrank that path decision and need review.
+argv('review-find-actions','find',{kind:'risk_tokens',prefix:[],any_of:['-exec','-execdir','-ok','-okdir','-delete','-follow','-fls',{regex:'-fprint0?|-fprintf'},{regex:'-[EPXdsx]*[HL][EHLPXdsx]*'}]},review);
+rules.at(-1).guidance = {
+  message:'find actions run commands, delete or write files, or follow links, so they need approval; listing and reading do not.',
+  alternatives:['List with find PATH -type f -name PATTERN, then read each file with head, cat or rg --no-config --no-ignore.'],
+};
+rules.push({ id:'read-find', conditions:{ domain:'argv', executable:executableSelector('find'), arguments:{ kind:'any' } }, decision:profiles(allow),
+  requirements:{ targets:target('read','read') }, on_unmet:{ decision:profiles(deny),
+    message:'List approved readable trees with supported tests; excluded credential directories, outside paths and unmodeled primaries are blocked.',
+    alternatives:['Use find PATH... with tests such as -name, -path, -type, -maxdepth, -size or -mtime and -print/-print0 output.'] } });
 bounded('write-mkdir', 'mkdir', options(['-p'], [], operands), target('write','write',true), local, {
   message:'Create directories only in approved writable paths, without parent traversal or protected metadata.',
   alternatives:['Use mkdir -p -- PATH... without .. components or unlisted options.'],
@@ -96,13 +114,27 @@ for (const [action, targets, decisions] of [
 ]) rules.push({ id:`file-${action}`, conditions:{ domain:'file',action }, decision:profiles(decisions), requirements:{ targets }, on_unmet:{ decision:profiles(deny), message:'Use approved access paths and preserve protected metadata.' } });
 rules.push({ id:'preserve-file-access-roots', conditions:{ domain:'file',action:{one_of:['remove','move']},targets:{action:'remove',any:{exact:{root:'write'}}}},decision:profiles(deny) });
 
+// Reviewed tools whose common reading forms have an allowed equivalent say so,
+// so an agent can resubmit instead of waiting for approval.
+const pipeFilter = name => ({
+  message:`${name} with file operands or unlisted options needs approval; reading a pipe with listed options does not.`,
+  alternatives:[`Pipe the input instead: cat FILE | ${name} ...`],
+});
+const reviewGuidance = {
+  sed:{ message:'sed can edit files and run commands, so it needs approval.',
+    alternatives:['Read line ranges with head -n N FILE or tail -n +N FILE, search with rg --no-config --no-ignore -n PATTERN FILE, and edit files with the edit tool.'] },
+  awk:{ message:'awk can write files and run commands, so it needs approval.',
+    alternatives:['Select fields from a pipe with cut -d SEP -f LIST, and search with rg --no-config --no-ignore -n PATTERN FILE.'] },
+  sort:pipeFilter('sort'), uniq:pipeFilter('uniq'), cut:pipeFilter('cut'),
+};
 // Git's detailed vocabulary remains in its dedicated pack. These forms make
 // baseline-only installations useful without permitting helpers or global options.
 argv('git-version','git',{kind:'exact',values:['--version']});
 argv('git-status','git',options(['--short','--branch','--porcelain','-s','-b','-z'],[],false,['status']));
 for (const executable of ['cargo','rustc','node','python3','npm','pnpm','yarn','go','rg','grep','jq']) argv(`version-${executable}`,executable,{kind:'exact',values:[executable==='go' ? 'version' : '--version']});
-for (const executable of ['awk','sed','find','rg','grep','jq','sort','uniq','cut','tr','diff','cmp','stat','du','df','mkdir','touch','chmod','chown','make','cargo','node','python','python3','bash','sh','zsh','npm','pnpm','yarn','npx','uv','go','curl','wget','ssh','scp','rsync','gh','docker','kubectl','aws','az','gcloud','terraform','tofu']) {
+for (const executable of ['awk','sed','rg','grep','jq','sort','uniq','cut','tr','diff','cmp','stat','du','df','mkdir','touch','chmod','chown','make','cargo','node','python','python3','bash','sh','zsh','npm','pnpm','yarn','npx','uv','go','curl','wget','ssh','scp','rsync','gh','docker','kubectl','aws','az','gcloud','terraform','tofu']) {
   argv(`review-${executable}`,executable,{kind:'any'},review);
+  if (reviewGuidance[executable]) rules.at(-1).guidance = reviewGuidance[executable];
 }
 for (const executable of ['sudo','su','doas','dd','shred','mkfs','fdisk','diskutil','mount','umount','reboot','shutdown','halt','poweroff']) argv(`deny-${executable}`,executable,{kind:'any'},deny);
 for (const [executable, prefix] of [
@@ -111,7 +143,7 @@ for (const [executable, prefix] of [
   ['terraform',['destroy']], ['tofu',['destroy']],
 ]) argv(`deny-${executable}-${prefix.join('-')}`,executable,{kind:'prefix',values:prefix},deny);
 
-const pack = { schema_version:1, kind:'pack', id:'canonic/baseline', version:'0.1.1',
+const pack = { schema_version:1, kind:'pack', id:'canonic/baseline', version:'0.1.2',
   description:'Standard command and file permissions with approved read/write paths and conservative review of unmodeled effects.',
   license:'MIT',maintainers:['Canonic'],engine:'>=0.1.0, <0.2.0',
   capabilities:['access-paths-v1','argument-rules-v1','location-v1','regex-v1','requirements-v1','structured-rules-v1'],rules };

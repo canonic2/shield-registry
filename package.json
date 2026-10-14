@@ -4,6 +4,6 @@
   "type": "module",
   "license": "MIT",
   "engines": { "node": ">=24" },
-  "scripts": { "test": "node --test scripts/*.test.mjs" },
+  "scripts": { "test": "node --test scripts/*.test.mjs", "release": "node scripts/release.mjs" },
   "devDependencies": { "ajv": "8.20.0" }
 }

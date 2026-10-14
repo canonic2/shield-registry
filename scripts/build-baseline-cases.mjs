@@ -2,7 +2,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-const root=process.argv[2] ? pathToFileURL(resolve(process.argv[2])+'/') : new URL('../packs/canonic/baseline/0.1.1/',import.meta.url);
+const root=process.argv[2] ? pathToFileURL(resolve(process.argv[2])+'/') : new URL('../packs/canonic/baseline/0.1.2/',import.meta.url);
 await mkdir(root,{recursive:true});
 const cases=[];
 const add=(name,argv,expected)=>['loose','recommended','strict'].forEach((profile,i)=>cases.push({name:`${name}-${profile}`,profile,argv,expected:expected[i]}));
@@ -17,6 +17,12 @@ for(const [name,argv] of [
   ['head-count-one',['head','-1','README.md']],['stdin-head-count-odd',['head','-51']],
   ['stdin-tail-count-large',['tail','-100000']],['stdin-head-attached-lines',['head','-n51']],
   ['stdin-tail-bytes',['tail','-c','4096']],['stdin-head-quiet-count',['head','-3','-q']],
+  ['tail-from-start',['tail','-n','+5','README.md']],['stdin-tail-from-start',['tail','-n+5']],
+  ['find-default',['find']],['find-tree',['find','.','-name','*.md','-type','f']],
+  ['find-depth',['find','-P','scripts','.','-maxdepth','1','-print0']],
+  ['find-grouped',['find','.','(','-name','*.md','-o','-iname','*.mjs',')','!','-path','./node_modules/*']],
+  ['stdin-sort',['sort','-rn']],['stdin-sort-key',['sort','-t',':','-k2,2n']],['stdin-uniq-count',['uniq','-c']],
+  ['stdin-cut',['cut','-d:','-f1,3']],['tr-delete',['tr','-d','\\n']],['tr-map',['tr','a-z','A-Z']],
   ['grep',['grep','-nF','Acme','README.md']],['rg',['rg','--no-config','--no-ignore','-n','Acme','README.md']],
   ['rg-tree',['rg','--no-config','--no-ignore','Acme','.']],
   ['grep-dash-pattern',['grep','--','-Acme','README.md']],
@@ -61,12 +67,18 @@ for(const [name,argv] of [
   ['rg-unrestricted-tree',['rg','--no-config','--no-ignore','-uu','Acme','.']],
   ['rg-glob-override',['rg','--no-config','--no-ignore','-g','*','Acme','.']],
   ['rg-hidden-explicit',['rg','--no-config','--no-ignore','Acme','.aws']],
+  ['find-outside',['find','/shield-baseline-unapproved','-name','item']],['find-credential',['find','.aws']],
+  ['find-unmodeled',['find','.','-newer','README.md']],['head-from-start',['head','-n','+5','README.md']],
 ])add(name,argv,deny);
 for(const [name,argv] of [
   ['unknown',['acme-unlisted','read']],['script',['node','script.mjs']],['build',['cargo','build']],
   ['find-helper',['find','.','-exec','sh','-c','echo Acme',';']],
   ['cloud-inspect',['aws','ec2','describe-instances']],['docker-inspect',['docker','inspect','acme']],
   ['git-global-option',['git','-C','/other','status']],
+  ['find-delete',['find','.','-name','*.tmp','-delete']],['find-follow',['find','-L','.']],
+  ['find-output-file',['find','.','-fprint','list.txt']],
+  ['sort-output',['sort','-o','sorted.txt','README.md']],['uniq-output',['uniq','in.txt','out.txt']],
+  ['cut-file',['cut','-f1','README.md']],
 ])add(name,argv,ask);
 await writeFile(new URL('cases.json',root),JSON.stringify({schema_version:1,cases},null,2)+'\n');
 console.log(`${cases.length} baseline cases`);

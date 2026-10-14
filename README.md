@@ -14,12 +14,12 @@ integrations are developed separately.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
-| [canonic/baseline](packs/canonic/baseline/0.1.1/README.md) | 0.1.1 | Structured v1 release | Standard commands, bounded directory searches and files bound to approved read/write roots |
+| [canonic/baseline](packs/canonic/baseline/0.1.2/README.md) | 0.1.2 | Structured v1 release | Standard commands, bounded directory searches and listings, text filters and files bound to approved read/write roots |
 | [canonic/git](packs/canonic/git/0.3.0/README.md) | 0.3.0 | Structured v1 release | Git inspection, staging, local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The signed `public/` catalog uses sequence 6 and includes structured v1 Baseline
-0.1.0/0.1.1 and Git 0.3.0. Current Shield requires that format. Historical Git 0.1.0/0.2.0 releases
+The signed `public/` catalog uses sequence 7 and includes structured v1 Baseline
+0.1.0/0.1.1/0.1.2 and Git 0.3.0. Current Shield requires that format. Historical Git 0.1.0/0.2.0 releases
 retain their original bytes for compatible older clients.
 
 Baseline requires `access-paths-v1`; use a Shield build implementing that
@@ -134,8 +134,18 @@ node scripts/build-policy-schema.mjs
 
 ### Publish a release
 
-Maintainers add the new version to `release.json`, retain existing releases,
-increase the catalog sequence and choose a UTC expiry. Then validate and sign:
+After generating a pack version's source, release it with one command:
+
+```sh
+npm run release -- canonic/baseline@0.1.2
+```
+
+It asks for the private signing key path and the Shield binary, or takes them as
+`--key PATH --shield PATH`, remembering both paths (never the key) in the ignored
+`.release.local.json`; without a terminal it uses the remembered paths. It adds the pack to
+`release.json`, sets the sequence one past the signed catalog, runs every test
+against that Shield, then signs and verifies `public/`. The `expires_at` UTC expiry
+in `release.json` is set by hand. The underlying steps are:
 
 ```sh
 node scripts/registry-release.mjs build . /path/to/private-ed25519.pem /path/to/shield

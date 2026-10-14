@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import Ajv from 'ajv/dist/2020.js';
-const root = new URL('../packs/canonic/baseline/0.1.1/',import.meta.url);
+const root = new URL('../packs/canonic/baseline/0.1.2/',import.meta.url);
 const read = url => JSON.parse(readFileSync(url));
 const pack=read(new URL('pack.yml',root)), cases=read(new URL('cases.json',root));
 const validate=new Ajv({strict:false,allErrors:true}).compile(read(new URL('../schemas/policy.schema.json',import.meta.url)));
@@ -42,6 +42,12 @@ test('Real Shield evaluates baseline decisions, requirement branches and guidanc
     }
     if(name==='rg-config-recommended')assert.ok(JSON.stringify(e.guidance).includes('--no-config'));
   }
+  // Asks with an allowed equivalent name it, so agents can resubmit.
+  for(const [name,text] of [['find-delete-recommended','find PATH -type f'],['sort-output-recommended','cat FILE | sort']]){
+    const e=output.cases.find(c=>c.name===name).evaluation;
+    assert.equal(e.decision,'ask');
+    assert.ok(JSON.stringify(e.guidance).includes(text),name);
+  }
 });
 test('Fresh native hooks enforce additional read/write paths without executing commands',{
   skip:!process.env.SHIELD_BINARY || process.platform==='win32',timeout:180000,
@@ -50,7 +56,7 @@ test('Fresh native hooks enforce additional read/write paths without executing c
   assert.equal(result.status,0,result.stderr);
   const output=JSON.parse(result.stdout);
   assert.equal(output.passed,true);
-  assert.equal(output.cases.length,447);
+  assert.equal(output.cases.length,489);
 });
 
 test('Ripgrep 15.2.0 visible-tree contract skips hidden files and links without loading ignore files',{
@@ -58,7 +64,7 @@ test('Ripgrep 15.2.0 visible-tree contract skips hidden files and links without 
 },async t=>{
   const version=spawnSync(process.env.RG_BINARY,['--version'],{encoding:'utf8'});
   assert.equal(version.status,0,version.stderr);
-  assert.match(version.stdout,/^ripgrep 15\.2\.0 /);
+  assert.match(version.stdout,/^ripgrep 15\.2\.0(\s|$)/);
   const fixture=await mkdtemp(join(tmpdir(),'shield-rg-contract-'));
   t.after(()=>rm(fixture,{recursive:true,force:true}));
   const project=join(fixture,'project'), outside=join(fixture,'outside');
