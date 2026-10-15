@@ -2,7 +2,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-const root=process.argv[2] ? pathToFileURL(resolve(process.argv[2])+'/') : new URL('../packs/canonic/baseline/0.1.3/',import.meta.url);
+const root=process.argv[2] ? pathToFileURL(resolve(process.argv[2])+'/') : new URL('../packs/canonic/baseline/0.1.4/',import.meta.url);
 await mkdir(root,{recursive:true});
 const cases=[];
 const add=(name,argv,expected)=>['loose','recommended','strict'].forEach((profile,i)=>cases.push({name:`${name}-${profile}`,profile,argv,expected:expected[i]}));

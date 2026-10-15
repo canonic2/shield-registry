@@ -71,6 +71,7 @@ function rule(pack, domain) {
     : object({ domain: { const: domain }, ...common, ...predicates[domain], ...identities[domain] }, ['domain', ...Object.keys(identities[domain])]);
   const props = { id: { ...text(1, 128), pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]*$' }, decision, conditions: condition,
     reason: text(1), guidance: { ...object(guidance, []), minProperties: 1 },
+    ...(pack ? { fallback: { const: true } } : {}),
     ...(!pack ? { expires_at: { ...text(1), pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,9})?Z$' } } : {}) };
   const checks = [];
   if (domain !== 'exact_request') {
@@ -130,7 +131,7 @@ defs.input = one([
   input('mcp', { server: text(1), tool: text(1), arguments: jsonObject }),
   input('unknown', { host_tool: text(1) }),
 ]);
-const caps = ['structured-rules-v1', 'argument-rules-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1'];
+const caps = ['structured-rules-v1', 'argument-rules-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1', 'fallback-rules-v1'];
 const domains = [...Object.keys(predicates), 'exact_request'];
 defs.packRule = one(domains.map(domain => rule(true, domain)));
 defs.customRule = one(domains.map(domain => rule(false, domain)));
@@ -175,6 +176,7 @@ const feature = {
     ...['cwd', 'destination', 'sources', 'targets'].map(key => eitherPredicate([key]))]),
   'requirements-v1': has('requirements'),
   'possible-effects-v1': eitherPredicate(['possible_effects']),
+  'fallback-rules-v1': has('fallback'),
 };
 for (const operator of ['glob', 'regex']) {
   const shape = object({ [operator]: text() });
@@ -194,7 +196,7 @@ defs.documentCapabilities = { allOf: [...capabilityChecks, {
 }] };
 const document = pack => {
   const base = { schema_version: { const: 1 }, kind: { const: pack ? 'pack' : 'custom' },
-    capabilities: { ...array(enumeration(caps), 1, true, 9), contains: { const: 'structured-rules-v1' } },
+    capabilities: { ...array(enumeration(caps), 1, true, caps.length), contains: { const: 'structured-rules-v1' } },
     rules: array(ref(pack ? 'packRule' : 'customRule'), 0, false, 500000) };
   const extra = pack ? { id: { ...text(1, 128), pattern: '^[a-z0-9-]{1,64}/[a-z0-9-]{1,64}$' }, version: text(1, 128),
     description: text(1), license: text(1), maintainers: array(text(1, 128), 1, true), engine: text(1, 1024),

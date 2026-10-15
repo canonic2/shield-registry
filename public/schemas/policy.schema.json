@@ -1399,6 +1399,9 @@
               "required": [],
               "minProperties": 1
             },
+            "fallback": {
+              "const": true
+            },
             "requirements": {
               "type": "object",
               "additionalProperties": false,
@@ -2043,6 +2046,9 @@
               "required": [],
               "minProperties": 1
             },
+            "fallback": {
+              "const": true
+            },
             "requirements": {
               "type": "object",
               "additionalProperties": false,
@@ -2632,6 +2638,9 @@
               "required": [],
               "minProperties": 1
             },
+            "fallback": {
+              "const": true
+            },
             "requirements": {
               "type": "object",
               "additionalProperties": false,
@@ -3191,6 +3200,9 @@
               "required": [],
               "minProperties": 1
             },
+            "fallback": {
+              "const": true
+            },
             "requirements": {
               "type": "object",
               "additionalProperties": false,
@@ -3672,6 +3684,9 @@
               "required": [],
               "minProperties": 1
             },
+            "fallback": {
+              "const": true
+            },
             "requirements": {
               "type": "object",
               "additionalProperties": false,
@@ -4021,6 +4036,9 @@
               },
               "required": [],
               "minProperties": 1
+            },
+            "fallback": {
+              "const": true
             }
           },
           "required": [
@@ -10052,6 +10070,52 @@
               "rules": {
                 "type": "array",
                 "contains": {
+                  "required": [
+                    "fallback"
+                  ]
+                }
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "required": [
+              "capabilities"
+            ],
+            "properties": {
+              "capabilities": {
+                "contains": {
+                  "const": "fallback-rules-v1"
+                }
+              }
+            }
+          },
+          "else": {
+            "type": "object",
+            "required": [
+              "capabilities"
+            ],
+            "properties": {
+              "capabilities": {
+                "not": {
+                  "contains": {
+                    "const": "fallback-rules-v1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "required": [
+              "rules"
+            ],
+            "properties": {
+              "rules": {
+                "type": "array",
+                "contains": {
                   "anyOf": [
                     {
                       "anyOf": [
@@ -15349,11 +15413,12 @@
               "requirements-v1",
               "possible-effects-v1",
               "dependencies-v1",
-              "access-paths-v1"
+              "access-paths-v1",
+              "fallback-rules-v1"
             ]
           },
           "minItems": 1,
-          "maxItems": 9,
+          "maxItems": 10,
           "uniqueItems": true,
           "contains": {
             "const": "structured-rules-v1"
@@ -15458,11 +15523,12 @@
               "requirements-v1",
               "possible-effects-v1",
               "dependencies-v1",
-              "access-paths-v1"
+              "access-paths-v1",
+              "fallback-rules-v1"
             ]
           },
           "minItems": 1,
-          "maxItems": 9,
+          "maxItems": 10,
           "uniqueItems": true,
           "contains": {
             "const": "structured-rules-v1"

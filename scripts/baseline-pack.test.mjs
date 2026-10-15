@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import Ajv from 'ajv/dist/2020.js';
-const root = new URL('../packs/canonic/baseline/0.1.3/',import.meta.url);
+const root = new URL('../packs/canonic/baseline/0.1.4/',import.meta.url);
 const read = url => JSON.parse(readFileSync(url));
 const pack=read(new URL('pack.yml',root)), cases=read(new URL('cases.json',root));
 const validate=new Ajv({strict:false,allErrors:true}).compile(read(new URL('../schemas/policy.schema.json',import.meta.url)));
@@ -15,6 +15,17 @@ test('Baseline policies and independent expectations satisfy structured v1 admis
   assert.equal(validate(pack),true,JSON.stringify(validate.errors));
   assert.equal(validate(cases),true,JSON.stringify(validate.errors));
   for(const profile of ['loose','recommended','strict'])assert.ok(cases.cases.some(c=>c.profile===profile));
+});
+test('Broad reviews explain themselves and yield to dedicated packs; restrictions do not',()=>{
+  const reviews=pack.rules.filter(r=>r.id.startsWith('review-') && r.conditions.arguments?.kind==='any');
+  assert.ok(reviews.length>40);
+  for(const r of reviews){
+    assert.equal(r.fallback,true,r.id);
+    assert.ok(r.reason || r.guidance?.message,r.id);
+  }
+  for(const r of pack.rules.filter(r=>!reviews.includes(r)))assert.equal(r.fallback,undefined,r.id);
+  assert.ok(!JSON.stringify(pack).includes('review access_paths in .shield/config.yml'));
+  assert.ok(JSON.stringify(pack).includes('access_path_add'));
 });
 test('Baseline source generation is reproducible',async t=>{
   const output=await mkdtemp(join(tmpdir(),'shield-baseline-generated-'));

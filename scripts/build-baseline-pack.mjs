@@ -2,7 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const root = process.argv[2] ? pathToFileURL(resolve(process.argv[2]) + '/') : new URL('../packs/canonic/baseline/0.1.3/', import.meta.url);
+const root = process.argv[2] ? pathToFileURL(resolve(process.argv[2]) + '/') : new URL('../packs/canonic/baseline/0.1.4/', import.meta.url);
 await mkdir(root, { recursive: true });
 const profiles = values => Object.fromEntries(['loose', 'recommended', 'strict'].map((p, i) => [p, values[i]]));
 const allow = ['allow', 'allow', 'allow'];
@@ -10,6 +10,8 @@ const local = ['allow', 'allow', 'ask'];
 const review = ['ask', 'ask', 'ask'];
 const deny = ['deny', 'deny', 'deny'];
 const rules = [];
+// Agents can propose an outside folder; the user approves it.
+const outsideFolder = 'To use a folder outside the project, propose it with shield_policy_propose (access_path_add); the user approves it with shield policy.';
 const executableNames = name => [name, `/bin/${name}`, `/usr/bin/${name}`];
 const executableSelector = name => ({ one_of: executableNames(name) });
 const argv = (id, executable, arguments_, decisions = allow) => rules.push({ id, conditions: { domain: 'argv', executable: executableSelector(executable), arguments: arguments_ }, decision: profiles(decisions) });
@@ -23,7 +25,7 @@ const bounded = (id, executable, grammar, targets, decisions = allow, feedback =
   id, conditions: { domain: 'argv', executable: executableSelector(executable) }, decision: profiles(decisions),
   requirements: { arguments: grammar, targets }, on_unmet: {
     decision: profiles(deny), message: 'Use supported literal options and approved paths; protected metadata and unverified targets are blocked.',
-    alternatives: ['Ask the operator to review access_paths in .shield/config.yml and confirm with shield policy.'],
+    alternatives: [outsideFolder],
     ...feedback,
   },
 });
@@ -38,7 +40,7 @@ argv('sleep', 'sleep', { kind: 'sequence', prefix: [], rest: { kind: 'each', mat
 const operands = { match: { regex: '.+' }, min: 1, max: 256 };
 const readGuidance = {
   message: 'Use supported literal options and approved paths; protected metadata and unverified targets are blocked.',
-  alternatives: ['Ask the operator to review access_paths in .shield/config.yml and confirm with shield policy.'],
+  alternatives: [outsideFolder],
 };
 for (const [executable, flags, values] of [
   ['cat', ['-b','-e','-n','-s','-t','-u','-v','-E','-T'], []],
@@ -140,8 +142,25 @@ for (const executable of ['cargo','rustc','node','python','python3','npm','npx',
 }
 // A new package manifest stays in the working folder; without --yes npm prompts.
 rules.push({ id:'init-npm', conditions:{ domain:'argv', executable:executableSelector('npm'), arguments:{ ...options(['-y','--yes'],[],false,['init']), require_any:['-y','--yes'] } }, decision:profiles(local) });
-for (const executable of ['awk','sed','rg','grep','jq','sort','uniq','cut','tr','diff','cmp','stat','du','df','mkdir','touch','chmod','chown','make','cargo','node','python','python3','bash','sh','zsh','npm','pnpm','yarn','npx','uv','go','curl','wget','ssh','scp','rsync','gh','docker','kubectl','aws','az','gcloud','terraform','tofu']) {
+// Why each reviewed family asks; prompts quote it next to the part that asked.
+const reviewReasons = [
+  [['npm','pnpm','yarn'], 'Package manager commands can install dependencies from the network or run project scripts.'],
+  [['npx'], 'npx can download and run packages.'],
+  [['uv','cargo','go'], 'Build, test and dependency commands run project code or download dependencies.'],
+  [['make'], 'make runs the project\'s build recipes.'],
+  [['node','python','python3','bash','sh','zsh'], 'Runs a program or script whose effects Shield cannot inspect.'],
+  [['curl','wget'], 'Makes network requests.'],
+  [['ssh','scp','rsync'], 'Connects to or copies files between machines.'],
+  [['gh'], 'GitHub CLI commands can read or change remote repositories.'],
+  [['docker','kubectl','aws','az','gcloud','terraform','tofu'], 'Manages containers or cloud resources outside the working folder.'],
+  [['chmod','chown'], 'Changes file permissions or ownership.'],
+  [['awk','sed','rg','grep','jq','sort','uniq','cut','tr','diff','cmp','stat','du','df','mkdir','touch'], 'Uses options or operands the supported forms do not cover.'],
+];
+// Broad reviews are fallbacks: a pack dedicated to the tool decides instead.
+// Denials and requirement branches stay regular, so they still bind.
+for (const [executables, reason] of reviewReasons) for (const executable of executables) {
   argv(`review-${executable}`,executable,{kind:'any'},review);
+  Object.assign(rules.at(-1), { reason, fallback: true });
   if (reviewGuidance[executable]) rules.at(-1).guidance = reviewGuidance[executable];
 }
 for (const executable of ['sudo','su','doas','dd','shred','mkfs','fdisk','diskutil','mount','umount','reboot','shutdown','halt','poweroff']) argv(`deny-${executable}`,executable,{kind:'any'},deny);
@@ -151,10 +170,10 @@ for (const [executable, prefix] of [
   ['terraform',['destroy']], ['tofu',['destroy']],
 ]) argv(`deny-${executable}-${prefix.join('-')}`,executable,{kind:'prefix',values:prefix},deny);
 
-const pack = { schema_version:1, kind:'pack', id:'canonic/baseline', version:'0.1.3',
+const pack = { schema_version:1, kind:'pack', id:'canonic/baseline', version:'0.1.4',
   description:'Standard command and file permissions with approved read/write paths and conservative review of unmodeled effects.',
   license:'MIT',maintainers:['Canonic'],engine:'>=0.1.0, <0.2.0',
-  capabilities:['access-paths-v1','argument-rules-v1','location-v1','regex-v1','requirements-v1','structured-rules-v1'],rules };
+  capabilities:['access-paths-v1','argument-rules-v1','fallback-rules-v1','location-v1','regex-v1','requirements-v1','structured-rules-v1'],rules };
 await writeFile(new URL('pack.yml',root),JSON.stringify(pack,null,2)+'\n');
 const names = [...new Set(rules.filter(r=>r.conditions.domain==='argv')
   .flatMap(r=>r.conditions.executable.one_of).filter(name=>!name.includes('/')))].sort();
