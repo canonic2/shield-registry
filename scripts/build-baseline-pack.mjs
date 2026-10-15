@@ -2,7 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const root = process.argv[2] ? pathToFileURL(resolve(process.argv[2]) + '/') : new URL('../packs/canonic/baseline/0.1.4/', import.meta.url);
+const root = process.argv[2] ? pathToFileURL(resolve(process.argv[2]) + '/') : new URL('../packs/canonic/baseline/0.1.5/', import.meta.url);
 await mkdir(root, { recursive: true });
 const profiles = values => Object.fromEntries(['loose', 'recommended', 'strict'].map((p, i) => [p, values[i]]));
 const allow = ['allow', 'allow', 'allow'];
@@ -81,9 +81,21 @@ bounded('read-grep', 'grep', options(['-E','-F','-G','-i','-n','-l','-c','-q','-
   message:'Search explicit regular files in approved readable paths; directory walks, pattern files and unknown options are blocked.',
   alternatives:['Use grep FLAGS -- PATTERN FILE... with supported flags before the pattern.'],
 });
-bounded('read-rg', 'rg', { ...options(['--no-config','--no-ignore','--no-follow','--no-hidden','-i','-n','-l','-c','-q','-F','-w','-x'], [], { match: { regex: '.+' }, min: 2, max: 256 }), require_all:['--no-config','--no-ignore'] }, target('read','read'), allow, {
-  message:'Disable configuration and ignore-file loading; search approved readable files or visible directory trees without following descendant links.',
-  alternatives:['Use rg --no-config --no-ignore FLAGS -- PATTERN PATH... with supported flags before the pattern.'],
+// Configuration can add helpers or link following, so --no-config is always
+// required. Shield's model also needs --no-ignore and no -g to search a
+// directory's contents, since ignore files and globs can include hidden files;
+// explicit files and --files listings need only --no-config.
+const rgNumber = { regex: '[0-9]+' }, rgType = { regex: '[A-Za-z0-9_+-]+' };
+bounded('read-rg', 'rg', { ...options(
+  ['--no-config','--no-ignore','--no-follow','--no-hidden','--files','--smart-case','--ignore-case','--line-number',
+    '--files-with-matches','--count','--fixed-strings','--word-regexp','--no-heading','--with-filename',
+    '-i','-n','-l','-c','-q','-F','-w','-x','-S','-H'],
+  [['-g',{regex:'.+'}],['--glob',{regex:'.+'}],['-t',rgType],['--type',rgType],['-T',rgType],['--type-not',rgType],
+    ...['-C','--context','-A','--after-context','-B','--before-context','-m','--max-count','-d','--max-depth'].map(name=>[name,rgNumber])]
+    .map(([name,match])=>({ name, match })),
+  { match: { regex: '.+' }, min: 0, max: 256 }), require_all:['--no-config'] }, target('read','read'), allow, {
+  message:'Add --no-config: a ripgrep configuration can run helpers or follow links Shield cannot see. Searching a directory also needs --no-ignore and no -g, because ignore files and globs can include hidden files.',
+  alternatives:['rg --no-config --no-ignore -n PATTERN [DIR...]','rg --no-config -n PATTERN FILE...','rg --no-config --files [DIR...]'],
 });
 // find lists the entries that exist in approved trees. Helper actions, output
 // files and link following outrank that path decision and need review.
@@ -170,7 +182,7 @@ for (const [executable, prefix] of [
   ['terraform',['destroy']], ['tofu',['destroy']],
 ]) argv(`deny-${executable}-${prefix.join('-')}`,executable,{kind:'prefix',values:prefix},deny);
 
-const pack = { schema_version:1, kind:'pack', id:'canonic/baseline', version:'0.1.4',
+const pack = { schema_version:1, kind:'pack', id:'canonic/baseline', version:'0.1.5',
   description:'Standard command and file permissions with approved read/write paths and conservative review of unmodeled effects.',
   license:'MIT',maintainers:['Canonic'],engine:'>=0.1.0, <0.2.0',
   capabilities:['access-paths-v1','argument-rules-v1','fallback-rules-v1','location-v1','regex-v1','requirements-v1','structured-rules-v1'],rules };

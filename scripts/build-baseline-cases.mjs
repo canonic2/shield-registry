@@ -2,7 +2,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-const root=process.argv[2] ? pathToFileURL(resolve(process.argv[2])+'/') : new URL('../packs/canonic/baseline/0.1.4/',import.meta.url);
+const root=process.argv[2] ? pathToFileURL(resolve(process.argv[2])+'/') : new URL('../packs/canonic/baseline/0.1.5/',import.meta.url);
 await mkdir(root,{recursive:true});
 const cases=[];
 const add=(name,argv,expected)=>['loose','recommended','strict'].forEach((profile,i)=>cases.push({name:`${name}-${profile}`,profile,argv,expected:expected[i]}));
@@ -25,6 +25,10 @@ for(const [name,argv] of [
   ['stdin-cut',['cut','-d:','-f1,3']],['tr-delete',['tr','-d','\\n']],['tr-map',['tr','a-z','A-Z']],
   ['grep',['grep','-nF','Acme','README.md']],['rg',['rg','--no-config','--no-ignore','-n','Acme','README.md']],
   ['rg-tree',['rg','--no-config','--no-ignore','Acme','.']],
+  ['rg-file',['rg','--no-config','-n','Acme','README.md']],['rg-files',['rg','--no-config','--files']],
+  ['rg-cwd',['rg','--no-config','--no-ignore','-n','Acme']],
+  ['rg-type',['rg','--no-config','--no-ignore','-tmd','-C','1','Acme','.']],
+  ['rg-file-glob',['rg','--no-config','-g','*.md','Acme','README.md']],
   ['grep-dash-pattern',['grep','--','-Acme','README.md']],
   ['echo',['echo','Acme']],['printf',['printf','%s','Acme']],['git-status',['git','status','--short']],
   ['version',['node','--version']],['sleep',['sleep','0.01']],
@@ -68,6 +72,8 @@ for(const [name,argv] of [
   ['rg-hidden-tree',['rg','--no-config','--no-ignore','--hidden','Acme','.']],
   ['rg-follow-tree',['rg','--no-config','--no-ignore','--follow','Acme','.']],
   ['rg-unrestricted-tree',['rg','--no-config','--no-ignore','-uu','Acme','.']],
+  ['rg-files-config',['rg','--files']],['rg-glob-tree',['rg','--no-config','-g','*.md','Acme','.']],
+  ['rg-cwd-ignore-loading',['rg','--no-config','Acme']],
   ['rg-glob-override',['rg','--no-config','--no-ignore','-g','*','Acme','.']],
   ['rg-hidden-explicit',['rg','--no-config','--no-ignore','Acme','.aws']],
   ['find-outside',['find','/shield-baseline-unapproved','-name','item']],['find-credential',['find','.aws']],

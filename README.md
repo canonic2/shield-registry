@@ -14,12 +14,12 @@ integrations are developed separately.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
-| [canonic/baseline](packs/canonic/baseline/0.1.4/README.md) | 0.1.4 | Structured v1 release | Standard commands, version checks, bounded directory searches and listings, text filters and files bound to approved read/write roots |
+| [canonic/baseline](packs/canonic/baseline/0.1.5/README.md) | 0.1.5 | Structured v1 release | Standard commands, version checks, bounded directory searches and listings, text filters and files bound to approved read/write roots |
 | [canonic/git](packs/canonic/git/0.4.1/README.md) | 0.4.1 | Structured v1 release | Git inspection, staging, recoverable local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The signed `public/` catalog uses sequence 11 and includes structured v1 Baseline
-0.1.0/0.1.1/0.1.2/0.1.3/0.1.4 and Git 0.3.0/0.4.0/0.4.1. Current Shield requires that format. Historical Git 0.1.0/0.2.0 releases
+The signed `public/` catalog uses sequence 12 and includes structured v1 Baseline
+0.1.0/0.1.1/0.1.2/0.1.3/0.1.4/0.1.5 and Git 0.3.0/0.4.0/0.4.1. Current Shield requires that format. Historical Git 0.1.0/0.2.0 releases
 retain their original bytes for compatible older clients.
 
 Baseline requires `access-paths-v1` and `fallback-rules-v1`; use a Shield build

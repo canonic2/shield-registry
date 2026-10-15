@@ -1,0 +1,5090 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/baseline",
+  "version": "0.1.5",
+  "description": "Standard command and file permissions with approved read/write paths and conservative review of unmodeled effects.",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engine": ">=0.1.0, <0.2.0",
+  "capabilities": [
+    "access-paths-v1",
+    "argument-rules-v1",
+    "fallback-rules-v1",
+    "location-v1",
+    "regex-v1",
+    "requirements-v1",
+    "structured-rules-v1"
+  ],
+  "rules": [
+    {
+      "id": "constant-true",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "true",
+            "/bin/true",
+            "/usr/bin/true"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": []
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "constant-false",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "false",
+            "/bin/false",
+            "/usr/bin/false"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": []
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "constant-colon",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            ":",
+            "/bin/:",
+            "/usr/bin/:"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": []
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "text-echo",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "echo",
+            "/bin/echo",
+            "/usr/bin/echo"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "text-printf",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "printf",
+            "/bin/printf",
+            "/usr/bin/printf"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "text-basename",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "basename",
+            "/bin/basename",
+            "/usr/bin/basename"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "text-dirname",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "dirname",
+            "/bin/dirname",
+            "/usr/bin/dirname"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "pwd",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pwd",
+            "/bin/pwd",
+            "/usr/bin/pwd"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-L",
+            "-P"
+          ],
+          "values": [],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "date",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "date",
+            "/bin/date",
+            "/usr/bin/date"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": []
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "uname",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "uname",
+            "/bin/uname",
+            "/usr/bin/uname"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-a",
+            "-m",
+            "-n",
+            "-p",
+            "-r",
+            "-s",
+            "-v"
+          ],
+          "values": [],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "sleep",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sleep",
+            "/bin/sleep",
+            "/usr/bin/sleep"
+          ]
+        },
+        "arguments": {
+          "kind": "sequence",
+          "prefix": [],
+          "rest": {
+            "kind": "each",
+            "match": {
+              "regex": "[0-9]+(?:\\.[0-9]+)?"
+            },
+            "min": 1,
+            "max": 1
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "stdin-cat",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cat",
+            "/bin/cat",
+            "/usr/bin/cat"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-b",
+            "-e",
+            "-n",
+            "-s",
+            "-t",
+            "-u",
+            "-v",
+            "-E",
+            "-T"
+          ],
+          "values": [],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "read-cat",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cat",
+            "/bin/cat",
+            "/usr/bin/cat"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-b",
+            "-e",
+            "-n",
+            "-s",
+            "-t",
+            "-u",
+            "-v",
+            "-E",
+            "-T"
+          ],
+          "values": [],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 1,
+            "max": 256
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "requirements": {
+        "targets": {
+          "action": "read",
+          "all": {
+            "within": {
+              "root": "read"
+            },
+            "exclude": [
+              {
+                "root": "read",
+                "path": ".ssh"
+              },
+              {
+                "root": "read",
+                "path": ".aws"
+              },
+              {
+                "root": "read",
+                "path": ".config/gcloud"
+              },
+              {
+                "root": "read",
+                "path": ".kube"
+              }
+            ]
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Use supported literal options and approved paths; protected metadata and unverified targets are blocked.",
+        "alternatives": [
+          "To use a folder outside the project, propose it with shield_policy_propose (access_path_add); the user approves it with shield policy."
+        ]
+      }
+    },
+    {
+      "id": "unsupported-cat",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cat",
+            "/bin/cat",
+            "/usr/bin/cat"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "guidance": {
+        "message": "Use supported literal options and approved paths; protected metadata and unverified targets are blocked.",
+        "alternatives": [
+          "To use a folder outside the project, propose it with shield_policy_propose (access_path_add); the user approves it with shield policy."
+        ]
+      }
+    },
+    {
+      "id": "stdin-head",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "head",
+            "/bin/head",
+            "/usr/bin/head"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-q",
+            "-v"
+          ],
+          "values": [
+            {
+              "name": "-n",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            },
+            {
+              "name": "-c",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            }
+          ],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "read-head",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "head",
+            "/bin/head",
+            "/usr/bin/head"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-q",
+            "-v"
+          ],
+          "values": [
+            {
+              "name": "-n",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            },
+            {
+              "name": "-c",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            }
+          ],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 1,
+            "max": 256
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "requirements": {
+        "targets": {
+          "action": "read",
+          "all": {
+            "within": {
+              "root": "read"
+            },
+            "exclude": [
+              {
+                "root": "read",
+                "path": ".ssh"
+              },
+              {
+                "root": "read",
+                "path": ".aws"
+              },
+              {
+                "root": "read",
+                "path": ".config/gcloud"
+              },
+              {
+                "root": "read",
+                "path": ".kube"
+              }
+            ]
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Use supported literal options and approved paths; protected metadata and unverified targets are blocked.",
+        "alternatives": [
+          "To use a folder outside the project, propose it with shield_policy_propose (access_path_add); the user approves it with shield policy."
+        ]
+      }
+    },
+    {
+      "id": "stdin-head-count",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "head",
+            "/bin/head",
+            "/usr/bin/head"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            {
+              "regex": "-[0-9]+"
+            }
+          ],
+          "flags": [
+            "-q",
+            "-v"
+          ],
+          "values": [
+            {
+              "name": "-n",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            },
+            {
+              "name": "-c",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            }
+          ],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "read-head-count",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "head",
+            "/bin/head",
+            "/usr/bin/head"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            {
+              "regex": "-[0-9]+"
+            }
+          ],
+          "flags": [
+            "-q",
+            "-v"
+          ],
+          "values": [
+            {
+              "name": "-n",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            },
+            {
+              "name": "-c",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            }
+          ],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 1,
+            "max": 256
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "requirements": {
+        "targets": {
+          "action": "read",
+          "all": {
+            "within": {
+              "root": "read"
+            },
+            "exclude": [
+              {
+                "root": "read",
+                "path": ".ssh"
+              },
+              {
+                "root": "read",
+                "path": ".aws"
+              },
+              {
+                "root": "read",
+                "path": ".config/gcloud"
+              },
+              {
+                "root": "read",
+                "path": ".kube"
+              }
+            ]
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Use supported literal options and approved paths; protected metadata and unverified targets are blocked.",
+        "alternatives": [
+          "To use a folder outside the project, propose it with shield_policy_propose (access_path_add); the user approves it with shield policy."
+        ]
+      }
+    },
+    {
+      "id": "unsupported-head",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "head",
+            "/bin/head",
+            "/usr/bin/head"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "guidance": {
+        "message": "Use supported literal options and approved paths; protected metadata and unverified targets are blocked.",
+        "alternatives": [
+          "To use a folder outside the project, propose it with shield_policy_propose (access_path_add); the user approves it with shield policy."
+        ]
+      }
+    },
+    {
+      "id": "stdin-tail",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "tail",
+            "/bin/tail",
+            "/usr/bin/tail"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-q",
+            "-v"
+          ],
+          "values": [
+            {
+              "name": "-n",
+              "match": {
+                "regex": "\\+?[0-9]+"
+              }
+            },
+            {
+              "name": "-c",
+              "match": {
+                "regex": "\\+?[0-9]+"
+              }
+            }
+          ],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "read-tail",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "tail",
+            "/bin/tail",
+            "/usr/bin/tail"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-q",
+            "-v"
+          ],
+          "values": [
+            {
+              "name": "-n",
+              "match": {
+                "regex": "\\+?[0-9]+"
+              }
+            },
+            {
+              "name": "-c",
+              "match": {
+                "regex": "\\+?[0-9]+"
+              }
+            }
+          ],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 1,
+            "max": 256
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "requirements": {
+        "targets": {
+          "action": "read",
+          "all": {
+            "within": {
+              "root": "read"
+            },
+            "exclude": [
+              {
+                "root": "read",
+                "path": ".ssh"
+              },
+              {
+                "root": "read",
+                "path": ".aws"
+              },
+              {
+                "root": "read",
+                "path": ".config/gcloud"
+              },
+              {
+                "root": "read",
+                "path": ".kube"
+              }
+            ]
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Use supported literal options and approved paths; protected metadata and unverified targets are blocked.",
+        "alternatives": [
+          "To use a folder outside the project, propose it with shield_policy_propose (access_path_add); the user approves it with shield policy."
+        ]
+      }
+    },
+    {
+      "id": "stdin-tail-count",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "tail",
+            "/bin/tail",
+            "/usr/bin/tail"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            {
+              "regex": "-[0-9]+"
+            }
+          ],
+          "flags": [
+            "-q",
+            "-v"
+          ],
+          "values": [
+            {
+              "name": "-n",
+              "match": {
+                "regex": "\\+?[0-9]+"
+              }
+            },
+            {
+              "name": "-c",
+              "match": {
+                "regex": "\\+?[0-9]+"
+              }
+            }
+          ],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "read-tail-count",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "tail",
+            "/bin/tail",
+            "/usr/bin/tail"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            {
+              "regex": "-[0-9]+"
+            }
+          ],
+          "flags": [
+            "-q",
+            "-v"
+          ],
+          "values": [
+            {
+              "name": "-n",
+              "match": {
+                "regex": "\\+?[0-9]+"
+              }
+            },
+            {
+              "name": "-c",
+              "match": {
+                "regex": "\\+?[0-9]+"
+              }
+            }
+          ],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 1,
+            "max": 256
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "requirements": {
+        "targets": {
+          "action": "read",
+          "all": {
+            "within": {
+              "root": "read"
+            },
+            "exclude": [
+              {
+                "root": "read",
+                "path": ".ssh"
+              },
+              {
+                "root": "read",
+                "path": ".aws"
+              },
+              {
+                "root": "read",
+                "path": ".config/gcloud"
+              },
+              {
+                "root": "read",
+                "path": ".kube"
+              }
+            ]
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Use supported literal options and approved paths; protected metadata and unverified targets are blocked.",
+        "alternatives": [
+          "To use a folder outside the project, propose it with shield_policy_propose (access_path_add); the user approves it with shield policy."
+        ]
+      }
+    },
+    {
+      "id": "unsupported-tail",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "tail",
+            "/bin/tail",
+            "/usr/bin/tail"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "guidance": {
+        "message": "Use supported literal options and approved paths; protected metadata and unverified targets are blocked.",
+        "alternatives": [
+          "To use a folder outside the project, propose it with shield_policy_propose (access_path_add); the user approves it with shield policy."
+        ]
+      }
+    },
+    {
+      "id": "stdin-wc",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "wc",
+            "/bin/wc",
+            "/usr/bin/wc"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-c",
+            "-l",
+            "-m",
+            "-w"
+          ],
+          "values": [],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "read-wc",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "wc",
+            "/bin/wc",
+            "/usr/bin/wc"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-c",
+            "-l",
+            "-m",
+            "-w"
+          ],
+          "values": [],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 1,
+            "max": 256
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "requirements": {
+        "targets": {
+          "action": "read",
+          "all": {
+            "within": {
+              "root": "read"
+            },
+            "exclude": [
+              {
+                "root": "read",
+                "path": ".ssh"
+              },
+              {
+                "root": "read",
+                "path": ".aws"
+              },
+              {
+                "root": "read",
+                "path": ".config/gcloud"
+              },
+              {
+                "root": "read",
+                "path": ".kube"
+              }
+            ]
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Use supported literal options and approved paths; protected metadata and unverified targets are blocked.",
+        "alternatives": [
+          "To use a folder outside the project, propose it with shield_policy_propose (access_path_add); the user approves it with shield policy."
+        ]
+      }
+    },
+    {
+      "id": "unsupported-wc",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "wc",
+            "/bin/wc",
+            "/usr/bin/wc"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "guidance": {
+        "message": "Use supported literal options and approved paths; protected metadata and unverified targets are blocked.",
+        "alternatives": [
+          "To use a folder outside the project, propose it with shield_policy_propose (access_path_add); the user approves it with shield policy."
+        ]
+      }
+    },
+    {
+      "id": "read-ls",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ls",
+            "/bin/ls",
+            "/usr/bin/ls"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "requirements": {
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-a",
+            "-A",
+            "-d",
+            "-F",
+            "-h",
+            "-i",
+            "-l",
+            "-m",
+            "-n",
+            "-p",
+            "-q",
+            "-r",
+            "-s",
+            "-S",
+            "-t",
+            "-1"
+          ],
+          "values": [],
+          "operands": true
+        },
+        "targets": {
+          "action": "read",
+          "all": {
+            "within": {
+              "root": "read"
+            },
+            "exclude": [
+              {
+                "root": "read",
+                "path": ".ssh"
+              },
+              {
+                "root": "read",
+                "path": ".aws"
+              },
+              {
+                "root": "read",
+                "path": ".config/gcloud"
+              },
+              {
+                "root": "read",
+                "path": ".kube"
+              }
+            ]
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Use supported literal options and approved paths; protected metadata and unverified targets are blocked.",
+        "alternatives": [
+          "To use a folder outside the project, propose it with shield_policy_propose (access_path_add); the user approves it with shield policy."
+        ]
+      }
+    },
+    {
+      "id": "stdin-sort",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sort",
+            "/bin/sort",
+            "/usr/bin/sort"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-b",
+            "-d",
+            "-f",
+            "-g",
+            "-h",
+            "-i",
+            "-M",
+            "-n",
+            "-r",
+            "-R",
+            "-s",
+            "-u",
+            "-V"
+          ],
+          "values": [
+            {
+              "name": "-k",
+              "match": {
+                "regex": "[0-9A-Za-z.,]+"
+              }
+            },
+            {
+              "name": "-t",
+              "match": {
+                "regex": ".+"
+              }
+            }
+          ],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "stdin-uniq",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "uniq",
+            "/bin/uniq",
+            "/usr/bin/uniq"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-c",
+            "-d",
+            "-i",
+            "-u"
+          ],
+          "values": [
+            {
+              "name": "-f",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            },
+            {
+              "name": "-s",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            }
+          ],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "stdin-cut",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cut",
+            "/bin/cut",
+            "/usr/bin/cut"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-n",
+            "-s"
+          ],
+          "values": [
+            {
+              "name": "-b",
+              "match": {
+                "regex": "[0-9,-]+"
+              }
+            },
+            {
+              "name": "-c",
+              "match": {
+                "regex": "[0-9,-]+"
+              }
+            },
+            {
+              "name": "-f",
+              "match": {
+                "regex": "[0-9,-]+"
+              }
+            },
+            {
+              "name": "-d",
+              "match": {
+                "regex": ".+"
+              }
+            }
+          ],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "text-tr",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "tr",
+            "/bin/tr",
+            "/usr/bin/tr"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-c",
+            "-C",
+            "-d",
+            "-s"
+          ],
+          "values": [],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 1,
+            "max": 2
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "remove-rm",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "rm",
+            "/bin/rm",
+            "/usr/bin/rm"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "requirements": {
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-f",
+            "-i",
+            "-r",
+            "-R",
+            "-v"
+          ],
+          "values": [],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 1,
+            "max": 256
+          }
+        },
+        "targets": {
+          "action": "remove",
+          "all": {
+            "within": {
+              "root": "write"
+            },
+            "exclude": [
+              {
+                "root": "write",
+                "path": ".git"
+              },
+              {
+                "root": "write",
+                "path": ".shield"
+              },
+              {
+                "root": "write",
+                "path": ".claude"
+              },
+              {
+                "root": "write",
+                "path": ".codex"
+              },
+              {
+                "root": "write",
+                "path": ".mcp.json"
+              }
+            ],
+            "match": {
+              "regex": ".+"
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Use supported literal options and approved paths; protected metadata and unverified targets are blocked.",
+        "alternatives": [
+          "To use a folder outside the project, propose it with shield_policy_propose (access_path_add); the user approves it with shield policy."
+        ]
+      }
+    },
+    {
+      "id": "remove-rmdir",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "rmdir",
+            "/bin/rmdir",
+            "/usr/bin/rmdir"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "requirements": {
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [],
+          "values": [],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 1,
+            "max": 256
+          }
+        },
+        "targets": {
+          "action": "remove",
+          "all": {
+            "within": {
+              "root": "write"
+            },
+            "exclude": [
+              {
+                "root": "write",
+                "path": ".git"
+              },
+              {
+                "root": "write",
+                "path": ".shield"
+              },
+              {
+                "root": "write",
+                "path": ".claude"
+              },
+              {
+                "root": "write",
+                "path": ".codex"
+              },
+              {
+                "root": "write",
+                "path": ".mcp.json"
+              }
+            ],
+            "match": {
+              "regex": ".+"
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Use supported literal options and approved paths; protected metadata and unverified targets are blocked.",
+        "alternatives": [
+          "To use a folder outside the project, propose it with shield_policy_propose (access_path_add); the user approves it with shield policy."
+        ]
+      }
+    },
+    {
+      "id": "copy-cp",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cp",
+            "/bin/cp",
+            "/usr/bin/cp"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "requirements": {
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-i",
+            "-n",
+            "-v"
+          ],
+          "values": [],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 2,
+            "max": 256
+          }
+        },
+        "targets": [
+          {
+            "action": "read",
+            "all": {
+              "within": {
+                "root": "read"
+              },
+              "exclude": [
+                {
+                  "root": "read",
+                  "path": ".ssh"
+                },
+                {
+                  "root": "read",
+                  "path": ".aws"
+                },
+                {
+                  "root": "read",
+                  "path": ".config/gcloud"
+                },
+                {
+                  "root": "read",
+                  "path": ".kube"
+                }
+              ]
+            }
+          },
+          {
+            "action": "write",
+            "all": {
+              "within": {
+                "root": "write"
+              },
+              "exclude": [
+                {
+                  "root": "write",
+                  "path": ".git"
+                },
+                {
+                  "root": "write",
+                  "path": ".shield"
+                },
+                {
+                  "root": "write",
+                  "path": ".claude"
+                },
+                {
+                  "root": "write",
+                  "path": ".codex"
+                },
+                {
+                  "root": "write",
+                  "path": ".mcp.json"
+                }
+              ],
+              "match": {
+                "regex": ".+"
+              }
+            }
+          }
+        ]
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Use supported literal options and approved paths; protected metadata and unverified targets are blocked.",
+        "alternatives": [
+          "To use a folder outside the project, propose it with shield_policy_propose (access_path_add); the user approves it with shield policy."
+        ]
+      }
+    },
+    {
+      "id": "move-mv",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "mv",
+            "/bin/mv",
+            "/usr/bin/mv"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "requirements": {
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-i",
+            "-n",
+            "-v"
+          ],
+          "values": [],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 2,
+            "max": 256
+          }
+        },
+        "targets": [
+          {
+            "action": "remove",
+            "all": {
+              "within": {
+                "root": "write"
+              },
+              "exclude": [
+                {
+                  "root": "write",
+                  "path": ".git"
+                },
+                {
+                  "root": "write",
+                  "path": ".shield"
+                },
+                {
+                  "root": "write",
+                  "path": ".claude"
+                },
+                {
+                  "root": "write",
+                  "path": ".codex"
+                },
+                {
+                  "root": "write",
+                  "path": ".mcp.json"
+                }
+              ],
+              "match": {
+                "regex": ".+"
+              }
+            }
+          },
+          {
+            "action": "write",
+            "all": {
+              "within": {
+                "root": "write"
+              },
+              "exclude": [
+                {
+                  "root": "write",
+                  "path": ".git"
+                },
+                {
+                  "root": "write",
+                  "path": ".shield"
+                },
+                {
+                  "root": "write",
+                  "path": ".claude"
+                },
+                {
+                  "root": "write",
+                  "path": ".codex"
+                },
+                {
+                  "root": "write",
+                  "path": ".mcp.json"
+                }
+              ],
+              "match": {
+                "regex": ".+"
+              }
+            }
+          }
+        ]
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Use supported literal options and approved paths; protected metadata and unverified targets are blocked.",
+        "alternatives": [
+          "To use a folder outside the project, propose it with shield_policy_propose (access_path_add); the user approves it with shield policy."
+        ]
+      }
+    },
+    {
+      "id": "read-grep",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "grep",
+            "/bin/grep",
+            "/usr/bin/grep"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "requirements": {
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-E",
+            "-F",
+            "-G",
+            "-i",
+            "-n",
+            "-l",
+            "-c",
+            "-q",
+            "-v",
+            "-w",
+            "-x",
+            "-H",
+            "-h"
+          ],
+          "values": [],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 2,
+            "max": 256
+          }
+        },
+        "targets": {
+          "action": "read",
+          "all": {
+            "within": {
+              "root": "read"
+            },
+            "exclude": [
+              {
+                "root": "read",
+                "path": ".ssh"
+              },
+              {
+                "root": "read",
+                "path": ".aws"
+              },
+              {
+                "root": "read",
+                "path": ".config/gcloud"
+              },
+              {
+                "root": "read",
+                "path": ".kube"
+              }
+            ]
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Search explicit regular files in approved readable paths; directory walks, pattern files and unknown options are blocked.",
+        "alternatives": [
+          "Use grep FLAGS -- PATTERN FILE... with supported flags before the pattern."
+        ]
+      }
+    },
+    {
+      "id": "read-rg",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "rg",
+            "/bin/rg",
+            "/usr/bin/rg"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "requirements": {
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "--no-config",
+            "--no-ignore",
+            "--no-follow",
+            "--no-hidden",
+            "--files",
+            "--smart-case",
+            "--ignore-case",
+            "--line-number",
+            "--files-with-matches",
+            "--count",
+            "--fixed-strings",
+            "--word-regexp",
+            "--no-heading",
+            "--with-filename",
+            "-i",
+            "-n",
+            "-l",
+            "-c",
+            "-q",
+            "-F",
+            "-w",
+            "-x",
+            "-S",
+            "-H"
+          ],
+          "values": [
+            {
+              "name": "-g",
+              "match": {
+                "regex": ".+"
+              }
+            },
+            {
+              "name": "--glob",
+              "match": {
+                "regex": ".+"
+              }
+            },
+            {
+              "name": "-t",
+              "match": {
+                "regex": "[A-Za-z0-9_+-]+"
+              }
+            },
+            {
+              "name": "--type",
+              "match": {
+                "regex": "[A-Za-z0-9_+-]+"
+              }
+            },
+            {
+              "name": "-T",
+              "match": {
+                "regex": "[A-Za-z0-9_+-]+"
+              }
+            },
+            {
+              "name": "--type-not",
+              "match": {
+                "regex": "[A-Za-z0-9_+-]+"
+              }
+            },
+            {
+              "name": "-C",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            },
+            {
+              "name": "--context",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            },
+            {
+              "name": "-A",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            },
+            {
+              "name": "--after-context",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            },
+            {
+              "name": "-B",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            },
+            {
+              "name": "--before-context",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            },
+            {
+              "name": "-m",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            },
+            {
+              "name": "--max-count",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            },
+            {
+              "name": "-d",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            },
+            {
+              "name": "--max-depth",
+              "match": {
+                "regex": "[0-9]+"
+              }
+            }
+          ],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 0,
+            "max": 256
+          },
+          "require_all": [
+            "--no-config"
+          ]
+        },
+        "targets": {
+          "action": "read",
+          "all": {
+            "within": {
+              "root": "read"
+            },
+            "exclude": [
+              {
+                "root": "read",
+                "path": ".ssh"
+              },
+              {
+                "root": "read",
+                "path": ".aws"
+              },
+              {
+                "root": "read",
+                "path": ".config/gcloud"
+              },
+              {
+                "root": "read",
+                "path": ".kube"
+              }
+            ]
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Add --no-config: a ripgrep configuration can run helpers or follow links Shield cannot see. Searching a directory also needs --no-ignore and no -g, because ignore files and globs can include hidden files.",
+        "alternatives": [
+          "rg --no-config --no-ignore -n PATTERN [DIR...]",
+          "rg --no-config -n PATTERN FILE...",
+          "rg --no-config --files [DIR...]"
+        ]
+      }
+    },
+    {
+      "id": "review-find-actions",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "find",
+            "/bin/find",
+            "/usr/bin/find"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [],
+          "any_of": [
+            "-exec",
+            "-execdir",
+            "-ok",
+            "-okdir",
+            "-delete",
+            "-follow",
+            "-fls",
+            {
+              "regex": "-fprint0?|-fprintf"
+            },
+            {
+              "regex": "-[EPXdsx]*[HL][EHLPXdsx]*"
+            }
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "guidance": {
+        "message": "find actions run commands, delete or write files, or follow links, so they need approval; listing and reading do not.",
+        "alternatives": [
+          "List with find PATH -type f -name PATTERN, then read each file with head, cat or rg --no-config --no-ignore."
+        ]
+      }
+    },
+    {
+      "id": "read-find",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "find",
+            "/bin/find",
+            "/usr/bin/find"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "requirements": {
+        "targets": {
+          "action": "read",
+          "all": {
+            "within": {
+              "root": "read"
+            },
+            "exclude": [
+              {
+                "root": "read",
+                "path": ".ssh"
+              },
+              {
+                "root": "read",
+                "path": ".aws"
+              },
+              {
+                "root": "read",
+                "path": ".config/gcloud"
+              },
+              {
+                "root": "read",
+                "path": ".kube"
+              }
+            ]
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "List approved readable trees with supported tests; excluded credential directories, outside paths and unmodeled primaries are blocked.",
+        "alternatives": [
+          "Use find PATH... with tests such as -name, -path, -type, -maxdepth, -size or -mtime and -print/-print0 output."
+        ]
+      }
+    },
+    {
+      "id": "write-mkdir",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "mkdir",
+            "/bin/mkdir",
+            "/usr/bin/mkdir"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "requirements": {
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-p"
+          ],
+          "values": [],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 1,
+            "max": 256
+          }
+        },
+        "targets": {
+          "action": "write",
+          "all": {
+            "within": {
+              "root": "write"
+            },
+            "exclude": [
+              {
+                "root": "write",
+                "path": ".git"
+              },
+              {
+                "root": "write",
+                "path": ".shield"
+              },
+              {
+                "root": "write",
+                "path": ".claude"
+              },
+              {
+                "root": "write",
+                "path": ".codex"
+              },
+              {
+                "root": "write",
+                "path": ".mcp.json"
+              }
+            ],
+            "match": {
+              "regex": ".+"
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Create directories only in approved writable paths, without parent traversal or protected metadata.",
+        "alternatives": [
+          "Use mkdir -p -- PATH... without .. components or unlisted options."
+        ]
+      }
+    },
+    {
+      "id": "write-touch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "touch",
+            "/bin/touch",
+            "/usr/bin/touch"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "requirements": {
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-a",
+            "-m",
+            "-c"
+          ],
+          "values": [],
+          "operands": {
+            "match": {
+              "regex": ".+"
+            },
+            "min": 1,
+            "max": 256
+          }
+        },
+        "targets": {
+          "action": "write",
+          "all": {
+            "within": {
+              "root": "write"
+            },
+            "exclude": [
+              {
+                "root": "write",
+                "path": ".git"
+              },
+              {
+                "root": "write",
+                "path": ".shield"
+              },
+              {
+                "root": "write",
+                "path": ".claude"
+              },
+              {
+                "root": "write",
+                "path": ".codex"
+              },
+              {
+                "root": "write",
+                "path": ".mcp.json"
+              }
+            ],
+            "match": {
+              "regex": ".+"
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Touch only approved writable paths; reference files, date options, stdout and protected metadata are blocked.",
+        "alternatives": [
+          "Use touch -- PATH... or listed -a/-m/-c flags before the operands."
+        ]
+      }
+    },
+    {
+      "id": "preserve-access-roots",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "rm",
+            "/bin/rm",
+            "/usr/bin/rm",
+            "rmdir",
+            "/bin/rmdir",
+            "/usr/bin/rmdir",
+            "mv",
+            "/bin/mv",
+            "/usr/bin/mv"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        },
+        "targets": {
+          "action": "remove",
+          "any": {
+            "exact": {
+              "root": "write"
+            }
+          }
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "file-read",
+      "conditions": {
+        "domain": "file",
+        "action": "read"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "requirements": {
+        "targets": {
+          "action": "read",
+          "all": {
+            "within": {
+              "root": "read"
+            },
+            "exclude": [
+              {
+                "root": "read",
+                "path": ".ssh"
+              },
+              {
+                "root": "read",
+                "path": ".aws"
+              },
+              {
+                "root": "read",
+                "path": ".config/gcloud"
+              },
+              {
+                "root": "read",
+                "path": ".kube"
+              }
+            ]
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Use approved access paths and preserve protected metadata."
+      }
+    },
+    {
+      "id": "file-write",
+      "conditions": {
+        "domain": "file",
+        "action": "write"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "requirements": {
+        "targets": {
+          "action": "write",
+          "all": {
+            "within": {
+              "root": "write"
+            },
+            "exclude": [
+              {
+                "root": "write",
+                "path": ".git"
+              },
+              {
+                "root": "write",
+                "path": ".shield"
+              },
+              {
+                "root": "write",
+                "path": ".claude"
+              },
+              {
+                "root": "write",
+                "path": ".codex"
+              },
+              {
+                "root": "write",
+                "path": ".mcp.json"
+              }
+            ],
+            "match": {
+              "regex": ".+"
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Use approved access paths and preserve protected metadata."
+      }
+    },
+    {
+      "id": "file-remove",
+      "conditions": {
+        "domain": "file",
+        "action": "remove"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "requirements": {
+        "targets": {
+          "action": "remove",
+          "all": {
+            "within": {
+              "root": "write"
+            },
+            "exclude": [
+              {
+                "root": "write",
+                "path": ".git"
+              },
+              {
+                "root": "write",
+                "path": ".shield"
+              },
+              {
+                "root": "write",
+                "path": ".claude"
+              },
+              {
+                "root": "write",
+                "path": ".codex"
+              },
+              {
+                "root": "write",
+                "path": ".mcp.json"
+              }
+            ],
+            "match": {
+              "regex": ".+"
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Use approved access paths and preserve protected metadata."
+      }
+    },
+    {
+      "id": "file-copy",
+      "conditions": {
+        "domain": "file",
+        "action": "copy"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "requirements": {
+        "targets": [
+          {
+            "action": "read",
+            "all": {
+              "within": {
+                "root": "read"
+              },
+              "exclude": [
+                {
+                  "root": "read",
+                  "path": ".ssh"
+                },
+                {
+                  "root": "read",
+                  "path": ".aws"
+                },
+                {
+                  "root": "read",
+                  "path": ".config/gcloud"
+                },
+                {
+                  "root": "read",
+                  "path": ".kube"
+                }
+              ]
+            }
+          },
+          {
+            "action": "write",
+            "all": {
+              "within": {
+                "root": "write"
+              },
+              "exclude": [
+                {
+                  "root": "write",
+                  "path": ".git"
+                },
+                {
+                  "root": "write",
+                  "path": ".shield"
+                },
+                {
+                  "root": "write",
+                  "path": ".claude"
+                },
+                {
+                  "root": "write",
+                  "path": ".codex"
+                },
+                {
+                  "root": "write",
+                  "path": ".mcp.json"
+                }
+              ],
+              "match": {
+                "regex": ".+"
+              }
+            }
+          }
+        ]
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Use approved access paths and preserve protected metadata."
+      }
+    },
+    {
+      "id": "file-move",
+      "conditions": {
+        "domain": "file",
+        "action": "move"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "requirements": {
+        "targets": [
+          {
+            "action": "remove",
+            "all": {
+              "within": {
+                "root": "write"
+              },
+              "exclude": [
+                {
+                  "root": "write",
+                  "path": ".git"
+                },
+                {
+                  "root": "write",
+                  "path": ".shield"
+                },
+                {
+                  "root": "write",
+                  "path": ".claude"
+                },
+                {
+                  "root": "write",
+                  "path": ".codex"
+                },
+                {
+                  "root": "write",
+                  "path": ".mcp.json"
+                }
+              ],
+              "match": {
+                "regex": ".+"
+              }
+            }
+          },
+          {
+            "action": "write",
+            "all": {
+              "within": {
+                "root": "write"
+              },
+              "exclude": [
+                {
+                  "root": "write",
+                  "path": ".git"
+                },
+                {
+                  "root": "write",
+                  "path": ".shield"
+                },
+                {
+                  "root": "write",
+                  "path": ".claude"
+                },
+                {
+                  "root": "write",
+                  "path": ".codex"
+                },
+                {
+                  "root": "write",
+                  "path": ".mcp.json"
+                }
+              ],
+              "match": {
+                "regex": ".+"
+              }
+            }
+          }
+        ]
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "deny",
+          "recommended": "deny",
+          "strict": "deny"
+        },
+        "message": "Use approved access paths and preserve protected metadata."
+      }
+    },
+    {
+      "id": "preserve-file-access-roots",
+      "conditions": {
+        "domain": "file",
+        "action": {
+          "one_of": [
+            "remove",
+            "move"
+          ]
+        },
+        "targets": {
+          "action": "remove",
+          "any": {
+            "exact": {
+              "root": "write"
+            }
+          }
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "git-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "git",
+            "/bin/git",
+            "/usr/bin/git"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "git-status",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "git",
+            "/bin/git",
+            "/usr/bin/git"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "status"
+          ],
+          "flags": [
+            "--short",
+            "--branch",
+            "--porcelain",
+            "-s",
+            "-b",
+            "-z"
+          ],
+          "values": [],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-cargo",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cargo",
+            "/bin/cargo",
+            "/usr/bin/cargo"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-cargo-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cargo",
+            "/bin/cargo",
+            "/usr/bin/cargo"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-rustc",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "rustc",
+            "/bin/rustc",
+            "/usr/bin/rustc"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-rustc-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "rustc",
+            "/bin/rustc",
+            "/usr/bin/rustc"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-node",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "node",
+            "/bin/node",
+            "/usr/bin/node"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-node-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "node",
+            "/bin/node",
+            "/usr/bin/node"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-v"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-python",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "python",
+            "/bin/python",
+            "/usr/bin/python"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-python-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "python",
+            "/bin/python",
+            "/usr/bin/python"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-python3",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "python3",
+            "/bin/python3",
+            "/usr/bin/python3"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-python3-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "python3",
+            "/bin/python3",
+            "/usr/bin/python3"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-npm",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/bin/npm",
+            "/usr/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-npm-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/bin/npm",
+            "/usr/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-v"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-npx",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npx",
+            "/bin/npx",
+            "/usr/bin/npx"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-npx-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npx",
+            "/bin/npx",
+            "/usr/bin/npx"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-v"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-pnpm",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/bin/pnpm",
+            "/usr/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-pnpm-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/bin/pnpm",
+            "/usr/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-v"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-yarn",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/bin/yarn",
+            "/usr/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-yarn-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/bin/yarn",
+            "/usr/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-v"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-bun",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/bin/bun",
+            "/usr/bin/bun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-bun-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/bin/bun",
+            "/usr/bin/bun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-v"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-uv",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "uv",
+            "/bin/uv",
+            "/usr/bin/uv"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-uv-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "uv",
+            "/bin/uv",
+            "/usr/bin/uv"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-go",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/bin/go",
+            "/usr/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-rg",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "rg",
+            "/bin/rg",
+            "/usr/bin/rg"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-grep",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "grep",
+            "/bin/grep",
+            "/usr/bin/grep"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-jq",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jq",
+            "/bin/jq",
+            "/usr/bin/jq"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-gh",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/bin/gh",
+            "/usr/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-docker",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "docker",
+            "/bin/docker",
+            "/usr/bin/docker"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "version-make",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "make",
+            "/bin/make",
+            "/usr/bin/make"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      }
+    },
+    {
+      "id": "init-npm",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/bin/npm",
+            "/usr/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "init"
+          ],
+          "flags": [
+            "-y",
+            "--yes"
+          ],
+          "values": [],
+          "operands": false,
+          "require_any": [
+            "-y",
+            "--yes"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      }
+    },
+    {
+      "id": "review-npm",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/bin/npm",
+            "/usr/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Package manager commands can install dependencies from the network or run project scripts.",
+      "fallback": true
+    },
+    {
+      "id": "review-pnpm",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/bin/pnpm",
+            "/usr/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Package manager commands can install dependencies from the network or run project scripts.",
+      "fallback": true
+    },
+    {
+      "id": "review-yarn",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/bin/yarn",
+            "/usr/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Package manager commands can install dependencies from the network or run project scripts.",
+      "fallback": true
+    },
+    {
+      "id": "review-npx",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npx",
+            "/bin/npx",
+            "/usr/bin/npx"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "npx can download and run packages.",
+      "fallback": true
+    },
+    {
+      "id": "review-uv",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "uv",
+            "/bin/uv",
+            "/usr/bin/uv"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Build, test and dependency commands run project code or download dependencies.",
+      "fallback": true
+    },
+    {
+      "id": "review-cargo",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cargo",
+            "/bin/cargo",
+            "/usr/bin/cargo"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Build, test and dependency commands run project code or download dependencies.",
+      "fallback": true
+    },
+    {
+      "id": "review-go",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/bin/go",
+            "/usr/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Build, test and dependency commands run project code or download dependencies.",
+      "fallback": true
+    },
+    {
+      "id": "review-make",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "make",
+            "/bin/make",
+            "/usr/bin/make"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "make runs the project's build recipes.",
+      "fallback": true
+    },
+    {
+      "id": "review-node",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "node",
+            "/bin/node",
+            "/usr/bin/node"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Runs a program or script whose effects Shield cannot inspect.",
+      "fallback": true
+    },
+    {
+      "id": "review-python",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "python",
+            "/bin/python",
+            "/usr/bin/python"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Runs a program or script whose effects Shield cannot inspect.",
+      "fallback": true
+    },
+    {
+      "id": "review-python3",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "python3",
+            "/bin/python3",
+            "/usr/bin/python3"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Runs a program or script whose effects Shield cannot inspect.",
+      "fallback": true
+    },
+    {
+      "id": "review-bash",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bash",
+            "/bin/bash",
+            "/usr/bin/bash"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Runs a program or script whose effects Shield cannot inspect.",
+      "fallback": true
+    },
+    {
+      "id": "review-sh",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sh",
+            "/bin/sh",
+            "/usr/bin/sh"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Runs a program or script whose effects Shield cannot inspect.",
+      "fallback": true
+    },
+    {
+      "id": "review-zsh",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "zsh",
+            "/bin/zsh",
+            "/usr/bin/zsh"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Runs a program or script whose effects Shield cannot inspect.",
+      "fallback": true
+    },
+    {
+      "id": "review-curl",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "curl",
+            "/bin/curl",
+            "/usr/bin/curl"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Makes network requests.",
+      "fallback": true
+    },
+    {
+      "id": "review-wget",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "wget",
+            "/bin/wget",
+            "/usr/bin/wget"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Makes network requests.",
+      "fallback": true
+    },
+    {
+      "id": "review-ssh",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ssh",
+            "/bin/ssh",
+            "/usr/bin/ssh"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Connects to or copies files between machines.",
+      "fallback": true
+    },
+    {
+      "id": "review-scp",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "scp",
+            "/bin/scp",
+            "/usr/bin/scp"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Connects to or copies files between machines.",
+      "fallback": true
+    },
+    {
+      "id": "review-rsync",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "rsync",
+            "/bin/rsync",
+            "/usr/bin/rsync"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Connects to or copies files between machines.",
+      "fallback": true
+    },
+    {
+      "id": "review-gh",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/bin/gh",
+            "/usr/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "GitHub CLI commands can read or change remote repositories.",
+      "fallback": true
+    },
+    {
+      "id": "review-docker",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "docker",
+            "/bin/docker",
+            "/usr/bin/docker"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Manages containers or cloud resources outside the working folder.",
+      "fallback": true
+    },
+    {
+      "id": "review-kubectl",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "kubectl",
+            "/bin/kubectl",
+            "/usr/bin/kubectl"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Manages containers or cloud resources outside the working folder.",
+      "fallback": true
+    },
+    {
+      "id": "review-aws",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "aws",
+            "/bin/aws",
+            "/usr/bin/aws"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Manages containers or cloud resources outside the working folder.",
+      "fallback": true
+    },
+    {
+      "id": "review-az",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "az",
+            "/bin/az",
+            "/usr/bin/az"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Manages containers or cloud resources outside the working folder.",
+      "fallback": true
+    },
+    {
+      "id": "review-gcloud",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gcloud",
+            "/bin/gcloud",
+            "/usr/bin/gcloud"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Manages containers or cloud resources outside the working folder.",
+      "fallback": true
+    },
+    {
+      "id": "review-terraform",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/bin/terraform",
+            "/usr/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Manages containers or cloud resources outside the working folder.",
+      "fallback": true
+    },
+    {
+      "id": "review-tofu",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "tofu",
+            "/bin/tofu",
+            "/usr/bin/tofu"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Manages containers or cloud resources outside the working folder.",
+      "fallback": true
+    },
+    {
+      "id": "review-chmod",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "chmod",
+            "/bin/chmod",
+            "/usr/bin/chmod"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Changes file permissions or ownership.",
+      "fallback": true
+    },
+    {
+      "id": "review-chown",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "chown",
+            "/bin/chown",
+            "/usr/bin/chown"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Changes file permissions or ownership.",
+      "fallback": true
+    },
+    {
+      "id": "review-awk",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "awk",
+            "/bin/awk",
+            "/usr/bin/awk"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Uses options or operands the supported forms do not cover.",
+      "fallback": true,
+      "guidance": {
+        "message": "awk can write files and run commands, so it needs approval.",
+        "alternatives": [
+          "Select fields from a pipe with cut -d SEP -f LIST, and search with rg --no-config --no-ignore -n PATTERN FILE."
+        ]
+      }
+    },
+    {
+      "id": "review-sed",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sed",
+            "/bin/sed",
+            "/usr/bin/sed"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Uses options or operands the supported forms do not cover.",
+      "fallback": true,
+      "guidance": {
+        "message": "sed can edit files and run commands, so it needs approval.",
+        "alternatives": [
+          "Read line ranges with head -n N FILE or tail -n +N FILE, search with rg --no-config --no-ignore -n PATTERN FILE, and edit files with the edit tool."
+        ]
+      }
+    },
+    {
+      "id": "review-rg",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "rg",
+            "/bin/rg",
+            "/usr/bin/rg"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Uses options or operands the supported forms do not cover.",
+      "fallback": true
+    },
+    {
+      "id": "review-grep",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "grep",
+            "/bin/grep",
+            "/usr/bin/grep"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Uses options or operands the supported forms do not cover.",
+      "fallback": true
+    },
+    {
+      "id": "review-jq",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jq",
+            "/bin/jq",
+            "/usr/bin/jq"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Uses options or operands the supported forms do not cover.",
+      "fallback": true
+    },
+    {
+      "id": "review-sort",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sort",
+            "/bin/sort",
+            "/usr/bin/sort"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Uses options or operands the supported forms do not cover.",
+      "fallback": true,
+      "guidance": {
+        "message": "sort with file operands or unlisted options needs approval; reading a pipe with listed options does not.",
+        "alternatives": [
+          "Pipe the input instead: cat FILE | sort ..."
+        ]
+      }
+    },
+    {
+      "id": "review-uniq",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "uniq",
+            "/bin/uniq",
+            "/usr/bin/uniq"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Uses options or operands the supported forms do not cover.",
+      "fallback": true,
+      "guidance": {
+        "message": "uniq with file operands or unlisted options needs approval; reading a pipe with listed options does not.",
+        "alternatives": [
+          "Pipe the input instead: cat FILE | uniq ..."
+        ]
+      }
+    },
+    {
+      "id": "review-cut",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cut",
+            "/bin/cut",
+            "/usr/bin/cut"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Uses options or operands the supported forms do not cover.",
+      "fallback": true,
+      "guidance": {
+        "message": "cut with file operands or unlisted options needs approval; reading a pipe with listed options does not.",
+        "alternatives": [
+          "Pipe the input instead: cat FILE | cut ..."
+        ]
+      }
+    },
+    {
+      "id": "review-tr",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "tr",
+            "/bin/tr",
+            "/usr/bin/tr"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Uses options or operands the supported forms do not cover.",
+      "fallback": true
+    },
+    {
+      "id": "review-diff",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "diff",
+            "/bin/diff",
+            "/usr/bin/diff"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Uses options or operands the supported forms do not cover.",
+      "fallback": true
+    },
+    {
+      "id": "review-cmp",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cmp",
+            "/bin/cmp",
+            "/usr/bin/cmp"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Uses options or operands the supported forms do not cover.",
+      "fallback": true
+    },
+    {
+      "id": "review-stat",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "stat",
+            "/bin/stat",
+            "/usr/bin/stat"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Uses options or operands the supported forms do not cover.",
+      "fallback": true
+    },
+    {
+      "id": "review-du",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "du",
+            "/bin/du",
+            "/usr/bin/du"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Uses options or operands the supported forms do not cover.",
+      "fallback": true
+    },
+    {
+      "id": "review-df",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "df",
+            "/bin/df",
+            "/usr/bin/df"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Uses options or operands the supported forms do not cover.",
+      "fallback": true
+    },
+    {
+      "id": "review-mkdir",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "mkdir",
+            "/bin/mkdir",
+            "/usr/bin/mkdir"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Uses options or operands the supported forms do not cover.",
+      "fallback": true
+    },
+    {
+      "id": "review-touch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "touch",
+            "/bin/touch",
+            "/usr/bin/touch"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Uses options or operands the supported forms do not cover.",
+      "fallback": true
+    },
+    {
+      "id": "deny-sudo",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sudo",
+            "/bin/sudo",
+            "/usr/bin/sudo"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-su",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "su",
+            "/bin/su",
+            "/usr/bin/su"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-doas",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doas",
+            "/bin/doas",
+            "/usr/bin/doas"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-dd",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "dd",
+            "/bin/dd",
+            "/usr/bin/dd"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-shred",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "shred",
+            "/bin/shred",
+            "/usr/bin/shred"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-mkfs",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "mkfs",
+            "/bin/mkfs",
+            "/usr/bin/mkfs"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-fdisk",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "fdisk",
+            "/bin/fdisk",
+            "/usr/bin/fdisk"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-diskutil",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "diskutil",
+            "/bin/diskutil",
+            "/usr/bin/diskutil"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-mount",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "mount",
+            "/bin/mount",
+            "/usr/bin/mount"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-umount",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "umount",
+            "/bin/umount",
+            "/usr/bin/umount"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-reboot",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "reboot",
+            "/bin/reboot",
+            "/usr/bin/reboot"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-shutdown",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "shutdown",
+            "/bin/shutdown",
+            "/usr/bin/shutdown"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-halt",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "halt",
+            "/bin/halt",
+            "/usr/bin/halt"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-poweroff",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "poweroff",
+            "/bin/poweroff",
+            "/usr/bin/poweroff"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-docker-system-prune",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "docker",
+            "/bin/docker",
+            "/usr/bin/docker"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "system",
+            "prune"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-docker-volume-rm",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "docker",
+            "/bin/docker",
+            "/usr/bin/docker"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "volume",
+            "rm"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-docker-rm",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "docker",
+            "/bin/docker",
+            "/usr/bin/docker"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "rm"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-docker-rmi",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "docker",
+            "/bin/docker",
+            "/usr/bin/docker"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "rmi"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-kubectl-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "kubectl",
+            "/bin/kubectl",
+            "/usr/bin/kubectl"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "delete"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-aws-s3-rm",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "aws",
+            "/bin/aws",
+            "/usr/bin/aws"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "s3",
+            "rm"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-aws-s3-rb",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "aws",
+            "/bin/aws",
+            "/usr/bin/aws"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "s3",
+            "rb"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-terraform-destroy",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/bin/terraform",
+            "/usr/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "destroy"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    },
+    {
+      "id": "deny-tofu-destroy",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "tofu",
+            "/bin/tofu",
+            "/usr/bin/tofu"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "destroy"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "deny",
+        "recommended": "deny",
+        "strict": "deny"
+      }
+    }
+  ]
+}
