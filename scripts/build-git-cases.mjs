@@ -2,7 +2,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-const root = new URL('../packs/canonic/git/0.4.0/', import.meta.url);
+const root = new URL('../packs/canonic/git/0.4.1/', import.meta.url);
 const inventory = JSON.parse(await readFile(new URL('commands.json', root)));
 const cases = [];
 const add = (name, argv, expected) => {
@@ -48,6 +48,13 @@ const examples = {
     ['restore', '--staged', 'README.md'],
     ['stash', 'push', '-m', 'Before changes'], ['stash', 'apply'], ['stash', 'pop'], ['branch', 'feature'],
     ['tag', '-a', 'v1.0', '-m', 'Release'], ['mv', 'old', 'new'], ['rm', '--cached', 'tracked'],
+    ['branch', '-m', 'main'], ['branch', '-m', 'old', 'new'], ['branch', '--move', 'old', 'new'],
+    ['branch', '-c', 'feature', 'copy'], ['branch', '--set-upstream-to=origin/main'], ['branch', '-u', 'origin/main'],
+    ['branch', '--unset-upstream'], ['checkout', '--detach', 'HEAD~1'], ['checkout', '-qb', 'feature'],
+  ],
+  overwrite: [
+    ['checkout', 'main'], ['checkout', '--', 'README.md'], ['checkout', '.'], ['checkout', 'HEAD', 'README.md'],
+    ['checkout', '--ours', 'README.md'],
   ],
   network: [
     ['push', 'origin', 'main'], ['fetch', '--prune', 'origin'], ['pull', '--ff-only'],
@@ -60,7 +67,7 @@ const examples = {
     ['push', '--mirror', 'origin'], ['push', '--delete', 'origin', 'feature'], ['reset', 'HEAD', '--hard'],
     ['clean', '-fdx'], ['clean', '--', '-n'], ['clean', '-e', '-n'],
     ['commit', '-m', 'Rewrite', '--amend'], ['commit', '-anm', 'Bypass'],
-    ['checkout', 'main', '-f'], ['switch', '--discard-changes', 'main'], ['branch', '-D', 'feature'],
+    ['checkout', 'main', '-f'], ['switch', '--discard-changes', 'main'], ['branch', '-D', 'feature'], ['branch', '-M', 'main'],
     ['tag', '--delete', 'v1'], ['rm', '-rf', 'src'], ['stash', 'drop'], ['stash', 'clear'],
     ['worktree', 'remove', '../other'], ['submodule', 'foreach', 'echo hello'], ['config', '--unset', 'user.name'],
     ['rebase', '-i', 'HEAD~3'], ['restore', 'README.md'], ['gc'], ['prune'], ['credential', 'fill'], ['hook', 'run', 'pre-commit'],
@@ -76,7 +83,7 @@ const examples = {
     ['log', '--show-signature'], ['log', '--format', '--output=literal-value'],
   ],
 };
-const expected = { inspect: ['allow','allow','allow'], stage: ['allow','allow','ask'], local: ['allow','allow','ask'], network: ['ask','ask','deny'], destructive: ['ask','deny','deny'], review: ['ask','ask','ask'] };
+const expected = { inspect: ['allow','allow','allow'], stage: ['allow','allow','ask'], local: ['allow','allow','ask'], overwrite: ['allow','ask','ask'], network: ['ask','ask','deny'], destructive: ['ask','deny','deny'], review: ['ask','ask','ask'] };
 // An output-looking token consumed by --format is a literal format, not an option.
 examples.inspect.push(examples.review.pop());
 for (const [tier, commands] of Object.entries(examples)) {

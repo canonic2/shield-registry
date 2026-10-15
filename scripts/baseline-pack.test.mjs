@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import Ajv from 'ajv/dist/2020.js';
-const root = new URL('../packs/canonic/baseline/0.1.2/',import.meta.url);
+const root = new URL('../packs/canonic/baseline/0.1.3/',import.meta.url);
 const read = url => JSON.parse(readFileSync(url));
 const pack=read(new URL('pack.yml',root)), cases=read(new URL('cases.json',root));
 const validate=new Ajv({strict:false,allErrors:true}).compile(read(new URL('../schemas/policy.schema.json',import.meta.url)));

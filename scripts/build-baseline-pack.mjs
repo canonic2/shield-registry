@@ -2,7 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const root = process.argv[2] ? pathToFileURL(resolve(process.argv[2]) + '/') : new URL('../packs/canonic/baseline/0.1.2/', import.meta.url);
+const root = process.argv[2] ? pathToFileURL(resolve(process.argv[2]) + '/') : new URL('../packs/canonic/baseline/0.1.3/', import.meta.url);
 await mkdir(root, { recursive: true });
 const profiles = values => Object.fromEntries(['loose', 'recommended', 'strict'].map((p, i) => [p, values[i]]));
 const allow = ['allow', 'allow', 'allow'];
@@ -131,7 +131,15 @@ const reviewGuidance = {
 // baseline-only installations useful without permitting helpers or global options.
 argv('git-version','git',{kind:'exact',values:['--version']});
 argv('git-status','git',options(['--short','--branch','--porcelain','-s','-b','-z'],[],false,['status']));
-for (const executable of ['cargo','rustc','node','python3','npm','pnpm','yarn','go','rg','grep','jq']) argv(`version-${executable}`,executable,{kind:'exact',values:[executable==='go' ? 'version' : '--version']});
+// Version checks print a version and run no project code; agents use both
+// the long flag and each tool's own short spelling.
+const shortVersion = { node:'-v', npm:'-v', npx:'-v', pnpm:'-v', yarn:'-v', bun:'-v', python:'-V', python3:'-V', cargo:'-V', rustc:'-V', uv:'-V' };
+for (const executable of ['cargo','rustc','node','python','python3','npm','npx','pnpm','yarn','bun','uv','go','rg','grep','jq','gh','docker','make']) {
+  argv(`version-${executable}`,executable,{kind:'exact',values:[executable==='go' ? 'version' : '--version']});
+  if (shortVersion[executable]) argv(`version-${executable}-short`,executable,{kind:'exact',values:[shortVersion[executable]]});
+}
+// A new package manifest stays in the working folder; without --yes npm prompts.
+rules.push({ id:'init-npm', conditions:{ domain:'argv', executable:executableSelector('npm'), arguments:{ ...options(['-y','--yes'],[],false,['init']), require_any:['-y','--yes'] } }, decision:profiles(local) });
 for (const executable of ['awk','sed','rg','grep','jq','sort','uniq','cut','tr','diff','cmp','stat','du','df','mkdir','touch','chmod','chown','make','cargo','node','python','python3','bash','sh','zsh','npm','pnpm','yarn','npx','uv','go','curl','wget','ssh','scp','rsync','gh','docker','kubectl','aws','az','gcloud','terraform','tofu']) {
   argv(`review-${executable}`,executable,{kind:'any'},review);
   if (reviewGuidance[executable]) rules.at(-1).guidance = reviewGuidance[executable];
@@ -143,7 +151,7 @@ for (const [executable, prefix] of [
   ['terraform',['destroy']], ['tofu',['destroy']],
 ]) argv(`deny-${executable}-${prefix.join('-')}`,executable,{kind:'prefix',values:prefix},deny);
 
-const pack = { schema_version:1, kind:'pack', id:'canonic/baseline', version:'0.1.2',
+const pack = { schema_version:1, kind:'pack', id:'canonic/baseline', version:'0.1.3',
   description:'Standard command and file permissions with approved read/write paths and conservative review of unmodeled effects.',
   license:'MIT',maintainers:['Canonic'],engine:'>=0.1.0, <0.2.0',
   capabilities:['access-paths-v1','argument-rules-v1','location-v1','regex-v1','requirements-v1','structured-rules-v1'],rules };

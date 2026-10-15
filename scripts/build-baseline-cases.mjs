@@ -2,7 +2,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-const root=process.argv[2] ? pathToFileURL(resolve(process.argv[2])+'/') : new URL('../packs/canonic/baseline/0.1.2/',import.meta.url);
+const root=process.argv[2] ? pathToFileURL(resolve(process.argv[2])+'/') : new URL('../packs/canonic/baseline/0.1.3/',import.meta.url);
 await mkdir(root,{recursive:true});
 const cases=[];
 const add=(name,argv,expected)=>['loose','recommended','strict'].forEach((profile,i)=>cases.push({name:`${name}-${profile}`,profile,argv,expected:expected[i]}));
@@ -28,6 +28,8 @@ for(const [name,argv] of [
   ['grep-dash-pattern',['grep','--','-Acme','README.md']],
   ['echo',['echo','Acme']],['printf',['printf','%s','Acme']],['git-status',['git','status','--short']],
   ['version',['node','--version']],['sleep',['sleep','0.01']],
+  ['version-short-node',['node','-v']],['version-short-npm',['npm','-v']],['version-short-python',['python3','-V']],
+  ['version-short-cargo',['cargo','-V']],['version-long-gh',['gh','--version']],
 ])add(name,argv,allow);
 for(const [name,argv] of [
   ['remove',['rm','-rf','generated']],['remove-multiple',['rm','a','b']],['remove-literal-option',['rm','--','-generated']],
@@ -35,6 +37,7 @@ for(const [name,argv] of [
   ['absolute-remove',['/bin/rm','generated']],
   ['mkdir',['mkdir','-p','generated/nested']],['touch',['touch','-am','generated.txt']],
   ['touch-literal-option',['touch','--','-generated']],
+  ['npm-init',['npm','init','-y']],['npm-init-long',['npm','init','--yes']],
 ])add(name,argv,local);
 for(const [name,argv] of [
   ['outside-remove',['rm','/shield-baseline-unapproved/item']],['outside-read',['cat','/shield-baseline-unapproved/item']],
@@ -72,6 +75,8 @@ for(const [name,argv] of [
 ])add(name,argv,deny);
 for(const [name,argv] of [
   ['unknown',['acme-unlisted','read']],['script',['node','script.mjs']],['build',['cargo','build']],
+  ['npm-init-interactive',['npm','init']],['npm-install',['npm','install','express']],
+  ['npm-init-initializer',['npm','init','-y','acme-app']],
   ['find-helper',['find','.','-exec','sh','-c','echo Acme',';']],
   ['cloud-inspect',['aws','ec2','describe-instances']],['docker-inspect',['docker','inspect','acme']],
   ['git-global-option',['git','-C','/other','status']],

@@ -3,6 +3,7 @@ export const profiles = {
   inspect: ['allow', 'allow', 'allow'],
   stage: ['allow', 'allow', 'ask'],
   local: ['allow', 'allow', 'ask'],
+  overwrite: ['allow', 'ask', 'ask'],
   review: ['ask', 'ask', 'ask'],
   network: ['ask', 'ask', 'deny'],
   execution: ['ask', 'ask', 'deny'],
@@ -16,16 +17,25 @@ export const reason = {
   inspect: 'Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.',
   stage: 'Stage local changes for review without recording or publishing a commit.',
   local: 'Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.',
+  overwrite: 'May switch branches or overwrite uncommitted working files, which Git cannot distinguish before running; Recommended and Strict review it.',
   review: 'Review unclassified options or operations before permitting their effects.',
   network: 'Review remote access, publication or transport/helper execution; Strict denies these operations.',
   execution: 'Review launching editors, viewers or other external programs; Strict denies.',
   destructive: 'May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.',
 };
+// Asks with an allowed equivalent name it, so an agent can resubmit.
+export const guidance = {
+  overwrite: {
+    message: 'git checkout with a name or path can overwrite uncommitted files, so it needs approval.',
+    alternatives: ['Change branches with git switch BRANCH, create one with git switch -c NAME, or unstage with git restore --staged PATH.'],
+  },
+};
 
 const split = value => value ? value.split(' ') : [];
-const option = (prefix, flags = '', values = '', operands = true, tier = 'inspect', require = '') => ({
+const option = (prefix, flags = '', values = '', operands = true, tier = 'inspect', require = '', forbid = '') => ({
   prefix: split(prefix), flags: split(flags), values: split(values), operands, tier,
   ...(require ? { require_any: split(require) } : {}),
+  ...(forbid ? { forbid: split(forbid) } : {}),
 });
 
 const diffFlags = '-p -u --patch --no-patch -s --raw --stat --numstat --shortstat --dirstat --summary --name-only --name-status --check --binary --full-index --color --no-color --color-words --word-diff --no-ext-diff --no-textconv --no-renames --minimal --patience --histogram --ignore-all-space --ignore-space-change --ignore-space-at-eol --ignore-cr-at-eol --ignore-blank-lines --exit-code --quiet -w -b -z --relative --reverse -R --no-prefix --abbrev';
@@ -95,7 +105,10 @@ export const forms = [
   option('stage', '--all -A --update -u --intent-to-add -N --verbose -v --dry-run -n', '', true, 'stage'),
   option('commit', '--all -a --quiet -q --verbose -v --signoff -s --allow-empty --allow-empty-message --no-edit --reset-author --dry-run --short --branch --porcelain --long --no-post-rewrite', '-m --message -F --file -C --reuse-message --author --date --cleanup --trailer', true, 'local'),
   option('switch', '--detach -d --guess --no-guess --quiet -q --recurse-submodules --no-recurse-submodules', '-c --create --track', true, 'local'),
-  option('checkout', '--detach --quiet -q --guess --no-guess --ours --theirs --recurse-submodules --no-recurse-submodules', '-b --track', true, 'local'),
+  // Creating a branch or detaching cannot overwrite files. Any other checkout may
+  // name a path, which replaces its uncommitted changes.
+  option('checkout', '--detach --quiet -q --guess --no-guess --recurse-submodules --no-recurse-submodules', '-b --track', true, 'local', '-b --detach'),
+  option('checkout', '--detach --quiet -q --guess --no-guess --ours --theirs --recurse-submodules --no-recurse-submodules', '-b --track', true, 'overwrite', '', '-b --detach'),
   option('merge', '--no-edit --no-ff --ff --ff-only --no-commit --commit --squash --no-squash --stat --no-stat --quiet -q --verbose -v --allow-unrelated-histories --abort --continue --quit', '-m --message -X --strategy-option', true, 'local'),
   option('cherry-pick', '--no-edit --no-commit -n --signoff -s --ff --allow-empty --allow-empty-message --keep-redundant-commits --abort --continue --skip --quit', '-m --mainline -X --strategy-option', true, 'local'),
   option('revert', '--no-edit --no-commit -n --abort --continue --skip --quit', '-m --mainline -X --strategy-option', true, 'local'),
@@ -108,7 +121,7 @@ export const forms = [
   option('stash apply', '--index --quiet -q', '', true, 'local'),
   option('stash pop', '--index --quiet -q', '', true, 'local'),
   option('stash branch', '', '', true, 'local'),
-  option('branch', '--track --no-track --quiet -q', '', true, 'local'),
+  option('branch', '--track --no-track --quiet -q --move -m --copy -c --unset-upstream', '--set-upstream-to -u', true, 'local'),
   option('tag', '--annotate -a --sign -s --no-sign', '-m --message -F --file --cleanup --local-user -u', true, 'local'),
   option('mv', '--verbose -v --dry-run -n', '', true, 'local'),
   option('rm', '--cached --dry-run -n --recursive -r --quiet -q --ignore-unmatch', '', true, 'local'),
