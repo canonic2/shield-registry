@@ -1,0 +1,3998 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "pwd-loose",
+      "profile": "loose",
+      "argv": [
+        "pwd"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pwd-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pwd"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pwd-strict",
+      "profile": "strict",
+      "argv": [
+        "pwd"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "list-loose",
+      "profile": "loose",
+      "argv": [
+        "ls",
+        "-la"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ls",
+        "-la"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "list-strict",
+      "profile": "strict",
+      "argv": [
+        "ls",
+        "-la"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "read-loose",
+      "profile": "loose",
+      "argv": [
+        "cat",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "read-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cat",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "read-strict",
+      "profile": "strict",
+      "argv": [
+        "cat",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "head-loose",
+      "profile": "loose",
+      "argv": [
+        "head",
+        "-n",
+        "10",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "head-recommended",
+      "profile": "recommended",
+      "argv": [
+        "head",
+        "-n",
+        "10",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "head-strict",
+      "profile": "strict",
+      "argv": [
+        "head",
+        "-n",
+        "10",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "tail-loose",
+      "profile": "loose",
+      "argv": [
+        "tail",
+        "-c",
+        "20",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "tail-recommended",
+      "profile": "recommended",
+      "argv": [
+        "tail",
+        "-c",
+        "20",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "tail-strict",
+      "profile": "strict",
+      "argv": [
+        "tail",
+        "-c",
+        "20",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "count-loose",
+      "profile": "loose",
+      "argv": [
+        "wc",
+        "-l",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "count-recommended",
+      "profile": "recommended",
+      "argv": [
+        "wc",
+        "-l",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "count-strict",
+      "profile": "strict",
+      "argv": [
+        "wc",
+        "-l",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-loose",
+      "profile": "loose",
+      "argv": [
+        "cat"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cat"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-strict",
+      "profile": "strict",
+      "argv": [
+        "cat"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "head-attached-loose",
+      "profile": "loose",
+      "argv": [
+        "head",
+        "-qn10",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "head-attached-recommended",
+      "profile": "recommended",
+      "argv": [
+        "head",
+        "-qn10",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "head-attached-strict",
+      "profile": "strict",
+      "argv": [
+        "head",
+        "-qn10",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "head-count-loose",
+      "profile": "loose",
+      "argv": [
+        "head",
+        "-10",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "head-count-recommended",
+      "profile": "recommended",
+      "argv": [
+        "head",
+        "-10",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "head-count-strict",
+      "profile": "strict",
+      "argv": [
+        "head",
+        "-10",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "tail-count-loose",
+      "profile": "loose",
+      "argv": [
+        "tail",
+        "-20",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "tail-count-recommended",
+      "profile": "recommended",
+      "argv": [
+        "tail",
+        "-20",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "tail-count-strict",
+      "profile": "strict",
+      "argv": [
+        "tail",
+        "-20",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-head-count-loose",
+      "profile": "loose",
+      "argv": [
+        "head",
+        "-50"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-head-count-recommended",
+      "profile": "recommended",
+      "argv": [
+        "head",
+        "-50"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-head-count-strict",
+      "profile": "strict",
+      "argv": [
+        "head",
+        "-50"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-head-lines-loose",
+      "profile": "loose",
+      "argv": [
+        "head",
+        "-n",
+        "20"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-head-lines-recommended",
+      "profile": "recommended",
+      "argv": [
+        "head",
+        "-n",
+        "20"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-head-lines-strict",
+      "profile": "strict",
+      "argv": [
+        "head",
+        "-n",
+        "20"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-tail-lines-loose",
+      "profile": "loose",
+      "argv": [
+        "tail",
+        "-n",
+        "5"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-tail-lines-recommended",
+      "profile": "recommended",
+      "argv": [
+        "tail",
+        "-n",
+        "5"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-tail-lines-strict",
+      "profile": "strict",
+      "argv": [
+        "tail",
+        "-n",
+        "5"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-count-lines-loose",
+      "profile": "loose",
+      "argv": [
+        "wc",
+        "-l"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-count-lines-recommended",
+      "profile": "recommended",
+      "argv": [
+        "wc",
+        "-l"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-count-lines-strict",
+      "profile": "strict",
+      "argv": [
+        "wc",
+        "-l"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-number-loose",
+      "profile": "loose",
+      "argv": [
+        "cat",
+        "-n"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-number-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cat",
+        "-n"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-number-strict",
+      "profile": "strict",
+      "argv": [
+        "cat",
+        "-n"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "head-count-one-loose",
+      "profile": "loose",
+      "argv": [
+        "head",
+        "-1",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "head-count-one-recommended",
+      "profile": "recommended",
+      "argv": [
+        "head",
+        "-1",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "head-count-one-strict",
+      "profile": "strict",
+      "argv": [
+        "head",
+        "-1",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-head-count-odd-loose",
+      "profile": "loose",
+      "argv": [
+        "head",
+        "-51"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-head-count-odd-recommended",
+      "profile": "recommended",
+      "argv": [
+        "head",
+        "-51"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-head-count-odd-strict",
+      "profile": "strict",
+      "argv": [
+        "head",
+        "-51"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-tail-count-large-loose",
+      "profile": "loose",
+      "argv": [
+        "tail",
+        "-100000"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-tail-count-large-recommended",
+      "profile": "recommended",
+      "argv": [
+        "tail",
+        "-100000"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-tail-count-large-strict",
+      "profile": "strict",
+      "argv": [
+        "tail",
+        "-100000"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-head-attached-lines-loose",
+      "profile": "loose",
+      "argv": [
+        "head",
+        "-n51"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-head-attached-lines-recommended",
+      "profile": "recommended",
+      "argv": [
+        "head",
+        "-n51"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-head-attached-lines-strict",
+      "profile": "strict",
+      "argv": [
+        "head",
+        "-n51"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-tail-bytes-loose",
+      "profile": "loose",
+      "argv": [
+        "tail",
+        "-c",
+        "4096"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-tail-bytes-recommended",
+      "profile": "recommended",
+      "argv": [
+        "tail",
+        "-c",
+        "4096"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-tail-bytes-strict",
+      "profile": "strict",
+      "argv": [
+        "tail",
+        "-c",
+        "4096"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-head-quiet-count-loose",
+      "profile": "loose",
+      "argv": [
+        "head",
+        "-3",
+        "-q"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-head-quiet-count-recommended",
+      "profile": "recommended",
+      "argv": [
+        "head",
+        "-3",
+        "-q"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-head-quiet-count-strict",
+      "profile": "strict",
+      "argv": [
+        "head",
+        "-3",
+        "-q"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "tail-from-start-loose",
+      "profile": "loose",
+      "argv": [
+        "tail",
+        "-n",
+        "+5",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "tail-from-start-recommended",
+      "profile": "recommended",
+      "argv": [
+        "tail",
+        "-n",
+        "+5",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "tail-from-start-strict",
+      "profile": "strict",
+      "argv": [
+        "tail",
+        "-n",
+        "+5",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-tail-from-start-loose",
+      "profile": "loose",
+      "argv": [
+        "tail",
+        "-n+5"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-tail-from-start-recommended",
+      "profile": "recommended",
+      "argv": [
+        "tail",
+        "-n+5"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-tail-from-start-strict",
+      "profile": "strict",
+      "argv": [
+        "tail",
+        "-n+5"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "find-default-loose",
+      "profile": "loose",
+      "argv": [
+        "find"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "find-default-recommended",
+      "profile": "recommended",
+      "argv": [
+        "find"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "find-default-strict",
+      "profile": "strict",
+      "argv": [
+        "find"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "find-tree-loose",
+      "profile": "loose",
+      "argv": [
+        "find",
+        ".",
+        "-name",
+        "*.md",
+        "-type",
+        "f"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "find-tree-recommended",
+      "profile": "recommended",
+      "argv": [
+        "find",
+        ".",
+        "-name",
+        "*.md",
+        "-type",
+        "f"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "find-tree-strict",
+      "profile": "strict",
+      "argv": [
+        "find",
+        ".",
+        "-name",
+        "*.md",
+        "-type",
+        "f"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "find-depth-loose",
+      "profile": "loose",
+      "argv": [
+        "find",
+        "-P",
+        "scripts",
+        ".",
+        "-maxdepth",
+        "1",
+        "-print0"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "find-depth-recommended",
+      "profile": "recommended",
+      "argv": [
+        "find",
+        "-P",
+        "scripts",
+        ".",
+        "-maxdepth",
+        "1",
+        "-print0"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "find-depth-strict",
+      "profile": "strict",
+      "argv": [
+        "find",
+        "-P",
+        "scripts",
+        ".",
+        "-maxdepth",
+        "1",
+        "-print0"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "find-grouped-loose",
+      "profile": "loose",
+      "argv": [
+        "find",
+        ".",
+        "(",
+        "-name",
+        "*.md",
+        "-o",
+        "-iname",
+        "*.mjs",
+        ")",
+        "!",
+        "-path",
+        "./node_modules/*"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "find-grouped-recommended",
+      "profile": "recommended",
+      "argv": [
+        "find",
+        ".",
+        "(",
+        "-name",
+        "*.md",
+        "-o",
+        "-iname",
+        "*.mjs",
+        ")",
+        "!",
+        "-path",
+        "./node_modules/*"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "find-grouped-strict",
+      "profile": "strict",
+      "argv": [
+        "find",
+        ".",
+        "(",
+        "-name",
+        "*.md",
+        "-o",
+        "-iname",
+        "*.mjs",
+        ")",
+        "!",
+        "-path",
+        "./node_modules/*"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-sort-loose",
+      "profile": "loose",
+      "argv": [
+        "sort",
+        "-rn"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-sort-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sort",
+        "-rn"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-sort-strict",
+      "profile": "strict",
+      "argv": [
+        "sort",
+        "-rn"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-sort-key-loose",
+      "profile": "loose",
+      "argv": [
+        "sort",
+        "-t",
+        ":",
+        "-k2,2n"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-sort-key-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sort",
+        "-t",
+        ":",
+        "-k2,2n"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-sort-key-strict",
+      "profile": "strict",
+      "argv": [
+        "sort",
+        "-t",
+        ":",
+        "-k2,2n"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-uniq-count-loose",
+      "profile": "loose",
+      "argv": [
+        "uniq",
+        "-c"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-uniq-count-recommended",
+      "profile": "recommended",
+      "argv": [
+        "uniq",
+        "-c"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-uniq-count-strict",
+      "profile": "strict",
+      "argv": [
+        "uniq",
+        "-c"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-cut-loose",
+      "profile": "loose",
+      "argv": [
+        "cut",
+        "-d:",
+        "-f1,3"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-cut-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cut",
+        "-d:",
+        "-f1,3"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-cut-strict",
+      "profile": "strict",
+      "argv": [
+        "cut",
+        "-d:",
+        "-f1,3"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "tr-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "tr",
+        "-d",
+        "\\n"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "tr-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "tr",
+        "-d",
+        "\\n"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "tr-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "tr",
+        "-d",
+        "\\n"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "tr-map-loose",
+      "profile": "loose",
+      "argv": [
+        "tr",
+        "a-z",
+        "A-Z"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "tr-map-recommended",
+      "profile": "recommended",
+      "argv": [
+        "tr",
+        "a-z",
+        "A-Z"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "tr-map-strict",
+      "profile": "strict",
+      "argv": [
+        "tr",
+        "a-z",
+        "A-Z"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "-nF",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-nF",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "-nF",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-n",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-n",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-n",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-tree-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "Acme",
+        "."
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-tree-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "Acme",
+        "."
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-tree-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "Acme",
+        "."
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-file-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "-n",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "-n",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-file-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "-n",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-files-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--files"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-files-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--files"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-files-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--files"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-cwd-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-n",
+        "Acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-cwd-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-n",
+        "Acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-cwd-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-n",
+        "Acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-type-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-tmd",
+        "-C",
+        "1",
+        "Acme",
+        "."
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-type-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-tmd",
+        "-C",
+        "1",
+        "Acme",
+        "."
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-type-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-tmd",
+        "-C",
+        "1",
+        "Acme",
+        "."
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-file-glob-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "-g",
+        "*.md",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-file-glob-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "-g",
+        "*.md",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-file-glob-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "-g",
+        "*.md",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-dash-pattern-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "--",
+        "-Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-dash-pattern-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "--",
+        "-Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-dash-pattern-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "--",
+        "-Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "echo-loose",
+      "profile": "loose",
+      "argv": [
+        "echo",
+        "Acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "echo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "echo",
+        "Acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "echo-strict",
+      "profile": "strict",
+      "argv": [
+        "echo",
+        "Acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "printf-loose",
+      "profile": "loose",
+      "argv": [
+        "printf",
+        "%s",
+        "Acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "printf-recommended",
+      "profile": "recommended",
+      "argv": [
+        "printf",
+        "%s",
+        "Acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "printf-strict",
+      "profile": "strict",
+      "argv": [
+        "printf",
+        "%s",
+        "Acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "git-status-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "git-status-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "git-status-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-loose",
+      "profile": "loose",
+      "argv": [
+        "node",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "node",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-strict",
+      "profile": "strict",
+      "argv": [
+        "node",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sleep-loose",
+      "profile": "loose",
+      "argv": [
+        "sleep",
+        "0.01"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sleep-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sleep",
+        "0.01"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sleep-strict",
+      "profile": "strict",
+      "argv": [
+        "sleep",
+        "0.01"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-short-node-loose",
+      "profile": "loose",
+      "argv": [
+        "node",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-short-node-recommended",
+      "profile": "recommended",
+      "argv": [
+        "node",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-short-node-strict",
+      "profile": "strict",
+      "argv": [
+        "node",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-short-npm-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-short-npm-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-short-npm-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-short-python-loose",
+      "profile": "loose",
+      "argv": [
+        "python3",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-short-python-recommended",
+      "profile": "recommended",
+      "argv": [
+        "python3",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-short-python-strict",
+      "profile": "strict",
+      "argv": [
+        "python3",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-short-cargo-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-short-cargo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-short-cargo-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-long-gh-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-long-gh-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-long-gh-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "remove-loose",
+      "profile": "loose",
+      "argv": [
+        "rm",
+        "-rf",
+        "generated"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "remove-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rm",
+        "-rf",
+        "generated"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "remove-strict",
+      "profile": "strict",
+      "argv": [
+        "rm",
+        "-rf",
+        "generated"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "remove-multiple-loose",
+      "profile": "loose",
+      "argv": [
+        "rm",
+        "a",
+        "b"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "remove-multiple-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rm",
+        "a",
+        "b"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "remove-multiple-strict",
+      "profile": "strict",
+      "argv": [
+        "rm",
+        "a",
+        "b"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "remove-literal-option-loose",
+      "profile": "loose",
+      "argv": [
+        "rm",
+        "--",
+        "-generated"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "remove-literal-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rm",
+        "--",
+        "-generated"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "remove-literal-option-strict",
+      "profile": "strict",
+      "argv": [
+        "rm",
+        "--",
+        "-generated"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rmdir-loose",
+      "profile": "loose",
+      "argv": [
+        "rmdir",
+        "generated"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rmdir-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rmdir",
+        "generated"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rmdir-strict",
+      "profile": "strict",
+      "argv": [
+        "rmdir",
+        "generated"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "copy-loose",
+      "profile": "loose",
+      "argv": [
+        "cp",
+        "README.md",
+        "copy.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "copy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cp",
+        "README.md",
+        "copy.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "copy-strict",
+      "profile": "strict",
+      "argv": [
+        "cp",
+        "README.md",
+        "copy.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "move-loose",
+      "profile": "loose",
+      "argv": [
+        "mv",
+        "old.md",
+        "new.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "move-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mv",
+        "old.md",
+        "new.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "move-strict",
+      "profile": "strict",
+      "argv": [
+        "mv",
+        "old.md",
+        "new.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "absolute-remove-loose",
+      "profile": "loose",
+      "argv": [
+        "/bin/rm",
+        "generated"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "absolute-remove-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/bin/rm",
+        "generated"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "absolute-remove-strict",
+      "profile": "strict",
+      "argv": [
+        "/bin/rm",
+        "generated"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "mkdir-loose",
+      "profile": "loose",
+      "argv": [
+        "mkdir",
+        "-p",
+        "generated/nested"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "mkdir-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mkdir",
+        "-p",
+        "generated/nested"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "mkdir-strict",
+      "profile": "strict",
+      "argv": [
+        "mkdir",
+        "-p",
+        "generated/nested"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "touch-loose",
+      "profile": "loose",
+      "argv": [
+        "touch",
+        "-am",
+        "generated.txt"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "touch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "touch",
+        "-am",
+        "generated.txt"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "touch-strict",
+      "profile": "strict",
+      "argv": [
+        "touch",
+        "-am",
+        "generated.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "touch-literal-option-loose",
+      "profile": "loose",
+      "argv": [
+        "touch",
+        "--",
+        "-generated"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "touch-literal-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "touch",
+        "--",
+        "-generated"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "touch-literal-option-strict",
+      "profile": "strict",
+      "argv": [
+        "touch",
+        "--",
+        "-generated"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "npm-init-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "init",
+        "-y"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "npm-init-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "init",
+        "-y"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "npm-init-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "init",
+        "-y"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "npm-init-long-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "init",
+        "--yes"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "npm-init-long-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "init",
+        "--yes"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "npm-init-long-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "init",
+        "--yes"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "outside-remove-loose",
+      "profile": "loose",
+      "argv": [
+        "rm",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-remove-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rm",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-remove-strict",
+      "profile": "strict",
+      "argv": [
+        "rm",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-read-loose",
+      "profile": "loose",
+      "argv": [
+        "cat",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-read-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cat",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-read-strict",
+      "profile": "strict",
+      "argv": [
+        "cat",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "mixed-remove-loose",
+      "profile": "loose",
+      "argv": [
+        "rm",
+        "generated",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "mixed-remove-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rm",
+        "generated",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "mixed-remove-strict",
+      "profile": "strict",
+      "argv": [
+        "rm",
+        "generated",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "root-remove-loose",
+      "profile": "loose",
+      "argv": [
+        "rm",
+        "-rf",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "root-remove-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rm",
+        "-rf",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "root-remove-strict",
+      "profile": "strict",
+      "argv": [
+        "rm",
+        "-rf",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "git-remove-loose",
+      "profile": "loose",
+      "argv": [
+        "rm",
+        "-rf",
+        ".git"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "git-remove-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rm",
+        "-rf",
+        ".git"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "git-remove-strict",
+      "profile": "strict",
+      "argv": [
+        "rm",
+        "-rf",
+        ".git"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "state-remove-loose",
+      "profile": "loose",
+      "argv": [
+        "rm",
+        "-rf",
+        ".shield"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "state-remove-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rm",
+        "-rf",
+        ".shield"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "state-remove-strict",
+      "profile": "strict",
+      "argv": [
+        "rm",
+        "-rf",
+        ".shield"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "option-unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "rm",
+        "--unclassified",
+        "generated"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "option-unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rm",
+        "--unclassified",
+        "generated"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "option-unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "rm",
+        "--unclassified",
+        "generated"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "copy-recursive-loose",
+      "profile": "loose",
+      "argv": [
+        "cp",
+        "-R",
+        "src",
+        "dst"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "copy-recursive-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cp",
+        "-R",
+        "src",
+        "dst"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "copy-recursive-strict",
+      "profile": "strict",
+      "argv": [
+        "cp",
+        "-R",
+        "src",
+        "dst"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "read-helper-option-loose",
+      "profile": "loose",
+      "argv": [
+        "ls",
+        "-R"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "read-helper-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ls",
+        "-R"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "read-helper-option-strict",
+      "profile": "strict",
+      "argv": [
+        "ls",
+        "-R"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "follow-monitor-loose",
+      "profile": "loose",
+      "argv": [
+        "tail",
+        "-F",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "follow-monitor-recommended",
+      "profile": "recommended",
+      "argv": [
+        "tail",
+        "-F",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "follow-monitor-strict",
+      "profile": "strict",
+      "argv": [
+        "tail",
+        "-F",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "stdin-follow-monitor-loose",
+      "profile": "loose",
+      "argv": [
+        "tail",
+        "-f"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "stdin-follow-monitor-recommended",
+      "profile": "recommended",
+      "argv": [
+        "tail",
+        "-f"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "stdin-follow-monitor-strict",
+      "profile": "strict",
+      "argv": [
+        "tail",
+        "-f"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "count-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "head",
+        "-5",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "count-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "head",
+        "-5",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "count-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "head",
+        "-5",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "count-follow-monitor-loose",
+      "profile": "loose",
+      "argv": [
+        "tail",
+        "-5",
+        "-F",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "count-follow-monitor-recommended",
+      "profile": "recommended",
+      "argv": [
+        "tail",
+        "-5",
+        "-F",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "count-follow-monitor-strict",
+      "profile": "strict",
+      "argv": [
+        "tail",
+        "-5",
+        "-F",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "count-credential-read-loose",
+      "profile": "loose",
+      "argv": [
+        "head",
+        "-5",
+        ".aws/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "count-credential-read-recommended",
+      "profile": "recommended",
+      "argv": [
+        "head",
+        "-5",
+        ".aws/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "count-credential-read-strict",
+      "profile": "strict",
+      "argv": [
+        "head",
+        "-5",
+        ".aws/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "privilege-loose",
+      "profile": "loose",
+      "argv": [
+        "sudo",
+        "echo",
+        "Acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "privilege-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sudo",
+        "echo",
+        "Acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "privilege-strict",
+      "profile": "strict",
+      "argv": [
+        "sudo",
+        "echo",
+        "Acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "device-write-loose",
+      "profile": "loose",
+      "argv": [
+        "dd",
+        "if=README.md",
+        "of=/dev/disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "device-write-recommended",
+      "profile": "recommended",
+      "argv": [
+        "dd",
+        "if=README.md",
+        "of=/dev/disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "device-write-strict",
+      "profile": "strict",
+      "argv": [
+        "dd",
+        "if=README.md",
+        "of=/dev/disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloud-remove-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3",
+        "rm",
+        "s3://acme/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloud-remove-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3",
+        "rm",
+        "s3://acme/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloud-remove-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3",
+        "rm",
+        "s3://acme/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "destroy-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "destroy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "destroy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "destroy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "destroy-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "destroy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "docker-prune-loose",
+      "profile": "loose",
+      "argv": [
+        "docker",
+        "system",
+        "prune",
+        "-af"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "docker-prune-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "system",
+        "prune",
+        "-af"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "docker-prune-strict",
+      "profile": "strict",
+      "argv": [
+        "docker",
+        "system",
+        "prune",
+        "-af"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-outside-remove-loose",
+      "profile": "loose",
+      "argv": [
+        "/bin/rm",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-outside-remove-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/bin/rm",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-outside-remove-strict",
+      "profile": "strict",
+      "argv": [
+        "/bin/rm",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "credential-read-loose",
+      "profile": "loose",
+      "argv": [
+        "cat",
+        ".aws/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "credential-read-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cat",
+        ".aws/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "credential-read-strict",
+      "profile": "strict",
+      "argv": [
+        "cat",
+        ".aws/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "Acme",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "Acme",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "Acme",
+        "/shield-baseline-unapproved/item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-recursive-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "-r",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-recursive-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-r",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-recursive-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "-r",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-config-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-config-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-helper-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--pre",
+        "sh",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-helper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--pre",
+        "sh",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-helper-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--pre",
+        "sh",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-pattern-file-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "-f",
+        "README.md",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-pattern-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-f",
+        "README.md",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-pattern-file-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "-f",
+        "README.md",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-mkdir-loose",
+      "profile": "loose",
+      "argv": [
+        "mkdir",
+        "-p",
+        "/shield-baseline-unapproved/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-mkdir-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mkdir",
+        "-p",
+        "/shield-baseline-unapproved/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-mkdir-strict",
+      "profile": "strict",
+      "argv": [
+        "mkdir",
+        "-p",
+        "/shield-baseline-unapproved/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-touch-loose",
+      "profile": "loose",
+      "argv": [
+        "touch",
+        "/shield-baseline-unapproved/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-touch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "touch",
+        "/shield-baseline-unapproved/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-touch-strict",
+      "profile": "strict",
+      "argv": [
+        "touch",
+        "/shield-baseline-unapproved/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "protected-mkdir-loose",
+      "profile": "loose",
+      "argv": [
+        "mkdir",
+        "-p",
+        ".git/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "protected-mkdir-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mkdir",
+        "-p",
+        ".git/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "protected-mkdir-strict",
+      "profile": "strict",
+      "argv": [
+        "mkdir",
+        "-p",
+        ".git/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "protected-touch-loose",
+      "profile": "loose",
+      "argv": [
+        "touch",
+        ".git/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "protected-touch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "touch",
+        ".git/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "protected-touch-strict",
+      "profile": "strict",
+      "argv": [
+        "touch",
+        ".git/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "mkdir-parent-loose",
+      "profile": "loose",
+      "argv": [
+        "mkdir",
+        "-p",
+        ".git/../generated"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "mkdir-parent-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mkdir",
+        "-p",
+        ".git/../generated"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "mkdir-parent-strict",
+      "profile": "strict",
+      "argv": [
+        "mkdir",
+        "-p",
+        ".git/../generated"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-descriptor-loose",
+      "profile": "loose",
+      "argv": [
+        "touch",
+        "-"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-descriptor-recommended",
+      "profile": "recommended",
+      "argv": [
+        "touch",
+        "-"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-descriptor-strict",
+      "profile": "strict",
+      "argv": [
+        "touch",
+        "-"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-reference-loose",
+      "profile": "loose",
+      "argv": [
+        "touch",
+        "-r",
+        "README.md",
+        "generated.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-reference-recommended",
+      "profile": "recommended",
+      "argv": [
+        "touch",
+        "-r",
+        "README.md",
+        "generated.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-reference-strict",
+      "profile": "strict",
+      "argv": [
+        "touch",
+        "-r",
+        "README.md",
+        "generated.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-trailing-option-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "Acme",
+        "README.md",
+        "-f/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-trailing-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "Acme",
+        "README.md",
+        "-f/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "grep-trailing-option-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "Acme",
+        "README.md",
+        "-f/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-trailing-reference-loose",
+      "profile": "loose",
+      "argv": [
+        "touch",
+        "generated.txt",
+        "--reference=/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-trailing-reference-recommended",
+      "profile": "recommended",
+      "argv": [
+        "touch",
+        "generated.txt",
+        "--reference=/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "touch-trailing-reference-strict",
+      "profile": "strict",
+      "argv": [
+        "touch",
+        "generated.txt",
+        "--reference=/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-trailing-config-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "Acme",
+        "--no-config",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-trailing-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "Acme",
+        "--no-config",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-trailing-config-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "Acme",
+        "--no-config",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-ignore-loading-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-ignore-loading-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-ignore-loading-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-hidden-tree-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--hidden",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-hidden-tree-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--hidden",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-hidden-tree-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--hidden",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-follow-tree-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--follow",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-follow-tree-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--follow",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-follow-tree-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "--follow",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-unrestricted-tree-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-uu",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-unrestricted-tree-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-uu",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-unrestricted-tree-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-uu",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-files-config-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--files"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-files-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--files"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-files-config-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--files"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-glob-tree-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "-g",
+        "*.md",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-glob-tree-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "-g",
+        "*.md",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-glob-tree-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "-g",
+        "*.md",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-cwd-ignore-loading-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "Acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-cwd-ignore-loading-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "Acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-cwd-ignore-loading-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "Acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-glob-override-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-g",
+        "*",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-glob-override-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-g",
+        "*",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-glob-override-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "-g",
+        "*",
+        "Acme",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-hidden-explicit-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "Acme",
+        ".aws"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-hidden-explicit-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "Acme",
+        ".aws"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-hidden-explicit-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--no-config",
+        "--no-ignore",
+        "Acme",
+        ".aws"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "find-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "find",
+        "/shield-baseline-unapproved",
+        "-name",
+        "item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "find-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "find",
+        "/shield-baseline-unapproved",
+        "-name",
+        "item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "find-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "find",
+        "/shield-baseline-unapproved",
+        "-name",
+        "item"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "find-credential-loose",
+      "profile": "loose",
+      "argv": [
+        "find",
+        ".aws"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "find-credential-recommended",
+      "profile": "recommended",
+      "argv": [
+        "find",
+        ".aws"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "find-credential-strict",
+      "profile": "strict",
+      "argv": [
+        "find",
+        ".aws"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "find-unmodeled-loose",
+      "profile": "loose",
+      "argv": [
+        "find",
+        ".",
+        "-newer",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "find-unmodeled-recommended",
+      "profile": "recommended",
+      "argv": [
+        "find",
+        ".",
+        "-newer",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "find-unmodeled-strict",
+      "profile": "strict",
+      "argv": [
+        "find",
+        ".",
+        "-newer",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "head-from-start-loose",
+      "profile": "loose",
+      "argv": [
+        "head",
+        "-n",
+        "+5",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "head-from-start-recommended",
+      "profile": "recommended",
+      "argv": [
+        "head",
+        "-n",
+        "+5",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "head-from-start-strict",
+      "profile": "strict",
+      "argv": [
+        "head",
+        "-n",
+        "+5",
+        "README.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "acme-unlisted",
+        "read"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "acme-unlisted",
+        "read"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "acme-unlisted",
+        "read"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "script-loose",
+      "profile": "loose",
+      "argv": [
+        "node",
+        "script.mjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "node",
+        "script.mjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "script-strict",
+      "profile": "strict",
+      "argv": [
+        "node",
+        "script.mjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "build-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "build-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "build-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "npm-init-interactive-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "npm-init-interactive-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "npm-init-interactive-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "npm-install-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "install",
+        "express"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "npm-install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "install",
+        "express"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "npm-install-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "install",
+        "express"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "npm-init-initializer-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "init",
+        "-y",
+        "acme-app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "npm-init-initializer-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "init",
+        "-y",
+        "acme-app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "npm-init-initializer-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "init",
+        "-y",
+        "acme-app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "find-helper-loose",
+      "profile": "loose",
+      "argv": [
+        "find",
+        ".",
+        "-exec",
+        "sh",
+        "-c",
+        "echo Acme",
+        ";"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "find-helper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "find",
+        ".",
+        "-exec",
+        "sh",
+        "-c",
+        "echo Acme",
+        ";"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "find-helper-strict",
+      "profile": "strict",
+      "argv": [
+        "find",
+        ".",
+        "-exec",
+        "sh",
+        "-c",
+        "echo Acme",
+        ";"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloud-inspect-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloud-inspect-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloud-inspect-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-inspect-loose",
+      "profile": "loose",
+      "argv": [
+        "docker",
+        "inspect",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-inspect-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "inspect",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-inspect-strict",
+      "profile": "strict",
+      "argv": [
+        "docker",
+        "inspect",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "git-global-option-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "-C",
+        "/other",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "git-global-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "-C",
+        "/other",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "git-global-option-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "-C",
+        "/other",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "find-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "find",
+        ".",
+        "-name",
+        "*.tmp",
+        "-delete"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "find-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "find",
+        ".",
+        "-name",
+        "*.tmp",
+        "-delete"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "find-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "find",
+        ".",
+        "-name",
+        "*.tmp",
+        "-delete"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "find-follow-loose",
+      "profile": "loose",
+      "argv": [
+        "find",
+        "-L",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "find-follow-recommended",
+      "profile": "recommended",
+      "argv": [
+        "find",
+        "-L",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "find-follow-strict",
+      "profile": "strict",
+      "argv": [
+        "find",
+        "-L",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "find-output-file-loose",
+      "profile": "loose",
+      "argv": [
+        "find",
+        ".",
+        "-fprint",
+        "list.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "find-output-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "find",
+        ".",
+        "-fprint",
+        "list.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "find-output-file-strict",
+      "profile": "strict",
+      "argv": [
+        "find",
+        ".",
+        "-fprint",
+        "list.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sort-output-loose",
+      "profile": "loose",
+      "argv": [
+        "sort",
+        "-o",
+        "sorted.txt",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sort-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sort",
+        "-o",
+        "sorted.txt",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sort-output-strict",
+      "profile": "strict",
+      "argv": [
+        "sort",
+        "-o",
+        "sorted.txt",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "uniq-output-loose",
+      "profile": "loose",
+      "argv": [
+        "uniq",
+        "in.txt",
+        "out.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "uniq-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "uniq",
+        "in.txt",
+        "out.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "uniq-output-strict",
+      "profile": "strict",
+      "argv": [
+        "uniq",
+        "in.txt",
+        "out.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cut-file-loose",
+      "profile": "loose",
+      "argv": [
+        "cut",
+        "-f1",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cut-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cut",
+        "-f1",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cut-file-strict",
+      "profile": "strict",
+      "argv": [
+        "cut",
+        "-f1",
+        "README.md"
+      ],
+      "expected": "ask"
+    }
+  ]
+}

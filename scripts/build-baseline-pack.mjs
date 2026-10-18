@@ -1,9 +1,9 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { compactBaselinePack } from './baseline-compact.mjs';
 
-const root = process.argv[2] ? pathToFileURL(resolve(process.argv[2]) + '/') : new URL('../packs/canonic/baseline/0.1.5/', import.meta.url);
-await mkdir(root, { recursive: true });
+export function buildBaselinePack({ version = '0.1.5', compact = false } = {}) {
 const profiles = values => Object.fromEntries(['loose', 'recommended', 'strict'].map((p, i) => [p, values[i]]));
 const allow = ['allow', 'allow', 'allow'];
 const local = ['allow', 'allow', 'ask'];
@@ -182,13 +182,26 @@ for (const [executable, prefix] of [
   ['terraform',['destroy']], ['tofu',['destroy']],
 ]) argv(`deny-${executable}-${prefix.join('-')}`,executable,{kind:'prefix',values:prefix},deny);
 
-const pack = { schema_version:1, kind:'pack', id:'canonic/baseline', version:'0.1.5',
+const pack = { schema_version:1, kind:'pack', id:'canonic/baseline', version,
   description:'Standard command and file permissions with approved read/write paths and conservative review of unmodeled effects.',
   license:'MIT',maintainers:['Canonic'],engine:'>=0.1.0, <0.2.0',
   capabilities:['access-paths-v1','argument-rules-v1','fallback-rules-v1','location-v1','regex-v1','requirements-v1','structured-rules-v1'],rules };
-await writeFile(new URL('pack.yml',root),JSON.stringify(pack,null,2)+'\n');
+return compact ? compactBaselinePack({ ...pack, engine: '>=0.1.1, <0.2.0' }).pack : pack;
+}
+
+export function baselineCommands(pack) {
+const rules = pack.rules;
 const names = [...new Set(rules.filter(r=>r.conditions.domain==='argv')
   .flatMap(r=>r.conditions.executable.one_of).filter(name=>!name.includes('/')))].sort();
 const commands = names.map(name=>({name,rule_ids:rules.filter(r=>r.conditions.domain==='argv' && r.conditions.executable.one_of.includes(name)).map(r=>r.id)}));
-await writeFile(new URL('commands.json',root),JSON.stringify({schema_version:1,commands},null,2)+'\n');
-console.log(`${rules.length} baseline rules`);
+return {schema_version:1,commands};
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+  const root = process.argv[2] ? pathToFileURL(resolve(process.argv[2]) + '/') : new URL('../packs/canonic/baseline/0.1.5/', import.meta.url);
+  await mkdir(root, { recursive: true });
+  const pack = buildBaselinePack();
+  await writeFile(new URL('pack.yml',root),JSON.stringify(pack,null,2)+'\n');
+  await writeFile(new URL('commands.json',root),JSON.stringify(baselineCommands(pack),null,2)+'\n');
+  console.log(`${pack.rules.length} baseline rules`);
+}

@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "registry_id": "canonic-shield-main",
-  "sequence": 12,
-  "expires_at": "2027-01-10T00:00:00Z",
+  "sequence": 13,
+  "expires_at": "2027-01-16T00:00:00Z",
   "packs": [
     {
       "id": "canonic/git",
@@ -69,6 +69,18 @@
       "version": "0.1.5",
       "path": "packs/canonic/baseline/0.1.5/pack.yml",
       "sha256": "c19949b5d0d9cd06c83067dc1372c1a60fa31b39ca5c6b3ac2019b8511121ded"
+    },
+    {
+      "id": "canonic/git",
+      "version": "0.5.0",
+      "path": "packs/canonic/git/0.5.0/pack.yml",
+      "sha256": "14dc7f69fd1343efb2ce7f351d13a8a6c0ec44898a05faa0f03f644bf584dd66"
+    },
+    {
+      "id": "canonic/baseline",
+      "version": "0.2.0",
+      "path": "packs/canonic/baseline/0.2.0/pack.yml",
+      "sha256": "0bf0518ad6b9d75c789b08692ba43afd0380022385e9b9c68962dae4efce894a"
     }
   ]
 }

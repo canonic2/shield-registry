@@ -71,9 +71,13 @@ function rule(pack, domain) {
     : object({ domain: { const: domain }, ...common, ...predicates[domain], ...identities[domain] }, ['domain', ...Object.keys(identities[domain])]);
   const props = { id: { ...text(1, 128), pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]*$' }, decision, conditions: condition,
     reason: text(1), guidance: { ...object(guidance, []), minProperties: 1 },
-    ...(pack ? { fallback: { const: true } } : {}),
+    ...(pack ? { fallback: { const: true }, ...(domain === 'argv' ? { invocation: ref('bindingName'), command_set: ref('bindingName') } : {}) } : {}),
     ...(!pack ? { expires_at: { ...text(1), pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,9})?Z$' } } : {}) };
   const checks = [];
+  if (pack && domain === 'argv') checks.push(
+    { if: has('command_set'), then: has('invocation') },
+    { if: has('invocation'), then: { allOf: [at(['conditions','executable'],one([text(1),object({exact:text(1)})])),at(['conditions'],has('arguments')),{not:at(['conditions','arguments'],has('leading'))}] } },
+  );
   if (domain !== 'exact_request') {
     props.requirements = { ...object({ ...common, ...predicates[domain] }, []), minProperties: 1 };
     props.on_unmet = object({ decision: unmet, ...guidance }, ['decision']);
@@ -97,6 +101,9 @@ function rule(pack, domain) {
   return { ...object(props, ['id', 'decision', 'conditions']), ...(checks.length ? { allOf: checks } : {}) };
 }
 const defs = {
+  bindingName: { ...text(1,64), pattern:'^[A-Za-z0-9._:-]+$' },
+  invocation: object({ id_prefix:{...text(1,64),pattern:'^[A-Za-z0-9][A-Za-z0-9._:]*$'},segments:array(array(array(text()),1,true),1,false,16) }),
+  commandSet: { type:'object',minProperties:1,maxProperties:500000,propertyNames:text(1),additionalProperties:{...text(1,128),pattern:'^[A-Za-z0-9][A-Za-z0-9._:-]*$'} },
   textSelector: selector(false), identitySelector: selector(true),
   pathReference: one([object({ root: { enum: ['project','read','write'] }, path: { ...text(1), pattern: '^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).*$' } }, ['root']),
     object({ root: { const: 'absolute' }, path: { ...text(1), pattern: '^(?:/|[A-Za-z]:[\\\\/]|\\\\\\\\)' } })]),
@@ -131,7 +138,7 @@ defs.input = one([
   input('mcp', { server: text(1), tool: text(1), arguments: jsonObject }),
   input('unknown', { host_tool: text(1) }),
 ]);
-const caps = ['structured-rules-v1', 'argument-rules-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1', 'fallback-rules-v1'];
+const caps = ['structured-rules-v1', 'argument-rules-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1', 'fallback-rules-v1', 'invocation-groups-v1', 'command-sets-v1'];
 const domains = [...Object.keys(predicates), 'exact_request'];
 defs.packRule = one(domains.map(domain => rule(true, domain)));
 defs.customRule = one(domains.map(domain => rule(false, domain)));
@@ -154,6 +161,8 @@ const textPaths = [
   ['fields', '@', 'text'], ['request_fields', '@', 'text'], ...pathText,
 ];
 const feature = {
+  'invocation-groups-v1': has('invocation'),
+  'command-sets-v1': has('command_set'),
   'access-paths-v1': any([
     at(['conditions','executable','root'], { enum:['read','write'] }),
     ...['exact','within','outside'].flatMap(operator => [
@@ -200,8 +209,10 @@ const document = pack => {
     rules: array(ref(pack ? 'packRule' : 'customRule'), 0, false, 500000) };
   const extra = pack ? { id: { ...text(1, 128), pattern: '^[a-z0-9-]{1,64}/[a-z0-9-]{1,64}$' }, version: text(1, 128),
     description: text(1), license: text(1), maintainers: array(text(1, 128), 1, true), engine: text(1, 1024),
-    dependencies: array(ref('dependency'), 0, false, 256) } : {};
-  return { ...object({ ...base, ...extra }, [...Object.keys(base), ...Object.keys(extra).filter(key => key !== 'dependencies')]),
+    dependencies: array(ref('dependency'), 0, false, 256),
+    invocations:{type:'object',maxProperties:64,propertyNames:ref('bindingName'),additionalProperties:ref('invocation')},
+    command_sets:{type:'object',maxProperties:500000,propertyNames:ref('bindingName'),additionalProperties:ref('commandSet')} } : {};
+  return { ...object({ ...base, ...extra }, [...Object.keys(base), ...Object.keys(extra).filter(key => !['dependencies','invocations','command_sets'].includes(key))]),
     allOf: [ref('documentCapabilities')] };
 };
 defs.pack = document(true); defs.custom = document(false);

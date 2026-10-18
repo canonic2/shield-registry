@@ -170,7 +170,7 @@ def run(binary, pack):
                 for name, source, decision in cases:
                     payload = {"hook_event_name": "PreToolUse", "tool_name": "Bash", "cwd": str(project),
                                "session_id": "acme-session", "tool_use_id": f"{agent}-{name}", "tool_input": {"command": source}}
-                    response = subprocess.run([binary, "__internal", "native-hook", "--project", str(project), "--agent", agent],
+                    response = subprocess.run([binary, "__internal", "native-hook", "--project", str(project), "--agent", agent, "--event", "PreToolUse"],
                                               input=json.dumps(payload), text=True, capture_output=True, env=env, timeout=15)
                     assert response.returncode == 0, response.stderr
                     output = json.loads(response.stdout)["hookSpecificOutput"]
@@ -191,7 +191,7 @@ def run(binary, pack):
                 payload = {"hook_event_name":"PreToolUse","tool_name":"Read","cwd":str(project),
                            "session_id":"acme-session","tool_use_id":f"bound-read-{directory.name}",
                            "tool_input":{"file_path":str(directory / ("config.txt" if directory.name=='.aws' else "item.txt"))}}
-                response = subprocess.run([binary,"__internal","native-hook","--project",str(project),"--agent","claude"],
+                response = subprocess.run([binary,"__internal","native-hook","--project",str(project),"--agent","claude","--event","PreToolUse"],
                                           input=json.dumps(payload),text=True,capture_output=True,env=env,timeout=15)
                 assert response.returncode == 0, response.stderr
                 output=json.loads(response.stdout)["hookSpecificOutput"]
@@ -202,7 +202,7 @@ def run(binary, pack):
             (nested).rmdir()
             payload = {"hook_event_name":"PreToolUse","tool_name":"Bash","cwd":str(project),
                        "session_id":"acme-session","tool_use_id":"unavailable-root","tool_input":{"command":"rm item.txt"}}
-            response = subprocess.run([binary,"__internal","native-hook","--project",str(project),"--agent","claude"],
+            response = subprocess.run([binary,"__internal","native-hook","--project",str(project),"--agent","claude","--event","PreToolUse"],
                                       input=json.dumps(payload),text=True,capture_output=True,env=env,timeout=15)
             assert response.returncode == 0, response.stderr
             assert json.loads(response.stdout)["hookSpecificOutput"]["permissionDecision"] == "deny"

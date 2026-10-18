@@ -14,14 +14,18 @@ integrations are developed separately.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
+| [canonic/baseline](packs/canonic/baseline/0.2.0/README.md) | 0.2.0 | Compact structured v1 release | 71 shared executable-family bodies preserve the reviewed 149-rule policy |
+| [canonic/git](packs/canonic/git/0.5.0/README.md) | 0.5.0 | Compact structured v1 release | 110 bodies, 173 command members and one invocation group preserve all 837 matched rule identities |
 | [canonic/baseline](packs/canonic/baseline/0.1.5/README.md) | 0.1.5 | Structured v1 release | Standard commands, version checks, bounded directory searches and listings, text filters and files bound to approved read/write roots |
 | [canonic/git](packs/canonic/git/0.4.1/README.md) | 0.4.1 | Structured v1 release | Git inspection, staging, recoverable local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The signed `public/` catalog uses sequence 12 and includes structured v1 Baseline
+The signed `public/` catalog uses sequence 13 and includes compact Baseline 0.2.0
+and Git 0.5.0, plus structured v1 Baseline
 0.1.0/0.1.1/0.1.2/0.1.3/0.1.4/0.1.5 and Git 0.3.0/0.4.0/0.4.1. Current Shield requires that format. Historical Git 0.1.0/0.2.0 releases
 retain their original bytes for compatible older clients.
 
+The compact releases require Shield 0.1.1 or later within the 0.1 series.
 Baseline requires `access-paths-v1` and `fallback-rules-v1`; use a Shield build
 implementing those capabilities. Its removal scope follows operator-confirmed project access paths.
 See its guide for profile decisions, native-hook fixtures and coverage limits.
@@ -131,6 +135,15 @@ node scripts/build-git-pack.mjs
 node scripts/build-git-cases.mjs
 node scripts/build-policy-schema.mjs
 ```
+
+Build the compact releases with `node scripts/build-git-compact-pack.mjs` and
+`node scripts/build-baseline-compact-pack.mjs`. Git shares wrapper invocations and
+command membership while preserving each original matched rule ID. Baseline
+combines only identical bodies with disjoint explicit executable selectors;
+its shared family IDs and source-member IDs are documented in the pack inventory.
+Tests reconstruct every prior source rule, compare production evaluation evidence
+across all three profiles, and retain the independent fixture suites. Baseline's
+native path checks cover both the flat and compact releases.
 
 ### Publish a release
 

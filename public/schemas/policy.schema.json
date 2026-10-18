@@ -15,6 +15,67 @@
     }
   ],
   "$defs": {
+    "bindingName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9._:-]+$"
+    },
+    "invocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id_prefix": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:]*$"
+        },
+        "segments": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 4096,
+                "pattern": "^[^\\u0000]*$"
+              },
+              "minItems": 0,
+              "maxItems": 256
+            },
+            "minItems": 1,
+            "maxItems": 256,
+            "uniqueItems": true
+          },
+          "minItems": 1,
+          "maxItems": 16
+        }
+      },
+      "required": [
+        "id_prefix",
+        "segments"
+      ]
+    },
+    "commandSet": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 500000,
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4096,
+        "pattern": "^[^\\u0000]*$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128,
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+      }
+    },
     "textSelector": {
       "oneOf": [
         {
@@ -1402,6 +1463,12 @@
             "fallback": {
               "const": true
             },
+            "invocation": {
+              "$ref": "#/$defs/bindingName"
+            },
+            "command_set": {
+              "$ref": "#/$defs/bindingName"
+            },
             "requirements": {
               "type": "object",
               "additionalProperties": false,
@@ -1510,6 +1577,106 @@
             "conditions"
           ],
           "allOf": [
+            {
+              "if": {
+                "required": [
+                  "command_set"
+                ]
+              },
+              "then": {
+                "required": [
+                  "invocation"
+                ]
+              }
+            },
+            {
+              "if": {
+                "required": [
+                  "invocation"
+                ]
+              },
+              "then": {
+                "allOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "conditions"
+                    ],
+                    "properties": {
+                      "conditions": {
+                        "type": "object",
+                        "required": [
+                          "executable"
+                        ],
+                        "properties": {
+                          "executable": {
+                            "oneOf": [
+                              {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 4096,
+                                "pattern": "^[^\\u0000]*$"
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "exact": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 4096,
+                                    "pattern": "^[^\\u0000]*$"
+                                  }
+                                },
+                                "required": [
+                                  "exact"
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "conditions"
+                    ],
+                    "properties": {
+                      "conditions": {
+                        "required": [
+                          "arguments"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "not": {
+                      "type": "object",
+                      "required": [
+                        "conditions"
+                      ],
+                      "properties": {
+                        "conditions": {
+                          "type": "object",
+                          "required": [
+                            "arguments"
+                          ],
+                          "properties": {
+                            "arguments": {
+                              "required": [
+                                "leading"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
             {
               "if": {
                 "required": [
@@ -6477,6 +6644,98 @@
     },
     "documentCapabilities": {
       "allOf": [
+        {
+          "if": {
+            "type": "object",
+            "required": [
+              "rules"
+            ],
+            "properties": {
+              "rules": {
+                "type": "array",
+                "contains": {
+                  "required": [
+                    "invocation"
+                  ]
+                }
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "required": [
+              "capabilities"
+            ],
+            "properties": {
+              "capabilities": {
+                "contains": {
+                  "const": "invocation-groups-v1"
+                }
+              }
+            }
+          },
+          "else": {
+            "type": "object",
+            "required": [
+              "capabilities"
+            ],
+            "properties": {
+              "capabilities": {
+                "not": {
+                  "contains": {
+                    "const": "invocation-groups-v1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "required": [
+              "rules"
+            ],
+            "properties": {
+              "rules": {
+                "type": "array",
+                "contains": {
+                  "required": [
+                    "command_set"
+                  ]
+                }
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "required": [
+              "capabilities"
+            ],
+            "properties": {
+              "capabilities": {
+                "contains": {
+                  "const": "command-sets-v1"
+                }
+              }
+            }
+          },
+          "else": {
+            "type": "object",
+            "required": [
+              "capabilities"
+            ],
+            "properties": {
+              "capabilities": {
+                "not": {
+                  "contains": {
+                    "const": "command-sets-v1"
+                  }
+                }
+              }
+            }
+          }
+        },
         {
           "if": {
             "type": "object",
@@ -15414,11 +15673,13 @@
               "possible-effects-v1",
               "dependencies-v1",
               "access-paths-v1",
-              "fallback-rules-v1"
+              "fallback-rules-v1",
+              "invocation-groups-v1",
+              "command-sets-v1"
             ]
           },
           "minItems": 1,
-          "maxItems": 10,
+          "maxItems": 12,
           "uniqueItems": true,
           "contains": {
             "const": "structured-rules-v1"
@@ -15481,6 +15742,26 @@
           },
           "minItems": 0,
           "maxItems": 256
+        },
+        "invocations": {
+          "type": "object",
+          "maxProperties": 64,
+          "propertyNames": {
+            "$ref": "#/$defs/bindingName"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/invocation"
+          }
+        },
+        "command_sets": {
+          "type": "object",
+          "maxProperties": 500000,
+          "propertyNames": {
+            "$ref": "#/$defs/bindingName"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/commandSet"
+          }
         }
       },
       "required": [
@@ -15524,11 +15805,13 @@
               "possible-effects-v1",
               "dependencies-v1",
               "access-paths-v1",
-              "fallback-rules-v1"
+              "fallback-rules-v1",
+              "invocation-groups-v1",
+              "command-sets-v1"
             ]
           },
           "minItems": 1,
-          "maxItems": 10,
+          "maxItems": 12,
           "uniqueItems": true,
           "contains": {
             "const": "structured-rules-v1"

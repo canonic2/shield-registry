@@ -57,7 +57,7 @@ async function main(args) {
   console.log(`Releasing ${reference} as catalog sequence ${next.sequence}.`);
 
   const rg = spawnSync('which', ['rg'], { encoding: 'utf8' }).stdout.trim();
-  const tests = spawnSync(process.execPath, ['--test', 'scripts/*.test.mjs'], {
+  const tests = spawnSync(process.execPath, ['--test', '--test-concurrency=1', 'scripts/*.test.mjs'], {
     cwd: root, stdio: 'inherit', env: { ...process.env, SHIELD_BINARY: shield, ...(rg ? { RG_BINARY: rg } : {}) },
   });
   if (tests.status !== 0) throw Error('Tests failed; nothing was signed');

@@ -1,0 +1,4312 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/git",
+  "version": "0.5.0",
+  "description": "Git permissions for inspection, staging, local changes, remote access and destructive operations.",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engine": ">=0.1.1, <0.2.0",
+  "capabilities": [
+    "argument-rules-v1",
+    "command-sets-v1",
+    "invocation-groups-v1",
+    "structured-rules-v1"
+  ],
+  "rules": [
+    {
+      "id": "baseline-0",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "reason": "Review unclassified options or operations before permitting their effects.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "invocation": "git",
+      "command_set": "baseline-0"
+    },
+    {
+      "id": "baseline-1",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "reason": "Review remote access, publication or transport/helper execution; Strict denies these operations.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "invocation": "git",
+      "command_set": "baseline-1"
+    },
+    {
+      "id": "baseline-2",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git",
+      "command_set": "baseline-2"
+    },
+    {
+      "id": "baseline-3",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "reason": "Review launching editors, viewers or other external programs; Strict denies.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "invocation": "git",
+      "command_set": "baseline-3"
+    },
+    {
+      "id": "form-0-status",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "status"
+          ],
+          "flags": [
+            "--short",
+            "-s",
+            "--branch",
+            "-b",
+            "--long",
+            "--show-stash",
+            "--no-renames",
+            "-z"
+          ],
+          "values": [
+            "--untracked-files",
+            "-u",
+            "--find-renames"
+          ],
+          "operands": true,
+          "optional_values": [
+            "--porcelain",
+            "--ignored",
+            "--ignore-submodules"
+          ]
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-1-log",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "log"
+          ],
+          "flags": [
+            "-p",
+            "-u",
+            "--patch",
+            "--no-patch",
+            "-s",
+            "--raw",
+            "--stat",
+            "--numstat",
+            "--shortstat",
+            "--dirstat",
+            "--summary",
+            "--name-only",
+            "--name-status",
+            "--check",
+            "--binary",
+            "--full-index",
+            "--no-color",
+            "--color-words",
+            "--no-ext-diff",
+            "--no-textconv",
+            "--no-renames",
+            "--minimal",
+            "--patience",
+            "--histogram",
+            "--ignore-all-space",
+            "--ignore-space-change",
+            "--ignore-space-at-eol",
+            "--ignore-cr-at-eol",
+            "--ignore-blank-lines",
+            "--exit-code",
+            "--quiet",
+            "-w",
+            "-b",
+            "-z",
+            "--relative",
+            "--reverse",
+            "-R",
+            "--no-prefix",
+            "--oneline",
+            "--graph",
+            "--all",
+            "--branches",
+            "--tags",
+            "--remotes",
+            "--no-decorate",
+            "--date-order",
+            "--author-date-order",
+            "--topo-order",
+            "--first-parent",
+            "--no-merges",
+            "--merges",
+            "--ancestry-path",
+            "--follow",
+            "--walk-reflogs",
+            "--no-walk",
+            "--left-right",
+            "--cherry",
+            "--cherry-pick",
+            "--boundary",
+            "--simplify-by-decoration",
+            "--full-history",
+            "--simplify-merges",
+            "--dense",
+            "--sparse",
+            "--parents",
+            "--children"
+          ],
+          "values": [
+            "-U",
+            "--unified",
+            "--diff-filter",
+            "--word-diff",
+            "--word-diff-regex",
+            "--color",
+            "--color-moved",
+            "--color-moved-ws",
+            "--inter-hunk-context",
+            "--src-prefix",
+            "--dst-prefix",
+            "--line-prefix",
+            "--abbrev",
+            "--find-renames",
+            "--find-copies",
+            "-S",
+            "-G",
+            "--stat-width",
+            "--stat-name-width",
+            "--stat-count",
+            "-n",
+            "--max-count",
+            "--skip",
+            "--since",
+            "--after",
+            "--until",
+            "--before",
+            "--author",
+            "--committer",
+            "--grep",
+            "--format",
+            "--pretty",
+            "--date",
+            "--decorate",
+            "--encoding"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-2-show",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "show"
+          ],
+          "flags": [
+            "-p",
+            "-u",
+            "--patch",
+            "--no-patch",
+            "-s",
+            "--raw",
+            "--stat",
+            "--numstat",
+            "--shortstat",
+            "--dirstat",
+            "--summary",
+            "--name-only",
+            "--name-status",
+            "--check",
+            "--binary",
+            "--full-index",
+            "--no-color",
+            "--color-words",
+            "--no-ext-diff",
+            "--no-textconv",
+            "--no-renames",
+            "--minimal",
+            "--patience",
+            "--histogram",
+            "--ignore-all-space",
+            "--ignore-space-change",
+            "--ignore-space-at-eol",
+            "--ignore-cr-at-eol",
+            "--ignore-blank-lines",
+            "--exit-code",
+            "--quiet",
+            "-w",
+            "-b",
+            "-z",
+            "--relative",
+            "--reverse",
+            "-R",
+            "--no-prefix"
+          ],
+          "values": [
+            "-U",
+            "--unified",
+            "--diff-filter",
+            "--word-diff",
+            "--word-diff-regex",
+            "--color",
+            "--color-moved",
+            "--color-moved-ws",
+            "--inter-hunk-context",
+            "--src-prefix",
+            "--dst-prefix",
+            "--line-prefix",
+            "--abbrev",
+            "--find-renames",
+            "--find-copies",
+            "-S",
+            "-G",
+            "--stat-width",
+            "--stat-name-width",
+            "--stat-count",
+            "--format",
+            "--pretty",
+            "--date",
+            "--encoding"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-3-diff",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "diff"
+          ],
+          "flags": [
+            "-p",
+            "-u",
+            "--patch",
+            "--no-patch",
+            "-s",
+            "--raw",
+            "--stat",
+            "--numstat",
+            "--shortstat",
+            "--dirstat",
+            "--summary",
+            "--name-only",
+            "--name-status",
+            "--check",
+            "--binary",
+            "--full-index",
+            "--no-color",
+            "--color-words",
+            "--no-ext-diff",
+            "--no-textconv",
+            "--no-renames",
+            "--minimal",
+            "--patience",
+            "--histogram",
+            "--ignore-all-space",
+            "--ignore-space-change",
+            "--ignore-space-at-eol",
+            "--ignore-cr-at-eol",
+            "--ignore-blank-lines",
+            "--exit-code",
+            "--quiet",
+            "-w",
+            "-b",
+            "-z",
+            "--relative",
+            "--reverse",
+            "-R",
+            "--no-prefix",
+            "--cached",
+            "--staged",
+            "--merge-base"
+          ],
+          "values": [
+            "-U",
+            "--unified",
+            "--diff-filter",
+            "--word-diff",
+            "--word-diff-regex",
+            "--color",
+            "--color-moved",
+            "--color-moved-ws",
+            "--inter-hunk-context",
+            "--src-prefix",
+            "--dst-prefix",
+            "--line-prefix",
+            "--abbrev",
+            "--find-renames",
+            "--find-copies",
+            "-S",
+            "-G",
+            "--stat-width",
+            "--stat-name-width",
+            "--stat-count"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-4-diff-files",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "diff-files"
+          ],
+          "flags": [
+            "-p",
+            "-u",
+            "--patch",
+            "--no-patch",
+            "-s",
+            "--raw",
+            "--stat",
+            "--numstat",
+            "--shortstat",
+            "--dirstat",
+            "--summary",
+            "--name-only",
+            "--name-status",
+            "--check",
+            "--binary",
+            "--full-index",
+            "--no-color",
+            "--color-words",
+            "--no-ext-diff",
+            "--no-textconv",
+            "--no-renames",
+            "--minimal",
+            "--patience",
+            "--histogram",
+            "--ignore-all-space",
+            "--ignore-space-change",
+            "--ignore-space-at-eol",
+            "--ignore-cr-at-eol",
+            "--ignore-blank-lines",
+            "--exit-code",
+            "--quiet",
+            "-w",
+            "-b",
+            "-z",
+            "--relative",
+            "--reverse",
+            "-R",
+            "--no-prefix"
+          ],
+          "values": [
+            "-U",
+            "--unified",
+            "--diff-filter",
+            "--word-diff",
+            "--word-diff-regex",
+            "--color",
+            "--color-moved",
+            "--color-moved-ws",
+            "--inter-hunk-context",
+            "--src-prefix",
+            "--dst-prefix",
+            "--line-prefix",
+            "--abbrev",
+            "--find-renames",
+            "--find-copies",
+            "-S",
+            "-G",
+            "--stat-width",
+            "--stat-name-width",
+            "--stat-count"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-5-diff-index",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "diff-index"
+          ],
+          "flags": [
+            "-p",
+            "-u",
+            "--patch",
+            "--no-patch",
+            "-s",
+            "--raw",
+            "--stat",
+            "--numstat",
+            "--shortstat",
+            "--dirstat",
+            "--summary",
+            "--name-only",
+            "--name-status",
+            "--check",
+            "--binary",
+            "--full-index",
+            "--no-color",
+            "--color-words",
+            "--no-ext-diff",
+            "--no-textconv",
+            "--no-renames",
+            "--minimal",
+            "--patience",
+            "--histogram",
+            "--ignore-all-space",
+            "--ignore-space-change",
+            "--ignore-space-at-eol",
+            "--ignore-cr-at-eol",
+            "--ignore-blank-lines",
+            "--exit-code",
+            "--quiet",
+            "-w",
+            "-b",
+            "-z",
+            "--relative",
+            "--reverse",
+            "-R",
+            "--no-prefix",
+            "--cached"
+          ],
+          "values": [
+            "-U",
+            "--unified",
+            "--diff-filter",
+            "--word-diff",
+            "--word-diff-regex",
+            "--color",
+            "--color-moved",
+            "--color-moved-ws",
+            "--inter-hunk-context",
+            "--src-prefix",
+            "--dst-prefix",
+            "--line-prefix",
+            "--abbrev",
+            "--find-renames",
+            "--find-copies",
+            "-S",
+            "-G",
+            "--stat-width",
+            "--stat-name-width",
+            "--stat-count"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-6-diff-tree",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "diff-tree"
+          ],
+          "flags": [
+            "-p",
+            "-u",
+            "--patch",
+            "--no-patch",
+            "-s",
+            "--raw",
+            "--stat",
+            "--numstat",
+            "--shortstat",
+            "--dirstat",
+            "--summary",
+            "--name-only",
+            "--name-status",
+            "--check",
+            "--binary",
+            "--full-index",
+            "--no-color",
+            "--color-words",
+            "--no-ext-diff",
+            "--no-textconv",
+            "--no-renames",
+            "--minimal",
+            "--patience",
+            "--histogram",
+            "--ignore-all-space",
+            "--ignore-space-change",
+            "--ignore-space-at-eol",
+            "--ignore-cr-at-eol",
+            "--ignore-blank-lines",
+            "--exit-code",
+            "--quiet",
+            "-w",
+            "-b",
+            "-z",
+            "--relative",
+            "--reverse",
+            "-R",
+            "--no-prefix",
+            "-r",
+            "-t",
+            "--root",
+            "--no-commit-id"
+          ],
+          "values": [
+            "-U",
+            "--unified",
+            "--diff-filter",
+            "--word-diff",
+            "--word-diff-regex",
+            "--color",
+            "--color-moved",
+            "--color-moved-ws",
+            "--inter-hunk-context",
+            "--src-prefix",
+            "--dst-prefix",
+            "--line-prefix",
+            "--abbrev",
+            "--find-renames",
+            "--find-copies",
+            "-S",
+            "-G",
+            "--stat-width",
+            "--stat-name-width",
+            "--stat-count"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-7-range-diff",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "range-diff"
+          ],
+          "flags": [
+            "--no-dual-color",
+            "--left-only",
+            "--right-only",
+            "--no-ext-diff",
+            "--no-textconv"
+          ],
+          "values": [],
+          "operands": true,
+          "optional_values": [
+            "--creation-factor"
+          ]
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-8-shortlog",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "shortlog"
+          ],
+          "flags": [
+            "-s",
+            "--summary",
+            "-n",
+            "--numbered",
+            "-e",
+            "--email",
+            "--all"
+          ],
+          "values": [
+            "--group",
+            "--format",
+            "--since",
+            "--until"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-9-blame",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "blame"
+          ],
+          "flags": [
+            "--incremental",
+            "--line-porcelain",
+            "--porcelain",
+            "--show-name",
+            "--show-number",
+            "--show-email",
+            "-w",
+            "-f",
+            "-n",
+            "-s",
+            "-e",
+            "--root",
+            "--reverse",
+            "--no-textconv"
+          ],
+          "values": [
+            "-L",
+            "--date",
+            "--ignore-rev",
+            "--ignore-revs-file"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-10-annotate",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "annotate"
+          ],
+          "flags": [
+            "--porcelain",
+            "--show-name",
+            "--show-number",
+            "--show-email",
+            "-w",
+            "-f",
+            "-n",
+            "-s",
+            "-e",
+            "--root",
+            "--no-textconv"
+          ],
+          "values": [
+            "-L",
+            "--date"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-11-grep",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "grep"
+          ],
+          "flags": [
+            "-n",
+            "--line-number",
+            "-i",
+            "--ignore-case",
+            "-I",
+            "--binary-files",
+            "--cached",
+            "--no-index",
+            "--untracked",
+            "--no-exclude-standard",
+            "--recurse-submodules",
+            "-v",
+            "--invert-match",
+            "-w",
+            "--word-regexp",
+            "-h",
+            "-H",
+            "--full-name",
+            "-l",
+            "--files-with-matches",
+            "-L",
+            "--files-without-match",
+            "-c",
+            "--count",
+            "-z",
+            "--null",
+            "--break",
+            "--heading",
+            "--all-match",
+            "--and",
+            "--or",
+            "--not",
+            "-E",
+            "--extended-regexp",
+            "-G",
+            "--basic-regexp",
+            "-F",
+            "--fixed-strings",
+            "-P",
+            "--perl-regexp",
+            "--no-textconv",
+            "--quiet",
+            "-q"
+          ],
+          "values": [
+            "-e",
+            "-f",
+            "-A",
+            "-B",
+            "-C",
+            "--max-depth",
+            "--threads"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-12-ls-files",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "ls-files"
+          ],
+          "flags": [
+            "--cached",
+            "-c",
+            "--deleted",
+            "-d",
+            "--modified",
+            "-m",
+            "--others",
+            "-o",
+            "--ignored",
+            "-i",
+            "--stage",
+            "-s",
+            "--unmerged",
+            "-u",
+            "--killed",
+            "-k",
+            "--directory",
+            "--no-empty-directory",
+            "--exclude-standard",
+            "--full-name",
+            "--error-unmatch",
+            "--debug",
+            "--eol",
+            "--deduplicate",
+            "-z"
+          ],
+          "values": [
+            "--exclude",
+            "-x",
+            "--exclude-from",
+            "-X",
+            "--exclude-per-directory",
+            "--format"
+          ],
+          "operands": true,
+          "optional_values": [
+            "--with-tree"
+          ]
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-13-ls-tree",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "ls-tree"
+          ],
+          "flags": [
+            "-d",
+            "-r",
+            "-t",
+            "-l",
+            "--long",
+            "--name-only",
+            "--name-status",
+            "--full-name",
+            "--full-tree",
+            "-z"
+          ],
+          "values": [
+            "--format"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-14-cat-file",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "cat-file"
+          ],
+          "flags": [
+            "-t",
+            "-s",
+            "-e",
+            "-p",
+            "--batch-all-objects",
+            "--unordered",
+            "--buffer",
+            "--follow-symlinks"
+          ],
+          "values": [],
+          "operands": true,
+          "optional_values": [
+            "--batch",
+            "--batch-check"
+          ]
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-15-rev-parse",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "rev-parse"
+          ],
+          "flags": [
+            "--verify",
+            "--quiet",
+            "-q",
+            "--symbolic",
+            "--symbolic-full-name",
+            "--show-toplevel",
+            "--show-prefix",
+            "--show-cdup",
+            "--git-dir",
+            "--absolute-git-dir",
+            "--git-common-dir",
+            "--is-inside-git-dir",
+            "--is-inside-work-tree",
+            "--is-bare-repository",
+            "--show-superproject-working-tree",
+            "--sq",
+            "--not",
+            "--all",
+            "--branches",
+            "--tags",
+            "--remotes",
+            "--revs-only",
+            "--no-revs",
+            "--flags",
+            "--no-flags",
+            "--local-env-vars"
+          ],
+          "values": [
+            "--git-path",
+            "--resolve-git-dir",
+            "--path-format"
+          ],
+          "operands": true,
+          "optional_values": [
+            "--short",
+            "--abbrev-ref",
+            "--show-object-format"
+          ]
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-16-rev-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "rev-list"
+          ],
+          "flags": [
+            "--all",
+            "--branches",
+            "--tags",
+            "--remotes",
+            "--count",
+            "--objects",
+            "--objects-edge",
+            "--boundary",
+            "--parents",
+            "--children",
+            "--timestamp",
+            "--left-right",
+            "--cherry-pick",
+            "--cherry-mark",
+            "--reverse",
+            "--topo-order",
+            "--date-order",
+            "--first-parent",
+            "--no-merges",
+            "--merges",
+            "--quiet",
+            "--bisect",
+            "--bisect-vars",
+            "--bisect-all"
+          ],
+          "values": [
+            "-n",
+            "--max-count",
+            "--skip",
+            "--since",
+            "--until",
+            "--filter",
+            "--format"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-17-for-each-ref",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "for-each-ref"
+          ],
+          "flags": [
+            "--ignore-case",
+            "--shell",
+            "--python",
+            "--perl",
+            "--tcl",
+            "--include-root-refs"
+          ],
+          "values": [
+            "--format",
+            "--count",
+            "--points-at",
+            "--merged",
+            "--no-merged",
+            "--contains",
+            "--no-contains"
+          ],
+          "operands": true,
+          "optional_values": [
+            "--sort"
+          ]
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-18-show-ref",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "show-ref"
+          ],
+          "flags": [
+            "--head",
+            "--heads",
+            "--branches",
+            "--tags",
+            "--dereference",
+            "-d",
+            "--verify",
+            "--quiet",
+            "-q",
+            "--exists"
+          ],
+          "values": [
+            "-s"
+          ],
+          "operands": true,
+          "optional_values": [
+            "--hash"
+          ]
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-19-merge-base",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "merge-base"
+          ],
+          "flags": [
+            "--all",
+            "-a",
+            "--octopus",
+            "--independent",
+            "--is-ancestor",
+            "--fork-point"
+          ],
+          "values": [],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-20-describe",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "describe"
+          ],
+          "flags": [
+            "--all",
+            "--tags",
+            "--contains",
+            "--always",
+            "--long",
+            "--exact-match"
+          ],
+          "values": [
+            "--abbrev",
+            "--candidates",
+            "--match",
+            "--exclude"
+          ],
+          "operands": true,
+          "optional_values": [
+            "--dirty",
+            "--broken"
+          ]
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-21-name-rev",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "name-rev"
+          ],
+          "flags": [
+            "--tags",
+            "--all",
+            "--always",
+            "--undefined",
+            "--no-undefined",
+            "--name-only",
+            "--annotate-stdin"
+          ],
+          "values": [
+            "--refs",
+            "--exclude"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-22-count-objects",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "count-objects"
+          ],
+          "flags": [
+            "-v",
+            "--verbose",
+            "-H",
+            "--human-readable"
+          ],
+          "values": [],
+          "operands": false,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-23-check-ignore",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "check-ignore"
+          ],
+          "flags": [
+            "-v",
+            "--verbose",
+            "-n",
+            "--non-matching",
+            "--no-index",
+            "-q",
+            "--quiet",
+            "-z"
+          ],
+          "values": [],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-24-check-attr",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "check-attr"
+          ],
+          "flags": [
+            "-a",
+            "--all",
+            "--cached",
+            "-z"
+          ],
+          "values": [],
+          "operands": true,
+          "optional_values": [
+            "--source"
+          ]
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-25-check-mailmap",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "check-mailmap"
+          ],
+          "flags": [
+            "--stdin"
+          ],
+          "values": [],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-26-check-ref-format",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "check-ref-format"
+          ],
+          "flags": [
+            "--branch",
+            "--normalize",
+            "--allow-onelevel",
+            "--refspec-pattern"
+          ],
+          "values": [],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-27-show-branch",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "show-branch"
+          ],
+          "flags": [
+            "--all",
+            "-a",
+            "--remotes",
+            "-r",
+            "--current",
+            "--no-name",
+            "--topics",
+            "--topo-order",
+            "--date-order",
+            "--sparse"
+          ],
+          "values": [
+            "--more",
+            "--list",
+            "--reflog"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-28-show-index",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "show-index"
+          ],
+          "flags": [],
+          "values": [
+            "--object-format"
+          ],
+          "operands": false,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-29-hash-object",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "hash-object"
+          ],
+          "flags": [
+            "--stdin",
+            "--stdin-paths",
+            "--no-filters",
+            "--literally"
+          ],
+          "values": [
+            "-t",
+            "--path"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-30-patch-id",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "patch-id"
+          ],
+          "flags": [
+            "--stable",
+            "--unstable",
+            "--verbatim"
+          ],
+          "values": [],
+          "operands": false,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-31-get-tar-commit-id",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "get-tar-commit-id"
+          ],
+          "flags": [],
+          "values": [],
+          "operands": false,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-32-stripspace",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "stripspace"
+          ],
+          "flags": [
+            "--strip-comments",
+            "-s",
+            "--comment-lines",
+            "-c"
+          ],
+          "values": [],
+          "operands": false,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-33-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "version"
+          ],
+          "flags": [
+            "--build-options"
+          ],
+          "values": [],
+          "operands": false,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-34-branch",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "branch"
+          ],
+          "flags": [
+            "--list",
+            "-l",
+            "--all",
+            "-a",
+            "--remotes",
+            "-r",
+            "--verbose",
+            "-v",
+            "--no-color",
+            "--show-current",
+            "--no-column"
+          ],
+          "values": [
+            "--format",
+            "--sort",
+            "--contains",
+            "--no-contains",
+            "--merged",
+            "--no-merged",
+            "--points-at"
+          ],
+          "operands": true,
+          "require_any": [
+            "--list",
+            "-l",
+            "--all",
+            "-a",
+            "--remotes",
+            "-r",
+            "--show-current"
+          ],
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-35-tag",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "tag"
+          ],
+          "flags": [
+            "--list",
+            "-l",
+            "--no-column"
+          ],
+          "values": [
+            "--format",
+            "--sort",
+            "--contains",
+            "--no-contains",
+            "--merged",
+            "--no-merged",
+            "--points-at"
+          ],
+          "operands": true,
+          "require_any": [
+            "--list",
+            "-l"
+          ],
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-36-remote",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "remote"
+          ],
+          "flags": [
+            "-v",
+            "--verbose"
+          ],
+          "values": [],
+          "operands": false,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-37-remote-get-url",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "remote",
+            "get-url"
+          ],
+          "flags": [
+            "--all",
+            "--push"
+          ],
+          "values": [],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-38-remote-show",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "remote",
+            "show"
+          ],
+          "flags": [
+            "-n",
+            "--no-query"
+          ],
+          "values": [],
+          "operands": true,
+          "require_any": [
+            "-n",
+            "--no-query"
+          ],
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-39-worktree-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "worktree",
+            "list"
+          ],
+          "flags": [
+            "--porcelain",
+            "-z",
+            "--verbose",
+            "-v"
+          ],
+          "values": [],
+          "operands": false,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-40-stash-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "stash",
+            "list"
+          ],
+          "flags": [
+            "-p",
+            "-u",
+            "--patch",
+            "--no-patch",
+            "-s",
+            "--raw",
+            "--stat",
+            "--numstat",
+            "--shortstat",
+            "--dirstat",
+            "--summary",
+            "--name-only",
+            "--name-status",
+            "--check",
+            "--binary",
+            "--full-index",
+            "--no-color",
+            "--color-words",
+            "--no-ext-diff",
+            "--no-textconv",
+            "--no-renames",
+            "--minimal",
+            "--patience",
+            "--histogram",
+            "--ignore-all-space",
+            "--ignore-space-change",
+            "--ignore-space-at-eol",
+            "--ignore-cr-at-eol",
+            "--ignore-blank-lines",
+            "--exit-code",
+            "--quiet",
+            "-w",
+            "-b",
+            "-z",
+            "--relative",
+            "--reverse",
+            "-R",
+            "--no-prefix",
+            "--oneline",
+            "--graph",
+            "--all",
+            "--branches",
+            "--tags",
+            "--remotes",
+            "--no-decorate",
+            "--date-order",
+            "--author-date-order",
+            "--topo-order",
+            "--first-parent",
+            "--no-merges",
+            "--merges",
+            "--ancestry-path",
+            "--follow",
+            "--walk-reflogs",
+            "--no-walk",
+            "--left-right",
+            "--cherry",
+            "--cherry-pick",
+            "--boundary",
+            "--simplify-by-decoration",
+            "--full-history",
+            "--simplify-merges",
+            "--dense",
+            "--sparse",
+            "--parents",
+            "--children"
+          ],
+          "values": [
+            "-U",
+            "--unified",
+            "--diff-filter",
+            "--word-diff",
+            "--word-diff-regex",
+            "--color",
+            "--color-moved",
+            "--color-moved-ws",
+            "--inter-hunk-context",
+            "--src-prefix",
+            "--dst-prefix",
+            "--line-prefix",
+            "--abbrev",
+            "--find-renames",
+            "--find-copies",
+            "-S",
+            "-G",
+            "--stat-width",
+            "--stat-name-width",
+            "--stat-count",
+            "-n",
+            "--max-count",
+            "--skip",
+            "--since",
+            "--after",
+            "--until",
+            "--before",
+            "--author",
+            "--committer",
+            "--grep",
+            "--format",
+            "--pretty",
+            "--date",
+            "--decorate",
+            "--encoding"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-41-stash-show",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "stash",
+            "show"
+          ],
+          "flags": [
+            "-p",
+            "-u",
+            "--patch",
+            "--no-patch",
+            "-s",
+            "--raw",
+            "--stat",
+            "--numstat",
+            "--shortstat",
+            "--dirstat",
+            "--summary",
+            "--name-only",
+            "--name-status",
+            "--check",
+            "--binary",
+            "--full-index",
+            "--no-color",
+            "--color-words",
+            "--no-ext-diff",
+            "--no-textconv",
+            "--no-renames",
+            "--minimal",
+            "--patience",
+            "--histogram",
+            "--ignore-all-space",
+            "--ignore-space-change",
+            "--ignore-space-at-eol",
+            "--ignore-cr-at-eol",
+            "--ignore-blank-lines",
+            "--exit-code",
+            "--quiet",
+            "-w",
+            "-b",
+            "-z",
+            "--relative",
+            "--reverse",
+            "-R",
+            "--no-prefix",
+            "--include-untracked",
+            "--only-untracked"
+          ],
+          "values": [
+            "-U",
+            "--unified",
+            "--diff-filter",
+            "--word-diff",
+            "--word-diff-regex",
+            "--color",
+            "--color-moved",
+            "--color-moved-ws",
+            "--inter-hunk-context",
+            "--src-prefix",
+            "--dst-prefix",
+            "--line-prefix",
+            "--abbrev",
+            "--find-renames",
+            "--find-copies",
+            "-S",
+            "-G",
+            "--stat-width",
+            "--stat-name-width",
+            "--stat-count"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-42-reflog-show",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "reflog",
+            "show"
+          ],
+          "flags": [
+            "-p",
+            "-u",
+            "--patch",
+            "--no-patch",
+            "-s",
+            "--raw",
+            "--stat",
+            "--numstat",
+            "--shortstat",
+            "--dirstat",
+            "--summary",
+            "--name-only",
+            "--name-status",
+            "--check",
+            "--binary",
+            "--full-index",
+            "--no-color",
+            "--color-words",
+            "--no-ext-diff",
+            "--no-textconv",
+            "--no-renames",
+            "--minimal",
+            "--patience",
+            "--histogram",
+            "--ignore-all-space",
+            "--ignore-space-change",
+            "--ignore-space-at-eol",
+            "--ignore-cr-at-eol",
+            "--ignore-blank-lines",
+            "--exit-code",
+            "--quiet",
+            "-w",
+            "-b",
+            "-z",
+            "--relative",
+            "--reverse",
+            "-R",
+            "--no-prefix",
+            "--oneline",
+            "--graph",
+            "--all",
+            "--branches",
+            "--tags",
+            "--remotes",
+            "--no-decorate",
+            "--date-order",
+            "--author-date-order",
+            "--topo-order",
+            "--first-parent",
+            "--no-merges",
+            "--merges",
+            "--ancestry-path",
+            "--follow",
+            "--walk-reflogs",
+            "--no-walk",
+            "--left-right",
+            "--cherry",
+            "--cherry-pick",
+            "--boundary",
+            "--simplify-by-decoration",
+            "--full-history",
+            "--simplify-merges",
+            "--dense",
+            "--sparse",
+            "--parents",
+            "--children"
+          ],
+          "values": [
+            "-U",
+            "--unified",
+            "--diff-filter",
+            "--word-diff",
+            "--word-diff-regex",
+            "--color",
+            "--color-moved",
+            "--color-moved-ws",
+            "--inter-hunk-context",
+            "--src-prefix",
+            "--dst-prefix",
+            "--line-prefix",
+            "--abbrev",
+            "--find-renames",
+            "--find-copies",
+            "-S",
+            "-G",
+            "--stat-width",
+            "--stat-name-width",
+            "--stat-count",
+            "-n",
+            "--max-count",
+            "--skip",
+            "--since",
+            "--after",
+            "--until",
+            "--before",
+            "--author",
+            "--committer",
+            "--grep",
+            "--format",
+            "--pretty",
+            "--date",
+            "--decorate",
+            "--encoding"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-43-reflog-exists",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "reflog",
+            "exists"
+          ],
+          "flags": [],
+          "values": [],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-44-notes-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "notes",
+            "list"
+          ],
+          "flags": [],
+          "values": [],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-45-notes-show",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "notes",
+            "show"
+          ],
+          "flags": [],
+          "values": [],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-46-submodule-status",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "submodule",
+            "status"
+          ],
+          "flags": [
+            "--cached",
+            "--recursive"
+          ],
+          "values": [],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-47-sparse-checkout-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "sparse-checkout",
+            "list"
+          ],
+          "flags": [],
+          "values": [],
+          "operands": false,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-48-config-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "config",
+            "list"
+          ],
+          "flags": [
+            "--local",
+            "--global",
+            "--system",
+            "--worktree",
+            "--show-origin",
+            "--show-scope",
+            "--name-only",
+            "--includes",
+            "--no-includes",
+            "--null",
+            "-z"
+          ],
+          "values": [
+            "--file",
+            "-f"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-49-config-get",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "config",
+            "get"
+          ],
+          "flags": [
+            "--local",
+            "--global",
+            "--system",
+            "--worktree",
+            "--show-origin",
+            "--show-scope",
+            "--all",
+            "--includes",
+            "--no-includes",
+            "--null",
+            "-z"
+          ],
+          "values": [
+            "--file",
+            "-f",
+            "--type",
+            "--default"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-50-config",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "config"
+          ],
+          "flags": [
+            "--list",
+            "-l",
+            "--get",
+            "--get-all",
+            "--get-regexp",
+            "--get-urlmatch",
+            "--local",
+            "--global",
+            "--system",
+            "--worktree",
+            "--show-origin",
+            "--show-scope",
+            "--name-only",
+            "--null",
+            "-z",
+            "--includes",
+            "--no-includes"
+          ],
+          "values": [
+            "--file",
+            "-f",
+            "--type"
+          ],
+          "operands": true,
+          "require_any": [
+            "--list",
+            "-l",
+            "--get",
+            "--get-all",
+            "--get-regexp",
+            "--get-urlmatch"
+          ],
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-51-clean",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "clean"
+          ],
+          "flags": [
+            "--dry-run",
+            "-n",
+            "-d",
+            "-x",
+            "-X",
+            "--quiet",
+            "-q"
+          ],
+          "values": [
+            "--exclude",
+            "-e"
+          ],
+          "operands": true,
+          "require_any": [
+            "--dry-run",
+            "-n"
+          ],
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-52-apply",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "apply"
+          ],
+          "flags": [
+            "--check",
+            "--stat",
+            "--numstat",
+            "--summary",
+            "--cached",
+            "--index",
+            "--reverse",
+            "-R",
+            "--verbose",
+            "-v"
+          ],
+          "values": [
+            "--directory",
+            "-p",
+            "--whitespace",
+            "--include",
+            "--exclude"
+          ],
+          "operands": true,
+          "require_any": [
+            "--check",
+            "--stat",
+            "--numstat",
+            "--summary"
+          ],
+          "optional_values": []
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-53-add",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "add"
+          ],
+          "flags": [
+            "--all",
+            "-A",
+            "--update",
+            "-u",
+            "--intent-to-add",
+            "-N",
+            "--ignore-removal",
+            "--ignore-errors",
+            "--ignore-missing",
+            "--renormalize",
+            "--verbose",
+            "-v",
+            "--dry-run",
+            "-n",
+            "--no-all",
+            "--no-ignore-removal"
+          ],
+          "values": [
+            "--chmod"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Stage local changes for review without recording or publishing a commit.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-54-stage",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "stage"
+          ],
+          "flags": [
+            "--all",
+            "-A",
+            "--update",
+            "-u",
+            "--intent-to-add",
+            "-N",
+            "--verbose",
+            "-v",
+            "--dry-run",
+            "-n"
+          ],
+          "values": [],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Stage local changes for review without recording or publishing a commit.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-55-commit",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "commit"
+          ],
+          "flags": [
+            "--all",
+            "-a",
+            "--quiet",
+            "-q",
+            "--verbose",
+            "-v",
+            "--signoff",
+            "-s",
+            "--allow-empty",
+            "--allow-empty-message",
+            "--no-edit",
+            "--reset-author",
+            "--dry-run",
+            "--short",
+            "--branch",
+            "--porcelain",
+            "--long",
+            "--no-post-rewrite"
+          ],
+          "values": [
+            "-m",
+            "--message",
+            "-F",
+            "--file",
+            "-C",
+            "--reuse-message",
+            "--author",
+            "--date",
+            "--cleanup",
+            "--trailer"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-56-switch",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "switch"
+          ],
+          "flags": [
+            "--detach",
+            "-d",
+            "--guess",
+            "--no-guess",
+            "--quiet",
+            "-q",
+            "--recurse-submodules",
+            "--no-recurse-submodules"
+          ],
+          "values": [
+            "-c",
+            "--create",
+            "--track"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-57-checkout",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "checkout"
+          ],
+          "flags": [
+            "--detach",
+            "--quiet",
+            "-q",
+            "--guess",
+            "--no-guess",
+            "--recurse-submodules",
+            "--no-recurse-submodules"
+          ],
+          "values": [
+            "-b",
+            "--track"
+          ],
+          "operands": true,
+          "require_any": [
+            "-b",
+            "--detach"
+          ],
+          "optional_values": []
+        }
+      },
+      "reason": "Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-58-checkout",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "checkout"
+          ],
+          "flags": [
+            "--detach",
+            "--quiet",
+            "-q",
+            "--guess",
+            "--no-guess",
+            "--ours",
+            "--theirs",
+            "--recurse-submodules",
+            "--no-recurse-submodules"
+          ],
+          "values": [
+            "-b",
+            "--track"
+          ],
+          "operands": true,
+          "forbid": [
+            "-b",
+            "--detach"
+          ],
+          "optional_values": []
+        }
+      },
+      "reason": "May switch branches or overwrite uncommitted working files, which Git cannot distinguish before running; Recommended and Strict review it.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "guidance": {
+        "message": "git checkout with a name or path can overwrite uncommitted files, so it needs approval.",
+        "alternatives": [
+          "Change branches with git switch BRANCH, create one with git switch -c NAME, or unstage with git restore --staged PATH."
+        ]
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-59-merge",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "merge"
+          ],
+          "flags": [
+            "--no-edit",
+            "--no-ff",
+            "--ff",
+            "--ff-only",
+            "--no-commit",
+            "--commit",
+            "--squash",
+            "--no-squash",
+            "--stat",
+            "--no-stat",
+            "--quiet",
+            "-q",
+            "--verbose",
+            "-v",
+            "--allow-unrelated-histories",
+            "--abort",
+            "--continue",
+            "--quit"
+          ],
+          "values": [
+            "-m",
+            "--message",
+            "-X",
+            "--strategy-option"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-60-cherry-pick",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "cherry-pick"
+          ],
+          "flags": [
+            "--no-edit",
+            "--no-commit",
+            "-n",
+            "--signoff",
+            "-s",
+            "--ff",
+            "--allow-empty",
+            "--allow-empty-message",
+            "--keep-redundant-commits",
+            "--abort",
+            "--continue",
+            "--skip",
+            "--quit"
+          ],
+          "values": [
+            "-m",
+            "--mainline",
+            "-X",
+            "--strategy-option"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-61-revert",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "revert"
+          ],
+          "flags": [
+            "--no-edit",
+            "--no-commit",
+            "-n",
+            "--abort",
+            "--continue",
+            "--skip",
+            "--quit"
+          ],
+          "values": [
+            "-m",
+            "--mainline",
+            "-X",
+            "--strategy-option"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-62-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "reset"
+          ],
+          "flags": [
+            "--soft",
+            "--mixed",
+            "--quiet",
+            "-q"
+          ],
+          "values": [],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-63-restore",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "restore"
+          ],
+          "flags": [
+            "--staged",
+            "-S",
+            "--quiet",
+            "-q"
+          ],
+          "values": [
+            "--source",
+            "-s"
+          ],
+          "operands": true,
+          "require_any": [
+            "--staged",
+            "-S"
+          ],
+          "optional_values": []
+        }
+      },
+      "reason": "Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-64-init",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "init"
+          ],
+          "flags": [
+            "--bare",
+            "--quiet",
+            "-q"
+          ],
+          "values": [
+            "--initial-branch",
+            "-b",
+            "--object-format",
+            "--ref-format",
+            "--shared"
+          ],
+          "operands": false,
+          "optional_values": []
+        }
+      },
+      "reason": "Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-65-stash-push",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "stash",
+            "push"
+          ],
+          "flags": [
+            "--keep-index",
+            "-k",
+            "--no-keep-index",
+            "--include-untracked",
+            "-u",
+            "--all",
+            "-a",
+            "--staged",
+            "-S",
+            "--quiet",
+            "-q"
+          ],
+          "values": [
+            "-m",
+            "--message"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-66-stash-apply",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "stash",
+            "apply"
+          ],
+          "flags": [
+            "--index",
+            "--quiet",
+            "-q"
+          ],
+          "values": [],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-67-stash-pop",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "stash",
+            "pop"
+          ],
+          "flags": [
+            "--index",
+            "--quiet",
+            "-q"
+          ],
+          "values": [],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-68-stash-branch",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "stash",
+            "branch"
+          ],
+          "flags": [],
+          "values": [],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-69-branch",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "branch"
+          ],
+          "flags": [
+            "--track",
+            "--no-track",
+            "--quiet",
+            "-q",
+            "--move",
+            "-m",
+            "--copy",
+            "-c",
+            "--unset-upstream"
+          ],
+          "values": [
+            "--set-upstream-to",
+            "-u"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-70-tag",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "tag"
+          ],
+          "flags": [
+            "--annotate",
+            "-a",
+            "--sign",
+            "-s",
+            "--no-sign"
+          ],
+          "values": [
+            "-m",
+            "--message",
+            "-F",
+            "--file",
+            "--cleanup",
+            "--local-user",
+            "-u"
+          ],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-71-mv",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "mv"
+          ],
+          "flags": [
+            "--verbose",
+            "-v",
+            "--dry-run",
+            "-n"
+          ],
+          "values": [],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "form-72-rm",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "rm"
+          ],
+          "flags": [
+            "--cached",
+            "--dry-run",
+            "-n",
+            "--recursive",
+            "-r",
+            "--quiet",
+            "-q",
+            "--ignore-unmatch"
+          ],
+          "values": [],
+          "operands": true,
+          "optional_values": []
+        }
+      },
+      "reason": "Change local repository state that Git history can recover, such as commits, branches, merges and stashes; Strict reviews each change. Discarding work, rewriting history and skipping hooks are denied separately.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "exact-branch",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "branch"
+          ]
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "exact-tag",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "tag"
+          ]
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "exact-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "reason": "Inspect repository data using explicitly listed options; repository configuration and executable identity remain host responsibilities.",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "forced-or-deleting-push",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "push"
+          ],
+          "any_of": [
+            "--force",
+            "-f",
+            "--force-with-lease",
+            "--force-if-includes",
+            "--delete",
+            "-d",
+            "--mirror",
+            "--prune",
+            {
+              "prefix": "+"
+            },
+            {
+              "prefix": ":"
+            }
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "discarding-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "reset"
+          ],
+          "any_of": [
+            "--hard",
+            "--merge",
+            "--keep"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "rewrite-or-hook-bypass",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "commit"
+          ],
+          "any_of": [
+            "--amend",
+            "--no-verify",
+            "-n"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "forced-checkout",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "checkout"
+          ],
+          "any_of": [
+            "--force",
+            "-f",
+            "-B",
+            "--overwrite-ignore"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "forced-switch",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "switch"
+          ],
+          "any_of": [
+            "--force",
+            "-f",
+            "--discard-changes",
+            "-C",
+            "--force-create"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "deleting-or-replacing-branch",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "branch"
+          ],
+          "any_of": [
+            "--delete",
+            "-d",
+            "-D",
+            "--force",
+            "-f",
+            "-M",
+            "-C"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "deleting-or-replacing-tag",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "tag"
+          ],
+          "any_of": [
+            "--delete",
+            "-d",
+            "--force",
+            "-f"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "forced-removal",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "rm"
+          ],
+          "any_of": [
+            "--force",
+            "-f"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "overwriting-move",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "mv"
+          ],
+          "any_of": [
+            "--force",
+            "-f"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "stash-drop",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "stash",
+            "drop"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "stash-clear",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "stash",
+            "clear"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "worktree-removal",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "worktree",
+            "remove"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "worktree-prune",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "worktree",
+            "prune"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "submodule-deinit",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "submodule",
+            "deinit"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "submodule-external-execution",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "submodule",
+            "foreach"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "configuration-removal-or-editor",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "config"
+          ],
+          "any_of": [
+            "--unset",
+            "--unset-all",
+            "--remove-section",
+            "--rename-section",
+            "--edit",
+            "-e"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "index-removal",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "update-index"
+          ],
+          "any_of": [
+            "--force-remove",
+            "--remove"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "symbolic-ref-deletion",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "symbolic-ref"
+          ],
+          "any_of": [
+            "--delete",
+            "-d"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "ref-deletion",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "refs",
+            "delete"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "note-removal",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "notes",
+            "remove"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "note-prune",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "notes",
+            "prune"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "rerere-clear",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "rerere",
+            "clear"
+          ]
+        }
+      },
+      "reason": "May discard data, rewrite history, run external code or change sensitive storage; Recommended and Strict deny.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "network-remote-show",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "remote",
+            "show"
+          ]
+        }
+      },
+      "reason": "Review remote access, publication or transport/helper execution; Strict denies these operations.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "network-remote-update",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "remote",
+            "update"
+          ]
+        }
+      },
+      "reason": "Review remote access, publication or transport/helper execution; Strict denies these operations.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "network-submodule-update",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "submodule",
+            "update"
+          ]
+        }
+      },
+      "reason": "Review remote access, publication or transport/helper execution; Strict denies these operations.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "network-submodule-add",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "submodule",
+            "add"
+          ]
+        }
+      },
+      "reason": "Review remote access, publication or transport/helper execution; Strict denies these operations.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "network-submodule-sync",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "submodule",
+            "sync"
+          ]
+        }
+      },
+      "reason": "Review remote access, publication or transport/helper execution; Strict denies these operations.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "external-strategy-merge",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "merge"
+          ],
+          "any_of": [
+            "--strategy",
+            "-s"
+          ]
+        }
+      },
+      "reason": "Review launching editors, viewers or other external programs; Strict denies.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "external-strategy-cherry-pick",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "cherry-pick"
+          ],
+          "any_of": [
+            "--strategy"
+          ]
+        }
+      },
+      "reason": "Review launching editors, viewers or other external programs; Strict denies.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    },
+    {
+      "id": "external-strategy-revert",
+      "conditions": {
+        "domain": "argv",
+        "executable": "git",
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "revert"
+          ],
+          "any_of": [
+            "--strategy"
+          ]
+        }
+      },
+      "reason": "Review launching editors, viewers or other external programs; Strict denies.",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "invocation": "git"
+    }
+  ],
+  "invocations": {
+    "git": {
+      "id_prefix": "w",
+      "segments": [
+        [
+          [],
+          [
+            "--no-pager"
+          ],
+          [
+            "-P"
+          ]
+        ]
+      ]
+    }
+  },
+  "command_sets": {
+    "baseline-0": {
+      "add": "base-add",
+      "am": "base-am",
+      "annotate": "base-annotate",
+      "apply": "base-apply",
+      "archive": "base-archive",
+      "bisect": "base-bisect",
+      "blame": "base-blame",
+      "branch": "base-branch",
+      "bugreport": "base-bugreport",
+      "bundle": "base-bundle",
+      "cat-file": "base-cat-file",
+      "check-attr": "base-check-attr",
+      "check-ignore": "base-check-ignore",
+      "check-mailmap": "base-check-mailmap",
+      "check-ref-format": "base-check-ref-format",
+      "checkout": "base-checkout",
+      "cherry": "base-cherry",
+      "cherry-pick": "base-cherry-pick",
+      "column": "base-column",
+      "commit": "base-commit",
+      "commit-graph": "base-commit-graph",
+      "commit-tree": "base-commit-tree",
+      "config": "base-config",
+      "count-objects": "base-count-objects",
+      "describe": "base-describe",
+      "diagnose": "base-diagnose",
+      "diff": "base-diff",
+      "diff-files": "base-diff-files",
+      "diff-index": "base-diff-index",
+      "diff-pairs": "base-diff-pairs",
+      "diff-tree": "base-diff-tree",
+      "fast-export": "base-fast-export",
+      "fmt-merge-msg": "base-fmt-merge-msg",
+      "for-each-ref": "base-for-each-ref",
+      "format-patch": "base-format-patch",
+      "format-rev": "base-format-rev",
+      "fsck": "base-fsck",
+      "fsck-objects": "base-fsck-objects",
+      "get-tar-commit-id": "base-get-tar-commit-id",
+      "grep": "base-grep",
+      "hash-object": "base-hash-object",
+      "history": "base-history",
+      "init": "base-init",
+      "init-db": "base-init-db",
+      "interpret-trailers": "base-interpret-trailers",
+      "last-modified": "base-last-modified",
+      "log": "base-log",
+      "ls-files": "base-ls-files",
+      "ls-tree": "base-ls-tree",
+      "mailinfo": "base-mailinfo",
+      "mailsplit": "base-mailsplit",
+      "merge": "base-merge",
+      "merge-base": "base-merge-base",
+      "merge-file": "base-merge-file",
+      "merge-one-file": "base-merge-one-file",
+      "merge-tree": "base-merge-tree",
+      "mktag": "base-mktag",
+      "mktree": "base-mktree",
+      "mv": "base-mv",
+      "name-rev": "base-name-rev",
+      "notes": "base-notes",
+      "patch-id": "base-patch-id",
+      "pickaxe": "base-pickaxe",
+      "quiltimport": "base-quiltimport",
+      "range-diff": "base-range-diff",
+      "refs": "base-refs",
+      "remote": "base-remote",
+      "replay": "base-replay",
+      "repo": "base-repo",
+      "rerere": "base-rerere",
+      "reset": "base-reset",
+      "rev-list": "base-rev-list",
+      "rev-parse": "base-rev-parse",
+      "revert": "base-revert",
+      "rm": "base-rm",
+      "sh-i18n": "base-sh-i18n",
+      "sh-setup": "base-sh-setup",
+      "shell": "base-shell",
+      "shortlog": "base-shortlog",
+      "show": "base-show",
+      "show-branch": "base-show-branch",
+      "show-index": "base-show-index",
+      "show-ref": "base-show-ref",
+      "sparse-checkout": "base-sparse-checkout",
+      "stage": "base-stage",
+      "stash": "base-stash",
+      "status": "base-status",
+      "stripspace": "base-stripspace",
+      "submodule": "base-submodule",
+      "switch": "base-switch",
+      "symbolic-ref": "base-symbolic-ref",
+      "tag": "base-tag",
+      "unpack-file": "base-unpack-file",
+      "update-index": "base-update-index",
+      "url-parse": "base-url-parse",
+      "var": "base-var",
+      "verify-commit": "base-verify-commit",
+      "verify-pack": "base-verify-pack",
+      "verify-tag": "base-verify-tag",
+      "version": "base-version",
+      "whatchanged": "base-whatchanged",
+      "worktree": "base-worktree",
+      "write-tree": "base-write-tree"
+    },
+    "baseline-1": {
+      "archimport": "base-archimport",
+      "backfill": "base-backfill",
+      "clone": "base-clone",
+      "cvsexportcommit": "base-cvsexportcommit",
+      "cvsimport": "base-cvsimport",
+      "cvsserver": "base-cvsserver",
+      "daemon": "base-daemon",
+      "fetch": "base-fetch",
+      "fetch-pack": "base-fetch-pack",
+      "http-backend": "base-http-backend",
+      "http-fetch": "base-http-fetch",
+      "http-push": "base-http-push",
+      "imap-send": "base-imap-send",
+      "ls-remote": "base-ls-remote",
+      "p4": "base-p4",
+      "pull": "base-pull",
+      "push": "base-push",
+      "receive-pack": "base-receive-pack",
+      "remote-ext": "base-remote-ext",
+      "remote-fd": "base-remote-fd",
+      "request-pull": "base-request-pull",
+      "send-email": "base-send-email",
+      "send-pack": "base-send-pack",
+      "svn": "base-svn",
+      "upload-archive": "base-upload-archive",
+      "upload-archive--writer": "base-upload-archive--writer",
+      "upload-pack": "base-upload-pack"
+    },
+    "baseline-2": {
+      "checkout--worker": "base-checkout--worker",
+      "checkout-index": "base-checkout-index",
+      "clean": "base-clean",
+      "credential": "base-credential",
+      "credential-cache": "base-credential-cache",
+      "credential-cache--daemon": "base-credential-cache--daemon",
+      "credential-store": "base-credential-store",
+      "fast-import": "base-fast-import",
+      "filter-branch": "base-filter-branch",
+      "for-each-repo": "base-for-each-repo",
+      "fsmonitor--daemon": "base-fsmonitor--daemon",
+      "gc": "base-gc",
+      "hook": "base-hook",
+      "index-pack": "base-index-pack",
+      "maintenance": "base-maintenance",
+      "merge-index": "base-merge-index",
+      "merge-ours": "base-merge-ours",
+      "merge-recursive": "base-merge-recursive",
+      "merge-recursive-ours": "base-merge-recursive-ours",
+      "merge-recursive-theirs": "base-merge-recursive-theirs",
+      "merge-subtree": "base-merge-subtree",
+      "multi-pack-index": "base-multi-pack-index",
+      "pack-objects": "base-pack-objects",
+      "pack-redundant": "base-pack-redundant",
+      "pack-refs": "base-pack-refs",
+      "prune": "base-prune",
+      "prune-packed": "base-prune-packed",
+      "read-tree": "base-read-tree",
+      "rebase": "base-rebase",
+      "reflog": "base-reflog",
+      "repack": "base-repack",
+      "replace": "base-replace",
+      "restore": "base-restore",
+      "submodule--helper": "base-submodule--helper",
+      "unpack-objects": "base-unpack-objects",
+      "update-ref": "base-update-ref",
+      "update-server-info": "base-update-server-info"
+    },
+    "baseline-3": {
+      "citool": "base-citool",
+      "difftool": "base-difftool",
+      "gui": "base-gui",
+      "help": "base-help",
+      "instaweb": "base-instaweb",
+      "mergetool": "base-mergetool"
+    }
+  }
+}
