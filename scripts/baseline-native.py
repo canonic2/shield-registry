@@ -51,7 +51,7 @@ def initialize(binary, project, env):
         os.close(master)
 
 
-def run(binary, pack, search_update=False):
+def run(binary, pack, search_update=False, ambient_config=False):
     results = []
     for profile in ["loose", "recommended", "strict"]:
         with tempfile.TemporaryDirectory(prefix="shield-baseline-native-") as temporary:
@@ -134,7 +134,7 @@ def run(binary, pack, search_update=False):
                 ("grep-pattern-file", "grep -f item.txt item.txt", "deny"),
                 ("rg-project", "rg --no-config --no-ignore -n Acme item.txt", "allow"),
                 ("rg-read-root", f"rg --no-config --no-ignore Acme '{read}/item.txt'", "allow"),
-                ("rg-default-config", "rg Acme item.txt", "deny"),
+                ("rg-default-config", "rg Acme item.txt", "allow" if ambient_config else "deny"),
                 ("rg-helper", "rg --no-config --no-ignore --pre sh Acme item.txt", "deny"),
                 ("rg-directory", "rg --no-config --no-ignore Acme .", "allow"),
                 ("rg-read-tree", f"rg --no-config --no-ignore Acme '{read}'", "allow"),
@@ -151,7 +151,7 @@ def run(binary, pack, search_update=False):
                 ("rg-file-without-ignore-flag", "rg --no-config -n Acme item.txt", "allow"),
                 ("rg-files", "rg --no-config --files", "allow"),
                 ("rg-files-credential-root", f"rg --no-config --files '{read}'", "deny"),
-                ("rg-option-pattern", "rg -- --no-config item.txt", "deny"),
+                ("rg-option-pattern", "rg -- --no-config item.txt", "allow" if ambient_config else "deny"),
                 ("mkdir-extra", f"mkdir -p '{write}/new/nested'", local),
                 ("mkdir-read-only", f"mkdir -p '{read}/new/nested'", "deny"),
                 ("mkdir-outside", f"mkdir -p '{outside}/new/nested'", "deny"),
@@ -179,6 +179,18 @@ def run(binary, pack, search_update=False):
                     ("rg-ignore-protected", "rg --no-config Acme .", "deny"),
                     ("rg-nested-protected", "rg --no-config Acme protected-tree", "deny"),
                     ("rg-nested-listing", "rg --no-config --files -g '*' protected-tree", "allow"),
+                ])
+            if ambient_config:
+                cases.extend([
+                    ("rg-ordinary-listing", "rg --files", "allow"),
+                    ("rg-ordinary-glob-listing", "rg --files -g '*.txt'", "allow"),
+                    ("rg-ordinary-search", "rg -n Acme nested", "allow"),
+                    ("rg-ordinary-glob-search", "rg -g '*.txt' Acme nested", "allow"),
+                    ("rg-ordinary-protected", "rg Acme protected-tree", "deny"),
+                    ("rg-ordinary-credential", f"rg Acme '{read}/.aws/config.txt'", "deny"),
+                    ("rg-explicit-helper", "rg --pre sh Acme item.txt", "deny"),
+                    ("rg-explicit-follow", "rg --follow Acme nested", "deny"),
+                    ("rg-ordinary-outside", f"rg Acme '{outside}/item.txt'", "deny"),
                 ])
             for agent in ["claude", "codex"]:
                 for name, source, decision in cases:
@@ -227,4 +239,4 @@ def run(binary, pack, search_update=False):
 
 
 if __name__ == "__main__":
-    print(json.dumps({"passed": True, "cases": run(str(Path(sys.argv[1]).resolve()), sys.argv[2], "--search-update" in sys.argv[3:])}))
+    print(json.dumps({"passed": True, "cases": run(str(Path(sys.argv[1]).resolve()), sys.argv[2], "--search-update" in sys.argv[3:], "--ambient-config" in sys.argv[3:])}))

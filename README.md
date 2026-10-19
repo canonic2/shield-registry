@@ -14,6 +14,7 @@ integrations are developed separately.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
+| [canonic/baseline](packs/canonic/baseline/0.2.2/README.md) | 0.2.2 | Ordinary ripgrep searches | Optional `--no-config` with Shield 0.1.7; explicit risky options and protected paths retain their checks |
 | [canonic/baseline](packs/canonic/baseline/0.2.1/README.md) | 0.2.1 | Search guidance update | Ignore-aware bounded searches and glob listings with Shield 0.1.6; shared rule identities and profile decisions preserved |
 | [canonic/baseline](packs/canonic/baseline/0.2.0/README.md) | 0.2.0 | Compact structured v1 release | 71 shared executable-family bodies preserve the reviewed 149-rule policy |
 | [canonic/git](packs/canonic/git/0.5.0/README.md) | 0.5.0 | Compact structured v1 release | 110 bodies, 173 command members and one invocation group preserve all 837 matched rule identities |
@@ -21,11 +22,12 @@ integrations are developed separately.
 | [canonic/git](packs/canonic/git/0.4.1/README.md) | 0.4.1 | Structured v1 release | Git inspection, staging, recoverable local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The signed `public/` catalog uses sequence 14 and includes Baseline 0.2.1,
+The signed `public/` catalog uses sequence 15 and includes Baseline 0.2.2 and 0.2.1,
 compact Baseline 0.2.0 and Git 0.5.0, plus structured v1 Baseline
 0.1.0/0.1.1/0.1.2/0.1.3/0.1.4/0.1.5 and Git 0.3.0/0.4.0/0.4.1. Current Shield requires that format. Historical Git 0.1.0/0.2.0 releases
 retain their original bytes for compatible older clients.
 
+Baseline 0.2.2 requires Shield 0.1.7 or later within the 0.1 series.
 Baseline 0.2.1 requires Shield 0.1.6 or later within the 0.1 series.
 Baseline 0.2.0 and Git 0.5.0 require Shield 0.1.1 or later within that series.
 Baseline requires `access-paths-v1` and `fallback-rules-v1`; use a Shield build
