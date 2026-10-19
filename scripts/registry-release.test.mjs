@@ -106,6 +106,30 @@ test('Historical retention cannot bypass authentication, source integrity or an 
     await assert.rejects(build(f.root, join(f.root, 'test-key.pem'), process.env.SHIELD_BINARY || '/unused-validator'));
   }
 });
+
+test('Authenticated structured releases retain exact assets without reinterpreting historical fixtures', async t => {
+  for (const tamper of [false, true]) {
+    const f = await releaseFixture(t);
+    const prefix = 'packs/canonic/git/0.3.0';
+    for (const name of ['pack.yml', 'cases.json', 'README.md', 'LICENSE', 'commands.json']) {
+      await f.put(`public/${prefix}/${name}`, await readFile(join(f.root, prefix, name)));
+    }
+    const path = `${prefix}/pack.yml`;
+    f.old.packs.push({ id: 'canonic/git', version: '0.3.0', path, sha256: digest(await readFile(join(f.root, path))) });
+    const [bytes, signature] = signed(f.old);
+    await f.put('public/catalog.json', bytes);
+    await f.put('public/catalog.sig', signature);
+    if (tamper) await f.put(`${prefix}/cases.json`, '{}');
+    // No new release: the validator must not run on authenticated old fixtures.
+    if (tamper) {
+      await assert.rejects(build(f.root, join(f.root, 'test-key.pem'), '/unused-validator'), /Historical release assets changed/);
+      assert.deepEqual(await readFile(join(f.root, 'public/catalog.json')), bytes);
+    } else {
+      const result = await build(f.root, join(f.root, 'test-key.pem'), '/unused-validator');
+      assert.deepEqual(result.catalog.packs, f.old.packs);
+    }
+  }
+});
 test('A baseline release retains its inventory and publishes its own coverage', {skip:!process.env.SHIELD_BINARY},async t=>{
   const f=await releaseFixture(t);
   const prefix='packs/canonic/baseline/0.1.0';

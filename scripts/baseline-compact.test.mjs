@@ -64,7 +64,7 @@ test('Compact baseline assets are reproducible and retain independent published 
 
 function run(version) {
   const root = new URL(`../packs/canonic/baseline/${version}/`, import.meta.url);
-  const result = spawnSync(process.env.SHIELD_BINARY, ['__internal', 'test-pack', '--details', '--pack', new URL('pack.yml', root).pathname, '--cases', new URL('cases.json', root).pathname],
+  const result = spawnSync(process.env.SHIELD_BINARY, ['__internal', 'test-pack', '--details', '--pack', new URL('pack.yml', root).pathname, '--cases', new URL('../packs/canonic/baseline/0.2.1/cases.json', import.meta.url).pathname],
     { encoding: 'utf8', timeout: 120_000, maxBuffer: 16 * 1024 * 1024 });
   assert.equal(result.status, 0, result.stderr || result.error?.message);
   const report = JSON.parse(result.stdout);

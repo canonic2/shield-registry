@@ -51,7 +51,7 @@ def initialize(binary, project, env):
         os.close(master)
 
 
-def run(binary, pack):
+def run(binary, pack, search_update=False):
     results = []
     for profile in ["loose", "recommended", "strict"]:
         with tempfile.TemporaryDirectory(prefix="shield-baseline-native-") as temporary:
@@ -81,6 +81,10 @@ def run(binary, pack):
             prepared = subprocess.run([binary, "cache", "prepare", "--project", str(project), "--json"], env=env, capture_output=True, timeout=30)
             assert prepared.returncode == 0, prepared.stderr.decode()
             local = "ask" if profile == "strict" else "allow"
+            if search_update:
+                (nested / "item.txt").write_text("Acme fixture\n")
+                (project / "protected-tree/.shield/review").mkdir(parents=True)
+                (project / ".ignore").write_text("!**/.shield/**\n")
             # Every command is delivered as data to a hook. None runs as a shell.
             cases = [
                 ("project-remove", "rm item.txt", local),
@@ -166,6 +170,16 @@ def run(binary, pack):
                 ("unknown", "acme-unlisted item.txt", "ask"),
                 ("privileged", "sudo rm item.txt", "deny"),
             ]
+            if search_update:
+                cases.extend([
+                    ("rg-glob-listing", "rg --no-config --files -g '*.txt'", "allow"),
+                    ("rg-ignore-aware-narrow", "rg --no-config Acme nested", "allow"),
+                    ("rg-glob-narrow", "rg --no-config -g '*.txt' Acme nested", "allow"),
+                    ("rg-glob-protected", "rg --no-config -g '*' Acme .", "deny"),
+                    ("rg-ignore-protected", "rg --no-config Acme .", "deny"),
+                    ("rg-nested-protected", "rg --no-config Acme protected-tree", "deny"),
+                    ("rg-nested-listing", "rg --no-config --files -g '*' protected-tree", "allow"),
+                ])
             for agent in ["claude", "codex"]:
                 for name, source, decision in cases:
                     payload = {"hook_event_name": "PreToolUse", "tool_name": "Bash", "cwd": str(project),
@@ -199,6 +213,8 @@ def run(binary, pack):
                 results.append({"profile":profile,"agent":"claude","name":f"bound-read-{directory.name}","decision":decision})
             assert (project / "escape").is_symlink()
             # A configured root disappearing makes positive location evidence unavailable.
+            if search_update:
+                (nested / "item.txt").unlink()
             (nested).rmdir()
             payload = {"hook_event_name":"PreToolUse","tool_name":"Bash","cwd":str(project),
                        "session_id":"acme-session","tool_use_id":"unavailable-root","tool_input":{"command":"rm item.txt"}}
@@ -211,4 +227,4 @@ def run(binary, pack):
 
 
 if __name__ == "__main__":
-    print(json.dumps({"passed": True, "cases": run(str(Path(sys.argv[1]).resolve()), sys.argv[2])}))
+    print(json.dumps({"passed": True, "cases": run(str(Path(sys.argv[1]).resolve()), sys.argv[2], "--search-update" in sys.argv[3:])}))

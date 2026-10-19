@@ -38,7 +38,7 @@ test('Baseline source generation is reproducible',async t=>{
   }
 });
 test('Real Shield evaluates baseline decisions, requirement branches and guidance',{skip:!process.env.SHIELD_BINARY},()=>{
-  const result=spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack','--details','--pack',new URL('pack.yml',root).pathname,'--cases',new URL('cases.json',root).pathname],{encoding:'utf8',timeout:120000,maxBuffer:16*1024*1024});
+  const result=spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack','--details','--pack',new URL('pack.yml',root).pathname,'--cases',new URL('../packs/canonic/baseline/0.2.1/cases.json',import.meta.url).pathname],{encoding:'utf8',timeout:120000,maxBuffer:16*1024*1024});
   const output=result.stdout ? JSON.parse(result.stdout) : null;
   assert.equal(result.status,0,result.stderr || JSON.stringify(output?.cases?.filter(c=>!c.passed)));
   assert.equal(output.passed,true);

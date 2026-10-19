@@ -103,8 +103,8 @@ export async function build(root, keyPath, shield) {
   let previousExists = true;
   try { await lstat(output); }
   catch (error) { if (error.code !== 'ENOENT') throw error; previousExists = false; }
-  // Authenticate historical policy bytes before allowing retention without
-  // admission by a newer, incompatible engine. Expiry does not erase immutability.
+  // Authenticate retained bytes before admitting new releases. Historical
+  // fixtures can encode an older engine's modeling limits; never rewrite them.
   if (previousExists) previous = await checkPublication(output, key, new Date(0));
   const validate = new Ajv({ strict: false, allErrors: true }).compile(document(await regular(root, 'schemas/policy.schema.json')));
   artifacts.push(['schemas/policy.schema.json', await regular(root, 'schemas/policy.schema.json')],
@@ -114,13 +114,13 @@ export async function build(root, keyPath, shield) {
     const bytes = await regular(root, path);
     const pack = document(bytes);
     if (pack.license === 'UNLICENSED') throw Error('Publication license required');
-    const historical = pack.kind !== 'pack';
-    if (historical && !previous?.packs.some(entry => entry.path === path && entry.id === pack.id
-      && entry.version === pack.version && entry.sha256 === digest(bytes))) {
+    const retained = previous?.packs.some(entry => entry.path === path && entry.id === pack.id
+      && entry.version === pack.version && entry.sha256 === digest(bytes));
+    if (pack.kind !== 'pack' && !retained) {
       throw Error('Historical format requires an unchanged authenticated published release');
     }
     const cases = await regular(root, `${dirname(path)}/cases.json`);
-    if (!historical) {
+    if (!retained) {
       if (!validate(pack) || !validate(document(cases))) throw Error('Structured schema validation failed');
       await validateRelease(shield, bytes, cases);
     }
@@ -129,7 +129,7 @@ export async function build(root, keyPath, shield) {
     for (const name of ['cases.json', 'README.md', 'LICENSE', ...(pack.capabilities.includes('argv-options-v1') || pack.capabilities.includes('argument-rules-v1') ? ['commands.json'] : [])]) {
       const relative = `${dirname(path)}/${name}`;
       const content = name === 'cases.json' ? cases : await regular(root, relative);
-      if (historical && !content.equals(await regular(output, relative))) throw Error('Historical release assets changed');
+      if (retained && !content.equals(await regular(output, relative))) throw Error('Historical release assets changed');
       artifacts.push([relative, content]);
     }
   }
