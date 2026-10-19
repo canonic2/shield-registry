@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 
+sys.dont_write_bytecode = True
 spec = importlib.util.spec_from_file_location("baseline_native", Path(__file__).with_name("baseline-native.py"))
 baseline = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(baseline)
