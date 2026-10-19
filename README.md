@@ -14,6 +14,7 @@ integrations are developed separately.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
+| [canonic/baseline](packs/canonic/baseline/0.3.1/README.md) | 0.3.1 | Hidden filename listings | `rg --files --hidden` within approved roots with Shield 0.1.9; content-read protections retained |
 | [canonic/baseline](packs/canonic/baseline/0.3.0/README.md) | 0.3.0 | Usable read defaults | Scoped sed/awk/jq and text-file filters, formatted date and filesystem-space inspection with Shield 0.1.8 |
 | [canonic/git](packs/canonic/git/0.6.0/README.md) | 0.6.0 | Usable Git workflows | Familiar history/status/branch reads, checked deletion and ordinary housekeeping; explicit dangerous overrides remain protected |
 | [canonic/baseline](packs/canonic/baseline/0.2.2/README.md) | 0.2.2 | Ordinary ripgrep searches | Optional `--no-config` with Shield 0.1.7; explicit risky options and protected paths retain their checks |
@@ -24,12 +25,13 @@ integrations are developed separately.
 | [canonic/git](packs/canonic/git/0.4.1/README.md) | 0.4.1 | Structured v1 release | Git inspection, staging, recoverable local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The signed `public/` catalog uses sequence 16 and includes Baseline 0.3.0 and Git 0.6.0,
+The signed `public/` catalog uses sequence 17 and includes Baseline 0.3.1, Baseline 0.3.0 and Git 0.6.0,
 Baseline 0.2.2 and 0.2.1,
 compact Baseline 0.2.0 and Git 0.5.0, plus structured v1 Baseline
 0.1.0/0.1.1/0.1.2/0.1.3/0.1.4/0.1.5 and Git 0.3.0/0.4.0/0.4.1. Current Shield requires that format. Historical Git 0.1.0/0.2.0 releases
 retain their original bytes for compatible older clients.
 
+Baseline 0.3.1 requires Shield 0.1.9 or later within the 0.1 series.
 Baseline 0.3.0 and Git 0.6.0 require Shield 0.1.8 or later within the 0.1 series.
 See the [usability review](docs/usability-review.md) for the reviewed defaults and boundaries.
 Baseline 0.2.2 requires Shield 0.1.7 or later within the 0.1 series.
@@ -153,6 +155,11 @@ its shared family IDs and source-member IDs are documented in the pack inventory
 Tests reconstruct every prior source rule, compare production evaluation evidence
 across all three profiles, and retain the independent fixture suites. Baseline's
 native path checks cover both the flat and compact releases.
+
+`node scripts/build-baseline-hidden-listings.mjs` generates Baseline 0.3.1 from
+the immutable 0.3.0 release. It retains 84 shared bodies and supports
+`rg --files --hidden` with Shield 0.1.9; hidden content searches keep their
+existing restrictions.
 
 ### Publish a release
 
