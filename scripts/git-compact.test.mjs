@@ -5,12 +5,13 @@ import { spawnSync } from 'node:child_process';
 import Ajv from 'ajv/dist/2020.js';
 import { buildGitPack } from './build-git-pack.mjs';
 import { schema } from './policy-schema.mjs';
+import { validatorFor, shieldFor } from './pack-formats.mjs';
 
 const read = path => JSON.parse(readFileSync(new URL(path, import.meta.url)));
 const original = read('../packs/canonic/git/0.4.1/pack.yml');
 const inventory = read('../packs/canonic/git/0.5.0/commands.json');
 const compact = read('../packs/canonic/git/0.5.0/pack.yml');
-const validate = new Ajv({ strict: false, allErrors: true }).compile(schema);
+const validate = validatorFor(compact);
 
 test('Compact Git is generated without invocation expansion and preserves every source rule', () => {
   assert.deepEqual(buildGitPack(inventory, { version: '0.5.0', compact: true }), compact);
@@ -57,7 +58,7 @@ test('Shared pack schema rejects missing capabilities, custom bindings and inval
   assert.equal(validate(custom), false);
 });
 
-test('Production Shield preserves all 1023 Git decisions and complete explanations', { skip: !process.env.SHIELD_BINARY }, () => {
+test('Production Shield preserves all 1023 Git decisions and complete explanations', { skip: !shieldFor(compact) }, () => {
   const run = version => {
     const root = new URL(`../packs/canonic/git/${version}/`, import.meta.url);
     const result = spawnSync(process.env.SHIELD_BINARY, ['__internal', 'test-pack', '--details', '--pack', new URL('pack.yml', root).pathname, '--cases', new URL('cases.json', root).pathname],

@@ -5,6 +5,7 @@ import { mkdtemp, mkdir, writeFile, readFile, rm, symlink } from 'node:fs/promis
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { build, checkCatalog, checkPrevious, checkPublication, digest } from './registry-release.mjs';
+import { currentFormat } from './pack-formats.mjs';
 
 const pair = generateKeyPairSync('ed25519');
 const key = Buffer.from(pair.publicKey.export({ format: 'jwk' }).x, 'base64url').toString('hex');
@@ -62,12 +63,15 @@ async function releaseFixture(t) {
   const root = await mkdtemp(join(tmpdir(), 'shield-registry-build-'));
   t.after(() => rm(root, { recursive: true, force: true }));
   const put = async (path, bytes) => { await mkdir(dirname(join(root, path)), { recursive: true }); await writeFile(join(root, path), bytes); };
-  for (const path of ['schemas/policy.schema.json', 'schemas/policy-legacy.schema.json', 'LICENSE']) {
+  for (const path of ['schemas/policy.schema.json', 'schemas/policy-legacy.schema.json', 'schemas/policy-shield-0.1.12.schema.json', 'LICENSE']) {
     await put(path, await readFile(new URL(`../${path}`, import.meta.url)));
   }
   for (const version of ['0.2.0', '0.3.0']) for (const name of ['pack.yml', 'cases.json', 'README.md', 'LICENSE', 'commands.json']) {
     const path = `packs/canonic/git/${version}/${name}`;
-    const bytes = await readFile(new URL(`../${path}`, import.meta.url));
+    // Git 0.3.0 stands in for a new release, so it uses the current format.
+    const bytes = version === '0.3.0' && name === 'pack.yml'
+      ? Buffer.from(JSON.stringify(currentFormat(JSON.parse(await readFile(new URL(`../${path}`, import.meta.url))))))
+      : await readFile(new URL(`../${path}`, import.meta.url));
     await put(path, bytes);
     if (version === '0.2.0') await put(`public/${path}`, bytes);
   }
@@ -133,7 +137,10 @@ test('Authenticated structured releases retain exact assets without reinterpreti
 test('A baseline release retains its inventory and publishes its own coverage', {skip:!process.env.SHIELD_BINARY},async t=>{
   const f=await releaseFixture(t);
   const prefix='packs/canonic/baseline/0.1.0';
-  for(const name of ['pack.yml','cases.json','README.md','LICENSE','commands.json'])await f.put(`${prefix}/${name}`,await readFile(new URL(`../${prefix}/${name}`,import.meta.url)));
+  for(const name of ['pack.yml','cases.json','README.md','LICENSE','commands.json']){
+    const bytes=await readFile(new URL(`../${prefix}/${name}`,import.meta.url));
+    await f.put(`${prefix}/${name}`,name==='pack.yml'?JSON.stringify(currentFormat(JSON.parse(bytes))):bytes);
+  }
   f.release.packs.push(`${prefix}/pack.yml`);
   await f.put('release.json',JSON.stringify(f.release));
   const result=await build(f.root,join(f.root,'test-key.pem'),process.env.SHIELD_BINARY);

@@ -208,7 +208,9 @@ const document = pack => {
     capabilities: { ...array(enumeration(caps), 1, true, caps.length), contains: { const: 'structured-rules-v1' } },
     rules: array(ref(pack ? 'packRule' : 'customRule'), 0, false, 500000) };
   const extra = pack ? { id: { ...text(1, 128), pattern: '^[a-z0-9-]{1,64}/[a-z0-9-]{1,64}$' }, version: text(1, 128),
-    description: text(1), license: text(1), maintainers: array(text(1, 128), 1, true), engine: text(1, 1024),
+    description: text(1), license: text(1), maintainers: array(text(1, 128), 1, true),
+    // The Shield versions the pack supports; Shield can check no other program.
+    engines: object({ shield: text(1, 1024) }),
     dependencies: array(ref('dependency'), 0, false, 256),
     invocations:{type:'object',maxProperties:64,propertyNames:ref('bindingName'),additionalProperties:ref('invocation')},
     command_sets:{type:'object',maxProperties:500000,propertyNames:ref('bindingName'),additionalProperties:ref('commandSet')} } : {};

@@ -6,12 +6,13 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import Ajv from 'ajv/dist/2020.js';
+import { validatorFor, shieldFor } from './pack-formats.mjs';
 
 const read = path => JSON.parse(readFileSync(new URL(path, import.meta.url)));
 const pack = read('../packs/canonic/git/0.4.1/pack.yml');
 const cases = read('../packs/canonic/git/0.4.1/cases.json');
 const inventory = read('../packs/canonic/git/0.4.1/commands.json');
-const validate = new Ajv({ strict: false, allErrors: true }).compile(read('../schemas/policy.schema.json'));
+const validate = validatorFor(pack);
 
 test('Every inventoried Git command has a baseline and independent fixtures in all profiles', () => {
   const names = inventory.commands.map(command => command.name);
@@ -41,7 +42,7 @@ test('Generated pack and fixtures are reproducible from reviewed source data', a
   }
 });
 
-test('Real Shield evaluates every Git policy fixture', { skip: !process.env.SHIELD_BINARY }, () => {
+test('Real Shield evaluates every Git policy fixture', { skip: !shieldFor(pack) }, () => {
   for (const version of ['0.4.1']) {
     const root = new URL(`../packs/canonic/git/${version}/`, import.meta.url);
     const result = spawnSync(process.env.SHIELD_BINARY, ['__internal', 'test-pack', '--pack', new URL('pack.yml', root).pathname, '--cases', new URL('cases.json', root).pathname], { encoding: 'utf8', timeout: 120_000 });

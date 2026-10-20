@@ -14,6 +14,8 @@ integrations are developed separately.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
+| [canonic/baseline](packs/canonic/baseline/0.4.0/README.md) | 0.4.0 | Sed edits decided by path | In-place sed edits and sed script file writes and reads within approved roots with Shield 0.1.13; writes exclude only `.git` and Shield state |
+| [canonic/git](packs/canonic/git/0.6.1/README.md) | 0.6.1 | `engines` field | Git 0.6.0 rules and fixtures unchanged, declared for Shield 0.1.13 |
 | [canonic/baseline](packs/canonic/baseline/0.3.1/README.md) | 0.3.1 | Hidden filename listings | `rg --files --hidden` within approved roots with Shield 0.1.9; content-read protections retained |
 | [canonic/baseline](packs/canonic/baseline/0.3.0/README.md) | 0.3.0 | Usable read defaults | Scoped sed/awk/jq and text-file filters, formatted date and filesystem-space inspection with Shield 0.1.8 |
 | [canonic/git](packs/canonic/git/0.6.0/README.md) | 0.6.0 | Usable Git workflows | Familiar history/status/branch reads, checked deletion and ordinary housekeeping; explicit dangerous overrides remain protected |
@@ -25,12 +27,14 @@ integrations are developed separately.
 | [canonic/git](packs/canonic/git/0.4.1/README.md) | 0.4.1 | Structured v1 release | Git inspection, staging, recoverable local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The signed `public/` catalog uses sequence 17 and includes Baseline 0.3.1, Baseline 0.3.0 and Git 0.6.0,
+The signed `public/` catalog uses sequence 19 and includes Baseline 0.4.0 and Git 0.6.1,
+Baseline 0.3.1, Baseline 0.3.0 and Git 0.6.0,
 Baseline 0.2.2 and 0.2.1,
 compact Baseline 0.2.0 and Git 0.5.0, plus structured v1 Baseline
 0.1.0/0.1.1/0.1.2/0.1.3/0.1.4/0.1.5 and Git 0.3.0/0.4.0/0.4.1. Current Shield requires that format. Historical Git 0.1.0/0.2.0 releases
 retain their original bytes for compatible older clients.
 
+Baseline 0.4.0 and Git 0.6.1 require Shield 0.1.13 or later within the 0.1 series.
 Baseline 0.3.1 requires Shield 0.1.9 or later within the 0.1 series.
 Baseline 0.3.0 and Git 0.6.0 require Shield 0.1.8 or later within the 0.1 series.
 See the [usability review](docs/usability-review.md) for the reviewed defaults and boundaries.
@@ -122,6 +126,10 @@ belong in packs; generic evaluation mechanisms belong in Shield. The current
 Argument predicates use `argument-rules-v1`; the base is `structured-rules-v1`.
 Requirements pair with `on_unmet`, and guidance contains static candidate suggestions.
 Clients reject unsupported capabilities instead of weakening the policy.
+Packs declare the Shield versions they support as `engines: {shield: RANGE}`,
+which Shield 0.1.13 and later read; Shield is the only program a pack can name.
+Releases published for Shield 0.1.12 and earlier keep a single `engine` range and
+validate against [`policy-shield-0.1.12.schema.json`](schemas/policy-shield-0.1.12.schema.json).
 
 ### Validate locally
 
@@ -160,6 +168,15 @@ native path checks cover both the flat and compact releases.
 the immutable 0.3.0 release. It retains 84 shared bodies and supports
 `rg --files --hidden` with Shield 0.1.9; hidden content searches keep their
 existing restrictions.
+
+`node scripts/build-baseline-sed-edits.mjs` generates Baseline 0.4.0 from 0.3.1.
+It adds `edit-sed`, `edit-sed-gnu` and `write-sed`, widens the sed read rules to
+substitution, translation, deletion and named-file reads, and narrows write
+exclusions to `.git` and Shield's review state and cache, leaving agent settings
+and policy files to Shield's protected-path guard. It requires Shield 0.1.13,
+which models these sed targets and reads the `engines` field.
+`node scripts/build-git-engines.mjs` generates Git 0.6.1 from 0.6.0 with the
+same rules and fixtures, declared for Shield 0.1.13 with `engines`.
 
 ### Publish a release
 

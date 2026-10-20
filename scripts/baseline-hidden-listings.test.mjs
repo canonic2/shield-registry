@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import {hiddenListingsPack, hiddenListingCases, destination} from './build-baseline-hidden-listings.mjs';
+import { validatorFor, shieldFor } from './pack-formats.mjs';
 
 test('Hidden listings preserve the 84 shared bodies and every previous fixture', async () => {
   const pack = JSON.parse(readFileSync(new URL('pack.yml', destination)));
@@ -23,7 +24,7 @@ test('Hidden listings preserve the 84 shared bodies and every previous fixture',
   assert.equal(cases.cases.length, 570);
 });
 
-test('Production evaluator accepts hidden listings and retains content and path restrictions', {skip:!process.env.SHIELD_BINARY}, () => {
+test('Production evaluator accepts hidden listings and retains content and path restrictions', {skip:!shieldFor(JSON.parse(readFileSync(new URL('pack.yml', destination))))}, () => {
   const result = spawnSync(process.env.SHIELD_BINARY, ['__internal','test-pack','--pack',new URL('pack.yml',destination).pathname,
     '--cases',new URL('cases.json',destination).pathname], {encoding:'utf8',timeout:120000});
   assert.equal(result.status, 0, result.stdout + result.stderr);
@@ -31,7 +32,7 @@ test('Production evaluator accepts hidden listings and retains content and path 
 });
 
 test('Both native adapters permit hidden filenames and refuse protected contents and outside paths',
-  {skip:!process.env.SHIELD_BINARY || process.platform === 'win32',timeout:180000}, () => {
+  {skip:!shieldFor(JSON.parse(readFileSync(new URL('pack.yml', destination)))) || process.platform === 'win32',timeout:180000}, () => {
     const result = spawnSync('python3',[new URL('hidden-listings-native.py',import.meta.url).pathname,process.env.SHIELD_BINARY,
       new URL('pack.yml',destination).pathname], {encoding:'utf8',timeout:170000,maxBuffer:2*1024*1024});
     assert.equal(result.status, 0, result.stdout + result.stderr);

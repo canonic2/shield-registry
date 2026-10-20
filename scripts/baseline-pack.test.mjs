@@ -6,10 +6,11 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import Ajv from 'ajv/dist/2020.js';
+import { validatorFor, shieldFor } from './pack-formats.mjs';
 const root = new URL('../packs/canonic/baseline/0.1.5/',import.meta.url);
 const read = url => JSON.parse(readFileSync(url));
 const pack=read(new URL('pack.yml',root)), cases=read(new URL('cases.json',root));
-const validate=new Ajv({strict:false,allErrors:true}).compile(read(new URL('../schemas/policy.schema.json',import.meta.url)));
+const validate=validatorFor(pack);
 
 test('Baseline policies and independent expectations satisfy structured v1 admission',()=>{
   assert.equal(validate(pack),true,JSON.stringify(validate.errors));
@@ -37,7 +38,7 @@ test('Baseline source generation is reproducible',async t=>{
     if(script==='build-baseline-pack.mjs')assert.deepEqual(readFileSync(join(output,'commands.json')),readFileSync(new URL('commands.json',root)));
   }
 });
-test('Real Shield evaluates baseline decisions, requirement branches and guidance',{skip:!process.env.SHIELD_BINARY},()=>{
+test('Real Shield evaluates baseline decisions, requirement branches and guidance',{skip:!shieldFor(pack)},()=>{
   const result=spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack','--details','--pack',new URL('pack.yml',root).pathname,'--cases',new URL('../packs/canonic/baseline/0.2.1/cases.json',import.meta.url).pathname],{encoding:'utf8',timeout:120000,maxBuffer:16*1024*1024});
   const output=result.stdout ? JSON.parse(result.stdout) : null;
   assert.equal(result.status,0,result.stderr || JSON.stringify(output?.cases?.filter(c=>!c.passed)));
@@ -61,7 +62,7 @@ test('Real Shield evaluates baseline decisions, requirement branches and guidanc
   }
 });
 test('Fresh native hooks enforce additional read/write paths without executing commands',{
-  skip:!process.env.SHIELD_BINARY || process.platform==='win32',timeout:180000,
+  skip:!shieldFor(pack) || process.platform==='win32',timeout:180000,
 },()=>{
   const result=spawnSync('python3',[new URL('baseline-native.py',import.meta.url).pathname,process.env.SHIELD_BINARY,new URL('pack.yml',root).pathname],{encoding:'utf8',timeout:170000,maxBuffer:2*1024*1024});
   assert.equal(result.status,0,result.stderr);

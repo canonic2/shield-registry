@@ -9,6 +9,7 @@ import Ajv from 'ajv/dist/2020.js';
 import { schema } from './policy-schema.mjs';
 import { buildBaselinePack, baselineCommands } from './build-baseline-pack.mjs';
 import { compactBaselinePack } from './baseline-compact.mjs';
+import { validatorFor, shieldFor } from './pack-formats.mjs';
 
 const read = path => JSON.parse(readFileSync(new URL(path, import.meta.url)));
 const original = read('../packs/canonic/baseline/0.1.5/pack.yml');
@@ -21,7 +22,7 @@ test('Compact baseline folds only identical bodies and preserves every executabl
   assert.deepEqual(buildBaselinePack(), original);
   assert.deepEqual(buildBaselinePack({ version: '0.2.0', compact: true }), compact);
   assert.equal(compact.rules.length, 71);
-  assert.equal(new Ajv({ strict: false }).compile(schema)(compact), true);
+  assert.equal(validatorFor(compact)(compact), true);
   const seen = new Set();
   for (const rule of compact.rules) {
     const aliases = [];
@@ -91,7 +92,7 @@ function run(version) {
   return report;
 }
 
-test('Production Shield preserves all 387 baseline decisions and complete explanations, with family IDs resolved to their source member', { skip: !process.env.SHIELD_BINARY }, () => {
+test('Production Shield preserves all 387 baseline decisions and complete explanations, with family IDs resolved to their source member', { skip: !shieldFor(compact) }, () => {
   const current = run('0.2.0'), previous = run('0.1.5');
   assert.deepEqual({ ...current, cases: [] }, { ...previous, cases: [] });
   for (const [index, fixture] of current.cases.entries()) {
@@ -99,7 +100,7 @@ test('Production Shield preserves all 387 baseline decisions and complete explan
   }
 });
 
-test('Compact baseline retains all 507 real native hook and path cases', { skip: !process.env.SHIELD_BINARY || process.platform === 'win32', timeout: 180_000 }, () => {
+test('Compact baseline retains all 507 real native hook and path cases', { skip: !shieldFor(compact) || process.platform === 'win32', timeout: 180_000 }, () => {
   const result = spawnSync('python3', [new URL('baseline-native.py', import.meta.url).pathname, process.env.SHIELD_BINARY,
     new URL('../packs/canonic/baseline/0.2.0/pack.yml', import.meta.url).pathname], { encoding: 'utf8', timeout: 170_000, maxBuffer: 2 * 1024 * 1024 });
   assert.equal(result.status, 0, result.stderr);

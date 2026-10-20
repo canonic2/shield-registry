@@ -109,6 +109,7 @@ export async function build(root, keyPath, shield) {
   const validate = new Ajv({ strict: false, allErrors: true }).compile(document(await regular(root, 'schemas/policy.schema.json')));
   artifacts.push(['schemas/policy.schema.json', await regular(root, 'schemas/policy.schema.json')],
     ['schemas/policy-legacy.schema.json', await regular(root, 'schemas/policy-legacy.schema.json')],
+    ['schemas/policy-shield-0.1.12.schema.json', await regular(root, 'schemas/policy-shield-0.1.12.schema.json')],
     ['LICENSE', await regular(root, 'LICENSE')]);
   for (const path of release.packs) {
     const bytes = await regular(root, path);

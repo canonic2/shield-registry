@@ -15729,11 +15729,20 @@
           "maxItems": 256,
           "uniqueItems": true
         },
-        "engine": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 1024,
-          "pattern": "^[^\\u0000]*$"
+        "engines": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "shield": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024,
+              "pattern": "^[^\\u0000]*$"
+            }
+          },
+          "required": [
+            "shield"
+          ]
         },
         "dependencies": {
           "type": "array",
@@ -15774,7 +15783,7 @@
         "description",
         "license",
         "maintainers",
-        "engine"
+        "engines"
       ],
       "allOf": [
         {

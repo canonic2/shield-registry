@@ -7,10 +7,11 @@ import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { baseline, git } from './build-usable-packs.mjs';
 import { updateExpected } from './usable-cases.mjs';
+import { validatorFor, shieldFor } from './pack-formats.mjs';
 
 const read = path => JSON.parse(readFileSync(new URL(path, import.meta.url)));
 const packs = { baseline: '../packs/canonic/baseline/0.3.0/', git: '../packs/canonic/git/0.6.0/' };
-const binary = process.env.SHIELD_BINARY;
+const binary = shieldFor(read(`${packs.baseline}pack.yml`));
 function evaluate(pack, cases) {
   const result = spawnSync(binary, ['__internal','test-pack','--pack',pack,'--cases',cases], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024, timeout: 120000 });
   let report;

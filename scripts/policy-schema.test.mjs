@@ -6,12 +6,13 @@ import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import Ajv from 'ajv/dist/2020.js';
 import { schema } from './policy-schema.mjs';
+import { validatorFor, singleEngine } from './pack-formats.mjs';
 
 const validate = new Ajv({ strict: false, allErrors: true }).compile(schema);
 const read = path => JSON.parse(readFileSync(new URL(path, import.meta.url)));
 const pack = (conditions = { domain: 'argv', executable: 'acme', arguments: { kind: 'any' } }, capabilities = ['argument-rules-v1', 'structured-rules-v1']) => ({
   schema_version: 1, kind: 'pack', id: 'acme/inspection', version: '0.1.0', description: 'Acme inspection fixture',
-  license: 'MIT', maintainers: ['Acme'], engine: '>=0.1.0, <0.2.0', capabilities,
+  license: 'MIT', maintainers: ['Acme'], engines: { shield: '>=0.1.0, <0.2.0' }, capabilities,
   rules: [{ id: 'inspect', decision: { loose: 'ask', recommended: 'ask', strict: 'deny' }, conditions }],
 });
 function core(value) {
@@ -39,6 +40,21 @@ test('Generated schema is reproducible and immutable historical formats stay sep
     assert.equal(legacy(old), true);
     assert.equal(validate(old), false);
   }
+  // Structured releases for Shield 0.1.12 and earlier keep the single engine field.
+  const single = new Ajv({ strict: false, allErrors: true }).compile(read('../schemas/policy-shield-0.1.12.schema.json'));
+  for (const path of read('../release.json').packs) {
+    const published = read(`../${path}`);
+    if (published.kind !== 'pack') continue;
+    assert.equal(validatorFor(published)(published), true, path);
+    assert.equal(singleEngine(published) ? single(published) : validate(published), true, path);
+  }
+});
+test('Packs name Shield as the only program whose version they require', () => {
+  const { engines, ...rest } = pack();
+  rejected({ ...rest, engine: engines.shield });
+  rejected({ ...rest, engines: { ...engines, node: '>=24' } });
+  rejected({ ...rest, engines: {} });
+  rejected(rest);
 });
 test('All six domains and structured grammar agree with Rust admission', () => {
   accepted(pack());
