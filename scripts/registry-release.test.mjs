@@ -31,6 +31,18 @@ test('Reject expired metadata, unsafe paths and duplicate releases', () => {
     { ...catalog, registry_id: 'foreign' },
   ]) assert.throws(() => checkCatalog(...signed(value)));
 });
+test('Catalog v2 signs bounded multi-command hints without changing release bytes', () => {
+  const next = {...catalog, schema_version: 2, commands: {'canonic/git': ['git', 'acme-git']}};
+  assert.deepEqual(checkCatalog(...signed(next)), next);
+  const [bytes, signature] = signed(next);
+  assert.throws(() => checkCatalog(Buffer.from(bytes.toString().replace('acme-git', 'other')), signature, key));
+  for (const commands of [null, {'canonic/missing': ['npm']}, {'canonic/git': []},
+    {'canonic/git': ['git', 'git']}, {'canonic/git': ['/usr/bin/git']},
+    {'canonic/git': ['git\nother']}, {'canonic/git': Array.from({length: 17}, (_, i) => `cmd${i}`)}]) {
+    assert.throws(() => checkCatalog(...signed({...next, commands})));
+  }
+  assert.throws(() => checkCatalog(...signed({...next, schema_version: 1})));
+});
 test('Retain immutable releases and require monotonic catalog publication', () => {
   assert.doesNotThrow(() => checkPrevious(catalog, { ...catalog, sequence: 2 }));
   assert.throws(() => checkPrevious(catalog, catalog));
@@ -133,6 +145,17 @@ test('Authenticated structured releases retain exact assets without reinterpreti
       assert.deepEqual(result.catalog.packs, f.old.packs);
     }
   }
+});
+
+test('Publication prepares authenticated command hints from the release manifest', async t => {
+  const f = await releaseFixture(t);
+  f.release.packs = [f.old.packs[0].path];
+  f.release.commands = {'canonic/git': ['git', 'acme-git']};
+  await f.put('release.json', JSON.stringify(f.release));
+  const result = await build(f.root, join(f.root, 'test-key.pem'), '/unused-validator');
+  assert.equal(result.catalog.schema_version, 2);
+  assert.deepEqual(result.catalog.commands, f.release.commands);
+  assert.deepEqual((await checkPublication(join(f.root, 'public'), key)).commands, f.release.commands);
 });
 test('A changed schema is enforced after a prior publication compiled another schema', async t => {
   const first = await releaseFixture(t);

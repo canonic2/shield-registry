@@ -14,6 +14,10 @@ integrations are developed separately.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
+| [canonic/node](packs/canonic/node/0.1.0/README.md) | 0.1.0 | Node ecosystem | Node/npm/pnpm/Yarn policy and optional package-manager choice; Shield 0.2/0.3 |
+| [canonic/rust](packs/canonic/rust/0.1.0/README.md) | 0.1.0 | Rust ecosystem | Cargo and Rust development, explicit argument paths; Shield 0.3 |
+| [canonic/baseline](packs/canonic/baseline/0.7.0/README.md) | 0.7.0 | Project script review | Project scripts require review across profiles; Shield 0.2/0.3 |
+| [canonic/git](packs/canonic/git/0.6.3/README.md) | 0.6.3 | Shield 0.3 compatibility | Git 0.6.2 policy with Shield 0.2/0.3 compatibility |
 | [canonic/baseline](packs/canonic/baseline/0.6.0/README.md) | 0.6.0 | Path-checked readers and writers | `nl`, `comm`, `paste`, `column`, pagers, `tee`, `ln`, `chmod`/`chown`, `command -v` and `ulimit` queries with Shield 0.2.0; outside, credential and protected paths deny |
 | [canonic/git](packs/canonic/git/0.6.2/README.md) | 0.6.2 | Shield 0.2 compatibility | Git 0.6.1 rules, fixtures and inventory unchanged |
 | [canonic/baseline](packs/canonic/baseline/0.5.0/README.md) | 0.5.0 | Everyday commands and builds | Lookups, piped text tools and project builds/tests allow; environment dumps, keychain secrets and hostname changes deny; installs, publishing and interpreters keep review |
@@ -30,7 +34,8 @@ integrations are developed separately.
 | [canonic/git](packs/canonic/git/0.4.1/README.md) | 0.4.1 | Structured v1 release | Git inspection, staging, recoverable local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The release manifest includes Baseline 0.6.0, Baseline 0.5.0 and Git 0.6.2,
+The release manifest includes Node 0.1.0, Rust 0.1.0, Baseline 0.7.0 and Git 0.6.3,
+plus Baseline 0.6.0, Baseline 0.5.0 and Git 0.6.2,
 Baseline 0.4.0 and Git 0.6.1,
 Baseline 0.3.1, Baseline 0.3.0 and Git 0.6.0,
 Baseline 0.2.2 and 0.2.1,
@@ -119,6 +124,56 @@ Signing keys stay outside this checkout and CI; only public verification materia
 and signed releases are committed.
 
 ## Contributing
+
+Baseline 0.7.0 requires Node project scripts to receive
+project policy review in every profile. It preserves published 0.6.0 bytes.
+Generate it with `node scripts/build-baseline-script-review.mjs`; validate with
+`npm test -- --shield /absolute/path/to/shield scripts/baseline-script-review.test.mjs`.
+See its [guide](packs/canonic/baseline/0.7.0/README.md) for the script boundary.
+
+Rust 0.1.0 lives under `packs/canonic/rust/0.1.0/`.
+Its [guide](packs/canonic/rust/0.1.0/README.md) covers development trust,
+explicit argument paths, profiles, local executable bindings and Baseline/Node
+composition. It requires a Shield build supporting `argument-paths-v1`.
+Generate with `node scripts/build-rust-pack.mjs` and
+`node scripts/build-rust-cases.mjs`; validate with
+`npm test -- --shield /absolute/path/to/shield scripts/rust-pack.test.mjs`.
+The [implementation plan](docs/rust-pack-plan.md) retains the scope and decisions.
+
+Node 0.1.0 lives under `packs/canonic/node/0.1.0/`.
+Its [profile guide](packs/canonic/node/0.1.0/README.md) describes the
+optional npm/pnpm/Yarn choice, routine local installs, Corepack routes and other
+profile boundaries. Generate policy/inventory with `node scripts/build-node-pack.mjs`
+and independent fixtures with `node scripts/build-node-cases.mjs`.
+Validate just this work with `npm test -- --shield /absolute/path/to/shield scripts/node-pack.test.mjs scripts/registry-release.test.mjs`.
+Publication still requires explicit maintainer action.
+The authoring schema accepts Shield's variables, setup questions, `when`, pack
+preconditions and templates, including fixture `variables`. Bindings resolve in
+Shield before compilation. Rust admission remains required for declaration/name
+relationships, template rendering, resolved feature inventories and other semantic
+checks; structural schema validation cannot replace it. Custom rules do not gain
+pack variables. Historical schemas and previously published pack bytes stay unchanged.
+For focused native feedback checks, use
+`npm test -- --shield /absolute/path/to/shield scripts/native/node-native.test.mjs`;
+the fixture needs PTYs and owns its temporary projects and caches.
+See [command discovery and rollout](docs/command-discovery.md) for the exact
+client build, registry publication, hook repair and discovery-refresh steps.
+
+### Command discovery metadata
+
+`release.json.commands` maps a listed publisher/name to 1–16 unique command
+basenames (ASCII letters/digits plus `._+-`, starting alphanumeric, at most 64
+characters). Each ID must have a stable listed release. The publisher signs
+these hints as top-level `commands` in catalog **v2**; omission emits v1.
+Associations describe potentially relevant packs, not permission for any argv.
+The catalog owner can change hints at a higher sequence without changing
+immutable policy bytes. Pack policy schema remains version 1.
+
+Clients accepting only catalog v1 cannot read v2; deploy a client with v2 support
+before publishing this catalog. New clients continue to read existing v1
+catalogs, whose missing metadata produces no command suggestions. Catalog
+refresh/search/info happens outside intercepted callbacks. No public artifacts
+are regenerated by the Node source builders.
 
 Open an issue for missing coverage or a pull request with a proposed pack change.
 Include the operation's effects, decisions in all three profiles, expected

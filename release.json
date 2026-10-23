@@ -1,5 +1,5 @@
 {
-  "sequence": 20,
+  "sequence": 21,
   "expires_at": "2027-01-16T00:00:00Z",
   "packs": [
     "packs/canonic/git/0.1.0/pack.yml",
@@ -24,6 +24,15 @@
     "packs/canonic/git/0.6.1/pack.yml",
     "packs/canonic/baseline/0.5.0/pack.yml",
     "packs/canonic/baseline/0.6.0/pack.yml",
-    "packs/canonic/git/0.6.2/pack.yml"
-  ]
+    "packs/canonic/baseline/0.7.0/pack.yml",
+    "packs/canonic/git/0.6.2/pack.yml",
+    "packs/canonic/git/0.6.3/pack.yml",
+    "packs/canonic/node/0.1.0/pack.yml",
+    "packs/canonic/rust/0.1.0/pack.yml"
+  ],
+  "commands": {
+    "canonic/git": ["git"],
+    "canonic/node": ["node", "npm", "npx", "pnpm", "pn", "pnpx", "pnx", "yarn", "yarnpkg", "corepack"],
+    "canonic/rust": ["cargo", "rustc", "rustdoc", "rustfmt", "rustup", "cargo-nextest", "cargo-deny", "cargo-audit", "cargo-llvm-cov", "cargo-insta"]
+  }
 }

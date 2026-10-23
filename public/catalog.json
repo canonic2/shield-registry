@@ -1,7 +1,7 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "registry_id": "canonic-shield-main",
-  "sequence": 20,
+  "sequence": 21,
   "expires_at": "2027-01-16T00:00:00Z",
   "packs": [
     {
@@ -137,10 +137,63 @@
       "sha256": "ed5c4a49f4f79162ce77019a92695feb86dbabee33b7c02991a1c389f233be74"
     },
     {
+      "id": "canonic/baseline",
+      "version": "0.7.0",
+      "path": "packs/canonic/baseline/0.7.0/pack.yml",
+      "sha256": "2369596a85bbd50e1523e3db180bc3e281d1e272c2cc3a24e98ee12f1d6ba61d"
+    },
+    {
       "id": "canonic/git",
       "version": "0.6.2",
       "path": "packs/canonic/git/0.6.2/pack.yml",
       "sha256": "98bd9f917e310b919735646c925b50874680404c5a28f2da50d2233a37fbedae"
+    },
+    {
+      "id": "canonic/git",
+      "version": "0.6.3",
+      "path": "packs/canonic/git/0.6.3/pack.yml",
+      "sha256": "eebe19fa8a8981d801b9ada58a87bee9296b819e5059e8b4378899ccf80374c6"
+    },
+    {
+      "id": "canonic/node",
+      "version": "0.1.0",
+      "path": "packs/canonic/node/0.1.0/pack.yml",
+      "sha256": "9ed6d0eb1f223166168df041bb472c1f15547aff69a78180aa836059d380abba"
+    },
+    {
+      "id": "canonic/rust",
+      "version": "0.1.0",
+      "path": "packs/canonic/rust/0.1.0/pack.yml",
+      "sha256": "8d5bb5dd970d84f3b6a8400316ca109d6ea4f5e9ff0d6c46210f81c83d69ac26"
     }
-  ]
+  ],
+  "commands": {
+    "canonic/git": [
+      "git"
+    ],
+    "canonic/node": [
+      "node",
+      "npm",
+      "npx",
+      "pnpm",
+      "pn",
+      "pnpx",
+      "pnx",
+      "yarn",
+      "yarnpkg",
+      "corepack"
+    ],
+    "canonic/rust": [
+      "cargo",
+      "rustc",
+      "rustdoc",
+      "rustfmt",
+      "rustup",
+      "cargo-nextest",
+      "cargo-deny",
+      "cargo-audit",
+      "cargo-llvm-cov",
+      "cargo-insta"
+    ]
+  }
 }

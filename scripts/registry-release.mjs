@@ -13,12 +13,29 @@ const encoded = value => Buffer.from(JSON.stringify(value, null, 2) + '\n');
 const safePath = path => typeof path === 'string' && /^[a-zA-Z0-9._~/-]+$/.test(path)
   && path.split('/').every(part => part && part !== '.' && part !== '..');
 
+// Catalog-owned hints, authenticated with the catalog, never permission rules.
+export function checkCommands(commands, entries) {
+  if (!commands || typeof commands !== 'object' || Array.isArray(commands)
+    || Object.keys(commands).length > 64) throw Error('Invalid command associations');
+  for (const [id, names] of Object.entries(commands)) {
+    if (!entries.some(entry => entry.id === id && /^\d+\.\d+\.\d+$/.test(entry.version))
+      || !Array.isArray(names) || names.length < 1 || names.length > 16
+      || new Set(names).size !== names.length
+      || names.some(name => typeof name !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9._+-]{0,63}$/.test(name))) {
+      throw Error('Invalid command associations');
+    }
+  }
+  return commands;
+}
+
 export function checkCatalog(bytes, signature, key, now = new Date()) {
   if (!/^[a-f0-9]{64}$/.test(key) || !/^[a-f0-9]{128}$/.test(signature)) throw Error('Invalid signature encoding');
   const publicKey = createPublicKey({ key: { kty: 'OKP', crv: 'Ed25519', x: Buffer.from(key, 'hex').toString('base64url') }, format: 'jwk' });
   if (!verify(null, bytes, publicKey, Buffer.from(signature, 'hex'))) throw Error('Invalid catalog signature');
   const catalog = document(bytes);
-  if (catalog.schema_version !== 1 || catalog.registry_id !== 'canonic-shield-main'
+  const fields = ['schema_version', 'registry_id', 'sequence', 'expires_at', 'packs', 'commands'];
+  if (Object.keys(catalog).some(field => !fields.includes(field))) throw Error('Unknown catalog field');
+  if (![1, 2].includes(catalog.schema_version) || catalog.registry_id !== 'canonic-shield-main'
     || !Number.isSafeInteger(catalog.sequence) || catalog.sequence < 1
     || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(catalog.expires_at)
     || !(new Date(catalog.expires_at) > now)
@@ -26,10 +43,15 @@ export function checkCatalog(bytes, signature, key, now = new Date()) {
     || !Array.isArray(catalog.packs) || catalog.packs.length < 1 || catalog.packs.length > 64) throw Error('Invalid or expired catalog');
   const seen = new Set();
   for (const entry of catalog.packs) {
-    if (!safePath(entry.path) || !/^[a-f0-9]{64}$/.test(entry.sha256)
+    if (Object.keys(entry).some(field => !['id', 'version', 'path', 'sha256'].includes(field))
+      || !safePath(entry.path) || !/^[a-f0-9]{64}$/.test(entry.sha256)
       || !/^canonic\/[a-z0-9-]+$/.test(entry.id) || !/^\d+\.\d+\.\d+$/.test(entry.version)
       || seen.has(`${entry.id}@${entry.version}`)) throw Error('Invalid or duplicate release');
     seen.add(`${entry.id}@${entry.version}`);
+  }
+  if (Object.hasOwn(catalog, 'commands')) {
+    if (catalog.schema_version !== 2) throw Error('Command associations require catalog v2');
+    checkCommands(catalog.commands, catalog.packs);
   }
   return catalog;
 }
@@ -134,8 +156,9 @@ export async function build(root, keyPath, shield) {
       artifacts.push([relative, content]);
     }
   }
-  const catalog = { schema_version: 1, registry_id: 'canonic-shield-main', sequence: release.sequence,
-    expires_at: release.expires_at, packs: entries };
+  const commands = release.commands === undefined ? undefined : checkCommands(release.commands, entries);
+  const catalog = { schema_version: commands ? 2 : 1, registry_id: 'canonic-shield-main', sequence: release.sequence,
+    expires_at: release.expires_at, packs: entries, ...(commands ? {commands} : {}) };
   const bytes = encoded(catalog);
   const signature = sign(null, bytes, privateKey).toString('hex');
   checkCatalog(bytes, signature, key);

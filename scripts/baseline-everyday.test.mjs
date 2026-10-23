@@ -2,10 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
+import {shieldFor} from './pack-formats.mjs';
 import {everydayPack, everydayCases, everydayCommands, destination, added, relative} from './build-baseline-everyday.mjs';
 
 const previous = name => JSON.parse(readFileSync(new URL(`../packs/canonic/baseline/0.4.0/${name}`, import.meta.url)));
 const current = name => JSON.parse(readFileSync(new URL(name, destination)));
+const compatibleShield = shieldFor(current('pack.yml'));
 
 test('Everyday commands add rules and change only three fallback reasons', async () => {
   const pack = current('pack.yml');
@@ -62,7 +64,7 @@ test('Previous fixtures are retained, with project builds allowed like other loc
   assert.ok(cases.cases.length <= 1024);
 });
 
-test('Production evaluator decides every fixture', {skip: !process.env.SHIELD_BINARY}, () => {
+test('Production evaluator decides every fixture', {skip: !compatibleShield}, () => {
   const result = spawnSync(process.env.SHIELD_BINARY, ['__internal', 'test-pack', '--pack', new URL('pack.yml', destination).pathname,
     '--cases', new URL('cases.json', destination).pathname], {encoding: 'utf8', timeout: 120000, maxBuffer: 16 * 1024 * 1024});
   assert.equal(result.status, 0, result.stdout + result.stderr);
@@ -70,7 +72,7 @@ test('Production evaluator decides every fixture', {skip: !process.env.SHIELD_BI
 });
 
 test('Batch evaluator covers every usable/everyday policy case with Baseline 0.5.0',
-  {skip: !process.env.SHIELD_BINARY || process.platform === 'win32', timeout: 15000}, () => {
+  {skip: !compatibleShield || process.platform === 'win32', timeout: 15000}, () => {
     const result = spawnSync('python3', ['-I', new URL('pack-batch.py', import.meta.url).pathname, process.env.SHIELD_BINARY,
       new URL('pack.yml', destination).pathname, new URL('../packs/canonic/git/0.6.2/pack.yml', import.meta.url).pathname],
     {encoding: 'utf8', timeout: 10000, maxBuffer: 4 * 1024 * 1024});

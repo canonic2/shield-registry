@@ -32,6 +32,44 @@ const rejected = value => {
   assert.equal(validate(value), false, JSON.stringify(value));
   if (process.env.SHIELD_BINARY) assert.equal(core(value), 2, JSON.stringify(value));
 };
+test('Prefix leading grammars require their capability and admit only declared phase fields', () => {
+  const document = pack({domain: 'argv', executable: 'acme', arguments: {
+    kind: 'prefix', values: ['login'], leading: {flags: ['-q'], values: ['--format']},
+  }}, ['structured-rules-v1', 'argument-rules-v1', 'prefix-leading-v1']);
+  accepted(document);
+  const missing = structuredClone(document);
+  missing.capabilities = missing.capabilities.filter(name => name !== 'prefix-leading-v1');
+  rejected(missing);
+  const invalid = structuredClone(document);
+  invalid.rules[0].conditions.arguments.leading.operands = true;
+  rejected(invalid);
+});
+test('Explicit argument paths declare their capability and require a complete grammar', () => {
+  const document = pack({domain: 'argv', executable: 'acme', arguments: {kind: 'any'}, argument_paths: {
+    grammar: {kind: 'options', prefix: ['build'], flags: [], values: ['--output'], operands: false},
+    options: {'--output': {path: {within: {root: 'write'}}, recursive: true}},
+  }}, ['structured-rules-v1', 'argument-rules-v1', 'argument-paths-v1', 'location-v1', 'access-paths-v1']);
+  accepted(document);
+  const exact = structuredClone(document);
+  exact.rules[0].conditions.argument_paths.options['--output'].path = {exact: {root: 'write', path: 'out'}};
+  accepted(exact);
+  const missing = structuredClone(document);
+  missing.capabilities = missing.capabilities.filter(name => name !== 'argument-paths-v1');
+  rejected(missing);
+  const partial = structuredClone(document);
+  partial.rules[0].conditions.argument_paths.grammar = {kind: 'prefix', values: ['build']};
+  rejected(partial);
+  const empty = structuredClone(document);
+  empty.rules[0].conditions.argument_paths.options = {};
+  rejected(empty);
+  const invalid = structuredClone(document);
+  invalid.rules[0].conditions.argument_paths.options['--output'].recursive = 'yes';
+  rejected(invalid);
+  // Structural JSON Schema leaves option-name relationships to Rust admission.
+  const undeclared = structuredClone(document);
+  undeclared.rules[0].conditions.argument_paths.options['--other'] = {path: {within: {root: 'project'}}};
+  if (process.env.SHIELD_BINARY) assert.equal(core(undeclared), 2);
+});
 test('Decision fixtures admit argv or normalized input and reject ambiguous cases', () => {
   const common = {name: 'inspect', profile: 'recommended', expected: 'allow'};
   const input = {kind: 'shell', source: 'git status', dialect: 'posix', dialect_version: null, original_input: {}};
@@ -157,4 +195,89 @@ test('Rust is required for semantic option checks beyond structural JSON Schema'
     flags: [], values: [], operands: false, require_all: ['--undeclared'] } });
   assert.equal(validate(value), true);
   assert.equal(core(value), 2);
+});
+
+test('Pack variables, setup, preconditions and templates agree with Rust admission', () => {
+  const value = pack();
+  value.capabilities.push('variables-v1', 'preconditions-v1', 'templates-v1');
+  value.variables = {manager: {type: 'choice', description: 'Project manager', values: ['acme', 'other'],
+    setup: {question: 'Select a manager?', unset: 'Any manager'}, suggest: [{file: 'acme.lock', value: 'acme'}]}};
+  value.preconditions = [{id: 'manager', conditions: {domain: 'argv', executable: 'acme'},
+    requires_any: [{executable: {var: 'manager'}}], on_unmet: {decision: 'deny', message: 'Use {{manager}}.'}}];
+  accepted(value);
+  rejected({...value, capabilities: value.capabilities.filter(cap => cap !== 'preconditions-v1')});
+  rejected({...value, variables: {manager: {...value.variables.manager, installer: 'unsupported'}}});
+  rejected({...value, preconditions: [{...value.preconditions[0], on_unmet: {decision: 'allow'}}]});
+  rejected({...value, preconditions: [{...value.preconditions[0], fallback: true}]});
+  rejected({...value, preconditions: [{...value.preconditions[0], requires_any: []}]});
+  rejected({...value, variables: {manager: {...value.variables.manager, setup: {placeholder: 'acme'}}}});
+});
+
+test('All variable types and pack-only references retain custom-document boundaries', () => {
+  const declarations = {
+    choice: {type: 'choice', values: ['acme'], default: 'acme'},
+    string: {type: 'string', max_length: 64, setup: {value: 'Only this name', placeholder: 'acme'}},
+    list: {type: 'list', items: {type: 'choice', values: ['acme', 'other']}, min_items: 1, max_items: 2},
+    boolean: {type: 'boolean'}, path: {type: 'path', within: 'project'},
+  };
+  for (const [name, declaration] of Object.entries(declarations)) {
+    const value = pack();
+    value.capabilities.push('variables-v1');
+    value.variables = {setting: {description: 'Acme setting', ...declaration}};
+    if (name === 'path') {
+      value.rules[0].conditions.cwd = {within: {var: 'setting'}};
+      value.capabilities.push('location-v1');
+    } else if (name === 'boolean') {
+      value.rules[0].when = [{var: 'setting', equals: true}];
+    } else value.rules[0].conditions.executable = {var: 'setting'};
+    accepted(value);
+    const custom = {schema_version: 1, kind: 'custom', capabilities: value.capabilities,
+      rules: [{...value.rules[0], decision: 'ask'}]};
+    rejected(custom);
+  }
+  const ordinary = pack();
+  ordinary.rules[0].reason = 'Literal {{braces}} without template interpretation.';
+  accepted(ordinary);
+  const interpreted = {...ordinary, capabilities: [...ordinary.capabilities, 'templates-v1']};
+  assert.equal(validate(interpreted), true);
+  if (process.env.SHIELD_BINARY) assert.equal(core(interpreted), 2); // undeclared placeholder
+});
+
+test('Optional option matches and conditional presence resolve in pack grammars only', () => {
+  const value = pack();
+  value.capabilities.push('variables-v1');
+  value.variables = {profile: {type: 'string', description: 'Acme profile'}};
+  value.rules[0].conditions.arguments = {kind: 'options', prefix: ['inspect'], flags: [],
+    values: [{name: '--profile', match: {var: 'profile', unset: 'any'}}], operands: false,
+    require_all: [{name: '--profile', when: [{var: 'profile', set: true}]}]};
+  accepted(value);
+  rejected({...value, rules: [{...value.rules[0], conditions: {...value.rules[0].conditions, executable: {var: 'profile', unset: 'any'}}}]});
+  const fixture = {schema_version: 1, cases: [{name: 'selected', profile: 'recommended', expected: 'deny', argv: ['acme'], variables: {profile: 'acme-read'}}]};
+  assert.equal(validate(fixture), true, JSON.stringify(validate.errors));
+  assert.equal(validate({...fixture, cases: [{...fixture.cases[0], variables: {profile: null}}]}), false);
+});
+
+test('Pack identity choices resolve for file and shell domains as well as executables', () => {
+  const file = pack({domain: 'file', action: {var: 'action'}}, ['structured-rules-v1', 'location-v1', 'variables-v1']);
+  file.variables = {action: {type: 'choice', description: 'Acme file action', values: ['read', 'write']}};
+  accepted(file);
+  const shell = pack({domain: 'shell', source: {var: 'source'}, dialect: {var: 'dialect'}}, ['structured-rules-v1', 'variables-v1']);
+  shell.variables = {source: {type: 'string', description: 'Acme command'}, dialect: {type: 'choice', description: 'Acme dialect', values: ['posix', 'bash']}};
+  accepted(shell);
+});
+
+test('Rust resolves declaration-dependent feature inventories rather than treating variables as literal JSON', {skip: !process.env.SHIELD_BINARY}, () => {
+  const value = pack();
+  value.variables = {profile: {type: 'string', description: 'Acme profile'}};
+  value.capabilities.push('variables-v1');
+  value.rules[0].conditions.executable = {var: 'profile'};
+  accepted(value);
+  // Structural source validation cannot evaluate an undeclared name or know
+  // whether an extra capability appears after variable resolution.
+  const unknown = {...value, rules: [{...value.rules[0], conditions: {...value.rules[0].conditions, executable: {var: 'missing'}}}]};
+  assert.equal(validate(unknown), true);
+  assert.equal(core(unknown), 2);
+  const extra = {...value, capabilities: [...value.capabilities, 'glob-v1']};
+  assert.equal(validate(extra), true);
+  assert.equal(core(extra), 2);
 });
