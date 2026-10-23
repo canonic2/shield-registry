@@ -4,7 +4,7 @@ import { spawnSync } from 'node:child_process';
 import { resolve, dirname } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { tmpdir } from 'node:os';
-import Ajv from 'ajv/dist/2020.js';
+import { schemaValidator } from './schema-validation.mjs';
 import { registryPage } from './registry-page.mjs';
 
 export const digest = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -106,7 +106,7 @@ export async function build(root, keyPath, shield) {
   // Authenticate retained bytes before admitting new releases. Historical
   // fixtures can encode an older engine's modeling limits; never rewrite them.
   if (previousExists) previous = await checkPublication(output, key, new Date(0));
-  const validate = new Ajv({ strict: false, allErrors: true }).compile(document(await regular(root, 'schemas/policy.schema.json')));
+  const validate = schemaValidator(document(await regular(root, 'schemas/policy.schema.json')));
   artifacts.push(['schemas/policy.schema.json', await regular(root, 'schemas/policy.schema.json')],
     ['schemas/policy-legacy.schema.json', await regular(root, 'schemas/policy-legacy.schema.json')],
     ['schemas/policy-shield-0.1.12.schema.json', await regular(root, 'schemas/policy-shield-0.1.12.schema.json')],

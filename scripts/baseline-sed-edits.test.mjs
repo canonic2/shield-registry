@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
-import {currentFormat} from './pack-formats.mjs';
+import {currentFormat, shieldFor} from './pack-formats.mjs';
 import {sedEditsPack, sedEditsCases, sedEditsCommands, destination, narrowed,
   printScript, readScript, editScript, writeScript} from './build-baseline-sed-edits.mjs';
 
@@ -65,7 +65,7 @@ test('Previous fixtures are retained, with in-place edits and named reads decide
   assert.equal(cases.cases.length, 648);
 });
 
-test('Production evaluator decides every fixture', {skip: !process.env.SHIELD_BINARY}, () => {
+test('Production evaluator decides every fixture', {skip: !shieldFor(current('pack.yml'))}, () => {
   const result = spawnSync(process.env.SHIELD_BINARY, ['__internal', 'test-pack', '--pack', new URL('pack.yml', destination).pathname,
     '--cases', new URL('cases.json', destination).pathname], {encoding: 'utf8', timeout: 120000});
   assert.equal(result.status, 0, result.stdout + result.stderr);
@@ -73,7 +73,7 @@ test('Production evaluator decides every fixture', {skip: !process.env.SHIELD_BI
 });
 
 test('Both native adapters enforce Baseline 0.4.0 with Git 0.6.1 in every profile',
-  {skip: !process.env.SHIELD_BINARY || process.platform === 'win32', timeout: 180000}, () => {
+  {skip: !shieldFor(current('pack.yml')) || process.platform === 'win32', timeout: 180000}, () => {
     const result = spawnSync('python3', [new URL('usable-native.py', import.meta.url).pathname, process.env.SHIELD_BINARY,
       new URL('pack.yml', destination).pathname, new URL('../packs/canonic/git/0.6.1/pack.yml', import.meta.url).pathname],
       {encoding: 'utf8', timeout: 170000, maxBuffer: 2 * 1024 * 1024});

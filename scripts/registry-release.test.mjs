@@ -70,7 +70,7 @@ async function releaseFixture(t) {
     const path = `packs/canonic/git/${version}/${name}`;
     // Git 0.3.0 stands in for a new release, so it uses the current format.
     const bytes = version === '0.3.0' && name === 'pack.yml'
-      ? Buffer.from(JSON.stringify(currentFormat(JSON.parse(await readFile(new URL(`../${path}`, import.meta.url))))))
+      ? Buffer.from(JSON.stringify({...currentFormat(JSON.parse(await readFile(new URL(`../${path}`, import.meta.url)))), engines: {shield: '*'}}))
       : await readFile(new URL(`../${path}`, import.meta.url));
     await put(path, bytes);
     if (version === '0.2.0') await put(`public/${path}`, bytes);
@@ -134,12 +134,21 @@ test('Authenticated structured releases retain exact assets without reinterpreti
     }
   }
 });
+test('A changed schema is enforced after a prior publication compiled another schema', async t => {
+  const first = await releaseFixture(t);
+  first.release.packs = [first.old.packs[0].path];
+  await first.put('release.json', JSON.stringify(first.release));
+  await build(first.root, join(first.root, 'test-key.pem'), '/unused-validator');
+  const changed = await releaseFixture(t);
+  await changed.put('schemas/policy.schema.json', JSON.stringify({not: {}}));
+  await assert.rejects(build(changed.root, join(changed.root, 'test-key.pem'), '/unused-validator'), /Structured schema validation failed/);
+});
 test('A baseline release retains its inventory and publishes its own coverage', {skip:!process.env.SHIELD_BINARY},async t=>{
   const f=await releaseFixture(t);
   const prefix='packs/canonic/baseline/0.1.0';
   for(const name of ['pack.yml','cases.json','README.md','LICENSE','commands.json']){
     const bytes=await readFile(new URL(`../${prefix}/${name}`,import.meta.url));
-    await f.put(`${prefix}/${name}`,name==='pack.yml'?JSON.stringify(currentFormat(JSON.parse(bytes))):bytes);
+    await f.put(`${prefix}/${name}`,name==='pack.yml'?JSON.stringify({...currentFormat(JSON.parse(bytes)), engines: {shield: '*'}}):bytes);
   }
   f.release.packs.push(`${prefix}/pack.yml`);
   await f.put('release.json',JSON.stringify(f.release));

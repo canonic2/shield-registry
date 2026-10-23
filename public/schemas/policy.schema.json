@@ -15857,46 +15857,85 @@
         "cases": {
           "type": "array",
           "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "name": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 4096,
-                "pattern": "^[^\\u0000]*$"
-              },
-              "profile": {
-                "enum": [
-                  "loose",
-                  "recommended",
-                  "strict"
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4096,
+                    "pattern": "^[^\\u0000]*$"
+                  },
+                  "profile": {
+                    "enum": [
+                      "loose",
+                      "recommended",
+                      "strict"
+                    ]
+                  },
+                  "expected": {
+                    "enum": [
+                      "allow",
+                      "ask",
+                      "deny"
+                    ]
+                  },
+                  "argv": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 0,
+                      "maxLength": 4096,
+                      "pattern": "^[^\\u0000]*$"
+                    },
+                    "minItems": 1,
+                    "maxItems": 256
+                  }
+                },
+                "required": [
+                  "name",
+                  "profile",
+                  "expected",
+                  "argv"
                 ]
               },
-              "argv": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "minLength": 0,
-                  "maxLength": 4096,
-                  "pattern": "^[^\\u0000]*$"
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4096,
+                    "pattern": "^[^\\u0000]*$"
+                  },
+                  "profile": {
+                    "enum": [
+                      "loose",
+                      "recommended",
+                      "strict"
+                    ]
+                  },
+                  "expected": {
+                    "enum": [
+                      "allow",
+                      "ask",
+                      "deny"
+                    ]
+                  },
+                  "input": {
+                    "$ref": "#/$defs/input"
+                  }
                 },
-                "minItems": 1,
-                "maxItems": 256
-              },
-              "expected": {
-                "enum": [
-                  "allow",
-                  "ask",
-                  "deny"
+                "required": [
+                  "name",
+                  "profile",
+                  "expected",
+                  "input"
                 ]
               }
-            },
-            "required": [
-              "name",
-              "profile",
-              "argv",
-              "expected"
             ]
           },
           "minItems": 1,

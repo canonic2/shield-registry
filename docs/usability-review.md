@@ -28,6 +28,37 @@ form does not gain protected-policy-file write access by being labeled a reader.
 Regular-file inputs still receive canonical containment and credential exclusions.
 No new broad interpreter or command-family allow was introduced.
 
+## Baseline 0.5.0 dispositions
+
+Reviewed 2026-10-21 with Shield 0.1.16. Allow rules exist so routine work does
+not stop for approval; deny rules are the protection. A command that cannot harm
+with any arguments allows; a harmful form is denied rather than asked.
+
+| Family | Decision |
+| --- | --- |
+| Lookups printing names, identities or path facts (`test`, `[`, `type`, `which`, `whoami`, `id`, `hostname` reads, `realpath`, `readlink`, `lsof`, `expr`, `seq`) | Allow in every profile |
+| Metadata and listings (`du`, `stat`, `file`, `tree`) | Allow listed options; output files, file lists, decompression and magic files keep review |
+| Text tools without path models (`nl`, `column`, `paste`, `bc`) | Allow on standard input; file operands keep review until Shield checks their paths |
+| Builds, checks, tests and formatting (cargo, go, make, npm/pnpm/yarn scripts, tsc, eslint, prettier, vitest, jest, pytest, ruff) | Allow in Loose/Recommended, Strict reviews. They run project code the agent can already edit; directory options must stay relative without `..` |
+| Installs, publishing, `npx`/`exec`/`dlx`, `uv run`, global tool options | Keep review: they download or run code outside the project build |
+| Environment dumps (`printenv`, bare `env`), keychain secret reads, `gh auth token`, hostname changes | Deny in every profile |
+| Interpreters, `xargs`, `/usr/bin/time`, `ulimit`, `command -v` | Unchanged: Shield's shell analysis asks or returns them for rewriting before pack rules apply |
+| `chmod`, `chown`, `ln`, `tee`, pagers, `open` | Keep review until Shield models their targets; `open` launches outside the project |
+
+The shell keyword `time` already takes the decision of its command.
+
+## Baseline 0.6.0 dispositions
+
+Reviewed 2026-10-22 with Shield 0.2.0, which models the paths these commands
+touch and lets builtin queries reach policy.
+
+| Family | Decision |
+| --- | --- |
+| `nl`, `comm`, `paste`, `column`, `less`, `more` with files | Allow within the read roots; credential folders and outside paths deny; pager options that write files ask |
+| `tee FILE`, `ln`, `chmod`, `chown` | Allow in Loose/Recommended, Strict reviews, within the write roots outside `.git` and Shield state; outside paths deny. A hard link's source must pass the read rules, because the link shares its contents |
+| `command -v`/`-V`, `ulimit` queries | Allow; setting a limit and running a command through `command` keep review |
+| `xargs`, `/usr/bin/time`, interpreters | Unchanged: Shield cannot check what `xargs` appends, and interpreters run programs it cannot inspect |
+
 ## Git dispositions
 
 | Family | Decision |

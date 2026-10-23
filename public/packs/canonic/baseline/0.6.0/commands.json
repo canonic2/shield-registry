@@ -1,0 +1,1399 @@
+{
+  "schema_version": 1,
+  "commands": [
+    {
+      "name": ":",
+      "rule_ids": [
+        "shared-constant-true"
+      ],
+      "source_rule_ids": [
+        "constant-colon"
+      ]
+    },
+    {
+      "name": "[",
+      "rule_ids": [
+        "lookup"
+      ],
+      "source_rule_ids": [
+        "lookup"
+      ]
+    },
+    {
+      "name": "arch",
+      "rule_ids": [
+        "lookup"
+      ],
+      "source_rule_ids": [
+        "lookup"
+      ]
+    },
+    {
+      "name": "awk",
+      "rule_ids": [
+        "review-awk",
+        "stdin-awk-read",
+        "read-awk"
+      ],
+      "source_rule_ids": [
+        "review-awk",
+        "stdin-awk-read",
+        "read-awk"
+      ]
+    },
+    {
+      "name": "aws",
+      "rule_ids": [
+        "shared-review-docker",
+        "deny-aws-s3-rm",
+        "deny-aws-s3-rb"
+      ],
+      "source_rule_ids": [
+        "review-aws",
+        "deny-aws-s3-rm",
+        "deny-aws-s3-rb"
+      ]
+    },
+    {
+      "name": "az",
+      "rule_ids": [
+        "shared-review-docker"
+      ],
+      "source_rule_ids": [
+        "review-az"
+      ]
+    },
+    {
+      "name": "basename",
+      "rule_ids": [
+        "shared-text-echo"
+      ],
+      "source_rule_ids": [
+        "text-basename"
+      ]
+    },
+    {
+      "name": "bash",
+      "rule_ids": [
+        "shared-review-node"
+      ],
+      "source_rule_ids": [
+        "review-bash"
+      ]
+    },
+    {
+      "name": "bc",
+      "rule_ids": [
+        "stdin-bc"
+      ],
+      "source_rule_ids": [
+        "stdin-bc"
+      ]
+    },
+    {
+      "name": "biome",
+      "rule_ids": [
+        "project-tools"
+      ],
+      "source_rule_ids": [
+        "project-tools"
+      ]
+    },
+    {
+      "name": "black",
+      "rule_ids": [
+        "project-tools"
+      ],
+      "source_rule_ids": [
+        "project-tools"
+      ]
+    },
+    {
+      "name": "bun",
+      "rule_ids": [
+        "shared-git-version",
+        "shared-version-node-short"
+      ],
+      "source_rule_ids": [
+        "version-bun",
+        "version-bun-short"
+      ]
+    },
+    {
+      "name": "cargo",
+      "rule_ids": [
+        "shared-git-version",
+        "shared-version-cargo-short",
+        "shared-review-uv",
+        "build-cargo",
+        "build-cargo-toolchain"
+      ],
+      "source_rule_ids": [
+        "version-cargo",
+        "version-cargo-short",
+        "review-cargo",
+        "build-cargo",
+        "build-cargo-toolchain"
+      ]
+    },
+    {
+      "name": "cat",
+      "rule_ids": [
+        "stdin-cat",
+        "read-cat",
+        "shared-unsupported-cat"
+      ],
+      "source_rule_ids": [
+        "stdin-cat",
+        "read-cat",
+        "unsupported-cat"
+      ]
+    },
+    {
+      "name": "chmod",
+      "rule_ids": [
+        "shared-review-chmod",
+        "mode-chmod"
+      ],
+      "source_rule_ids": [
+        "review-chmod",
+        "mode-chmod"
+      ]
+    },
+    {
+      "name": "chown",
+      "rule_ids": [
+        "shared-review-chmod",
+        "owner-chown"
+      ],
+      "source_rule_ids": [
+        "review-chown",
+        "owner-chown"
+      ]
+    },
+    {
+      "name": "cmp",
+      "rule_ids": [
+        "shared-review-rg",
+        "read-cmp"
+      ],
+      "source_rule_ids": [
+        "review-cmp",
+        "read-cmp"
+      ]
+    },
+    {
+      "name": "column",
+      "rule_ids": [
+        "stdin-column",
+        "read-column"
+      ],
+      "source_rule_ids": [
+        "stdin-column",
+        "read-column"
+      ]
+    },
+    {
+      "name": "comm",
+      "rule_ids": [
+        "read-comm"
+      ],
+      "source_rule_ids": [
+        "read-comm"
+      ]
+    },
+    {
+      "name": "command",
+      "rule_ids": [
+        "lookup-command",
+        "lookup-command-path"
+      ],
+      "source_rule_ids": [
+        "lookup-command",
+        "lookup-command-path"
+      ]
+    },
+    {
+      "name": "cp",
+      "rule_ids": [
+        "copy-cp"
+      ],
+      "source_rule_ids": [
+        "copy-cp"
+      ]
+    },
+    {
+      "name": "curl",
+      "rule_ids": [
+        "shared-review-curl"
+      ],
+      "source_rule_ids": [
+        "review-curl"
+      ]
+    },
+    {
+      "name": "cut",
+      "rule_ids": [
+        "stdin-cut",
+        "review-cut",
+        "read-cut"
+      ],
+      "source_rule_ids": [
+        "stdin-cut",
+        "review-cut",
+        "read-cut"
+      ]
+    },
+    {
+      "name": "date",
+      "rule_ids": [
+        "shared-constant-true",
+        "date-format"
+      ],
+      "source_rule_ids": [
+        "date",
+        "date-format"
+      ]
+    },
+    {
+      "name": "dd",
+      "rule_ids": [
+        "shared-deny-sudo"
+      ],
+      "source_rule_ids": [
+        "deny-dd"
+      ]
+    },
+    {
+      "name": "df",
+      "rule_ids": [
+        "shared-review-rg",
+        "filesystem-space"
+      ],
+      "source_rule_ids": [
+        "review-df",
+        "filesystem-space"
+      ]
+    },
+    {
+      "name": "diff",
+      "rule_ids": [
+        "shared-review-rg",
+        "read-diff"
+      ],
+      "source_rule_ids": [
+        "review-diff",
+        "read-diff"
+      ]
+    },
+    {
+      "name": "dirname",
+      "rule_ids": [
+        "shared-text-echo"
+      ],
+      "source_rule_ids": [
+        "text-dirname"
+      ]
+    },
+    {
+      "name": "diskutil",
+      "rule_ids": [
+        "shared-deny-sudo"
+      ],
+      "source_rule_ids": [
+        "deny-diskutil"
+      ]
+    },
+    {
+      "name": "doas",
+      "rule_ids": [
+        "shared-deny-sudo"
+      ],
+      "source_rule_ids": [
+        "deny-doas"
+      ]
+    },
+    {
+      "name": "docker",
+      "rule_ids": [
+        "shared-git-version",
+        "shared-review-docker",
+        "deny-docker-system-prune",
+        "deny-docker-volume-rm",
+        "deny-docker-rm",
+        "deny-docker-rmi"
+      ],
+      "source_rule_ids": [
+        "version-docker",
+        "review-docker",
+        "deny-docker-system-prune",
+        "deny-docker-volume-rm",
+        "deny-docker-rm",
+        "deny-docker-rmi"
+      ]
+    },
+    {
+      "name": "du",
+      "rule_ids": [
+        "shared-review-rg",
+        "space-du"
+      ],
+      "source_rule_ids": [
+        "review-du",
+        "space-du"
+      ]
+    },
+    {
+      "name": "echo",
+      "rule_ids": [
+        "shared-text-echo"
+      ],
+      "source_rule_ids": [
+        "text-echo"
+      ]
+    },
+    {
+      "name": "env",
+      "rule_ids": [
+        "deny-env-dump"
+      ],
+      "source_rule_ids": [
+        "deny-env-dump"
+      ]
+    },
+    {
+      "name": "eslint",
+      "rule_ids": [
+        "project-tools"
+      ],
+      "source_rule_ids": [
+        "project-tools"
+      ]
+    },
+    {
+      "name": "expr",
+      "rule_ids": [
+        "lookup"
+      ],
+      "source_rule_ids": [
+        "lookup"
+      ]
+    },
+    {
+      "name": "false",
+      "rule_ids": [
+        "shared-constant-true"
+      ],
+      "source_rule_ids": [
+        "constant-false"
+      ]
+    },
+    {
+      "name": "fdisk",
+      "rule_ids": [
+        "shared-deny-sudo"
+      ],
+      "source_rule_ids": [
+        "deny-fdisk"
+      ]
+    },
+    {
+      "name": "file",
+      "rule_ids": [
+        "type-file"
+      ],
+      "source_rule_ids": [
+        "type-file"
+      ]
+    },
+    {
+      "name": "find",
+      "rule_ids": [
+        "review-find-actions",
+        "read-find"
+      ],
+      "source_rule_ids": [
+        "review-find-actions",
+        "read-find"
+      ]
+    },
+    {
+      "name": "gcloud",
+      "rule_ids": [
+        "shared-review-docker"
+      ],
+      "source_rule_ids": [
+        "review-gcloud"
+      ]
+    },
+    {
+      "name": "gh",
+      "rule_ids": [
+        "shared-git-version",
+        "review-gh",
+        "deny-gh-auth-token"
+      ],
+      "source_rule_ids": [
+        "version-gh",
+        "review-gh",
+        "deny-gh-auth-token"
+      ]
+    },
+    {
+      "name": "git",
+      "rule_ids": [
+        "shared-git-version",
+        "git-status"
+      ],
+      "source_rule_ids": [
+        "git-version",
+        "git-status"
+      ]
+    },
+    {
+      "name": "go",
+      "rule_ids": [
+        "version-go",
+        "shared-review-uv",
+        "build-go",
+        "build-go-mod"
+      ],
+      "source_rule_ids": [
+        "version-go",
+        "review-go",
+        "build-go",
+        "build-go-mod"
+      ]
+    },
+    {
+      "name": "gofmt",
+      "rule_ids": [
+        "project-tools"
+      ],
+      "source_rule_ids": [
+        "project-tools"
+      ]
+    },
+    {
+      "name": "grep",
+      "rule_ids": [
+        "read-grep",
+        "shared-git-version",
+        "shared-review-rg"
+      ],
+      "source_rule_ids": [
+        "read-grep",
+        "version-grep",
+        "review-grep"
+      ]
+    },
+    {
+      "name": "groups",
+      "rule_ids": [
+        "lookup"
+      ],
+      "source_rule_ids": [
+        "lookup"
+      ]
+    },
+    {
+      "name": "halt",
+      "rule_ids": [
+        "shared-deny-sudo"
+      ],
+      "source_rule_ids": [
+        "deny-halt"
+      ]
+    },
+    {
+      "name": "head",
+      "rule_ids": [
+        "shared-unsupported-cat",
+        "stdin-head",
+        "read-head",
+        "stdin-head-count",
+        "read-head-count"
+      ],
+      "source_rule_ids": [
+        "unsupported-head",
+        "stdin-head",
+        "read-head",
+        "stdin-head-count",
+        "read-head-count"
+      ]
+    },
+    {
+      "name": "hostname",
+      "rule_ids": [
+        "hostname-read",
+        "deny-hostname-set"
+      ],
+      "source_rule_ids": [
+        "hostname-read",
+        "deny-hostname-set"
+      ]
+    },
+    {
+      "name": "id",
+      "rule_ids": [
+        "lookup"
+      ],
+      "source_rule_ids": [
+        "lookup"
+      ]
+    },
+    {
+      "name": "jest",
+      "rule_ids": [
+        "project-tools"
+      ],
+      "source_rule_ids": [
+        "project-tools"
+      ]
+    },
+    {
+      "name": "jq",
+      "rule_ids": [
+        "shared-git-version",
+        "shared-review-rg",
+        "stdin-jq-read",
+        "read-jq"
+      ],
+      "source_rule_ids": [
+        "version-jq",
+        "review-jq",
+        "stdin-jq-read",
+        "read-jq"
+      ]
+    },
+    {
+      "name": "kubectl",
+      "rule_ids": [
+        "shared-review-docker",
+        "deny-kubectl-delete"
+      ],
+      "source_rule_ids": [
+        "review-kubectl",
+        "deny-kubectl-delete"
+      ]
+    },
+    {
+      "name": "less",
+      "rule_ids": [
+        "read-less"
+      ],
+      "source_rule_ids": [
+        "read-less"
+      ]
+    },
+    {
+      "name": "ln",
+      "rule_ids": [
+        "link-symbolic",
+        "link-symbolic-replace",
+        "link-hard",
+        "link-hard-replace"
+      ],
+      "source_rule_ids": [
+        "link-symbolic",
+        "link-symbolic-replace",
+        "link-hard",
+        "link-hard-replace"
+      ]
+    },
+    {
+      "name": "locale",
+      "rule_ids": [
+        "lookup"
+      ],
+      "source_rule_ids": [
+        "lookup"
+      ]
+    },
+    {
+      "name": "ls",
+      "rule_ids": [
+        "read-ls"
+      ],
+      "source_rule_ids": [
+        "read-ls"
+      ]
+    },
+    {
+      "name": "lsof",
+      "rule_ids": [
+        "lookup"
+      ],
+      "source_rule_ids": [
+        "lookup"
+      ]
+    },
+    {
+      "name": "make",
+      "rule_ids": [
+        "shared-git-version",
+        "review-make",
+        "build-make"
+      ],
+      "source_rule_ids": [
+        "version-make",
+        "review-make",
+        "build-make"
+      ]
+    },
+    {
+      "name": "mkdir",
+      "rule_ids": [
+        "write-mkdir",
+        "shared-review-rg"
+      ],
+      "source_rule_ids": [
+        "write-mkdir",
+        "review-mkdir"
+      ]
+    },
+    {
+      "name": "mkfs",
+      "rule_ids": [
+        "shared-deny-sudo"
+      ],
+      "source_rule_ids": [
+        "deny-mkfs"
+      ]
+    },
+    {
+      "name": "more",
+      "rule_ids": [
+        "read-more"
+      ],
+      "source_rule_ids": [
+        "read-more"
+      ]
+    },
+    {
+      "name": "mount",
+      "rule_ids": [
+        "shared-deny-sudo"
+      ],
+      "source_rule_ids": [
+        "deny-mount"
+      ]
+    },
+    {
+      "name": "mv",
+      "rule_ids": [
+        "move-mv",
+        "preserve-access-roots"
+      ],
+      "source_rule_ids": [
+        "move-mv",
+        "preserve-access-roots"
+      ]
+    },
+    {
+      "name": "mypy",
+      "rule_ids": [
+        "project-tools"
+      ],
+      "source_rule_ids": [
+        "project-tools"
+      ]
+    },
+    {
+      "name": "nl",
+      "rule_ids": [
+        "stdin-nl",
+        "read-nl"
+      ],
+      "source_rule_ids": [
+        "stdin-nl",
+        "read-nl"
+      ]
+    },
+    {
+      "name": "node",
+      "rule_ids": [
+        "shared-git-version",
+        "shared-version-node-short",
+        "shared-review-node"
+      ],
+      "source_rule_ids": [
+        "version-node",
+        "version-node-short",
+        "review-node"
+      ]
+    },
+    {
+      "name": "npm",
+      "rule_ids": [
+        "shared-git-version",
+        "shared-version-node-short",
+        "init-npm",
+        "shared-review-npm",
+        "scripts-npm",
+        "scripts-npm-prefix",
+        "scripts-npm-prefix-attached",
+        "scripts-npm-workspace",
+        "scripts-npm-workspace-attached",
+        "scripts-npm-workspaces"
+      ],
+      "source_rule_ids": [
+        "version-npm",
+        "version-npm-short",
+        "init-npm",
+        "review-npm",
+        "scripts-npm",
+        "scripts-npm-prefix",
+        "scripts-npm-prefix-attached",
+        "scripts-npm-workspace",
+        "scripts-npm-workspace-attached",
+        "scripts-npm-workspaces"
+      ]
+    },
+    {
+      "name": "nproc",
+      "rule_ids": [
+        "lookup"
+      ],
+      "source_rule_ids": [
+        "lookup"
+      ]
+    },
+    {
+      "name": "npx",
+      "rule_ids": [
+        "shared-git-version",
+        "shared-version-node-short",
+        "review-npx"
+      ],
+      "source_rule_ids": [
+        "version-npx",
+        "version-npx-short",
+        "review-npx"
+      ]
+    },
+    {
+      "name": "paste",
+      "rule_ids": [
+        "stdin-paste",
+        "read-paste"
+      ],
+      "source_rule_ids": [
+        "stdin-paste",
+        "read-paste"
+      ]
+    },
+    {
+      "name": "pnpm",
+      "rule_ids": [
+        "shared-git-version",
+        "shared-version-node-short",
+        "shared-review-npm",
+        "scripts-pnpm-yarn",
+        "scripts-pnpm-dir",
+        "scripts-pnpm-dir-attached",
+        "scripts-pnpm-filter",
+        "scripts-pnpm-filter-attached",
+        "scripts-pnpm-recursive"
+      ],
+      "source_rule_ids": [
+        "version-pnpm",
+        "version-pnpm-short",
+        "review-pnpm",
+        "scripts-pnpm-yarn",
+        "scripts-pnpm-dir",
+        "scripts-pnpm-dir-attached",
+        "scripts-pnpm-filter",
+        "scripts-pnpm-filter-attached",
+        "scripts-pnpm-recursive"
+      ]
+    },
+    {
+      "name": "poweroff",
+      "rule_ids": [
+        "shared-deny-sudo"
+      ],
+      "source_rule_ids": [
+        "deny-poweroff"
+      ]
+    },
+    {
+      "name": "prettier",
+      "rule_ids": [
+        "project-tools"
+      ],
+      "source_rule_ids": [
+        "project-tools"
+      ]
+    },
+    {
+      "name": "printenv",
+      "rule_ids": [
+        "deny-printenv"
+      ],
+      "source_rule_ids": [
+        "deny-printenv"
+      ]
+    },
+    {
+      "name": "printf",
+      "rule_ids": [
+        "shared-text-echo"
+      ],
+      "source_rule_ids": [
+        "text-printf"
+      ]
+    },
+    {
+      "name": "pwd",
+      "rule_ids": [
+        "pwd"
+      ],
+      "source_rule_ids": [
+        "pwd"
+      ]
+    },
+    {
+      "name": "pytest",
+      "rule_ids": [
+        "project-tools"
+      ],
+      "source_rule_ids": [
+        "project-tools"
+      ]
+    },
+    {
+      "name": "python",
+      "rule_ids": [
+        "shared-git-version",
+        "shared-version-cargo-short",
+        "shared-review-node"
+      ],
+      "source_rule_ids": [
+        "version-python",
+        "version-python-short",
+        "review-python"
+      ]
+    },
+    {
+      "name": "python3",
+      "rule_ids": [
+        "shared-git-version",
+        "shared-version-cargo-short",
+        "shared-review-node"
+      ],
+      "source_rule_ids": [
+        "version-python3",
+        "version-python3-short",
+        "review-python3"
+      ]
+    },
+    {
+      "name": "readlink",
+      "rule_ids": [
+        "lookup"
+      ],
+      "source_rule_ids": [
+        "lookup"
+      ]
+    },
+    {
+      "name": "realpath",
+      "rule_ids": [
+        "lookup"
+      ],
+      "source_rule_ids": [
+        "lookup"
+      ]
+    },
+    {
+      "name": "reboot",
+      "rule_ids": [
+        "shared-deny-sudo"
+      ],
+      "source_rule_ids": [
+        "deny-reboot"
+      ]
+    },
+    {
+      "name": "rg",
+      "rule_ids": [
+        "read-rg",
+        "shared-git-version",
+        "shared-review-rg"
+      ],
+      "source_rule_ids": [
+        "read-rg",
+        "version-rg",
+        "review-rg"
+      ]
+    },
+    {
+      "name": "rm",
+      "rule_ids": [
+        "remove-rm",
+        "preserve-access-roots"
+      ],
+      "source_rule_ids": [
+        "remove-rm",
+        "preserve-access-roots"
+      ]
+    },
+    {
+      "name": "rmdir",
+      "rule_ids": [
+        "remove-rmdir",
+        "preserve-access-roots"
+      ],
+      "source_rule_ids": [
+        "remove-rmdir",
+        "preserve-access-roots"
+      ]
+    },
+    {
+      "name": "rsync",
+      "rule_ids": [
+        "shared-review-ssh"
+      ],
+      "source_rule_ids": [
+        "review-rsync"
+      ]
+    },
+    {
+      "name": "ruff",
+      "rule_ids": [
+        "project-tools"
+      ],
+      "source_rule_ids": [
+        "project-tools"
+      ]
+    },
+    {
+      "name": "rustc",
+      "rule_ids": [
+        "shared-git-version",
+        "shared-version-cargo-short"
+      ],
+      "source_rule_ids": [
+        "version-rustc",
+        "version-rustc-short"
+      ]
+    },
+    {
+      "name": "rustfmt",
+      "rule_ids": [
+        "project-tools"
+      ],
+      "source_rule_ids": [
+        "project-tools"
+      ]
+    },
+    {
+      "name": "scp",
+      "rule_ids": [
+        "shared-review-ssh"
+      ],
+      "source_rule_ids": [
+        "review-scp"
+      ]
+    },
+    {
+      "name": "security",
+      "rule_ids": [
+        "deny-keychain-secrets"
+      ],
+      "source_rule_ids": [
+        "deny-keychain-secrets"
+      ]
+    },
+    {
+      "name": "sed",
+      "rule_ids": [
+        "review-sed",
+        "stdin-sed-read",
+        "read-sed",
+        "edit-sed",
+        "edit-sed-gnu",
+        "write-sed"
+      ],
+      "source_rule_ids": [
+        "review-sed",
+        "stdin-sed-read",
+        "read-sed",
+        "edit-sed",
+        "edit-sed-gnu",
+        "write-sed"
+      ]
+    },
+    {
+      "name": "seq",
+      "rule_ids": [
+        "seq"
+      ],
+      "source_rule_ids": [
+        "seq"
+      ]
+    },
+    {
+      "name": "sh",
+      "rule_ids": [
+        "shared-review-node"
+      ],
+      "source_rule_ids": [
+        "review-sh"
+      ]
+    },
+    {
+      "name": "shred",
+      "rule_ids": [
+        "shared-deny-sudo"
+      ],
+      "source_rule_ids": [
+        "deny-shred"
+      ]
+    },
+    {
+      "name": "shutdown",
+      "rule_ids": [
+        "shared-deny-sudo"
+      ],
+      "source_rule_ids": [
+        "deny-shutdown"
+      ]
+    },
+    {
+      "name": "sleep",
+      "rule_ids": [
+        "sleep"
+      ],
+      "source_rule_ids": [
+        "sleep"
+      ]
+    },
+    {
+      "name": "sort",
+      "rule_ids": [
+        "stdin-sort",
+        "review-sort",
+        "read-sort"
+      ],
+      "source_rule_ids": [
+        "stdin-sort",
+        "review-sort",
+        "read-sort"
+      ]
+    },
+    {
+      "name": "ssh",
+      "rule_ids": [
+        "shared-review-ssh"
+      ],
+      "source_rule_ids": [
+        "review-ssh"
+      ]
+    },
+    {
+      "name": "stat",
+      "rule_ids": [
+        "shared-review-rg",
+        "metadata-stat"
+      ],
+      "source_rule_ids": [
+        "review-stat",
+        "metadata-stat"
+      ]
+    },
+    {
+      "name": "su",
+      "rule_ids": [
+        "shared-deny-sudo"
+      ],
+      "source_rule_ids": [
+        "deny-su"
+      ]
+    },
+    {
+      "name": "sudo",
+      "rule_ids": [
+        "shared-deny-sudo"
+      ],
+      "source_rule_ids": [
+        "deny-sudo"
+      ]
+    },
+    {
+      "name": "sw_vers",
+      "rule_ids": [
+        "lookup"
+      ],
+      "source_rule_ids": [
+        "lookup"
+      ]
+    },
+    {
+      "name": "tail",
+      "rule_ids": [
+        "shared-unsupported-cat",
+        "stdin-tail",
+        "read-tail",
+        "stdin-tail-count",
+        "read-tail-count"
+      ],
+      "source_rule_ids": [
+        "unsupported-tail",
+        "stdin-tail",
+        "read-tail",
+        "stdin-tail-count",
+        "read-tail-count"
+      ]
+    },
+    {
+      "name": "tee",
+      "rule_ids": [
+        "stdin-tee",
+        "write-tee"
+      ],
+      "source_rule_ids": [
+        "stdin-tee",
+        "write-tee"
+      ]
+    },
+    {
+      "name": "terraform",
+      "rule_ids": [
+        "shared-review-docker",
+        "shared-deny-terraform-destroy"
+      ],
+      "source_rule_ids": [
+        "review-terraform",
+        "deny-terraform-destroy"
+      ]
+    },
+    {
+      "name": "test",
+      "rule_ids": [
+        "lookup"
+      ],
+      "source_rule_ids": [
+        "lookup"
+      ]
+    },
+    {
+      "name": "tofu",
+      "rule_ids": [
+        "shared-review-docker",
+        "shared-deny-terraform-destroy"
+      ],
+      "source_rule_ids": [
+        "review-tofu",
+        "deny-tofu-destroy"
+      ]
+    },
+    {
+      "name": "touch",
+      "rule_ids": [
+        "write-touch",
+        "shared-review-rg"
+      ],
+      "source_rule_ids": [
+        "write-touch",
+        "review-touch"
+      ]
+    },
+    {
+      "name": "tr",
+      "rule_ids": [
+        "text-tr",
+        "shared-review-rg"
+      ],
+      "source_rule_ids": [
+        "text-tr",
+        "review-tr"
+      ]
+    },
+    {
+      "name": "tree",
+      "rule_ids": [
+        "list-tree"
+      ],
+      "source_rule_ids": [
+        "list-tree"
+      ]
+    },
+    {
+      "name": "true",
+      "rule_ids": [
+        "shared-constant-true"
+      ],
+      "source_rule_ids": [
+        "constant-true"
+      ]
+    },
+    {
+      "name": "tsc",
+      "rule_ids": [
+        "project-tools"
+      ],
+      "source_rule_ids": [
+        "project-tools"
+      ]
+    },
+    {
+      "name": "tty",
+      "rule_ids": [
+        "lookup"
+      ],
+      "source_rule_ids": [
+        "lookup"
+      ]
+    },
+    {
+      "name": "type",
+      "rule_ids": [
+        "lookup"
+      ],
+      "source_rule_ids": [
+        "lookup"
+      ]
+    },
+    {
+      "name": "ulimit",
+      "rule_ids": [
+        "limits-ulimit"
+      ],
+      "source_rule_ids": [
+        "limits-ulimit"
+      ]
+    },
+    {
+      "name": "umount",
+      "rule_ids": [
+        "shared-deny-sudo"
+      ],
+      "source_rule_ids": [
+        "deny-umount"
+      ]
+    },
+    {
+      "name": "uname",
+      "rule_ids": [
+        "uname"
+      ],
+      "source_rule_ids": [
+        "uname"
+      ]
+    },
+    {
+      "name": "uniq",
+      "rule_ids": [
+        "stdin-uniq",
+        "review-uniq",
+        "read-uniq"
+      ],
+      "source_rule_ids": [
+        "stdin-uniq",
+        "review-uniq",
+        "read-uniq"
+      ]
+    },
+    {
+      "name": "uptime",
+      "rule_ids": [
+        "lookup"
+      ],
+      "source_rule_ids": [
+        "lookup"
+      ]
+    },
+    {
+      "name": "uv",
+      "rule_ids": [
+        "shared-git-version",
+        "shared-version-cargo-short",
+        "shared-review-uv"
+      ],
+      "source_rule_ids": [
+        "version-uv",
+        "version-uv-short",
+        "review-uv"
+      ]
+    },
+    {
+      "name": "vitest",
+      "rule_ids": [
+        "project-tools"
+      ],
+      "source_rule_ids": [
+        "project-tools"
+      ]
+    },
+    {
+      "name": "wc",
+      "rule_ids": [
+        "shared-unsupported-cat",
+        "stdin-wc",
+        "read-wc"
+      ],
+      "source_rule_ids": [
+        "unsupported-wc",
+        "stdin-wc",
+        "read-wc"
+      ]
+    },
+    {
+      "name": "wget",
+      "rule_ids": [
+        "shared-review-curl"
+      ],
+      "source_rule_ids": [
+        "review-wget"
+      ]
+    },
+    {
+      "name": "which",
+      "rule_ids": [
+        "lookup"
+      ],
+      "source_rule_ids": [
+        "lookup"
+      ]
+    },
+    {
+      "name": "whoami",
+      "rule_ids": [
+        "lookup"
+      ],
+      "source_rule_ids": [
+        "lookup"
+      ]
+    },
+    {
+      "name": "yarn",
+      "rule_ids": [
+        "shared-git-version",
+        "shared-version-node-short",
+        "shared-review-npm",
+        "scripts-pnpm-yarn",
+        "scripts-yarn-cwd",
+        "scripts-yarn-workspace"
+      ],
+      "source_rule_ids": [
+        "version-yarn",
+        "version-yarn-short",
+        "review-yarn",
+        "scripts-pnpm-yarn",
+        "scripts-yarn-cwd",
+        "scripts-yarn-workspace"
+      ]
+    },
+    {
+      "name": "zsh",
+      "rule_ids": [
+        "shared-review-node"
+      ],
+      "source_rule_ids": [
+        "review-zsh"
+      ]
+    }
+  ]
+}

@@ -4,15 +4,15 @@ import { readFileSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import Ajv from 'ajv/dist/2020.js';
+import { schemaValidator } from './schema-validation.mjs';
 import { schema } from './policy-schema.mjs';
 import { validatorFor, singleEngine } from './pack-formats.mjs';
 
-const validate = new Ajv({ strict: false, allErrors: true }).compile(schema);
+const validate = schemaValidator(schema);
 const read = path => JSON.parse(readFileSync(new URL(path, import.meta.url)));
 const pack = (conditions = { domain: 'argv', executable: 'acme', arguments: { kind: 'any' } }, capabilities = ['argument-rules-v1', 'structured-rules-v1']) => ({
   schema_version: 1, kind: 'pack', id: 'acme/inspection', version: '0.1.0', description: 'Acme inspection fixture',
-  license: 'MIT', maintainers: ['Acme'], engines: { shield: '>=0.1.0, <0.2.0' }, capabilities,
+  license: 'MIT', maintainers: ['Acme'], engines: { shield: '*' }, capabilities,
   rules: [{ id: 'inspect', decision: { loose: 'ask', recommended: 'ask', strict: 'deny' }, conditions }],
 });
 function core(value) {
@@ -32,16 +32,27 @@ const rejected = value => {
   assert.equal(validate(value), false, JSON.stringify(value));
   if (process.env.SHIELD_BINARY) assert.equal(core(value), 2, JSON.stringify(value));
 };
+test('Decision fixtures admit argv or normalized input and reject ambiguous cases', () => {
+  const common = {name: 'inspect', profile: 'recommended', expected: 'allow'};
+  const input = {kind: 'shell', source: 'git status', dialect: 'posix', dialect_version: null, original_input: {}};
+  for (const value of [{...common, argv: ['git', 'status']}, {...common, input}]) {
+    assert.equal(validate({schema_version: 1, cases: [value]}), true, JSON.stringify(validate.errors));
+  }
+  for (const value of [common, {...common, argv: []}, {...common, argv: ['git'], input},
+    {...common, input: {...input, unexpected: true}}]) {
+    assert.equal(validate({schema_version: 1, cases: [value]}), false);
+  }
+});
 test('Generated schema is reproducible and immutable historical formats stay separate', () => {
   assert.deepEqual(read('../schemas/policy.schema.json'), schema);
-  const legacy = new Ajv({ strict: false, allErrors: true }).compile(read('../schemas/policy-legacy.schema.json'));
+  const legacy = schemaValidator(read('../schemas/policy-legacy.schema.json'));
   for (const version of ['0.1.0', '0.2.0']) {
     const old = read(`../packs/canonic/git/${version}/pack.yml`);
     assert.equal(legacy(old), true);
     assert.equal(validate(old), false);
   }
   // Structured releases for Shield 0.1.12 and earlier keep the single engine field.
-  const single = new Ajv({ strict: false, allErrors: true }).compile(read('../schemas/policy-shield-0.1.12.schema.json'));
+  const single = schemaValidator(read('../schemas/policy-shield-0.1.12.schema.json'));
   for (const path of read('../release.json').packs) {
     const published = read(`../${path}`);
     if (published.kind !== 'pack') continue;

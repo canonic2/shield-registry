@@ -2,13 +2,13 @@
 // real Shield, then sign and verify public/.
 // Usage: npm run release -- ID@VERSION [--key PATH] [--shield PATH]
 import { readFile, writeFile, access } from 'node:fs/promises';
-import { spawnSync } from 'node:child_process';
 import { createInterface } from 'node:readline/promises';
 import { homedir } from 'node:os';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 import { build, checkPublication } from './registry-release.mjs';
+import { runTests } from './test.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 // Remembers file paths only, never key material; ignored by Git.
@@ -56,11 +56,7 @@ async function main(args) {
   await writeFile(resolve(root, 'release.json'), JSON.stringify(next, null, 2) + '\n');
   console.log(`Releasing ${reference} as catalog sequence ${next.sequence}.`);
 
-  const rg = spawnSync('which', ['rg'], { encoding: 'utf8' }).stdout.trim();
-  const tests = spawnSync(process.execPath, ['--test', '--test-concurrency=1', 'scripts/*.test.mjs'], {
-    cwd: root, stdio: 'inherit', env: { ...process.env, SHIELD_BINARY: shield, ...(rg ? { RG_BINARY: rg } : {}) },
-  });
-  if (tests.status !== 0) throw Error('Tests failed; nothing was signed');
+  if (runTests(shield) !== 0) throw Error('Tests failed; nothing was signed');
 
   const { catalog } = await build(root, key, shield);
   await checkPublication(resolve(root, 'public'), (await readFile(resolve(root, 'keys/main.pub'), 'utf8')).trim());

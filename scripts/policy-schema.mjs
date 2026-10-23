@@ -218,8 +218,11 @@ const document = pack => {
     allOf: [ref('documentCapabilities')] };
 };
 defs.pack = document(true); defs.custom = document(false);
-defs.cases = object({ schema_version: { const: 1 }, cases: array(object({ name: text(1), profile: enumeration(profiles),
-  argv: array(text(), 1), expected: enumeration(decisions) }), 1, false, 1024) });
+const fixture = { name: text(1), profile: enumeration(profiles), expected: enumeration(decisions) };
+defs.cases = object({ schema_version: { const: 1 }, cases: array(one([
+  object({ ...fixture, argv: array(text(), 1) }),
+  object({ ...fixture, input: ref('input') }),
+]), 1, false, 1024) });
 export const schema = {
   $schema: 'https://json-schema.org/draft/2020-12/schema', $id: 'urn:shield:structured-policy-v1',
   title: 'Shield structured v1 policy documents', $comment: 'Structural source admission. Validate every new publication with the current Rust core for semantic and resource acceptance.',

@@ -14,6 +14,9 @@ integrations are developed separately.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
+| [canonic/baseline](packs/canonic/baseline/0.6.0/README.md) | 0.6.0 | Path-checked readers and writers | `nl`, `comm`, `paste`, `column`, pagers, `tee`, `ln`, `chmod`/`chown`, `command -v` and `ulimit` queries with Shield 0.2.0; outside, credential and protected paths deny |
+| [canonic/git](packs/canonic/git/0.6.2/README.md) | 0.6.2 | Shield 0.2 compatibility | Git 0.6.1 rules, fixtures and inventory unchanged |
+| [canonic/baseline](packs/canonic/baseline/0.5.0/README.md) | 0.5.0 | Everyday commands and builds | Lookups, piped text tools and project builds/tests allow; environment dumps, keychain secrets and hostname changes deny; installs, publishing and interpreters keep review |
 | [canonic/baseline](packs/canonic/baseline/0.4.0/README.md) | 0.4.0 | Sed edits decided by path | In-place sed edits and sed script file writes and reads within approved roots with Shield 0.1.13; writes exclude only `.git` and Shield state |
 | [canonic/git](packs/canonic/git/0.6.1/README.md) | 0.6.1 | `engines` field | Git 0.6.0 rules and fixtures unchanged, declared for Shield 0.1.13 |
 | [canonic/baseline](packs/canonic/baseline/0.3.1/README.md) | 0.3.1 | Hidden filename listings | `rg --files --hidden` within approved roots with Shield 0.1.9; content-read protections retained |
@@ -27,13 +30,16 @@ integrations are developed separately.
 | [canonic/git](packs/canonic/git/0.4.1/README.md) | 0.4.1 | Structured v1 release | Git inspection, staging, recoverable local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The signed `public/` catalog uses sequence 19 and includes Baseline 0.4.0 and Git 0.6.1,
+The release manifest includes Baseline 0.6.0, Baseline 0.5.0 and Git 0.6.2,
+Baseline 0.4.0 and Git 0.6.1,
 Baseline 0.3.1, Baseline 0.3.0 and Git 0.6.0,
 Baseline 0.2.2 and 0.2.1,
 compact Baseline 0.2.0 and Git 0.5.0, plus structured v1 Baseline
 0.1.0/0.1.1/0.1.2/0.1.3/0.1.4/0.1.5 and Git 0.3.0/0.4.0/0.4.1. Current Shield requires that format. Historical Git 0.1.0/0.2.0 releases
 retain their original bytes for compatible older clients.
 
+Baseline 0.6.0 and Git 0.6.2 require Shield 0.2.0 or later within the 0.2 series.
+Baseline 0.5.0 supports Shield 0.1.13 or later within the 0.1 and 0.2 series.
 Baseline 0.4.0 and Git 0.6.1 require Shield 0.1.13 or later within the 0.1 series.
 Baseline 0.3.1 requires Shield 0.1.9 or later within the 0.1 series.
 Baseline 0.3.0 and Git 0.6.0 require Shield 0.1.8 or later within the 0.1 series.
@@ -137,13 +143,30 @@ Use Node 24+ and a compatible local Shield binary:
 
 ```sh
 npm ci --ignore-scripts
-SHIELD_BINARY=/absolute/path/to/shield npm test
+npm test -- --shield /absolute/path/to/shield
 ```
 
 The test suite validates schema contracts, generated Git artifacts, inventory
-coverage and signed publication integrity. With `SHIELD_BINARY` set, it also
-runs the current structured Git release's behavioral fixtures through the Rust evaluator.
-Maintainers must run that check before signing.
+coverage and signed publication integrity in one serial Node worker, sharing
+compiled schemas by content. With `--shield` (or `SHIELD_BINARY`) it checks the
+current packs' complete argv fixtures and composed shell-policy cases in batches
+through the production Rust evaluator. The binary must support normalized fixture
+`input` and `--with-pack`. No project activation or native hooks run in this suite.
+Maintainers must run it before signing; the release command runs the same suite.
+
+Fresh native acceptance is a separate category:
+
+```sh
+npm run test:native -- --shield /absolute/path/to/shield
+```
+
+It initializes isolated projects and checks both agents' Allow/Ask/Deny replies,
+protected files, unsupported launchers and Codex PermissionRequest handling in all
+three profiles. Reported cwd is valid fallback context; explicit workdir takes
+precedence, and PermissionRequest needs no tool ID. Run this category when native
+integration behavior changes. Native acceptance requires Unix PTYs and is slower
+than the policy suite. `scripts/pack-fixture.py` shares the independent case
+definitions between batch evaluation and native boundaries; commands never run.
 
 Git's reviewed option and profile data live in `scripts/git-policy.mjs`.
 Its independent expected decisions live in `scripts/build-git-cases.mjs`;
@@ -178,6 +201,23 @@ which models these sed targets and reads the `engines` field.
 `node scripts/build-git-engines.mjs` generates Git 0.6.1 from 0.6.0 with the
 same rules and fixtures, declared for Shield 0.1.13 with `engines`.
 
+`node scripts/build-baseline-everyday.mjs` generates Baseline 0.5.0 from 0.4.0.
+It allows lookups (`test`, `type`, `which`, `id`, `realpath`, `du`, `stat`,
+`tree`, …), standard-input text tools (`nl`, `column`, `paste`, `bc`) and
+project builds, checks and tests (cargo, go, make, npm/pnpm/yarn scripts and
+common project tools; Strict asks). It denies environment dumps, keychain secret
+reads, `gh auth token` and hostname changes. Its independent shell-level cases
+live in `scripts/everyday-native.py` and feed the batch and native test runners.
+
+`node scripts/build-baseline-path-models.mjs` generates Baseline 0.6.0 from 0.5.0.
+It uses Shield 0.2.0's path models: `nl`, `comm`, `paste`, `column`, `less` and
+`more` read files like `cat`; `tee`, `ln`, `chmod` and `chown` follow the write
+rules, and a hard link's source also follows the read rules. `command -v` and
+`ulimit` queries allow. The batch suite checks both releases across all profiles.
+
+`node scripts/build-git-shield-02.mjs` generates Git 0.6.2 from 0.6.1 with
+the same rules, fixtures and inventory, declared for Shield 0.2.
+
 ### Publish a release
 
 After generating a pack version's source, release it with one command:
@@ -189,8 +229,8 @@ npm run release -- canonic/baseline@0.1.2
 It asks for the private signing key path and the Shield binary, or takes them as
 `--key PATH --shield PATH`, remembering both paths (never the key) in the ignored
 `.release.local.json`; without a terminal it uses the remembered paths. It adds the pack to
-`release.json`, sets the sequence one past the signed catalog, runs every test
-against that Shield, then signs and verifies `public/`. The `expires_at` UTC expiry
+`release.json`, sets the sequence one past the signed catalog, runs the policy and
+publication suite against that Shield, then signs and verifies `public/`. The `expires_at` UTC expiry
 in `release.json` is set by hand. The underlying steps are:
 
 ```sh

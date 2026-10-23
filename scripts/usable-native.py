@@ -8,9 +8,59 @@ import sys
 import tempfile
 
 sys.dont_write_bytecode = True
-spec = importlib.util.spec_from_file_location("baseline_native", Path(__file__).with_name("baseline-native.py"))
-baseline = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(baseline)
+def initialize(binary, project, env):
+    spec = importlib.util.spec_from_file_location("baseline_native", Path(__file__).with_name("baseline-native.py"))
+    baseline = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(baseline)
+    baseline.initialize(binary, project, env)
+
+
+def cases(profile):
+    local = "ask" if profile == "strict" else "allow"
+    destructive = "ask" if profile == "loose" else "deny"
+    return [
+        ("sed-read", "sed -n '1,20p' item.txt", "allow"),
+        ("awk-read", "awk '{print $1}' item.txt", "allow"),
+        ("jq-read", "jq -r '.name' item.txt", "allow"),
+        ("jq-pipe", "jq '.items | length' item.txt", "allow"),
+        ("sort-read", "sort -r item.txt", "allow"),
+        ("uniq-read", "uniq -c item.txt", "allow"),
+        ("cut-read", "cut -f1 item.txt", "allow"),
+        ("diff-read", "diff -u item.txt item.txt", "allow"),
+        ("cmp-read", "cmp -s item.txt item.txt", "allow"),
+        ("pipeline", "sed -n '1p' item.txt | awk '{print $1}' | sort | uniq", "allow"),
+        ("sed-escape", "sed -n '1p' escape", "deny"),
+        ("jq-credential", "jq '.' .aws/config", "deny"),
+        ("awk-credential", "awk '{print $1}' .aws/config", "deny"),
+        ("sort-credential", "sort .aws/config", "deny"),
+        ("policy-read", "sed -n '1p' .shield/config.yml", "allow"),
+        ("policy-edit", "sed -i '' '1p' .shield/config.yml", "deny"),
+        ("policy-output", "sort -o .shield/config.yml item.txt", "deny"),
+        ("sed-code", "sed -n '1p; e id' item.txt", "ask"),
+        ("awk-code", "awk '{system(\"id\")}' item.txt", "ask"),
+        ("jq-environment", "jq env", "ask"),
+        ("sort-output", "sort -o out.txt item.txt", "ask"),
+        ("log-count", "git log --oneline -17", "allow"),
+        ("status-u", "git status -u", "allow"),
+        ("branch-vv", "git branch -vv", "allow"),
+        ("reflog", "git reflog", "allow"),
+        ("branch-delete", "git branch -d feature", local),
+        ("gc-auto", "git gc --auto", local),
+        ("rebase-continue", "git rebase --continue", local),
+        ("rebase-abort", "git rebase --abort", local),
+        ("stash", "git stash", local),
+        ("init-dot", "git init -b main .", local),
+        ("amend", "git commit --amend --no-edit", "ask"),
+        ("rebase", "git rebase -i HEAD~3", "deny" if profile == "strict" else "ask"),
+        ("hook-bypass", "git commit --amend --no-verify", destructive),
+        ("rebase-hook-bypass", "git rebase --no-verify main", destructive),
+        ("force-delete", "git branch -D feature", destructive),
+        ("force-push", "git push --force origin main", destructive),
+        ("hard-reset", "git reset --hard HEAD", destructive),
+        ("immediate-prune", "git gc --prune=now", destructive),
+        ("helper", "git log -5 --ext-diff", "ask"),
+        ("output-file", "git log -5 --output=out", "ask"),
+    ]
 
 
 def run(binary, baseline_pack, git_pack):
@@ -35,55 +85,10 @@ def run(binary, baseline_pack, git_pack):
                 selections.append({"id": f"canonic/{name}", "version": document["version"], "profile": profile, "path": f"{name}.yml"})
             (project / ".shield/config.yml").write_text(json.dumps({"schema_version": 1, "packs": selections}))
             env = dict(os.environ, HOME=str(home), XDG_CACHE_HOME=str(home / "cache"))
-            baseline.initialize(binary, project, env)
-            local = "ask" if profile == "strict" else "allow"
-            destructive = "ask" if profile == "loose" else "deny"
-            cases = [
-                ("sed-read", "sed -n '1,20p' item.txt", "allow"),
-                ("awk-read", "awk '{print $1}' item.txt", "allow"),
-                ("jq-read", "jq -r '.name' item.txt", "allow"),
-                ("jq-pipe", "jq '.items | length' item.txt", "allow"),
-                ("sort-read", "sort -r item.txt", "allow"),
-                ("uniq-read", "uniq -c item.txt", "allow"),
-                ("cut-read", "cut -f1 item.txt", "allow"),
-                ("diff-read", "diff -u item.txt item.txt", "allow"),
-                ("cmp-read", "cmp -s item.txt item.txt", "allow"),
-                ("pipeline", "sed -n '1p' item.txt | awk '{print $1}' | sort | uniq", "allow"),
-                ("sed-escape", "sed -n '1p' escape", "deny"),
-                ("jq-credential", "jq '.' .aws/config", "deny"),
-                ("awk-credential", "awk '{print $1}' .aws/config", "deny"),
-                ("sort-credential", "sort .aws/config", "deny"),
-                ("policy-read", "sed -n '1p' .shield/config.yml", "allow"),
-                ("policy-edit", "sed -i '' '1p' .shield/config.yml", "deny"),
-                ("policy-output", "sort -o .shield/config.yml item.txt", "deny"),
-                ("sed-code", "sed -n '1p; e id' item.txt", "ask"),
-                ("awk-code", "awk '{system(\"id\")}' item.txt", "ask"),
-                ("jq-environment", "jq env", "ask"),
-                ("sort-output", "sort -o out.txt item.txt", "ask"),
-                ("log-count", "git log --oneline -17", "allow"),
-                ("status-u", "git status -u", "allow"),
-                ("branch-vv", "git branch -vv", "allow"),
-                ("reflog", "git reflog", "allow"),
-                ("branch-delete", "git branch -d feature", local),
-                ("gc-auto", "git gc --auto", local),
-                ("rebase-continue", "git rebase --continue", local),
-                ("rebase-abort", "git rebase --abort", local),
-                ("stash", "git stash", local),
-                ("init-dot", "git init -b main .", local),
-                ("amend", "git commit --amend --no-edit", "ask"),
-                ("rebase", "git rebase -i HEAD~3", "deny" if profile == "strict" else "ask"),
-                ("hook-bypass", "git commit --amend --no-verify", destructive),
-                ("rebase-hook-bypass", "git rebase --no-verify main", destructive),
-                ("force-delete", "git branch -D feature", destructive),
-                ("force-push", "git push --force origin main", destructive),
-                ("hard-reset", "git reset --hard HEAD", destructive),
-                ("immediate-prune", "git gc --prune=now", destructive),
-                ("helper", "git log -5 --ext-diff", "ask"),
-                ("output-file", "git log -5 --output=out", "ask"),
-            ]
+            initialize(binary, project, env)
             state = (project / ".shield/config.yml").read_bytes()
             for agent in ["claude", "codex"]:
-                for name, source, decision in cases:
+                for name, source, decision in cases(profile):
                     payload = {"hook_event_name": "PreToolUse", "tool_name": "Bash", "cwd": str(project), "session_id": "acme-usable",
                                "tool_use_id": f"{agent}-{name}", "tool_input": {"command": source}}
                     response = subprocess.run([binary, "__internal", "native-hook", "--project", str(project), "--agent", agent, "--event", "PreToolUse"], input=json.dumps(payload), text=True, capture_output=True, env=env, timeout=15)
@@ -97,7 +102,7 @@ def run(binary, baseline_pack, git_pack):
                     results.append({"profile": profile, "agent": agent, "name": name, "decision": decision})
             for name, source, expected in [
                 ("explicit-cwd", f"git -C '{project}' log --oneline -17", "allow"),
-                ("missing-cwd", "git log --oneline -17", None),
+                ("missing-cwd", "git log --oneline -17", "allow"),
                 ("explicit-force", f"git -C '{project}' reset --hard HEAD", None if profile == "loose" else "deny"),
                 ("explicit-amend", f"git -C '{project}' commit --amend --no-edit", None),
                 ("explicit-branch-delete", f"git -C '{project}' branch -d feature", None if profile == "strict" else "allow"),
