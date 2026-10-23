@@ -14,6 +14,10 @@ integrations are developed separately.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
+| [canonic/node](packs/canonic/node/0.1.1/README.md) | 0.1.1 | Shield 0.4 compatibility | Node 0.1.0 policy and fixtures with Shield 0.2/0.3/0.4 compatibility |
+| [canonic/rust](packs/canonic/rust/0.1.1/README.md) | 0.1.1 | Shield 0.4 compatibility | Rust 0.1.0 policy and fixtures with Shield 0.3/0.4 compatibility |
+| [canonic/baseline](packs/canonic/baseline/0.8.0/README.md) | 0.8.0 | Pager review | Pagers require command review in every profile; Shield 0.2/0.3/0.4 compatibility |
+| [canonic/git](packs/canonic/git/0.6.4/README.md) | 0.6.4 | Shield 0.4 compatibility | Git 0.6.3 policy and fixtures with Shield 0.2/0.3/0.4 compatibility |
 | [canonic/node](packs/canonic/node/0.1.0/README.md) | 0.1.0 | Node ecosystem | Node/npm/pnpm/Yarn policy and optional package-manager choice; Shield 0.2/0.3 |
 | [canonic/rust](packs/canonic/rust/0.1.0/README.md) | 0.1.0 | Rust ecosystem | Cargo and Rust development, explicit argument paths; Shield 0.3 |
 | [canonic/baseline](packs/canonic/baseline/0.7.0/README.md) | 0.7.0 | Project script review | Project scripts require review across profiles; Shield 0.2/0.3 |
@@ -34,7 +38,8 @@ integrations are developed separately.
 | [canonic/git](packs/canonic/git/0.4.1/README.md) | 0.4.1 | Structured v1 release | Git inspection, staging, recoverable local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The release manifest includes Node 0.1.0, Rust 0.1.0, Baseline 0.7.0 and Git 0.6.3,
+The release manifest includes Node 0.1.1, Rust 0.1.1, Baseline 0.8.0 and Git 0.6.4,
+plus Node 0.1.0, Rust 0.1.0, Baseline 0.7.0 and Git 0.6.3,
 plus Baseline 0.6.0, Baseline 0.5.0 and Git 0.6.2,
 Baseline 0.4.0 and Git 0.6.1,
 Baseline 0.3.1, Baseline 0.3.0 and Git 0.6.0,
@@ -124,6 +129,16 @@ Signing keys stay outside this checkout and CI; only public verification materia
 and signed releases are committed.
 
 ## Contributing
+
+The Shield 0.4 releases are generated with `node scripts/build-shield-04-packs.mjs`.
+Git 0.6.4, Node 0.1.1 and Rust 0.1.1 extend engine compatibility while preserving
+their previous policies and companion assets. Baseline 0.8.0 changes `less` and
+`more` to Ask in every profile: subprocess helpers, interactive commands and
+additional file access do not establish read-only effects. Its outside-file pager
+cases require review too. Other Baseline decisions remain unchanged.
+Validate with `npm test -- --shield /absolute/path/to/shield`; current-engine
+composition tests select admitted releases, while historical sources retain
+schema/reproducibility checks and authenticated immutable publication checks.
 
 Baseline 0.7.0 requires Node project scripts to receive
 project policy review in every profile. It preserves published 0.6.0 bytes.

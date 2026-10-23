@@ -1,0 +1,2897 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "cargo-version-loose",
+      "argv": [
+        "cargo",
+        "--version"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "cargo-version-recommended",
+      "argv": [
+        "cargo",
+        "--version"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "cargo-version-strict",
+      "argv": [
+        "cargo",
+        "--version"
+      ],
+      "profile": "strict",
+      "expected": "allow"
+    },
+    {
+      "name": "cargo-help-loose",
+      "argv": [
+        "cargo",
+        "help"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "cargo-help-recommended",
+      "argv": [
+        "cargo",
+        "help"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "cargo-help-strict",
+      "argv": [
+        "cargo",
+        "help"
+      ],
+      "profile": "strict",
+      "expected": "allow"
+    },
+    {
+      "name": "cargo-help-built-in-topic-loose",
+      "argv": [
+        "cargo",
+        "help",
+        "test"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "cargo-help-built-in-topic-recommended",
+      "argv": [
+        "cargo",
+        "help",
+        "test"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "cargo-help-built-in-topic-strict",
+      "argv": [
+        "cargo",
+        "help",
+        "test"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "cargo-help-plugin-loose",
+      "argv": [
+        "cargo",
+        "help",
+        "acme-plugin"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "cargo-help-plugin-recommended",
+      "argv": [
+        "cargo",
+        "help",
+        "acme-plugin"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "cargo-help-plugin-strict",
+      "argv": [
+        "cargo",
+        "help",
+        "acme-plugin"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "cargo-help-toolchain-plugin-loose",
+      "argv": [
+        "cargo",
+        "+stable",
+        "help",
+        "acme-plugin"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "cargo-help-toolchain-plugin-recommended",
+      "argv": [
+        "cargo",
+        "+stable",
+        "help",
+        "acme-plugin"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "cargo-help-toolchain-plugin-strict",
+      "argv": [
+        "cargo",
+        "+stable",
+        "help",
+        "acme-plugin"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "cargo-help-wrapped-plugin-loose",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "help",
+        "acme-plugin"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "cargo-help-wrapped-plugin-recommended",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "help",
+        "acme-plugin"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "cargo-help-wrapped-plugin-strict",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "help",
+        "acme-plugin"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "rustc-version-loose",
+      "argv": [
+        "rustc",
+        "--version"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "rustc-version-recommended",
+      "argv": [
+        "rustc",
+        "--version"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "rustc-version-strict",
+      "argv": [
+        "rustc",
+        "--version"
+      ],
+      "profile": "strict",
+      "expected": "allow"
+    },
+    {
+      "name": "rustup-list-loose",
+      "argv": [
+        "rustup",
+        "toolchain",
+        "list"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "rustup-list-recommended",
+      "argv": [
+        "rustup",
+        "toolchain",
+        "list"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "rustup-list-strict",
+      "argv": [
+        "rustup",
+        "toolchain",
+        "list"
+      ],
+      "profile": "strict",
+      "expected": "allow"
+    },
+    {
+      "name": "rustup-active-loose",
+      "argv": [
+        "rustup",
+        "show",
+        "active-toolchain"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "rustup-active-recommended",
+      "argv": [
+        "rustup",
+        "show",
+        "active-toolchain"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "rustup-active-strict",
+      "argv": [
+        "rustup",
+        "show",
+        "active-toolchain"
+      ],
+      "profile": "strict",
+      "expected": "allow"
+    },
+    {
+      "name": "build-loose",
+      "argv": [
+        "cargo",
+        "build",
+        "--locked"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "build-recommended",
+      "argv": [
+        "cargo",
+        "build",
+        "--locked"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "build-strict",
+      "argv": [
+        "cargo",
+        "build",
+        "--locked"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "check-loose",
+      "argv": [
+        "cargo",
+        "check",
+        "--all-targets",
+        "--all-features"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "check-recommended",
+      "argv": [
+        "cargo",
+        "check",
+        "--all-targets",
+        "--all-features"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "check-strict",
+      "argv": [
+        "cargo",
+        "check",
+        "--all-targets",
+        "--all-features"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "build-profile-loose",
+      "argv": [
+        "cargo",
+        "build",
+        "--profile",
+        "diagnostic"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "build-profile-recommended",
+      "argv": [
+        "cargo",
+        "build",
+        "--profile",
+        "diagnostic"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "build-profile-strict",
+      "argv": [
+        "cargo",
+        "build",
+        "--profile",
+        "diagnostic"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "workspace-loose",
+      "argv": [
+        "cargo",
+        "build",
+        "--workspace",
+        "-p",
+        "acme-core",
+        "--exclude",
+        "acme-ui"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "workspace-recommended",
+      "argv": [
+        "cargo",
+        "build",
+        "--workspace",
+        "-p",
+        "acme-core",
+        "--exclude",
+        "acme-ui"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "workspace-strict",
+      "argv": [
+        "cargo",
+        "build",
+        "--workspace",
+        "-p",
+        "acme-core",
+        "--exclude",
+        "acme-ui"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "build-target-loose",
+      "argv": [
+        "cargo",
+        "build",
+        "--target=x86_64-unknown-linux-gnu"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "build-target-recommended",
+      "argv": [
+        "cargo",
+        "build",
+        "--target=x86_64-unknown-linux-gnu"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "build-target-strict",
+      "argv": [
+        "cargo",
+        "build",
+        "--target=x86_64-unknown-linux-gnu"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "compiler-target-name-loose",
+      "argv": [
+        "rustc",
+        "src/lib.rs",
+        "--target",
+        "x86_64-unknown-linux-gnu"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "compiler-target-name-recommended",
+      "argv": [
+        "rustc",
+        "src/lib.rs",
+        "--target",
+        "x86_64-unknown-linux-gnu"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "compiler-target-name-strict",
+      "argv": [
+        "rustc",
+        "src/lib.rs",
+        "--target",
+        "x86_64-unknown-linux-gnu"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "dependency-cfg-selector-loose",
+      "argv": [
+        "cargo",
+        "add",
+        "serde",
+        "--target",
+        "cfg(unix)"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "dependency-cfg-selector-recommended",
+      "argv": [
+        "cargo",
+        "add",
+        "serde",
+        "--target",
+        "cfg(unix)"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "dependency-cfg-selector-strict",
+      "argv": [
+        "cargo",
+        "add",
+        "serde",
+        "--target",
+        "cfg(unix)"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "alias-loose",
+      "argv": [
+        "cargo",
+        "b",
+        "-j4"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "alias-recommended",
+      "argv": [
+        "cargo",
+        "b",
+        "-j4"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "alias-strict",
+      "argv": [
+        "cargo",
+        "b",
+        "-j4"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "clippy-loose",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "clippy-recommended",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "clippy-strict",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "test-loose",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "tests::acme",
+        "--",
+        "--nocapture"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "test-recommended",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "tests::acme",
+        "--",
+        "--nocapture"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "test-strict",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "tests::acme",
+        "--",
+        "--nocapture"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "doctest-loose",
+      "argv": [
+        "cargo",
+        "test",
+        "--doc",
+        "--locked"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "doctest-recommended",
+      "argv": [
+        "cargo",
+        "test",
+        "--doc",
+        "--locked"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "doctest-strict",
+      "argv": [
+        "cargo",
+        "test",
+        "--doc",
+        "--locked"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "test-no-run-loose",
+      "argv": [
+        "cargo",
+        "test",
+        "--no-run"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "test-no-run-recommended",
+      "argv": [
+        "cargo",
+        "test",
+        "--no-run"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "test-no-run-strict",
+      "argv": [
+        "cargo",
+        "test",
+        "--no-run"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "run-loose",
+      "argv": [
+        "cargo",
+        "run",
+        "--bin",
+        "acme",
+        "--",
+        "--port",
+        "3000"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "run-recommended",
+      "argv": [
+        "cargo",
+        "run",
+        "--bin",
+        "acme",
+        "--",
+        "--port",
+        "3000"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "run-strict",
+      "argv": [
+        "cargo",
+        "run",
+        "--bin",
+        "acme",
+        "--",
+        "--port",
+        "3000"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "docs-loose",
+      "argv": [
+        "cargo",
+        "doc",
+        "--no-deps",
+        "--document-private-items"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "docs-recommended",
+      "argv": [
+        "cargo",
+        "doc",
+        "--no-deps",
+        "--document-private-items"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "docs-strict",
+      "argv": [
+        "cargo",
+        "doc",
+        "--no-deps",
+        "--document-private-items"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-loose",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--check"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-recommended",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--check"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-strict",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--check"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-pass-loose",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--",
+        "--check"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-pass-recommended",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--",
+        "--check"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-pass-strict",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--",
+        "--check"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-print-override-loose",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--",
+        "--print-config",
+        "default",
+        "config.toml"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-print-override-recommended",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--",
+        "--print-config",
+        "default",
+        "config.toml"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-print-override-strict",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--",
+        "--print-config",
+        "default",
+        "config.toml"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "metadata-loose",
+      "argv": [
+        "cargo",
+        "metadata",
+        "--no-deps",
+        "--format-version",
+        "1"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "metadata-recommended",
+      "argv": [
+        "cargo",
+        "metadata",
+        "--no-deps",
+        "--format-version",
+        "1"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "metadata-strict",
+      "argv": [
+        "cargo",
+        "metadata",
+        "--no-deps",
+        "--format-version",
+        "1"
+      ],
+      "profile": "strict",
+      "expected": "allow"
+    },
+    {
+      "name": "tree-loose",
+      "argv": [
+        "cargo",
+        "tree",
+        "--locked",
+        "--duplicates"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "tree-recommended",
+      "argv": [
+        "cargo",
+        "tree",
+        "--locked",
+        "--duplicates"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "tree-strict",
+      "argv": [
+        "cargo",
+        "tree",
+        "--locked",
+        "--duplicates"
+      ],
+      "profile": "strict",
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-loose",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--locked",
+        "--lib",
+        "-E",
+        "test(acme)",
+        "--stress-count",
+        "2",
+        "--no-fail-fast"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-recommended",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--locked",
+        "--lib",
+        "-E",
+        "test(acme)",
+        "--stress-count",
+        "2",
+        "--no-fail-fast"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-strict",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--locked",
+        "--lib",
+        "-E",
+        "test(acme)",
+        "--stress-count",
+        "2",
+        "--no-fail-fast"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-list-loose",
+      "argv": [
+        "cargo",
+        "nextest",
+        "list",
+        "--message-format",
+        "json"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-list-recommended",
+      "argv": [
+        "cargo",
+        "nextest",
+        "list",
+        "--message-format",
+        "json"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-list-strict",
+      "argv": [
+        "cargo",
+        "nextest",
+        "list",
+        "--message-format",
+        "json"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "deny-loose",
+      "argv": [
+        "cargo",
+        "deny",
+        "check",
+        "advisories"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "deny-recommended",
+      "argv": [
+        "cargo",
+        "deny",
+        "check",
+        "advisories"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "deny-strict",
+      "argv": [
+        "cargo",
+        "deny",
+        "check",
+        "advisories"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "audit-loose",
+      "argv": [
+        "cargo",
+        "audit",
+        "--json"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "audit-recommended",
+      "argv": [
+        "cargo",
+        "audit",
+        "--json"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "audit-strict",
+      "argv": [
+        "cargo",
+        "audit",
+        "--json"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "coverage-loose",
+      "argv": [
+        "cargo",
+        "llvm-cov",
+        "nextest",
+        "--locked",
+        "--all-features",
+        "--html"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "coverage-recommended",
+      "argv": [
+        "cargo",
+        "llvm-cov",
+        "nextest",
+        "--locked",
+        "--all-features",
+        "--html"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "coverage-strict",
+      "argv": [
+        "cargo",
+        "llvm-cov",
+        "nextest",
+        "--locked",
+        "--all-features",
+        "--html"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "coverage-clean-loose",
+      "argv": [
+        "cargo",
+        "llvm-cov",
+        "clean"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "coverage-clean-recommended",
+      "argv": [
+        "cargo",
+        "llvm-cov",
+        "clean"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "coverage-clean-strict",
+      "argv": [
+        "cargo",
+        "llvm-cov",
+        "clean"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "snapshot-review-loose",
+      "argv": [
+        "cargo",
+        "insta",
+        "review"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "snapshot-review-recommended",
+      "argv": [
+        "cargo",
+        "insta",
+        "review"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "snapshot-review-strict",
+      "argv": [
+        "cargo",
+        "insta",
+        "review"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "snapshot-accept-loose",
+      "argv": [
+        "cargo",
+        "insta",
+        "accept"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "snapshot-accept-recommended",
+      "argv": [
+        "cargo",
+        "insta",
+        "accept"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "snapshot-accept-strict",
+      "argv": [
+        "cargo",
+        "insta",
+        "accept"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "add-loose",
+      "argv": [
+        "cargo",
+        "add",
+        "serde",
+        "--features",
+        "derive"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "add-recommended",
+      "argv": [
+        "cargo",
+        "add",
+        "serde",
+        "--features",
+        "derive"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "add-strict",
+      "argv": [
+        "cargo",
+        "add",
+        "serde",
+        "--features",
+        "derive"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "update-loose",
+      "argv": [
+        "cargo",
+        "update",
+        "-p",
+        "serde",
+        "--precise",
+        "1.0.0"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "update-recommended",
+      "argv": [
+        "cargo",
+        "update",
+        "-p",
+        "serde",
+        "--precise",
+        "1.0.0"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "update-strict",
+      "argv": [
+        "cargo",
+        "update",
+        "-p",
+        "serde",
+        "--precise",
+        "1.0.0"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "fetch-loose",
+      "argv": [
+        "cargo",
+        "fetch",
+        "--locked"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "fetch-recommended",
+      "argv": [
+        "cargo",
+        "fetch",
+        "--locked"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "fetch-strict",
+      "argv": [
+        "cargo",
+        "fetch",
+        "--locked"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "vendor-loose",
+      "argv": [
+        "cargo",
+        "vendor",
+        "vendor"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "vendor-recommended",
+      "argv": [
+        "cargo",
+        "vendor",
+        "vendor"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "vendor-strict",
+      "argv": [
+        "cargo",
+        "vendor",
+        "vendor"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "new-loose",
+      "argv": [
+        "cargo",
+        "new",
+        "--lib",
+        "acme-core"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "new-recommended",
+      "argv": [
+        "cargo",
+        "new",
+        "--lib",
+        "acme-core"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "new-strict",
+      "argv": [
+        "cargo",
+        "new",
+        "--lib",
+        "acme-core"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "package-loose",
+      "argv": [
+        "cargo",
+        "package",
+        "--list"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "package-recommended",
+      "argv": [
+        "cargo",
+        "package",
+        "--list"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "package-strict",
+      "argv": [
+        "cargo",
+        "package",
+        "--list"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "publish-dry-loose",
+      "argv": [
+        "cargo",
+        "publish",
+        "--dry-run",
+        "--locked"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "publish-dry-recommended",
+      "argv": [
+        "cargo",
+        "publish",
+        "--dry-run",
+        "--locked"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "publish-dry-strict",
+      "argv": [
+        "cargo",
+        "publish",
+        "--dry-run",
+        "--locked"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "publish-loose",
+      "argv": [
+        "cargo",
+        "publish"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "publish-recommended",
+      "argv": [
+        "cargo",
+        "publish"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "publish-strict",
+      "argv": [
+        "cargo",
+        "publish"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "install-local-loose",
+      "argv": [
+        "cargo",
+        "install",
+        "--path",
+        "."
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "install-local-recommended",
+      "argv": [
+        "cargo",
+        "install",
+        "--path",
+        "."
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "install-local-strict",
+      "argv": [
+        "cargo",
+        "install",
+        "--path",
+        "."
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "install-loose",
+      "argv": [
+        "cargo",
+        "install",
+        "acme-cli"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "install-recommended",
+      "argv": [
+        "cargo",
+        "install",
+        "acme-cli"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "install-strict",
+      "argv": [
+        "cargo",
+        "install",
+        "acme-cli"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "clean-loose",
+      "argv": [
+        "cargo",
+        "clean"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "clean-recommended",
+      "argv": [
+        "cargo",
+        "clean"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "clean-strict",
+      "argv": [
+        "cargo",
+        "clean"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "clean-hidden-flag-loose",
+      "argv": [
+        "cargo",
+        "clean",
+        "--unknown"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "clean-hidden-flag-recommended",
+      "argv": [
+        "cargo",
+        "clean",
+        "--unknown"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "clean-hidden-flag-strict",
+      "argv": [
+        "cargo",
+        "clean",
+        "--unknown"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "owner-loose",
+      "argv": [
+        "cargo",
+        "owner",
+        "--list"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "owner-recommended",
+      "argv": [
+        "cargo",
+        "owner",
+        "--list"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "owner-strict",
+      "argv": [
+        "cargo",
+        "owner",
+        "--list"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "login-loose",
+      "argv": [
+        "cargo",
+        "login"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "login-recommended",
+      "argv": [
+        "cargo",
+        "login"
+      ],
+      "profile": "recommended",
+      "expected": "deny"
+    },
+    {
+      "name": "login-strict",
+      "argv": [
+        "cargo",
+        "login"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "logout-wrapped-loose",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "logout"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "logout-wrapped-recommended",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "logout"
+      ],
+      "profile": "recommended",
+      "expected": "deny"
+    },
+    {
+      "name": "logout-wrapped-strict",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "logout"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "login-wrapped-loose",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "login"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "login-wrapped-recommended",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "login"
+      ],
+      "profile": "recommended",
+      "expected": "deny"
+    },
+    {
+      "name": "login-wrapped-strict",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "login"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "login-toolchain-loose",
+      "argv": [
+        "cargo",
+        "+stable",
+        "login"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "login-toolchain-recommended",
+      "argv": [
+        "cargo",
+        "+stable",
+        "login"
+      ],
+      "profile": "recommended",
+      "expected": "deny"
+    },
+    {
+      "name": "login-toolchain-strict",
+      "argv": [
+        "cargo",
+        "+stable",
+        "login"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "login-leading-loose",
+      "argv": [
+        "cargo",
+        "-q",
+        "--color=never",
+        "login",
+        "--unknown"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "login-leading-recommended",
+      "argv": [
+        "cargo",
+        "-q",
+        "--color=never",
+        "login",
+        "--unknown"
+      ],
+      "profile": "recommended",
+      "expected": "deny"
+    },
+    {
+      "name": "login-leading-strict",
+      "argv": [
+        "cargo",
+        "-q",
+        "--color=never",
+        "login",
+        "--unknown"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "logout-unknown-suffix-loose",
+      "argv": [
+        "cargo",
+        "logout",
+        "--unknown"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "logout-unknown-suffix-recommended",
+      "argv": [
+        "cargo",
+        "logout",
+        "--unknown"
+      ],
+      "profile": "recommended",
+      "expected": "deny"
+    },
+    {
+      "name": "logout-unknown-suffix-strict",
+      "argv": [
+        "cargo",
+        "logout",
+        "--unknown"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "login-wrapped-unknown-suffix-loose",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "login",
+        "--unknown"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "login-wrapped-unknown-suffix-recommended",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "login",
+        "--unknown"
+      ],
+      "profile": "recommended",
+      "expected": "deny"
+    },
+    {
+      "name": "login-wrapped-unknown-suffix-strict",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "login",
+        "--unknown"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "login-toolchain-unknown-suffix-loose",
+      "argv": [
+        "cargo",
+        "+stable",
+        "login",
+        "--unknown"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "login-toolchain-unknown-suffix-recommended",
+      "argv": [
+        "cargo",
+        "+stable",
+        "login",
+        "--unknown"
+      ],
+      "profile": "recommended",
+      "expected": "deny"
+    },
+    {
+      "name": "login-toolchain-unknown-suffix-strict",
+      "argv": [
+        "cargo",
+        "+stable",
+        "login",
+        "--unknown"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "credential-package-name-loose",
+      "argv": [
+        "cargo",
+        "add",
+        "config"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "credential-package-name-recommended",
+      "argv": [
+        "cargo",
+        "add",
+        "config"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "credential-package-name-strict",
+      "argv": [
+        "cargo",
+        "add",
+        "config"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "credential-test-filter-loose",
+      "argv": [
+        "cargo",
+        "test",
+        "login"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "credential-test-filter-recommended",
+      "argv": [
+        "cargo",
+        "test",
+        "login"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "credential-test-filter-strict",
+      "argv": [
+        "cargo",
+        "test",
+        "login"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "credential-run-input-loose",
+      "argv": [
+        "cargo",
+        "run",
+        "--",
+        "logout"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "credential-run-input-recommended",
+      "argv": [
+        "cargo",
+        "run",
+        "--",
+        "logout"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "credential-run-input-strict",
+      "argv": [
+        "cargo",
+        "run",
+        "--",
+        "logout"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "credential-global-value-loose",
+      "argv": [
+        "cargo",
+        "--color",
+        "config",
+        "test",
+        "login"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "credential-global-value-recommended",
+      "argv": [
+        "cargo",
+        "--color",
+        "config",
+        "test",
+        "login"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "credential-global-value-strict",
+      "argv": [
+        "cargo",
+        "--color",
+        "config",
+        "test",
+        "login"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "wrapped-add-loose",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "add",
+        "serde"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "wrapped-add-recommended",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "add",
+        "serde"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "wrapped-add-strict",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "add",
+        "serde"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "wrapped-credential-filter-loose",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "test",
+        "login"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "wrapped-credential-filter-recommended",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "test",
+        "login"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "wrapped-credential-filter-strict",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "test",
+        "login"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "credentials-wrapped-loose",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "publish",
+        "--registry",
+        "acme"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "credentials-wrapped-recommended",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "publish",
+        "--registry",
+        "acme"
+      ],
+      "profile": "recommended",
+      "expected": "deny"
+    },
+    {
+      "name": "credentials-wrapped-strict",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "publish",
+        "--registry",
+        "acme"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "compiler-credentials-wrapped-loose",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "rustc",
+        "--token=acme-placeholder"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "compiler-credentials-wrapped-recommended",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "rustc",
+        "--token=acme-placeholder"
+      ],
+      "profile": "recommended",
+      "expected": "deny"
+    },
+    {
+      "name": "compiler-credentials-wrapped-strict",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "rustc",
+        "--token=acme-placeholder"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "registry-loose",
+      "argv": [
+        "cargo",
+        "publish",
+        "--registry",
+        "acme"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "registry-recommended",
+      "argv": [
+        "cargo",
+        "publish",
+        "--registry",
+        "acme"
+      ],
+      "profile": "recommended",
+      "expected": "deny"
+    },
+    {
+      "name": "registry-strict",
+      "argv": [
+        "cargo",
+        "publish",
+        "--registry",
+        "acme"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "config-loose",
+      "argv": [
+        "cargo",
+        "--config",
+        "build.rustc-wrapper=\"acme-wrapper\"",
+        "build"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "config-recommended",
+      "argv": [
+        "cargo",
+        "--config",
+        "build.rustc-wrapper=\"acme-wrapper\"",
+        "build"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "config-strict",
+      "argv": [
+        "cargo",
+        "--config",
+        "build.rustc-wrapper=\"acme-wrapper\"",
+        "build"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "config-attached-loose",
+      "argv": [
+        "cargo",
+        "build",
+        "--config=build.rustc-wrapper=\"acme-wrapper\""
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "config-attached-recommended",
+      "argv": [
+        "cargo",
+        "build",
+        "--config=build.rustc-wrapper=\"acme-wrapper\""
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "config-attached-strict",
+      "argv": [
+        "cargo",
+        "build",
+        "--config=build.rustc-wrapper=\"acme-wrapper\""
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "unknown-option-loose",
+      "argv": [
+        "cargo",
+        "build",
+        "--unknown"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-option-recommended",
+      "argv": [
+        "cargo",
+        "build",
+        "--unknown"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-option-strict",
+      "argv": [
+        "cargo",
+        "build",
+        "--unknown"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "unknown-plugin-loose",
+      "argv": [
+        "cargo",
+        "acme-plugin"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-plugin-recommended",
+      "argv": [
+        "cargo",
+        "acme-plugin"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-plugin-strict",
+      "argv": [
+        "cargo",
+        "acme-plugin"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "direct-plugin-loose",
+      "argv": [
+        "cargo-nextest",
+        "run"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "direct-plugin-recommended",
+      "argv": [
+        "cargo-nextest",
+        "run"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "direct-plugin-strict",
+      "argv": [
+        "cargo-nextest",
+        "run"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "rustup-run-loose",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "build",
+        "--locked"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "rustup-run-recommended",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "build",
+        "--locked"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "rustup-run-strict",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "build",
+        "--locked"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "rustup-shell-loose",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "sh",
+        "-c",
+        "echo acme"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "rustup-shell-recommended",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "sh",
+        "-c",
+        "echo acme"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "rustup-shell-strict",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "sh",
+        "-c",
+        "echo acme"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "rustup-install-loose",
+      "argv": [
+        "rustup",
+        "toolchain",
+        "install",
+        "stable"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "rustup-install-recommended",
+      "argv": [
+        "rustup",
+        "toolchain",
+        "install",
+        "stable"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "rustup-install-strict",
+      "argv": [
+        "rustup",
+        "toolchain",
+        "install",
+        "stable"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "rustup-component-loose",
+      "argv": [
+        "rustup",
+        "component",
+        "add",
+        "clippy"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "rustup-component-recommended",
+      "argv": [
+        "rustup",
+        "component",
+        "add",
+        "clippy"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "rustup-component-strict",
+      "argv": [
+        "rustup",
+        "component",
+        "add",
+        "clippy"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "rustc-print-loose",
+      "argv": [
+        "rustc",
+        "--print",
+        "target-list"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "rustc-print-recommended",
+      "argv": [
+        "rustc",
+        "--print",
+        "target-list"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "rustc-print-strict",
+      "argv": [
+        "rustc",
+        "--print",
+        "target-list"
+      ],
+      "profile": "strict",
+      "expected": "allow"
+    },
+    {
+      "name": "rustc-stdin-loose",
+      "argv": [
+        "rustc",
+        "-"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "rustc-stdin-recommended",
+      "argv": [
+        "rustc",
+        "-"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "rustc-stdin-strict",
+      "argv": [
+        "rustc",
+        "-"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "rustc-response-loose",
+      "argv": [
+        "rustc",
+        "@args"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "rustc-response-recommended",
+      "argv": [
+        "rustc",
+        "@args"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "rustc-response-strict",
+      "argv": [
+        "rustc",
+        "@args"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "toolchain-build-loose",
+      "argv": [
+        "cargo",
+        "+stable",
+        "build",
+        "--locked"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "toolchain-build-recommended",
+      "argv": [
+        "cargo",
+        "+stable",
+        "build",
+        "--locked"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "toolchain-build-strict",
+      "argv": [
+        "cargo",
+        "+stable",
+        "build",
+        "--locked"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "nightly-fmt-loose",
+      "argv": [
+        "cargo",
+        "+nightly-2026-04-16",
+        "fmt",
+        "--check"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "nightly-fmt-recommended",
+      "argv": [
+        "cargo",
+        "+nightly-2026-04-16",
+        "fmt",
+        "--check"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "nightly-fmt-strict",
+      "argv": [
+        "cargo",
+        "+nightly-2026-04-16",
+        "fmt",
+        "--check"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "toolchain-unknown-loose",
+      "argv": [
+        "cargo",
+        "+stable",
+        "build",
+        "--unknown"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "toolchain-unknown-recommended",
+      "argv": [
+        "cargo",
+        "+stable",
+        "build",
+        "--unknown"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "toolchain-unknown-strict",
+      "argv": [
+        "cargo",
+        "+stable",
+        "build",
+        "--unknown"
+      ],
+      "profile": "strict",
+      "expected": "deny"
+    },
+    {
+      "name": "system-path-loose",
+      "argv": [
+        "/usr/local/bin/cargo",
+        "build"
+      ],
+      "profile": "loose",
+      "expected": "allow"
+    },
+    {
+      "name": "system-path-recommended",
+      "argv": [
+        "/usr/local/bin/cargo",
+        "build"
+      ],
+      "profile": "recommended",
+      "expected": "allow"
+    },
+    {
+      "name": "system-path-strict",
+      "argv": [
+        "/usr/local/bin/cargo",
+        "build"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-path-loose",
+      "argv": [
+        "/acme/bin/cargo",
+        "build"
+      ],
+      "profile": "loose",
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-path-recommended",
+      "argv": [
+        "/acme/bin/cargo",
+        "build"
+      ],
+      "profile": "recommended",
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-path-strict",
+      "argv": [
+        "/acme/bin/cargo",
+        "build"
+      ],
+      "profile": "strict",
+      "expected": "ask"
+    },
+    {
+      "name": "bound-proxy-loose",
+      "profile": "loose",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      },
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "build",
+        "--locked"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "bound-clean-loose",
+      "profile": "loose",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      },
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "clean"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bound-help-topic-loose",
+      "profile": "loose",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      },
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "help",
+        "acme-plugin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bound-login-loose",
+      "profile": "loose",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      },
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "-q",
+        "login",
+        "--unknown"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bound-proxy-recommended",
+      "profile": "recommended",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      },
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "build",
+        "--locked"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "bound-clean-recommended",
+      "profile": "recommended",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      },
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "clean"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bound-help-topic-recommended",
+      "profile": "recommended",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      },
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "help",
+        "acme-plugin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bound-login-recommended",
+      "profile": "recommended",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      },
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "-q",
+        "login",
+        "--unknown"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "bound-proxy-strict",
+      "profile": "strict",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      },
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "build",
+        "--locked"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bound-clean-strict",
+      "profile": "strict",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      },
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "clean"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "bound-help-topic-strict",
+      "profile": "strict",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      },
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "help",
+        "acme-plugin"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "bound-login-strict",
+      "profile": "strict",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      },
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "-q",
+        "login",
+        "--unknown"
+      ],
+      "expected": "deny"
+    }
+  ]
+}

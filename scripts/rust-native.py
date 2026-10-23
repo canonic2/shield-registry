@@ -15,14 +15,14 @@ def run(binary):
     registry = Path(__file__).resolve().parent.parent
     results = []
     for profile in ["loose", "recommended", "strict"]:
-        with fixtures.fixture(registry / "packs/canonic/baseline/0.6.0/pack.yml",
-                              registry / "packs/canonic/git/0.6.2/pack.yml", profile) as (project, home, outside, env):
+        with fixtures.fixture(registry / "packs/canonic/baseline/0.8.0/pack.yml",
+                              registry / "packs/canonic/git/0.6.4/pack.yml", profile) as (project, home, outside, env):
             config_path = project / ".shield/config.yml"
             config = json.loads(config_path.read_text())
             for name in ["rust", "node"]:
-                source = registry / f"packs/canonic/{name}/0.1.0/pack.yml"
+                source = registry / f"packs/canonic/{name}/0.1.1/pack.yml"
                 (project / f".shield/{name}.yml").write_bytes(source.read_bytes())
-                selected = {"id": f"canonic/{name}", "version": "0.1.0", "profile": profile, "path": f"{name}.yml"}
+                selected = {"id": f"canonic/{name}", "version": "0.1.1", "profile": profile, "path": f"{name}.yml"}
                 if name == "rust":
                     selected["variables"] = {"cargo_executable": str(home / ".cargo/bin/cargo")}
                 config["packs"].append(selected)

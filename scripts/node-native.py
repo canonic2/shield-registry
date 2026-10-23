@@ -25,12 +25,13 @@ def hook(binary, project, env, agent, source, expected, selected):
     encoded = {"allow": None, "ask": "deny"}.get(expected, expected) if agent == "codex" else expected
     assert actual == encoded, (selected, agent, source, expected, output)
     reason = details.get("permissionDecisionReason", "")
+    guidance = details.get("additionalContext", "") or reason
     if selected and expected == "deny":
-        assert f"This project uses {selected}" in reason, (source, output)
-        assert "pack_add" not in reason, output
+        assert f"This project uses {selected}" in guidance, (source, output)
+        assert "pack_add" not in guidance, output
     if expected == "ask" and "run acme-check" in source:
-        assert "Inspect" in reason and "shield_policy_propose" in reason, output
-        assert "pack_add" not in reason, output
+        assert "Inspect" in guidance and "shield_policy_propose" in guidance, output
+        assert "pack_add" not in guidance, output
     return {"selected": selected, "agent": agent, "source": source, "expected": expected}
 
 
@@ -38,13 +39,13 @@ def run(binary):
     registry = Path(__file__).resolve().parent.parent
     results = []
     for selected in [None, "npm", "pnpm", "yarn"]:
-        with fixtures.fixture(registry / "packs/canonic/baseline/0.6.0/pack.yml",
-                              registry / "packs/canonic/git/0.6.2/pack.yml") as (project, home, outside, env):
+        with fixtures.fixture(registry / "packs/canonic/baseline/0.8.0/pack.yml",
+                              registry / "packs/canonic/git/0.6.4/pack.yml") as (project, home, outside, env):
             config_path = project / ".shield/config.yml"
             config = json.loads(config_path.read_text())
-            node_path = registry / "packs/canonic/node/0.1.0/pack.yml"
+            node_path = registry / "packs/canonic/node/0.1.1/pack.yml"
             (project / ".shield/node.yml").write_bytes(node_path.read_bytes())
-            node = {"id": "canonic/node", "version": "0.1.0", "profile": "recommended", "path": "node.yml"}
+            node = {"id": "canonic/node", "version": "0.1.1", "profile": "recommended", "path": "node.yml"}
             if selected:
                 node["variables"] = {"package_manager": selected}
             config["packs"].append(node)

@@ -8,6 +8,7 @@ import {rustPack, destination, commandNames} from './build-rust-pack.mjs';
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
 import {checkCommands} from './registry-release.mjs';
+import {compatibleDirectory} from './pack-formats.mjs';
 
 const read = name => JSON.parse(readFileSync(new URL(name, destination)));
 test('Rust source policy and independent cases admit with complete command inventory', () => {
@@ -28,6 +29,8 @@ test('Rust source policy and independent cases admit with complete command inven
 });
 
 test('Rust profile decisions, paths and Baseline/Node composition use production evaluation', {skip: !process.env.SHIELD_BINARY, timeout: 120000}, t => {
+  const evaluated = compatibleDirectory([destination, new URL('../packs/canonic/rust/0.1.1/', import.meta.url)]);
+  assert.ok(evaluated, 'A current Rust release must admit on the selected Shield.');
   const owner = mkdtempSync(join(tmpdir(), 'shield-rust-cases-'));
   t.after(() => rmSync(owner, {recursive: true, force: true}));
   const project = join(owner, 'project');
@@ -42,7 +45,7 @@ test('Rust profile decisions, paths and Baseline/Node composition use production
   const run = (cases, extra = []) => {
     const casePath = join(owner, 'cases.json');
     writeFileSync(casePath, JSON.stringify(cases));
-    const result = spawnSync(process.env.SHIELD_BINARY, ['__internal', 'test-pack', '--pack', new URL('pack.yml', destination).pathname, '--cases', casePath, ...extra],
+    const result = spawnSync(process.env.SHIELD_BINARY, ['__internal', 'test-pack', '--pack', new URL('pack.yml', evaluated).pathname, '--cases', casePath, ...extra],
       {cwd: project, encoding: 'utf8', timeout: 60000, maxBuffer: 8 * 1024 * 1024});
     const report = JSON.parse(result.stdout || '{}');
     assert.equal(result.status, 0, JSON.stringify(report.cases?.filter(c => !c.passed) ?? report) + result.stderr);
@@ -84,7 +87,9 @@ test('Rust profile decisions, paths and Baseline/Node composition use production
     cases.cases.push({name: `paths-${name}-${profile}`, profile, argv, expected: decisions[index]});
   }
   run(cases);
-  const baseline = new URL('../packs/canonic/baseline/0.7.0/pack.yml', import.meta.url).pathname;
+  const baselineDirectory = compatibleDirectory(['0.7.0', '0.8.0'].map(version => new URL(`../packs/canonic/baseline/${version}/`, import.meta.url)));
+  assert.ok(baselineDirectory, 'A script-review Baseline release must admit on the selected Shield.');
+  const baseline = new URL('pack.yml', baselineDirectory).pathname;
   // Baseline's concrete Strict build rule asks even for Cargo metadata/tree.
   // Another pack cannot lower that owner's chosen restriction.
   const composed = structuredClone(cases);
@@ -92,6 +97,8 @@ test('Rust profile decisions, paths and Baseline/Node composition use production
     if (['metadata-strict', 'tree-strict'].includes(fixture.name)) fixture.expected = 'ask';
   }
   run(composed, ['--with-pack', baseline]);
-  const node = new URL('../packs/canonic/node/0.1.0/pack.yml', import.meta.url).pathname;
+  const nodeDirectory = compatibleDirectory(['0.1.0', '0.1.1'].map(version => new URL(`../packs/canonic/node/${version}/`, import.meta.url)));
+  assert.ok(nodeDirectory, 'A current Node release must admit on the selected Shield.');
+  const node = new URL('pack.yml', nodeDirectory).pathname;
   run(composed, ['--with-pack', baseline, '--with-pack', node]);
 });

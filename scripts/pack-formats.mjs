@@ -35,6 +35,11 @@ export function shieldFor(pack) {
   } finally { rmSync(owner, { recursive: true, force: true }); }
 }
 
+/** Select an actually admitted source release for current-engine composition tests. */
+export function compatibleDirectory(directories) {
+  return directories.find(directory => shieldFor(JSON.parse(readFileSync(new URL('pack.yml', directory)))));
+}
+
 /** A copy of a pack in the current format, keeping its Shield version range. */
 export function currentFormat(pack) {
   if (!singleEngine(pack)) return pack;

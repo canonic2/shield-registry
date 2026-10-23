@@ -7,7 +7,7 @@ import {join} from 'node:path';
 import {nodePack, destination} from './build-node-pack.mjs';
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
-import {shieldFor} from './pack-formats.mjs';
+import {shieldFor, compatibleDirectory} from './pack-formats.mjs';
 
 const read = name => JSON.parse(readFileSync(new URL(name, destination)));
 test('Node pack admits a complete profile policy and command inventory', () => {
@@ -21,13 +21,15 @@ test('Node pack admits a complete profile policy and command inventory', () => {
 });
 
 test('Node profile boundaries and Baseline composition use production decisions', {skip: !process.env.SHIELD_BINARY}, t => {
+  const evaluated = compatibleDirectory([destination, new URL('../packs/canonic/node/0.1.1/', import.meta.url)]);
+  assert.ok(evaluated, 'A current Node release must admit on the selected Shield.');
   const owner = mkdtempSync(join(tmpdir(), 'shield-node-cases-'));
   t.after(() => rmSync(owner, {recursive: true, force: true}));
   const cases = new URL('cases.json', destination).pathname;
   const baseline = new URL('../packs/canonic/baseline/0.6.0/pack.yml', import.meta.url).pathname;
   const baseline06Compatible = shieldFor(JSON.parse(readFileSync(baseline)));
   const run = args => {
-    const result = spawnSync(process.env.SHIELD_BINARY, ['__internal', 'test-pack', '--pack', new URL('pack.yml', destination).pathname, ...args], {encoding: 'utf8', timeout: 120000, maxBuffer: 8 * 1024 * 1024});
+    const result = spawnSync(process.env.SHIELD_BINARY, ['__internal', 'test-pack', '--pack', new URL('pack.yml', evaluated).pathname, ...args], {encoding: 'utf8', timeout: 120000, maxBuffer: 8 * 1024 * 1024});
     const report = JSON.parse(result.stdout || '{}');
     assert.equal(result.status, 0, JSON.stringify(report.cases?.filter(c => !c.passed) ?? report) + result.stderr);
     assert.equal(report.passed, true);
@@ -60,6 +62,8 @@ test('Node profile boundaries and Baseline composition use production decisions'
   for (let start = 0; start < composed.cases.length; start += 1024) {
     writeFileSync(composedPath, JSON.stringify({...composed, cases: composed.cases.slice(start, start + 1024)}));
     if (baseline06Compatible) run(['--cases', composedPath, '--with-pack', baseline]);
-    run(['--cases', composedPath, '--with-pack', new URL('../packs/canonic/baseline/0.7.0/pack.yml', import.meta.url).pathname]);
+    const currentBaseline = compatibleDirectory(['0.7.0', '0.8.0'].map(version => new URL(`../packs/canonic/baseline/${version}/`, import.meta.url)));
+    assert.ok(currentBaseline, 'A script-review Baseline release must admit on the selected Shield.');
+    run(['--cases', composedPath, '--with-pack', new URL('pack.yml', currentBaseline).pathname]);
   }
 });

@@ -5,8 +5,10 @@ import {spawnSync} from 'node:child_process';
 import {destination, scriptReviewPack, scriptReviewCases} from './build-baseline-script-review.mjs';
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
+import {shieldFor} from './pack-formats.mjs';
 
 const read = name => JSON.parse(readFileSync(new URL(name, destination)));
+const compatibleShield = shieldFor(read('pack.yml'));
 test('Baseline script-review release is reproducible and schema valid', async () => {
   assert.deepEqual(read('pack.yml'), await scriptReviewPack());
   assert.deepEqual(read('cases.json'), await scriptReviewCases());
@@ -18,7 +20,7 @@ test('Baseline script-review release is reproducible and schema valid', async ()
   }
 });
 
-test('Baseline script review preserves other production fixture decisions', {skip: !process.env.SHIELD_BINARY}, () => {
+test('Baseline script review preserves other production fixture decisions', {skip: !compatibleShield}, () => {
   const result = spawnSync(process.env.SHIELD_BINARY, ['__internal', 'test-pack', '--pack', new URL('pack.yml', destination).pathname,
     '--cases', new URL('cases.json', destination).pathname], {encoding: 'utf8', timeout: 120000, maxBuffer: 8 * 1024 * 1024});
   const report = JSON.parse(result.stdout || '{}');

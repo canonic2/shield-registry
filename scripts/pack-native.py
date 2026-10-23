@@ -48,6 +48,13 @@ def run(binary, baseline_pack, git_pack):
                           if name in fixtures.NATIVE_ONLY]
             boundaries += [("allow-reply", "git status -u", "allow"),
                            ("ask-reply", "npm install", "ask"), ("deny-reply", "printenv", "deny")]
+            if version == "0.8.0":
+                boundaries += [("pager-less", "less item.txt", "ask"),
+                               ("pager-more", "more item.txt", "ask"),
+                               ("pager-flags", "less -F item.txt", "ask"),
+                               ("pager-command", "less '+!helper' item.txt", "ask"),
+                               ("pager-log", "less -o out.txt item.txt", "ask"),
+                               ("pager-outside", f"less '{outside}/secret'", "ask")]
             for agent in ["claude", "codex"]:
                 for name, source, expected in boundaries:
                     hook(binary, project, env, agent, "PreToolUse", name, source, expected)
