@@ -29,7 +29,7 @@ test('Rust source policy and independent cases admit with complete command inven
 });
 
 test('Rust profile decisions, paths and Baseline/Node composition use production evaluation', {skip: !process.env.SHIELD_BINARY, timeout: 120000}, t => {
-  const evaluated = compatibleDirectory([destination, new URL('../packs/canonic/rust/0.1.1/', import.meta.url)]);
+  const evaluated = compatibleDirectory([new URL('../packs/canonic/rust/0.1.2/', import.meta.url), destination, new URL('../packs/canonic/rust/0.1.1/', import.meta.url)]);
   assert.ok(evaluated, 'A current Rust release must admit on the selected Shield.');
   const owner = mkdtempSync(join(tmpdir(), 'shield-rust-cases-'));
   t.after(() => rmSync(owner, {recursive: true, force: true}));
@@ -87,7 +87,7 @@ test('Rust profile decisions, paths and Baseline/Node composition use production
     cases.cases.push({name: `paths-${name}-${profile}`, profile, argv, expected: decisions[index]});
   }
   run(cases);
-  const baselineDirectory = compatibleDirectory(['0.7.0', '0.8.0'].map(version => new URL(`../packs/canonic/baseline/${version}/`, import.meta.url)));
+  const baselineDirectory = compatibleDirectory(['0.8.1', '0.7.0', '0.8.0'].map(version => new URL(`../packs/canonic/baseline/${version}/`, import.meta.url)));
   assert.ok(baselineDirectory, 'A script-review Baseline release must admit on the selected Shield.');
   const baseline = new URL('pack.yml', baselineDirectory).pathname;
   // Baseline's concrete Strict build rule asks even for Cargo metadata/tree.
@@ -97,7 +97,7 @@ test('Rust profile decisions, paths and Baseline/Node composition use production
     if (['metadata-strict', 'tree-strict'].includes(fixture.name)) fixture.expected = 'ask';
   }
   run(composed, ['--with-pack', baseline]);
-  const nodeDirectory = compatibleDirectory(['0.1.0', '0.1.1'].map(version => new URL(`../packs/canonic/node/${version}/`, import.meta.url)));
+  const nodeDirectory = compatibleDirectory(['0.1.2', '0.1.0', '0.1.1'].map(version => new URL(`../packs/canonic/node/${version}/`, import.meta.url)));
   assert.ok(nodeDirectory, 'A current Node release must admit on the selected Shield.');
   const node = new URL('pack.yml', nodeDirectory).pathname;
   run(composed, ['--with-pack', baseline, '--with-pack', node]);

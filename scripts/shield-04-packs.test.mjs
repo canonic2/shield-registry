@@ -7,7 +7,7 @@ import {spawnSync} from 'node:child_process';
 import {releases, directory, compatiblePack, compatibleCases} from './build-shield-04-packs.mjs';
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
-import {shieldFor} from './pack-formats.mjs';
+import {shieldFor, compatibleDirectory} from './pack-formats.mjs';
 
 const read = (release, name) => JSON.parse(readFileSync(new URL(name, directory(release))));
 for (const release of releases) {
@@ -40,7 +40,7 @@ for (const release of releases) {
 
   test(`${release.name} ${release.version} admits and passes every production fixture`, {skip:!process.env.SHIELD_BINARY}, t => {
     const binary = shieldFor(read(release, 'pack.yml'));
-    assert.ok(binary, 'The compatibility release must admit on the selected Shield.');
+    if (!binary) return t.skip('Retained release excludes the selected Shield; current releases have separate fixture coverage.');
     const result = spawnSync(binary, ['__internal', 'test-pack', '--pack', new URL('pack.yml', directory(release)).pathname,
       '--cases', new URL('cases.json', directory(release)).pathname], {encoding:'utf8', timeout:120000, maxBuffer:16*1024*1024});
     const report = JSON.parse(result.stdout || '{}');
@@ -50,7 +50,9 @@ for (const release of releases) {
   });
 }
 
-test('Baseline 0.8 keeps pager helpers and interactive commands behind review in all profiles', {skip:!process.env.SHIELD_BINARY}, t => {
+test('Current Baseline keeps pager helpers and interactive commands behind review in all profiles', {skip:!process.env.SHIELD_BINARY}, t => {
+  const baseline = compatibleDirectory(['0.8.1', '0.8.0'].map(version => new URL(`../packs/canonic/baseline/${version}/`, import.meta.url)));
+  assert.ok(baseline, 'A pager-review Baseline release must admit on the selected Shield.');
   const owner = mkdtempSync(join(tmpdir(), 'shield-04-pagers-'));
   t.after(() => rmSync(owner, {recursive:true, force:true}));
   const cases = [];
@@ -63,7 +65,7 @@ test('Baseline 0.8 keeps pager helpers and interactive commands behind review in
   ]) cases.push({name:`pager-${profile}-${cases.length}`, profile, expected:'ask', input:{kind:'shell', source, dialect:'posix', dialect_version:null, original_input:{command:source}}});
   const path = join(owner, 'cases.json');
   writeFileSync(path, JSON.stringify({schema_version:1, cases}));
-  const result = spawnSync(process.env.SHIELD_BINARY, ['__internal', 'test-pack', '--pack', new URL('pack.yml', directory(releases[0])).pathname, '--cases', path], {encoding:'utf8', timeout:120000, maxBuffer:4*1024*1024});
+  const result = spawnSync(process.env.SHIELD_BINARY, ['__internal', 'test-pack', '--pack', new URL('pack.yml', baseline).pathname, '--cases', path], {encoding:'utf8', timeout:120000, maxBuffer:4*1024*1024});
   const report = JSON.parse(result.stdout || '{}');
   assert.equal(result.status, 0, JSON.stringify(report.cases?.filter(fixture => !fixture.passed) ?? report) + result.stderr);
   assert.equal(report.passed, true);

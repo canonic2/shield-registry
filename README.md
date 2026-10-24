@@ -14,6 +14,10 @@ integrations are developed separately.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
+| [canonic/node](packs/canonic/node/0.1.2/README.md) | 0.1.2 | Shield 0.x compatibility | Node 0.1.1 policy and fixtures; Shield `>=0.2.0, <1.0.0` |
+| [canonic/rust](packs/canonic/rust/0.1.2/README.md) | 0.1.2 | Shield 0.x compatibility | Rust 0.1.1 policy and fixtures; Shield `>=0.3.0, <1.0.0` |
+| [canonic/baseline](packs/canonic/baseline/0.8.1/README.md) | 0.8.1 | Shield 0.x compatibility | Baseline 0.8.0 policy and fixtures; Shield `>=0.2.0, <1.0.0` |
+| [canonic/git](packs/canonic/git/0.6.5/README.md) | 0.6.5 | Shield 0.x compatibility | Git 0.6.4 policy and fixtures; Shield `>=0.2.0, <1.0.0` |
 | [canonic/node](packs/canonic/node/0.1.1/README.md) | 0.1.1 | Shield 0.4 compatibility | Node 0.1.0 policy and fixtures with Shield 0.2/0.3/0.4 compatibility |
 | [canonic/rust](packs/canonic/rust/0.1.1/README.md) | 0.1.1 | Shield 0.4 compatibility | Rust 0.1.0 policy and fixtures with Shield 0.3/0.4 compatibility |
 | [canonic/baseline](packs/canonic/baseline/0.8.0/README.md) | 0.8.0 | Pager review | Pagers require command review in every profile; Shield 0.2/0.3/0.4 compatibility |
@@ -38,7 +42,8 @@ integrations are developed separately.
 | [canonic/git](packs/canonic/git/0.4.1/README.md) | 0.4.1 | Structured v1 release | Git inspection, staging, recoverable local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The release manifest includes Node 0.1.1, Rust 0.1.1, Baseline 0.8.0 and Git 0.6.4,
+The release manifest includes Node 0.1.2, Rust 0.1.2, Baseline 0.8.1 and Git 0.6.5,
+plus Node 0.1.1, Rust 0.1.1, Baseline 0.8.0 and Git 0.6.4,
 plus Node 0.1.0, Rust 0.1.0, Baseline 0.7.0 and Git 0.6.3,
 plus Baseline 0.6.0, Baseline 0.5.0 and Git 0.6.2,
 Baseline 0.4.0 and Git 0.6.1,
@@ -129,6 +134,22 @@ Signing keys stay outside this checkout and CI; only public verification materia
 and signed releases are committed.
 
 ## Contributing
+
+### Shield compatibility
+
+Shield 0.x releases preserve the supported pack source and evaluation contract.
+New main-registry packs declare their minimum supported Shield version with
+`<1.0.0` as the ceiling. A breaking change requires Shield 1.0.0; compatible
+minor releases do not require pack republication. Schema and required-capability
+checks remain mandatory. Shield continues to enforce signed engine ranges.
+
+Generate the compatibility releases with
+`node scripts/build-shield-0x-packs.mjs`: Baseline 0.8.1, Git 0.6.5, Node 0.1.2
+and Rust 0.1.2 preserve their previous policies and companion assets. Validate with
+`npm test -- --shield /absolute/path/to/shield scripts/shield-0x-packs.test.mjs`.
+Before releasing a new Shield 0.x binary, run the complete policy suite against
+it to verify admission, decisions and cross-pack composition. Compiled cache
+formats may change independently; they do not require new source packs.
 
 The Shield 0.4 releases are generated with `node scripts/build-shield-04-packs.mjs`.
 Git 0.6.4, Node 0.1.1 and Rust 0.1.1 extend engine compatibility while preserving

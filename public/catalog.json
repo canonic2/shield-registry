@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "registry_id": "canonic-shield-main",
-  "sequence": 22,
+  "sequence": 23,
   "expires_at": "2027-01-16T00:00:00Z",
   "packs": [
     {
@@ -189,6 +189,30 @@
       "version": "0.1.1",
       "path": "packs/canonic/rust/0.1.1/pack.yml",
       "sha256": "dafef543bd257fe8220c9fe32be76907b7c66f0ce8a55843f4c098fe79920106"
+    },
+    {
+      "id": "canonic/baseline",
+      "version": "0.8.1",
+      "path": "packs/canonic/baseline/0.8.1/pack.yml",
+      "sha256": "cb0c9fa9ec6fa494023c76b4152557c2aeee5ee22443be1c55d9c08edde4b44d"
+    },
+    {
+      "id": "canonic/git",
+      "version": "0.6.5",
+      "path": "packs/canonic/git/0.6.5/pack.yml",
+      "sha256": "9c98a9f8a030e807d4fa4e120de36bdfbea09c0594a33135ce4b7a9632c370ba"
+    },
+    {
+      "id": "canonic/node",
+      "version": "0.1.2",
+      "path": "packs/canonic/node/0.1.2/pack.yml",
+      "sha256": "46f2a499b5959b98da5c3ae368d0c0c8fc3fd1b56f1241eebcf1af43a5d7775d"
+    },
+    {
+      "id": "canonic/rust",
+      "version": "0.1.2",
+      "path": "packs/canonic/rust/0.1.2/pack.yml",
+      "sha256": "dd5cdc813117cb46576b77d2ebb253c547524d185506da3fbc17335f7b22289b"
     }
   ],
   "commands": {

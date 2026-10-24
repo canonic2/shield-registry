@@ -21,7 +21,7 @@ test('Node pack admits a complete profile policy and command inventory', () => {
 });
 
 test('Node profile boundaries and Baseline composition use production decisions', {skip: !process.env.SHIELD_BINARY}, t => {
-  const evaluated = compatibleDirectory([destination, new URL('../packs/canonic/node/0.1.1/', import.meta.url)]);
+  const evaluated = compatibleDirectory([new URL('../packs/canonic/node/0.1.2/', import.meta.url), destination, new URL('../packs/canonic/node/0.1.1/', import.meta.url)]);
   assert.ok(evaluated, 'A current Node release must admit on the selected Shield.');
   const owner = mkdtempSync(join(tmpdir(), 'shield-node-cases-'));
   t.after(() => rmSync(owner, {recursive: true, force: true}));
@@ -62,7 +62,7 @@ test('Node profile boundaries and Baseline composition use production decisions'
   for (let start = 0; start < composed.cases.length; start += 1024) {
     writeFileSync(composedPath, JSON.stringify({...composed, cases: composed.cases.slice(start, start + 1024)}));
     if (baseline06Compatible) run(['--cases', composedPath, '--with-pack', baseline]);
-    const currentBaseline = compatibleDirectory(['0.7.0', '0.8.0'].map(version => new URL(`../packs/canonic/baseline/${version}/`, import.meta.url)));
+    const currentBaseline = compatibleDirectory(['0.8.1', '0.7.0', '0.8.0'].map(version => new URL(`../packs/canonic/baseline/${version}/`, import.meta.url)));
     assert.ok(currentBaseline, 'A script-review Baseline release must admit on the selected Shield.');
     run(['--cases', composedPath, '--with-pack', new URL('pack.yml', currentBaseline).pathname]);
   }
