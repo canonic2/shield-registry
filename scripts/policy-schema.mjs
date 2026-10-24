@@ -164,6 +164,24 @@ defs.input = one([
 const caps = ['structured-rules-v1', 'argument-rules-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1', 'fallback-rules-v1', 'invocation-groups-v1', 'command-sets-v1'];
 caps.push('argument-paths-v1');
 caps.push('prefix-leading-v1');
+caps.push('directory-options-v1');
+// An option that only chooses the folder a tool works in, such as `npm --prefix`.
+// A file value names the files the tool finds in that folder by default.
+defs.directoryOption = {
+  ...object({
+    executable: one([text(1, 4096), object({one_of: array(text(1, 4096), 1, true, 256)})]),
+    option: {...text(2, 128), pattern: '^-[^=\\s]+$', not: {const: '--'}},
+    forms: array(enumeration(['separate', 'equals', 'attached']), 1, true, 3),
+    position: enumeration(['leading', 'anywhere']),
+    value: enumeration(['directory', 'file']),
+    files: array({...text(1, 255), pattern: '^[^/\\\\\\u0000]+$', not: {enum: ['.', '..']}}, 1, true, 16),
+    repeat: enumeration(['refuse', 'last', 'chain']),
+    paths: enumeration(['follow', 'unchanged']),
+  }, ['executable', 'option', 'paths']),
+  if: {properties: {value: {const: 'file'}}, required: ['value']},
+  then: {required: ['files']},
+  else: {not: {required: ['files']}},
+};
 const variableName = {...text(1, 64), pattern: '^[a-z][a-z0-9_]*$'};
 const scalarValue = one([text(1, 1024), {type: 'boolean'}, array(text(1, 1024), 1, true)]);
 defs.variableReference = object({var: variableName});
@@ -298,6 +316,7 @@ defs.documentCapabilities = { allOf: [...capabilityChecks, {
 for (const [name, shape] of Object.entries({
   'variables-v1': at(['variables'], {minProperties: 1}),
   'preconditions-v1': at(['preconditions'], {minItems: 1}),
+  'directory-options-v1': at(['directory_options'], {minItems: 1}),
 })) defs.documentCapabilities.allOf.push({if: shape, then: at(['capabilities'], {contains: {const: name}}), else: at(['capabilities'], {not: {contains: {const: name}}})});
 // Without templates-v1, double braces are ordinary literal text.
 defs.documentCapabilities.allOf.push({if: at(['capabilities'], {contains: {const: 'templates-v1'}}), then:
@@ -308,7 +327,8 @@ const document = pack => {
   const allowedCaps = pack ? [...caps, 'variables-v1', 'preconditions-v1', 'templates-v1'] : caps;
   const base = { schema_version: { const: 1 }, kind: { const: pack ? 'pack' : 'custom' },
     capabilities: { ...array(enumeration(allowedCaps), 1, true, allowedCaps.length), contains: { const: 'structured-rules-v1' } },
-    rules: array(ref(pack ? 'packRule' : 'customRule'), 0, false, 500000) };
+    rules: array(ref(pack ? 'packRule' : 'customRule'), 0, false, 500000),
+    directory_options: array(ref('directoryOption'), 0, false, 1024) };
   const extra = pack ? { id: { ...text(1, 128), pattern: '^[a-z0-9-]{1,64}/[a-z0-9-]{1,64}$' }, version: text(1, 128),
     description: text(1), license: text(1), maintainers: array(text(1, 128), 1, true),
     // The Shield versions the pack supports; Shield can check no other program.
@@ -318,7 +338,7 @@ const document = pack => {
     preconditions: array(ref('precondition'), 0, false, 256),
     invocations:{type:'object',maxProperties:64,propertyNames:ref('bindingName'),additionalProperties:ref('invocation')},
     command_sets:{type:'object',maxProperties:500000,propertyNames:ref('bindingName'),additionalProperties:ref('commandSet')} } : {};
-  return { ...object({ ...base, ...extra }, [...Object.keys(base), ...Object.keys(extra).filter(key => !['dependencies','invocations','command_sets','variables','preconditions'].includes(key))]),
+  return { ...object({ ...base, ...extra }, [...Object.keys(base).filter(key => key !== 'directory_options'), ...Object.keys(extra).filter(key => !['dependencies','invocations','command_sets','variables','preconditions'].includes(key))]),
     allOf: [ref('documentCapabilities')] };
 };
 defs.pack = document(true); defs.custom = document(false);

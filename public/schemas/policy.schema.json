@@ -1494,6 +1494,135 @@
         }
       ]
     },
+    "directoryOption": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "executable": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4096,
+              "pattern": "^[^\\u0000]*$"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "one_of": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4096,
+                    "pattern": "^[^\\u0000]*$"
+                  },
+                  "minItems": 1,
+                  "maxItems": 256,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "one_of"
+              ]
+            }
+          ]
+        },
+        "option": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 128,
+          "pattern": "^-[^=\\s]+$",
+          "not": {
+            "const": "--"
+          }
+        },
+        "forms": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "separate",
+              "equals",
+              "attached"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true
+        },
+        "position": {
+          "enum": [
+            "leading",
+            "anywhere"
+          ]
+        },
+        "value": {
+          "enum": [
+            "directory",
+            "file"
+          ]
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "pattern": "^[^/\\\\\\u0000]+$",
+            "not": {
+              "enum": [
+                ".",
+                ".."
+              ]
+            }
+          },
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true
+        },
+        "repeat": {
+          "enum": [
+            "refuse",
+            "last",
+            "chain"
+          ]
+        },
+        "paths": {
+          "enum": [
+            "follow",
+            "unchanged"
+          ]
+        }
+      },
+      "required": [
+        "executable",
+        "option",
+        "paths"
+      ],
+      "if": {
+        "properties": {
+          "value": {
+            "const": "file"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      },
+      "then": {
+        "required": [
+          "files"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "files"
+          ]
+        }
+      }
+    },
     "variableReference": {
       "type": "object",
       "additionalProperties": false,
@@ -24211,6 +24340,47 @@
           "if": {
             "type": "object",
             "required": [
+              "directory_options"
+            ],
+            "properties": {
+              "directory_options": {
+                "minItems": 1
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "required": [
+              "capabilities"
+            ],
+            "properties": {
+              "capabilities": {
+                "contains": {
+                  "const": "directory-options-v1"
+                }
+              }
+            }
+          },
+          "else": {
+            "type": "object",
+            "required": [
+              "capabilities"
+            ],
+            "properties": {
+              "capabilities": {
+                "not": {
+                  "contains": {
+                    "const": "directory-options-v1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "required": [
               "capabilities"
             ],
             "properties": {
@@ -24562,13 +24732,14 @@
               "command-sets-v1",
               "argument-paths-v1",
               "prefix-leading-v1",
+              "directory-options-v1",
               "variables-v1",
               "preconditions-v1",
               "templates-v1"
             ]
           },
           "minItems": 1,
-          "maxItems": 17,
+          "maxItems": 18,
           "uniqueItems": true,
           "contains": {
             "const": "structured-rules-v1"
@@ -24581,6 +24752,14 @@
           },
           "minItems": 0,
           "maxItems": 500000
+        },
+        "directory_options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/directoryOption"
+          },
+          "minItems": 0,
+          "maxItems": 1024
         },
         "id": {
           "type": "string",
@@ -24728,11 +24907,12 @@
               "invocation-groups-v1",
               "command-sets-v1",
               "argument-paths-v1",
-              "prefix-leading-v1"
+              "prefix-leading-v1",
+              "directory-options-v1"
             ]
           },
           "minItems": 1,
-          "maxItems": 14,
+          "maxItems": 15,
           "uniqueItems": true,
           "contains": {
             "const": "structured-rules-v1"
@@ -24745,6 +24925,14 @@
           },
           "minItems": 0,
           "maxItems": 500000
+        },
+        "directory_options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/directoryOption"
+          },
+          "minItems": 0,
+          "maxItems": 1024
         }
       },
       "required": [
