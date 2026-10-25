@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "registry_id": "canonic-shield-main",
-  "sequence": 25,
+  "sequence": 27,
   "expires_at": "2027-01-16T00:00:00Z",
   "packs": [
     {
@@ -225,6 +225,18 @@
       "version": "0.2.0",
       "path": "packs/canonic/node/0.2.0/pack.yml",
       "sha256": "09fc1a03a0a77fcbce92d5ad5d2e55c867ee6a3d9250c045d4a6571927627e51"
+    },
+    {
+      "id": "canonic/baseline",
+      "version": "0.9.0",
+      "path": "packs/canonic/baseline/0.9.0/pack.yml",
+      "sha256": "b552af02e58210ecd091d39de0829c8edb38bf0bcdfdcfeeabd3f8720ca5f4c8"
+    },
+    {
+      "id": "canonic/node",
+      "version": "0.3.0",
+      "path": "packs/canonic/node/0.3.0/pack.yml",
+      "sha256": "cbb5648cbbd063bd09a3e27d649d77ba79d8bfd5a1584b960e31e3c42e511e21"
     }
   ],
   "commands": {

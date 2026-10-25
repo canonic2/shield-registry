@@ -14,6 +14,8 @@ integrations are developed separately.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
+| [canonic/baseline](packs/canonic/baseline/0.9.0/README.md) | 0.9.0 | Piped grep | `grep` filters piped input in every profile; named-file searches retain approved-path requirements |
+| [canonic/node](packs/canonic/node/0.3.0/README.md) | 0.3.0 | Dependency review | Recommended asks before adding or updating dependencies; installing declared dependencies stays allowed |
 | [canonic/node](packs/canonic/node/0.2.0/README.md) | 0.2.0 | Directory options | npm `--prefix`, pnpm `--dir`/`-C` and Yarn `--cwd` declared; Shield `>=0.7.0, <1.0.0` |
 | [canonic/git](packs/canonic/git/0.7.0/README.md) | 0.7.0 | Directory options | Git `-C` declared; Shield `>=0.7.0, <1.0.0` |
 | [canonic/node](packs/canonic/node/0.1.2/README.md) | 0.1.2 | Shield 0.x compatibility | Node 0.1.1 policy and fixtures; Shield `>=0.2.0, <1.0.0` |
@@ -44,7 +46,8 @@ integrations are developed separately.
 | [canonic/git](packs/canonic/git/0.4.1/README.md) | 0.4.1 | Structured v1 release | Git inspection, staging, recoverable local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The release manifest includes Node 0.2.0 and Git 0.7.0,
+The release manifest includes Baseline 0.9.0 and Node 0.3.0,
+plus Node 0.2.0 and Git 0.7.0,
 plus Node 0.1.2, Rust 0.1.2, Baseline 0.8.1 and Git 0.6.5,
 plus Node 0.1.1, Rust 0.1.1, Baseline 0.8.0 and Git 0.6.4,
 plus Node 0.1.0, Rust 0.1.0, Baseline 0.7.0 and Git 0.6.3,
