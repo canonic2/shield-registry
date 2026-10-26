@@ -1,0 +1,461 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "pkg-set-script-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "pkg",
+        "set",
+        "scripts.lint=oxlint && oxfmt --check"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pkg-set-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "pkg",
+        "set",
+        "scripts.lint=oxlint && oxfmt --check"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pkg-set-script-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "pkg",
+        "set",
+        "scripts.lint=oxlint && oxfmt --check"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pkg-get-script-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "pkg",
+        "get",
+        "scripts"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pkg-get-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "pkg",
+        "get",
+        "scripts"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pkg-get-script-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "pkg",
+        "get",
+        "scripts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pkg-delete-script-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "pkg",
+        "delete",
+        "scripts.lint"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pkg-delete-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "pkg",
+        "delete",
+        "scripts.lint"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pkg-delete-script-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "pkg",
+        "delete",
+        "scripts.lint"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pkg-fix-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "pkg",
+        "fix"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pkg-fix-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "pkg",
+        "fix"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pkg-fix-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "pkg",
+        "fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "corepack-pkg-set-loose",
+      "profile": "loose",
+      "argv": [
+        "corepack",
+        "npm",
+        "pkg",
+        "set",
+        "scripts.lint=oxlint"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "corepack-pkg-set-recommended",
+      "profile": "recommended",
+      "argv": [
+        "corepack",
+        "npm",
+        "pkg",
+        "set",
+        "scripts.lint=oxlint"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "corepack-pkg-set-strict",
+      "profile": "strict",
+      "argv": [
+        "corepack",
+        "npm",
+        "pkg",
+        "set",
+        "scripts.lint=oxlint"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "script-called-get-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "run",
+        "get"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "script-called-get-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "run",
+        "get"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "script-called-get-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "run",
+        "get"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "script-called-config-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "run",
+        "config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "script-called-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "run",
+        "config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "script-called-config-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "run",
+        "config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dependency-called-config-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "install",
+        "config"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dependency-called-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "install",
+        "config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dependency-called-config-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "install",
+        "config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tag-alias-set-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "dist-tag",
+        "set",
+        "acme@1",
+        "latest"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tag-alias-set-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "dist-tag",
+        "set",
+        "acme@1",
+        "latest"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tag-alias-set-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "dist-tag",
+        "set",
+        "acme@1",
+        "latest"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "credentials-alias-get-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "get",
+        "//registry.example.com/:_authToken"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "credentials-alias-get-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "get",
+        "//registry.example.com/:_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "credentials-alias-get-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "get",
+        "//registry.example.com/:_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "credentials-alias-set-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "set",
+        "registry=https://registry.example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "credentials-alias-set-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "set",
+        "registry=https://registry.example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "credentials-alias-set-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "set",
+        "registry=https://registry.example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "credentials-json-config-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "--json",
+        "config",
+        "get"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "credentials-json-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "--json",
+        "config",
+        "get"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "credentials-json-config-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "--json",
+        "config",
+        "get"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-credentials-get-loose",
+      "profile": "loose",
+      "argv": [
+        "corepack",
+        "npm",
+        "get",
+        "registry"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "corepack-credentials-get-recommended",
+      "profile": "recommended",
+      "argv": [
+        "corepack",
+        "npm",
+        "get",
+        "registry"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-credentials-get-strict",
+      "profile": "strict",
+      "argv": [
+        "corepack",
+        "npm",
+        "get",
+        "registry"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pkg-override-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "--userconfig",
+        "alternate.npmrc",
+        "pkg",
+        "get",
+        "scripts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pkg-override-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "--userconfig",
+        "alternate.npmrc",
+        "pkg",
+        "get",
+        "scripts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pkg-override-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "--userconfig",
+        "alternate.npmrc",
+        "pkg",
+        "get",
+        "scripts"
+      ],
+      "expected": "deny"
+    }
+  ]
+}

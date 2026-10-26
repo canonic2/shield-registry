@@ -17,6 +17,7 @@ may include versions awaiting publication.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
+| [canonic/node](packs/canonic/node/0.3.1/README.md) | 0.3.1 | Command review | npm credential checks match the command position; local `npm pkg get/set/delete/fix` operations allow in Loose and Recommended and ask in Strict |
 | [canonic/baseline](packs/canonic/baseline/0.10.0/README.md) | 0.10.0 | Process metadata | Generic numeric PID lookups with explicit metadata fields; command arguments, environments and unlisted forms ask |
 | [canonic/baseline](packs/canonic/baseline/0.9.0/README.md) | 0.9.0 | Piped grep | `grep` filters piped input in every profile; named-file searches retain approved-path requirements |
 | [canonic/node](packs/canonic/node/0.3.0/README.md) | 0.3.0 | Dependency review | Recommended asks before adding or updating dependencies; installing declared dependencies stays allowed |
@@ -50,7 +51,7 @@ may include versions awaiting publication.
 | [canonic/git](packs/canonic/git/0.4.1/README.md) | 0.4.1 | Structured v1 release | Git inspection, staging, recoverable local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The release manifest includes Baseline 0.10.0, Baseline 0.9.0 and Node 0.3.0,
+The release manifest includes Node 0.3.1, Baseline 0.10.0, Baseline 0.9.0 and Node 0.3.0,
 plus Node 0.2.0 and Git 0.7.0,
 plus Node 0.1.2, Rust 0.1.2, Baseline 0.8.1 and Git 0.6.5,
 plus Node 0.1.1, Rust 0.1.1, Baseline 0.8.0 and Git 0.6.4,
