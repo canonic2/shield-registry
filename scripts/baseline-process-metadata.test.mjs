@@ -8,6 +8,7 @@ import {destination, previous, processMetadataPack, processMetadataCases, proces
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
 import {shieldFor} from './pack-formats.mjs';
+import {baselinePreviewCases} from './baseline-preview.mjs';
 
 const read = (name, directory = destination) => JSON.parse(readFileSync(new URL(name, directory)));
 const compatibleShield = shieldFor(read('pack.yml'));
@@ -96,5 +97,5 @@ test('Baseline permits generic PID metadata and reviews argument/environment exp
   });
 
 test('Baseline process release retains the complete previous fixture suite', {skip: !compatibleShield}, () => {
-  evaluate(read('cases.json').cases);
+  evaluate(baselinePreviewCases(read('cases.json').cases));
 });

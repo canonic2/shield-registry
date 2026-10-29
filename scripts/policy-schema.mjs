@@ -9,7 +9,9 @@ const any = schemas => ({ anyOf: schemas });
 const enumeration = values => ({ enum: values });
 const selector = nonempty => one([text(nonempty ? 1 : 0),
   ...['exact', 'prefix', 'glob', 'regex'].map(key => object({ [key]: text(nonempty || key === 'prefix' ? 1 : 0) })),
-  object({ one_of: array(text(nonempty ? 1 : 0), 1, true) })]);
+  object({ one_of: array(text(nonempty ? 1 : 0), 1, true) }),
+  // A present value the inner selector does not match; Rust refuses nesting.
+  object({ not: ref(nonempty ? 'identitySelector' : 'textSelector') })]);
 const enumSelector = values => one([enumeration(values), object({ one_of: array(enumeration(values), 1, true) })]);
 const methodName = { ...text(1), pattern: '^[A-Z-]+$' };
 const profiles = ['loose', 'recommended', 'strict'];
@@ -26,7 +28,7 @@ const longOption = { ...optionName, pattern: '^--[A-Za-z0-9-]+$' };
 const declaration = name => one([name, object({ name, match: ref('textSelector'), repeat: enumeration(['all', 'forbid', 'last']) }, ['name'])]);
 const count = { type: 'integer', minimum: 0, maximum: 256 };
 const counts = { min: count, max: count };
-const syntax = { short_clusters: { type: 'boolean' }, short_attached: { type: 'boolean' }, long_equals: { type: 'boolean' } };
+const syntax = { short_clusters: { type: 'boolean' }, short_attached: { type: 'boolean' }, long_equals: { type: 'boolean' }, long_abbreviations: { type: 'boolean' } };
 const grammar = { flags: array(optionName, 0, true), values: array(declaration(optionName), 0, true),
   optional_values: array(declaration(longOption), 0, true), ...syntax };
 const nullable = schema => one([schema, { type: 'null' }]);
@@ -44,7 +46,7 @@ const predicates = {
   shell: { source: ref('textSelector'), dialect_version: one([text(1), object({ exact: text(1) })]) },
   file: { sources: quantified, destination: ref('pathPredicate'), recursive: { type: 'boolean' }, targets: ref('targets') },
   web: { url: ref('url'), query: ref('textSelector'), method: one([methodName, object({ exact: methodName }), object({ one_of: array(methodName, 1, true) })]), request_fields: fields },
-  mcp: { arguments: jsonObject, fields },
+  mcp: { arguments: jsonObject, fields, connection: fields },
 };
 predicates.argv.argument_paths = ref('argumentPaths');
 const identities = {
@@ -77,6 +79,7 @@ function rule(pack, domain) {
     ...(pack ? { when: array(ref('variableTest'), 1, false, 16), fallback: { const: true }, ...(domain === 'argv' ? { invocation: ref('bindingName'), command_set: ref('bindingName') } : {}) } : {}),
     ...(!pack ? { expires_at: { ...text(1), pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,9})?Z$' } } : {}) };
   const checks = [];
+  if (pack && domain === 'exact_request') checks.push({not: at(['conditions','input','kind'], {const:'mcp'})});
   if (pack && domain === 'argv') checks.push(
     { if: has('command_set'), then: has('invocation') },
     { if: has('invocation'), then: { allOf: [at(['conditions','executable'],one([text(1),object({exact:text(1)})])),at(['conditions'],has('arguments')),{not:at(['conditions','arguments'],has('leading'))}] } },
@@ -140,7 +143,7 @@ const defs = {
     object({ kind: { const: 'risk_tokens' }, prefix: array(ref('textSelector')), any_of: array(ref('textSelector'), 1) }),
     object({ kind: { const: 'options' }, prefix: array(ref('textSelector')), ...grammar,
       leading: object(grammar, ['flags', 'values']), operands: one([{ type: 'boolean' }, object({ match: ref('textSelector'), ...counts }, ['match'])]),
-      parse: enumeration(['intermixed', 'stop_at_operand']), require_all: array(optionName, 0, true),
+      parse: enumeration(['intermixed', 'stop_at_operand']), unknown_options: enumeration(['refuse', 'skip']), require_all: array(optionName, 0, true),
       require_any: array(optionName, 0, true), forbid: array(optionName, 0, true),
     }, ['kind', 'prefix', 'flags', 'values', 'operands']),
   ]),
@@ -161,10 +164,11 @@ defs.input = one([
   input('mcp', { server: text(1), tool: text(1), arguments: jsonObject }),
   input('unknown', { host_tool: text(1) }),
 ]);
-const caps = ['structured-rules-v1', 'argument-rules-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1', 'fallback-rules-v1', 'invocation-groups-v1', 'command-sets-v1'];
+const caps = ['structured-rules-v1', 'argument-rules-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1', 'fallback-rules-v1', 'invocation-groups-v1', 'command-sets-v1', 'mcp-integrations-v1', 'mcp-connection-facts-v1', 'mcp-command-fields-v1', 'mcp-effective-fields-v1'];
 caps.push('argument-paths-v1');
 caps.push('prefix-leading-v1');
 caps.push('directory-options-v1');
+caps.push('unknown-options-v1', 'option-abbreviations-v1', 'negated-selectors-v1');
 // An option that only chooses the folder a tool works in, such as `npm --prefix`.
 // A file value names the files the tool finds in that folder by default.
 defs.directoryOption = {
@@ -288,9 +292,16 @@ feature['access-paths-v1'].anyOf.push(...argumentPathSelections.flatMap(path => 
   ...['exact', 'within', 'outside'].map(operator => eitherPredicate([...path, operator, 'root'], {enum: ['read', 'write']})),
   eitherPredicate([...path, 'exclude', '*', 'root'], {enum: ['read', 'write']}),
 ]));
-for (const operator of ['glob', 'regex']) {
-  const shape = object({ [operator]: text() });
-  feature[`${operator}-v1`] = any([
+feature['unknown-options-v1'] = eitherPredicate(['arguments'], {allOf: [at(['kind'], {const: 'options'}), at(['unknown_options'], {const: 'skip'})]});
+feature['option-abbreviations-v1'] = any([
+  eitherPredicate(['arguments', 'long_abbreviations'], {const: true}),
+  eitherPredicate(['arguments', 'leading', 'long_abbreviations'], {const: true}),
+]);
+// A pattern inside a negation still needs its own capability.
+const negated = shape => any([shape, object({ not: shape })]);
+for (const operator of ['glob', 'regex', 'not']) {
+  const shape = operator === 'not' ? object({ not: {} }) : negated(object({ [operator]: text() }));
+  feature[operator === 'not' ? 'negated-selectors-v1' : `${operator}-v1`] = any([
     ...textPaths.map(path => eitherPredicate(path, shape)),
     ...argumentText.map(path => ({ allOf: [at(['conditions', 'domain'], { const: 'argv' }), eitherPredicate(['arguments', ...path], shape)] })),
     ...argumentText.map(path => eitherPredicate(['argument_paths', 'grammar', ...path], shape)),
@@ -300,7 +311,8 @@ const capabilityChecks = Object.entries(feature).map(([name, shape]) => ({
   if: any([at(['rules', '*'], shape),
     ...(name === 'argument-rules-v1' ? [at(['preconditions', '*', 'conditions', 'domain'], {const: 'argv'})] : []),
     ...(name === 'location-v1' ? [at(['preconditions', '*', 'conditions', 'domain'], {const: 'file'})] : []),
-    ...(['regex-v1', 'glob-v1'].includes(name) ? [at(['variables', '@', 'match'], object({[name.split('-')[0]]: text()})), at(['variables', '@', 'items', 'match'], object({[name.split('-')[0]]: text()}))] : []),
+    ...(['regex-v1', 'glob-v1'].includes(name) ? ['match', 'items'].map(key => at(['variables', '@', ...(key === 'items' ? ['items'] : []), 'match'], negated(object({[name.split('-')[0]]: text()})))) : []),
+    ...(name === 'negated-selectors-v1' ? [at(['variables', '@', 'match'], object({not: {}})), at(['variables', '@', 'items', 'match'], object({not: {}}))] : []),
   ]),
   then: at(['capabilities'], { contains: { const: name } }),
   // Dynamic source features are counted on Rust's sample-resolved policy,
@@ -313,7 +325,15 @@ defs.documentCapabilities = { allOf: [...capabilityChecks, {
   if: has('dependencies'), then: at(['capabilities'], { contains: { const: 'dependencies-v1' } }),
   else: at(['capabilities'], { not: { contains: { const: 'dependencies-v1' } } }),
 }] };
+defs.mcpCommandField = object({executable: text(1,128), pointer: text(1,1024), encoding: enumeration(['argv-v1','posix-literal-v1'])});
+defs.mcpIntegration = object({transport: enumeration(['stdio','http']), fields,
+  defaults: {type:'object'}, command_fields: {type:'object',maxProperties:64,additionalProperties:ref('mcpCommandField')},
+  effective_fields: {type:'object',maxProperties:64,additionalProperties:object({argument:text(1,1024),default:text(1,1024)})}}, ['transport','fields']);
 for (const [name, shape] of Object.entries({
+  'mcp-integrations-v1': at(['mcp_integrations'], {minProperties:1}),
+  'mcp-command-fields-v1': at(['mcp_integrations','@','command_fields'], {minProperties:1}),
+  'mcp-effective-fields-v1': at(['mcp_integrations','@','effective_fields'], {minProperties:1}),
+  'mcp-connection-facts-v1': any([at(['rules','*'],eitherPredicate(['connection'])),at(['preconditions','*','requires_any','*','connection'])]),
   'variables-v1': at(['variables'], {minProperties: 1}),
   'preconditions-v1': at(['preconditions'], {minItems: 1}),
   'directory-options-v1': at(['directory_options'], {minItems: 1}),
@@ -336,13 +356,15 @@ const document = pack => {
     dependencies: array(ref('dependency'), 0, false, 256),
     variables: {type: 'object', maxProperties: 64, propertyNames: variableName, additionalProperties: ref('variableDeclaration')},
     preconditions: array(ref('precondition'), 0, false, 256),
+    mcp_integrations: {type:'object',maxProperties:64,propertyNames:ref('bindingName'),additionalProperties:ref('mcpIntegration')},
     invocations:{type:'object',maxProperties:64,propertyNames:ref('bindingName'),additionalProperties:ref('invocation')},
     command_sets:{type:'object',maxProperties:500000,propertyNames:ref('bindingName'),additionalProperties:ref('commandSet')} } : {};
-  return { ...object({ ...base, ...extra }, [...Object.keys(base).filter(key => key !== 'directory_options'), ...Object.keys(extra).filter(key => !['dependencies','invocations','command_sets','variables','preconditions'].includes(key))]),
+  return { ...object({ ...base, ...extra }, [...Object.keys(base).filter(key => key !== 'directory_options'), ...Object.keys(extra).filter(key => !['dependencies','invocations','command_sets','variables','preconditions','mcp_integrations'].includes(key))]),
     allOf: [ref('documentCapabilities')] };
 };
 defs.pack = document(true); defs.custom = document(false);
 const fixture = { name: text(1), profile: enumeration(profiles), expected: enumeration(decisions),
+  mcp: {type:'object',maxProperties:64,additionalProperties:{type:'object'}},
   variables: {type: 'object', maxProperties: 64, propertyNames: variableName, additionalProperties: scalarValue} };
 defs.cases = object({ schema_version: { const: 1 }, cases: array(one([
   object({ ...fixture, argv: array(text(), 1) }, ['name', 'profile', 'expected', 'argv']),

@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "registry_id": "canonic-shield-main",
-  "sequence": 29,
+  "sequence": 30,
   "expires_at": "2027-01-16T00:00:00Z",
   "packs": [
     {
@@ -249,9 +249,18 @@
       "version": "0.3.1",
       "path": "packs/canonic/node/0.3.1/pack.yml",
       "sha256": "16000350776a1880a90f15624ba4a49ab66f215c04ab1663f83aad966fbbca11"
+    },
+    {
+      "id": "canonic/aws",
+      "version": "0.1.0",
+      "path": "packs/canonic/aws/0.1.0/pack.yml",
+      "sha256": "277f106e92cfc06f0d0fa266b32c8fc13809fb9e3c2b9d4b4ce730c6a70c754d"
     }
   ],
   "commands": {
+    "canonic/aws": [
+      "aws"
+    ],
     "canonic/git": [
       "git"
     ],

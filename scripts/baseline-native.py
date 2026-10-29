@@ -8,7 +8,9 @@ import json
 import os
 from pathlib import Path
 import pty
+import re
 import select
+import struct
 import subprocess
 import sys
 import tempfile
@@ -17,6 +19,10 @@ import time
 
 
 def initialize(binary, project, env):
+    version = subprocess.run([binary, "--version"], text=True, capture_output=True, check=True, timeout=10)
+    major, minor = map(int, re.match(r"shield (\d+)\.(\d+)", version.stdout).groups())
+    if major > 0 or minor >= 10:
+        return initialize_current(binary, project, env)
     master, slave = pty.openpty()
 
     def terminal():
@@ -48,6 +54,66 @@ def initialize(binary, project, env):
         if process.poll() is None:
             process.kill()
             process.communicate()
+        os.close(master)
+
+
+def initialize_current(binary, project, env):
+    """Confirm only this fixture's existing policy through the real inline UI."""
+    master, slave = pty.openpty()
+    fcntl.ioctl(slave, termios.TIOCSWINSZ, struct.pack("HHHH", 32, 120, 0, 0))
+
+    def terminal():
+        os.setsid()
+        fcntl.ioctl(slave, termios.TIOCSCTTY, 0)
+
+    process = subprocess.Popen(
+        [binary, "init", "--project", str(project), "--no-setup", "--no-baseline",
+         "--cache-dir", str(project / ".shield/cache")],
+        stdin=slave, stdout=slave, stderr=subprocess.PIPE,
+        env=dict(env, TERM="xterm-256color"), preexec_fn=terminal)
+    os.close(slave)
+    pending, view = bytearray(), bytearray()
+    live, awaiting, confirmed = False, False, False
+    try:
+        deadline = time.monotonic() + 30
+        while process.poll() is None:
+            if time.monotonic() > deadline:
+                raise TimeoutError("Shield fixture initialization timed out")
+            if not select.select([master], [], [], 0.05)[0]:
+                continue
+            try:
+                pending.extend(os.read(master, 65536))
+            except OSError:
+                break
+            while pending:
+                if pending[0] == 27:
+                    token = re.match(rb"\x1b\[[0-?]*[ -/]*[@-~]", pending)
+                    if token is None:
+                        break
+                    code = token[0]
+                    del pending[:len(code)]
+                    if code == b"\x1b[6n":
+                        os.write(master, b"\x1b[2;1R")
+                        view.clear()
+                        awaiting = True
+                    elif code == b"\x1b[?2004h":
+                        live = True
+                    elif code == b"\x1b[?2004l":
+                        live = False
+                    elif code in (b"\x1b[?25l", b"\x1b[?25h") and live and awaiting and view.strip():
+                        assert not confirmed and b"Reviewandconfirm" in re.sub(rb"\s+", b"", view), view
+                        os.write(master, b"2\r")
+                        confirmed, awaiting = True, False
+                    continue
+                byte = pending.pop(0)
+                if live:
+                    view.append(byte)
+        _, error = process.communicate(timeout=5)
+        assert process.returncode == 0 and confirmed, error.decode()
+    finally:
+        if process.poll() is None:
+            process.kill()
+        process.wait(timeout=5)
         os.close(master)
 
 

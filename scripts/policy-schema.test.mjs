@@ -82,6 +82,8 @@ test('Decision fixtures admit argv or normalized input and reject ambiguous case
   }
 });
 test('Generated schema is reproducible and immutable historical formats stay separate', () => {
+  assert.ok(readFileSync(new URL('../schemas/policy.schema.json', import.meta.url)).length <= 1_048_576,
+    'The generated schema must fit the publication artifact bound');
   assert.deepEqual(read('../schemas/policy.schema.json'), schema);
   const legacy = schemaValidator(read('../schemas/policy-legacy.schema.json'));
   for (const version of ['0.1.0', '0.2.0']) {
@@ -127,9 +129,12 @@ test('All six domains and structured grammar agree with Rust admission', () => {
   accepted(pack({ domain: 'shell', source: { glob: 'acme *' }, dialect: { one_of: ['bash', 'posix'] },
     cwd: { within: { root: 'project' } }, environment: { fields: { ACME_MODE: 'inspection' } } },
     ['structured-rules-v1', 'location-v1', 'glob-v1']));
-  accepted(pack({ domain: 'exact_request', input: { kind: 'mcp', server: 'acme', tool: 'inspect',
+  const exactMcp = pack({ domain: 'exact_request', input: { kind: 'mcp', server: 'acme', tool: 'inspect',
     arguments: { regex: 'literal', nested: null }, original_input: { description: 'Acme opaque request' } },
-    context: { cwd: '/workspace/acme', environment: null }, executable: null }, ['structured-rules-v1']));
+    context: { cwd: '/workspace/acme', environment: null }, executable: null }, ['structured-rules-v1']);
+  rejected(exactMcp);
+  accepted({ schema_version: 1, kind: 'custom', capabilities: exactMcp.capabilities,
+    rules: [{ ...exactMcp.rules[0], decision: 'ask' }] });
 });
 test('Approved root capabilities agree with core admission in every path position',()=>{
   for(const condition of [

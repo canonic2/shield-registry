@@ -17,6 +17,7 @@ may include versions awaiting publication.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
+| [canonic/aws](packs/canonic/aws/0.1.0/README.md) | 0.1.0 | CLI and MCP permissions | AWS operation classes, profile and region restrictions, local emulator endpoints and explicitly bound hosted MCP connections; requires Shield 0.10.0 |
 | [canonic/node](packs/canonic/node/0.3.1/README.md) | 0.3.1 | Command review | npm credential checks match the command position; local `npm pkg get/set/delete/fix` operations allow in Loose and Recommended and ask in Strict |
 | [canonic/baseline](packs/canonic/baseline/0.10.0/README.md) | 0.10.0 | Process metadata | Generic numeric PID lookups with explicit metadata fields; command arguments, environments and unlisted forms ask |
 | [canonic/baseline](packs/canonic/baseline/0.9.0/README.md) | 0.9.0 | Piped grep | `grep` filters piped input in every profile; named-file searches retain approved-path requirements |
@@ -51,7 +52,7 @@ may include versions awaiting publication.
 | [canonic/git](packs/canonic/git/0.4.1/README.md) | 0.4.1 | Structured v1 release | Git inspection, staging, recoverable local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The release manifest includes Node 0.3.1, Baseline 0.10.0, Baseline 0.9.0 and Node 0.3.0,
+The release manifest includes AWS 0.1.0, Node 0.3.1, Baseline 0.10.0, Baseline 0.9.0 and Node 0.3.0,
 plus Node 0.2.0 and Git 0.7.0,
 plus Node 0.1.2, Rust 0.1.2, Baseline 0.8.1 and Git 0.6.5,
 plus Node 0.1.1, Rust 0.1.1, Baseline 0.8.0 and Git 0.6.4,
@@ -195,6 +196,31 @@ Generate with `node scripts/build-rust-pack.mjs` and
 `npm test -- --shield /absolute/path/to/shield scripts/rust-pack.test.mjs`.
 The [implementation plan](docs/rust-pack-plan.md) retains the scope and decisions.
 
+AWS 0.1.0 lives under `packs/canonic/aws/0.1.0/`. Its
+[guide](packs/canonic/aws/0.1.0/README.md) covers the operation classes, the
+optional required profile, blocked profiles, allowed regions and local emulator
+endpoint, and their limits. It requires Shield 0.10.0 for `unknown-options-v1`,
+`option-abbreviations-v1` and `negated-selectors-v1`. Reviewed command data lives
+in `scripts/aws-policy.mjs`; generate with `node scripts/build-aws-pack.mjs` and
+`node scripts/build-aws-cases.mjs`; validate with
+`npm test -- --shield /absolute/path/to/shield scripts/aws-pack.test.mjs`.
+
+### Pack benchmarks
+
+`benchmarks/scenarios/<pack>/` holds agent benchmark scenarios for individual
+packs, run by Shield's agent benchmark harness. A scenario sends at most ten
+everyday prompts to a real Claude Code or Codex agent in a fresh project with the
+pack installed from this checkout, and checks what actually ran. Stubbed tools,
+such as the AWS scenario's `aws`, stand in for real programs, so runs never reach
+real services. Recorded results go to `benchmarks/<publisher>/<pack>/<version>/`
+under the pack version tested, with generated pages. A scenario uses the pack's
+newest source version, so run it when that version changes. Runs spend model
+usage; from a Canonic checkout:
+
+```sh
+npm --prefix packages/shield/adapters/sdk-tests run benchmark -- --host claude --decisions default --scenario /absolute/path/to/shield-registry/benchmarks/scenarios/aws --record
+```
+
 Node 0.1.0 lives under `packs/canonic/node/0.1.0/`.
 Its [profile guide](packs/canonic/node/0.1.0/README.md) describes the
 optional npm/pnpm/Yarn choice, routine local installs, Corepack routes and other
@@ -263,6 +289,13 @@ current packs' complete argv fixtures and composed shell-policy cases in batches
 through the production Rust evaluator. The binary must support normalized fixture
 `input` and `--with-pack`. No project activation or native hooks run in this suite.
 Maintainers must run it before signing; the release command runs the same suite.
+
+Published Baseline fixture files remain unchanged. For Shield 0.10 and later,
+`scripts/baseline-preview.mjs` supplies explicit preview expectations for nine
+BSD-style sed edits: without native working-file evidence their target footprint
+is incomplete and they deny. The current-engine tests check that precise reason;
+the native sed category separately checks safe edits and protected or uncertain
+targets against real isolated files in both agents and all profiles.
 
 Fresh native acceptance is a separate category:
 

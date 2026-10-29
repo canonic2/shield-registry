@@ -1,0 +1,7397 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "version-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "service-help-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ec2",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "service-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ec2",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "service-help-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ec2",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "operation-help-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "operation-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "operation-help-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "caller-identity-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "sts",
+        "get-caller-identity"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "caller-identity-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "sts",
+        "get-caller-identity"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "caller-identity-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "sts",
+        "get-caller-identity"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "caller-identity-profile-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "sts",
+        "get-caller-identity",
+        "--profile",
+        "acme-dev",
+        "--output",
+        "json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "caller-identity-profile-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "sts",
+        "get-caller-identity",
+        "--profile",
+        "acme-dev",
+        "--output",
+        "json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "caller-identity-profile-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "sts",
+        "get-caller-identity",
+        "--profile",
+        "acme-dev",
+        "--output",
+        "json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "configure-list-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "configure",
+        "list",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "configure-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "configure",
+        "list",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "configure-list-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "configure",
+        "list",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "configure-list-profiles-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "configure",
+        "list-profiles"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "configure-list-profiles-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "configure",
+        "list-profiles"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "configure-list-profiles-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "configure",
+        "list-profiles"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "configure-get-region-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "configure",
+        "get",
+        "region",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "configure-get-region-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "configure",
+        "get",
+        "region",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "configure-get-region-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "configure",
+        "get",
+        "region",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "configure-get-secret-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "configure",
+        "get",
+        "aws_secret_access_key"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "configure-get-secret-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "configure",
+        "get",
+        "aws_secret_access_key"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "configure-get-secret-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "configure",
+        "get",
+        "aws_secret_access_key"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "configure-get-token-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "configure",
+        "get",
+        "aws_session_token",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "configure-get-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "configure",
+        "get",
+        "aws_session_token",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "configure-get-token-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "configure",
+        "get",
+        "aws_session_token",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "configure-export-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "configure",
+        "export-credentials",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "configure-export-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "configure",
+        "export-credentials",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "configure-export-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "configure",
+        "export-credentials",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "configure-set-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "configure",
+        "set",
+        "region",
+        "eu-west-1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "configure-set-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "configure",
+        "set",
+        "region",
+        "eu-west-1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "configure-set-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "configure",
+        "set",
+        "region",
+        "eu-west-1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "configure-interactive-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "configure"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "configure-interactive-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "configure"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "configure-interactive-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "configure"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sso-login-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "sso",
+        "login",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sso-login-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "sso",
+        "login",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sso-login-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "sso",
+        "login",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "describe-instances-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "describe-instances-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "describe-instances-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "describe-filters-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--query",
+        "Reservations[].Instances[].InstanceId"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "describe-filters-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--query",
+        "Reservations[].Instances[].InstanceId"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "describe-filters-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--query",
+        "Reservations[].Instances[].InstanceId"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "leading-globals-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "--profile",
+        "acme-dev",
+        "--region",
+        "eu-west-1",
+        "--output",
+        "json",
+        "ec2",
+        "describe-vpcs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "leading-globals-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "--profile",
+        "acme-dev",
+        "--region",
+        "eu-west-1",
+        "--output",
+        "json",
+        "ec2",
+        "describe-vpcs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "leading-globals-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "--profile",
+        "acme-dev",
+        "--region",
+        "eu-west-1",
+        "--output",
+        "json",
+        "ec2",
+        "describe-vpcs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "leading-abbreviated-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "--prof",
+        "acme-dev",
+        "--reg=eu-west-1",
+        "ec2",
+        "describe-vpcs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "leading-abbreviated-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "--prof",
+        "acme-dev",
+        "--reg=eu-west-1",
+        "ec2",
+        "describe-vpcs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "leading-abbreviated-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "--prof",
+        "acme-dev",
+        "--reg=eu-west-1",
+        "ec2",
+        "describe-vpcs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-buckets-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3api",
+        "list-buckets"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "list-buckets-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3api",
+        "list-buckets"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "list-buckets-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3api",
+        "list-buckets"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-objects-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3api",
+        "list-objects-v2",
+        "--bucket",
+        "acme-bucket",
+        "--prefix",
+        "logs/"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "list-objects-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3api",
+        "list-objects-v2",
+        "--bucket",
+        "acme-bucket",
+        "--prefix",
+        "logs/"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "list-objects-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3api",
+        "list-objects-v2",
+        "--bucket",
+        "acme-bucket",
+        "--prefix",
+        "logs/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "s3-ls-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3",
+        "ls",
+        "s3://acme-bucket/",
+        "--recursive"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "s3-ls-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3",
+        "ls",
+        "s3://acme-bucket/",
+        "--recursive"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "s3-ls-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3",
+        "ls",
+        "s3://acme-bucket/",
+        "--recursive"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecr-describe-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ecr",
+        "describe-images",
+        "--repository-name",
+        "acme-web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecr-describe-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ecr",
+        "describe-images",
+        "--repository-name",
+        "acme-web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecr-describe-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ecr",
+        "describe-images",
+        "--repository-name",
+        "acme-web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecs-list-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ecs",
+        "list-services",
+        "--cluster",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecs-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ecs",
+        "list-services",
+        "--cluster",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecs-list-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ecs",
+        "list-services",
+        "--cluster",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloudformation-describe-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "describe-stacks",
+        "--stack-name",
+        "acme-web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudformation-describe-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "describe-stacks",
+        "--stack-name",
+        "acme-web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudformation-describe-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "describe-stacks",
+        "--stack-name",
+        "acme-web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "iam-get-role-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "iam",
+        "get-role",
+        "--role-name",
+        "acme-deploy"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "iam-get-role-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "iam",
+        "get-role",
+        "--role-name",
+        "acme-deploy"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "iam-get-role-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "iam",
+        "get-role",
+        "--role-name",
+        "acme-deploy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "batch-get-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "codecommit",
+        "batch-get-repositories",
+        "--repository-names",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "batch-get-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "codecommit",
+        "batch-get-repositories",
+        "--repository-names",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "batch-get-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "codecommit",
+        "batch-get-repositories",
+        "--repository-names",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "logs-tail-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "logs",
+        "tail",
+        "/acme/web",
+        "--since",
+        "1h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "logs-tail-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "logs",
+        "tail",
+        "/acme/web",
+        "--since",
+        "1h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "logs-tail-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "logs",
+        "tail",
+        "/acme/web",
+        "--since",
+        "1h"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ssm-get-parameter-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameter",
+        "--name",
+        "/acme/web/url"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ssm-get-parameter-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameter",
+        "--name",
+        "/acme/web/url"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ssm-get-parameter-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameter",
+        "--name",
+        "/acme/web/url"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-leading-option-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "--acme-unknown",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-leading-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "--acme-unknown",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-leading-option-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "--acme-unknown",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "lambda-configuration-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "lambda",
+        "get-function-configuration",
+        "--function-name",
+        "acme-web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "lambda-configuration-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "lambda",
+        "get-function-configuration",
+        "--function-name",
+        "acme-web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "lambda-configuration-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "lambda",
+        "get-function-configuration",
+        "--function-name",
+        "acme-web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "lambda-list-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "lambda",
+        "list-functions"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "lambda-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "lambda",
+        "list-functions"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "lambda-list-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "lambda",
+        "list-functions"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "task-definition-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ecs",
+        "describe-task-definition",
+        "--task-definition",
+        "acme-web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "task-definition-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ecs",
+        "describe-task-definition",
+        "--task-definition",
+        "acme-web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "task-definition-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ecs",
+        "describe-task-definition",
+        "--task-definition",
+        "acme-web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dynamodb-scan-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "dynamodb",
+        "scan",
+        "--table-name",
+        "acme-users"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dynamodb-scan-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "dynamodb",
+        "scan",
+        "--table-name",
+        "acme-users"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dynamodb-scan-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "dynamodb",
+        "scan",
+        "--table-name",
+        "acme-users"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "dynamodb-get-item-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "dynamodb",
+        "get-item",
+        "--table-name",
+        "acme-users",
+        "--key",
+        "{\"id\":{\"S\":\"1\"}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dynamodb-get-item-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "dynamodb",
+        "get-item",
+        "--table-name",
+        "acme-users",
+        "--key",
+        "{\"id\":{\"S\":\"1\"}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dynamodb-get-item-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "dynamodb",
+        "get-item",
+        "--table-name",
+        "acme-users",
+        "--key",
+        "{\"id\":{\"S\":\"1\"}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "logs-filter-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "logs",
+        "filter-log-events",
+        "--log-group-name",
+        "/acme/web",
+        "--filter-pattern",
+        "ERROR"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "logs-filter-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "logs",
+        "filter-log-events",
+        "--log-group-name",
+        "/acme/web",
+        "--filter-pattern",
+        "ERROR"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "logs-filter-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "logs",
+        "filter-log-events",
+        "--log-group-name",
+        "/acme/web",
+        "--filter-pattern",
+        "ERROR"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sqs-receive-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "sqs",
+        "receive-message",
+        "--queue-url",
+        "https://sqs.example.com/1/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sqs-receive-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "sqs",
+        "receive-message",
+        "--queue-url",
+        "https://sqs.example.com/1/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sqs-receive-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "sqs",
+        "receive-message",
+        "--queue-url",
+        "https://sqs.example.com/1/acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "get-object-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3api",
+        "get-object",
+        "--bucket",
+        "acme-bucket",
+        "--key",
+        "a.txt",
+        "a.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "get-object-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3api",
+        "get-object",
+        "--bucket",
+        "acme-bucket",
+        "--key",
+        "a.txt",
+        "a.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "get-object-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3api",
+        "get-object",
+        "--bucket",
+        "acme-bucket",
+        "--key",
+        "a.txt",
+        "a.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "lambda-invoke-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "lambda",
+        "invoke",
+        "--function-name",
+        "acme-web",
+        "out.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "lambda-invoke-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "lambda",
+        "invoke",
+        "--function-name",
+        "acme-web",
+        "out.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "lambda-invoke-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "lambda",
+        "invoke",
+        "--function-name",
+        "acme-web",
+        "out.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-download-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3",
+        "cp",
+        "s3://acme-bucket/a.txt",
+        "./a.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "s3-download-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3",
+        "cp",
+        "s3://acme-bucket/a.txt",
+        "./a.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "s3-download-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3",
+        "cp",
+        "s3://acme-bucket/a.txt",
+        "./a.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-upload-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3",
+        "cp",
+        "./a.txt",
+        "s3://acme-bucket/a.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "s3-upload-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3",
+        "cp",
+        "./a.txt",
+        "s3://acme-bucket/a.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "s3-upload-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3",
+        "cp",
+        "./a.txt",
+        "s3://acme-bucket/a.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-sync-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3",
+        "sync",
+        "./site",
+        "s3://acme-bucket/site"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "s3-sync-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3",
+        "sync",
+        "./site",
+        "s3://acme-bucket/site"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "s3-sync-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3",
+        "sync",
+        "./site",
+        "s3://acme-bucket/site"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "credential-report-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "iam",
+        "get-credential-report"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "credential-report-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "iam",
+        "get-credential-report"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "credential-report-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "iam",
+        "get-credential-report"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-value-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme/db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "secret-value-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme/db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-value-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme/db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-batch-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "batch-get-secret-value",
+        "--secret-id-list",
+        "acme/db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "secret-batch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "batch-get-secret-value",
+        "--secret-id-list",
+        "acme/db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-batch-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "batch-get-secret-value",
+        "--secret-id-list",
+        "acme/db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ssm-decryption-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameter",
+        "--name",
+        "/acme/db/password",
+        "--with-decryption"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ssm-decryption-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameter",
+        "--name",
+        "/acme/db/password",
+        "--with-decryption"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ssm-decryption-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameter",
+        "--name",
+        "/acme/db/password",
+        "--with-decryption"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ssm-decryption-abbreviated-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameters-by-path",
+        "--path",
+        "/acme",
+        "--with-decr"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ssm-decryption-abbreviated-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameters-by-path",
+        "--path",
+        "/acme",
+        "--with-decr"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ssm-decryption-abbreviated-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameters-by-path",
+        "--path",
+        "/acme",
+        "--with-decr"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "kms-decrypt-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "kms",
+        "decrypt",
+        "--ciphertext-blob",
+        "fileb://secret.bin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "kms-decrypt-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "kms",
+        "decrypt",
+        "--ciphertext-blob",
+        "fileb://secret.bin"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "kms-decrypt-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "kms",
+        "decrypt",
+        "--ciphertext-blob",
+        "fileb://secret.bin"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "assume-role-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "sts",
+        "assume-role",
+        "--role-arn",
+        "arn:aws:iam::123456789012:role/acme",
+        "--role-session-name",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "assume-role-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "sts",
+        "assume-role",
+        "--role-arn",
+        "arn:aws:iam::123456789012:role/acme",
+        "--role-session-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "assume-role-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "sts",
+        "assume-role",
+        "--role-arn",
+        "arn:aws:iam::123456789012:role/acme",
+        "--role-session-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecr-login-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ecr",
+        "get-login-password",
+        "--region",
+        "eu-west-1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecr-login-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ecr",
+        "get-login-password",
+        "--region",
+        "eu-west-1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecr-login-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ecr",
+        "get-login-password",
+        "--region",
+        "eu-west-1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "eks-token-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "eks",
+        "get-token",
+        "--cluster-name",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "eks-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "eks",
+        "get-token",
+        "--cluster-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "eks-token-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "eks",
+        "get-token",
+        "--cluster-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rds-token-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "rds",
+        "generate-db-auth-token",
+        "--hostname",
+        "db.example.com",
+        "--port",
+        "5432",
+        "--username",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rds-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "rds",
+        "generate-db-auth-token",
+        "--hostname",
+        "db.example.com",
+        "--port",
+        "5432",
+        "--username",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rds-token-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "rds",
+        "generate-db-auth-token",
+        "--hostname",
+        "db.example.com",
+        "--port",
+        "5432",
+        "--username",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ec2-password-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ec2",
+        "get-password-data",
+        "--instance-id",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ec2-password-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ec2",
+        "get-password-data",
+        "--instance-id",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ec2-password-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ec2",
+        "get-password-data",
+        "--instance-id",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apigateway-key-values-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "apigateway",
+        "get-api-keys",
+        "--include-values"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apigateway-key-values-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "apigateway",
+        "get-api-keys",
+        "--include-values"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apigateway-key-values-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "apigateway",
+        "get-api-keys",
+        "--include-values"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apigateway-keys-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "apigateway",
+        "get-api-keys"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apigateway-keys-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "apigateway",
+        "get-api-keys"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apigateway-keys-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "apigateway",
+        "get-api-keys"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cognito-identity-provider-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "cognito-idp",
+        "describe-identity-provider",
+        "--user-pool-id",
+        "eu-west-1_ACME",
+        "--provider-name",
+        "Google"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cognito-identity-provider-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "cognito-idp",
+        "describe-identity-provider",
+        "--user-pool-id",
+        "eu-west-1_ACME",
+        "--provider-name",
+        "Google"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cognito-identity-provider-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "cognito-idp",
+        "describe-identity-provider",
+        "--user-pool-id",
+        "eu-west-1_ACME",
+        "--provider-name",
+        "Google"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cognito-provider-by-identifier-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "cognito-idp",
+        "get-identity-provider-by-identifier",
+        "--user-pool-id",
+        "eu-west-1_ACME",
+        "--idp-identifier",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cognito-provider-by-identifier-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "cognito-idp",
+        "get-identity-provider-by-identifier",
+        "--user-pool-id",
+        "eu-west-1_ACME",
+        "--idp-identifier",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cognito-provider-by-identifier-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "cognito-idp",
+        "get-identity-provider-by-identifier",
+        "--user-pool-id",
+        "eu-west-1_ACME",
+        "--idp-identifier",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vpn-pre-shared-keys-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-vpn-connections"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vpn-pre-shared-keys-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-vpn-connections"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vpn-pre-shared-keys-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-vpn-connections"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "agentcore-api-key-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "bedrock-agentcore",
+        "get-resource-api-key",
+        "--workload-identity-token",
+        "x",
+        "--resource-credential-provider-name",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agentcore-api-key-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "bedrock-agentcore",
+        "get-resource-api-key",
+        "--workload-identity-token",
+        "x",
+        "--resource-credential-provider-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "agentcore-api-key-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "bedrock-agentcore",
+        "get-resource-api-key",
+        "--workload-identity-token",
+        "x",
+        "--resource-credential-provider-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pipeline-webhooks-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "codepipeline",
+        "list-webhooks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pipeline-webhooks-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "codepipeline",
+        "list-webhooks"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pipeline-webhooks-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "codepipeline",
+        "list-webhooks"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "build-batches-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "codebuild",
+        "batch-get-build-batches",
+        "--ids",
+        "acme:1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "build-batches-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "codebuild",
+        "batch-get-build-batches",
+        "--ids",
+        "acme:1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "build-batches-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "codebuild",
+        "batch-get-build-batches",
+        "--ids",
+        "acme:1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "activity-task-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "stepfunctions",
+        "get-activity-task",
+        "--activity-arn",
+        "arn:aws:states:eu-west-1:123456789012:activity:acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "activity-task-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "stepfunctions",
+        "get-activity-task",
+        "--activity-arn",
+        "arn:aws:states:eu-west-1:123456789012:activity:acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "activity-task-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "stepfunctions",
+        "get-activity-task",
+        "--activity-arn",
+        "arn:aws:states:eu-west-1:123456789012:activity:acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ses-verify-email-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ses",
+        "verify-email-identity",
+        "--email-address",
+        "ops@example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ses-verify-email-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ses",
+        "verify-email-identity",
+        "--email-address",
+        "ops@example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ses-verify-email-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ses",
+        "verify-email-identity",
+        "--email-address",
+        "ops@example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "stack-drift-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "detect-stack-drift",
+        "--stack-name",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stack-drift-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "detect-stack-drift",
+        "--stack-name",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stack-drift-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "detect-stack-drift",
+        "--stack-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "comprehend-detect-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "comprehend",
+        "detect-sentiment",
+        "--text",
+        "hello",
+        "--language-code",
+        "en"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "comprehend-detect-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "comprehend",
+        "detect-sentiment",
+        "--text",
+        "hello",
+        "--language-code",
+        "en"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "comprehend-detect-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "comprehend",
+        "detect-sentiment",
+        "--text",
+        "hello",
+        "--language-code",
+        "en"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "compare-faces-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "rekognition",
+        "compare-faces",
+        "--source-image",
+        "S3Object={Bucket=b,Name=a.jpg}",
+        "--target-image",
+        "S3Object={Bucket=b,Name=b.jpg}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "compare-faces-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "rekognition",
+        "compare-faces",
+        "--source-image",
+        "S3Object={Bucket=b,Name=a.jpg}",
+        "--target-image",
+        "S3Object={Bucket=b,Name=b.jpg}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "compare-faces-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "rekognition",
+        "compare-faces",
+        "--source-image",
+        "S3Object={Bucket=b,Name=a.jpg}",
+        "--target-image",
+        "S3Object={Bucket=b,Name=b.jpg}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "license-check-in-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "license-manager",
+        "check-in-license",
+        "--license-consumption-token",
+        "x"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "license-check-in-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "license-manager",
+        "check-in-license",
+        "--license-consumption-token",
+        "x"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "license-check-in-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "license-manager",
+        "check-in-license",
+        "--license-consumption-token",
+        "x"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cognito-get-id-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "cognito-identity",
+        "get-id",
+        "--identity-pool-id",
+        "eu-west-1:acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cognito-get-id-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "cognito-identity",
+        "get-id",
+        "--identity-pool-id",
+        "eu-west-1:acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cognito-get-id-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "cognito-identity",
+        "get-id",
+        "--identity-pool-id",
+        "eu-west-1:acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "verification-code-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "cognito-idp",
+        "get-user-attribute-verification-code",
+        "--access-token",
+        "x",
+        "--attribute-name",
+        "email"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "verification-code-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "cognito-idp",
+        "get-user-attribute-verification-code",
+        "--access-token",
+        "x",
+        "--attribute-name",
+        "email"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "verification-code-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "cognito-idp",
+        "get-user-attribute-verification-code",
+        "--access-token",
+        "x",
+        "--attribute-name",
+        "email"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "embed-url-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "quicksight",
+        "get-dashboard-embed-url",
+        "--aws-account-id",
+        "123456789012",
+        "--dashboard-id",
+        "acme",
+        "--identity-type",
+        "IAM"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "embed-url-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "quicksight",
+        "get-dashboard-embed-url",
+        "--aws-account-id",
+        "123456789012",
+        "--dashboard-id",
+        "acme",
+        "--identity-type",
+        "IAM"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "embed-url-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "quicksight",
+        "get-dashboard-embed-url",
+        "--aws-account-id",
+        "123456789012",
+        "--dashboard-id",
+        "acme",
+        "--identity-type",
+        "IAM"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "stream-url-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "kinesis-video-archived-media",
+        "get-hls-streaming-session-url",
+        "--stream-name",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stream-url-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "kinesis-video-archived-media",
+        "get-hls-streaming-session-url",
+        "--stream-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "stream-url-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "kinesis-video-archived-media",
+        "get-hls-streaming-session-url",
+        "--stream-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "schema-sample-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "kinesisanalyticsv2",
+        "discover-input-schema",
+        "--service-execution-role",
+        "arn:aws:iam::123456789012:role/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "schema-sample-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "kinesisanalyticsv2",
+        "discover-input-schema",
+        "--service-execution-role",
+        "arn:aws:iam::123456789012:role/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "schema-sample-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "kinesisanalyticsv2",
+        "discover-input-schema",
+        "--service-execution-role",
+        "arn:aws:iam::123456789012:role/acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "validate-template-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "validate-template",
+        "--template-body",
+        "file://stack.yml"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "validate-template-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "validate-template",
+        "--template-body",
+        "file://stack.yml"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "validate-template-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "validate-template",
+        "--template-body",
+        "file://stack.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "domain-availability-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "route53domains",
+        "check-domain-availability",
+        "--domain-name",
+        "example.com"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "domain-availability-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "route53domains",
+        "check-domain-availability",
+        "--domain-name",
+        "example.com"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "domain-availability-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "route53domains",
+        "check-domain-availability",
+        "--domain-name",
+        "example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "user-pool-metadata-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "cognito-idp",
+        "describe-user-pool",
+        "--user-pool-id",
+        "eu-west-1_ACME"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "user-pool-metadata-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "cognito-idp",
+        "describe-user-pool",
+        "--user-pool-id",
+        "eu-west-1_ACME"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "user-pool-metadata-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "cognito-idp",
+        "describe-user-pool",
+        "--user-pool-id",
+        "eu-west-1_ACME"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ssm-input-json-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameter",
+        "--cli-input-json",
+        "{\"Name\":\"/acme/db/password\",\"WithDecryption\":true}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ssm-input-json-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameter",
+        "--cli-input-json",
+        "{\"Name\":\"/acme/db/password\",\"WithDecryption\":true}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ssm-input-json-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameter",
+        "--cli-input-json",
+        "{\"Name\":\"/acme/db/password\",\"WithDecryption\":true}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ssm-input-yaml-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameters-by-path",
+        "--cli-input-yaml",
+        "file://params.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ssm-input-yaml-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameters-by-path",
+        "--cli-input-yaml",
+        "file://params.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ssm-input-yaml-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameters-by-path",
+        "--cli-input-yaml",
+        "file://params.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ssm-input-abbreviated-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameter",
+        "--cli-input-js=file://params.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ssm-input-abbreviated-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameter",
+        "--cli-input-js=file://params.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ssm-input-abbreviated-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ssm",
+        "get-parameter",
+        "--cli-input-js=file://params.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apigateway-input-json-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "apigateway",
+        "get-api-keys",
+        "--cli-input-json",
+        "{\"includeValues\":true}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apigateway-input-json-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "apigateway",
+        "get-api-keys",
+        "--cli-input-json",
+        "{\"includeValues\":true}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apigateway-input-json-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "apigateway",
+        "get-api-keys",
+        "--cli-input-json",
+        "{\"includeValues\":true}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "create-bucket-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3api",
+        "create-bucket",
+        "--bucket",
+        "acme-bucket"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-bucket-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3api",
+        "create-bucket",
+        "--bucket",
+        "acme-bucket"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-bucket-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3api",
+        "create-bucket",
+        "--bucket",
+        "acme-bucket"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-mb-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3",
+        "mb",
+        "s3://acme-bucket"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "s3-mb-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3",
+        "mb",
+        "s3://acme-bucket"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "s3-mb-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3",
+        "mb",
+        "s3://acme-bucket"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "put-object-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3api",
+        "put-object",
+        "--bucket",
+        "acme-bucket",
+        "--key",
+        "a.txt",
+        "--body",
+        "a.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "put-object-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3api",
+        "put-object",
+        "--bucket",
+        "acme-bucket",
+        "--key",
+        "a.txt",
+        "--body",
+        "a.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "put-object-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3api",
+        "put-object",
+        "--bucket",
+        "acme-bucket",
+        "--key",
+        "a.txt",
+        "--body",
+        "a.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "update-service-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ecs",
+        "update-service",
+        "--cluster",
+        "acme",
+        "--service",
+        "web",
+        "--force-new-deployment"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "update-service-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ecs",
+        "update-service",
+        "--cluster",
+        "acme",
+        "--service",
+        "web",
+        "--force-new-deployment"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "update-service-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ecs",
+        "update-service",
+        "--cluster",
+        "acme",
+        "--service",
+        "web",
+        "--force-new-deployment"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "start-instances-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ec2",
+        "start-instances",
+        "--instance-ids",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "start-instances-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ec2",
+        "start-instances",
+        "--instance-ids",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "start-instances-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ec2",
+        "start-instances",
+        "--instance-ids",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tag-resource-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "lambda",
+        "tag-resource",
+        "--resource",
+        "arn:aws:lambda:eu-west-1:123456789012:function:acme",
+        "--tags",
+        "env=dev"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tag-resource-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "lambda",
+        "tag-resource",
+        "--resource",
+        "arn:aws:lambda:eu-west-1:123456789012:function:acme",
+        "--tags",
+        "env=dev"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tag-resource-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "lambda",
+        "tag-resource",
+        "--resource",
+        "arn:aws:lambda:eu-west-1:123456789012:function:acme",
+        "--tags",
+        "env=dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudformation-deploy-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "deploy",
+        "--template-file",
+        "stack.yml",
+        "--stack-name",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloudformation-deploy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "deploy",
+        "--template-file",
+        "stack.yml",
+        "--stack-name",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloudformation-deploy-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "deploy",
+        "--template-file",
+        "stack.yml",
+        "--stack-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "update-kubeconfig-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "eks",
+        "update-kubeconfig",
+        "--name",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "update-kubeconfig-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "eks",
+        "update-kubeconfig",
+        "--name",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "update-kubeconfig-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "eks",
+        "update-kubeconfig",
+        "--name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ssm-session-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ssm",
+        "start-session",
+        "--target",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ssm-session-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ssm",
+        "start-session",
+        "--target",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ssm-session-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ssm",
+        "start-session",
+        "--target",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ssm-command-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ssm",
+        "send-command",
+        "--document-name",
+        "AWS-RunShellScript",
+        "--targets",
+        "Key=tag:env,Values=dev"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ssm-command-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ssm",
+        "send-command",
+        "--document-name",
+        "AWS-RunShellScript",
+        "--targets",
+        "Key=tag:env,Values=dev"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ssm-command-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ssm",
+        "send-command",
+        "--document-name",
+        "AWS-RunShellScript",
+        "--targets",
+        "Key=tag:env,Values=dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecs-exec-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ecs",
+        "execute-command",
+        "--cluster",
+        "acme",
+        "--task",
+        "abc",
+        "--interactive",
+        "--command",
+        "/bin/sh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecs-exec-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ecs",
+        "execute-command",
+        "--cluster",
+        "acme",
+        "--task",
+        "abc",
+        "--interactive",
+        "--command",
+        "/bin/sh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecs-exec-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ecs",
+        "execute-command",
+        "--cluster",
+        "acme",
+        "--task",
+        "abc",
+        "--interactive",
+        "--command",
+        "/bin/sh"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "athena-query-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "athena",
+        "start-query-execution",
+        "--query-string",
+        "SELECT 1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "athena-query-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "athena",
+        "start-query-execution",
+        "--query-string",
+        "SELECT 1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "athena-query-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "athena",
+        "start-query-execution",
+        "--query-string",
+        "SELECT 1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unclassified-verb-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "translate",
+        "translate-text",
+        "--text",
+        "hello",
+        "--source-language-code",
+        "en",
+        "--target-language-code",
+        "fr"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unclassified-verb-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "translate",
+        "translate-text",
+        "--text",
+        "hello",
+        "--source-language-code",
+        "en",
+        "--target-language-code",
+        "fr"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unclassified-verb-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "translate",
+        "translate-text",
+        "--text",
+        "hello",
+        "--source-language-code",
+        "en",
+        "--target-language-code",
+        "fr"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unknown-service-shape-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-service-shape-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-service-shape-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "delete-stack-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "delete-stack",
+        "--stack-name",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "delete-stack-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "delete-stack",
+        "--stack-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "delete-stack-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "delete-stack",
+        "--stack-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "terminate-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ec2",
+        "terminate-instances",
+        "--instance-ids",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "terminate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ec2",
+        "terminate-instances",
+        "--instance-ids",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "terminate-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ec2",
+        "terminate-instances",
+        "--instance-ids",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "delete-object-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3api",
+        "delete-object",
+        "--bucket",
+        "acme-bucket",
+        "--key",
+        "a.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "delete-object-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3api",
+        "delete-object",
+        "--bucket",
+        "acme-bucket",
+        "--key",
+        "a.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "delete-object-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3api",
+        "delete-object",
+        "--bucket",
+        "acme-bucket",
+        "--key",
+        "a.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "batch-write-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "dynamodb",
+        "batch-write-item",
+        "--request-items",
+        "file://items.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "batch-write-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "dynamodb",
+        "batch-write-item",
+        "--request-items",
+        "file://items.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "batch-write-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "dynamodb",
+        "batch-write-item",
+        "--request-items",
+        "file://items.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "batch-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "iot",
+        "batch-delete-thing-group",
+        "--thing-group-names",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "batch-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "iot",
+        "batch-delete-thing-group",
+        "--thing-group-names",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "batch-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "iot",
+        "batch-delete-thing-group",
+        "--thing-group-names",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-rm-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3",
+        "rm",
+        "s3://acme-bucket/a.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "s3-rm-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3",
+        "rm",
+        "s3://acme-bucket/a.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-rm-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3",
+        "rm",
+        "s3://acme-bucket/a.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-rb-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3",
+        "rb",
+        "s3://acme-bucket",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "s3-rb-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3",
+        "rb",
+        "s3://acme-bucket",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-rb-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3",
+        "rb",
+        "s3://acme-bucket",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-mv-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3",
+        "mv",
+        "s3://acme-bucket/a.txt",
+        "s3://acme-bucket/b.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "s3-mv-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3",
+        "mv",
+        "s3://acme-bucket/a.txt",
+        "s3://acme-bucket/b.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-mv-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3",
+        "mv",
+        "s3://acme-bucket/a.txt",
+        "s3://acme-bucket/b.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-sync-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3",
+        "sync",
+        "./site",
+        "s3://acme-bucket/site",
+        "--delete"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "s3-sync-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3",
+        "sync",
+        "./site",
+        "s3://acme-bucket/site",
+        "--delete"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-sync-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3",
+        "sync",
+        "./site",
+        "s3://acme-bucket/site",
+        "--delete"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-sync-delete-leading-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "--profile",
+        "acme-dev",
+        "s3",
+        "sync",
+        "--delete",
+        "./site",
+        "s3://acme-bucket/site"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "s3-sync-delete-leading-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "--profile",
+        "acme-dev",
+        "s3",
+        "sync",
+        "--delete",
+        "./site",
+        "s3://acme-bucket/site"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-sync-delete-leading-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "--profile",
+        "acme-dev",
+        "s3",
+        "sync",
+        "--delete",
+        "./site",
+        "s3://acme-bucket/site"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-presign-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3",
+        "presign",
+        "s3://acme-bucket/a.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "s3-presign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3",
+        "presign",
+        "s3://acme-bucket/a.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-presign-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3",
+        "presign",
+        "s3://acme-bucket/a.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "iam-attach-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "iam",
+        "attach-role-policy",
+        "--role-name",
+        "acme",
+        "--policy-arn",
+        "arn:aws:iam::aws:policy/AdministratorAccess"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "iam-attach-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "iam",
+        "attach-role-policy",
+        "--role-name",
+        "acme",
+        "--policy-arn",
+        "arn:aws:iam::aws:policy/AdministratorAccess"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "iam-attach-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "iam",
+        "attach-role-policy",
+        "--role-name",
+        "acme",
+        "--policy-arn",
+        "arn:aws:iam::aws:policy/AdministratorAccess"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "iam-create-user-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "iam",
+        "create-user",
+        "--user-name",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "iam-create-user-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "iam",
+        "create-user",
+        "--user-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "iam-create-user-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "iam",
+        "create-user",
+        "--user-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "iam-access-key-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "iam",
+        "create-access-key",
+        "--user-name",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "iam-access-key-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "iam",
+        "create-access-key",
+        "--user-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "iam-access-key-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "iam",
+        "create-access-key",
+        "--user-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "bucket-policy-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3api",
+        "put-bucket-policy",
+        "--bucket",
+        "acme-bucket",
+        "--policy",
+        "file://policy.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bucket-policy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3api",
+        "put-bucket-policy",
+        "--bucket",
+        "acme-bucket",
+        "--policy",
+        "file://policy.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "bucket-policy-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3api",
+        "put-bucket-policy",
+        "--bucket",
+        "acme-bucket",
+        "--policy",
+        "file://policy.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "security-group-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ec2",
+        "authorize-security-group-ingress",
+        "--group-id",
+        "sg-0123",
+        "--protocol",
+        "tcp",
+        "--port",
+        "22",
+        "--cidr",
+        "0.0.0.0/0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "security-group-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ec2",
+        "authorize-security-group-ingress",
+        "--group-id",
+        "sg-0123",
+        "--protocol",
+        "tcp",
+        "--port",
+        "22",
+        "--cidr",
+        "0.0.0.0/0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "security-group-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ec2",
+        "authorize-security-group-ingress",
+        "--group-id",
+        "sg-0123",
+        "--protocol",
+        "tcp",
+        "--port",
+        "22",
+        "--cidr",
+        "0.0.0.0/0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "lambda-permission-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "lambda",
+        "add-permission",
+        "--function-name",
+        "acme",
+        "--statement-id",
+        "x",
+        "--action",
+        "lambda:InvokeFunction",
+        "--principal",
+        "*"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "lambda-permission-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "lambda",
+        "add-permission",
+        "--function-name",
+        "acme",
+        "--statement-id",
+        "x",
+        "--action",
+        "lambda:InvokeFunction",
+        "--principal",
+        "*"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "lambda-permission-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "lambda",
+        "add-permission",
+        "--function-name",
+        "acme",
+        "--statement-id",
+        "x",
+        "--action",
+        "lambda:InvokeFunction",
+        "--principal",
+        "*"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "snapshot-sharing-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ec2",
+        "modify-snapshot-attribute",
+        "--snapshot-id",
+        "snap-0123",
+        "--attribute",
+        "createVolumePermission",
+        "--operation-type",
+        "add",
+        "--group-names",
+        "all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "snapshot-sharing-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ec2",
+        "modify-snapshot-attribute",
+        "--snapshot-id",
+        "snap-0123",
+        "--attribute",
+        "createVolumePermission",
+        "--operation-type",
+        "add",
+        "--group-names",
+        "all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "snapshot-sharing-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ec2",
+        "modify-snapshot-attribute",
+        "--snapshot-id",
+        "snap-0123",
+        "--attribute",
+        "createVolumePermission",
+        "--operation-type",
+        "add",
+        "--group-names",
+        "all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "revoke-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ec2",
+        "revoke-security-group-ingress",
+        "--group-id",
+        "sg-0123",
+        "--protocol",
+        "tcp",
+        "--port",
+        "22",
+        "--cidr",
+        "0.0.0.0/0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "revoke-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ec2",
+        "revoke-security-group-ingress",
+        "--group-id",
+        "sg-0123",
+        "--protocol",
+        "tcp",
+        "--port",
+        "22",
+        "--cidr",
+        "0.0.0.0/0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "revoke-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ec2",
+        "revoke-security-group-ingress",
+        "--group-id",
+        "sg-0123",
+        "--protocol",
+        "tcp",
+        "--port",
+        "22",
+        "--cidr",
+        "0.0.0.0/0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "logs-follow-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "logs",
+        "tail",
+        "/acme/web",
+        "--follow"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "logs-follow-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "logs",
+        "tail",
+        "/acme/web",
+        "--follow"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "logs-follow-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "logs",
+        "tail",
+        "/acme/web",
+        "--follow"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "logs-follow-abbreviated-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "logs",
+        "tail",
+        "/acme/web",
+        "--fol"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "logs-follow-abbreviated-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "logs",
+        "tail",
+        "/acme/web",
+        "--fol"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "logs-follow-abbreviated-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "logs",
+        "tail",
+        "/acme/web",
+        "--fol"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "live-tail-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "logs",
+        "start-live-tail",
+        "--log-group-identifiers",
+        "arn:aws:logs:eu-west-1:123456789012:log-group:/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "live-tail-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "logs",
+        "start-live-tail",
+        "--log-group-identifiers",
+        "arn:aws:logs:eu-west-1:123456789012:log-group:/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "live-tail-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "logs",
+        "start-live-tail",
+        "--log-group-identifiers",
+        "arn:aws:logs:eu-west-1:123456789012:log-group:/acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "no-verify-ssl-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--no-verify-ssl"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "no-verify-ssl-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--no-verify-ssl"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "no-verify-ssl-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--no-verify-ssl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "no-verify-ssl-leading-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "--no-verify",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "no-verify-ssl-leading-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "--no-verify",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "no-verify-ssl-leading-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "--no-verify",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ca-bundle-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3",
+        "ls",
+        "--ca-bundle",
+        "/acme/ca.pem"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ca-bundle-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3",
+        "ls",
+        "--ca-bundle",
+        "/acme/ca.pem"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ca-bundle-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3",
+        "ls",
+        "--ca-bundle",
+        "/acme/ca.pem"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "custom-endpoint-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3",
+        "ls",
+        "--endpoint-url",
+        "https://storage.example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "custom-endpoint-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3",
+        "ls",
+        "--endpoint-url",
+        "https://storage.example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "custom-endpoint-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3",
+        "ls",
+        "--endpoint-url",
+        "https://storage.example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "custom-endpoint-abbreviated-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "--endpoint=https://storage.example.com",
+        "s3",
+        "ls"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "custom-endpoint-abbreviated-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "--endpoint=https://storage.example.com",
+        "s3",
+        "ls"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "custom-endpoint-abbreviated-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "--endpoint=https://storage.example.com",
+        "s3",
+        "ls"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-no-verify-ssl-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme/db",
+        "--no-verify-ssl"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "secret-no-verify-ssl-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme/db",
+        "--no-verify-ssl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-no-verify-ssl-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme/db",
+        "--no-verify-ssl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-custom-endpoint-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "https://secrets.example.com",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme/db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "secret-custom-endpoint-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "https://secrets.example.com",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme/db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-custom-endpoint-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "https://secrets.example.com",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme/db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "delete-ca-bundle-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "delete-stack",
+        "--stack-name",
+        "acme",
+        "--ca-bundle",
+        "/acme/ca.pem"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "delete-ca-bundle-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "delete-stack",
+        "--stack-name",
+        "acme",
+        "--ca-bundle",
+        "/acme/ca.pem"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "delete-ca-bundle-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "delete-stack",
+        "--stack-name",
+        "acme",
+        "--ca-bundle",
+        "/acme/ca.pem"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "access-custom-endpoint-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "iam",
+        "attach-role-policy",
+        "--role-name",
+        "acme",
+        "--policy-arn",
+        "arn:aws:iam::aws:policy/ReadOnlyAccess",
+        "--endpoint-url=https://iam.example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "access-custom-endpoint-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "iam",
+        "attach-role-policy",
+        "--role-name",
+        "acme",
+        "--policy-arn",
+        "arn:aws:iam::aws:policy/ReadOnlyAccess",
+        "--endpoint-url=https://iam.example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "access-custom-endpoint-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "iam",
+        "attach-role-policy",
+        "--role-name",
+        "acme",
+        "--policy-arn",
+        "arn:aws:iam::aws:policy/ReadOnlyAccess",
+        "--endpoint-url=https://iam.example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-rm-custom-endpoint-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "https://storage.example.com",
+        "s3",
+        "rm",
+        "s3://acme-bucket/a.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "s3-rm-custom-endpoint-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "https://storage.example.com",
+        "s3",
+        "rm",
+        "s3://acme-bucket/a.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "s3-rm-custom-endpoint-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "https://storage.example.com",
+        "s3",
+        "rm",
+        "s3://acme-bucket/a.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "change-no-verify-ssl-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ecs",
+        "update-service",
+        "--cluster",
+        "acme",
+        "--service",
+        "web",
+        "--no-verify-ssl"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "change-no-verify-ssl-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ecs",
+        "update-service",
+        "--cluster",
+        "acme",
+        "--service",
+        "web",
+        "--no-verify-ssl"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "change-no-verify-ssl-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ecs",
+        "update-service",
+        "--cluster",
+        "acme",
+        "--service",
+        "web",
+        "--no-verify-ssl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-executable-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/local/bin/aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "absolute-executable-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "absolute-executable-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "homebrew-executable-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/aws",
+        "s3",
+        "ls"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "homebrew-executable-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/aws",
+        "s3",
+        "ls"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "homebrew-executable-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/aws",
+        "s3",
+        "ls"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-executable-path-loose",
+      "profile": "loose",
+      "argv": [
+        "/acme/bin/aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-executable-path-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/acme/bin/aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-executable-path-strict",
+      "profile": "strict",
+      "argv": [
+        "/acme/bin/aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "profile-missing-loose",
+      "profile": "loose",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "profile-missing-recommended",
+      "profile": "recommended",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "profile-missing-strict",
+      "profile": "strict",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "profile-match-loose",
+      "profile": "loose",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-ro"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "profile-match-recommended",
+      "profile": "recommended",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-ro"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "profile-match-strict",
+      "profile": "strict",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-ro"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "profile-match-leading-loose",
+      "profile": "loose",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "--profile=acme-ro",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "profile-match-leading-recommended",
+      "profile": "recommended",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "--profile=acme-ro",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "profile-match-leading-strict",
+      "profile": "strict",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "--profile=acme-ro",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "profile-match-abbreviated-loose",
+      "profile": "loose",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--prof",
+        "acme-ro"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "profile-match-abbreviated-recommended",
+      "profile": "recommended",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--prof",
+        "acme-ro"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "profile-match-abbreviated-strict",
+      "profile": "strict",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--prof",
+        "acme-ro"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "profile-other-loose",
+      "profile": "loose",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-admin"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "profile-other-recommended",
+      "profile": "recommended",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-admin"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "profile-other-strict",
+      "profile": "strict",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-admin"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "profile-second-loose",
+      "profile": "loose",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-ro",
+        "--p",
+        "acme-admin"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "profile-second-recommended",
+      "profile": "recommended",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-ro",
+        "--p",
+        "acme-admin"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "profile-second-strict",
+      "profile": "strict",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-ro",
+        "--p",
+        "acme-admin"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "profile-after-separator-loose",
+      "profile": "loose",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--",
+        "--profile",
+        "acme-ro"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "profile-after-separator-recommended",
+      "profile": "recommended",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--",
+        "--profile",
+        "acme-ro"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "profile-after-separator-strict",
+      "profile": "strict",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--",
+        "--profile",
+        "acme-ro"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "profile-delete-loose",
+      "profile": "loose",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "cloudformation",
+        "delete-stack",
+        "--stack-name",
+        "acme",
+        "--profile",
+        "acme-ro"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "profile-delete-recommended",
+      "profile": "recommended",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "cloudformation",
+        "delete-stack",
+        "--stack-name",
+        "acme",
+        "--profile",
+        "acme-ro"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "profile-delete-strict",
+      "profile": "strict",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "cloudformation",
+        "delete-stack",
+        "--stack-name",
+        "acme",
+        "--profile",
+        "acme-ro"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "profile-help-loose",
+      "profile": "loose",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "profile-help-recommended",
+      "profile": "recommended",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "profile-help-strict",
+      "profile": "strict",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "profile-version-loose",
+      "profile": "loose",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "profile-version-recommended",
+      "profile": "recommended",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "profile-version-strict",
+      "profile": "strict",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "profile-list-profiles-loose",
+      "profile": "loose",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "configure",
+        "list-profiles"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "profile-list-profiles-recommended",
+      "profile": "recommended",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "configure",
+        "list-profiles"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "profile-list-profiles-strict",
+      "profile": "strict",
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "configure",
+        "list-profiles"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "blocked-missing-loose",
+      "profile": "loose",
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod",
+          "acme-admin"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "blocked-missing-recommended",
+      "profile": "recommended",
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod",
+          "acme-admin"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "blocked-missing-strict",
+      "profile": "strict",
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod",
+          "acme-admin"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "blocked-other-loose",
+      "profile": "loose",
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod",
+          "acme-admin"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "blocked-other-recommended",
+      "profile": "recommended",
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod",
+          "acme-admin"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "blocked-other-strict",
+      "profile": "strict",
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod",
+          "acme-admin"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "blocked-named-loose",
+      "profile": "loose",
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod",
+          "acme-admin"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-prod"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "blocked-named-recommended",
+      "profile": "recommended",
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod",
+          "acme-admin"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-prod"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "blocked-named-strict",
+      "profile": "strict",
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod",
+          "acme-admin"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-prod"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "blocked-abbreviated-loose",
+      "profile": "loose",
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod",
+          "acme-admin"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--pro=acme-admin"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "blocked-abbreviated-recommended",
+      "profile": "recommended",
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod",
+          "acme-admin"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--pro=acme-admin"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "blocked-abbreviated-strict",
+      "profile": "strict",
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod",
+          "acme-admin"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--pro=acme-admin"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "blocked-second-loose",
+      "profile": "loose",
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-dev",
+        "--profile",
+        "acme-prod"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "blocked-second-recommended",
+      "profile": "recommended",
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-dev",
+        "--profile",
+        "acme-prod"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "blocked-second-strict",
+      "profile": "strict",
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-dev",
+        "--profile",
+        "acme-prod"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "region-missing-loose",
+      "profile": "loose",
+      "variables": {
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "region-missing-recommended",
+      "profile": "recommended",
+      "variables": {
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "region-missing-strict",
+      "profile": "strict",
+      "variables": {
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "region-match-loose",
+      "profile": "loose",
+      "variables": {
+        "regions": [
+          "eu-west-1",
+          "us-east-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--region",
+        "us-east-1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "region-match-recommended",
+      "profile": "recommended",
+      "variables": {
+        "regions": [
+          "eu-west-1",
+          "us-east-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--region",
+        "us-east-1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "region-match-strict",
+      "profile": "strict",
+      "variables": {
+        "regions": [
+          "eu-west-1",
+          "us-east-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--region",
+        "us-east-1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "region-abbreviated-loose",
+      "profile": "loose",
+      "variables": {
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--reg",
+        "eu-west-1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "region-abbreviated-recommended",
+      "profile": "recommended",
+      "variables": {
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--reg",
+        "eu-west-1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "region-abbreviated-strict",
+      "profile": "strict",
+      "variables": {
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--reg",
+        "eu-west-1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "region-other-loose",
+      "profile": "loose",
+      "variables": {
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--region",
+        "ap-south-1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "region-other-recommended",
+      "profile": "recommended",
+      "variables": {
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--region",
+        "ap-south-1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "region-other-strict",
+      "profile": "strict",
+      "variables": {
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--region",
+        "ap-south-1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "profile-and-region-loose",
+      "profile": "loose",
+      "variables": {
+        "profile": "acme-ro",
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-ro",
+        "--region",
+        "eu-west-1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "profile-and-region-recommended",
+      "profile": "recommended",
+      "variables": {
+        "profile": "acme-ro",
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-ro",
+        "--region",
+        "eu-west-1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "profile-and-region-strict",
+      "profile": "strict",
+      "variables": {
+        "profile": "acme-ro",
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-ro",
+        "--region",
+        "eu-west-1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "profile-without-region-loose",
+      "profile": "loose",
+      "variables": {
+        "profile": "acme-ro",
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-ro"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "profile-without-region-recommended",
+      "profile": "recommended",
+      "variables": {
+        "profile": "acme-ro",
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-ro"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "profile-without-region-strict",
+      "profile": "strict",
+      "variables": {
+        "profile": "acme-ro",
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--profile",
+        "acme-ro"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-change-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "s3",
+        "mb",
+        "s3://acme-bucket"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "emulator-change-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "s3",
+        "mb",
+        "s3://acme-bucket"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "emulator-change-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "s3",
+        "mb",
+        "s3://acme-bucket"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-delete-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "dynamodb",
+        "delete-table",
+        "--table-name",
+        "acme",
+        "--endpoint-url=http://localhost:4566"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "emulator-delete-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "dynamodb",
+        "delete-table",
+        "--table-name",
+        "acme",
+        "--endpoint-url=http://localhost:4566"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "emulator-delete-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "dynamodb",
+        "delete-table",
+        "--table-name",
+        "acme",
+        "--endpoint-url=http://localhost:4566"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-gated-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566",
+        "profile": "acme-ro",
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "sqs",
+        "create-queue",
+        "--queue-name",
+        "acme",
+        "--endpoint-url",
+        "http://localhost:4566"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "emulator-gated-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566",
+        "profile": "acme-ro",
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "sqs",
+        "create-queue",
+        "--queue-name",
+        "acme",
+        "--endpoint-url",
+        "http://localhost:4566"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "emulator-gated-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566",
+        "profile": "acme-ro",
+        "regions": [
+          "eu-west-1"
+        ]
+      },
+      "argv": [
+        "aws",
+        "sqs",
+        "create-queue",
+        "--queue-name",
+        "acme",
+        "--endpoint-url",
+        "http://localhost:4566"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-download-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "s3",
+        "cp",
+        "s3://acme-bucket/a.txt",
+        "./a.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-download-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "s3",
+        "cp",
+        "s3://acme-bucket/a.txt",
+        "./a.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-download-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "s3",
+        "cp",
+        "s3://acme-bucket/a.txt",
+        "./a.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-outfile-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "s3api",
+        "get-object",
+        "--bucket",
+        "b",
+        "--key",
+        "k",
+        "out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-outfile-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "s3api",
+        "get-object",
+        "--bucket",
+        "b",
+        "--key",
+        "k",
+        "out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-outfile-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "s3api",
+        "get-object",
+        "--bucket",
+        "b",
+        "--key",
+        "k",
+        "out"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-other-endpoint-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4567",
+        "s3",
+        "mb",
+        "s3://acme-bucket"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-other-endpoint-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4567",
+        "s3",
+        "mb",
+        "s3://acme-bucket"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-other-endpoint-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4567",
+        "s3",
+        "mb",
+        "s3://acme-bucket"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-gated-remote-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566",
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "sqs",
+        "create-queue",
+        "--queue-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-gated-remote-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566",
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "sqs",
+        "create-queue",
+        "--queue-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-gated-remote-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566",
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "sqs",
+        "create-queue",
+        "--queue-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-secret-other-endpoint-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme",
+        "--endpoint-url",
+        "https://secrets.example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-secret-other-endpoint-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme",
+        "--endpoint-url",
+        "https://secrets.example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-secret-other-endpoint-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme",
+        "--endpoint-url",
+        "https://secrets.example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-secret-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme",
+        "--endpoint-url",
+        "http://localhost:4566"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "emulator-secret-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme",
+        "--endpoint-url",
+        "http://localhost:4566"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "emulator-secret-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme",
+        "--endpoint-url",
+        "http://localhost:4566"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-then-other-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "--endpoint-url",
+        "https://example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-then-other-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "--endpoint-url",
+        "https://example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-then-other-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "--endpoint-url",
+        "https://example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-then-other-abbreviated-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--endp=https://example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-then-other-abbreviated-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--endp=https://example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-then-other-abbreviated-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--endp=https://example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "other-then-emulator-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--endpoint-url",
+        "https://example.com",
+        "--endpoint-url",
+        "http://localhost:4566"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "other-then-emulator-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--endpoint-url",
+        "https://example.com",
+        "--endpoint-url",
+        "http://localhost:4566"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "other-then-emulator-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--endpoint-url",
+        "https://example.com",
+        "--endpoint-url",
+        "http://localhost:4566"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-then-other-secret-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "--endpoint-url",
+        "https://example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-then-other-secret-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "--endpoint-url",
+        "https://example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-then-other-secret-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "--endpoint-url",
+        "https://example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-then-other-gated-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566",
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "--endpoint-url",
+        "https://example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-then-other-gated-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566",
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "--endpoint-url",
+        "https://example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-then-other-gated-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566",
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "--endpoint-url",
+        "https://example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "other-then-emulator-gated-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566",
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--endpoint-url",
+        "https://example.com",
+        "--endpoint-url",
+        "http://localhost:4566"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "other-then-emulator-gated-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566",
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--endpoint-url",
+        "https://example.com",
+        "--endpoint-url",
+        "http://localhost:4566"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "other-then-emulator-gated-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566",
+        "profile": "acme-ro"
+      },
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances",
+        "--filters",
+        "Name=tag:env,Values=dev",
+        "--endpoint-url",
+        "https://example.com",
+        "--endpoint-url",
+        "http://localhost:4566"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-then-other-create-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "sqs",
+        "create-queue",
+        "--queue-name",
+        "acme",
+        "--endpoint-url",
+        "https://example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-then-other-create-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "sqs",
+        "create-queue",
+        "--queue-name",
+        "acme",
+        "--endpoint-url",
+        "https://example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-then-other-create-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "sqs",
+        "create-queue",
+        "--queue-name",
+        "acme",
+        "--endpoint-url",
+        "https://example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-emr-get-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "emr",
+        "get",
+        "--cluster-id",
+        "j-ACME",
+        "--key-pair-file",
+        "acme.pem",
+        "--src",
+        "/home/hadoop/out.txt",
+        "--dest",
+        "./out.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-emr-get-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "emr",
+        "get",
+        "--cluster-id",
+        "j-ACME",
+        "--key-pair-file",
+        "acme.pem",
+        "--src",
+        "/home/hadoop/out.txt",
+        "--dest",
+        "./out.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-emr-get-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "emr",
+        "get",
+        "--cluster-id",
+        "j-ACME",
+        "--key-pair-file",
+        "acme.pem",
+        "--src",
+        "/home/hadoop/out.txt",
+        "--dest",
+        "./out.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-emr-put-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "emr",
+        "put",
+        "--cluster-id",
+        "j-ACME",
+        "--key-pair-file",
+        "acme.pem",
+        "--src",
+        "./in.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-emr-put-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "emr",
+        "put",
+        "--cluster-id",
+        "j-ACME",
+        "--key-pair-file",
+        "acme.pem",
+        "--src",
+        "./in.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-emr-put-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "emr",
+        "put",
+        "--cluster-id",
+        "j-ACME",
+        "--key-pair-file",
+        "acme.pem",
+        "--src",
+        "./in.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-emr-ssh-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "emr",
+        "ssh",
+        "--cluster-id",
+        "j-ACME",
+        "--key-pair-file",
+        "acme.pem"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-emr-ssh-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "emr",
+        "ssh",
+        "--cluster-id",
+        "j-ACME",
+        "--key-pair-file",
+        "acme.pem"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-emr-ssh-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "emr",
+        "ssh",
+        "--cluster-id",
+        "j-ACME",
+        "--key-pair-file",
+        "acme.pem"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-emr-socks-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "emr",
+        "socks",
+        "--cluster-id",
+        "j-ACME",
+        "--key-pair-file",
+        "acme.pem"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-emr-socks-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "emr",
+        "socks",
+        "--cluster-id",
+        "j-ACME",
+        "--key-pair-file",
+        "acme.pem"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-emr-socks-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "emr",
+        "socks",
+        "--cluster-id",
+        "j-ACME",
+        "--key-pair-file",
+        "acme.pem"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-ec2-instance-connect-ssh-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "ec2-instance-connect",
+        "ssh",
+        "--instance-id",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-ec2-instance-connect-ssh-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "ec2-instance-connect",
+        "ssh",
+        "--instance-id",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-ec2-instance-connect-ssh-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "ec2-instance-connect",
+        "ssh",
+        "--instance-id",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-ec2-instance-connect-open-tunnel-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "ec2-instance-connect",
+        "open-tunnel",
+        "--instance-id",
+        "i-0123456789abcdef0",
+        "--local-port",
+        "2222"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-ec2-instance-connect-open-tunnel-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "ec2-instance-connect",
+        "open-tunnel",
+        "--instance-id",
+        "i-0123456789abcdef0",
+        "--local-port",
+        "2222"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-ec2-instance-connect-open-tunnel-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "ec2-instance-connect",
+        "open-tunnel",
+        "--instance-id",
+        "i-0123456789abcdef0",
+        "--local-port",
+        "2222"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-ssm-start-session-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "ssm",
+        "start-session",
+        "--target",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-ssm-start-session-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "ssm",
+        "start-session",
+        "--target",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-ssm-start-session-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "ssm",
+        "start-session",
+        "--target",
+        "i-0123456789abcdef0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-ecs-execute-command-loose",
+      "profile": "loose",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "ecs",
+        "execute-command",
+        "--cluster",
+        "acme",
+        "--task",
+        "abc",
+        "--interactive",
+        "--command",
+        "/bin/sh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-ecs-execute-command-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "ecs",
+        "execute-command",
+        "--cluster",
+        "acme",
+        "--task",
+        "abc",
+        "--interactive",
+        "--command",
+        "/bin/sh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-ecs-execute-command-strict",
+      "profile": "strict",
+      "variables": {
+        "local_endpoint": "http://localhost:4566"
+      },
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "ecs",
+        "execute-command",
+        "--cluster",
+        "acme",
+        "--task",
+        "abc",
+        "--interactive",
+        "--command",
+        "/bin/sh"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-unset-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "s3",
+        "mb",
+        "s3://acme-bucket"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-unset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "s3",
+        "mb",
+        "s3://acme-bucket"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-unset-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "--endpoint-url",
+        "http://localhost:4566",
+        "s3",
+        "mb",
+        "s3://acme-bucket"
+      ],
+      "expected": "deny"
+    }
+  ]
+}
