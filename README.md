@@ -205,22 +205,6 @@ in `scripts/aws-policy.mjs`; generate with `node scripts/build-aws-pack.mjs` and
 `node scripts/build-aws-cases.mjs`; validate with
 `npm test -- --shield /absolute/path/to/shield scripts/aws-pack.test.mjs`.
 
-### Pack benchmarks
-
-`benchmarks/scenarios/<pack>/` holds agent benchmark scenarios for individual
-packs, run by Shield's agent benchmark harness. A scenario sends at most ten
-everyday prompts to a real Claude Code or Codex agent in a fresh project with the
-pack installed from this checkout, and checks what actually ran. Stubbed tools,
-such as the AWS scenario's `aws`, stand in for real programs, so runs never reach
-real services. Recorded results go to `benchmarks/<publisher>/<pack>/<version>/`
-under the pack version tested, with generated pages. A scenario uses the pack's
-newest source version, so run it when that version changes. Runs spend model
-usage; from a Canonic checkout:
-
-```sh
-npm --prefix packages/shield/adapters/sdk-tests run benchmark -- --host claude --decisions default --scenario /absolute/path/to/shield-registry/benchmarks/scenarios/aws --record
-```
-
 Node 0.1.0 lives under `packs/canonic/node/0.1.0/`.
 Its [profile guide](packs/canonic/node/0.1.0/README.md) describes the
 optional npm/pnpm/Yarn choice, routine local installs, Corepack routes and other
