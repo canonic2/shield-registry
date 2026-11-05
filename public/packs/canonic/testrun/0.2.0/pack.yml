@@ -1,0 +1,7954 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/testrun",
+  "version": "0.2.0",
+  "description": "Testrun device and isolated-browser inspection and input, with separate decisions for builds that run custom commands, app removal, host file transfer and agent setup.",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.20.0, <1.0.0"
+  },
+  "capabilities": [
+    "access-paths-v1",
+    "argument-paths-v1",
+    "argument-rules-v1",
+    "fallback-rules-v1",
+    "field-negation-v1",
+    "interleaved-leading-v1",
+    "location-v1",
+    "mcp-integrations-v1",
+    "negated-selectors-v1",
+    "prefix-leading-v1",
+    "regex-v1",
+    "requirements-v1",
+    "structured-rules-v1",
+    "unknown-options-v1"
+  ],
+  "mcp_integrations": {
+    "testrun": {
+      "transport": "stdio",
+      "fields": {
+        "/command": {
+          "text": {
+            "one_of": [
+              "testrun",
+              "/usr/bin/testrun",
+              "/usr/local/bin/testrun",
+              "/opt/homebrew/bin/testrun"
+            ]
+          }
+        },
+        "/args/0": {
+          "exact": "mcp"
+        },
+        "/args/1": {
+          "exact": "serve"
+        }
+      },
+      "defaults": {
+        "type": "stdio",
+        "command": "testrun",
+        "args": [
+          "mcp",
+          "serve"
+        ],
+        "env": {}
+      }
+    }
+  },
+  "rules": [
+    {
+      "id": "version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print the version or built-in help."
+    },
+    {
+      "id": "version-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print the version or built-in help."
+    },
+    {
+      "id": "help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print the version or built-in help."
+    },
+    {
+      "id": "help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print the version or built-in help."
+    },
+    {
+      "id": "help-command",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print the version or built-in help."
+    },
+    {
+      "id": "help-topic",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "config-check",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "config",
+            "check"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "config-check-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "config",
+            "check",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "config-check-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "config",
+            "check",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "config-show",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "config",
+            "show"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "config-show-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "config",
+            "show",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "config-show-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "config",
+            "show",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "config-schema",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "config",
+            "schema"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "config-schema-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "config",
+            "schema",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "config-schema-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "config",
+            "schema",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "build-status",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "build",
+            "status"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "build-status-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "build",
+            "status",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "build-status-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "build",
+            "status",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "manager-status",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "manager",
+            "status"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "manager-status-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "manager",
+            "status",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "manager-status-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "manager",
+            "status",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "manager-blockers",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "manager",
+            "blockers"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "manager-blockers-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "manager",
+            "blockers",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "manager-blockers-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "manager",
+            "blockers",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "manager-operation-show",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "manager",
+            "operation",
+            "show"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "manager-operation-show-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "manager",
+            "operation",
+            "show",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "manager-operation-show-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "manager",
+            "operation",
+            "show",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "doctor",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "doctor"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "doctor-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "doctor",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "doctor-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "doctor",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "status",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "status"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "status-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "status",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "status-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "status",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "observe",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "observe"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "observe-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "observe",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "observe-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "observe",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "wait",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "wait"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "wait-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "wait",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "wait-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "wait",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "target-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "target",
+            "list"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "target-list-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "target",
+            "list",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "target-list-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "target",
+            "list",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "ui-snapshot",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "ui",
+            "snapshot"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "ui-snapshot-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "ui",
+            "snapshot",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "ui-snapshot-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "ui",
+            "snapshot",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "ui-find",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "ui",
+            "find"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "ui-find-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "ui",
+            "find",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "ui-find-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "ui",
+            "find",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "ui-read",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "ui",
+            "read"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "ui-read-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "ui",
+            "read",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "ui-read-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "ui",
+            "read",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "app-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "app",
+            "list"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "app-list-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "app",
+            "list",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "app-list-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "app",
+            "list",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "control-status",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "control",
+            "status"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "control-status-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "control",
+            "status",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "control-status-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "control",
+            "status",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "media-status",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "media",
+            "status"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "media-status-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "media",
+            "status",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "media-status-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "media",
+            "status",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "volume-get",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "volume",
+            "get"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "volume-get-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "volume",
+            "get",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "volume-get-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "volume",
+            "get",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "preview-status",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "preview",
+            "status"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "preview-status-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "preview",
+            "status",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "preview-status-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "preview",
+            "status",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "recording-status",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "recording",
+            "status"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "recording-status-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "recording",
+            "status",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "recording-status-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "recording",
+            "status",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "browser-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "browser",
+            "list"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "browser-list-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "browser",
+            "list",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "browser-list-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "browser",
+            "list",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "browser-doctor",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "browser",
+            "doctor"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "browser-doctor-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "browser",
+            "doctor",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "browser-doctor-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "browser",
+            "doctor",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "browser-status",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "browser",
+            "status"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "browser-status-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "browser",
+            "status",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "browser-status-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "browser",
+            "status",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "clipboard-read",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "clipboard",
+            "read"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Read the simulator clipboard, which can hold copied secrets."
+    },
+    {
+      "id": "clipboard-read-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "clipboard",
+            "read",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "clipboard-read-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "clipboard",
+            "read",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "connect",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "connect"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Connect a test device or start an isolated browser."
+    },
+    {
+      "id": "connect-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "connect",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "connect-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "connect",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "connect-setup",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "prefix": [
+            "connect"
+          ],
+          "flags": [
+            "--json",
+            "--setup",
+            "--prepare-support"
+          ],
+          "values": [
+            "--target"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--setup",
+            "--prepare-support"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Install the signed XCTest runner or developer support on the device."
+    },
+    {
+      "id": "act",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "act"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "act-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "act",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "act-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "act",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "disconnect",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "disconnect"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "disconnect-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "disconnect",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "disconnect-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "disconnect",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "cancel",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "cancel"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "cancel-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "cancel",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "cancel-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "cancel",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "task-stop",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "task",
+            "stop"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "task-stop-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "task",
+            "stop",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "task-stop-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "task",
+            "stop",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "developer-mode-reveal",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "developer-mode",
+            "reveal"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "developer-mode-reveal-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "developer-mode",
+            "reveal",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "developer-mode-reveal-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "developer-mode",
+            "reveal",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "control-acquire",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "control",
+            "acquire"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "control-acquire-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "control",
+            "acquire",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "control-acquire-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "control",
+            "acquire",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "control-release",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "control",
+            "release"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "control-release-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "control",
+            "release",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "control-release-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "control",
+            "release",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "audio-probe",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "audio",
+            "probe"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "audio-probe-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "audio",
+            "probe",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "audio-probe-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "audio",
+            "probe",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "media-send",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "media",
+            "send"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "media-send-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "media",
+            "send",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "media-send-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "media",
+            "send",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "volume-set",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "volume",
+            "set"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "volume-set-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "volume",
+            "set",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "volume-set-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "volume",
+            "set",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "network-set",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "network",
+            "set"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "network-set-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "network",
+            "set",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "network-set-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "network",
+            "set",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "preview-start",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "preview",
+            "start"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "preview-start-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "preview",
+            "start",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "preview-start-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "preview",
+            "start",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "preview-stop",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "preview",
+            "stop"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "preview-stop-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "preview",
+            "stop",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "preview-stop-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "preview",
+            "stop",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "recording-start",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "recording",
+            "start"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "recording-start-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "recording",
+            "start",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "recording-start-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "recording",
+            "start",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "recording-stop",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "recording",
+            "stop"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "recording-stop-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "recording",
+            "stop",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "recording-stop-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "recording",
+            "stop",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "browser-connect",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "browser",
+            "connect"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "browser-connect-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "browser",
+            "connect",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "browser-connect-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "browser",
+            "connect",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "browser-disconnect",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "browser",
+            "disconnect"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "browser-disconnect-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "browser",
+            "disconnect",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "browser-disconnect-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "browser",
+            "disconnect",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "browser-cancel",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "browser",
+            "cancel"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "browser-cancel-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "browser",
+            "cancel",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "browser-cancel-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "browser",
+            "cancel",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "app-install",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "app",
+            "install"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "app-install-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "app",
+            "install",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "app-install-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "app",
+            "install",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "browser-send",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "browser",
+            "send"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Send an opaque browser request, which can include host file transfer or arbitrary HTTP."
+    },
+    {
+      "id": "browser-send-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "browser",
+            "send",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "browser-send-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "browser",
+            "send",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "browser-fixture-register",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "browser",
+            "fixture-register"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Register a host file for later browser upload."
+    },
+    {
+      "id": "browser-fixture-register-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "browser",
+            "fixture-register",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "browser-fixture-register-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "browser",
+            "fixture-register",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "config-init",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "config",
+            "init"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Create the optional build configuration."
+    },
+    {
+      "id": "config-init-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "config",
+            "init",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "config-init-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "config",
+            "init",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "build-start",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "build",
+            "start"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Run the project's configured build; this trusts project code as builds do."
+    },
+    {
+      "id": "build-start-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "build",
+            "start",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "build-start-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "build",
+            "start",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "build-start-project",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "prefix": [
+            "build",
+            "start"
+          ],
+          "flags": [
+            "--json"
+          ],
+          "values": [
+            "--target",
+            "--project"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--project"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Build an app project inside the approved project.",
+      "requirements": {
+        "argument_paths": {
+          "grammar": {
+            "kind": "options",
+            "leading": {
+              "flags": [
+                "--json"
+              ],
+              "values": [
+                "--target"
+              ],
+              "interleaved": true
+            },
+            "prefix": [
+              "build",
+              "start"
+            ],
+            "flags": [
+              "--json",
+              "--install",
+              "--launch",
+              "--replace",
+              "--boot",
+              "--no-wait"
+            ],
+            "values": [
+              "--target",
+              "--submission-id",
+              "--inline",
+              "--project",
+              "--set-env",
+              "--configuration",
+              "--variant",
+              "--flavor",
+              "--entry-point",
+              "--mode",
+              "--timeout-ms",
+              "--launch-arg",
+              "--launch-env"
+            ],
+            "operands": true
+          },
+          "options": {
+            "--project": {
+              "path": {
+                "within": {
+                  "root": "write"
+                },
+                "exclude": [
+                  {
+                    "root": "project",
+                    "path": ".shield"
+                  },
+                  {
+                    "root": "project",
+                    "path": ".git"
+                  },
+                  {
+                    "root": "project",
+                    "path": ".aws"
+                  },
+                  {
+                    "root": "project",
+                    "path": ".ssh"
+                  },
+                  {
+                    "root": "project",
+                    "path": ".env"
+                  },
+                  {
+                    "root": "project",
+                    "path": ".mcp.json"
+                  },
+                  {
+                    "root": "project",
+                    "path": ".codex"
+                  },
+                  {
+                    "root": "project",
+                    "path": ".claude"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "ask",
+          "recommended": "ask",
+          "strict": "ask"
+        },
+        "message": "Name a file inside the project, away from version control, credentials and agent settings."
+      }
+    },
+    {
+      "id": "build-start-inline",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "prefix": [
+            "build",
+            "start"
+          ],
+          "flags": [
+            "--json"
+          ],
+          "values": [
+            "--target",
+            "--inline"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--inline"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Build from an inline profile, which can name any command."
+    },
+    {
+      "id": "build-start-environment",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "prefix": [
+            "build",
+            "start"
+          ],
+          "flags": [
+            "--json",
+            "--launch"
+          ],
+          "values": [
+            "--target",
+            "--set-env",
+            "--launch-env"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--set-env",
+            "--launch-env"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Override build or app-launch environment variables, which can change which programs run."
+    },
+    {
+      "id": "build-cancel",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "build",
+            "cancel"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Cancel a build."
+    },
+    {
+      "id": "build-cancel-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "build",
+            "cancel",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "build-cancel-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "build",
+            "cancel",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "app-uninstall",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "app",
+            "uninstall"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Remove an app and its data from the device."
+    },
+    {
+      "id": "app-uninstall-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "app",
+            "uninstall",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "app-uninstall-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "app",
+            "uninstall",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "developer-support-install",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "developer-support",
+            "install"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Install developer support on a physical iPhone."
+    },
+    {
+      "id": "developer-support-install-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "developer-support",
+            "install",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "developer-support-install-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "developer-support",
+            "install",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "manager-retry",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "manager",
+            "retry"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Retry the manager's device releases."
+    },
+    {
+      "id": "manager-retry-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "manager",
+            "retry",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "manager-retry-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "manager",
+            "retry",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "manager-stop",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "manager",
+            "stop"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Stop the device manager."
+    },
+    {
+      "id": "manager-stop-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "manager",
+            "stop",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "manager-stop-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "manager",
+            "stop",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "manager-drain",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "manager",
+            "drain"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Drain and stop the device manager."
+    },
+    {
+      "id": "manager-drain-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "manager",
+            "drain",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "manager-drain-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "manager",
+            "drain",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "mcp-serve",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "mcp",
+            "serve"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Serve MCP over standard input until it closes."
+    },
+    {
+      "id": "mcp-serve-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "mcp",
+            "serve",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "mcp-serve-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "mcp",
+            "serve",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "mcp-setup",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "mcp",
+            "setup"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Change agent MCP registrations."
+    },
+    {
+      "id": "mcp-setup-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "mcp",
+            "setup",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "mcp-setup-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "mcp",
+            "setup",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "signing-setup",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--target"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "signing",
+            "setup"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Choose the default development signing team."
+    },
+    {
+      "id": "signing-setup-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "signing",
+            "setup",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "signing-setup-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "signing",
+            "setup",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "exact-mcp-serve-check",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "mcp",
+            "serve",
+            "--check"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print the MCP server identity and tool names without serving."
+    },
+    {
+      "id": "exact-mcp-serve-check-json",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "mcp",
+            "serve",
+            "--check",
+            "--json"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print the MCP server identity and tool names without serving."
+    },
+    {
+      "id": "exact-mcp-serve-check-json-leading",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--json",
+            "mcp",
+            "serve",
+            "--check"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print the MCP server identity and tool names without serving."
+    },
+    {
+      "id": "act-environment",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "act"
+          ],
+          "any_of": [
+            {
+              "regex": "(?s).*(env|\\\\u).*"
+            }
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "act-environment-leading-1",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "--json",
+            "act"
+          ],
+          "any_of": [
+            {
+              "regex": "(?s).*(env|\\\\u).*"
+            }
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "act-environment-leading-2",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "--json",
+            "--target",
+            {
+              "not": {
+                "exact": ""
+              }
+            },
+            "act"
+          ],
+          "any_of": [
+            {
+              "regex": "(?s).*(env|\\\\u).*"
+            }
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "act-environment-leading-3",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "--json",
+            "--target",
+            "",
+            "act"
+          ],
+          "any_of": [
+            {
+              "regex": "(?s).*(env|\\\\u).*"
+            }
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "act-environment-leading-4",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "--json",
+            {
+              "prefix": "--target="
+            },
+            "act"
+          ],
+          "any_of": [
+            {
+              "regex": "(?s).*(env|\\\\u).*"
+            }
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "act-environment-leading-5",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "--target",
+            {
+              "not": {
+                "exact": ""
+              }
+            },
+            "act"
+          ],
+          "any_of": [
+            {
+              "regex": "(?s).*(env|\\\\u).*"
+            }
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "act-environment-leading-6",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "--target",
+            {
+              "not": {
+                "exact": ""
+              }
+            },
+            "--json",
+            "act"
+          ],
+          "any_of": [
+            {
+              "regex": "(?s).*(env|\\\\u).*"
+            }
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "act-environment-leading-7",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "--target",
+            "",
+            "act"
+          ],
+          "any_of": [
+            {
+              "regex": "(?s).*(env|\\\\u).*"
+            }
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "act-environment-leading-8",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "--target",
+            "",
+            "--json",
+            "act"
+          ],
+          "any_of": [
+            {
+              "regex": "(?s).*(env|\\\\u).*"
+            }
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "act-environment-leading-9",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            {
+              "prefix": "--target="
+            },
+            "act"
+          ],
+          "any_of": [
+            {
+              "regex": "(?s).*(env|\\\\u).*"
+            }
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "act-environment-leading-10",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            {
+              "prefix": "--target="
+            },
+            "--json",
+            "act"
+          ],
+          "any_of": [
+            {
+              "regex": "(?s).*(env|\\\\u).*"
+            }
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "unlisted",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Unlisted Testrun syntax and commands run outside approved project folders require review."
+    },
+    {
+      "id": "mcp-build_status",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "build_status"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-config_check",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "config_check"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-config_schema",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "config_schema"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-config_show",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "config_show"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-control_status",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "control_status"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-doctor",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "doctor"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-media_status",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "media_status"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-observe",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "observe"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-preview_status",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "preview_status"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-recording_status",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "recording_status"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-status",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "status"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-target_list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "target_list"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-testrun_docs_list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_list"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-testrun_docs_read",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_read"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-testrun_docs_search",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_search"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-ui_find",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "ui_find"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-ui_read",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "ui_read"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-ui_snapshot",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "ui_snapshot"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-volume_get",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "volume_get"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-wait",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "wait"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-app_list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "app_list"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-browser_doctor",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_doctor"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-browser_list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_list"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-browser_status",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_status"
+      },
+      "reason": "Read device, browser, build or manager state without input."
+    },
+    {
+      "id": "mcp-clipboard_read",
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "clipboard_read"
+      },
+      "reason": "Read the simulator clipboard."
+    },
+    {
+      "id": "mcp-act",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "act"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-act-environment-0",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "fields": {
+          "/actions/0/env": {
+            "not": {
+              "exact": {}
+            }
+          }
+        }
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "mcp-act-environment-1",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "fields": {
+          "/actions/1/env": {
+            "not": {
+              "exact": {}
+            }
+          }
+        }
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "mcp-act-environment-2",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "fields": {
+          "/actions/2/env": {
+            "not": {
+              "exact": {}
+            }
+          }
+        }
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "mcp-act-environment-3",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "fields": {
+          "/actions/3/env": {
+            "not": {
+              "exact": {}
+            }
+          }
+        }
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "mcp-act-environment-4",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "fields": {
+          "/actions/4/env": {
+            "not": {
+              "exact": {}
+            }
+          }
+        }
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "mcp-act-environment-5",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "fields": {
+          "/actions/5/env": {
+            "not": {
+              "exact": {}
+            }
+          }
+        }
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "mcp-act-environment-6",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "fields": {
+          "/actions/6/env": {
+            "not": {
+              "exact": {}
+            }
+          }
+        }
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "mcp-act-environment-7",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "fields": {
+          "/actions/7/env": {
+            "not": {
+              "exact": {}
+            }
+          }
+        }
+      },
+      "reason": "App launch environment values can load code into a simulator app, which runs on the host."
+    },
+    {
+      "id": "mcp-app_install",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "app_install"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-audio_probe",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "audio_probe"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-browser_cancel",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_cancel"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-browser_connect",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_connect"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-browser_disconnect",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_disconnect"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-cancel",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "cancel"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-control_acquire",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "control_acquire"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-control_release",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "control_release"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-developer_mode_reveal",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "developer_mode_reveal"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-disconnect",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "disconnect"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-media_send",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "media_send"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-network_set",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "network_set"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-preview_start",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "preview_start"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-preview_stop",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "preview_stop"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-recording_start",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "recording_start"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-recording_stop",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "recording_stop"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-volume_set",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "volume_set"
+      },
+      "reason": "Drive the connected test device or isolated browser."
+    },
+    {
+      "id": "mcp-connect",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "connect"
+      },
+      "reason": "Connect a test device or start an isolated browser."
+    },
+    {
+      "id": "mcp-connect-setup",
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "connect",
+        "fields": {
+          "/setup": {
+            "exact": true
+          }
+        }
+      },
+      "reason": "Install the signed XCTest runner."
+    },
+    {
+      "id": "mcp-connect-prepare-support",
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "connect",
+        "fields": {
+          "/prepareSupport": {
+            "exact": true
+          }
+        }
+      },
+      "reason": "Install developer support on the device."
+    },
+    {
+      "id": "mcp-browser_send",
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_send"
+      },
+      "reason": "Send a browser request, which can include host file transfer or arbitrary HTTP."
+    },
+    {
+      "id": "mcp-browser_send-isolated",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "fields": {
+          "/request/operation": {
+            "text": {
+              "one_of": [
+                "page_snapshot",
+                "page_annotate",
+                "page_pdf",
+                "capture_compare",
+                "page_css",
+                "page_styles",
+                "page_read",
+                "page_read_url",
+                "page_action",
+                "page_wait",
+                "frame_enter",
+                "page_screenshot",
+                "page_input",
+                "input_release",
+                "page_emulate_media",
+                "context_clock",
+                "fixture_list",
+                "download_list",
+                "download_status",
+                "download_cancel",
+                "download_delete",
+                "worker_list",
+                "evaluate",
+                "handle_read",
+                "handle_property",
+                "handle_properties",
+                "handle_dispose",
+                "handle_create",
+                "diagnostics_start",
+                "diagnostics_stop",
+                "diagnostics_read",
+                "diagnostics_wait",
+                "events_read",
+                "events_wait",
+                "context_worker_list",
+                "page_audit",
+                "preview_start",
+                "preview_status",
+                "preview_stop",
+                "recording_start",
+                "recording_status",
+                "recording_stop",
+                "page_resize",
+                "context_list",
+                "page_list",
+                "context_select",
+                "context_close",
+                "page_select",
+                "page_close",
+                "page_create",
+                "callback_resolve"
+              ]
+            }
+          }
+        }
+      },
+      "reason": "Act only inside the isolated browser."
+    },
+    {
+      "id": "mcp-browser_send-context-settings",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "fields": {
+          "/request/operation": {
+            "exact": "context_configure"
+          },
+          "/request/setting/kind": {
+            "text": {
+              "one_of": [
+                "offline",
+                "geolocation",
+                "permissions_clear"
+              ]
+            }
+          }
+        }
+      },
+      "reason": "Change simulated context settings or clear permissions; permission grants retain review."
+    },
+    {
+      "id": "mcp-browser_send-navigate-web",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "fields": {
+          "/request/operation": {
+            "exact": "page_navigate"
+          },
+          "/request/navigation/url": {
+            "text": {
+              "regex": "(?i)https?://.*|[^:]*"
+            }
+          }
+        }
+      },
+      "reason": "Navigate the isolated browser to a web or relative URL."
+    },
+    {
+      "id": "mcp-browser_send-navigate-history",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "fields": {
+          "/request/operation": {
+            "exact": "page_navigate"
+          },
+          "/request/navigation/kind": {
+            "text": {
+              "one_of": [
+                "reload",
+                "back",
+                "forward",
+                "set_content"
+              ]
+            }
+          }
+        }
+      },
+      "reason": "Reload, move through history or set page content in the isolated browser."
+    },
+    {
+      "id": "mcp-build_start",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "build_start"
+      },
+      "reason": "Run the project's configured build."
+    },
+    {
+      "id": "mcp-build_start-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "regex": "\\./?|(?:\\./)?[A-Za-z0-9_][A-Za-z0-9_.-]*(?:/[A-Za-z0-9_][A-Za-z0-9_.-]*)*/?"
+              }
+            }
+          }
+        }
+      },
+      "reason": "A project outside the server's folder runs another folder's build commands; review where it is."
+    },
+    {
+      "id": "mcp-build_start-inline",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "fields": {
+          "/inline": {
+            "not": {
+              "exact": null
+            }
+          }
+        }
+      },
+      "reason": "An inline profile can name an arbitrary command."
+    },
+    {
+      "id": "mcp-build_start-env",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "fields": {
+          "/env": {
+            "not": {
+              "exact": {}
+            }
+          }
+        }
+      },
+      "reason": "Caller-supplied environment values can change which programs run."
+    },
+    {
+      "id": "mcp-build_start-baseline",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "fields": {
+          "/baseline": {
+            "not": {
+              "exact": {}
+            }
+          }
+        }
+      },
+      "reason": "Caller-supplied environment values can change which programs run."
+    },
+    {
+      "id": "mcp-build_start-bindings",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "fields": {
+          "/bindings": {
+            "not": {
+              "exact": {}
+            }
+          }
+        }
+      },
+      "reason": "Caller-supplied environment values can change which programs run."
+    },
+    {
+      "id": "mcp-build_start-overrides-launch_env",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "fields": {
+          "/overrides/launch_env": {
+            "not": {
+              "exact": {}
+            }
+          }
+        }
+      },
+      "reason": "Caller-supplied environment values can change which programs run."
+    },
+    {
+      "id": "mcp-build_cancel",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "build_cancel"
+      },
+      "reason": "Cancel a build."
+    },
+    {
+      "id": "mcp-config_init",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "config_init"
+      },
+      "reason": "Create the optional build configuration."
+    },
+    {
+      "id": "mcp-app_uninstall",
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "app_uninstall"
+      },
+      "reason": "Remove an app and its data from the device."
+    },
+    {
+      "id": "mcp-developer_support_install",
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "developer_support_install"
+      },
+      "reason": "Install developer support on a physical iPhone."
+    },
+    {
+      "id": "mcp-unlisted",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": {
+          "not": {
+            "one_of": [
+              "build_status",
+              "config_check",
+              "config_schema",
+              "config_show",
+              "control_status",
+              "doctor",
+              "media_status",
+              "observe",
+              "preview_status",
+              "recording_status",
+              "status",
+              "target_list",
+              "testrun_docs_list",
+              "testrun_docs_read",
+              "testrun_docs_search",
+              "ui_find",
+              "ui_read",
+              "ui_snapshot",
+              "volume_get",
+              "wait",
+              "app_list",
+              "browser_doctor",
+              "browser_list",
+              "browser_status",
+              "clipboard_read",
+              "act",
+              "app_install",
+              "audio_probe",
+              "browser_cancel",
+              "browser_connect",
+              "browser_disconnect",
+              "cancel",
+              "control_acquire",
+              "control_release",
+              "developer_mode_reveal",
+              "disconnect",
+              "media_send",
+              "network_set",
+              "preview_start",
+              "preview_stop",
+              "recording_start",
+              "recording_stop",
+              "volume_set",
+              "connect",
+              "browser_send",
+              "build_start",
+              "build_cancel",
+              "config_init",
+              "app_uninstall",
+              "developer_support_install"
+            ]
+          }
+        }
+      },
+      "reason": "Unknown Testrun MCP tools require review.",
+      "fallback": true
+    }
+  ]
+}

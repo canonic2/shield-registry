@@ -1,0 +1,1043 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "status-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "status"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "status-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "status"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "status-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "status"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "run-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "run",
+        "web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "run-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "run",
+        "web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "run-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "run",
+        "web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "exec-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "exec",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "exec-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "exec",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "exec-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "exec",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "exec-help-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "npm",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "exec-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "npm",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "exec-help-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "npm",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "setup-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "setup"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "setup-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "setup"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "setup-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "setup"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sync-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "config",
+        "sync"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sync-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "config",
+        "sync"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sync-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "config",
+        "sync"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "discovery-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "mcp",
+        "tool",
+        "list",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "discovery-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "mcp",
+        "tool",
+        "list",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "discovery-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "mcp",
+        "tool",
+        "list",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "message-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "conversation",
+        "message",
+        "acme",
+        "--prompt",
+        "Continue"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "message-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "conversation",
+        "message",
+        "acme",
+        "--prompt",
+        "Continue"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "message-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "conversation",
+        "message",
+        "acme",
+        "--prompt",
+        "Continue"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "logout-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "mcp",
+        "auth",
+        "logout",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "logout-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "mcp",
+        "auth",
+        "logout",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "logout-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "mcp",
+        "auth",
+        "logout",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "headers-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "mcp",
+        "auth",
+        "headers",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "headers-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "mcp",
+        "auth",
+        "headers",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "headers-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "mcp",
+        "auth",
+        "headers",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cleanup-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "cleanup",
+        "acme",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cleanup-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "cleanup",
+        "acme",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cleanup-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "cleanup",
+        "acme",
+        "--all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "export-secret-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "content",
+        "export",
+        "--output",
+        ".aws/credentials"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "export-secret-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "content",
+        "export",
+        "--output",
+        ".aws/credentials"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "export-secret-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "content",
+        "export",
+        "--output",
+        ".aws/credentials"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-exec-loose",
+      "profile": "loose",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "exec",
+        "arguments": {
+          "command": [
+            "npm",
+            "test"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-exec-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "exec",
+        "arguments": {
+          "command": [
+            "npm",
+            "test"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-exec-strict",
+      "profile": "strict",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "exec",
+        "arguments": {
+          "command": [
+            "npm",
+            "test"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-message-loose",
+      "profile": "loose",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "conversation_message",
+        "arguments": {
+          "prompt": "Continue"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-message-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "conversation_message",
+        "arguments": {
+          "prompt": "Continue"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-message-strict",
+      "profile": "strict",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "conversation_message",
+        "arguments": {
+          "prompt": "Continue"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-remove-project-loose",
+      "profile": "loose",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_remove",
+        "arguments": {
+          "project": "/acme/other"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-remove-project-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_remove",
+        "arguments": {
+          "project": "/acme/other"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-remove-project-strict",
+      "profile": "strict",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_remove",
+        "arguments": {
+          "project": "/acme/other"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-remove-project-data-loose",
+      "profile": "loose",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_remove",
+        "arguments": {
+          "project": "/acme/other",
+          "delete_checkout": true
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-remove-project-data-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_remove",
+        "arguments": {
+          "project": "/acme/other",
+          "delete_checkout": true
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-remove-project-data-strict",
+      "profile": "strict",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_remove",
+        "arguments": {
+          "project": "/acme/other",
+          "delete_checkout": true
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-cleanup-preview-loose",
+      "profile": "loose",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_cleanup",
+        "arguments": {
+          "dry_run": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-cleanup-preview-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_cleanup",
+        "arguments": {
+          "dry_run": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-cleanup-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_cleanup",
+        "arguments": {
+          "dry_run": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-cleanup-loose",
+      "profile": "loose",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_cleanup",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-cleanup-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_cleanup",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-cleanup-strict",
+      "profile": "strict",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_cleanup",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-unknown-loose",
+      "profile": "loose",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "future",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "future",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-strict",
+      "profile": "strict",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "future",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

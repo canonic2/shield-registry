@@ -98,14 +98,20 @@ function interleavedPrefixes(leading, words) {
  *   whose project option names a developer-configured app project.
  * - `mcpTools`: {tool: [category, reason, fieldAdjustments?]}, where a field
  *   adjustment is {id, fields, category, reason} and outranks the tool rule.
+ * - `profileDecisions`: optional reviewed category profiles for a new version.
+ * - `activeProjectAdjustments`: keep project review at the base/folder decision;
+ *   other field rules apply only when their arguments are actually present.
  */
 export function toolPack(tool) {
+  // Versioned candidates may select reviewed profiles without rewriting
+  // immutable earlier releases or duplicating their command/path grammars.
+  const profileDecisions = tool.profileDecisions ?? decisions;
   const executable = {one_of: executableForms(tool.name)};
   const cwd = {within: {root: 'write'}};
   const leading = {flags: tool.leading.flags, values: tool.leading.values, interleaved: true};
   const argv = (id, args, category, reason, {project = true} = {}) => ({id,
     conditions: {domain: 'argv', executable, arguments: args, ...(project ? {cwd} : {})},
-    decision: decisions[category], reason});
+    decision: profileDecisions[category], reason});
   const idOf = words => words.map(word => word === '--' ? 'separator' : word).join('-');
   const scan = (words, options, extra) => ({kind: 'options', leading, prefix: words,
     flags: [...new Set([...tool.leading.flags, ...tool.shortOptions.flags, ...options.flags])],
@@ -148,7 +154,7 @@ export function toolPack(tool) {
           ...(adjustment.paths ? {options: Object.fromEntries(Object.entries(adjustment.paths).map(([name, root]) => [name, pathCheck(root)]))} : {}),
           ...(adjustment.operandPaths ? {operands: pathCheck(adjustment.operandPaths)} : {}),
         }};
-        row.on_unmet = {decision: adjustment.unmet ? decisions[adjustment.unmet] : 'deny',
+        row.on_unmet = {decision: adjustment.unmet ? profileDecisions[adjustment.unmet] : 'deny',
           message: 'Name a file inside the project, away from version control, credentials and agent settings.'};
       }
       rules.push(row);
@@ -174,23 +180,25 @@ export function toolPack(tool) {
   if (tool.workspaceSelector) rules.push(argv('project-option', scan([], {flags: [], values: [tool.workspaceSelector.option]},
     {require_any: [tool.workspaceSelector.option]}), 'folder',
     'An explicit --project can select a folder outside the approved project; review the selected folder.'));
-  rules.push({id: 'unlisted', conditions: {domain: 'argv', executable, arguments: {kind: 'any'}}, decision: decisions.unlisted,
+  rules.push({id: 'unlisted', conditions: {domain: 'argv', executable, arguments: {kind: 'any'}}, decision: profileDecisions.unlisted,
     reason: `Unlisted ${tool.title} syntax and commands run outside approved project folders require review.`});
 
   // MCP: the tool's own stdio server, launched as `<name> mcp serve`.
   const server = tool.name;
-  const mcp = (id, tool, category, reason, fields) => ({id, decision: decisions[category],
+  const mcp = (id, tool, category, reason, fields) => ({id, decision: profileDecisions[category],
     conditions: {domain: 'mcp', server, tool, ...(fields ? {fields} : {})}, reason});
   const known = Object.keys(tool.mcpTools);
   for (const [name, [category, reason, adjustments = []]] of Object.entries(tool.mcpTools)) {
     rules.push(mcp(`mcp-${name}`, name, category, reason));
     for (const adjustment of adjustments) rules.push(mcp(`mcp-${name}-${adjustment.id}`, name, adjustment.category, adjustment.reason, adjustment.fields));
-    // Field rules outrank the tool rule, so this one keeps the strictest
-    // decision of the tool and any of its adjustments, plus folder review.
+    // Frozen versions retain their conservative aggregation. New versions let
+    // matching field rules tighten project review without assuming every
+    // optional destructive argument was supplied.
     if (tool.workspaceSelector) rules.push({...mcp(`mcp-${name}-project`, name, 'folder',
       'An explicit project can select a folder outside the approved project; review the selected folder.',
       {[tool.workspaceSelector.field]: {text: {not: {exact: ''}}}}),
-    decision: [category, ...adjustments.map(adjustment => adjustment.category)].map(key => decisions[key]).reduce(strictest, decisions.folder)});
+    decision: [category, ...(tool.activeProjectAdjustments ? [] : adjustments.map(adjustment => adjustment.category))]
+      .map(key => profileDecisions[key]).reduce(strictest, profileDecisions.folder)});
   }
   rules.push({...mcp('mcp-unlisted', {not: {one_of: known}}, 'unlisted', `Unknown ${tool.title} MCP tools require review.`), fallback: true});
 

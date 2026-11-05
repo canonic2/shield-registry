@@ -1,0 +1,1640 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "metadata-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "metadata-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "metadata-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "logs-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "logs",
+        "get-log-events",
+        "--log-group-name",
+        "acme",
+        "--log-stream-name",
+        "web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "logs-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "logs",
+        "get-log-events",
+        "--log-group-name",
+        "acme",
+        "--log-stream-name",
+        "web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "logs-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "logs",
+        "get-log-events",
+        "--log-group-name",
+        "acme",
+        "--log-stream-name",
+        "web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "data-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "dynamodb",
+        "scan",
+        "--table-name",
+        "Acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "data-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "dynamodb",
+        "scan",
+        "--table-name",
+        "Acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "data-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "dynamodb",
+        "scan",
+        "--table-name",
+        "Acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "deploy-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "deploy",
+        "--stack-name",
+        "acme",
+        "--template-file",
+        "template.yml"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "deploy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "deploy",
+        "--stack-name",
+        "acme",
+        "--template-file",
+        "template.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "deploy-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "cloudformation",
+        "deploy",
+        "--stack-name",
+        "acme",
+        "--template-file",
+        "template.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ec2",
+        "create-vpc",
+        "--cidr-block",
+        "10.0.0.0/16"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ec2",
+        "create-vpc",
+        "--cidr-block",
+        "10.0.0.0/16"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ec2",
+        "create-vpc",
+        "--cidr-block",
+        "10.0.0.0/16"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "execute-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "lambda",
+        "invoke",
+        "--function-name",
+        "acme",
+        "out.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "execute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "lambda",
+        "invoke",
+        "--function-name",
+        "acme",
+        "out.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "execute-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "lambda",
+        "invoke",
+        "--function-name",
+        "acme",
+        "out.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "policy-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "iam",
+        "attach-role-policy",
+        "--role-name",
+        "acme",
+        "--policy-arn",
+        "arn:aws:iam::aws:policy/ReadOnlyAccess"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "policy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "iam",
+        "attach-role-policy",
+        "--role-name",
+        "acme",
+        "--policy-arn",
+        "arn:aws:iam::aws:policy/ReadOnlyAccess"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "policy-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "iam",
+        "attach-role-policy",
+        "--role-name",
+        "acme",
+        "--policy-arn",
+        "arn:aws:iam::aws:policy/ReadOnlyAccess"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "presign-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3",
+        "presign",
+        "s3://acme/example"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "presign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3",
+        "presign",
+        "s3://acme/example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "presign-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3",
+        "presign",
+        "s3://acme/example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "key-grant-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "kms",
+        "create-grant",
+        "--key-id",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "key-grant-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "kms",
+        "create-grant",
+        "--key-id",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "key-grant-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "kms",
+        "create-grant",
+        "--key-id",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "key-destruction-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "kms",
+        "schedule-key-deletion",
+        "--key-id",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "key-destruction-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "kms",
+        "schedule-key-deletion",
+        "--key-id",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "key-destruction-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "kms",
+        "schedule-key-deletion",
+        "--key-id",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sso-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "sso",
+        "login"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sso-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "sso",
+        "login"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sso-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "sso",
+        "login"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "delete-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ec2",
+        "terminate-instances",
+        "--instance-ids",
+        "i-0123"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ec2",
+        "terminate-instances",
+        "--instance-ids",
+        "i-0123"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "delete-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ec2",
+        "terminate-instances",
+        "--instance-ids",
+        "i-0123"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "purge-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "sqs",
+        "purge-queue",
+        "--queue-url",
+        "https://example.com/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "purge-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "sqs",
+        "purge-queue",
+        "--queue-url",
+        "https://example.com/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "purge-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "sqs",
+        "purge-queue",
+        "--queue-url",
+        "https://example.com/acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "secret-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-endpoint-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme",
+        "--endpoint-url",
+        "https://example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "secret-endpoint-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme",
+        "--endpoint-url",
+        "https://example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-endpoint-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "secretsmanager",
+        "get-secret-value",
+        "--secret-id",
+        "acme",
+        "--endpoint-url",
+        "https://example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "export-credentials-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "configure",
+        "export-credentials"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "export-credentials-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "configure",
+        "export-credentials"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "export-credentials-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "configure",
+        "export-credentials"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "download-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3",
+        "cp",
+        "s3://acme/example",
+        "out.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "download-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3",
+        "cp",
+        "s3://acme/example",
+        "out.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "download-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3",
+        "cp",
+        "s3://acme/example",
+        "out.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "future",
+        "operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "future",
+        "operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "future",
+        "operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "required-profile-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "required-profile-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "required-profile-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "ec2",
+        "describe-instances"
+      ],
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "matching-profile-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "--profile",
+        "acme-ro",
+        "ec2",
+        "describe-instances"
+      ],
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "matching-profile-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "--profile",
+        "acme-ro",
+        "ec2",
+        "describe-instances"
+      ],
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "matching-profile-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "--profile",
+        "acme-ro",
+        "ec2",
+        "describe-instances"
+      ],
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "blocked-profile-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "--profile",
+        "acme-prod",
+        "ec2",
+        "describe-instances"
+      ],
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod"
+        ]
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "blocked-profile-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "--profile",
+        "acme-prod",
+        "ec2",
+        "describe-instances"
+      ],
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod"
+        ]
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "blocked-profile-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "--profile",
+        "acme-prod",
+        "ec2",
+        "describe-instances"
+      ],
+      "variables": {
+        "blocked_profiles": [
+          "acme-prod"
+        ]
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "wrong-region-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "--region",
+        "eu-west-1",
+        "ec2",
+        "describe-instances"
+      ],
+      "variables": {
+        "regions": [
+          "us-east-1"
+        ]
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "wrong-region-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "--region",
+        "eu-west-1",
+        "ec2",
+        "describe-instances"
+      ],
+      "variables": {
+        "regions": [
+          "us-east-1"
+        ]
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "wrong-region-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "--region",
+        "eu-west-1",
+        "ec2",
+        "describe-instances"
+      ],
+      "variables": {
+        "regions": [
+          "us-east-1"
+        ]
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-knowledge-loose",
+      "profile": "loose",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___search_documentation",
+        "arguments": {
+          "search_phrase": "S3"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-knowledge-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___search_documentation",
+        "arguments": {
+          "search_phrase": "S3"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-knowledge-strict",
+      "profile": "strict",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___search_documentation",
+        "arguments": {
+          "search_phrase": "S3"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-script-loose",
+      "profile": "loose",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___run_script",
+        "arguments": {
+          "script": "print(1)"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-script-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___run_script",
+        "arguments": {
+          "script": "print(1)"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-script-strict",
+      "profile": "strict",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___run_script",
+        "arguments": {
+          "script": "print(1)"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-tasks-loose",
+      "profile": "loose",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___get_tasks",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-tasks-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___get_tasks",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-tasks-strict",
+      "profile": "strict",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___get_tasks",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-presign-loose",
+      "profile": "loose",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___get_presigned_url",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-presign-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___get_presigned_url",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-presign-strict",
+      "profile": "strict",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___get_presigned_url",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-loose",
+      "profile": "loose",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___future",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___future",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-strict",
+      "profile": "strict",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___future",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-profile-default-loose",
+      "profile": "loose",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted-profile"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted-profile"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___run_script",
+        "arguments": {},
+        "original_input": {}
+      },
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-profile-default-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted-profile"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted-profile"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___run_script",
+        "arguments": {},
+        "original_input": {}
+      },
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-profile-default-strict",
+      "profile": "strict",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted-profile"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted-profile"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___run_script",
+        "arguments": {},
+        "original_input": {}
+      },
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-profile-wrong-loose",
+      "profile": "loose",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted-profile"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted-profile"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___run_script",
+        "arguments": {
+          "aws_profile": "acme-admin"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-profile-wrong-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted-profile"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted-profile"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___run_script",
+        "arguments": {
+          "aws_profile": "acme-admin"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-profile-wrong-strict",
+      "profile": "strict",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted-profile"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted-profile"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___run_script",
+        "arguments": {
+          "aws_profile": "acme-admin"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-profile-null-loose",
+      "profile": "loose",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted-profile"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted-profile"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___run_script",
+        "arguments": {
+          "aws_profile": null
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-profile-null-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted-profile"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted-profile"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___run_script",
+        "arguments": {
+          "aws_profile": null
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-profile-null-strict",
+      "profile": "strict",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted-profile"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted-profile"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___run_script",
+        "arguments": {
+          "aws_profile": null
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "profile": "acme-ro"
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-region-unverified-loose",
+      "profile": "loose",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___run_script",
+        "arguments": {
+          "region": "us-east-1"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "regions": [
+          "us-east-1"
+        ]
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-region-unverified-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___run_script",
+        "arguments": {
+          "region": "us-east-1"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "regions": [
+          "us-east-1"
+        ]
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-region-unverified-strict",
+      "profile": "strict",
+      "mcp": {
+        "hosted": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/aws",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "aws"
+          },
+          "packs": {
+            "canonic/aws": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hosted",
+        "tool": "aws___run_script",
+        "arguments": {
+          "region": "us-east-1"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "regions": [
+          "us-east-1"
+        ]
+      },
+      "expected": "deny"
+    }
+  ]
+}

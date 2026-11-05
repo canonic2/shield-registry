@@ -1,0 +1,3802 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/github",
+  "version": "0.2.0",
+  "description": "GitHub CLI and official MCP permissions. Optional repository setting restricts both to one explicit OWNER/REPO; omitted means no repository restriction.",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.19.0, <1.0.0"
+  },
+  "capabilities": [
+    "structured-rules-v1",
+    "argument-rules-v1",
+    "prefix-leading-v1",
+    "interleaved-leading-v1",
+    "regex-v1",
+    "negated-selectors-v1",
+    "unknown-options-v1",
+    "preconditions-v1",
+    "glob-v1",
+    "fallback-rules-v1",
+    "mcp-integrations-v1",
+    "variables-v1",
+    "variable-parts-v1"
+  ],
+  "mcp_integrations": {
+    "hosted": {
+      "transport": "http",
+      "fields": {
+        "/url": {
+          "exact": "https://api.githubcopilot.com/mcp/"
+        }
+      },
+      "defaults": {
+        "type": "http",
+        "url": "https://api.githubcopilot.com/mcp/"
+      }
+    },
+    "local": {
+      "transport": "stdio",
+      "fields": {
+        "/command": {
+          "text": {
+            "one_of": [
+              "github-mcp-server",
+              "/usr/bin/github-mcp-server",
+              "/usr/local/bin/github-mcp-server",
+              "/opt/homebrew/bin/github-mcp-server"
+            ]
+          }
+        },
+        "/args": {
+          "exact": [
+            "stdio"
+          ]
+        }
+      },
+      "defaults": {
+        "type": "stdio",
+        "command": "github-mcp-server",
+        "args": [
+          "stdio"
+        ],
+        "env": {}
+      }
+    },
+    "local-read-only": {
+      "transport": "stdio",
+      "fields": {
+        "/command": {
+          "text": {
+            "one_of": [
+              "github-mcp-server",
+              "/usr/bin/github-mcp-server",
+              "/usr/local/bin/github-mcp-server",
+              "/opt/homebrew/bin/github-mcp-server"
+            ]
+          }
+        },
+        "/args": {
+          "exact": [
+            "stdio",
+            "--read-only"
+          ]
+        }
+      },
+      "defaults": {
+        "type": "stdio",
+        "command": "github-mcp-server",
+        "args": [
+          "stdio",
+          "--read-only"
+        ],
+        "env": {}
+      }
+    }
+  },
+  "preconditions": [
+    {
+      "id": "cli-scope",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "requires_any": [
+        {
+          "arguments": {
+            "kind": "exact",
+            "values": [
+              "--version"
+            ]
+          }
+        },
+        {
+          "arguments": {
+            "kind": "exact",
+            "values": [
+              "--help"
+            ]
+          }
+        },
+        {
+          "arguments": {
+            "kind": "exact",
+            "values": [
+              "help"
+            ]
+          }
+        },
+        {
+          "arguments": {
+            "kind": "options",
+            "prefix": [
+              "auth",
+              "status"
+            ],
+            "flags": [
+              "--active",
+              "-a"
+            ],
+            "values": [
+              "--hostname",
+              "-h"
+            ],
+            "operands": false
+          }
+        },
+        {
+          "arguments": {
+            "kind": "options",
+            "prefix": [
+              "repo",
+              "view"
+            ],
+            "leading": {
+              "flags": [],
+              "values": [
+                {
+                  "name": "-R",
+                  "match": {
+                    "var": "repository"
+                  }
+                },
+                {
+                  "name": "--repo",
+                  "match": {
+                    "var": "repository"
+                  }
+                }
+              ],
+              "interleaved": true
+            },
+            "flags": [],
+            "values": [
+              "--json",
+              {
+                "name": "-R",
+                "match": {
+                  "var": "repository"
+                }
+              },
+              {
+                "name": "--repo",
+                "match": {
+                  "var": "repository"
+                }
+              }
+            ],
+            "operands": false,
+            "require_any": [
+              "-R",
+              "--repo"
+            ]
+          }
+        },
+        {
+          "arguments": {
+            "kind": "options",
+            "prefix": [
+              {
+                "one_of": [
+                  "issue",
+                  "pr"
+                ]
+              },
+              "list"
+            ],
+            "leading": {
+              "flags": [],
+              "values": [
+                {
+                  "name": "-R",
+                  "match": {
+                    "var": "repository"
+                  }
+                },
+                {
+                  "name": "--repo",
+                  "match": {
+                    "var": "repository"
+                  }
+                }
+              ],
+              "interleaved": true
+            },
+            "flags": [],
+            "values": [
+              "--json",
+              "--limit",
+              "-L",
+              "--state",
+              "--author",
+              "--assignee",
+              "--label",
+              "--base",
+              "--head",
+              {
+                "name": "-R",
+                "match": {
+                  "var": "repository"
+                }
+              },
+              {
+                "name": "--repo",
+                "match": {
+                  "var": "repository"
+                }
+              }
+            ],
+            "operands": false,
+            "require_any": [
+              "-R",
+              "--repo"
+            ]
+          }
+        },
+        {
+          "arguments": {
+            "kind": "options",
+            "prefix": [
+              {
+                "one_of": [
+                  "issue",
+                  "pr"
+                ]
+              },
+              "view"
+            ],
+            "leading": {
+              "flags": [],
+              "values": [
+                {
+                  "name": "-R",
+                  "match": {
+                    "var": "repository"
+                  }
+                },
+                {
+                  "name": "--repo",
+                  "match": {
+                    "var": "repository"
+                  }
+                }
+              ],
+              "interleaved": true
+            },
+            "flags": [
+              "--comments"
+            ],
+            "values": [
+              "--json",
+              {
+                "name": "-R",
+                "match": {
+                  "var": "repository"
+                }
+              },
+              {
+                "name": "--repo",
+                "match": {
+                  "var": "repository"
+                }
+              }
+            ],
+            "operands": {
+              "match": {
+                "regex": "[1-9][0-9]*"
+              },
+              "min": 0,
+              "max": 1
+            },
+            "require_any": [
+              "-R",
+              "--repo"
+            ]
+          }
+        },
+        {
+          "arguments": {
+            "kind": "options",
+            "prefix": [
+              "pr",
+              {
+                "one_of": [
+                  "diff",
+                  "checks"
+                ]
+              }
+            ],
+            "leading": {
+              "flags": [],
+              "values": [
+                {
+                  "name": "-R",
+                  "match": {
+                    "var": "repository"
+                  }
+                },
+                {
+                  "name": "--repo",
+                  "match": {
+                    "var": "repository"
+                  }
+                }
+              ],
+              "interleaved": true
+            },
+            "flags": [
+              "--name-only",
+              "--patch",
+              "--required"
+            ],
+            "values": [
+              "--json",
+              {
+                "name": "-R",
+                "match": {
+                  "var": "repository"
+                }
+              },
+              {
+                "name": "--repo",
+                "match": {
+                  "var": "repository"
+                }
+              }
+            ],
+            "operands": {
+              "match": {
+                "regex": "[1-9][0-9]*"
+              },
+              "min": 0,
+              "max": 1
+            },
+            "require_any": [
+              "-R",
+              "--repo"
+            ]
+          }
+        },
+        {
+          "arguments": {
+            "kind": "options",
+            "prefix": [
+              {
+                "one_of": [
+                  "run",
+                  "workflow"
+                ]
+              },
+              "list"
+            ],
+            "leading": {
+              "flags": [],
+              "values": [
+                {
+                  "name": "-R",
+                  "match": {
+                    "var": "repository"
+                  }
+                },
+                {
+                  "name": "--repo",
+                  "match": {
+                    "var": "repository"
+                  }
+                }
+              ],
+              "interleaved": true
+            },
+            "flags": [
+              "--all"
+            ],
+            "values": [
+              "--json",
+              "--limit",
+              "-L",
+              "--workflow",
+              "--branch",
+              "--status",
+              "--event",
+              "--user",
+              {
+                "name": "-R",
+                "match": {
+                  "var": "repository"
+                }
+              },
+              {
+                "name": "--repo",
+                "match": {
+                  "var": "repository"
+                }
+              }
+            ],
+            "operands": false,
+            "require_any": [
+              "-R",
+              "--repo"
+            ]
+          }
+        },
+        {
+          "arguments": {
+            "kind": "options",
+            "prefix": [
+              "run",
+              "view"
+            ],
+            "leading": {
+              "flags": [],
+              "values": [
+                {
+                  "name": "-R",
+                  "match": {
+                    "var": "repository"
+                  }
+                },
+                {
+                  "name": "--repo",
+                  "match": {
+                    "var": "repository"
+                  }
+                }
+              ],
+              "interleaved": true
+            },
+            "flags": [
+              "--log",
+              "--log-failed",
+              "--exit-status",
+              "--verbose"
+            ],
+            "values": [
+              "--json",
+              "--job",
+              "--attempt",
+              {
+                "name": "-R",
+                "match": {
+                  "var": "repository"
+                }
+              },
+              {
+                "name": "--repo",
+                "match": {
+                  "var": "repository"
+                }
+              }
+            ],
+            "operands": {
+              "match": {
+                "regex": "[1-9][0-9]*"
+              },
+              "min": 1,
+              "max": 1
+            },
+            "require_any": [
+              "-R",
+              "--repo"
+            ]
+          }
+        },
+        {
+          "arguments": {
+            "kind": "options",
+            "prefix": [
+              "release",
+              "list"
+            ],
+            "leading": {
+              "flags": [],
+              "values": [
+                {
+                  "name": "-R",
+                  "match": {
+                    "var": "repository"
+                  }
+                },
+                {
+                  "name": "--repo",
+                  "match": {
+                    "var": "repository"
+                  }
+                }
+              ],
+              "interleaved": true
+            },
+            "flags": [
+              "--exclude-drafts",
+              "--exclude-pre-releases"
+            ],
+            "values": [
+              "--json",
+              "--limit",
+              "-L",
+              "--order",
+              {
+                "name": "-R",
+                "match": {
+                  "var": "repository"
+                }
+              },
+              {
+                "name": "--repo",
+                "match": {
+                  "var": "repository"
+                }
+              }
+            ],
+            "operands": false,
+            "require_any": [
+              "-R",
+              "--repo"
+            ]
+          }
+        },
+        {
+          "arguments": {
+            "kind": "options",
+            "prefix": [
+              {
+                "one_of": [
+                  "issue",
+                  "pr"
+                ]
+              },
+              "create"
+            ],
+            "leading": {
+              "flags": [],
+              "values": [
+                {
+                  "name": "-R",
+                  "match": {
+                    "var": "repository"
+                  }
+                },
+                {
+                  "name": "--repo",
+                  "match": {
+                    "var": "repository"
+                  }
+                }
+              ],
+              "interleaved": true
+            },
+            "flags": [
+              "--draft"
+            ],
+            "values": [
+              "--title",
+              "--body",
+              "--body-file",
+              "--base",
+              "--head",
+              "--label",
+              "--assignee",
+              "--reviewer",
+              {
+                "name": "-R",
+                "match": {
+                  "var": "repository"
+                }
+              },
+              {
+                "name": "--repo",
+                "match": {
+                  "var": "repository"
+                }
+              }
+            ],
+            "operands": false,
+            "require_any": [
+              "-R",
+              "--repo"
+            ]
+          }
+        },
+        {
+          "arguments": {
+            "kind": "options",
+            "prefix": [
+              {
+                "one_of": [
+                  "issue",
+                  "pr"
+                ]
+              },
+              {
+                "one_of": [
+                  "comment",
+                  "edit",
+                  "close",
+                  "reopen"
+                ]
+              }
+            ],
+            "leading": {
+              "flags": [],
+              "values": [
+                {
+                  "name": "-R",
+                  "match": {
+                    "var": "repository"
+                  }
+                },
+                {
+                  "name": "--repo",
+                  "match": {
+                    "var": "repository"
+                  }
+                }
+              ],
+              "interleaved": true
+            },
+            "flags": [
+              "--edit-last",
+              "--delete-branch",
+              "-d"
+            ],
+            "values": [
+              "--body",
+              "--body-file",
+              "--title",
+              "--reason",
+              "--comment",
+              "-c",
+              "--add-label",
+              "--remove-label",
+              "--add-assignee",
+              "--remove-assignee",
+              "--base",
+              {
+                "name": "-R",
+                "match": {
+                  "var": "repository"
+                }
+              },
+              {
+                "name": "--repo",
+                "match": {
+                  "var": "repository"
+                }
+              }
+            ],
+            "operands": {
+              "match": {
+                "regex": "[1-9][0-9]*"
+              },
+              "min": 1,
+              "max": 1
+            },
+            "require_any": [
+              "-R",
+              "--repo"
+            ]
+          }
+        },
+        {
+          "arguments": {
+            "kind": "options",
+            "prefix": [
+              "pr",
+              "merge"
+            ],
+            "leading": {
+              "flags": [],
+              "values": [
+                {
+                  "name": "-R",
+                  "match": {
+                    "var": "repository"
+                  }
+                },
+                {
+                  "name": "--repo",
+                  "match": {
+                    "var": "repository"
+                  }
+                }
+              ],
+              "interleaved": true
+            },
+            "flags": [
+              "--merge",
+              "--squash",
+              "--rebase",
+              "--auto",
+              "--disable-auto",
+              "--delete-branch",
+              "--admin"
+            ],
+            "values": [
+              "--subject",
+              "--body",
+              "--body-file",
+              "--match-head-commit",
+              {
+                "name": "-R",
+                "match": {
+                  "var": "repository"
+                }
+              },
+              {
+                "name": "--repo",
+                "match": {
+                  "var": "repository"
+                }
+              }
+            ],
+            "operands": {
+              "match": {
+                "regex": "[1-9][0-9]*"
+              },
+              "min": 1,
+              "max": 1
+            },
+            "require_any": [
+              "-R",
+              "--repo"
+            ]
+          }
+        },
+        {
+          "arguments": {
+            "kind": "options",
+            "prefix": [
+              "issue",
+              "delete"
+            ],
+            "leading": {
+              "flags": [],
+              "values": [
+                {
+                  "name": "-R",
+                  "match": {
+                    "var": "repository"
+                  }
+                },
+                {
+                  "name": "--repo",
+                  "match": {
+                    "var": "repository"
+                  }
+                }
+              ],
+              "interleaved": true
+            },
+            "flags": [
+              "--yes"
+            ],
+            "values": [
+              {
+                "name": "-R",
+                "match": {
+                  "var": "repository"
+                }
+              },
+              {
+                "name": "--repo",
+                "match": {
+                  "var": "repository"
+                }
+              }
+            ],
+            "operands": {
+              "match": {
+                "regex": "[1-9][0-9]*"
+              },
+              "min": 1,
+              "max": 1
+            },
+            "require_any": [
+              "-R",
+              "--repo"
+            ]
+          }
+        }
+      ],
+      "on_unmet": {
+        "decision": "deny",
+        "message": "The GitHub target is outside the configured scope or cannot be established from this request."
+      },
+      "when": [
+        {
+          "var": "repository",
+          "set": true
+        }
+      ]
+    },
+    {
+      "id": "mcp-known-scope",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": {
+          "glob": "*"
+        }
+      },
+      "requires_any": [
+        {
+          "tool": {
+            "one_of": [
+              "get_file_contents",
+              "list_branches",
+              "list_commits",
+              "get_commit",
+              "list_tags",
+              "get_tag",
+              "list_releases",
+              "get_release_by_tag",
+              "get_latest_release",
+              "list_issues",
+              "list_pull_requests",
+              "issue_read",
+              "pull_request_read",
+              "add_issue_comment",
+              "create_pull_request",
+              "create_branch",
+              "create_or_update_file",
+              "push_files",
+              "merge_pull_request",
+              "delete_file"
+            ]
+          }
+        }
+      ],
+      "on_unmet": {
+        "decision": "deny",
+        "message": "The GitHub target is outside the configured scope or cannot be established from this request."
+      },
+      "when": [
+        {
+          "var": "repository",
+          "set": true
+        }
+      ]
+    },
+    {
+      "id": "mcp-repository-scope",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": {
+          "one_of": [
+            "get_file_contents",
+            "list_branches",
+            "list_commits",
+            "get_commit",
+            "list_tags",
+            "get_tag",
+            "list_releases",
+            "get_release_by_tag",
+            "get_latest_release",
+            "list_issues",
+            "list_pull_requests",
+            "issue_read",
+            "pull_request_read",
+            "add_issue_comment",
+            "create_pull_request",
+            "create_branch",
+            "create_or_update_file",
+            "push_files",
+            "merge_pull_request",
+            "delete_file"
+          ]
+        }
+      },
+      "requires_any": [
+        {
+          "fields": {
+            "/owner": {
+              "text": {
+                "var": "repository",
+                "split": {
+                  "separator": "/",
+                  "index": 0
+                }
+              }
+            },
+            "/repo": {
+              "text": {
+                "var": "repository",
+                "split": {
+                  "separator": "/",
+                  "index": 1
+                }
+              }
+            }
+          }
+        }
+      ],
+      "on_unmet": {
+        "decision": "deny",
+        "message": "The GitHub target is outside the configured scope or cannot be established from this request."
+      },
+      "when": [
+        {
+          "var": "repository",
+          "set": true
+        }
+      ]
+    },
+    {
+      "id": "mcp-issue_read-method",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "issue_read"
+      },
+      "requires_any": [
+        {
+          "fields": {
+            "/method": {
+              "text": {
+                "one_of": [
+                  "get",
+                  "get_comments",
+                  "get_labels",
+                  "get_sub_issues"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "on_unmet": {
+        "decision": "deny",
+        "message": "The GitHub target is outside the configured scope or cannot be established from this request."
+      },
+      "when": [
+        {
+          "var": "repository",
+          "set": true
+        }
+      ]
+    },
+    {
+      "id": "mcp-pull_request_read-method",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "pull_request_read"
+      },
+      "requires_any": [
+        {
+          "fields": {
+            "/method": {
+              "text": {
+                "one_of": [
+                  "get",
+                  "get_diff",
+                  "get_status",
+                  "get_files",
+                  "get_commits",
+                  "get_comments",
+                  "get_review_comments",
+                  "get_reviews"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "on_unmet": {
+        "decision": "deny",
+        "message": "The GitHub target is outside the configured scope or cannot be established from this request."
+      },
+      "when": [
+        {
+          "var": "repository",
+          "set": true
+        }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "local-0",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print local help or version."
+    },
+    {
+      "id": "local-1",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print local help or version."
+    },
+    {
+      "id": "local-2",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print local help or version."
+    },
+    {
+      "id": "repo-view",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "repo",
+            "view"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "flags": [],
+          "values": [
+            "--json",
+            "-R",
+            "--repo"
+          ],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read GitHub metadata or content using listed options."
+    },
+    {
+      "id": "issue-pr-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            {
+              "one_of": [
+                "issue",
+                "pr"
+              ]
+            },
+            "list"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "flags": [],
+          "values": [
+            "--json",
+            "--limit",
+            "-L",
+            "--state",
+            "--author",
+            "--assignee",
+            "--label",
+            "--search",
+            "--base",
+            "--head",
+            "-R",
+            "--repo"
+          ],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read GitHub metadata or content using listed options."
+    },
+    {
+      "id": "issue-pr-view",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            {
+              "one_of": [
+                "issue",
+                "pr"
+              ]
+            },
+            "view"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--comments"
+          ],
+          "values": [
+            "--json",
+            "-R",
+            "--repo"
+          ],
+          "operands": {
+            "match": {
+              "regex": "[1-9][0-9]*"
+            },
+            "min": 0,
+            "max": 1
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read GitHub metadata or content using listed options."
+    },
+    {
+      "id": "pr-diff-checks",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "pr",
+            {
+              "one_of": [
+                "diff",
+                "checks"
+              ]
+            }
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--name-only",
+            "--patch",
+            "--required"
+          ],
+          "values": [
+            "--json",
+            "-R",
+            "--repo"
+          ],
+          "operands": {
+            "match": {
+              "regex": "[1-9][0-9]*"
+            },
+            "min": 0,
+            "max": 1
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read GitHub metadata or content using listed options."
+    },
+    {
+      "id": "run-workflow-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            {
+              "one_of": [
+                "run",
+                "workflow"
+              ]
+            },
+            "list"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--all"
+          ],
+          "values": [
+            "--json",
+            "--limit",
+            "-L",
+            "--workflow",
+            "--branch",
+            "--status",
+            "--event",
+            "--user",
+            "-R",
+            "--repo"
+          ],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read GitHub metadata or content using listed options."
+    },
+    {
+      "id": "run-view",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "run",
+            "view"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--log",
+            "--log-failed",
+            "--exit-status",
+            "--verbose"
+          ],
+          "values": [
+            "--json",
+            "--job",
+            "--attempt",
+            "-R",
+            "--repo"
+          ],
+          "operands": {
+            "match": {
+              "regex": "[1-9][0-9]*"
+            },
+            "min": 1,
+            "max": 1
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read GitHub metadata or content using listed options."
+    },
+    {
+      "id": "release-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "release",
+            "list"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--exclude-drafts",
+            "--exclude-pre-releases"
+          ],
+          "values": [
+            "--json",
+            "--limit",
+            "-L",
+            "--order",
+            "-R",
+            "--repo"
+          ],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read GitHub metadata or content using listed options."
+    },
+    {
+      "id": "issue-pr-create",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            {
+              "one_of": [
+                "issue",
+                "pr"
+              ]
+            },
+            "create"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--draft"
+          ],
+          "values": [
+            "--title",
+            "--body",
+            "--body-file",
+            "--base",
+            "--head",
+            "--label",
+            "--assignee",
+            "--reviewer",
+            "-R",
+            "--repo"
+          ],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Change remote GitHub state; review the operation and any local input files."
+    },
+    {
+      "id": "issue-pr-change",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            {
+              "one_of": [
+                "issue",
+                "pr"
+              ]
+            },
+            {
+              "one_of": [
+                "comment",
+                "edit",
+                "close",
+                "reopen"
+              ]
+            }
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--edit-last",
+            "--delete-branch",
+            "-d"
+          ],
+          "values": [
+            "--body",
+            "--body-file",
+            "--title",
+            "--reason",
+            "--comment",
+            "-c",
+            "--add-label",
+            "--remove-label",
+            "--add-assignee",
+            "--remove-assignee",
+            "--base",
+            "-R",
+            "--repo"
+          ],
+          "operands": {
+            "match": {
+              "regex": "[1-9][0-9]*"
+            },
+            "min": 1,
+            "max": 1
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Change remote GitHub state; review the operation and any local input files."
+    },
+    {
+      "id": "pr-merge",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "pr",
+            "merge"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--merge",
+            "--squash",
+            "--rebase",
+            "--auto",
+            "--disable-auto",
+            "--delete-branch",
+            "--admin"
+          ],
+          "values": [
+            "--subject",
+            "--body",
+            "--body-file",
+            "--match-head-commit",
+            "-R",
+            "--repo"
+          ],
+          "operands": {
+            "match": {
+              "regex": "[1-9][0-9]*"
+            },
+            "min": 1,
+            "max": 1
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Change remote GitHub state; review the operation and any local input files."
+    },
+    {
+      "id": "issue-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "issue",
+            "delete"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--yes"
+          ],
+          "values": [
+            "-R",
+            "--repo"
+          ],
+          "operands": {
+            "match": {
+              "regex": "[1-9][0-9]*"
+            },
+            "min": 1,
+            "max": 1
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Change remote GitHub state; review the operation and any local input files."
+    },
+    {
+      "id": "project-view",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "project",
+            "view"
+          ],
+          "leading": {
+            "flags": [],
+            "values": []
+          },
+          "flags": [],
+          "values": [
+            "--format",
+            "--owner"
+          ],
+          "operands": {
+            "match": {
+              "regex": "[1-9][0-9]*"
+            },
+            "min": 1,
+            "max": 1
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read GitHub metadata or content using listed options."
+    },
+    {
+      "id": "project-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "project",
+            "list"
+          ],
+          "leading": {
+            "flags": [],
+            "values": []
+          },
+          "flags": [
+            "--closed"
+          ],
+          "values": [
+            "--format",
+            "--limit",
+            "--owner"
+          ],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read GitHub metadata or content using listed options."
+    },
+    {
+      "id": "project-items-fields",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "project",
+            {
+              "one_of": [
+                "item-list",
+                "field-list"
+              ]
+            }
+          ],
+          "leading": {
+            "flags": [],
+            "values": []
+          },
+          "flags": [],
+          "values": [
+            "--format",
+            "--limit",
+            "--owner"
+          ],
+          "operands": {
+            "match": {
+              "regex": "[1-9][0-9]*"
+            },
+            "min": 1,
+            "max": 1
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read GitHub metadata or content using listed options."
+    },
+    {
+      "id": "auth-status",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "auth",
+            "status"
+          ],
+          "flags": [
+            "--active",
+            "-a"
+          ],
+          "values": [
+            "--hostname",
+            "-h"
+          ],
+          "operands": false
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Show local GitHub CLI sign-in status without the token."
+    },
+    {
+      "id": "pr-close-delete-branch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "pr",
+            "close"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--delete-branch",
+            "-d"
+          ],
+          "values": [
+            "-R",
+            "--repo",
+            "--comment",
+            "-c"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--delete-branch",
+            "-d"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Close a pull request and delete its branch."
+    },
+    {
+      "id": "review-api",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "api"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review API access, credentials, extensions or configuration explicitly."
+    },
+    {
+      "id": "review-auth",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "auth"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review API access, credentials, extensions or configuration explicitly."
+    },
+    {
+      "id": "review-extension",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "extension"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review API access, credentials, extensions or configuration explicitly."
+    },
+    {
+      "id": "review-alias",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "alias"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review API access, credentials, extensions or configuration explicitly."
+    },
+    {
+      "id": "review-secret",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "secret"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review API access, credentials, extensions or configuration explicitly."
+    },
+    {
+      "id": "review-ssh-key",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "ssh-key"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review API access, credentials, extensions or configuration explicitly."
+    },
+    {
+      "id": "review-gpg-key",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "gpg-key"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review API access, credentials, extensions or configuration explicitly."
+    },
+    {
+      "id": "review-repo-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "repo",
+            "delete"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-repo-edit",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "repo",
+            "edit"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-repo-archive",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "repo",
+            "archive"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-repo-unarchive",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "repo",
+            "unarchive"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-repo-rename",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "repo",
+            "rename"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-repo-deploy-key-add",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "repo",
+            "deploy-key",
+            "add"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-repo-deploy-key-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "repo",
+            "deploy-key",
+            "delete"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-repo-autolink-create",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "repo",
+            "autolink",
+            "create"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-repo-autolink-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "repo",
+            "autolink",
+            "delete"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-release-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "release",
+            "delete"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-release-delete-asset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "release",
+            "delete-asset"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-run-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "run",
+            "delete"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-pr-merge",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "pr",
+            "merge"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-issue-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "issue",
+            "delete"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-variable-set",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "variable",
+            "set"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-variable-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "variable",
+            "delete"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-label-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "label",
+            "delete"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-cache-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "cache",
+            "delete"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-project-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "project",
+            "delete"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-gist-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "gist",
+            "delete"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-codespace-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "codespace",
+            "delete"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "review-config-set",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [],
+            "values": [
+              "-R",
+              "--repo"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "config",
+            "set"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete remote resources, merge pull requests, add credentials or change repository or CLI administration."
+    },
+    {
+      "id": "cli-unlisted",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gh",
+            "/usr/bin/gh",
+            "/usr/local/bin/gh",
+            "/opt/homebrew/bin/gh",
+            "/opt/local/bin/gh",
+            "/home/linuxbrew/.linuxbrew/bin/gh",
+            "/snap/bin/gh"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Unlisted GitHub CLI commands and options require review."
+    },
+    {
+      "id": "mcp-get_file_contents",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "get_file_contents"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-list_branches",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "list_branches"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-list_commits",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "list_commits"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-get_commit",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "get_commit"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-list_tags",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "list_tags"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-get_tag",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "get_tag"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-list_releases",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "list_releases"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-get_release_by_tag",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "get_release_by_tag"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-get_latest_release",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "get_latest_release"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-list_issues",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "list_issues"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-list_pull_requests",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "list_pull_requests"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-issue_read",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "issue_read",
+        "fields": {
+          "/method": {
+            "text": {
+              "one_of": [
+                "get",
+                "get_comments",
+                "get_labels",
+                "get_sub_issues"
+              ]
+            }
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-issue_read-unlisted-method",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "issue_read"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Unlisted GitHub MCP methods require review."
+    },
+    {
+      "id": "mcp-pull_request_read",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "pull_request_read",
+        "fields": {
+          "/method": {
+            "text": {
+              "one_of": [
+                "get",
+                "get_diff",
+                "get_status",
+                "get_files",
+                "get_commits",
+                "get_comments",
+                "get_review_comments",
+                "get_reviews"
+              ]
+            }
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-pull_request_read-unlisted-method",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "pull_request_read"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Unlisted GitHub MCP methods require review."
+    },
+    {
+      "id": "mcp-add_issue_comment",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "add_issue_comment"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-create_pull_request",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "create_pull_request"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-create_branch",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "create_branch"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-create_or_update_file",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "create_or_update_file"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-push_files",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "push_files"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-merge_pull_request",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "merge_pull_request"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-delete_file",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "delete_file"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-projects_get",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "projects_get",
+        "fields": {
+          "/method": {
+            "text": {
+              "one_of": [
+                "get_project",
+                "get_project_field"
+              ]
+            }
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-projects_get-unlisted-method",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "projects_get"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Unlisted GitHub MCP methods require review."
+    },
+    {
+      "id": "mcp-projects_list",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "projects_list",
+        "fields": {
+          "/method": {
+            "text": {
+              "one_of": [
+                "list_projects",
+                "list_project_fields",
+                "list_project_items",
+                "list_project_views",
+                "list_project_status_updates"
+              ]
+            }
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-projects_list-unlisted-method",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "projects_list"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Unlisted GitHub MCP methods require review."
+    },
+    {
+      "id": "mcp-projects_write",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": "projects_write"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Classify this documented GitHub MCP operation by its remote effects."
+    },
+    {
+      "id": "mcp-unlisted",
+      "fallback": true,
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local",
+            "local-read-only"
+          ]
+        },
+        "tool": {
+          "not": {
+            "one_of": [
+              "get_file_contents",
+              "list_branches",
+              "list_commits",
+              "get_commit",
+              "list_tags",
+              "get_tag",
+              "list_releases",
+              "get_release_by_tag",
+              "get_latest_release",
+              "list_issues",
+              "list_pull_requests",
+              "issue_read",
+              "pull_request_read",
+              "add_issue_comment",
+              "create_pull_request",
+              "create_branch",
+              "create_or_update_file",
+              "push_files",
+              "merge_pull_request",
+              "delete_file",
+              "projects_get",
+              "projects_list",
+              "projects_write"
+            ]
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Unlisted GitHub MCP tools require review."
+    }
+  ],
+  "variables": {
+    "repository": {
+      "type": "string",
+      "description": "Optional exact OWNER/REPO allowed for GitHub CLI and MCP operations. Omit for no repository restriction. When set, CLI calls require -R/--repo; unknown targets and project operations deny.",
+      "match": {
+        "regex": "[A-Za-z0-9][A-Za-z0-9-]{0,38}/\\.*[A-Za-z0-9_-][A-Za-z0-9_.-]*"
+      },
+      "max_length": 140,
+      "setup": {
+        "question": "Limit GitHub operations to one repository?",
+        "unset": "Any repository (no scope check)",
+        "value": "Only this repository",
+        "placeholder": "acme/web"
+      }
+    }
+  }
+}

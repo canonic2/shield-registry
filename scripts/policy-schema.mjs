@@ -192,7 +192,8 @@ defs.directoryOption = {
 };
 const variableName = {...text(1, 64), pattern: '^[a-z][a-z0-9_]*$'};
 const scalarValue = one([text(1, 1024), {type: 'boolean'}, array(text(1, 1024), 1, true)]);
-defs.variableReference = object({var: variableName});
+defs.variableReference = one([object({var: variableName}), object({var: variableName,
+  split: object({separator: text(1,16), index: {type:'integer',minimum:0,maximum:15}})})]);
 defs.variableTest = one([
   object({var: variableName, set: {type: 'boolean'}}),
   object({var: variableName, equals: one([text(1, 1024), {type: 'boolean'}])}),
@@ -356,7 +357,7 @@ defs.documentCapabilities.allOf.push({if: at(['capabilities'], {contains: {const
     ? [at([key, '*', field], {type: 'string', pattern: '\\{\\{'})]
     : [at([key, '*', field, 'message'], {type: 'string', pattern: '\\{\\{'}), at([key, '*', field, 'alternatives', '*'], {type: 'string', pattern: '\\{\\{'})])))});
 const document = pack => {
-  const allowedCaps = pack ? [...caps, 'variables-v1', 'preconditions-v1', 'templates-v1'] : caps;
+  const allowedCaps = pack ? [...caps, 'variables-v1', 'variable-parts-v1', 'preconditions-v1', 'templates-v1'] : caps;
   const base = { schema_version: { const: 1 }, kind: { const: pack ? 'pack' : 'custom' },
     capabilities: { ...array(enumeration(allowedCaps), 1, true, allowedCaps.length), contains: { const: 'structured-rules-v1' } },
     rules: array(ref(pack ? 'packRule' : 'customRule'), 0, false, 500000),

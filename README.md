@@ -17,6 +17,16 @@ may include versions awaiting publication.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
+| [canonic/baseline](packs/canonic/baseline/0.11.0/README.md) | 0.11.0 | Shield 0.20 profiles | Reviewed reader fallbacks, privilege prompts, disk inspection and destructive-operation boundaries |
+| [canonic/git](packs/canonic/git/0.8.0/README.md) | 0.8.0 | Shield 0.20 profiles | Reviewable remotes, maintenance and helpers; destructive and credential-disclosure checks |
+| [canonic/node](packs/canonic/node/0.4.0/README.md) | 0.4.0 | Shield 0.20 profiles | Reviewable installs, configuration and publication; manager selection and explicit secret reads protected |
+| [canonic/rust](packs/canonic/rust/0.2.0/README.md) | 0.2.0 | Shield 0.20 profiles | Reviewable dependency/toolchain operations with unchanged explicit path checks |
+| [canonic/aws](packs/canonic/aws/0.2.0/README.md) | 0.2.0 | Shield 0.20 profiles | Reviewable data, access and execution; profile/region, credential and destructive checks retained |
+| [canonic/gate](packs/canonic/gate/0.2.0/README.md) | 0.2.0 | Shield 0.20 profiles | Reviewable push/setup and precise MCP project/force handling |
+| [canonic/box](packs/canonic/box/0.2.0/README.md) | 0.2.0 | Shield 0.20 profiles | Reviewable setup, agent work and execution; header disclosure and data-loss boundaries |
+| [canonic/testrun](packs/canonic/testrun/0.2.0/README.md) | 0.2.0 | Shield 0.20 profiles | Reviewable setup and build overrides, preserving device/browser and project predicates |
+| [canonic/github](packs/canonic/github/0.3.0/README.md) | 0.3.0 | Shield 0.20 profiles | Distinct usable profiles: merges Allow/Ask/Ask, destructive changes Ask/Ask/Deny, explicit token disclosure Deny; preserves optional repository scope |
+| [canonic/github](packs/canonic/github/0.2.0/README.md) | 0.2.0 | Source candidate; awaiting publication | Optional install-time repository setting for CLI and MCP; requires `variable-parts-v1` support |
 | [canonic/github](packs/canonic/github/0.1.0/README.md) | 0.1.0 | CLI and MCP permissions | GitHub CLI and official MCP server; optional generated repository, organization and project scopes; requires Shield 0.18.0 |
 | [canonic/gate](packs/canonic/gate/0.1.0/README.md) | 0.1.0 | CLI and MCP permissions | Gate repository and worktree workflows; requires Shield 0.18.0 |
 | [canonic/box](packs/canonic/box/0.1.0/README.md) | 0.1.0 | CLI and MCP permissions | Box workspaces, goals, services and command execution; requires Shield 0.18.0 |
@@ -56,7 +66,11 @@ may include versions awaiting publication.
 | [canonic/git](packs/canonic/git/0.4.1/README.md) | 0.4.1 | Structured v1 release | Git inspection, staging, recoverable local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The release manifest includes GitHub, Gate, Box and Testrun 0.1.0,
+The latest releases are Baseline 0.11.0, Git 0.8.0, Node 0.4.0, Rust 0.2.0,
+AWS 0.2.0, GitHub 0.3.0, Gate 0.2.0, Box 0.2.0 and Testrun 0.2.0. All require
+Shield `>=0.20.0, <1.0.0`.
+
+The release manifest also retains GitHub, Gate, Box and Testrun 0.1.0,
 plus AWS 0.1.0, Node 0.3.1, Baseline 0.10.0, Baseline 0.9.0 and Node 0.3.0,
 plus Node 0.2.0 and Git 0.7.0,
 plus Node 0.1.2, Rust 0.1.2, Baseline 0.8.1 and Git 0.6.5,
@@ -112,7 +126,11 @@ its interception integration.
 ## Profiles
 
 Every pack provides **Loose**, **Recommended** and **Strict** profiles.
-These become progressively restrictive. In the current Git pack:
+The [profile review](docs/profile-review.md) covers the latest releases
+for all nine pack families. These keep legitimate operations reviewable across
+profiles and reserve refusal for concrete boundaries. Adopt them through a
+reviewed pack update to change an installed policy.
+Profiles become progressively restrictive. The published Git 0.7.0 pack uses:
 
 | Operation | Loose | Recommended | Strict |
 | --- | --- | --- | --- |

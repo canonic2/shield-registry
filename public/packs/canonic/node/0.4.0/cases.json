@@ -1,0 +1,809 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "metadata-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "view",
+        "zod",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "metadata-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "view",
+        "zod",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "metadata-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "view",
+        "zod",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "install-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "ci"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "ci"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "install-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "ci"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "add-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "install",
+        "zod"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "add-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "install",
+        "zod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "add-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "install",
+        "zod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pnpm-install-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "install",
+        "--frozen-lockfile"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pnpm-install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "install",
+        "--frozen-lockfile"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pnpm-install-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "install",
+        "--frozen-lockfile"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pnpm-add-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "add",
+        "zod"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pnpm-add-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "add",
+        "zod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pnpm-add-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "add",
+        "zod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-install-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "install"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "yarn-install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "install"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "yarn-install-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "corepack-install-loose",
+      "profile": "loose",
+      "argv": [
+        "corepack",
+        "npm",
+        "ci"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "corepack-install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "corepack",
+        "npm",
+        "ci"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "corepack-install-strict",
+      "profile": "strict",
+      "argv": [
+        "corepack",
+        "npm",
+        "ci"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "publish-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "publish-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "publish-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "global-install-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "install",
+        "-g",
+        "typescript"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "global-install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "install",
+        "-g",
+        "typescript"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "global-install-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "install",
+        "-g",
+        "typescript"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "login-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "login"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "login-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "login"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "login-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "login"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-registry-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "config",
+        "get",
+        "registry"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "config-registry-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "config",
+        "get",
+        "registry"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-registry-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "config",
+        "get",
+        "registry"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-token-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "config-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "config-token-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-config-token-loose",
+      "profile": "loose",
+      "argv": [
+        "corepack",
+        "npm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-config-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "corepack",
+        "npm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-config-token-strict",
+      "profile": "strict",
+      "argv": [
+        "corepack",
+        "npm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pnpm-config-token-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pnpm-config-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pnpm-config-token-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-pnpm-config-token-loose",
+      "profile": "loose",
+      "argv": [
+        "corepack",
+        "pnpm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-pnpm-config-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "corepack",
+        "pnpm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-pnpm-config-token-strict",
+      "profile": "strict",
+      "argv": [
+        "corepack",
+        "pnpm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pnpm-directory-token-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "--dir",
+        ".",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pnpm-directory-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "--dir",
+        ".",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pnpm-directory-token-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "--dir",
+        ".",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-directory-token-loose",
+      "profile": "loose",
+      "argv": [
+        "corepack",
+        "pnpm",
+        "--dir",
+        ".",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-directory-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "corepack",
+        "pnpm",
+        "--dir",
+        ".",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-directory-token-strict",
+      "profile": "strict",
+      "argv": [
+        "corepack",
+        "pnpm",
+        "--dir",
+        ".",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "npm-global-token-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "--global",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "npm-global-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "--global",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "npm-global-token-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "--global",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "nonsecret-global-config-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "--global",
+        "config",
+        "get",
+        "registry"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nonsecret-global-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "--global",
+        "config",
+        "get",
+        "registry"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nonsecret-global-config-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "--global",
+        "config",
+        "get",
+        "registry"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "script-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "script-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inline-loose",
+      "profile": "loose",
+      "argv": [
+        "node",
+        "-e",
+        "console.log(1)"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inline-recommended",
+      "profile": "recommended",
+      "argv": [
+        "node",
+        "-e",
+        "console.log(1)"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inline-strict",
+      "profile": "strict",
+      "argv": [
+        "node",
+        "-e",
+        "console.log(1)"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "package-exec-loose",
+      "profile": "loose",
+      "argv": [
+        "npx",
+        "acme-tool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "package-exec-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npx",
+        "acme-tool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "package-exec-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "acme-tool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "selected-manager-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "install"
+      ],
+      "variables": {
+        "package_manager": "pnpm"
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "selected-manager-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "install"
+      ],
+      "variables": {
+        "package_manager": "pnpm"
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "selected-manager-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "install"
+      ],
+      "variables": {
+        "package_manager": "pnpm"
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "wrong-manager-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "ci"
+      ],
+      "variables": {
+        "package_manager": "pnpm"
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "wrong-manager-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "ci"
+      ],
+      "variables": {
+        "package_manager": "pnpm"
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "wrong-manager-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "ci"
+      ],
+      "variables": {
+        "package_manager": "pnpm"
+      },
+      "expected": "deny"
+    }
+  ]
+}

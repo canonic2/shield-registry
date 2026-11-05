@@ -1,0 +1,7850 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "unset-hosted-version-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-version-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-list-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--json",
+        "number,title"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--json",
+        "number,title"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-list-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--json",
+        "number,title"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-list-leading-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "-Racme/web",
+        "pr",
+        "list",
+        "--limit=5"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-list-leading-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "-Racme/web",
+        "pr",
+        "list",
+        "--limit=5"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-list-leading-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "-Racme/web",
+        "pr",
+        "list",
+        "--limit=5"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-view-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "view",
+        "12",
+        "--repo=acme/web",
+        "--comments"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-view-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "view",
+        "12",
+        "--repo=acme/web",
+        "--comments"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-view-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "view",
+        "12",
+        "--repo=acme/web",
+        "--comments"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-run-log-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "12",
+        "-R",
+        "acme/web",
+        "--log"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-run-log-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "12",
+        "-R",
+        "acme/web",
+        "--log"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-run-log-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "12",
+        "-R",
+        "acme/web",
+        "--log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-create-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "create",
+        "-R",
+        "acme/web",
+        "--title",
+        "A bug",
+        "--body",
+        "Please fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "create",
+        "-R",
+        "acme/web",
+        "--title",
+        "A bug",
+        "--body",
+        "Please fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-create-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "create",
+        "-R",
+        "acme/web",
+        "--title",
+        "A bug",
+        "--body",
+        "Please fix"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-body-is-not-option-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "create",
+        "-R",
+        "acme/web",
+        "--body",
+        "--repo=outside/repo"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-body-is-not-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "create",
+        "-R",
+        "acme/web",
+        "--body",
+        "--repo=outside/repo"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-body-is-not-option-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "create",
+        "-R",
+        "acme/web",
+        "--body",
+        "--repo=outside/repo"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-merge-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "merge",
+        "12",
+        "-R",
+        "acme/web",
+        "--admin",
+        "--squash"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-merge-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "merge",
+        "12",
+        "-R",
+        "acme/web",
+        "--admin",
+        "--squash"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-merge-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "merge",
+        "12",
+        "-R",
+        "acme/web",
+        "--admin",
+        "--squash"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "delete",
+        "12",
+        "-R",
+        "acme/web",
+        "--yes"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "delete",
+        "12",
+        "-R",
+        "acme/web",
+        "--yes"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "delete",
+        "12",
+        "-R",
+        "acme/web",
+        "--yes"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-repo-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "repo",
+        "delete",
+        "acme/web",
+        "--yes"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-repo-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "repo",
+        "delete",
+        "acme/web",
+        "--yes"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-repo-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "repo",
+        "delete",
+        "acme/web",
+        "--yes"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-implicit-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-implicit-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-implicit-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-other-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-other-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-other-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-repeated-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--repo",
+        "outside/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-repeated-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--repo",
+        "outside/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-repeated-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--repo",
+        "outside/web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-leading-other-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "-Routside/web",
+        "issue",
+        "list",
+        "--repo=acme/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-leading-other-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "-Routside/web",
+        "issue",
+        "list",
+        "--repo=acme/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-leading-other-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "-Routside/web",
+        "issue",
+        "list",
+        "--repo=acme/web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-url-target-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "view",
+        "https://github.com/outside/web/issues/1",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-url-target-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "view",
+        "https://github.com/outside/web/issues/1",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-url-target-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "view",
+        "https://github.com/outside/web/issues/1",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-search-override-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--search",
+        "repo:outside/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-search-override-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--search",
+        "repo:outside/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-search-override-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--search",
+        "repo:outside/web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-unknown-option-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-unknown-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-unknown-option-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--future"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-hostname-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "enterprise.example.com/acme/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-hostname-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "enterprise.example.com/acme/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-hostname-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "enterprise.example.com/acme/web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-api-graphql-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query={viewer{login}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-api-graphql-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query={viewer{login}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-api-graphql-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query={viewer{login}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-extension-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "extension",
+        "exec",
+        "custom"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-extension-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "extension",
+        "exec",
+        "custom"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-extension-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "extension",
+        "exec",
+        "custom"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-token-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "auth",
+        "token"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "auth",
+        "token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-token-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "auth",
+        "token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-repo-positional-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "repo",
+        "view",
+        "outside/web",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-repo-positional-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "repo",
+        "view",
+        "outside/web",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-repo-positional-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "repo",
+        "view",
+        "outside/web",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-project-view-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "acme",
+        "--format",
+        "json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-project-view-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "acme",
+        "--format",
+        "json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-project-view-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "acme",
+        "--format",
+        "json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-project-other-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "9",
+        "--owner",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-project-other-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "9",
+        "--owner",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-project-other-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "9",
+        "--owner",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-project-owner-other-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "outside"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-project-owner-other-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "outside"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-project-owner-other-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-project-owner-missing-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-project-owner-missing-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-project-owner-missing-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-project-owner-repeated-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "acme",
+        "--owner",
+        "outside"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-project-owner-repeated-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "acme",
+        "--owner",
+        "outside"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-project-owner-repeated-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "acme",
+        "--owner",
+        "outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-project-list-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "project",
+        "list",
+        "--owner",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-project-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "project",
+        "list",
+        "--owner",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-project-list-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "project",
+        "list",
+        "--owner",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-project-mutate-id-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "project",
+        "item-edit",
+        "--id",
+        "PVTI_other",
+        "--project-id",
+        "PVT_other"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-project-mutate-id-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "project",
+        "item-edit",
+        "--id",
+        "PVTI_other",
+        "--project-id",
+        "PVT_other"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-project-mutate-id-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "project",
+        "item-edit",
+        "--id",
+        "PVTI_other",
+        "--project-id",
+        "PVT_other"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-pr-view-current-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "view",
+        "--json",
+        "number"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-pr-view-current-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "view",
+        "--json",
+        "number"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-pr-view-current-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "view",
+        "--json",
+        "number"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-pr-checks-current-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "checks"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-pr-checks-current-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "checks"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-pr-checks-current-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "checks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-auth-status-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "auth",
+        "status",
+        "--active"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-auth-status-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "auth",
+        "status",
+        "--active"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-auth-status-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "auth",
+        "status",
+        "--active"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-auth-status-token-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "auth",
+        "status",
+        "--show-token"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-auth-status-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "auth",
+        "status",
+        "--show-token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-auth-status-token-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "auth",
+        "status",
+        "--show-token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-pr-close-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-R",
+        "acme/web",
+        "--comment",
+        "Done"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-pr-close-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-R",
+        "acme/web",
+        "--comment",
+        "Done"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-pr-close-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-R",
+        "acme/web",
+        "--comment",
+        "Done"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-dot-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/.."
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-dot-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/.."
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-dot-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/.."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-dot-prefixed-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/.github"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-dot-prefixed-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/.github"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-dot-prefixed-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/.github"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-linuxbrew-other-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "/home/linuxbrew/.linuxbrew/bin/gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-linuxbrew-other-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/home/linuxbrew/.linuxbrew/bin/gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-linuxbrew-other-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "/home/linuxbrew/.linuxbrew/bin/gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-snap-other-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "/snap/bin/gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-snap-other-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/snap/bin/gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-snap-other-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "/snap/bin/gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-long-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-R",
+        "acme/web",
+        "--delete-branch"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-long-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-R",
+        "acme/web",
+        "--delete-branch"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-long-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-R",
+        "acme/web",
+        "--delete-branch"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-short-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-d",
+        "--repo=acme/web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-short-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-d",
+        "--repo=acme/web"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-short-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-d",
+        "--repo=acme/web"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-cluster-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-dc",
+        "Done",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-cluster-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-dc",
+        "Done",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-cluster-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-dc",
+        "Done",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-interleaved-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "-Racme/web",
+        "close",
+        "12",
+        "-d"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-interleaved-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "-Racme/web",
+        "close",
+        "12",
+        "-d"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-interleaved-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "-Racme/web",
+        "close",
+        "12",
+        "-d"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-branch-selector-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "fix",
+        "-d",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-branch-selector-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "fix",
+        "-d",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-branch-selector-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "fix",
+        "-d",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-unknown-option-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "--future",
+        "x",
+        "-d",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-unknown-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "--future",
+        "x",
+        "-d",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-pr-close-delete-branch-unknown-option-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "--future",
+        "x",
+        "-d",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unset-hosted-interleaved-other-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "-Routside/web",
+        "list",
+        "--repo",
+        "acme/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-interleaved-other-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "-Routside/web",
+        "list",
+        "--repo",
+        "acme/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-interleaved-other-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "-Routside/web",
+        "list",
+        "--repo",
+        "acme/web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-interleaved-matching-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "-Racme/web",
+        "list",
+        "--repo",
+        "acme/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-interleaved-matching-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "-Racme/web",
+        "list",
+        "--repo",
+        "acme/web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unset-hosted-interleaved-matching-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "-Racme/web",
+        "list",
+        "--repo",
+        "acme/web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unset-hosted-mcp-files-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "path": "README.md"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-files-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "path": "README.md"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-files-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "path": "README.md"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-files-other-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "outside",
+          "repo": "web"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-files-other-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "outside",
+          "repo": "web"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-files-other-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "outside",
+          "repo": "web"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-files-missing-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "repo": "web"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-files-missing-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "repo": "web"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-files-missing-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "repo": "web"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-files-array-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": [
+            "acme"
+          ],
+          "repo": "web"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-files-array-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": [
+            "acme"
+          ],
+          "repo": "web"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-files-array-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": [
+            "acme"
+          ],
+          "repo": "web"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-files-dot-repo-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "acme",
+          "repo": ".."
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-files-dot-repo-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "acme",
+          "repo": ".."
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-files-dot-repo-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "acme",
+          "repo": ".."
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-pr-read-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "pull_request_read",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "method": "get_diff",
+          "pullNumber": 12
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-pr-read-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "pull_request_read",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "method": "get_diff",
+          "pullNumber": 12
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-pr-read-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "pull_request_read",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "method": "get_diff",
+          "pullNumber": 12
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-pr-unknown-method-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "pull_request_read",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "method": "future"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-pr-unknown-method-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "pull_request_read",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "method": "future"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-pr-unknown-method-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "pull_request_read",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "method": "future"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-pr-create-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "create_pull_request",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "title": "Fix",
+          "head": "fix",
+          "base": "main"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-pr-create-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "create_pull_request",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "title": "Fix",
+          "head": "fix",
+          "base": "main"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-pr-create-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "create_pull_request",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "title": "Fix",
+          "head": "fix",
+          "base": "main"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-pr-merge-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "merge_pull_request",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "pullNumber": 12
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-pr-merge-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "merge_pull_request",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "pullNumber": 12
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-pr-merge-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "merge_pull_request",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "pullNumber": 12
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-search-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "search_code",
+        "arguments": {
+          "query": "repo:acme/web OR repo:outside/api"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-search-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "search_code",
+        "arguments": {
+          "query": "repo:acme/web OR repo:outside/api"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-search-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "search_code",
+        "arguments": {
+          "query": "repo:acme/web OR repo:outside/api"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-unknown-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "future_tool",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-unknown-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "future_tool",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-unknown-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "future_tool",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "method": "get_project"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "method": "get_project"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "method": "get_project"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-other-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 9,
+          "method": "get_project"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-other-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 9,
+          "method": "get_project"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-other-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 9,
+          "method": "get_project"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-wrong-type-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": "7",
+          "method": "get_project"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-wrong-type-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": "7",
+          "method": "get_project"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-wrong-type-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": "7",
+          "method": "get_project"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-opaque-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "item_id": 99,
+          "method": "get_project_item"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-opaque-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "item_id": 99,
+          "method": "get_project_item"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-opaque-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "item_id": 99,
+          "method": "get_project_item"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-global-field-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "field_id": 99,
+          "method": "get_project_field"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-global-field-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "field_id": 99,
+          "method": "get_project_field"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-global-field-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "field_id": 99,
+          "method": "get_project_field"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-list-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_list",
+        "arguments": {
+          "owner": "acme",
+          "method": "list_projects"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-list-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_list",
+        "arguments": {
+          "owner": "acme",
+          "method": "list_projects"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-list-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_list",
+        "arguments": {
+          "owner": "acme",
+          "method": "list_projects"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-write-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_write",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "method": "delete_project"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-write-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_write",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "method": "delete_project"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "unset-hosted-mcp-project-write-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_write",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "method": "delete_project"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "repository-bound-hosted-version-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "--version"
+      ],
+      "expected": "allow",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "--version"
+      ],
+      "expected": "allow",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-version-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "--version"
+      ],
+      "expected": "allow",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-list-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--json",
+        "number,title"
+      ],
+      "expected": "allow",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--json",
+        "number,title"
+      ],
+      "expected": "allow",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-list-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--json",
+        "number,title"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-list-leading-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "-Racme/web",
+        "pr",
+        "list",
+        "--limit=5"
+      ],
+      "expected": "allow",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-list-leading-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "-Racme/web",
+        "pr",
+        "list",
+        "--limit=5"
+      ],
+      "expected": "allow",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-list-leading-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "-Racme/web",
+        "pr",
+        "list",
+        "--limit=5"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-view-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "view",
+        "12",
+        "--repo=acme/web",
+        "--comments"
+      ],
+      "expected": "allow",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-view-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "view",
+        "12",
+        "--repo=acme/web",
+        "--comments"
+      ],
+      "expected": "allow",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-view-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "view",
+        "12",
+        "--repo=acme/web",
+        "--comments"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-run-log-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "12",
+        "-R",
+        "acme/web",
+        "--log"
+      ],
+      "expected": "allow",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-run-log-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "12",
+        "-R",
+        "acme/web",
+        "--log"
+      ],
+      "expected": "allow",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-run-log-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "12",
+        "-R",
+        "acme/web",
+        "--log"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-create-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "create",
+        "-R",
+        "acme/web",
+        "--title",
+        "A bug",
+        "--body",
+        "Please fix"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "create",
+        "-R",
+        "acme/web",
+        "--title",
+        "A bug",
+        "--body",
+        "Please fix"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-create-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "create",
+        "-R",
+        "acme/web",
+        "--title",
+        "A bug",
+        "--body",
+        "Please fix"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-body-is-not-option-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "create",
+        "-R",
+        "acme/web",
+        "--body",
+        "--repo=outside/repo"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-body-is-not-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "create",
+        "-R",
+        "acme/web",
+        "--body",
+        "--repo=outside/repo"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-body-is-not-option-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "create",
+        "-R",
+        "acme/web",
+        "--body",
+        "--repo=outside/repo"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-merge-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "merge",
+        "12",
+        "-R",
+        "acme/web",
+        "--admin",
+        "--squash"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-merge-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "merge",
+        "12",
+        "-R",
+        "acme/web",
+        "--admin",
+        "--squash"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-merge-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "merge",
+        "12",
+        "-R",
+        "acme/web",
+        "--admin",
+        "--squash"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "delete",
+        "12",
+        "-R",
+        "acme/web",
+        "--yes"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "delete",
+        "12",
+        "-R",
+        "acme/web",
+        "--yes"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "delete",
+        "12",
+        "-R",
+        "acme/web",
+        "--yes"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-repo-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "repo",
+        "delete",
+        "acme/web",
+        "--yes"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-repo-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "repo",
+        "delete",
+        "acme/web",
+        "--yes"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-repo-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "repo",
+        "delete",
+        "acme/web",
+        "--yes"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-implicit-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-implicit-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-implicit-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-other-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-other-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-other-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-repeated-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--repo",
+        "outside/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-repeated-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--repo",
+        "outside/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-repeated-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--repo",
+        "outside/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-leading-other-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "-Routside/web",
+        "issue",
+        "list",
+        "--repo=acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-leading-other-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "-Routside/web",
+        "issue",
+        "list",
+        "--repo=acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-leading-other-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "-Routside/web",
+        "issue",
+        "list",
+        "--repo=acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-url-target-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "view",
+        "https://github.com/outside/web/issues/1",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-url-target-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "view",
+        "https://github.com/outside/web/issues/1",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-url-target-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "view",
+        "https://github.com/outside/web/issues/1",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-search-override-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--search",
+        "repo:outside/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-search-override-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--search",
+        "repo:outside/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-search-override-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--search",
+        "repo:outside/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-unknown-option-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--future"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-unknown-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--future"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-unknown-option-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/web",
+        "--future"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-hostname-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "enterprise.example.com/acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-hostname-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "enterprise.example.com/acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-hostname-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "enterprise.example.com/acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-api-graphql-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query={viewer{login}}"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-api-graphql-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query={viewer{login}}"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-api-graphql-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query={viewer{login}}"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-extension-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "extension",
+        "exec",
+        "custom"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-extension-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "extension",
+        "exec",
+        "custom"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-extension-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "extension",
+        "exec",
+        "custom"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-token-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "auth",
+        "token"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "auth",
+        "token"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-token-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "auth",
+        "token"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-repo-positional-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "repo",
+        "view",
+        "outside/web",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-repo-positional-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "repo",
+        "view",
+        "outside/web",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-repo-positional-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "repo",
+        "view",
+        "outside/web",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-view-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "acme",
+        "--format",
+        "json"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-view-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "acme",
+        "--format",
+        "json"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-view-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "acme",
+        "--format",
+        "json"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-other-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "9",
+        "--owner",
+        "acme"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-other-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "9",
+        "--owner",
+        "acme"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-other-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "9",
+        "--owner",
+        "acme"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-owner-other-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "outside"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-owner-other-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "outside"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-owner-other-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "outside"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-owner-missing-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-owner-missing-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-owner-missing-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-owner-repeated-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "acme",
+        "--owner",
+        "outside"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-owner-repeated-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "acme",
+        "--owner",
+        "outside"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-owner-repeated-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "7",
+        "--owner",
+        "acme",
+        "--owner",
+        "outside"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-list-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "project",
+        "list",
+        "--owner",
+        "acme"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "project",
+        "list",
+        "--owner",
+        "acme"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-list-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "project",
+        "list",
+        "--owner",
+        "acme"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-mutate-id-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "project",
+        "item-edit",
+        "--id",
+        "PVTI_other",
+        "--project-id",
+        "PVT_other"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-mutate-id-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "project",
+        "item-edit",
+        "--id",
+        "PVTI_other",
+        "--project-id",
+        "PVT_other"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-mutate-id-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "project",
+        "item-edit",
+        "--id",
+        "PVTI_other",
+        "--project-id",
+        "PVT_other"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-view-current-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "view",
+        "--json",
+        "number"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-view-current-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "view",
+        "--json",
+        "number"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-view-current-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "view",
+        "--json",
+        "number"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-checks-current-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "checks"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-checks-current-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "checks"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-checks-current-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "checks"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-auth-status-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "auth",
+        "status",
+        "--active"
+      ],
+      "expected": "allow",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-auth-status-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "auth",
+        "status",
+        "--active"
+      ],
+      "expected": "allow",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-auth-status-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "auth",
+        "status",
+        "--active"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-auth-status-token-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "auth",
+        "status",
+        "--show-token"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-auth-status-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "auth",
+        "status",
+        "--show-token"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-auth-status-token-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "auth",
+        "status",
+        "--show-token"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-R",
+        "acme/web",
+        "--comment",
+        "Done"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-R",
+        "acme/web",
+        "--comment",
+        "Done"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-R",
+        "acme/web",
+        "--comment",
+        "Done"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-dot-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/.."
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-dot-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/.."
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-dot-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/.."
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-dot-prefixed-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/.github"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-dot-prefixed-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/.github"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-dot-prefixed-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/.github"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-linuxbrew-other-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "/home/linuxbrew/.linuxbrew/bin/gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-linuxbrew-other-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/home/linuxbrew/.linuxbrew/bin/gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-linuxbrew-other-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "/home/linuxbrew/.linuxbrew/bin/gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-snap-other-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "/snap/bin/gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-snap-other-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/snap/bin/gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-snap-other-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "/snap/bin/gh",
+        "issue",
+        "list",
+        "-R",
+        "outside/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-long-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-R",
+        "acme/web",
+        "--delete-branch"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-long-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-R",
+        "acme/web",
+        "--delete-branch"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-long-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-R",
+        "acme/web",
+        "--delete-branch"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-short-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-d",
+        "--repo=acme/web"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-short-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-d",
+        "--repo=acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-short-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-d",
+        "--repo=acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-cluster-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-dc",
+        "Done",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-cluster-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-dc",
+        "Done",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-cluster-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "-dc",
+        "Done",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-interleaved-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "-Racme/web",
+        "close",
+        "12",
+        "-d"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-interleaved-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "-Racme/web",
+        "close",
+        "12",
+        "-d"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-interleaved-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "-Racme/web",
+        "close",
+        "12",
+        "-d"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-branch-selector-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "fix",
+        "-d",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-branch-selector-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "fix",
+        "-d",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-branch-selector-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "fix",
+        "-d",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-unknown-option-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "--future",
+        "x",
+        "-d",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-unknown-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "--future",
+        "x",
+        "-d",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pr-close-delete-branch-unknown-option-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "pr",
+        "close",
+        "12",
+        "--future",
+        "x",
+        "-d",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pair-crossed-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/api"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pair-crossed-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/api"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-pair-crossed-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "-R",
+        "acme/api"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-second-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "9",
+        "--owner",
+        "other"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-second-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "9",
+        "--owner",
+        "other"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-project-second-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "project",
+        "view",
+        "9",
+        "--owner",
+        "other"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-interleaved-other-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "-Routside/web",
+        "list",
+        "--repo",
+        "acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-interleaved-other-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "-Routside/web",
+        "list",
+        "--repo",
+        "acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-interleaved-other-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "-Routside/web",
+        "list",
+        "--repo",
+        "acme/web"
+      ],
+      "expected": "deny",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-interleaved-matching-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "issue",
+        "-Racme/web",
+        "list",
+        "--repo",
+        "acme/web"
+      ],
+      "expected": "allow",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-interleaved-matching-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "issue",
+        "-Racme/web",
+        "list",
+        "--repo",
+        "acme/web"
+      ],
+      "expected": "allow",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-interleaved-matching-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "issue",
+        "-Racme/web",
+        "list",
+        "--repo",
+        "acme/web"
+      ],
+      "expected": "ask",
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-files-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "path": "README.md"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-files-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "path": "README.md"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-files-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "path": "README.md"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-files-other-loose",
+      "profile": "loose",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "outside",
+          "repo": "web"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-files-other-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "outside",
+          "repo": "web"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-files-other-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "outside",
+          "repo": "web"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-files-missing-loose",
+      "profile": "loose",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "repo": "web"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-files-missing-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "repo": "web"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-files-missing-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "repo": "web"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-files-array-loose",
+      "profile": "loose",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": [
+            "acme"
+          ],
+          "repo": "web"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-files-array-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": [
+            "acme"
+          ],
+          "repo": "web"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-files-array-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": [
+            "acme"
+          ],
+          "repo": "web"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-files-dot-repo-loose",
+      "profile": "loose",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "acme",
+          "repo": ".."
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-files-dot-repo-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "acme",
+          "repo": ".."
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-files-dot-repo-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "acme",
+          "repo": ".."
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-pr-read-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "pull_request_read",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "method": "get_diff",
+          "pullNumber": 12
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-pr-read-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "pull_request_read",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "method": "get_diff",
+          "pullNumber": 12
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-pr-read-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "pull_request_read",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "method": "get_diff",
+          "pullNumber": 12
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-pr-unknown-method-loose",
+      "profile": "loose",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "pull_request_read",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "method": "future"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-pr-unknown-method-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "pull_request_read",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "method": "future"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-pr-unknown-method-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "pull_request_read",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "method": "future"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-pr-create-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "create_pull_request",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "title": "Fix",
+          "head": "fix",
+          "base": "main"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-pr-create-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "create_pull_request",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "title": "Fix",
+          "head": "fix",
+          "base": "main"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-pr-create-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "create_pull_request",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "title": "Fix",
+          "head": "fix",
+          "base": "main"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-pr-merge-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "merge_pull_request",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "pullNumber": 12
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-pr-merge-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "merge_pull_request",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "pullNumber": 12
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-pr-merge-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "merge_pull_request",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web",
+          "pullNumber": 12
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-search-loose",
+      "profile": "loose",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "search_code",
+        "arguments": {
+          "query": "repo:acme/web OR repo:outside/api"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-search-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "search_code",
+        "arguments": {
+          "query": "repo:acme/web OR repo:outside/api"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-search-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "search_code",
+        "arguments": {
+          "query": "repo:acme/web OR repo:outside/api"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-unknown-loose",
+      "profile": "loose",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "future_tool",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-unknown-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "future_tool",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-unknown-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "future_tool",
+        "arguments": {
+          "owner": "acme",
+          "repo": "web"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-loose",
+      "profile": "loose",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "method": "get_project"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "method": "get_project"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "method": "get_project"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-other-loose",
+      "profile": "loose",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 9,
+          "method": "get_project"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-other-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 9,
+          "method": "get_project"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-other-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 9,
+          "method": "get_project"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-wrong-type-loose",
+      "profile": "loose",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": "7",
+          "method": "get_project"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-wrong-type-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": "7",
+          "method": "get_project"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-wrong-type-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": "7",
+          "method": "get_project"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-opaque-loose",
+      "profile": "loose",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "item_id": 99,
+          "method": "get_project_item"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-opaque-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "item_id": 99,
+          "method": "get_project_item"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-opaque-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "item_id": 99,
+          "method": "get_project_item"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-global-field-loose",
+      "profile": "loose",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "field_id": 99,
+          "method": "get_project_field"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-global-field-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "field_id": 99,
+          "method": "get_project_field"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-global-field-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "field_id": 99,
+          "method": "get_project_field"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-list-loose",
+      "profile": "loose",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_list",
+        "arguments": {
+          "owner": "acme",
+          "method": "list_projects"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-list-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_list",
+        "arguments": {
+          "owner": "acme",
+          "method": "list_projects"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-list-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_list",
+        "arguments": {
+          "owner": "acme",
+          "method": "list_projects"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-write-loose",
+      "profile": "loose",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_write",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "method": "delete_project"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-write-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_write",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "method": "delete_project"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-write-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_write",
+        "arguments": {
+          "owner": "acme",
+          "project_number": 7,
+          "method": "delete_project"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-pair-crossed-loose",
+      "profile": "loose",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "list_issues",
+        "arguments": {
+          "owner": "acme",
+          "repo": "api"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-pair-crossed-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "list_issues",
+        "arguments": {
+          "owner": "acme",
+          "repo": "api"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-pair-crossed-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "list_issues",
+        "arguments": {
+          "owner": "acme",
+          "repo": "api"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-second-pair-loose",
+      "profile": "loose",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "list_issues",
+        "arguments": {
+          "owner": "other",
+          "repo": "api"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-second-pair-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "list_issues",
+        "arguments": {
+          "owner": "other",
+          "repo": "api"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-second-pair-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "list_issues",
+        "arguments": {
+          "owner": "other",
+          "repo": "api"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-crossed-loose",
+      "profile": "loose",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "other",
+          "project_number": 7,
+          "method": "get_project"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-crossed-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "other",
+          "project_number": 7,
+          "method": "get_project"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    },
+    {
+      "name": "repository-bound-hosted-mcp-project-crossed-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "github": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/github",
+            "integration": "hosted"
+          },
+          "agents": {
+            "codex": "github"
+          },
+          "packs": {
+            "canonic/github": "hosted"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "github",
+        "tool": "projects_get",
+        "arguments": {
+          "owner": "other",
+          "project_number": 7,
+          "method": "get_project"
+        },
+        "original_input": {}
+      },
+      "variables": {
+        "repository": "acme/web"
+      }
+    }
+  ]
+}
