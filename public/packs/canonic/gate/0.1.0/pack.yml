@@ -1,0 +1,6002 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/gate",
+  "version": "0.1.0",
+  "description": "Gate repository inspection, staging, commits and worktrees, with separate decisions for remotes, history rewrites, branch deletion and workspace policy acceptance.",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.18.0, <1.0.0"
+  },
+  "capabilities": [
+    "access-paths-v1",
+    "argument-paths-v1",
+    "argument-rules-v1",
+    "fallback-rules-v1",
+    "interleaved-leading-v1",
+    "location-v1",
+    "mcp-integrations-v1",
+    "negated-selectors-v1",
+    "prefix-leading-v1",
+    "regex-v1",
+    "requirements-v1",
+    "structured-rules-v1",
+    "unknown-options-v1"
+  ],
+  "mcp_integrations": {
+    "gate": {
+      "transport": "stdio",
+      "fields": {
+        "/command": {
+          "text": {
+            "regex": "gate|/usr/bin/gate|/usr/local/bin/gate|/opt/homebrew/bin/gate|/(?:Users|home)/[A-Za-z0-9_][A-Za-z0-9_.-]*/\\.local/bin/gate"
+          }
+        },
+        "/args/0": {
+          "exact": "mcp"
+        },
+        "/args/1": {
+          "exact": "serve"
+        }
+      },
+      "defaults": {
+        "type": "stdio",
+        "command": "gate",
+        "args": [
+          "mcp",
+          "serve"
+        ],
+        "env": {}
+      }
+    }
+  },
+  "rules": [
+    {
+      "id": "version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print the version or built-in help."
+    },
+    {
+      "id": "version-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print the version or built-in help."
+    },
+    {
+      "id": "help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print the version or built-in help."
+    },
+    {
+      "id": "help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print the version or built-in help."
+    },
+    {
+      "id": "help-command",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print the version or built-in help."
+    },
+    {
+      "id": "help-topic",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "status",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "status"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Show each repository's changes and unassigned files."
+    },
+    {
+      "id": "status-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "status",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "status-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "status",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "diff",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "diff"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Show a repository's working or staged diff."
+    },
+    {
+      "id": "diff-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "diff",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "diff-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "diff",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "explain",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "explain"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Show which repository owns, excludes or ignores paths."
+    },
+    {
+      "id": "explain-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "explain",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "explain-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "explain",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "check",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "check"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Validate an index or new commits without changing them."
+    },
+    {
+      "id": "check-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "check",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "check-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "check",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "doctor",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "doctor"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Report workspace, repository, hook and remote problems."
+    },
+    {
+      "id": "doctor-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "doctor",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "doctor-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "doctor",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "branch-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "branch",
+            "list"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "List local branches and where they are checked out."
+    },
+    {
+      "id": "branch-list-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "branch",
+            "list",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "branch-list-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "branch",
+            "list",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "remote-show",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "remote",
+            "show"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Show a remote binding."
+    },
+    {
+      "id": "remote-show-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "remote",
+            "show",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "remote-show-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "remote",
+            "show",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "session-status",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "session",
+            "status"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Show an isolated session and its policy drift."
+    },
+    {
+      "id": "session-status-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "session",
+            "status",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "session-status-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "session",
+            "status",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "worktree-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "worktree",
+            "list"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "List combined worktrees."
+    },
+    {
+      "id": "worktree-list-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "worktree",
+            "list",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "worktree-list-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "worktree",
+            "list",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "worktree-status",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "worktree",
+            "status"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Inspect a worktree's binding and preparation."
+    },
+    {
+      "id": "worktree-status-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "worktree",
+            "status",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "worktree-status-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "worktree",
+            "status",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "add",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "add"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Stage owned files in a repository's index."
+    },
+    {
+      "id": "add-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "add",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "add-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "add",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "add-force",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "prefix": [
+            "add"
+          ],
+          "flags": [
+            "--json",
+            "-A",
+            "-f",
+            "-S",
+            "--force"
+          ],
+          "values": [
+            "--project",
+            "-r",
+            "-m",
+            "-c",
+            "-C",
+            "-b"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--force",
+            "-f"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Stage files the repository's ignore rules skip, which can include local secrets and build output."
+    },
+    {
+      "id": "apply",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "apply"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Stage a patch's changes in a repository's index; working files are not written."
+    },
+    {
+      "id": "apply-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "apply",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "apply-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "apply",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "commit",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "commit"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Commit staged changes after Gate validates them."
+    },
+    {
+      "id": "commit-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "commit",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "commit-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "commit",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "commit-amend",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "prefix": [
+            "commit"
+          ],
+          "flags": [
+            "--json",
+            "-A",
+            "-f",
+            "-S",
+            "--amend"
+          ],
+          "values": [
+            "--project",
+            "-r",
+            "-m",
+            "-c",
+            "-C",
+            "-b"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--amend"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Replace the branch's last commit."
+    },
+    {
+      "id": "switch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "switch"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Switch a repository's branch after checking other repositories' files."
+    },
+    {
+      "id": "switch-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "switch",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "switch-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "switch",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "switch-force-create",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "prefix": [
+            "switch"
+          ],
+          "flags": [
+            "--json",
+            "-A",
+            "-f",
+            "-S"
+          ],
+          "values": [
+            "--project",
+            "-r",
+            "-m",
+            "-c",
+            "-C",
+            "-b",
+            "--force-create"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--force-create",
+            "-C"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Create or move an existing branch to another revision."
+    },
+    {
+      "id": "worktree-add",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "worktree",
+            "add"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Create a combined checkout of every repository in another folder."
+    },
+    {
+      "id": "worktree-add-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "worktree",
+            "add",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "worktree-add-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "worktree",
+            "add",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "worktree-add-folder",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "prefix": [
+            "worktree",
+            "add"
+          ],
+          "flags": [
+            "--json",
+            "-A",
+            "-f",
+            "-S"
+          ],
+          "values": [
+            "--project",
+            "-r",
+            "-m",
+            "-c",
+            "-C",
+            "-b"
+          ],
+          "operands": true,
+          "unknown_options": "skip"
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Create a combined checkout in a folder inside the project.",
+      "requirements": {
+        "argument_paths": {
+          "grammar": {
+            "kind": "options",
+            "leading": {
+              "flags": [
+                "--json"
+              ],
+              "values": [
+                "--project"
+              ],
+              "interleaved": true
+            },
+            "prefix": [
+              "worktree",
+              "add"
+            ],
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project",
+              "-b",
+              "--branch",
+              "--name",
+              "--repo-from"
+            ],
+            "operands": true
+          },
+          "operands": {
+            "path": {
+              "within": {
+                "root": "write"
+              },
+              "exclude": [
+                {
+                  "root": "project",
+                  "path": ".shield"
+                },
+                {
+                  "root": "project",
+                  "path": ".git"
+                },
+                {
+                  "root": "project",
+                  "path": ".aws"
+                },
+                {
+                  "root": "project",
+                  "path": ".ssh"
+                },
+                {
+                  "root": "project",
+                  "path": ".env"
+                },
+                {
+                  "root": "project",
+                  "path": ".mcp.json"
+                },
+                {
+                  "root": "project",
+                  "path": ".codex"
+                },
+                {
+                  "root": "project",
+                  "path": ".claude"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": {
+          "loose": "ask",
+          "recommended": "ask",
+          "strict": "ask"
+        },
+        "message": "Name a file inside the project, away from version control, credentials and agent settings."
+      }
+    },
+    {
+      "id": "session-start",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "session",
+            "start"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Activate an independent committed checkout; shared files are untouched."
+    },
+    {
+      "id": "session-start-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "session",
+            "start",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "session-start-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "session",
+            "start",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "session-stop",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "session",
+            "stop"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Retain a session and restore the original entry."
+    },
+    {
+      "id": "session-stop-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "session",
+            "stop",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "session-stop-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "session",
+            "stop",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "session-resume",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "session",
+            "resume"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Reactivate a retained session checkout."
+    },
+    {
+      "id": "session-resume-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "session",
+            "resume",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "session-resume-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "session",
+            "resume",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "fetch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "fetch"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Fetch branches from a bound remote."
+    },
+    {
+      "id": "fetch-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "fetch",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "fetch-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "fetch",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "push",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "push"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Publish a branch to a bound remote."
+    },
+    {
+      "id": "push-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "push",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "push-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "push",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "push-force-with-lease",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "prefix": [
+            "push"
+          ],
+          "flags": [
+            "--json",
+            "-A",
+            "-f",
+            "-S"
+          ],
+          "values": [
+            "--project",
+            "-r",
+            "-m",
+            "-c",
+            "-C",
+            "-b",
+            "--force-with-lease"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--force-with-lease"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Replace remote history with rewritten commits."
+    },
+    {
+      "id": "remote-add",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "remote",
+            "add"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Bind the destination that fetches and pushes use."
+    },
+    {
+      "id": "remote-add-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "remote",
+            "add",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "remote-add-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "remote",
+            "add",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "attach",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "attach"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Attach a fetched commit as the repository's checked-out history."
+    },
+    {
+      "id": "attach-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "attach",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "attach-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "attach",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "branch-remove",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "branch",
+            "remove"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Delete local branches whose commits other refs keep."
+    },
+    {
+      "id": "branch-remove-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "branch",
+            "remove",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "branch-remove-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "branch",
+            "remove",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "branch-remove-force",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "prefix": [
+            "branch",
+            "remove"
+          ],
+          "flags": [
+            "--json",
+            "-A",
+            "-f",
+            "-S",
+            "--force"
+          ],
+          "values": [
+            "--project",
+            "-r",
+            "-m",
+            "-c",
+            "-C",
+            "-b"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--force",
+            "-f"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete branches whose commits nothing else keeps."
+    },
+    {
+      "id": "session-promote",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "session",
+            "promote"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Adopt a session's validated history into its branch."
+    },
+    {
+      "id": "session-promote-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "session",
+            "promote",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "session-promote-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "session",
+            "promote",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "session-remove",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "session",
+            "remove"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Plan deleting a stopped session and list work found only there."
+    },
+    {
+      "id": "session-remove-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "session",
+            "remove",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "session-remove-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "session",
+            "remove",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "session-remove-confirm",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "prefix": [
+            "session",
+            "remove"
+          ],
+          "flags": [
+            "--json",
+            "-A",
+            "-f",
+            "-S"
+          ],
+          "values": [
+            "--project",
+            "-r",
+            "-m",
+            "-c",
+            "-C",
+            "-b",
+            "--confirm"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--confirm"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Delete a stopped session, including work found only there."
+    },
+    {
+      "id": "worktree-remove",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "worktree",
+            "remove"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Plan removing a clean worktree."
+    },
+    {
+      "id": "worktree-remove-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "worktree",
+            "remove",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "worktree-remove-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "worktree",
+            "remove",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "worktree-remove-confirm",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "prefix": [
+            "worktree",
+            "remove"
+          ],
+          "flags": [
+            "--json",
+            "-A",
+            "-f",
+            "-S"
+          ],
+          "values": [
+            "--project",
+            "-r",
+            "-m",
+            "-c",
+            "-C",
+            "-b",
+            "--confirm"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--confirm"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Remove a clean worktree folder; its branches and source remain."
+    },
+    {
+      "id": "worktree-repair",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "worktree",
+            "repair"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Review refreshed directory identities for a worktree."
+    },
+    {
+      "id": "worktree-repair-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "worktree",
+            "repair",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "worktree-repair-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "worktree",
+            "repair",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "worktree-repair-confirm",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "prefix": [
+            "worktree",
+            "repair"
+          ],
+          "flags": [
+            "--json",
+            "-A",
+            "-f",
+            "-S"
+          ],
+          "values": [
+            "--project",
+            "-r",
+            "-m",
+            "-c",
+            "-C",
+            "-b",
+            "--confirm"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--confirm"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Rewrite a worktree's recorded directory identities."
+    },
+    {
+      "id": "relocate",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "relocate"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Review rebinding a moved workspace or worktree."
+    },
+    {
+      "id": "relocate-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "relocate",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "relocate-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "relocate",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "relocate-confirm",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "prefix": [
+            "relocate"
+          ],
+          "flags": [
+            "--json",
+            "-A",
+            "-f",
+            "-S"
+          ],
+          "values": [
+            "--project",
+            "-r",
+            "-m",
+            "-c",
+            "-C",
+            "-b",
+            "--confirm"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--confirm"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Rebind a moved workspace and its worktrees."
+    },
+    {
+      "id": "recover",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "recover"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Resolve an interrupted staging, commit, attachment or acceptance."
+    },
+    {
+      "id": "recover-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "recover",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "recover-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "recover",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "init",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "init"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Create repositories from an existing gate.yml and sync them."
+    },
+    {
+      "id": "init-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "init",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "init-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "init",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "sync",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "sync"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Report what applying gate.yml would change."
+    },
+    {
+      "id": "sync-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "sync",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "sync-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "sync",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "sync-apply",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "prefix": [
+            "sync"
+          ],
+          "flags": [
+            "--json",
+            "-A",
+            "-f",
+            "-S",
+            "--dry-run"
+          ],
+          "values": [
+            "--project",
+            "-r",
+            "-m",
+            "-c",
+            "-C",
+            "-b"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "forbid": [
+            "--dry-run"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Accept a changed gate.yml and apply its repository, hook and exclude changes."
+    },
+    {
+      "id": "migrate",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "migrate"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Plan adoption of ordinary .git directories."
+    },
+    {
+      "id": "migrate-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "migrate",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "migrate-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "migrate",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "migrate-apply",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "prefix": [
+            "migrate"
+          ],
+          "flags": [
+            "--json",
+            "-A",
+            "-f",
+            "-S",
+            "--apply",
+            "--recover"
+          ],
+          "values": [
+            "--project",
+            "-r",
+            "-m",
+            "-c",
+            "-C",
+            "-b"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--apply",
+            "--recover"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Adopt or restore repository metadata."
+    },
+    {
+      "id": "mcp-serve",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "mcp",
+            "serve"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "Serve MCP over standard input until it closes."
+    },
+    {
+      "id": "mcp-serve-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "mcp",
+            "serve",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "mcp-serve-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "mcp",
+            "serve",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "mcp-setup",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "values": [
+            "mcp",
+            "setup"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Inspect agent MCP registrations."
+    },
+    {
+      "id": "mcp-setup-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "mcp",
+            "setup",
+            "--help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "mcp-setup-help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "mcp",
+            "setup",
+            "-h"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print built-in help for a command."
+    },
+    {
+      "id": "mcp-setup-apply",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "prefix": [
+            "mcp",
+            "setup"
+          ],
+          "flags": [
+            "--json",
+            "-A",
+            "-f",
+            "-S",
+            "--dry-run"
+          ],
+          "values": [
+            "--project",
+            "-r",
+            "-m",
+            "-c",
+            "-C",
+            "-b"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "forbid": [
+            "--dry-run"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Change agent MCP registrations after a terminal review."
+    },
+    {
+      "id": "exact-mcp-serve-check",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "mcp",
+            "serve",
+            "--check"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print the MCP server identity and tool names without serving."
+    },
+    {
+      "id": "exact-mcp-serve-check-json",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "mcp",
+            "serve",
+            "--check",
+            "--json"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print the MCP server identity and tool names without serving."
+    },
+    {
+      "id": "exact-mcp-serve-check-json-leading",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--json",
+            "mcp",
+            "serve",
+            "--check"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Print the MCP server identity and tool names without serving."
+    },
+    {
+      "id": "project-option",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--project"
+            ],
+            "interleaved": true
+          },
+          "prefix": [],
+          "flags": [
+            "--json",
+            "-A",
+            "-f",
+            "-S"
+          ],
+          "values": [
+            "--project",
+            "-r",
+            "-m",
+            "-c",
+            "-C",
+            "-b"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--project"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "reason": "An explicit --project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "unlisted",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gate",
+            "/usr/bin/gate",
+            "/usr/local/bin/gate",
+            "/opt/homebrew/bin/gate"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Unlisted Gate syntax and commands run outside approved project folders require review."
+    },
+    {
+      "id": "mcp-status",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "status"
+      },
+      "reason": "Show repository changes."
+    },
+    {
+      "id": "mcp-status-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "status",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-diff",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "diff"
+      },
+      "reason": "Show a diff."
+    },
+    {
+      "id": "mcp-diff-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "diff",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-explain",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "explain"
+      },
+      "reason": "Show path ownership."
+    },
+    {
+      "id": "mcp-explain-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "explain",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-check",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "check"
+      },
+      "reason": "Validate an index or commits."
+    },
+    {
+      "id": "mcp-check-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "check",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-doctor",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "doctor"
+      },
+      "reason": "Report problems."
+    },
+    {
+      "id": "mcp-doctor-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "doctor",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-branch_list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "branch_list"
+      },
+      "reason": "List local branches."
+    },
+    {
+      "id": "mcp-branch_list-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "branch_list",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-remote_show",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "remote_show"
+      },
+      "reason": "Show a remote binding."
+    },
+    {
+      "id": "mcp-remote_show-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "remote_show",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-session_status",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "session_status"
+      },
+      "reason": "Show an isolated session."
+    },
+    {
+      "id": "mcp-session_status-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "session_status",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-worktree_list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "worktree_list"
+      },
+      "reason": "List worktrees."
+    },
+    {
+      "id": "mcp-worktree_list-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "worktree_list",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-worktree_status",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "worktree_status"
+      },
+      "reason": "Inspect a worktree."
+    },
+    {
+      "id": "mcp-worktree_status-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "worktree_status",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-gate_docs_list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "gate_docs_list"
+      },
+      "reason": "List bundled documentation."
+    },
+    {
+      "id": "mcp-gate_docs_list-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "gate_docs_list",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-gate_docs_read",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "gate_docs_read"
+      },
+      "reason": "Read bundled documentation."
+    },
+    {
+      "id": "mcp-gate_docs_read-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "gate_docs_read",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-gate_docs_search",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "gate_docs_search"
+      },
+      "reason": "Search bundled documentation."
+    },
+    {
+      "id": "mcp-gate_docs_search-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "gate_docs_search",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-add",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "add"
+      },
+      "reason": "Stage owned files."
+    },
+    {
+      "id": "mcp-add-force",
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "add",
+        "fields": {
+          "/force": {
+            "exact": true
+          }
+        }
+      },
+      "reason": "Stage files the ignore rules skip."
+    },
+    {
+      "id": "mcp-add-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "add",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-apply",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "apply"
+      },
+      "reason": "Stage a patch in the index."
+    },
+    {
+      "id": "mcp-apply-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "apply",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-commit",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "commit"
+      },
+      "reason": "Commit staged changes."
+    },
+    {
+      "id": "mcp-commit-amend",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "commit",
+        "fields": {
+          "/amend": {
+            "exact": true
+          }
+        }
+      },
+      "reason": "Replace the branch's last commit."
+    },
+    {
+      "id": "mcp-commit-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "commit",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-switch",
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "switch"
+      },
+      "reason": "Switch a branch."
+    },
+    {
+      "id": "mcp-switch-force-create",
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "switch",
+        "fields": {
+          "/force_create": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "Create or move an existing branch."
+    },
+    {
+      "id": "mcp-switch-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "switch",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-worktree_add",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "worktree_add"
+      },
+      "reason": "Create a combined worktree in another folder."
+    },
+    {
+      "id": "mcp-worktree_add-task-folder",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "worktree_add",
+        "fields": {
+          "/path": {
+            "text": {
+              "regex": "\\.gate/tasks/[A-Za-z0-9_][A-Za-z0-9_.-]*"
+            }
+          }
+        }
+      },
+      "reason": "Create a combined worktree under .gate/tasks."
+    },
+    {
+      "id": "mcp-worktree_add-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "worktree_add",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-session_start",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "session_start"
+      },
+      "reason": "Start an isolated session."
+    },
+    {
+      "id": "mcp-session_start-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "session_start",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-session_stop",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "session_stop"
+      },
+      "reason": "Stop an isolated session, retaining it."
+    },
+    {
+      "id": "mcp-session_stop-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "session_stop",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-session_resume",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "session_resume"
+      },
+      "reason": "Resume a retained session."
+    },
+    {
+      "id": "mcp-session_resume-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "session_resume",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-fetch",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "fetch"
+      },
+      "reason": "Fetch from a bound remote."
+    },
+    {
+      "id": "mcp-fetch-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "fetch",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-push",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "push"
+      },
+      "reason": "Publish a branch."
+    },
+    {
+      "id": "mcp-push-force-with-lease",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "push",
+        "fields": {
+          "/force_with_lease": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "Replace remote history."
+    },
+    {
+      "id": "mcp-push-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "push",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-remote_add",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "remote_add"
+      },
+      "reason": "Bind a remote destination."
+    },
+    {
+      "id": "mcp-remote_add-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "remote_add",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-attach",
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "attach"
+      },
+      "reason": "Attach a fetched commit."
+    },
+    {
+      "id": "mcp-attach-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "attach",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-branch_remove",
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "branch_remove"
+      },
+      "reason": "Delete branches whose commits other refs keep."
+    },
+    {
+      "id": "mcp-branch_remove-force",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "branch_remove",
+        "fields": {
+          "/force": {
+            "exact": true
+          }
+        }
+      },
+      "reason": "Delete branches whose commits nothing else keeps."
+    },
+    {
+      "id": "mcp-branch_remove-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "branch_remove",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-session_promote",
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "session_promote"
+      },
+      "reason": "Adopt a session's history."
+    },
+    {
+      "id": "mcp-session_promote-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "session_promote",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-session_remove",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "session_remove"
+      },
+      "reason": "Delete a stopped session, including work found only there."
+    },
+    {
+      "id": "mcp-session_remove-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "session_remove",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-worktree_remove",
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove"
+      },
+      "reason": "Remove a clean worktree."
+    },
+    {
+      "id": "mcp-worktree_remove-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-worktree_repair",
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "worktree_repair"
+      },
+      "reason": "Rewrite worktree directory identities."
+    },
+    {
+      "id": "mcp-worktree_repair-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "worktree_repair",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-recover",
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "recover"
+      },
+      "reason": "Resolve an interrupted operation."
+    },
+    {
+      "id": "mcp-recover-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "recover",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-init",
+      "decision": {
+        "loose": "allow",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "init"
+      },
+      "reason": "Create repositories from gate.yml."
+    },
+    {
+      "id": "mcp-init-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "ask"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "init",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-sync",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "sync"
+      },
+      "reason": "Accept and apply gate.yml."
+    },
+    {
+      "id": "mcp-sync-dry-run",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "sync",
+        "fields": {
+          "/dry_run": {
+            "exact": true
+          }
+        }
+      },
+      "reason": "Report what applying gate.yml would change."
+    },
+    {
+      "id": "mcp-sync-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "sync",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-migrate",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "migrate"
+      },
+      "reason": "Plan adoption of .git directories."
+    },
+    {
+      "id": "mcp-migrate-apply",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "migrate",
+        "fields": {
+          "/apply": {
+            "exact": true
+          }
+        }
+      },
+      "reason": "Adopt repository metadata."
+    },
+    {
+      "id": "mcp-migrate-recover",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "migrate",
+        "fields": {
+          "/recover": {
+            "exact": true
+          }
+        }
+      },
+      "reason": "Restore repository metadata."
+    },
+    {
+      "id": "mcp-migrate-project",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": "migrate",
+        "fields": {
+          "/project": {
+            "text": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      },
+      "reason": "An explicit project can select a folder outside the approved project; review the selected folder."
+    },
+    {
+      "id": "mcp-unlisted",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "conditions": {
+        "domain": "mcp",
+        "server": "gate",
+        "tool": {
+          "not": {
+            "one_of": [
+              "status",
+              "diff",
+              "explain",
+              "check",
+              "doctor",
+              "branch_list",
+              "remote_show",
+              "session_status",
+              "worktree_list",
+              "worktree_status",
+              "gate_docs_list",
+              "gate_docs_read",
+              "gate_docs_search",
+              "add",
+              "apply",
+              "commit",
+              "switch",
+              "worktree_add",
+              "session_start",
+              "session_stop",
+              "session_resume",
+              "fetch",
+              "push",
+              "remote_add",
+              "attach",
+              "branch_remove",
+              "session_promote",
+              "session_remove",
+              "worktree_remove",
+              "worktree_repair",
+              "recover",
+              "init",
+              "sync",
+              "migrate"
+            ]
+          }
+        }
+      },
+      "reason": "Unknown Gate MCP tools require review.",
+      "fallback": true
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "sequence": 30,
+  "sequence": 31,
   "expires_at": "2027-01-16T00:00:00Z",
   "packs": [
     "packs/canonic/git/0.1.0/pack.yml",
@@ -43,9 +43,25 @@
     "packs/canonic/node/0.3.0/pack.yml",
     "packs/canonic/baseline/0.10.0/pack.yml",
     "packs/canonic/node/0.3.1/pack.yml",
-    "packs/canonic/aws/0.1.0/pack.yml"
+    "packs/canonic/aws/0.1.0/pack.yml",
+    "packs/canonic/github/0.1.0/pack.yml",
+    "packs/canonic/gate/0.1.0/pack.yml",
+    "packs/canonic/box/0.1.0/pack.yml",
+    "packs/canonic/testrun/0.1.0/pack.yml"
   ],
   "commands": {
+    "canonic/github": [
+      "gh"
+    ],
+    "canonic/gate": [
+      "gate"
+    ],
+    "canonic/box": [
+      "box"
+    ],
+    "canonic/testrun": [
+      "testrun"
+    ],
     "canonic/aws": [
       "aws"
     ],

@@ -1,0 +1,5492 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "version-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "list-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "list",
+        "--removed"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "list",
+        "--removed"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "list-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "list",
+        "--removed"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "old-top-level-create-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "create",
+        "acme-fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "old-top-level-create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "create",
+        "acme-fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "old-top-level-create-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "create",
+        "acme-fix"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "status-json-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--json",
+        "status",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "status-json-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--json",
+        "status",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "status-json-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--json",
+        "status",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "content-show-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "content",
+        "show",
+        "--section",
+        "roadmap"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "content-show-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "content",
+        "show",
+        "--section",
+        "roadmap"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "content-show-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "content",
+        "show",
+        "--section",
+        "roadmap"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "roadmap-next-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "roadmap",
+        "next"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "roadmap-next-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "roadmap",
+        "next"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "roadmap-next-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "roadmap",
+        "next"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "logs-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "logs",
+        "acme",
+        "--service",
+        "web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "logs-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "logs",
+        "acme",
+        "--service",
+        "web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "logs-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "logs",
+        "acme",
+        "--service",
+        "web"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "logs-follow-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "logs",
+        "acme",
+        "--follow"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "logs-follow-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "logs",
+        "acme",
+        "--follow"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "logs-follow-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "logs",
+        "acme",
+        "--follow"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "watch-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "watch",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "watch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "watch",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "watch-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "watch",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cleanup-dry-run-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "cleanup",
+        "acme",
+        "--dry-run"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cleanup-dry-run-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "cleanup",
+        "acme",
+        "--dry-run"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cleanup-dry-run-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "cleanup",
+        "acme",
+        "--dry-run"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cleanup-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "cleanup",
+        "acme",
+        "--all",
+        "--confirm",
+        "abc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cleanup-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "cleanup",
+        "acme",
+        "--all",
+        "--confirm",
+        "abc"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cleanup-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "cleanup",
+        "acme",
+        "--all",
+        "--confirm",
+        "abc"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "data-reset-plan-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "data",
+        "reset",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "data-reset-plan-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "data",
+        "reset",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "data-reset-plan-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "data",
+        "reset",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "data-reset-confirm-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "data",
+        "reset",
+        "acme",
+        "--confirm",
+        "abc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "data-reset-confirm-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "data",
+        "reset",
+        "acme",
+        "--confirm",
+        "abc"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "data-reset-confirm-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "data",
+        "reset",
+        "acme",
+        "--confirm",
+        "abc"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "note-add-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "note",
+        "add",
+        "--text",
+        "Checked the parser"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "note-add-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "note",
+        "add",
+        "--text",
+        "Checked the parser"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "note-add-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "note",
+        "add",
+        "--text",
+        "Checked the parser"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "note-add-file-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "note",
+        "add",
+        "--if-revision",
+        "3",
+        "--description-file",
+        "notes/parser.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "note-add-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "note",
+        "add",
+        "--if-revision",
+        "3",
+        "--description-file",
+        "notes/parser.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "note-add-file-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "note",
+        "add",
+        "--if-revision",
+        "3",
+        "--description-file",
+        "notes/parser.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "note-add-file-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "note",
+        "add",
+        "--if-revision",
+        "3",
+        "--description-file",
+        "/Users/acme/.ssh/id_rsa"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "note-add-file-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "note",
+        "add",
+        "--if-revision",
+        "3",
+        "--description-file",
+        "/Users/acme/.ssh/id_rsa"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "note-add-file-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "note",
+        "add",
+        "--if-revision",
+        "3",
+        "--description-file",
+        "/Users/acme/.ssh/id_rsa"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "blocker-resolve-file-git-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "blocker",
+        "resolve",
+        "b-1",
+        "--if-revision",
+        "3",
+        "--description-file=.git/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "blocker-resolve-file-git-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "blocker",
+        "resolve",
+        "b-1",
+        "--if-revision",
+        "3",
+        "--description-file=.git/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "blocker-resolve-file-git-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "blocker",
+        "resolve",
+        "b-1",
+        "--if-revision",
+        "3",
+        "--description-file=.git/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "handoff-file-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "handoff",
+        "set",
+        "--if-revision",
+        "3",
+        "--goal-file",
+        "/acme/elsewhere/goal.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "handoff-file-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "handoff",
+        "set",
+        "--if-revision",
+        "3",
+        "--goal-file",
+        "/acme/elsewhere/goal.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "handoff-file-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "handoff",
+        "set",
+        "--if-revision",
+        "3",
+        "--goal-file",
+        "/acme/elsewhere/goal.md"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "update-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "update",
+        "acme",
+        "--if-revision",
+        "3",
+        "--goal",
+        "Ship it"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "update-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "update",
+        "acme",
+        "--if-revision",
+        "3",
+        "--goal",
+        "Ship it"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "update-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "update",
+        "acme",
+        "--if-revision",
+        "3",
+        "--goal",
+        "Ship it"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "update-goal-file-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "update",
+        "acme",
+        "--if-revision",
+        "3",
+        "--goal-file",
+        "goal.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "update-goal-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "update",
+        "acme",
+        "--if-revision",
+        "3",
+        "--goal-file",
+        "goal.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "update-goal-file-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "update",
+        "acme",
+        "--if-revision",
+        "3",
+        "--goal-file",
+        "goal.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--goal",
+        "Fix the parser"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--goal",
+        "Fix the parser"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "create-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--goal",
+        "Fix the parser"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-path-inside-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--path",
+        "checkouts/acme-fix"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "create-path-inside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--path",
+        "checkouts/acme-fix"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "create-path-inside-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--path",
+        "checkouts/acme-fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-path-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--path",
+        "/acme/elsewhere/acme-fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-path-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--path",
+        "/acme/elsewhere/acme-fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-path-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--path",
+        "/acme/elsewhere/acme-fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-path-sibling-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--path=../acme-fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-path-sibling-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--path=../acme-fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-path-sibling-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--path=../acme-fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-goal-file-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--goal-file",
+        "goal.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "create-goal-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--goal-file",
+        "goal.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "create-goal-file-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--goal-file",
+        "goal.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-goal-file-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--goal-file",
+        "/Users/acme/.ssh/id_rsa"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "create-goal-file-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--goal-file",
+        "/Users/acme/.ssh/id_rsa"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "create-goal-file-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--goal-file",
+        "/Users/acme/.ssh/id_rsa"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "attach-inside-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "attach",
+        "review",
+        "review-checkout"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "attach-inside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "attach",
+        "review",
+        "review-checkout"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "attach-inside-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "attach",
+        "review",
+        "review-checkout"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "attach-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "attach",
+        "review",
+        "/acme/elsewhere/review"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "attach-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "attach",
+        "review",
+        "/acme/elsewhere/review"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "attach-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "attach",
+        "review",
+        "/acme/elsewhere/review"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "attach-description-file-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "attach",
+        "review",
+        "review-checkout",
+        "--description-file",
+        "/Users/acme/.aws/credentials"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "attach-description-file-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "attach",
+        "review",
+        "review-checkout",
+        "--description-file",
+        "/Users/acme/.aws/credentials"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "attach-description-file-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "attach",
+        "review",
+        "review-checkout",
+        "--description-file",
+        "/Users/acme/.aws/credentials"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "create-shell-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--shell"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-shell-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--shell"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-shell-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--shell"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "create-command-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-command-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-command-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "create-command-after-json-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--json",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-command-after-json-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--json",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-command-after-json-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--json",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "create-command-after-project-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--project=.",
+        "--json",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-command-after-project-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--project=.",
+        "--json",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-command-after-project-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--project=.",
+        "--json",
+        "workspace",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "create-command-interleaved-json-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "--json",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-command-interleaved-json-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "--json",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-command-interleaved-json-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "--json",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "create-command-interleaved-project-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "--project",
+        ".",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-command-interleaved-project-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "--project",
+        ".",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-command-interleaved-project-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "--project",
+        ".",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "create-command-split-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--json",
+        "workspace",
+        "--project=.",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-command-split-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--json",
+        "workspace",
+        "--project=.",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-command-split-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--json",
+        "workspace",
+        "--project=.",
+        "create",
+        "acme-fix",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "export-output-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "content",
+        "export",
+        "--output",
+        "plan.json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "export-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "content",
+        "export",
+        "--output",
+        "plan.json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "export-output-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "content",
+        "export",
+        "--output",
+        "plan.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "export-overwrite-home-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "content",
+        "export",
+        "--output",
+        "/Users/acme/.zshrc",
+        "--overwrite"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "export-overwrite-home-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "content",
+        "export",
+        "--output",
+        "/Users/acme/.zshrc",
+        "--overwrite"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "export-overwrite-home-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "content",
+        "export",
+        "--output",
+        "/Users/acme/.zshrc",
+        "--overwrite"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "export-overwrite-git-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "content",
+        "export",
+        "--output=.git/config",
+        "--overwrite"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "export-overwrite-git-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "content",
+        "export",
+        "--output=.git/config",
+        "--overwrite"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "export-overwrite-git-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "content",
+        "export",
+        "--output=.git/config",
+        "--overwrite"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apply-file-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "content",
+        "apply",
+        "--if-revision",
+        "3",
+        "--file",
+        "/Users/acme/.ssh/id_rsa"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apply-file-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "content",
+        "apply",
+        "--if-revision",
+        "3",
+        "--file",
+        "/Users/acme/.ssh/id_rsa"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apply-file-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "content",
+        "apply",
+        "--if-revision",
+        "3",
+        "--file",
+        "/Users/acme/.ssh/id_rsa"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "import-file-credentials-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "content",
+        "import",
+        "--if-revision",
+        "3",
+        "--mode",
+        "merge",
+        "--file",
+        ".env"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "import-file-credentials-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "content",
+        "import",
+        "--if-revision",
+        "3",
+        "--mode",
+        "merge",
+        "--file",
+        ".env"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "import-file-credentials-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "content",
+        "import",
+        "--if-revision",
+        "3",
+        "--mode",
+        "merge",
+        "--file",
+        ".env"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "run-set-env-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "run",
+        "web",
+        "--set-env",
+        "PATH=/acme/bin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "run-set-env-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "run",
+        "web",
+        "--set-env",
+        "PATH=/acme/bin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "run-set-env-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "run",
+        "web",
+        "--set-env",
+        "PATH=/acme/bin"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "run-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "run",
+        "web",
+        "--detach"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "run-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "run",
+        "web",
+        "--detach"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "run-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "run",
+        "web",
+        "--detach"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stop-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "stop",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stop-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "stop",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stop-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "stop",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stop-self-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "stop",
+        "acme",
+        "--allow-self-stop"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stop-self-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "stop",
+        "acme",
+        "--allow-self-stop"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stop-self-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "stop",
+        "acme",
+        "--allow-self-stop"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "exec-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "exec",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "exec-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "exec",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "exec-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "exec",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shell-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "shell"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shell-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "shell"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shell-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "shell"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--",
+        "npm",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-status-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-status-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-status-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--",
+        "status"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-json-status-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-json-status-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-json-status-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "status"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-json-content-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "content",
+        "show"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-json-content-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "content",
+        "show"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-json-content-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "content",
+        "show"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-output-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--",
+        "content",
+        "export",
+        "--output",
+        "plan.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--",
+        "content",
+        "export",
+        "--output",
+        "plan.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-output-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--",
+        "content",
+        "export",
+        "--output",
+        "plan.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-json-output-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "content",
+        "export",
+        "--output",
+        "plan.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-json-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "content",
+        "export",
+        "--output",
+        "plan.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-json-output-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "content",
+        "export",
+        "--output",
+        "plan.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-json-empty-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--json",
+        "--"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-json-empty-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--json",
+        "--"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-json-empty-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--json",
+        "--"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-json-help-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "status",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-json-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "status",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-json-help-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "status",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-project-json-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--project=.",
+        "--json",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-project-json-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--project=.",
+        "--json",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-project-json-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--project=.",
+        "--json",
+        "--",
+        "status"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-json-project-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--json",
+        "--project",
+        ".",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-json-project-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--json",
+        "--project",
+        ".",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-json-project-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--json",
+        "--project",
+        ".",
+        "--",
+        "status"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-project-separate-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--project",
+        ".",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-project-separate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--project",
+        ".",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-project-separate-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--project",
+        ".",
+        "--",
+        "status"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-project-equals-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--project=.",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-project-equals-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--project=.",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-project-equals-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--project=.",
+        "--",
+        "status"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-json-project-equals-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--json",
+        "--project=.",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-json-project-equals-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--json",
+        "--project=.",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-json-project-equals-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--json",
+        "--project=.",
+        "--",
+        "status"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-project-separate-json-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--project",
+        ".",
+        "--json",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-project-separate-json-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--project",
+        ".",
+        "--json",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-project-separate-json-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--project",
+        ".",
+        "--json",
+        "--",
+        "status"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-project-empty-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--project",
+        ".",
+        "--"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-project-empty-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--project",
+        ".",
+        "--"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-project-empty-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--project",
+        ".",
+        "--"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-project-empty-value-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--project",
+        "",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-project-empty-value-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--project",
+        "",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-project-empty-value-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--project",
+        "",
+        "--",
+        "status"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-project-empty-value-json-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--project",
+        "",
+        "--json",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-project-empty-value-json-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--project",
+        "",
+        "--json",
+        "--",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-project-empty-value-json-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--project",
+        "",
+        "--json",
+        "--",
+        "status"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shortcut-child-output-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "content",
+        "export",
+        "--output",
+        "/Users/acme/.ssh/id_rsa"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-child-output-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "content",
+        "export",
+        "--output",
+        "/Users/acme/.ssh/id_rsa"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shortcut-child-output-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--json",
+        "--",
+        "content",
+        "export",
+        "--output",
+        "/Users/acme/.ssh/id_rsa"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "conversation-open-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "conversation",
+        "open",
+        "--if-revision",
+        "2",
+        "--agent",
+        "claude"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "conversation-open-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "conversation",
+        "open",
+        "--if-revision",
+        "2",
+        "--agent",
+        "claude"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "conversation-open-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "conversation",
+        "open",
+        "--if-revision",
+        "2",
+        "--agent",
+        "claude"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "conversation-open-start-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "conversation",
+        "open",
+        "--if-revision",
+        "2",
+        "--start",
+        "--prompt",
+        "Fix it"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "conversation-open-start-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "conversation",
+        "open",
+        "--if-revision",
+        "2",
+        "--start",
+        "--prompt",
+        "Fix it"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "conversation-open-start-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "conversation",
+        "open",
+        "--if-revision",
+        "2",
+        "--start",
+        "--prompt",
+        "Fix it"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "conversation-message-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "conversation",
+        "message",
+        "c-1",
+        "--prompt",
+        "Continue"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "conversation-message-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "conversation",
+        "message",
+        "c-1",
+        "--prompt",
+        "Continue"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "conversation-message-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "conversation",
+        "message",
+        "c-1",
+        "--prompt",
+        "Continue"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "remove-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "remove",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "remove-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "remove",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "remove-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "remove",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "remove-checkout-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "remove",
+        "acme",
+        "--delete-checkout",
+        "--confirm",
+        "abc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "remove-checkout-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "remove",
+        "acme",
+        "--delete-checkout",
+        "--confirm",
+        "abc"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "remove-checkout-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "remove",
+        "acme",
+        "--delete-checkout",
+        "--confirm",
+        "abc"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "remove-checkout-interleaved-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "--json",
+        "remove",
+        "acme",
+        "--delete-checkout",
+        "--confirm",
+        "abc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "remove-checkout-interleaved-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "--json",
+        "remove",
+        "acme",
+        "--delete-checkout",
+        "--confirm",
+        "abc"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "remove-checkout-interleaved-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "--json",
+        "remove",
+        "acme",
+        "--delete-checkout",
+        "--confirm",
+        "abc"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "recover-settle-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "recover",
+        "acme",
+        "--settle-compose-creation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "recover-settle-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "recover",
+        "acme",
+        "--settle-compose-creation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "recover-settle-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "recover",
+        "acme",
+        "--settle-compose-creation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "setup-dry-run-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "setup",
+        "--dry-run"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "setup-dry-run-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "setup",
+        "--dry-run"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "setup-dry-run-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "setup",
+        "--dry-run"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "setup-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "setup",
+        "--agent",
+        "claude"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "setup-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "setup",
+        "--agent",
+        "claude"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "setup-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "setup",
+        "--agent",
+        "claude"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "config-sync-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "config",
+        "sync"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-sync-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "config",
+        "sync"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-sync-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "config",
+        "sync"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-auth-logout-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "mcp",
+        "auth",
+        "logout",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-auth-logout-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "mcp",
+        "auth",
+        "logout",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-auth-logout-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "mcp",
+        "auth",
+        "logout",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-auth-list-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "mcp",
+        "auth",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-auth-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "mcp",
+        "auth",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-auth-list-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "mcp",
+        "auth",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-check-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "mcp",
+        "serve",
+        "--check"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-check-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "mcp",
+        "serve",
+        "--check"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-check-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "mcp",
+        "serve",
+        "--check"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-check-leading-json-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--json",
+        "mcp",
+        "serve",
+        "--check"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-check-leading-json-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--json",
+        "mcp",
+        "serve",
+        "--check"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-check-leading-json-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--json",
+        "mcp",
+        "serve",
+        "--check"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "project-status-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "--project",
+        "../acme-other",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "project-status-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "--project",
+        "../acme-other",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "project-status-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "--project",
+        "../acme-other",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interleaved-note-add-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "note",
+        "--json",
+        "add",
+        "--text",
+        "Checked the parser"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "interleaved-note-add-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "note",
+        "--json",
+        "add",
+        "--text",
+        "Checked the parser"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "interleaved-note-add-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "note",
+        "--json",
+        "add",
+        "--text",
+        "Checked the parser"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interleaved-data-reset-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "workspace",
+        "data",
+        "--json",
+        "reset",
+        "acme",
+        "--confirm",
+        "abc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interleaved-data-reset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "workspace",
+        "data",
+        "--json",
+        "reset",
+        "acme",
+        "--confirm",
+        "abc"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "interleaved-data-reset-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "workspace",
+        "data",
+        "--json",
+        "reset",
+        "acme",
+        "--confirm",
+        "abc"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unknown-command-loose",
+      "profile": "loose",
+      "argv": [
+        "box",
+        "frobnicate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-command-recommended",
+      "profile": "recommended",
+      "argv": [
+        "box",
+        "frobnicate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-command-strict",
+      "profile": "strict",
+      "argv": [
+        "box",
+        "frobnicate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-status-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "status",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-status-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "status",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-status-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "status",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-logs-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "logs",
+        "arguments": {
+          "service": "web"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-logs-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "logs",
+        "arguments": {
+          "service": "web"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-logs-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "logs",
+        "arguments": {
+          "service": "web"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-home-install-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "stdio",
+            "command": "/Users/acme/.local/bin/box",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "status",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-home-install-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "stdio",
+            "command": "/Users/acme/.local/bin/box",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "status",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-home-install-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "stdio",
+            "command": "/Users/acme/.local/bin/box",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "status",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-note-add-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "note_add",
+        "arguments": {
+          "text": "Checked the parser"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-note-add-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "note_add",
+        "arguments": {
+          "text": "Checked the parser"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-note-add-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "note_add",
+        "arguments": {
+          "text": "Checked the parser"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-workspace-list-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_list",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-workspace-list-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_list",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-workspace-list-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_list",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-update-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_update",
+        "arguments": {
+          "workspace": "acme",
+          "if_revision": 3,
+          "goal": "Ship it"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-update-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_update",
+        "arguments": {
+          "workspace": "acme",
+          "if_revision": 3,
+          "goal": "Ship it"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-update-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_update",
+        "arguments": {
+          "workspace": "acme",
+          "if_revision": 3,
+          "goal": "Ship it"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-create-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_create",
+        "arguments": {
+          "name": "acme-fix",
+          "goal": "Fix the parser"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-create-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_create",
+        "arguments": {
+          "name": "acme-fix",
+          "goal": "Fix the parser"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-create-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_create",
+        "arguments": {
+          "name": "acme-fix",
+          "goal": "Fix the parser"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-create-path-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_create",
+        "arguments": {
+          "name": "acme-fix",
+          "path": "/acme/elsewhere/acme-fix"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-create-path-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_create",
+        "arguments": {
+          "name": "acme-fix",
+          "path": "/acme/elsewhere/acme-fix"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-create-path-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_create",
+        "arguments": {
+          "name": "acme-fix",
+          "path": "/acme/elsewhere/acme-fix"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-attach-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_attach",
+        "arguments": {
+          "name": "review",
+          "path": "review-checkout"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-attach-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_attach",
+        "arguments": {
+          "name": "review",
+          "path": "review-checkout"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-attach-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_attach",
+        "arguments": {
+          "name": "review",
+          "path": "review-checkout"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-old-create-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "create",
+        "arguments": {
+          "name": "acme-fix"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-old-create-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "create",
+        "arguments": {
+          "name": "acme-fix"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-old-create-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "create",
+        "arguments": {
+          "name": "acme-fix"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-run-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "run",
+        "arguments": {
+          "targets": [
+            "web"
+          ]
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-run-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "run",
+        "arguments": {
+          "targets": [
+            "web"
+          ]
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-run-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "run",
+        "arguments": {
+          "targets": [
+            "web"
+          ]
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-run-set-env-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "run",
+        "arguments": {
+          "targets": [
+            "web"
+          ],
+          "set_env": [
+            "PATH=/acme/bin"
+          ]
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-run-set-env-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "run",
+        "arguments": {
+          "targets": [
+            "web"
+          ],
+          "set_env": [
+            "PATH=/acme/bin"
+          ]
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-run-set-env-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "run",
+        "arguments": {
+          "targets": [
+            "web"
+          ],
+          "set_env": [
+            "PATH=/acme/bin"
+          ]
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-exec-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "exec",
+        "arguments": {
+          "command": [
+            "npm",
+            "test"
+          ]
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-exec-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "exec",
+        "arguments": {
+          "command": [
+            "npm",
+            "test"
+          ]
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-exec-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "exec",
+        "arguments": {
+          "command": [
+            "npm",
+            "test"
+          ]
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-conversation-open-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "conversation_open",
+        "arguments": {
+          "if_revision": 2
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-conversation-open-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "conversation_open",
+        "arguments": {
+          "if_revision": 2
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-conversation-open-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "conversation_open",
+        "arguments": {
+          "if_revision": 2
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-conversation-open-start-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "conversation_open",
+        "arguments": {
+          "if_revision": 2,
+          "start": true,
+          "prompt": "Fix it"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-conversation-open-start-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "conversation_open",
+        "arguments": {
+          "if_revision": 2,
+          "start": true,
+          "prompt": "Fix it"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-conversation-open-start-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "conversation_open",
+        "arguments": {
+          "if_revision": 2,
+          "start": true,
+          "prompt": "Fix it"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-conversation-message-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "conversation_message",
+        "arguments": {
+          "id": "c-1",
+          "if_revision": 2,
+          "prompt": "Continue"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-conversation-message-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "conversation_message",
+        "arguments": {
+          "id": "c-1",
+          "if_revision": 2,
+          "prompt": "Continue"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-conversation-message-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "conversation_message",
+        "arguments": {
+          "id": "c-1",
+          "if_revision": 2,
+          "prompt": "Continue"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-cleanup-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_cleanup",
+        "arguments": {
+          "workspace": "acme",
+          "all": true
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-cleanup-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_cleanup",
+        "arguments": {
+          "workspace": "acme",
+          "all": true
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-cleanup-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_cleanup",
+        "arguments": {
+          "workspace": "acme",
+          "all": true
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-cleanup-dry-run-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_cleanup",
+        "arguments": {
+          "workspace": "acme",
+          "dry_run": true
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-cleanup-dry-run-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_cleanup",
+        "arguments": {
+          "workspace": "acme",
+          "dry_run": true
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-cleanup-dry-run-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_cleanup",
+        "arguments": {
+          "workspace": "acme",
+          "dry_run": true
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-repair-preview-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "repair",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-repair-preview-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "repair",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-repair-preview-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "repair",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-repair-apply-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "repair",
+        "arguments": {
+          "dry_run": false
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-repair-apply-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "repair",
+        "arguments": {
+          "dry_run": false
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-repair-apply-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "repair",
+        "arguments": {
+          "dry_run": false
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-remove-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_remove",
+        "arguments": {
+          "workspace": "acme"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-remove-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_remove",
+        "arguments": {
+          "workspace": "acme"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-remove-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_remove",
+        "arguments": {
+          "workspace": "acme"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-remove-checkout-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_remove",
+        "arguments": {
+          "workspace": "acme",
+          "delete_checkout": true
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-remove-checkout-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_remove",
+        "arguments": {
+          "workspace": "acme",
+          "delete_checkout": true
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-remove-checkout-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_remove",
+        "arguments": {
+          "workspace": "acme",
+          "delete_checkout": true
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-stop-self-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "stop",
+        "arguments": {
+          "workspace": "acme",
+          "allow_self_stop": true
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-stop-self-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "stop",
+        "arguments": {
+          "workspace": "acme",
+          "allow_self_stop": true
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-stop-self-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "stop",
+        "arguments": {
+          "workspace": "acme",
+          "allow_self_stop": true
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-data-reset-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_data_reset",
+        "arguments": {
+          "workspace": "acme"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-data-reset-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_data_reset",
+        "arguments": {
+          "workspace": "acme"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-data-reset-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "workspace_data_reset",
+        "arguments": {
+          "workspace": "acme"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-watch-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "watch",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-watch-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "watch",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-watch-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "watch",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-project-status-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "status",
+        "arguments": {
+          "project": "/acme/other"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-project-status-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "status",
+        "arguments": {
+          "project": "/acme/other"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-project-status-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "status",
+        "arguments": {
+          "project": "/acme/other"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-unknown-tool-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "frobnicate",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-unknown-tool-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "frobnicate",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "mcp-unknown-tool-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "mcp": {
+        "box": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/box",
+            "integration": "box"
+          },
+          "agents": {
+            "codex": "box"
+          },
+          "packs": {
+            "canonic/box": "box"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "box",
+        "tool": "frobnicate",
+        "arguments": {},
+        "original_input": {}
+      }
+    }
+  ]
+}

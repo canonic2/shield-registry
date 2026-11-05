@@ -17,6 +17,10 @@ may include versions awaiting publication.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
+| [canonic/github](packs/canonic/github/0.1.0/README.md) | 0.1.0 | CLI and MCP permissions | GitHub CLI and official MCP server; optional generated repository, organization and project scopes; requires Shield 0.18.0 |
+| [canonic/gate](packs/canonic/gate/0.1.0/README.md) | 0.1.0 | CLI and MCP permissions | Gate repository and worktree workflows; requires Shield 0.18.0 |
+| [canonic/box](packs/canonic/box/0.1.0/README.md) | 0.1.0 | CLI and MCP permissions | Box workspaces, goals, services and command execution; requires Shield 0.18.0 |
+| [canonic/testrun](packs/canonic/testrun/0.1.0/README.md) | 0.1.0 | CLI and MCP permissions | Mobile and browser automation, configured builds and reviewed environment overrides; requires Shield 0.18.0 with `field-negation-v1` |
 | [canonic/aws](packs/canonic/aws/0.1.0/README.md) | 0.1.0 | CLI and MCP permissions | AWS operation classes, profile and region restrictions, local emulator endpoints and explicitly bound hosted MCP connections; requires Shield 0.10.0 |
 | [canonic/node](packs/canonic/node/0.3.1/README.md) | 0.3.1 | Command review | npm credential checks match the command position; local `npm pkg get/set/delete/fix` operations allow in Loose and Recommended and ask in Strict |
 | [canonic/baseline](packs/canonic/baseline/0.10.0/README.md) | 0.10.0 | Process metadata | Generic numeric PID lookups with explicit metadata fields; command arguments, environments and unlisted forms ask |
@@ -52,7 +56,8 @@ may include versions awaiting publication.
 | [canonic/git](packs/canonic/git/0.4.1/README.md) | 0.4.1 | Structured v1 release | Git inspection, staging, recoverable local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The release manifest includes AWS 0.1.0, Node 0.3.1, Baseline 0.10.0, Baseline 0.9.0 and Node 0.3.0,
+The release manifest includes GitHub, Gate, Box and Testrun 0.1.0,
+plus AWS 0.1.0, Node 0.3.1, Baseline 0.10.0, Baseline 0.9.0 and Node 0.3.0,
 plus Node 0.2.0 and Git 0.7.0,
 plus Node 0.1.2, Rust 0.1.2, Baseline 0.8.1 and Git 0.6.5,
 plus Node 0.1.1, Rust 0.1.1, Baseline 0.8.0 and Git 0.6.4,
@@ -204,6 +209,25 @@ endpoint, and their limits. It requires Shield 0.10.0 for `unknown-options-v1`,
 in `scripts/aws-policy.mjs`; generate with `node scripts/build-aws-pack.mjs` and
 `node scripts/build-aws-cases.mjs`; validate with
 `npm test -- --shield /absolute/path/to/shield scripts/aws-pack.test.mjs`.
+
+Gate, Box and Testrun 0.1.0 live under `packs/canonic/{gate,box,testrun}/0.1.0/`.
+Each covers its tool's CLI and its own MCP server (`<tool> mcp serve`) as one
+stdio integration; the guides show the binding and coverage limits. They require
+Shield 0.18.0 for `interleaved-leading-v1`, which also matches global options
+between subcommand words. Reviewed command data lives in `scripts/gate-policy.mjs`,
+`scripts/box-policy.mjs` and `scripts/testrun-policy.mjs`, built with the shared
+constructors in `scripts/tool-pack.mjs`. Generate with
+`node scripts/build-tool-packs.mjs` and `node scripts/build-tool-cases.mjs`;
+validate with `npm test -- --shield /absolute/path/to/shield scripts/tool-packs.test.mjs`.
+
+GitHub 0.1.0 lives under `packs/canonic/github/0.1.0/`. It requires Shield 0.18.0.
+Its [guide](packs/canonic/github/0.1.0/README.md) covers `gh`, the
+official hosted/local MCP server, profiles and optional generated repository,
+organization and project scopes. Generate with `node scripts/build-github-pack.mjs`
+and `node scripts/build-github-cases.mjs`; validate with
+`npm test -- --shield /absolute/path/to/shield scripts/github-pack.test.mjs`.
+Scoped variants have a separate identity and a generated local catalog; see the
+guide for registration and reviewed installation.
 
 Node 0.1.0 lives under `packs/canonic/node/0.1.0/`.
 Its [profile guide](packs/canonic/node/0.1.0/README.md) describes the

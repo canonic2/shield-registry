@@ -31,6 +31,8 @@ const counts = { min: count, max: count };
 const syntax = { short_clusters: { type: 'boolean' }, short_attached: { type: 'boolean' }, long_equals: { type: 'boolean' }, long_abbreviations: { type: 'boolean' } };
 const grammar = { flags: array(optionName, 0, true), values: array(declaration(optionName), 0, true),
   optional_values: array(declaration(longOption), 0, true), ...syntax };
+// A leading phase can also be parsed between prefix words.
+const leadingGrammar = { ...grammar, interleaved: { type: 'boolean' } };
 const nullable = schema => one([schema, { type: 'null' }]);
 const jsonObject = { type: 'object' };
 const stringMap = { type: 'object', maxProperties: 256, propertyNames: text(1), additionalProperties: text() };
@@ -39,7 +41,7 @@ const quantified = one([object({ all: ref('pathPredicate') }), object({ any: ref
 const target = one(['all', 'any'].map(key => object({ action: enumeration(['read', 'write', 'remove']), [key]: ref('pathPredicate') })));
 const fields = { type: 'object', minProperties: 1, maxProperties: 256,
   propertyNames: { ...text(0, 1024), pattern: '^(|/(?:[^~]|~[01])*)$' },
-  additionalProperties: one([object({ exact: {} }), object({ text: ref('textSelector') })]) };
+  additionalProperties: one([object({ exact: {} }), object({ text: ref('textSelector') }), object({ not: object({exact: {}}) })]) };
 const common = { cwd: ref('pathPredicate'), environment: ref('environment') };
 const predicates = {
   argv: { arguments: ref('arguments'), targets: ref('targets'), possible_effects: array(enumeration(['repository-write', 'worktree-write', 'data-removal', 'history-rewrite', 'network', 'code-execution', 'daemon-write', 'image-build', 'host-exposure', 'privileged-runtime', 'configuration']), 1, true) },
@@ -135,14 +137,14 @@ const defs = {
   arguments: one([
     object({ kind: { const: 'any' } }),
     object({ kind: { const: 'exact' }, values: array(text()) }),
-    object({ kind: { const: 'prefix' }, values: array(ref('textSelector'), 1), leading: object(grammar, ['flags', 'values']) }, ['kind', 'values']),
+    object({ kind: { const: 'prefix' }, values: array(ref('textSelector'), 1), leading: object(leadingGrammar, ['flags', 'values']) }, ['kind', 'values']),
     object({ kind: { const: 'sequence' }, prefix: array(ref('textSelector')), rest: one([
       object({ kind: { const: 'none' } }), object({ kind: { const: 'any' } }),
       object({ kind: { const: 'each' }, match: ref('textSelector'), ...counts }, ['kind', 'match']),
     ]) }),
     object({ kind: { const: 'risk_tokens' }, prefix: array(ref('textSelector')), any_of: array(ref('textSelector'), 1) }),
     object({ kind: { const: 'options' }, prefix: array(ref('textSelector')), ...grammar,
-      leading: object(grammar, ['flags', 'values']), operands: one([{ type: 'boolean' }, object({ match: ref('textSelector'), ...counts }, ['match'])]),
+      leading: object(leadingGrammar, ['flags', 'values']), operands: one([{ type: 'boolean' }, object({ match: ref('textSelector'), ...counts }, ['match'])]),
       parse: enumeration(['intermixed', 'stop_at_operand']), unknown_options: enumeration(['refuse', 'skip']), require_all: array(optionName, 0, true),
       require_any: array(optionName, 0, true), forbid: array(optionName, 0, true),
     }, ['kind', 'prefix', 'flags', 'values', 'operands']),
@@ -169,6 +171,8 @@ caps.push('argument-paths-v1');
 caps.push('prefix-leading-v1');
 caps.push('directory-options-v1');
 caps.push('unknown-options-v1', 'option-abbreviations-v1', 'negated-selectors-v1');
+caps.push('interleaved-leading-v1');
+caps.push('field-negation-v1');
 // An option that only chooses the folder a tool works in, such as `npm --prefix`.
 // A file value names the files the tool finds in that folder by default.
 defs.directoryOption = {
@@ -292,7 +296,8 @@ feature['access-paths-v1'].anyOf.push(...argumentPathSelections.flatMap(path => 
   ...['exact', 'within', 'outside'].map(operator => eitherPredicate([...path, operator, 'root'], {enum: ['read', 'write']})),
   eitherPredicate([...path, 'exclude', '*', 'root'], {enum: ['read', 'write']}),
 ]));
-feature['unknown-options-v1'] = eitherPredicate(['arguments'], {allOf: [at(['kind'], {const: 'options'}), at(['unknown_options'], {const: 'skip'})]});
+feature['interleaved-leading-v1'] = eitherPredicate(['arguments', 'leading', 'interleaved'], {const: true});
+feature['unknown-options-v1'] =eitherPredicate(['arguments'], {allOf: [at(['kind'], {const: 'options'}), at(['unknown_options'], {const: 'skip'})]});
 feature['option-abbreviations-v1'] = any([
   eitherPredicate(['arguments', 'long_abbreviations'], {const: true}),
   eitherPredicate(['arguments', 'leading', 'long_abbreviations'], {const: true}),
@@ -307,12 +312,19 @@ for (const operator of ['glob', 'regex', 'not']) {
     ...argumentText.map(path => eitherPredicate(['argument_paths', 'grammar', ...path], shape)),
   ]);
 }
+const fieldNegation = any(['fields', 'request_fields', 'connection'].map(key =>
+  eitherPredicate([key, '@'], object({not: object({exact: {}})}))));
+feature['field-negation-v1'] = fieldNegation;
+feature['negated-selectors-v1'] = any([feature['negated-selectors-v1'], fieldNegation]);
 const capabilityChecks = Object.entries(feature).map(([name, shape]) => ({
   if: any([at(['rules', '*'], shape),
     ...(name === 'argument-rules-v1' ? [at(['preconditions', '*', 'conditions', 'domain'], {const: 'argv'})] : []),
     ...(name === 'location-v1' ? [at(['preconditions', '*', 'conditions', 'domain'], {const: 'file'})] : []),
     ...(['regex-v1', 'glob-v1'].includes(name) ? ['match', 'items'].map(key => at(['variables', '@', ...(key === 'items' ? ['items'] : []), 'match'], negated(object({[name.split('-')[0]]: text()})))) : []),
+    ...(['regex-v1', 'glob-v1'].includes(name) ? [at(['mcp_integrations', '@', 'fields', '@', 'text'], negated(object({[name.split('-')[0]]: text()})))] : []),
     ...(name === 'negated-selectors-v1' ? [at(['variables', '@', 'match'], object({not: {}})), at(['variables', '@', 'items', 'match'], object({not: {}}))] : []),
+    ...(['field-negation-v1', 'negated-selectors-v1'].includes(name)
+      ? [at(['mcp_integrations', '@', 'fields', '@'], object({not: object({exact: {}})}))] : []),
   ]),
   then: at(['capabilities'], { contains: { const: name } }),
   // Dynamic source features are counted on Rust's sample-resolved policy,

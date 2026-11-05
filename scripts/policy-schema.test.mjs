@@ -136,6 +136,24 @@ test('All six domains and structured grammar agree with Rust admission', () => {
   accepted({ schema_version: 1, kind: 'custom', capabilities: exactMcp.capabilities,
     rules: [{ ...exactMcp.rules[0], decision: 'ask' }] });
 });
+test('Typed JSON field negation preserves missing-value and literal-data boundaries', () => {
+  const capabilities = ['structured-rules-v1', 'negated-selectors-v1', 'field-negation-v1'];
+  const value = pack({domain: 'mcp', server: 'acme', tool: 'build', fields: {
+    '/env': {not: {exact: {}}}, '/inline': {not: {exact: null}},
+    '/metadata': {not: {exact: {regex: 'literal', fields: {'/x': {not: {exact: {}}}}}}},
+  }}, capabilities);
+  accepted(value);
+  accepted({schema_version: 1, kind: 'custom', capabilities, rules: [{...value.rules[0], decision: 'ask'}]});
+  const integration = pack();
+  integration.capabilities = [...integration.capabilities, 'mcp-integrations-v1', 'field-negation-v1', 'negated-selectors-v1'];
+  integration.mcp_integrations = {local: {transport: 'stdio', fields: {'/env': {not: {exact: {}}}}}};
+  accepted(integration);
+  for (const capability of ['field-negation-v1', 'negated-selectors-v1'])
+    rejected({...value, capabilities: capabilities.filter(item => item !== capability)});
+  for (const invalid of [{not: {}}, {not: {text: 'x'}}, {not: {not: {exact: {}}}}, {not: {exact: {}}, exact: {}}])
+    rejected(pack({domain: 'mcp', server: 'acme', tool: 'build', fields: {'/env': invalid}}, capabilities));
+});
+
 test('Approved root capabilities agree with core admission in every path position',()=>{
   for(const condition of [
     {domain:'file',action:'read',sources:{all:{exact:{root:'read',path:'notes.txt'}}}},
