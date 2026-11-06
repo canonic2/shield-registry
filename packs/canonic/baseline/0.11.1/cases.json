@@ -1,0 +1,1118 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "pwd-loose",
+      "profile": "loose",
+      "argv": [
+        "pwd"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pwd-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pwd"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pwd-strict",
+      "profile": "strict",
+      "argv": [
+        "pwd"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cat-loose",
+      "profile": "loose",
+      "argv": [
+        "cat",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cat-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cat",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cat-strict",
+      "profile": "strict",
+      "argv": [
+        "cat",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cat-unsupported-loose",
+      "profile": "loose",
+      "argv": [
+        "cat",
+        "--future",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cat-unsupported-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cat",
+        "--future",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cat-unsupported-strict",
+      "profile": "strict",
+      "argv": [
+        "cat",
+        "--future",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "grep-unsupported-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "--future",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "grep-unsupported-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "--future",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "grep-unsupported-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "--future",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "grep-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "-nF",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-nF",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "-nF",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "disk-list-loose",
+      "profile": "loose",
+      "argv": [
+        "diskutil",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "disk-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "diskutil",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "disk-list-strict",
+      "profile": "strict",
+      "argv": [
+        "diskutil",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "disk-info-loose",
+      "profile": "loose",
+      "argv": [
+        "diskutil",
+        "info",
+        "-plist",
+        "disk0"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "disk-info-recommended",
+      "profile": "recommended",
+      "argv": [
+        "diskutil",
+        "info",
+        "-plist",
+        "disk0"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "disk-info-strict",
+      "profile": "strict",
+      "argv": [
+        "diskutil",
+        "info",
+        "-plist",
+        "disk0"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sudo-loose",
+      "profile": "loose",
+      "argv": [
+        "sudo",
+        "make",
+        "install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sudo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sudo",
+        "make",
+        "install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sudo-strict",
+      "profile": "strict",
+      "argv": [
+        "sudo",
+        "make",
+        "install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unmount-loose",
+      "profile": "loose",
+      "argv": [
+        "umount",
+        "/Volumes/Acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unmount-recommended",
+      "profile": "recommended",
+      "argv": [
+        "umount",
+        "/Volumes/Acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unmount-strict",
+      "profile": "strict",
+      "argv": [
+        "umount",
+        "/Volumes/Acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-cleanup-loose",
+      "profile": "loose",
+      "argv": [
+        "docker",
+        "rm",
+        "acme-test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-cleanup-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "rm",
+        "acme-test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-cleanup-strict",
+      "profile": "strict",
+      "argv": [
+        "docker",
+        "rm",
+        "acme-test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "docker-image-cleanup-loose",
+      "profile": "loose",
+      "argv": [
+        "docker",
+        "rmi",
+        "acme/test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-image-cleanup-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "rmi",
+        "acme/test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-image-cleanup-strict",
+      "profile": "strict",
+      "argv": [
+        "docker",
+        "rmi",
+        "acme/test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "kubectl-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "kubectl",
+        "delete",
+        "pod",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "kubectl-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "kubectl",
+        "delete",
+        "pod",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "kubectl-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "kubectl",
+        "delete",
+        "pod",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloud-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3",
+        "rm",
+        "s3://acme/example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloud-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3",
+        "rm",
+        "s3://acme/example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloud-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3",
+        "rm",
+        "s3://acme/example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-loose",
+      "profile": "loose",
+      "argv": [
+        "cat",
+        ".aws/credentials"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cat",
+        ".aws/credentials"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-strict",
+      "profile": "strict",
+      "argv": [
+        "cat",
+        ".aws/credentials"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-loose",
+      "profile": "loose",
+      "argv": [
+        "cat",
+        "/outside/secret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cat",
+        "/outside/secret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-strict",
+      "profile": "strict",
+      "argv": [
+        "cat",
+        "/outside/secret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "environment-loose",
+      "profile": "loose",
+      "argv": [
+        "printenv"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "environment-recommended",
+      "profile": "recommended",
+      "argv": [
+        "printenv"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "environment-strict",
+      "profile": "strict",
+      "argv": [
+        "printenv"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keychain-loose",
+      "profile": "loose",
+      "argv": [
+        "security",
+        "find-generic-password",
+        "-w"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keychain-recommended",
+      "profile": "recommended",
+      "argv": [
+        "security",
+        "find-generic-password",
+        "-w"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keychain-strict",
+      "profile": "strict",
+      "argv": [
+        "security",
+        "find-generic-password",
+        "-w"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "raw-disk-loose",
+      "profile": "loose",
+      "argv": [
+        "dd",
+        "if=/dev/zero",
+        "of=/dev/disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "raw-disk-recommended",
+      "profile": "recommended",
+      "argv": [
+        "dd",
+        "if=/dev/zero",
+        "of=/dev/disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "raw-disk-strict",
+      "profile": "strict",
+      "argv": [
+        "dd",
+        "if=/dev/zero",
+        "of=/dev/disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "erase-disk-loose",
+      "profile": "loose",
+      "argv": [
+        "diskutil",
+        "eraseDisk",
+        "APFS",
+        "Acme",
+        "disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "erase-disk-recommended",
+      "profile": "recommended",
+      "argv": [
+        "diskutil",
+        "eraseDisk",
+        "APFS",
+        "Acme",
+        "disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "erase-disk-strict",
+      "profile": "strict",
+      "argv": [
+        "diskutil",
+        "eraseDisk",
+        "APFS",
+        "Acme",
+        "disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-erase-disk-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/sbin/diskutil",
+        "eraseDisk",
+        "APFS",
+        "Acme",
+        "disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-erase-disk-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/sbin/diskutil",
+        "eraseDisk",
+        "APFS",
+        "Acme",
+        "disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-erase-disk-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/sbin/diskutil",
+        "eraseDisk",
+        "APFS",
+        "Acme",
+        "disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "destroy-infrastructure-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "destroy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "destroy-infrastructure-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "destroy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "destroy-infrastructure-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "destroy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "workbench-docs_list-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_list-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-docs_search-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_search-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-docs_read-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_read-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-docs_list-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_list-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-docs_search-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_search-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-docs_read-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_read-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-docs_list-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_list-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-docs_search-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_search-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-docs_read-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_read-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    }
+  ]
+}

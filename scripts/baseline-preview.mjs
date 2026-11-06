@@ -1,5 +1,5 @@
-// Published Baseline fixtures are immutable. Shield 0.10 previews conservatively
-// join GNU/BSD sed footprints; native working-file evidence is tested separately.
+// Published Baseline fixtures are immutable. Shield 0.10–0.20 previews lack
+// complete GNU/BSD sed footprints; Shield 0.21 models both readings.
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 
@@ -21,7 +21,7 @@ const forms = new Map([
 
 export function baselinePreviewCases(cases, version = shieldVersion()) {
   const [major, minor] = version.split('.').map(Number);
-  if (major === 0 && minor < 10) return cases;
+  if (major !== 0 || minor < 10 || minor >= 21) return cases;
   return cases.map(fixture => {
     const argv = forms.get(fixture.name.replace(/-(loose|recommended|strict)$/, ''));
     if (!argv) return fixture;

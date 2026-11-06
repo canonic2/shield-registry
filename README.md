@@ -17,6 +17,10 @@ may include versions awaiting publication.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
+| [canonic/gate](packs/canonic/gate/0.2.1/README.md) | 0.2.1 | Published | Routine local engineering, approved path checks, concrete Gate confirmations and short docs tool names; requires `field-paths-v1` |
+| [canonic/baseline](packs/canonic/baseline/0.11.1/README.md) | 0.11.1 | Published | Verified Workbench bundled docs tool names; Shield owns its inspection approvals |
+| [canonic/box](packs/canonic/box/0.2.1/README.md) | 0.2.1 | Published | Short and legacy bundled docs tool names |
+| [canonic/testrun](packs/canonic/testrun/0.2.1/README.md) | 0.2.1 | Published | Short and legacy bundled docs tool names |
 | [canonic/baseline](packs/canonic/baseline/0.11.0/README.md) | 0.11.0 | Shield 0.20 profiles | Reviewed reader fallbacks, privilege prompts, disk inspection and destructive-operation boundaries |
 | [canonic/git](packs/canonic/git/0.8.0/README.md) | 0.8.0 | Shield 0.20 profiles | Reviewable remotes, maintenance and helpers; destructive and credential-disclosure checks |
 | [canonic/node](packs/canonic/node/0.4.0/README.md) | 0.4.0 | Shield 0.20 profiles | Reviewable installs, configuration and publication; manager selection and explicit secret reads protected |
@@ -66,9 +70,9 @@ may include versions awaiting publication.
 | [canonic/git](packs/canonic/git/0.4.1/README.md) | 0.4.1 | Structured v1 release | Git inspection, staging, recoverable local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The latest releases are Baseline 0.11.0, Git 0.8.0, Node 0.4.0, Rust 0.2.0,
-AWS 0.2.0, GitHub 0.3.0, Gate 0.2.0, Box 0.2.0 and Testrun 0.2.0. All require
-Shield `>=0.20.0, <1.0.0`.
+The latest releases are Baseline 0.11.1, Git 0.8.0, Node 0.4.0, Rust 0.2.0,
+AWS 0.2.0, GitHub 0.3.0, Gate 0.2.1, Box 0.2.1 and Testrun 0.2.1. All require
+Shield `>=0.20.0, <1.0.0`; Gate 0.2.1 also requires `field-paths-v1` support.
 
 The release manifest also retains GitHub, Gate, Box and Testrun 0.1.0,
 plus AWS 0.1.0, Node 0.3.1, Baseline 0.10.0, Baseline 0.9.0 and Node 0.3.0,
@@ -316,12 +320,14 @@ through the production Rust evaluator. The binary must support normalized fixtur
 `input` and `--with-pack`. No project activation or native hooks run in this suite.
 Maintainers must run it before signing; the release command runs the same suite.
 
-Published Baseline fixture files remain unchanged. For Shield 0.10 and later,
+Published Baseline fixture files remain unchanged. For Shield 0.10–0.20,
 `scripts/baseline-preview.mjs` supplies explicit preview expectations for nine
 BSD-style sed edits: without native working-file evidence their target footprint
-is incomplete and they deny. The current-engine tests check that precise reason;
-the native sed category separately checks safe edits and protected or uncertain
-targets against real isolated files in both agents and all profiles.
+is incomplete and they deny. Shield 0.21 models both GNU and BSD readings and
+uses the original profile decisions for those fixtures. The current-engine tests
+check the corresponding target evidence; the native sed category separately
+checks safe edits and protected or uncertain targets against real isolated files
+in both agents and all profiles.
 
 Fresh native acceptance is a separate category:
 

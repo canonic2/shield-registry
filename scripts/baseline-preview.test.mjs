@@ -20,16 +20,21 @@ test('Current Baseline preview expectations preserve every historical case excep
   assert.deepEqual(historical, before);
   assert.equal(current.length, historical.length);
   assert.deepEqual(baselinePreviewCases(historical, '0.9.0'), historical);
+  assert.deepEqual(baselinePreviewCases(historical, '0.20.0'), current);
+  assert.deepEqual(baselinePreviewCases(historical, '0.21.0'), historical);
   const altered = structuredClone(changed[0]);
   altered.argv.push('another-file');
   assert.throws(() => baselinePreviewCases([altered], '0.10.0'), /explicit review/);
 });
 
-test('Current Shield denies preview sed edits specifically because target evidence is unavailable',
+test('Shield sed previews enforce the versioned target-evidence contract',
   {skip: !process.env.SHIELD_BINARY}, t => {
     const [major, minor] = shieldVersion().split('.').map(Number);
     if (major === 0 && minor < 10) return t.skip('This preview contract starts with Shield 0.10');
-    const cases = baselinePreviewCases(historical).filter((fixture, index) => fixture.expected !== historical[index].expected);
+    const conservative = major === 0 && minor < 21;
+    const names = new Set(baselinePreviewCases(historical, '0.10.0')
+      .filter((fixture, index) => fixture.expected !== historical[index].expected).map(fixture => fixture.name));
+    const cases = baselinePreviewCases(historical.filter(fixture => names.has(fixture.name)));
     const owner = mkdtempSync(join(tmpdir(), 'shield-sed-preview-'));
     t.after(() => rmSync(owner, {recursive: true, force: true}));
     const path = join(owner, 'cases.json');
@@ -41,9 +46,10 @@ test('Current Shield denies preview sed edits specifically because target eviden
     assert.equal(report.passed, true);
     assert.equal(report.cases.length, 9);
     for (const fixture of report.cases) {
-      const checks = fixture.evaluation.requirement_checks;
+      const checks = conservative ? fixture.evaluation.requirement_checks
+        : fixture.evaluation.matches.find(match => match.applied && match.rule_id === 'edit-sed').requirement_checks;
       assert.ok(checks.length > 0);
-      assert.ok(checks.every(check => check.code === 'evidence_unavailable'
+      assert.ok(checks.every(check => check.code === (conservative ? 'evidence_unavailable' : 'requirement_met')
         && check.predicate_path === '/requirements/targets' && check.rule_ref.rule_id === 'edit-sed'));
     }
   });

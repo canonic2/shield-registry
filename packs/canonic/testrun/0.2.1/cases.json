@@ -1,0 +1,1160 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "doctor-loose",
+      "profile": "loose",
+      "argv": [
+        "testrun",
+        "doctor"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "doctor-recommended",
+      "profile": "recommended",
+      "argv": [
+        "testrun",
+        "doctor"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "doctor-strict",
+      "profile": "strict",
+      "argv": [
+        "testrun",
+        "doctor"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "build-loose",
+      "profile": "loose",
+      "argv": [
+        "testrun",
+        "build",
+        "start",
+        "--project",
+        "."
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "build-recommended",
+      "profile": "recommended",
+      "argv": [
+        "testrun",
+        "build",
+        "start",
+        "--project",
+        "."
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "build-strict",
+      "profile": "strict",
+      "argv": [
+        "testrun",
+        "build",
+        "start",
+        "--project",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "build-environment-loose",
+      "profile": "loose",
+      "argv": [
+        "testrun",
+        "build",
+        "start",
+        "--project",
+        ".",
+        "--set-env",
+        "PATH=/acme/bin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "build-environment-recommended",
+      "profile": "recommended",
+      "argv": [
+        "testrun",
+        "build",
+        "start",
+        "--project",
+        ".",
+        "--set-env",
+        "PATH=/acme/bin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "build-environment-strict",
+      "profile": "strict",
+      "argv": [
+        "testrun",
+        "build",
+        "start",
+        "--project",
+        ".",
+        "--set-env",
+        "PATH=/acme/bin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "setup-loose",
+      "profile": "loose",
+      "argv": [
+        "testrun",
+        "mcp",
+        "setup"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "setup-recommended",
+      "profile": "recommended",
+      "argv": [
+        "testrun",
+        "mcp",
+        "setup"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "setup-strict",
+      "profile": "strict",
+      "argv": [
+        "testrun",
+        "mcp",
+        "setup"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "signing-loose",
+      "profile": "loose",
+      "argv": [
+        "testrun",
+        "signing",
+        "setup"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "signing-recommended",
+      "profile": "recommended",
+      "argv": [
+        "testrun",
+        "signing",
+        "setup"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "signing-strict",
+      "profile": "strict",
+      "argv": [
+        "testrun",
+        "signing",
+        "setup"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "testrun",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "testrun",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "testrun",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-build-loose",
+      "profile": "loose",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "arguments": {
+          "project": ".",
+          "profile": "debug"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-build-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "arguments": {
+          "project": ".",
+          "profile": "debug"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-build-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "arguments": {
+          "project": ".",
+          "profile": "debug"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-build-environment-loose",
+      "profile": "loose",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "arguments": {
+          "project": ".",
+          "env": {
+            "PATH": "/acme/bin"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-build-environment-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "arguments": {
+          "project": ".",
+          "env": {
+            "PATH": "/acme/bin"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-build-environment-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "arguments": {
+          "project": ".",
+          "env": {
+            "PATH": "/acme/bin"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-build-inline-loose",
+      "profile": "loose",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "arguments": {
+          "project": ".",
+          "inline": {
+            "command": [
+              "npm",
+              "test"
+            ]
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-build-inline-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "arguments": {
+          "project": ".",
+          "inline": {
+            "command": [
+              "npm",
+              "test"
+            ]
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-build-inline-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "arguments": {
+          "project": ".",
+          "inline": {
+            "command": [
+              "npm",
+              "test"
+            ]
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-device-action-loose",
+      "profile": "loose",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "arguments": {
+          "actions": [
+            {
+              "type": "tap",
+              "x": 5,
+              "y": 5
+            }
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-device-action-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "arguments": {
+          "actions": [
+            {
+              "type": "tap",
+              "x": 5,
+              "y": 5
+            }
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-device-action-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "arguments": {
+          "actions": [
+            {
+              "type": "tap",
+              "x": 5,
+              "y": 5
+            }
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-loose",
+      "profile": "loose",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "future",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "future",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "future",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "testrun-docs_list-loose",
+      "profile": "loose",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "testrun-testrun_docs_list-loose",
+      "profile": "loose",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "testrun-docs_search-loose",
+      "profile": "loose",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "testrun-testrun_docs_search-loose",
+      "profile": "loose",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "testrun-docs_read-loose",
+      "profile": "loose",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "testrun-testrun_docs_read-loose",
+      "profile": "loose",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "testrun-docs_list-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "testrun-testrun_docs_list-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "testrun-docs_search-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "testrun-testrun_docs_search-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "testrun-docs_read-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "testrun-testrun_docs_read-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "testrun-docs_list-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "testrun-testrun_docs_list-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "testrun-docs_search-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "testrun-testrun_docs_search-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "testrun-docs_read-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "testrun-testrun_docs_read-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    }
+  ]
+}

@@ -48,7 +48,10 @@ const predicates = {
   shell: { source: ref('textSelector'), dialect_version: one([text(1), object({ exact: text(1) })]) },
   file: { sources: quantified, destination: ref('pathPredicate'), recursive: { type: 'boolean' }, targets: ref('targets') },
   web: { url: ref('url'), query: ref('textSelector'), method: one([methodName, object({ exact: methodName }), object({ one_of: array(methodName, 1, true) })]), request_fields: fields },
-  mcp: { arguments: jsonObject, fields, connection: fields },
+  mcp: { arguments: jsonObject, fields, connection: fields,
+    field_paths: {type: 'object', minProperties: 1, maxProperties: 256,
+      propertyNames: fields.propertyNames,
+      additionalProperties: object({path: ref('pathPredicate'), recursive: {type: 'boolean'}, absolute: {type: 'boolean'}, relative_to: {enum:['cwd','project']}}, ['path'])} },
 };
 predicates.argv.argument_paths = ref('argumentPaths');
 const identities = {
@@ -168,6 +171,7 @@ defs.input = one([
 ]);
 const caps = ['structured-rules-v1', 'argument-rules-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1', 'fallback-rules-v1', 'invocation-groups-v1', 'command-sets-v1', 'mcp-integrations-v1', 'mcp-connection-facts-v1', 'mcp-command-fields-v1', 'mcp-effective-fields-v1'];
 caps.push('argument-paths-v1');
+caps.push('field-paths-v1');
 caps.push('prefix-leading-v1');
 caps.push('directory-options-v1');
 caps.push('unknown-options-v1', 'option-abbreviations-v1', 'negated-selectors-v1');
@@ -261,11 +265,12 @@ const textPaths = [
   ...directText.map(key => [key]), ['url', 'path'], ['environment', 'fields', '@'],
   ['fields', '@', 'text'], ['request_fields', '@', 'text'], ...pathText,
 ];
-const argumentPathSelections = [['argument_paths', 'options', '@', 'path'], ['argument_paths', 'operands', 'path']];
+const argumentPathSelections = [['argument_paths', 'options', '@', 'path'], ['argument_paths', 'operands', 'path'], ['field_paths', '@', 'path']];
 textPaths.push(...argumentPathSelections.map(path => [...path, 'match']));
 const feature = {
   'prefix-leading-v1': eitherPredicate(['arguments'], {allOf: [at(['kind'], {const: 'prefix'}), has('leading')]}),
   'argument-paths-v1': eitherPredicate(['argument_paths']),
+  'field-paths-v1': eitherPredicate(['field_paths']),
   'invocation-groups-v1': has('invocation'),
   'command-sets-v1': has('command_set'),
   'access-paths-v1': any([
@@ -292,7 +297,7 @@ const feature = {
   'possible-effects-v1': eitherPredicate(['possible_effects']),
   'fallback-rules-v1': has('fallback'),
 };
-feature['location-v1'] = any([feature['location-v1'], eitherPredicate(['argument_paths'])]);
+feature['location-v1'] = any([feature['location-v1'], eitherPredicate(['argument_paths']), eitherPredicate(['field_paths'])]);
 feature['access-paths-v1'].anyOf.push(...argumentPathSelections.flatMap(path => [
   ...['exact', 'within', 'outside'].map(operator => eitherPredicate([...path, operator, 'root'], {enum: ['read', 'write']})),
   eitherPredicate([...path, 'exclude', '*', 'root'], {enum: ['read', 'write']}),
