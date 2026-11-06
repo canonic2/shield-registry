@@ -54,6 +54,7 @@ const predicates = {
       additionalProperties: object({path: ref('pathPredicate'), recursive: {type: 'boolean'}, absolute: {type: 'boolean'}, relative_to: {enum:['cwd','project']}}, ['path'])} },
 };
 predicates.argv.argument_paths = ref('argumentPaths');
+predicates.argv.graphql = ref('graphql');
 const identities = {
   argv: { executable: any([ref('identitySelector'), ref('pathReference')]) },
   shell: { source: ref('textSelector'), dialect: enumSelector(['bash', 'posix', 'powershell', 'cmd']) },
@@ -114,7 +115,7 @@ function rule(pack, domain) {
 }
 
 // Pack selectors resolve before evaluation; custom documents keep literal schemas.
-const dynamicDefs = new Set(['textSelector', 'identitySelector', 'pathReference', 'pathPredicate', 'targets', 'environment', 'url', 'arguments', 'argumentPaths']);
+const dynamicDefs = new Set(['textSelector', 'identitySelector', 'pathReference', 'pathPredicate', 'targets', 'environment', 'url', 'arguments', 'argumentPaths', 'graphql']);
 const packName = name => `pack${name[0].toUpperCase()}${name.slice(1)}`;
 function withVariables(value) {
   if (Array.isArray(value)) return value.map(withVariables);
@@ -169,7 +170,16 @@ defs.input = one([
   input('mcp', { server: text(1), tool: text(1), arguments: jsonObject }),
   input('unknown', { host_tool: text(1) }),
 ]);
-const caps = ['structured-rules-v1', 'argument-rules-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1', 'fallback-rules-v1', 'invocation-groups-v1', 'command-sets-v1', 'mcp-integrations-v1', 'mcp-connection-facts-v1', 'mcp-command-fields-v1', 'mcp-effective-fields-v1'];
+const graphqlArgument = object({match: one([
+  object({text:ref('textSelector')}), object({exact:{type:['string','number','boolean']}}),
+  object({scalar:enumeration(['string','integer','number','boolean','enum'])}),
+]), required:{type:'boolean'},nullable:{type:'boolean'},cursor:{type:'boolean'}}, ['match']);
+const graphqlField = object({select:text(1,64),leaf:{const:true},arguments:{type:'object',maxProperties:64,additionalProperties:graphqlArgument}}, []);
+graphqlField.oneOf = [{required:['select'],not:{required:['leaf']}},{required:['leaf'],not:{required:['select']}}];
+defs.graphql = object({carrier:{const:'gh-api'},operation:{const:'query'},selection:object({root:text(1,64),states:{
+  type:'object',minProperties:1,maxProperties:256,additionalProperties:object({types:array(text(1),1,true,64),fields:{type:'object',minProperties:1,maxProperties:256,additionalProperties:graphqlField}}),
+}})}, ['carrier','operation']);
+const caps = ['structured-rules-v1', 'argument-rules-v1', 'graphql-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1', 'fallback-rules-v1', 'invocation-groups-v1', 'command-sets-v1', 'mcp-integrations-v1', 'mcp-connection-facts-v1', 'mcp-command-fields-v1', 'mcp-effective-fields-v1'];
 caps.push('argument-paths-v1');
 caps.push('field-paths-v1');
 caps.push('prefix-leading-v1');
@@ -262,12 +272,14 @@ const argumentText = [['values', '*'], ['prefix', '*'], ['any_of', '*'], ['rest'
 const pathText = [['cwd', 'match'], ['destination', 'match'], ['sources', 'all', 'match'], ['sources', 'any', 'match'],
   ...['all', 'any'].flatMap(key => [['targets', key, 'match'], ['targets', '*', key, 'match']])];
 const textPaths = [
+  ['graphql','selection','states','@','fields','@','arguments','@','match','text'],
   ...directText.map(key => [key]), ['url', 'path'], ['environment', 'fields', '@'],
   ['fields', '@', 'text'], ['request_fields', '@', 'text'], ...pathText,
 ];
 const argumentPathSelections = [['argument_paths', 'options', '@', 'path'], ['argument_paths', 'operands', 'path'], ['field_paths', '@', 'path']];
 textPaths.push(...argumentPathSelections.map(path => [...path, 'match']));
 const feature = {
+  'graphql-v1': eitherPredicate(['graphql']),
   'prefix-leading-v1': eitherPredicate(['arguments'], {allOf: [at(['kind'], {const: 'prefix'}), has('leading')]}),
   'argument-paths-v1': eitherPredicate(['argument_paths']),
   'field-paths-v1': eitherPredicate(['field_paths']),

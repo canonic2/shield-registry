@@ -12,11 +12,15 @@ integrations are developed separately.
 
 ## Available packs
 
-Published versions are listed in [release.json](release.json); source directories
-may include versions awaiting publication.
+The signed catalog records published versions. [release.json](release.json)
+selects versions for publication and may include pending source candidates.
 
 | Pack | Version | Status | Coverage |
 | --- | --- | --- | --- |
+| [canonic/github](packs/canonic/github/0.4.0/README.md) | 0.4.0 | Published | Parsed inline GraphQL reads with optional repository scope; requires Shield 0.22 and `graphql-v1` |
+| [canonic/gate](packs/canonic/gate/0.2.2/README.md) | 0.2.2 | Published | Repository rename/discard, dirty-worktree deletion and exact server launch matching |
+| [canonic/box](packs/canonic/box/0.2.2/README.md) | 0.2.2 | Published | Workflow plugins, blocked-checkout preparation, config publication, file discard, managed-session/closure coverage, recovery selector checks and exact server launch matching |
+| [canonic/testrun](packs/canonic/testrun/0.2.2/README.md) | 0.2.2 | Published | Shared browser action/launch review and validated mobile action discriminators |
 | [canonic/gate](packs/canonic/gate/0.2.1/README.md) | 0.2.1 | Published | Routine local engineering, approved path checks, concrete Gate confirmations and short docs tool names; requires `field-paths-v1` |
 | [canonic/baseline](packs/canonic/baseline/0.11.1/README.md) | 0.11.1 | Published | Verified Workbench bundled docs tool names; Shield owns its inspection approvals |
 | [canonic/box](packs/canonic/box/0.2.1/README.md) | 0.2.1 | Published | Short and legacy bundled docs tool names |
@@ -70,9 +74,17 @@ may include versions awaiting publication.
 | [canonic/git](packs/canonic/git/0.4.1/README.md) | 0.4.1 | Structured v1 release | Git inspection, staging, recoverable local changes, remote activity and destructive operations |
 | [canonic/git](packs/canonic/git/0.2.0/README.md) | 0.2.0 | Published historical format | Same reviewed command inventory and profile decisions |
 
-The latest releases are Baseline 0.11.1, Git 0.8.0, Node 0.4.0, Rust 0.2.0,
-AWS 0.2.0, GitHub 0.3.0, Gate 0.2.1, Box 0.2.1 and Testrun 0.2.1. All require
-Shield `>=0.20.0, <1.0.0`; Gate 0.2.1 also requires `field-paths-v1` support.
+The latest published releases are Baseline 0.11.1, Git 0.8.0, Node 0.4.0, Rust 0.2.0,
+AWS 0.2.0, GitHub 0.4.0, Gate 0.2.2, Box 0.2.2 and Testrun 0.2.2. GitHub 0.4.0
+requires Shield `>=0.22.0, <1.0.0` with `graphql-v1`; the others require
+Shield `>=0.20.0, <1.0.0`. Gate also requires `field-paths-v1` support.
+
+Generate Gate, Box and Testrun 0.2.2 sources with
+`node scripts/build-current-tool-packs.mjs` (or append `box` to regenerate only
+Box, including blocked-checkout preparation) and validate with
+`npm test -- --shield /absolute/path/to/shield scripts/current-tool-packs.test.mjs`.
+The [current pack review](docs/pack-review-2026-11-06.md) records the nine-pack
+review scope, unchanged versions, sources and verification limits.
 
 The release manifest also retains GitHub, Gate, Box and Testrun 0.1.0,
 plus AWS 0.1.0, Node 0.3.1, Baseline 0.10.0, Baseline 0.9.0 and Node 0.3.0,

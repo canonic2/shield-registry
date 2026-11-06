@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "registry_id": "canonic-shield-main",
-  "sequence": 33,
+  "sequence": 34,
   "expires_at": "2027-02-03T00:00:00Z",
   "packs": [
     {
@@ -317,6 +317,12 @@
       "sha256": "b5192c4b2b6b96d0d4fd822078f2b8aee6820236705400038ca2989e4ccb15f9"
     },
     {
+      "id": "canonic/github",
+      "version": "0.4.0",
+      "path": "packs/canonic/github/0.4.0/pack.yml",
+      "sha256": "741a3842ff337b976b8003d2433ad66f12f22d581700b425f99d80f5186f9b8b"
+    },
+    {
       "id": "canonic/gate",
       "version": "0.2.0",
       "path": "packs/canonic/gate/0.2.0/pack.yml",
@@ -357,6 +363,24 @@
       "version": "0.2.1",
       "path": "packs/canonic/testrun/0.2.1/pack.yml",
       "sha256": "6e5f0607211bb4cdbf40642e3cc7a8593ec0e0c5bd4c4345d2b58efe11f28e13"
+    },
+    {
+      "id": "canonic/gate",
+      "version": "0.2.2",
+      "path": "packs/canonic/gate/0.2.2/pack.yml",
+      "sha256": "b1be7b442fd9dd5bc1a2a4cb90f9bbd5c3c774b92aaab2d89e9e7a33bf2370ec"
+    },
+    {
+      "id": "canonic/box",
+      "version": "0.2.2",
+      "path": "packs/canonic/box/0.2.2/pack.yml",
+      "sha256": "fbffd691b119b77172dc227dd53c3a90a0db9e656ea129dfc740e247ee766ac9"
+    },
+    {
+      "id": "canonic/testrun",
+      "version": "0.2.2",
+      "path": "packs/canonic/testrun/0.2.2/pack.yml",
+      "sha256": "153b65bc7651b79a529ee54991ad6200c27e352d33e2f77b3e945a33b689b892"
     }
   ],
   "commands": {
