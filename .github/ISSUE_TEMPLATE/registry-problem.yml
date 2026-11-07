@@ -1,0 +1,30 @@
+name: Registry or documentation problem
+description: Report a catalog, download, publication, tooling or documentation issue.
+title: "[Registry]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use the pack decision form for an unexpected permission decision.
+        For suspected tampering or a bypass, follow
+        [security reporting](https://github.com/canonic2/shield-registry/blob/main/SECURITY.md).
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Give the affected page, artifact URL, command or workflow link and the expected result.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Include a minimal example. For a documentation issue, identify the unclear or incorrect passage.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Versions and relevant output
+      description: When applicable, include Shield/Node versions, OS, pack/version and catalog sequence. Remove tokens, personal paths and private project data.
+      render: text

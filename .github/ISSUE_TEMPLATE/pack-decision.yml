@@ -1,0 +1,58 @@
+name: Pack decision
+description: Report an unexpected Allow, Ask or Deny decision in a permission pack.
+title: "[Pack]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Share a minimal example with placeholders for private data. Do not run a
+        destructive command to reproduce a policy decision. For sensitive findings,
+        follow [security reporting](https://github.com/canonic2/shield-registry/blob/main/SECURITY.md).
+  - type: input
+    id: pack
+    attributes:
+      label: Installed pack and version
+      description: Use the installed version, which may differ from the latest published release.
+      placeholder: canonic/git@0.8.0
+    validations:
+      required: true
+  - type: dropdown
+    id: profile
+    attributes:
+      label: Selected profile
+      options:
+        - Loose
+        - Recommended
+        - Strict
+        - Unknown
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Versions and host
+      description: Include Shield, tool and agent versions, operating system, and other relevant packs or project rules.
+    validations:
+      required: true
+  - type: textarea
+    id: request
+    attributes:
+      label: Command or MCP request
+      description: Include the relevant working-directory context and scope settings using neutral paths and names.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+      description: Include the decision and any relevant reason or rule ID. Describe host prompting separately.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result and effects
+      description: Explain the intended decision and the command's effects. Link official tool documentation or source when possible.
+    validations:
+      required: true

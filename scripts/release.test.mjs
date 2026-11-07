@@ -10,3 +10,17 @@ test('A release adds its pack once and follows the signed catalog sequence', () 
   // Rerunning after a failed attempt changes nothing further.
   assert.deepEqual(planRelease(added, 6, 'packs/canonic/acme/0.2.0/pack.yml'), added);
 });
+
+test('A full catalog permits a retained release but rejects another version without dropping history', () => {
+  const packs = Array.from({length:64}, (_, i) => `packs/canonic/acme/1.0.${i}/pack.yml`);
+  const release = {sequence:1, packs};
+  assert.deepEqual(planRelease(release, 1, packs[0]).packs, packs);
+  assert.throws(() => planRelease(release, 1, 'packs/canonic/acme/1.0.64/pack.yml'),
+    /65 releases; current clients support at most 64/);
+  assert.equal(release.packs.length, 64);
+});
+
+test('Duplicate manifest paths fail before release preparation', () => {
+  const path = 'packs/canonic/acme/1.0.0/pack.yml';
+  assert.throws(() => planRelease({packs:[path,path]}, 1, path), /duplicate pack paths/);
+});

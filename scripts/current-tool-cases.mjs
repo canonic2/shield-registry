@@ -135,6 +135,12 @@ export async function currentToolCases(name) {
     cli.push(
       ['mobile',['testrun','act',JSON.stringify(tap)],routine],
       ['browser-connect',['testrun','connect','--engine','firefox'],review],
+      ['browser-connect-options',['testrun','connect','--engine','chrome','--mode','headless','--context','{"viewport":{"width":640,"height":480},"deviceScaleFactor":1,"extraHTTPHeaders":[{"name":"X-Acme","value":"example"}]}'],review],
+      ['browser-connect-options-before-engine',['testrun','--json','connect','--context','{}','--mode','headed','--engine','webkit'],review],
+      ['browser-connect-attached-options',['testrun','connect','--context={}','--mode=headless','--engine=firefox'],review],
+      ['browser-connect-unknown-option',['testrun','connect','--engine','chrome','--unknown-option'],review],
+      ['browser-connect-missing-context-value',['testrun','connect','--engine','chrome','--context'],review],
+      ['browser-connect-missing-engine-value',['testrun','connect','--engine'],review],
       ['browser-connect-legacy',['testrun','browser','connect','--engine','firefox'],review],
       ['targeted-act',['testrun','act','--target','browser:acme',JSON.stringify({action:'http_fetch'})],review],
       ['targeted-leading-act',['testrun','--target','browser:acme','act',JSON.stringify({action:'http_fetch'})],review],

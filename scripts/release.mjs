@@ -7,7 +7,7 @@ import { homedir } from 'node:os';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
-import { build, checkPublication } from './registry-release.mjs';
+import { build, checkPublication, checkReleaseInventory } from './registry-release.mjs';
 import { runTests } from './test.mjs';
 
 const root = resolve(import.meta.dirname, '..');
@@ -19,6 +19,7 @@ const expand = path => resolve(path.trim().replace(/^(['"])(.*)\1$/, '$2').repla
 /** Add the pack to the manifest and move the sequence one past the signed catalog. */
 export function planRelease(release, publishedSequence, path) {
   const packs = release.packs.includes(path) ? release.packs : [...release.packs, path];
+  checkReleaseInventory(packs);
   return { ...release, sequence: publishedSequence + 1, packs };
 }
 

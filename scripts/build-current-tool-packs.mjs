@@ -7,7 +7,7 @@ import {box} from './box-policy.mjs';
 import {gate} from './gate-policy.mjs';
 import {currentToolCases} from './current-tool-cases.mjs';
 
-export const currentToolVersions = {box:'0.2.2', gate:'0.2.2', testrun:'0.2.2'};
+export const currentToolVersions = {box:'0.2.2', gate:'0.2.2', testrun:'0.2.3'};
 export const currentDirectory = (name, version = currentToolVersions[name]) =>
   new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -176,9 +176,17 @@ function updateTestrun(pack) {
   const connect = structuredClone(pack.rules.find(rule => rule.id === 'connect'));
   connect.id = 'connect-browser';
   connect.conditions.arguments = {kind:'options',leading:{flags:['--json'],values:['--target'],interleaved:true},
-    prefix:['connect'],flags:[],values:['--engine'],operands:true,require_any:['--engine']};
+    prefix:['connect'],flags:[],values:['--engine'],operands:true,require_any:['--engine'],unknown_options:'skip'};
   connect.decision = review;
   pack.rules.push(connect);
+  // An engine marker with no value is invalid CLI input, but must not fall
+  // back to the mobile connection allowance. The value rule above owns the
+  // attached --engine=... spelling; this guard owns the bare marker.
+  const marker = structuredClone(connect);
+  marker.id = 'connect-browser-marker';
+  marker.conditions.arguments.flags = ['--engine'];
+  marker.conditions.arguments.values = [];
+  pack.rules.push(marker);
 }
 
 export async function currentToolPack(name) {

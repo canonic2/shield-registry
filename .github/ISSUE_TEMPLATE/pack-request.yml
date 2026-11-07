@@ -1,0 +1,37 @@
+name: Pack or coverage request
+description: Propose a new tool pack or coverage for additional operations.
+title: "[Coverage]: "
+body:
+  - type: input
+    id: tool
+    attributes:
+      label: Tool or existing pack
+      placeholder: Tool name, or canonic/PACK and the affected version
+    validations:
+      required: true
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Workflow and operations
+      description: Describe the task and give representative CLI commands or MCP tool names and arguments.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Authoritative documentation or source
+      description: Link official command references, MCP schemas or tool source. Include the tool version if known.
+    validations:
+      required: true
+  - type: textarea
+    id: effects
+    attributes:
+      label: Effects and permission boundaries
+      description: Describe reads, writes, execution, network access, credentials or destructive effects that need review. A new operation need not be allowed automatically.
+    validations:
+      required: true
+  - type: textarea
+    id: decisions
+    attributes:
+      label: Suggested profile decisions
+      description: If you have a proposal, explain Allow, Ask or Deny in Loose, Recommended and Strict, including operations that should stay restricted.

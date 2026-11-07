@@ -111,6 +111,15 @@ test('Current Rust validates a new structured release while authenticated expire
     assert.deepEqual(await readFile(join(f.root, 'public/packs/canonic/git/0.3.0/commands.json')),
       await readFile(join(f.root, 'packs/canonic/git/0.3.0/commands.json')));
   });
+test('An oversized manifest fails before key access, validation or public writes', async t => {
+  const f = await releaseFixture(t);
+  const previous = await readFile(join(f.root, 'public/catalog.json'));
+  f.release.packs = Array.from({length:65}, (_, i) => `packs/canonic/acme/1.0.${i}/pack.yml`);
+  await f.put('release.json', JSON.stringify(f.release));
+  await assert.rejects(build(f.root, join(f.root, 'missing-key.pem'), '/unused-validator'),
+    /65 releases; current clients support at most 64/);
+  assert.deepEqual(await readFile(join(f.root, 'public/catalog.json')), previous);
+});
 test('Historical retention cannot bypass authentication, source integrity or an absent prior catalog', async t => {
   for (const change of ['source', 'signature', 'asset', 'missing', 'unpublished']) {
     const f = await releaseFixture(t);

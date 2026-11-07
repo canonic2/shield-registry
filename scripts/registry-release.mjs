@@ -10,6 +10,15 @@ import { registryPage } from './registry-page.mjs';
 export const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 const document = bytes => JSON.parse(bytes.toString('utf8'));
 const encoded = value => Buffer.from(JSON.stringify(value, null, 2) + '\n');
+// Matches the current Registry Kit client contract; do not raise server-only.
+export const MAX_CATALOG_RELEASES = 64;
+
+export function checkReleaseInventory(paths) {
+  if (!Array.isArray(paths) || paths.length < 1) throw Error('Release manifest must list pack paths');
+  if (paths.length > MAX_CATALOG_RELEASES)
+    throw Error(`Release manifest has ${paths.length} releases; current clients support at most ${MAX_CATALOG_RELEASES}. Coordinate client/catalog capacity before publishing; do not drop retained releases.`);
+  if (new Set(paths).size !== paths.length) throw Error('Release manifest contains duplicate pack paths');
+}
 const safePath = path => typeof path === 'string' && /^[a-zA-Z0-9._~/-]+$/.test(path)
   && path.split('/').every(part => part && part !== '.' && part !== '..');
 
@@ -40,7 +49,7 @@ export function checkCatalog(bytes, signature, key, now = new Date()) {
     || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(catalog.expires_at)
     || !(new Date(catalog.expires_at) > now)
     || new Date(catalog.expires_at).toISOString().replace('.000Z', 'Z') !== catalog.expires_at
-    || !Array.isArray(catalog.packs) || catalog.packs.length < 1 || catalog.packs.length > 64) throw Error('Invalid or expired catalog');
+    || !Array.isArray(catalog.packs) || catalog.packs.length < 1 || catalog.packs.length > MAX_CATALOG_RELEASES) throw Error('Invalid or expired catalog');
   const seen = new Set();
   for (const entry of catalog.packs) {
     if (Object.keys(entry).some(field => !['id', 'version', 'path', 'sha256'].includes(field))
@@ -114,6 +123,7 @@ async function validateRelease(shield, bytes, cases) {
 export async function build(root, keyPath, shield) {
   if (!keyPath || !shield) throw Error('Build requires a private key path and Shield binary');
   const release = document(await regular(root, 'release.json'));
+  checkReleaseInventory(release.packs);
   const privateKey = createPrivateKey(await readFile(keyPath));
   if (privateKey.asymmetricKeyType !== 'ed25519') throw Error('Ed25519 key required');
   const key = Buffer.from(createPublicKey(privateKey).export({ format: 'jwk' }).x, 'base64url').toString('hex');
