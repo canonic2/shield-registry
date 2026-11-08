@@ -54,6 +54,100 @@ test('Box candidate CLI and MCP cases use the production evaluator', {skip:!proc
   assert.equal(report.passed,true);
 });
 
+test('Box 0.27 cleanup and retired-workspace repair retain signed 0.2.3 boundaries', {skip:!process.env.SHIELD_BINARY}, async () => {
+  const directory = new URL('../packs/canonic/box/0.2.3/',import.meta.url);
+  const catalog = await checkPublication(new URL('../public',import.meta.url).pathname,
+    readFileSync(new URL('../keys/main.pub',import.meta.url),'utf8').trim());
+  const published = catalog.releases.find(row => row.id === 'canonic/box' && row.version === '0.2.3');
+  assert.ok(published,'authenticated published baseline');
+  assert.equal(digest(readFileSync(new URL('pack.yml',directory))),published.sha256);
+  for (const file of ['pack.yml','cases.json','commands.json','README.md','LICENSE']) {
+    assert.deepEqual(readFileSync(new URL(file,directory)),
+      readFileSync(new URL(`../public/packs/canonic/box/0.2.3/${file}`,import.meta.url)),
+      `published ${file} remains immutable`);
+  }
+  const allow = {loose:'allow',recommended:'allow',strict:'allow'};
+  const change = {loose:'allow',recommended:'ask',strict:'ask'};
+  const destroy = {loose:'ask',recommended:'ask',strict:'deny'};
+  const review = {loose:'ask',recommended:'ask',strict:'ask'};
+  const workspace = 'a'.repeat(32);
+  const cli = [
+    ['forget',['workspace','remove',workspace,'--forget'],destroy],
+    ['history',['workspace','cleanup',workspace,'--history'],destroy],
+    ['checkout-history',['workspace','cleanup',workspace,'--worktree','--history'],destroy],
+    ['discard-history',['workspace','cleanup',workspace,'--worktree','--history','--discard-changes'],destroy],
+    ['assessment',['workspace','cleanup',workspace,'--dry-run'],allow],
+    // Box rejects this combination before effects; it remains a preview spelling.
+    ['assessment-resource-conflict',['workspace','cleanup',workspace,'--dry-run','--history'],allow],
+    ['repair-preview',['repair','--workspace',workspace],allow],
+    ['repair-apply',['repair','--workspace',workspace,'--confirm','digest'],change],
+  ];
+  const mcp = [
+    ['forget','workspace_remove',{workspace,forget:true},destroy],
+    ['forget-checkout-conflict','workspace_remove',{workspace,forget:true,delete_checkout:true},destroy],
+    ['forget-discard-conflict','workspace_remove',{workspace,forget:true,discard_changes:true},destroy],
+    ['history','workspace_cleanup',{workspace,history:true},destroy],
+    ['checkout-history','workspace_cleanup',{workspace,worktree:true,history:true},destroy],
+    ['discard-history','workspace_cleanup',{workspace,worktree:true,history:true,discard_changes:true},destroy],
+    ['assessment','workspace_cleanup',{workspace,dry_run:true},allow],
+    ['assessment-resource-conflict','workspace_cleanup',{workspace,dry_run:true,history:true},allow],
+    ['assessment-malformed','workspace_cleanup',{workspace,dry_run:'true',history:true},destroy],
+    ['missing-workspace','workspace_cleanup',{},destroy],
+    ['repair-preview','repair',{workspace},allow],
+    ['repair-apply','repair',{workspace,dry_run:false},change],
+    ['provider-removal-unknown','worktree_remove',{path:'/outside/acme'},review],
+    ['provider-branch-unknown','branch_remove',{repo:'acme',branch:'feature',force:true},review],
+    ['docs','docs_read',{path:'workspaces.md'},allow],
+    ['docs-invalid-path','docs_read',{path:'../../private.md'},allow],
+    ['unknown','cleanup_unknown',{},review],
+  ];
+  const binding = {box:{transport:{type:'stdio',command:'box',args:['mcp','serve'],env:{}},
+    agents:{codex:'box'},packs:{'canonic/box':'box'}}};
+  const rows = [];
+  for (const profile of ['loose','recommended','strict']) {
+    for (const outside of [false,true]) {
+      for (const [name,args,decisions] of cli) {
+        rows.push({name:`cli-${name}-${profile}-${outside}`,profile,
+          argv:['box',...(outside?['--project','/outside/other']:[]),...args],
+          expected:outside && decisions[profile] === 'allow'?'ask':decisions[profile]});
+      }
+      for (const [name,tool,args,decisions] of mcp) {
+        // Explicit-project cleanup retains its frozen destructive boundary,
+        // including Strict denial for previews in another project.
+        const expected = outside && tool === 'workspace_cleanup' ? destroy[profile]
+          : outside && !tool.startsWith('docs_') && decisions[profile] === 'allow' ? 'ask'
+          : decisions[profile];
+        rows.push({name:`mcp-${name}-${profile}-${outside}`,profile,mcp:binding,
+          input:{kind:'mcp',server:'box',tool,arguments:{...args,...(outside?{project:'/outside/other'}:{})},original_input:{}},
+          expected});
+      }
+    }
+  }
+  const temp = mkdtempSync(join(tmpdir(),'box-cleanup-pack-'));
+  try {
+    const path = join(temp,'cases.json');
+    writeFileSync(path,JSON.stringify({schema_version:1,cases:rows}));
+    const result = spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack',
+      '--pack',new URL('pack.yml',directory).pathname,'--cases',path],
+      {encoding:'utf8',timeout:120000,maxBuffer:8*1024*1024});
+    const report = JSON.parse(result.stdout || '{}');
+    assert.equal(result.status,0,JSON.stringify(report.cases?.filter(row => !row.passed) ?? report)+result.stderr);
+    assert.equal(report.passed,true);
+    for (const transport of [
+      {type:'stdio',command:'box',args:['mcp','serve','--project','/outside/other'],env:{}},
+      {type:'http',url:'https://example.com/mcp'},
+    ]) {
+      const mismatched = structuredClone(binding);
+      mismatched.box.transport = transport;
+      writeFileSync(path,JSON.stringify({schema_version:1,cases:[{...rows.find(row => row.input),mcp:mismatched}]}));
+      const refused = spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack',
+        '--pack',new URL('pack.yml',directory).pathname,'--cases',path],{encoding:'utf8',timeout:120000});
+      assert.equal(refused.status,2,refused.stdout+refused.stderr);
+      assert.match(refused.stdout,/connection does not match its pack integration/);
+    }
+  } finally {rmSync(temp,{recursive:true,force:true});}
+});
+
 test('Box optional MCP experience retains signed 0.2.2 permission boundaries', {skip:!process.env.SHIELD_BINARY}, async () => {
   const catalog = await checkPublication(new URL('../public',import.meta.url).pathname,
     readFileSync(new URL('../keys/main.pub',import.meta.url),'utf8').trim());
