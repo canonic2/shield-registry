@@ -56,7 +56,8 @@ pending candidates. Older artifacts remain available for pinned installations.
 | [canonic/github](packs/canonic/github/0.4.0/README.md) | 0.4.0 | GitHub CLI/MCP and parsed inline GraphQL reads with optional repository scope |
 | [canonic/node](packs/canonic/node/0.4.0/README.md) | 0.4.0 | Node, npm, pnpm, Yarn and Corepack, with optional manager selection |
 | [canonic/rust](packs/canonic/rust/0.2.0/README.md) | 0.2.0 | Cargo, Rust tools, dependencies and explicit argument paths |
-| [canonic/testrun](packs/canonic/testrun/0.2.5/README.md) | 0.2.5 | Mobile/browser QA, native and imported diagnostics, debugger boundaries, project workflows and builds |
+| [canonic/testrun](packs/canonic/testrun/0.2.6/README.md) | 0.2.6 | Mobile/browser QA, service and framework diagnostics, reproduction planning, project workflows and builds |
+| [canonic/workbench](packs/canonic/workbench/0.1.0/README.md) | 0.1.0 | All 18 current Workbench MCP tools allowed across every profile, with verified stdio bindings |
 
 GitHub requires Shield `>=0.22.0, <1.0.0` with `graphql-v1`. The other latest
 releases require Shield `>=0.20.0, <1.0.0`. Each pack declares its exact required

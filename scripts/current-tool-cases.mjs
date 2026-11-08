@@ -195,6 +195,57 @@ export async function currentToolCases(name) {
     );
     const investigation='diag-11111111111111111111111111111111';
     const analysis='analysis-33333333333333333333333333333333';
+    for (const source of [
+      {kind:'host_process',targetId:'process:Acme:42',serviceId:'api',hostId:'Acme',processId:42,expectedGeneration:'linux:boot:42:birth'},
+      {kind:'box_logs',targetId:'service:Acme:api',serviceId:'api',project:'/outside/acme',workspace:'acme#feature',operationId:'node-1',stream:'stderr'},
+    ]) {
+      cli.push([`services-source-${source.kind}`,['testrun','diagnostics','start',investigation,'--submission-id','service','--source',JSON.stringify(source)],review]);
+      mcp.push([`services-source-${source.kind}`,'diagnostics_start',{investigationId:investigation,submissionId:'service',source},review]);
+    }
+    for (const format of ['service-evidence-v1','host-process-v1','box-log-v1','js-cpu-profile','jfr-json','pprof','stackprof-json','xdebug-cachegrind','windows-minidump']) {
+      cli.push([`services-import-${format}`,['testrun','diagnostics','start',investigation,'--submission-id','service','--source',JSON.stringify({kind:'import',path:'/outside/private/service',format})],review]);
+      mcp.push([`services-import-${format}`,'diagnostics_start',{investigationId:investigation,submissionId:'service',source:{kind:'import',path:'/outside/private/service',format}},review]);
+    }
+    mcp.push(['services-malformed-exec','diagnostics_start',{investigationId:investigation,submissionId:'service',source:{kind:'host_process',processId:42,exec:['never'],signal:9,remote:'production'}},review],['services-unknown-control','service_launch',{command:['never'],takeover:true},review]);
+    for (const mode of ['discover','observe']) {
+      const source={kind:'embedded_cdp',endpoint:'http://127.0.0.1:9222',targetId:'android:ACME',appId:'com.example.acme',mode,...(mode==='observe'?{pageId:'acme',expectedUrl:'https://example.com',allowDebuggerAttachment:true,network:true}: {})};
+      cli.push([`framework-embedded-${mode}`,['testrun','diagnostics','start',investigation,'--submission-id','embedded','--source',JSON.stringify(source)],review]);
+      mcp.push([`framework-embedded-${mode}`,'diagnostics_start',{investigationId:investigation,submissionId:'embedded',source},review]);
+    }
+    for (const format of ['framework-evidence-v1','runtime-samples-v1','embedded-cdp-v1','speedscope']) {
+      cli.push([`framework-import-${format}`,['testrun','diagnostics','start',investigation,'--submission-id','framework','--source',JSON.stringify({kind:'import',path:'/outside/private/framework',format})],review]);
+      mcp.push([`framework-import-${format}`,'diagnostics_start',{investigationId:investigation,submissionId:'framework',source:{kind:'import',path:'/outside/private/framework',format}},review]);
+    }
+    mcp.push(['framework-unsafe-endpoint-enable','diagnostics_start',{investigationId:investigation,submissionId:'unsafe',source:{kind:'embedded_cdp',endpoint:'http://example.com',enableEndpoint:true,evaluate:'must-not-run()'}},review],['framework-unknown-controller','framework_connect',{engine:'unity',takeover:true},review]);
+    cli.push(
+      ...['test-results-v1','junit-xml'].map(format=>[`testing-${format}`,['testrun','diagnostics','start',investigation,'--submission-id','tests','--source',JSON.stringify({kind:'import',path:'/outside/private/tests',format})],review]),
+      ...['ui','api','accessibility','visual','media','performance'].map(domain=>[`testing-${domain}`,['testrun','diagnostics','query',investigation,analysis,'--filters',JSON.stringify({view:'assertions',assertions:{checks:[{id:'check',domain,name:'checkout',predicate:{type:'equals',pointer:'/test/outcome',expected:'passed'}}]}})],review]),
+      ['testing-metric',['testrun','diagnostics','query',investigation,analysis,'--filters','{"view":"assertions","assertions":{"checks":[{"id":"latency","domain":"performance","predicate":{"type":"metric","unit":"milliseconds","definition":"request to rendered result","max":100,"aggregation":"max"}}]}}'],review],
+    );
+    mcp.push(
+      ...['test-results-v1','junit-xml'].map(format=>[`testing-${format}`,'diagnostics_start',{investigationId:investigation,submissionId:'tests',source:{kind:'import',path:'/outside/private/tests',format}},review]),
+      ...['ui','api','accessibility','visual','media','performance'].map(domain=>[`testing-${domain}`,'diagnostics_query',{investigationId:investigation,analysisId:analysis,view:'assertions',assertions:{checks:[{id:'check',domain,name:'checkout',predicate:{type:'equals',pointer:'/test/outcome',expected:'passed'}}]}},review]),
+      ['testing-metric','diagnostics_query',{investigationId:investigation,analysisId:analysis,view:'assertions',assertions:{checks:[{id:'latency',domain:'performance',predicate:{type:'metric',unit:'milliseconds',definition:'request to rendered result',max:100,aggregation:'max'}}]}},review],
+      ['testing-malformed-evaluation','diagnostics_query',{investigationId:investigation,analysisId:analysis,view:'assertions',assertions:{checks:[{id:'unsafe',domain:'ui',predicate:{type:'evaluate',expression:'must-not-run()'}}]}},review],
+      ['testing-unknown-runner','diagnostics_test_run',{runner:'arbitrary',command:['never']},review],
+    );
+    cli.push(
+      ...['crash','hang','memory_growth','slow_interaction','startup','network','background_media','soak'].map(preset=>[`reproduction-plan-${preset}`,['testrun','diagnostics','plan',preset,'--platform','android','--options','{"targetId":"android:ACME","appId":"com.example.acme","userId":0,"fault":"offline"}'],allow]),
+      ['reproduction-plan-missing-platform',['testrun','diagnostics','plan','soak'],review],
+      ['reproduction-marker',['testrun','diagnostics','start',investigation,'--submission-id','before','--source','{"kind":"marker","name":"before checkout","actionId":"checkout","phase":"before_action"}'],review],
+      ['reproduction-import',['testrun','diagnostics','start',investigation,'--submission-id','baseline','--source','{"kind":"import","path":"/outside/run.json","format":"reproduction-v1"}'],review],
+      ['reproduction-compare',['testrun','diagnostics','compare',investigation,analysis,investigation,analysis],review],
+    );
+    mcp.push(
+      ...['android','ios','browser','import'].map(platform=>[`reproduction-plan-${platform}`,'diagnostics_plan',{preset:'network',platform,fault:'offline'},allow]),
+      ['reproduction-plan-missing','diagnostics_plan',{preset:'soak'},review],
+      ['reproduction-plan-unknown','diagnostics_plan',{preset:'run_shell',platform:'android'},review],
+      ['reproduction-marker','diagnostics_start',{investigationId:investigation,submissionId:'marker',source:{kind:'marker',name:'before checkout',actionId:'checkout',phase:'before_action'}},review],
+      ['reproduction-marker-malformed','diagnostics_start',{investigationId:investigation,submissionId:'marker',source:{kind:'marker',name:'before',actionId:'checkout',phase:'before_action',command:'never'}},review],
+      ['reproduction-import','diagnostics_start',{investigationId:investigation,submissionId:'baseline',source:{kind:'import',path:'/outside/run.json',format:'reproduction-v1'}},review],
+      ['reproduction-compare','diagnostics_compare',{investigationId:investigation,analysisId:analysis,otherInvestigationId:investigation,otherAnalysisId:analysis},review],
+      ['reproduction-future-runner','diagnostics_run',{preset:'soak',repeat:true},review],
+    );
     const debugPage={connectionId:'11111111-1111-4111-8111-111111111111',id:'22222222-2222-4222-8222-222222222222',generation:'33333333-3333-4333-8333-333333333333'};
     const debugActions=[{kind:'variables',pauseId:'11111111-1111-4111-8111-111111111111',frame:0,scope:0,offset:0,limit:20},
       {kind:'logpoint_set',url:'https://example.com/app.js',line:4,marker:'Acme'},

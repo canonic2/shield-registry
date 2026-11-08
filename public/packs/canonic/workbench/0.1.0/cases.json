@@ -1,0 +1,6101 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "view_show-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "view_show-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "view_show-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_show",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "view_set-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_set",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "view_set-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_set",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "view_set-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_set",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "annotation_list-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "annotation_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "annotation_list-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "annotation_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "annotation_list-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "annotation_list",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "config_show-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "config_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "config_show-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "config_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "config_show-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "config_show",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_screenshot-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_screenshot",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          },
+          "save": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_screenshot-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_screenshot",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_screenshot-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_screenshot",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_console-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_console",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_console-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_console",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_console-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_console",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_snapshot-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_snapshot",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_snapshot-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_snapshot",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_snapshot-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_snapshot",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_check-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_check",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          },
+          "sizes": [
+            "mobile",
+            "laptop"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_check-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_check",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_check-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_check",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_inspect-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_inspect",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          },
+          "selector": "button"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_inspect-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_inspect",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_inspect-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_inspect",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_sheet-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_sheet",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          },
+          "sizes": [
+            "mobile",
+            "laptop"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_sheet-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_sheet",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_sheet-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_sheet",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_compare-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_compare",
+        "arguments": {
+          "a": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          },
+          "b": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "loading"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_compare-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_compare",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_compare-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_compare",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_start-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_start",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_start-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_start",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_start-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_start",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_list-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_list-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_list-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_list",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_interact-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {
+          "page": "pg_acme",
+          "steps": [
+            {
+              "action": "click",
+              "target": {
+                "selector": "button"
+              }
+            }
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_interact-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_interact-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_stop-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_stop",
+        "arguments": {
+          "page": "pg_acme"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_stop-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_stop",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_stop-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_stop",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_list-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_list-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_list-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_list",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_search-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_search",
+        "arguments": {
+          "query": "scenarios"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_search-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_search-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_search",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_read-request-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_read",
+        "arguments": {
+          "path": "agent-tools.md"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_read-empty-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_read-malformed-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_read",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "unknown-future_tool-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "future_tool",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-current_view-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "current_view",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-workbench_docs_read-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-page_interact_shell-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact_shell",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-VIEW_SHOW-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "VIEW_SHOW",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "transport-59-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "workbench",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-60-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "/usr/local/bin/workbench",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-61-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "/opt/homebrew/bin/workbench",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-62-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "/Users/acme/.local/bin/workbench",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-63-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "/home/acme/.local/bin/workbench",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-64-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "workbench.cmd",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-65-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "C:\\Users\\Acme\\.local\\bin\\workbench.cmd",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "alias-loose",
+      "profile": "loose",
+      "mcp": {
+        "canvas": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "canvas"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "canvas",
+        "tool": "view_set",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "cli-uncovered-67-loose",
+      "profile": "loose",
+      "argv": [
+        "workbench",
+        "mcp",
+        "setup",
+        "--yes"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-uncovered-68-loose",
+      "profile": "loose",
+      "argv": [
+        "workbench",
+        "manager",
+        "stop"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-uncovered-69-loose",
+      "profile": "loose",
+      "argv": [
+        "workbench",
+        "view",
+        "set",
+        "pages/jobs.html"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "view_show-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "view_show-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "view_show-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_show",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "view_set-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_set",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "view_set-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_set",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "view_set-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_set",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "annotation_list-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "annotation_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "annotation_list-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "annotation_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "annotation_list-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "annotation_list",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "config_show-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "config_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "config_show-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "config_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "config_show-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "config_show",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_screenshot-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_screenshot",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          },
+          "save": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_screenshot-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_screenshot",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_screenshot-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_screenshot",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_console-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_console",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_console-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_console",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_console-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_console",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_snapshot-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_snapshot",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_snapshot-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_snapshot",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_snapshot-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_snapshot",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_check-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_check",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          },
+          "sizes": [
+            "mobile",
+            "laptop"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_check-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_check",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_check-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_check",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_inspect-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_inspect",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          },
+          "selector": "button"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_inspect-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_inspect",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_inspect-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_inspect",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_sheet-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_sheet",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          },
+          "sizes": [
+            "mobile",
+            "laptop"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_sheet-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_sheet",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_sheet-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_sheet",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_compare-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_compare",
+        "arguments": {
+          "a": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          },
+          "b": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "loading"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_compare-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_compare",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_compare-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_compare",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_start-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_start",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_start-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_start",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_start-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_start",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_list-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_list-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_list-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_list",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_interact-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {
+          "page": "pg_acme",
+          "steps": [
+            {
+              "action": "click",
+              "target": {
+                "selector": "button"
+              }
+            }
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_interact-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_interact-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_stop-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_stop",
+        "arguments": {
+          "page": "pg_acme"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_stop-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_stop",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_stop-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_stop",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_list-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_list-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_list-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_list",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_search-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_search",
+        "arguments": {
+          "query": "scenarios"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_search-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_search-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_search",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_read-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_read",
+        "arguments": {
+          "path": "agent-tools.md"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_read-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_read-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_read",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "unknown-future_tool-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "future_tool",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-current_view-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "current_view",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-workbench_docs_read-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-page_interact_shell-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact_shell",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-VIEW_SHOW-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "VIEW_SHOW",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "transport-129-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "workbench",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-130-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "/usr/local/bin/workbench",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-131-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "/opt/homebrew/bin/workbench",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-132-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "/Users/acme/.local/bin/workbench",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-133-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "/home/acme/.local/bin/workbench",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-134-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "workbench.cmd",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-135-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "C:\\Users\\Acme\\.local\\bin\\workbench.cmd",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "alias-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "canvas": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "canvas"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "canvas",
+        "tool": "view_set",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "cli-uncovered-137-recommended",
+      "profile": "recommended",
+      "argv": [
+        "workbench",
+        "mcp",
+        "setup",
+        "--yes"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-uncovered-138-recommended",
+      "profile": "recommended",
+      "argv": [
+        "workbench",
+        "manager",
+        "stop"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-uncovered-139-recommended",
+      "profile": "recommended",
+      "argv": [
+        "workbench",
+        "view",
+        "set",
+        "pages/jobs.html"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "view_show-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "view_show-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "view_show-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_show",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "view_set-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_set",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "view_set-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_set",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "view_set-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "view_set",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "annotation_list-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "annotation_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "annotation_list-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "annotation_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "annotation_list-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "annotation_list",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "config_show-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "config_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "config_show-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "config_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "config_show-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "config_show",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_screenshot-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_screenshot",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          },
+          "save": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_screenshot-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_screenshot",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_screenshot-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_screenshot",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_console-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_console",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_console-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_console",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_console-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_console",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_snapshot-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_snapshot",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_snapshot-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_snapshot",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_snapshot-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_snapshot",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_check-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_check",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          },
+          "sizes": [
+            "mobile",
+            "laptop"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_check-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_check",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_check-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_check",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_inspect-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_inspect",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          },
+          "selector": "button"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_inspect-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_inspect",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_inspect-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_inspect",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_sheet-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_sheet",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          },
+          "sizes": [
+            "mobile",
+            "laptop"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_sheet-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_sheet",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_sheet-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_sheet",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_compare-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_compare",
+        "arguments": {
+          "a": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          },
+          "b": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "loading"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_compare-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_compare",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_compare-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_compare",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_start-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_start",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_start-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_start",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_start-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_start",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_list-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_list-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_list-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_list",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_interact-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {
+          "page": "pg_acme",
+          "steps": [
+            {
+              "action": "click",
+              "target": {
+                "selector": "button"
+              }
+            }
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_interact-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_interact-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_stop-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_stop",
+        "arguments": {
+          "page": "pg_acme"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_stop-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_stop",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "page_stop-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_stop",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_list-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_list-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_list-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_list",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_search-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_search",
+        "arguments": {
+          "query": "scenarios"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_search-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_search-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_search",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_read-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_read",
+        "arguments": {
+          "path": "agent-tools.md"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_read-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "docs_read-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_read",
+        "arguments": {
+          "target": 42,
+          "page": null,
+          "steps": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "unknown-future_tool-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "future_tool",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-current_view-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "current_view",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-workbench_docs_read-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-page_interact_shell-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact_shell",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-VIEW_SHOW-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "VIEW_SHOW",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "transport-199-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "workbench",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-200-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "/usr/local/bin/workbench",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-201-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "/opt/homebrew/bin/workbench",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-202-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "/Users/acme/.local/bin/workbench",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-203-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "/home/acme/.local/bin/workbench",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-204-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "workbench.cmd",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport-205-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "stdio",
+            "command": "C:\\Users\\Acme\\.local\\bin\\workbench.cmd",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "page_interact",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "alias-strict",
+      "profile": "strict",
+      "mcp": {
+        "canvas": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/workbench",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "canvas"
+          },
+          "packs": {
+            "canonic/workbench": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "canvas",
+        "tool": "view_set",
+        "arguments": {
+          "target": {
+            "page": "pages/jobs.html",
+            "space": "acme",
+            "scenario": "empty"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "cli-uncovered-207-strict",
+      "profile": "strict",
+      "argv": [
+        "workbench",
+        "mcp",
+        "setup",
+        "--yes"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-uncovered-208-strict",
+      "profile": "strict",
+      "argv": [
+        "workbench",
+        "manager",
+        "stop"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-uncovered-209-strict",
+      "profile": "strict",
+      "argv": [
+        "workbench",
+        "view",
+        "set",
+        "pages/jobs.html"
+      ],
+      "expected": "ask"
+    }
+  ]
+}

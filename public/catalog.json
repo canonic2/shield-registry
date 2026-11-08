@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "registry_id": "canonic-shield-main",
-  "sequence": 37,
+  "sequence": 38,
   "expires_at": "2027-02-03T00:00:00Z",
   "packs": [
     {
@@ -54,9 +54,15 @@
     },
     {
       "id": "canonic/testrun",
-      "version": "0.2.5",
-      "path": "packs/canonic/testrun/0.2.5/pack.yml",
-      "sha256": "521fda099377c177d866456f657546147fcc036b8c84544fe771f1ca4636226d"
+      "version": "0.2.6",
+      "path": "packs/canonic/testrun/0.2.6/pack.yml",
+      "sha256": "4452c6a36b3ff0914c0901e2dd6364e007ae5c3f3aa741241cda33b8c693f66a"
+    },
+    {
+      "id": "canonic/workbench",
+      "version": "0.1.0",
+      "path": "packs/canonic/workbench/0.1.0/pack.yml",
+      "sha256": "f18fb47d70804fd851514f0d6e12ab6e29080fed64a177417f2c1d29902c7a8e"
     }
   ],
   "commands": {
@@ -153,10 +159,16 @@
       "last": "0.2.0"
     },
     "canonic/testrun": {
-      "path": "metadata/f94f4a052144944426a93144a0192e8d96a448c3114e2656342458de3f808549.json",
-      "sha256": "f94f4a052144944426a93144a0192e8d96a448c3114e2656342458de3f808549",
+      "path": "metadata/64f87d1f0770be50e1d145b21a6d702d484792ff40d3a7e31f926605f07942e5.json",
+      "sha256": "64f87d1f0770be50e1d145b21a6d702d484792ff40d3a7e31f926605f07942e5",
       "first": "0.1.0",
-      "last": "0.2.5"
+      "last": "0.2.6"
+    },
+    "canonic/workbench": {
+      "path": "metadata/debb4b4c21741b23d8109cf996fb2892d46af146dd8b1dd9b357f481c86d8fe9.json",
+      "sha256": "debb4b4c21741b23d8109cf996fb2892d46af146dd8b1dd9b357f481c86d8fe9",
+      "first": "0.1.0",
+      "last": "0.1.0"
     }
   }
 }

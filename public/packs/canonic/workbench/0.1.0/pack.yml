@@ -1,0 +1,336 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/workbench",
+  "version": "0.1.0",
+  "description": "Allow every current Workbench MCP tool, including canvas changes and private page interaction, across all profiles.",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.20.0, <1.0.0"
+  },
+  "capabilities": [
+    "fallback-rules-v1",
+    "mcp-integrations-v1",
+    "negated-selectors-v1",
+    "regex-v1",
+    "structured-rules-v1"
+  ],
+  "mcp_integrations": {
+    "workbench": {
+      "transport": "stdio",
+      "fields": {
+        "/command": {
+          "text": {
+            "regex": "^(?:workbench(?:\\.cmd)?|/usr/bin/workbench|/usr/local/bin/workbench|/opt/homebrew/bin/workbench|/(?:Users|home)/[A-Za-z0-9_][A-Za-z0-9_. -]*/\\.local/bin/workbench|[A-Za-z]:[\\\\/]Users[\\\\/][A-Za-z0-9_][A-Za-z0-9_. -]*[\\\\/]\\.local[\\\\/]bin[\\\\/]workbench\\.cmd)$"
+          }
+        },
+        "/args": {
+          "exact": [
+            "mcp",
+            "serve"
+          ]
+        }
+      },
+      "defaults": {
+        "type": "stdio",
+        "command": "workbench",
+        "args": [
+          "mcp",
+          "serve"
+        ],
+        "env": {}
+      }
+    }
+  },
+  "rules": [
+    {
+      "id": "mcp-view_show",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "view_show"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read the current canvas and its artboard targets."
+    },
+    {
+      "id": "mcp-view_set",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "view_set"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Change the selected artboard in the last-used canvas."
+    },
+    {
+      "id": "mcp-annotation_list",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "annotation_list"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read the user’s annotations from the canvas."
+    },
+    {
+      "id": "mcp-config_show",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "config_show"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "List configured spaces, pages, scenarios, sizes and lenses."
+    },
+    {
+      "id": "mcp-page_screenshot",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "page_screenshot"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Render a target privately and capture its image."
+    },
+    {
+      "id": "mcp-page_console",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "page_console"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read a private page’s console entries."
+    },
+    {
+      "id": "mcp-page_snapshot",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "page_snapshot"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read a private page’s structure and text."
+    },
+    {
+      "id": "mcp-page_check",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "page_check"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Check builds, console errors and layout at selected sizes."
+    },
+    {
+      "id": "mcp-page_inspect",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "page_inspect"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Inspect matching elements, boxes and computed styles."
+    },
+    {
+      "id": "mcp-page_sheet",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "page_sheet"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Capture one page at several sizes."
+    },
+    {
+      "id": "mcp-page_compare",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "page_compare"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Compare two private targets or open page handles."
+    },
+    {
+      "id": "mcp-page_start",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "page_start"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Start a private browser page for inspection or interaction."
+    },
+    {
+      "id": "mcp-page_list",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "page_list"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "List the MCP connection’s private page handles."
+    },
+    {
+      "id": "mcp-page_interact",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "page_interact"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Interact with a private page and run its project behavior."
+    },
+    {
+      "id": "mcp-page_stop",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "page_stop"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Close a private page handle."
+    },
+    {
+      "id": "mcp-docs_list",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "docs_list"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "List the bundled Workbench documentation."
+    },
+    {
+      "id": "mcp-docs_search",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "docs_search"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Search the bundled Workbench documentation."
+    },
+    {
+      "id": "mcp-docs_read",
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": "docs_read"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Read a bundled Workbench documentation page."
+    },
+    {
+      "id": "mcp-unlisted",
+      "fallback": true,
+      "conditions": {
+        "domain": "mcp",
+        "server": "workbench",
+        "tool": {
+          "not": {
+            "one_of": [
+              "view_show",
+              "view_set",
+              "annotation_list",
+              "config_show",
+              "page_screenshot",
+              "page_console",
+              "page_snapshot",
+              "page_check",
+              "page_inspect",
+              "page_sheet",
+              "page_compare",
+              "page_start",
+              "page_list",
+              "page_interact",
+              "page_stop",
+              "docs_list",
+              "docs_search",
+              "docs_read"
+            ]
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review tools outside the explicitly reviewed Workbench MCP surface."
+    }
+  ]
+}

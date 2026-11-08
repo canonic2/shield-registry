@@ -67,6 +67,15 @@ test('testrun browser defaults and cross-frame evaluation preserve opaque and sh
         {operation:'trace_start',context,options:{filePath:'missing/deep/Acme.record'}},
         {operation:'trace_stop',filePath:'level/../Acme.backup.GZ'},
         {operation:'trace_stop',filePath:'.gz'},
+        {operation:'trace_start',context,options:{filePath:'/tmp/Acme-readable/Acme.record'}},
+        {operation:'trace_stop',filePath:'/tmp/Acme-sticky/missing/deep/Acme.gz'},
+        {operation:'trace_stop'},
+        {operation:'trace_stop',analysisDeveloper:frame},
+        {operation:'trace_stop',analysisDeveloper:null},
+        {operation:'trace_stop',analysisPage:frame},
+        {operation:'trace_stop',analysisPage:null},
+        {operation:'trace_stop',filePath:'/tmp/Acme-analysis/Acme-post-capture.json.gz',analysisPage:frame},
+        {operation:'trace_stop',filePath:'/tmp/Acme-analysis/Acme.json.gz',analysisDeveloper:frame},
       ];
       const associatedStateRequests = [
         {operation:'http_context_storage_state',httpContext:frame,options:{indexedDB:true,opfs:true}},

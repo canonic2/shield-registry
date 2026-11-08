@@ -19,6 +19,7 @@ Current source builders are grouped by capability rather than a release diary:
 | Git, Node, Rust, AWS | `scripts/build-reviewed-profiles.mjs` and `scripts/build-reviewed-profile-cases.mjs` |
 | Box, Gate, Testrun | `scripts/build-current-tool-packs.mjs` and `scripts/current-tool-cases.mjs` extend frozen sources; the builder accepts a tool selection |
 | GitHub | `scripts/build-github-graphql-pack.mjs` and `scripts/build-github-graphql-cases.mjs` |
+| Workbench | `scripts/workbench-policy.mjs` and independent `scripts/workbench-cases.mjs`; regenerate with `node scripts/build-workbench-pack.mjs` |
 
 Read each builder's imports and destination before running it. Shared builders
 may generate several packs. Historical builders remain dependencies and
@@ -86,6 +87,7 @@ For focused feedback, select the relevant test file:
 ```sh
 npm test -- --shield /absolute/path/to/shield scripts/current-tool-packs.test.mjs
 npm test -- --shield /absolute/path/to/shield scripts/github-graphql-pack.test.mjs
+npm test -- --shield /absolute/path/to/shield --workbench /absolute/path/to/workbench scripts/workbench-pack.test.mjs
 ```
 
 Before signing, the release helper runs the full suite:

@@ -9,7 +9,7 @@ import {testrun} from './testrun-policy.mjs';
 import {currentToolCases} from './current-tool-cases.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 
-export const currentToolVersions = {box:'0.2.3', gate:'0.2.2', testrun:'0.2.5'};
+export const currentToolVersions = {box:'0.2.3', gate:'0.2.2', testrun:'0.2.6'};
 export const currentDirectory = (name, version = currentToolVersions[name]) =>
   new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -161,7 +161,7 @@ function updateTestrun(pack) {
     [['build','log'],'inspect','Read the private retained operation log.'],
     [['diagnostics','open'],'routine','Create a private retained investigation without attaching to an app.'],
     [['diagnostics','status'],'inspect','Inspect diagnostic ownership and retained progress.'],
-    [['diagnostics','start'],'execute','Collect private evidence. Native traces run trusted converters, finite system/CPU recording or explicit attach, including separate Apple allocation recording/heap inspection opt-ins, and create private artifacts. RN can run a fixed probe/control Hermes profilers or take over a debugger; Dart reads service credentials and can allocate/dispose inspector groups. ADB can start its server.'],
+    [['diagnostics','start'],'execute','Collect private evidence. Native traces run trusted converters, finite system/CPU recording or explicit attach, including separate Apple allocation recording/heap inspection opt-ins, and create private artifacts. RN can run a fixed probe/control Hermes profilers or take over a debugger; Dart reads service credentials and can allocate/dispose inspector groups. Embedded CDP attaches a selected borrowed page and enables observation without enabling its endpoint. Host snapshots read one selected native process; Box reads exact retained operation logs without service lifecycle control. ADB can start its server.'],
     [['diagnostics','read'],'execute','Expose private captured bytes, which may contain application secrets.'],
     [['diagnostics','stop'],'routine','Stop owned diagnostic readers without stopping their source command.'],
     [['diagnostics','close'],'routine','Close an investigation and stop its owned readers, retaining evidence.'],
@@ -169,9 +169,10 @@ function updateTestrun(pack) {
     [['diagnostics','analyze'],'execute','Parse retained private evidence and publish a derived index; explicit Apple symbolication materializes retained symbol files and runs UUID/architecture verification plus atos.'],
     [['diagnostics','analysis-status'],'inspect','Inspect retained analysis lifecycle and provenance without captured content.'],
     [['diagnostics','analysis-cancel'],'routine','Cancel an owned parser process, preserving original evidence.'],
-    [['diagnostics','query'],'execute','Expose private heap/resource/performance/UI/network/data evidence, lifecycle/media/energy/setting-restoration and sanitizer/runtime-check reports; imported identity/ownership/measurement claims are not authority or causal proof.'],
+    [['diagnostics','query'],'execute','Expose private diagnostic evidence, test results and fixed retained-evidence assertions; imported identity/ownership/measurement claims are not authority or causal proof.'],
     [['diagnostics','compare'],'execute','Read private retained analyses and compare declared scope and measurements.'],
     [['diagnostics','capabilities'],'inspect','Inspect static diagnostic effects, scope, costs and dependency metadata without starting helpers.'],
+    [['diagnostics','plan'],'inspect','Plan bounded reproduction collectors and existing fault/fixture owners without source reads, execution or readiness probes.'],
     [['diagnostics','prepare'],'routine','Verify only the bundled parser through a bounded owned process; no installation or downloads.'],
     [['diagnostics','project'],'execute','Expose scoped numeric evidence that omits free text but can remain sensitive.'],
     [['diagnostics','export'],'execute','Write an explicit redacted report page or unredacted native trace artifact outside private retention without overwriting different bytes.'],
@@ -185,7 +186,7 @@ function updateTestrun(pack) {
     project_open:['execute','Launch the selected app and open its configured development URL.'],
     build_log:['inspect','Read a bounded private retained operation log.'],
     diagnostics_open:['routine','Create private investigation metadata without attachment.'],
-    diagnostics_start:['execute','Collect private evidence. Native traces run trusted converters, finite system/CPU recording or explicit attach, including separate Apple allocation recording/heap inspection opt-ins, and create private artifacts. RN can run a fixed probe/control Hermes profilers or take over a debugger; Dart reads service credentials and can allocate/dispose inspector groups. ADB can start its server.'],
+    diagnostics_start:['execute','Collect private evidence. Native traces run trusted converters, finite system/CPU recording or explicit attach, including separate Apple allocation recording/heap inspection opt-ins, and create private artifacts. RN can run a fixed probe/control Hermes profilers or take over a debugger; Dart reads service credentials and can allocate/dispose inspector groups. Embedded CDP attaches a selected borrowed page and enables observation without enabling its endpoint. Host snapshots read one selected native process; Box reads exact retained operation logs without service lifecycle control. ADB can start its server.'],
     diagnostics_status:['inspect','Inspect retained diagnostic ownership and progress.'],
     diagnostics_read:['execute','Expose private retained collector content.'],
     diagnostics_stop:['routine','Stop only owned collectors, preserving source commands and evidence.'],
@@ -194,13 +195,19 @@ function updateTestrun(pack) {
     diagnostics_analyze:['execute','Run a bounded private parser; optional explicit Apple symbolication reads retained artifacts, creates private temporary copies and runs dwarfdump/atos after UUID/architecture checks.'],
     diagnostics_analysis_status:['inspect','Inspect retained analysis state without captured content.'],
     diagnostics_analysis_cancel:['routine','Stop only an owned parser, preserving evidence.'],
-    diagnostics_query:['execute','Expose private heap/resource/performance/UI/network/data evidence, lifecycle/media/energy/setting-restoration and sanitizer/runtime-check reports; imported identity/ownership/measurement claims are not authority or causal proof.'],
+    diagnostics_query:['execute','Expose private diagnostic evidence, test results and fixed retained-evidence assertions; imported identity/ownership/measurement claims are not authority or causal proof.'],
     diagnostics_compare:['execute','Expose private retained analysis measurements and compatibility.'],
     diagnostics_capabilities:['inspect','Inspect static effects, limits and dependency metadata without source access.'],
+    diagnostics_plan:['inspect','Plan bounded reproduction presets, effects and existing cleanup owners without executing actions or probing targets.'],
     diagnostics_prepare:['routine','Verify only the bundled parser without installing tools or changing app/device state.'],
     diagnostics_project:['execute','Expose a scoped numeric projection; numeric/timing data can remain sensitive.'],
     diagnostics_export:['execute','Publish a projection page or explicitly selected unredacted native trace artifact to a caller-owned host file.'],
   });
+  const reproductionPlan=pack.rules.find(rule=>rule.id==='diagnostics-plan');
+  reproductionPlan.conditions.arguments={kind:'options',prefix:['diagnostics','plan'],leading:testrun.leading,flags:['--json'],values:['--platform','--options'],operands:true,require_any:['--platform']};
+  const reproductionMcp=pack.rules.find(rule=>rule.id==='mcp-diagnostics_plan');
+  reproductionMcp.requirements={fields:{'/preset':{text:{one_of:['crash','hang','memory_growth','slow_interaction','startup','network','background_media','soak']}},'/platform':{text:{one_of:['android','ios','browser','import']}}}};
+  reproductionMcp.on_unmet={decision:'ask',message:'Review an unknown or incomplete diagnostic preset/platform selection.'};
   const initPreview=structuredClone(pack.rules.find(rule=>rule.id==='init'));
   const prepareParser=pack.rules.find(rule=>rule.id==='diagnostics-prepare');
   prepareParser.conditions.arguments={kind:'options',prefix:['diagnostics','prepare','builtin-parser'],leading:testrun.leading,flags:['--json'],values:['--version'],operands:false};
