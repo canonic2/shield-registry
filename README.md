@@ -42,7 +42,7 @@ pack does not change installed project policy; updates require review. See
 ## Available packs
 
 This table lists the latest published release of each pack. The signed
-[catalog](public/catalog.json) records all published versions;
+[catalog](public/catalog.json) and its authenticated history record all published versions;
 [release.json](release.json) selects releases for publication and can include
 pending candidates. Older artifacts remain available for pinned installations.
 
@@ -50,13 +50,13 @@ pending candidates. Older artifacts remain available for pinned installations.
 | --- | --- | --- |
 | [canonic/aws](packs/canonic/aws/0.2.0/README.md) | 0.2.0 | AWS CLI and MCP operations, optional profile and region restrictions |
 | [canonic/baseline](packs/canonic/baseline/0.11.1/README.md) | 0.11.1 | Standard commands, approved file paths and verified Workbench docs tools |
-| [canonic/box](packs/canonic/box/0.2.2/README.md) | 0.2.2 | Workspaces, plugins, execution, cleanup, session closure and recovery |
+| [canonic/box](packs/canonic/box/0.2.3/README.md) | 0.2.3 | Workspaces, deferred MCP operations, configuration inspection, execution and recovery |
 | [canonic/gate](packs/canonic/gate/0.2.2/README.md) | 0.2.2 | Repository and worktree workflows, rename, discard and path checks |
 | [canonic/git](packs/canonic/git/0.8.0/README.md) | 0.8.0 | Inspection, staging, local changes, remote access and destructive boundaries |
 | [canonic/github](packs/canonic/github/0.4.0/README.md) | 0.4.0 | GitHub CLI/MCP and parsed inline GraphQL reads with optional repository scope |
 | [canonic/node](packs/canonic/node/0.4.0/README.md) | 0.4.0 | Node, npm, pnpm, Yarn and Corepack, with optional manager selection |
 | [canonic/rust](packs/canonic/rust/0.2.0/README.md) | 0.2.0 | Cargo, Rust tools, dependencies and explicit argument paths |
-| [canonic/testrun](packs/canonic/testrun/0.2.3/README.md) | 0.2.3 | Mobile/browser QA, builds, actions and launch review |
+| [canonic/testrun](packs/canonic/testrun/0.2.4/README.md) | 0.2.4 | Mobile/browser QA, diagnostics, project workflows, builds and launch review |
 
 GitHub requires Shield `>=0.22.0, <1.0.0` with `graphql-v1`. The other latest
 releases require Shield `>=0.20.0, <1.0.0`. Each pack declares its exact required
@@ -80,6 +80,11 @@ Shield authenticates the catalog against a pinned signing root, then verifies
 expiry, sequence, release identity and artifact digest before acquisition.
 Published versions and companion assets are immutable. Installed verified bytes
 remain available for offline evaluation.
+
+Catalog v3 supports growing history through authenticated per-pack version trees.
+Discovery carries current pack heads; old pins follow bounded history pages.
+Clients supporting only flat v1/v2 catalogs cannot acquire from this registry;
+upgrade to a v3-capable Shield build. Existing installed packs remain usable offline.
 
 A valid signature establishes publisher authenticity and artifact integrity;
 you still need to review whether the permissions fit your project. See

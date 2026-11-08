@@ -120,6 +120,31 @@ test('An oversized manifest fails before key access, validation or public writes
     /65 releases; current clients support at most 64/);
   assert.deepEqual(await readFile(join(f.root, 'public/catalog.json')), previous);
 });
+test('Indexed publication signs and retains old pins beyond 64 releases',
+  {skip:!process.env.SHIELD_BINARY},async t=>{
+    const f=await releaseFixture(t);
+    const template=JSON.parse(await readFile(join(f.root,'packs/canonic/git/0.3.0/pack.yml')));
+    for(let index=0;index<63;index++) {
+      const prefix=`packs/canonic/git/1.0.${index}`;
+      for(const name of ['cases.json','README.md','LICENSE','commands.json'])
+        await f.put(`${prefix}/${name}`,await readFile(join(f.root,`packs/canonic/git/0.3.0/${name}`)));
+      await f.put(`${prefix}/pack.yml`,JSON.stringify({...template,version:`1.0.${index}`}));
+      f.release.packs.push(`${prefix}/pack.yml`);
+    }
+    f.release.catalog_version=3;
+    await f.put('release.json',JSON.stringify(f.release));
+    const result=await build(f.root,join(f.root,'test-key.pem'),process.env.SHIELD_BINARY);
+    assert.equal(result.catalog.schema_version,3);
+    assert.equal(result.catalog.packs.length,1);
+    const checked=await checkPublication(join(f.root,'public'),key);
+    assert.equal(checked.releases.length,65);
+    assert.deepEqual(checked.releases.find(entry=>entry.version==='0.2.0'),f.old.packs[0]);
+    // A later renewal reads retained indexed metadata and preserves all companions.
+    f.release.sequence=3;
+    await f.put('release.json',JSON.stringify(f.release));
+    await build(f.root,join(f.root,'test-key.pem'),'/unused-validator');
+    assert.equal((await checkPublication(join(f.root,'public'),key)).releases.length,65);
+  });
 test('Historical retention cannot bypass authentication, source integrity or an absent prior catalog', async t => {
   for (const change of ['source', 'signature', 'asset', 'missing', 'unpublished']) {
     const f = await releaseFixture(t);

@@ -101,7 +101,8 @@ npm run test:native -- --shield /absolute/path/to/shield
 
 ## Publish
 
-Add every pending source path to `release.json.packs` exactly once. Retain all
+Add every pending source path to `release.json.packs` exactly once. Use
+`catalog_version: 3` for indexed publication. Retain all
 published entries and valid command-discovery associations. Set a valid UTC
 `expires_at`. Keep the README's table to one latest published entry per pack;
 replace its row rather than appending release history. Put detailed coverage and
@@ -146,15 +147,34 @@ retained-version lists. The catalog and versioned artifact directories retain
 history for exact-version acquisition and authenticated immutability. Source and
 `public/` copies are both required by the build and retention checks.
 
-The current catalog format admits at most **64 releases**, across all packs, in
-both registry tooling and the client. The release planner and builder reject an
-oversized manifest before validation or signing. Count all retained and pending
-entries when preparing a batch. Removing old entries violates the existing
-retention contract; raising only this repository's limit would produce catalogs
-that current clients reject. Extending capacity requires coordinated client and
-registry work before publication, including an authenticated archive or another
-compatible retention design. Do not prune published artifacts to fit the limit.
+Indexed catalog v3 lists one current head per pack and authenticates each pack's
+version tree. `metadata/<sha256>.json` pages contain at most 64 ordered releases
+or child references. Historical artifacts and companions remain immutable and
+available; historical version count does not consume discovery slots. The
+publisher verifies the complete history when retaining releases and renewing
+metadata. Each discovery/page document must fit 1 MiB. Pack versions published
+by this registry are stable numeric SemVer versions.
+Each pack's complete history must fit the client query bounds: 4,096 releases,
+128 pages, 8 MiB and depth 16. The builder and publication checker refuse a pack
+exceeding these bounds before signing or accepting output. Discovery has an
+explicit maximum of 4,096 heads, also within its 1 MiB bound.
 
-Command-discovery metadata stays bounded too: at most 64 pack IDs, each mapping
+Upgrade clients to a build supporting catalog v3 before switching the served
+root. Existing flat v1/v2 catalogs remain readable by the new client. Older
+clients refuse v3; they can keep evaluating installed verified bytes offline.
+The release planner defaults to v2; changing `catalog_version` to 3 is explicit.
+Before the first v3 publication, complete this blocking checklist:
+
+- Publish a Shield release containing v3 catalog and history support through its
+  normal distribution channels. A local development build does not satisfy this.
+- Record the released version and public release URL in the registry publication
+  review, and verify that released binary against a signed v3 fixture.
+- Only then sign and deploy the v3 root. Stop publication if either prerequisite
+  is missing, even when source fixtures and the development build pass.
+
+Explicit v1/v2 publication retains the 64-release limit. Do not prune published
+artifacts to fit a limit.
+
+Command-discovery metadata stays bounded by the root document, each pack mapping
 to 1–16 unique command basenames. These are authenticated relevance hints, not
 permission rules. See [command discovery](command-discovery.md).

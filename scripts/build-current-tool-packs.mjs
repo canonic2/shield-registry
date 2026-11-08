@@ -5,9 +5,10 @@ import {pathToFileURL} from 'node:url';
 import {toolPack} from './tool-pack.mjs';
 import {box} from './box-policy.mjs';
 import {gate} from './gate-policy.mjs';
+import {testrun} from './testrun-policy.mjs';
 import {currentToolCases} from './current-tool-cases.mjs';
 
-export const currentToolVersions = {box:'0.2.2', gate:'0.2.2', testrun:'0.2.3'};
+export const currentToolVersions = {box:'0.2.3', gate:'0.2.2', testrun:'0.2.4'};
 export const currentDirectory = (name, version = currentToolVersions[name]) =>
   new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -81,6 +82,7 @@ function updateBox(pack) {
   ];
   const tools = Object.fromEntries(commands.filter(([words]) => words.join(' ') !== 'plugin launch')
     .map(([words, category, reason]) => [words.join('_'),[category,reason]]));
+  tools.config_show = ['inspect','Inspect redacted effective agent configuration and publication state without writing.'];
   tools.config_sync = ['integration','Review and publish agent configuration.',[
     {id:'dry-run', fields:{'/dry_run':{exact:true}}, category:'inspect', reason:'Inspect publication without writing.'}]];
   for (const name of ['plugin_enable','plugin_disable','plugin_reset','plugin_workflow_run','plugin_workflow_resume','plugin_check']) {
@@ -147,6 +149,123 @@ function updateGate(pack) {
 }
 
 function updateTestrun(pack) {
+  extend(pack, testrun, [
+    [['init'],'execute','Review detected application projects and create project configuration without overwriting existing files.'],
+    [['project','list'],'inspect','List configured applications.'],
+    [['project','show'],'inspect','Inspect one application configuration.'],
+    [['project','status'],'inspect','Inspect configured Expo and optional app inventory.',[
+      {id:'project',any:['--project'],values:['--project'],category:'folder',reason:'Review explicit project selection.'}]],
+    [['project','start'],'execute','Run a project-declared command, server or composed build.'],
+    [['project','open'],'execute','Launch the selected app and open its configured development URL.'],
+    [['build','log'],'inspect','Read the private retained operation log.'],
+    [['diagnostics','open'],'routine','Create a private retained investigation without attaching to an app.'],
+    [['diagnostics','status'],'inspect','Inspect diagnostic ownership and retained progress.'],
+    [['diagnostics','start'],'execute','Collect private host, browser, native or framework evidence. RN can attach, execute a fixed probe, control Hermes profilers and replace a legacy debugger explicitly. Dart reads a private authenticated VM URI, attaches and can inspect live objects/retaining paths and allocate/dispose Flutter inspector groups. ADB can start its server.'],
+    [['diagnostics','read'],'execute','Expose private captured bytes, which may contain application secrets.'],
+    [['diagnostics','stop'],'routine','Stop owned diagnostic readers without stopping their source command.'],
+    [['diagnostics','close'],'routine','Close an investigation and stop its owned readers, retaining evidence.'],
+    [['diagnostics','remove'],'destroy','Delete only closed, settled investigation records and their owned evidence.'],
+    [['diagnostics','analyze'],'execute','Parse retained private evidence and publish a derived index; explicit Apple symbolication materializes retained symbol files and runs UUID/architecture verification plus atos.'],
+    [['diagnostics','analysis-status'],'inspect','Inspect retained analysis lifecycle and provenance without captured content.'],
+    [['diagnostics','analysis-cancel'],'routine','Cancel an owned parser process, preserving original evidence.'],
+    [['diagnostics','query'],'execute','Expose bounded private structured evidence, which can contain secrets.'],
+    [['diagnostics','compare'],'execute','Read private retained analyses and compare declared scope and measurements.'],
+    [['diagnostics','capabilities'],'inspect','Inspect static diagnostic effects, scope, costs and dependency metadata without starting helpers.'],
+    [['diagnostics','prepare'],'routine','Verify only the bundled parser through a bounded owned process; no installation or downloads.'],
+    [['diagnostics','project'],'execute','Expose scoped numeric evidence that omits free text but can remain sensitive.'],
+    [['diagnostics','export'],'execute','Write an explicitly selected redacted report page without overwriting different bytes.'],
+  ], {
+    project_discover:['inspect','Detect project candidates and preview configuration without running project code or writing files.'],
+    project_init:['execute','Create selected project configuration only after a matching initialization preview digest.'],
+    project_list:['inspect','List named applications without starting runtimes.'],
+    project_show:['inspect','Inspect redacted named application configuration.'],
+    project_status:['inspect','Inspect the selected project and Expo without running project commands.'],
+    project_start:['execute','Execute project-declared preparation, server, check or build commands.'],
+    project_open:['execute','Launch the selected app and open its configured development URL.'],
+    build_log:['inspect','Read a bounded private retained operation log.'],
+    diagnostics_open:['routine','Create private investigation metadata without attachment.'],
+    diagnostics_start:['execute','Collect private host, browser, native or framework evidence. RN can attach, execute a fixed probe, control Hermes profilers and replace a legacy debugger explicitly. Dart reads a private authenticated VM URI, attaches and can inspect live objects/retaining paths and allocate/dispose Flutter inspector groups. ADB can start its server.'],
+    diagnostics_status:['inspect','Inspect retained diagnostic ownership and progress.'],
+    diagnostics_read:['execute','Expose private retained collector content.'],
+    diagnostics_stop:['routine','Stop only owned collectors, preserving source commands and evidence.'],
+    diagnostics_close:['routine','Close an investigation and stop its readers, preserving evidence.'],
+    diagnostics_remove:['destroy','Delete a closed and settled investigation and its owned evidence.'],
+    diagnostics_analyze:['execute','Run a bounded private parser; optional explicit Apple symbolication reads retained artifacts, creates private temporary copies and runs dwarfdump/atos after UUID/architecture checks.'],
+    diagnostics_analysis_status:['inspect','Inspect retained analysis state without captured content.'],
+    diagnostics_analysis_cancel:['routine','Stop only an owned parser, preserving evidence.'],
+    diagnostics_query:['execute','Expose structured private evidence content.'],
+    diagnostics_compare:['execute','Expose private retained analysis measurements and compatibility.'],
+    diagnostics_capabilities:['inspect','Inspect static effects, limits and dependency metadata without source access.'],
+    diagnostics_prepare:['routine','Verify only the bundled parser without installing tools or changing app/device state.'],
+    diagnostics_project:['execute','Expose a scoped numeric projection; numeric/timing data can remain sensitive.'],
+    diagnostics_export:['execute','Publish a projection page to an explicitly selected host file.'],
+  });
+  const initPreview=structuredClone(pack.rules.find(rule=>rule.id==='init'));
+  const prepareParser=pack.rules.find(rule=>rule.id==='diagnostics-prepare');
+  prepareParser.conditions.arguments={kind:'options',prefix:['diagnostics','prepare','builtin-parser'],leading:testrun.leading,flags:['--json'],values:['--version'],operands:false};
+  const prepareParserMcp=pack.rules.find(rule=>rule.id==='mcp-diagnostics_prepare');
+  prepareParserMcp.requirements={fields:{'/component':{exact:'builtin-parser'}}};
+  prepareParserMcp.on_unmet={decision:'ask',message:'Only the bundled parser self-check has this preparation permission.'};
+  initPreview.id='init-dry-run';
+  const initGrammar={kind:'options',prefix:['init'],leading:testrun.leading,flags:['--json','--yes','--dry-run'],values:['--root','--path','--kind','--platform'],operands:false};
+  pack.rules.find(rule=>rule.id==='init').conditions.arguments={...initGrammar,forbid:['--dry-run']};
+  initPreview.conditions.arguments={...initGrammar,require_any:['--dry-run']};
+  initPreview.requirements={cwd:{within:{root:'write'}},argument_paths:{grammar:initGrammar,options:{'--root':{path:{within:{root:'read'}}},'--path':{path:{within:{root:'read'}}}}}};
+  initPreview.decision=allow;
+  initPreview.on_unmet={decision:'ask',message:'Review initialization discovery outside approved read roots.'};
+  pack.rules.push(initPreview);
+  const discovery=pack.rules.find(rule=>rule.id==='mcp-project_discover');
+  discovery.requirements={field_paths:{'/root':{relative_to:'project',path:{within:{root:'read'}}}}};
+  discovery.on_unmet={decision:'ask',message:'Select a project discovery root inside approved read roots.'};
+  mcpRule(pack,'mcp-project_init-preview','project_init',allow,{'/dryRun':{exact:true}},{field_paths:{'/root':{relative_to:'project',path:{within:{root:'read'}}}}});
+  for (const name of ['project_list','project_show']) {
+    const rule=pack.rules.find(rule=>rule.id===`mcp-${name}`);
+    rule.requirements={field_paths:{'/root':{relative_to:'project',path:{within:{root:'read'}}}},...(name==='project_show'?{fields:{'/project':{text:{regex:'[a-z][a-z0-9-]{0,63}'}}}}:{})};
+    rule.on_unmet={decision:'ask',message:'Select a configuration root inside approved read roots and a symbolic project.'};
+  }
+  for (const name of ['config_check','config_show','config_schema','project_status']) {
+    mcpRule(pack,`mcp-${name}-root`,name,allow,{'/root':{text:{not:{exact:''}}}},{field_paths:{'/root':{relative_to:'project',path:{within:{root:'read'}}}}});
+  }
+  // Explicit roots have filesystem meaning; project IDs do not.
+  for (const words of [['project','list'],['project','show'],['project','status'],['config','check'],['config','show'],['config','schema']]) {
+    const rule=structuredClone(pack.rules.find(rule=>rule.id===words.join('-')));
+    rule.id=`${words.join('-')}-root`;
+    rule.conditions.arguments={kind:'options',prefix:words,leading:testrun.leading,flags:['--json','--local'],values:['--root','--profile','--offset','--limit','--version','--target'],operands:true,require_any:['--root']};
+    rule.requirements={cwd:{within:{root:'write'}},argument_paths:{grammar:{kind:'options',prefix:words,leading:testrun.leading,flags:['--json','--local'],values:['--root','--profile','--offset','--limit','--version','--target'],operands:true},options:{'--root':{path:{within:{root:'read'}}}}}};
+    rule.decision=allow;
+    rule.on_unmet={decision:'ask',message:'Review explicit configuration roots outside approved read roots.'};
+    pack.rules.push(rule);
+  }
+  const status = pack.rules.find(rule=>rule.id==='mcp-project_status');
+  status.requirements={fields:{'/profile':{text:{not:{exact:''}}}},field_paths:{'/project':{relative_to:'project',path:{within:{root:'read'}}}}};
+  const namedStatus=pack.rules.find(rule=>rule.id==='mcp-project_status-root');
+  namedStatus.requirements.fields={'/project':{text:{regex:'[a-z][a-z0-9-]{0,63}'}},'/profile':{text:{not:{exact:''}}}};
+  mcpRule(pack,'mcp-build_start-root','build_start',review,{'/root':{text:{not:{exact:''}}}});
+  const namedBuild=structuredClone(pack.rules.find(rule=>rule.id==='build-start-inline'));
+  namedBuild.id='build-start-root';
+  namedBuild.conditions.arguments.values=[...new Set([...namedBuild.conditions.arguments.values,'--root','--app'])];
+  namedBuild.conditions.arguments.require_any=['--root','--app'];
+  namedBuild.decision=review;
+  pack.rules.push(namedBuild);
+  status.on_unmet={decision:'ask',message:'Select a profile and project inside approved read roots.'};
+  pack.capabilities=[...new Set([...pack.capabilities,'field-paths-v1'])].sort();
+  const log=pack.rules.find(rule=>rule.id==='mcp-build_log');
+  const diagnosticStatus=pack.rules.find(rule=>rule.id==='mcp-diagnostics_status');
+  diagnosticStatus.requirements={fields:{'/investigationId':{text:{regex:'diag-[0-9a-f]{32}'}}}};
+  diagnosticStatus.on_unmet={decision:'ask',message:'Select a valid retained investigation.'};
+  const analysisStatus=pack.rules.find(rule=>rule.id==='mcp-diagnostics_analysis_status');
+  analysisStatus.requirements={fields:{'/investigationId':{text:{regex:'diag-[0-9a-f]{32}'}},'/analysisId':{text:{regex:'analysis-[0-9a-f]{32}'}}}};
+  analysisStatus.on_unmet={decision:'ask',message:'Select valid retained investigation and analysis references.'};
+  log.requirements={fields:{'/operationId':{text:{regex:'build-[0-9a-f]{32}'}}}};
+  log.on_unmet={decision:'ask',message:'Select a valid retained operation.'};
+  mcpRule(pack,'mcp-build_start-prepare','build_start',review,{'/prepare':{exact:true}});
+  const preparation=structuredClone(pack.rules.find(rule=>rule.id==='build-start-inline'));
+  preparation.id='build-start-prepare';
+  preparation.conditions.arguments.flags=['--prepare'];
+  preparation.conditions.arguments.values=[];
+  preparation.conditions.arguments.require_any=['--prepare'];
+  preparation.decision=review;
+  pack.rules.push(preparation);
   // Public `act` now also routes arbitrary browser operations. Keep the existing
   // mobile workflow, but require review for browser/file/network action batches.
   const mobile = ['tap','swipe','long_press','key','type_text','app_launch','app_terminate','app_restart','open_url','delay'];

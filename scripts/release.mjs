@@ -19,8 +19,9 @@ const expand = path => resolve(path.trim().replace(/^(['"])(.*)\1$/, '$2').repla
 /** Add the pack to the manifest and move the sequence one past the signed catalog. */
 export function planRelease(release, publishedSequence, path) {
   const packs = release.packs.includes(path) ? release.packs : [...release.packs, path];
-  checkReleaseInventory(packs);
-  return { ...release, sequence: publishedSequence + 1, packs };
+  const catalog_version=release.catalog_version??2;
+  checkReleaseInventory(packs, catalog_version);
+  return { ...release, catalog_version, sequence: publishedSequence + 1, packs };
 }
 
 async function ask(prompt, given, remembered) {
@@ -60,8 +61,8 @@ async function main(args) {
   if (runTests(shield) !== 0) throw Error('Tests failed; nothing was signed');
 
   const { catalog } = await build(root, key, shield);
-  await checkPublication(resolve(root, 'public'), (await readFile(resolve(root, 'keys/main.pub'), 'utf8')).trim());
-  const entry = catalog.packs.find(pack => pack.path === path);
+  const verified = await checkPublication(resolve(root, 'public'), (await readFile(resolve(root, 'keys/main.pub'), 'utf8')).trim());
+  const entry = (verified.releases??catalog.packs).find(pack => pack.path === path);
   console.log(`Signed ${reference} (sha256 ${entry.sha256}) in public/. Review and commit the source and public/ together.`);
 }
 
