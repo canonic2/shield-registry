@@ -195,6 +195,11 @@ export async function currentToolCases(name) {
     );
     const investigation='diag-11111111111111111111111111111111';
     const analysis='analysis-33333333333333333333333333333333';
+    const debugPage={connectionId:'11111111-1111-4111-8111-111111111111',id:'22222222-2222-4222-8222-222222222222',generation:'33333333-3333-4333-8333-333333333333'};
+    const debugActions=[{kind:'variables',pauseId:'11111111-1111-4111-8111-111111111111',frame:0,scope:0,offset:0,limit:20},
+      {kind:'logpoint_set',url:'https://example.com/app.js',line:4,marker:'Acme'},
+      {kind:'evaluate',pauseId:'11111111-1111-4111-8111-111111111111',frame:0,expression:'local'}, {kind:'disable'}];
+    const nativeSource=(backend,mode)=>({kind:'native_trace',backend,mode,targetId:backend==='xctrace'?'device:ACME':backend==='stack_sample'?'host:macos':'android:ACME',appId:'com.example.acme',processId:42,...(mode==='import'?{path:'/outside/trace'}:{}),toolPath:'/outside/native-tool',allowSystemTrace:true,allowAttach:true,...(backend==='xctrace'?{template:'Time Profiler'}:{})});
     cli.push(
       ['diagnostics-open',['testrun','diagnostics','open','--submission-id','acme','--question','Investigate Acme'],routine],
       ['diagnostics-status',['testrun','diagnostics','status',investigation],allow],
@@ -227,6 +232,23 @@ export async function currentToolCases(name) {
       ['diagnostics-prepare-missing',['testrun','diagnostics','prepare'],review],
       ['diagnostics-project',['testrun','diagnostics','project',investigation,analysis,'--filters','{"scope":"all"}'],review],
       ['diagnostics-export',['testrun','diagnostics','export',investigation,analysis,'--path','/outside/report.json'],review],
+      ...['perfetto','simpleperf','xctrace','stack_sample'].flatMap(backend=>['capture','import'].map(mode=>[`native-${backend}-${mode}`,['testrun','diagnostics','start',investigation,'--submission-id','native','--source',JSON.stringify(nativeSource(backend,mode))],review])),
+      ['native-export',['testrun','diagnostics','export',investigation,analysis,'--path','/outside/native.trace','--filters','{"format":"native_artifact","scope":"all"}'],review],
+      ['native-thread',['testrun','diagnostics','query',investigation,analysis,'--filters','{"view":"timeline","nativeUpid":5,"nativeUtid":3}'],review],
+      ...['runtime-checks-v1','sanitizer-report-text'].map(format=>[`runtime-checks-${format}`,['testrun','diagnostics','start',investigation,'--submission-id','checks','--source',JSON.stringify({kind:'import',path:'/outside/private/checks',format})],review]),
+      ['runtime-checks-query',['testrun','diagnostics','query',investigation,analysis,'--filters','{"kind":"failure","correlationId":"fault-1"}'],review],
+      ...debugActions.map(action=>[`interactive-${action.kind}`,['testrun','browser','send',JSON.stringify({operation:'page_debugger',page:debugPage,action})],change]),
+      ['scenario-import',['testrun','diagnostics','start',investigation,'--submission-id','scenario','--source','{"kind":"import","path":"/outside/private/scenario.json","format":"scenario-context-v1"}'],review],
+      ['scenario-android-context',['testrun','diagnostics','start',investigation,'--submission-id','context','--source','{"kind":"android_state","targetId":"android:ACME","appId":"com.example.acme","userId":0,"groups":["media","device_context"]}'],review],
+      ...['summary','timeline','lifecycle','media','peripherals','energy','settings','restore'].map(operation=>[`scenario-${operation}`,['testrun','diagnostics','query',investigation,analysis,'--filters',JSON.stringify({view:'scenario',scenario:{operation}})],review]),
+      ...['network-evidence-v1','data-snapshot-v1','pcap'].map(format=>[`network-data-${format}`,['testrun','diagnostics','start',investigation,'--submission-id','network-data','--source',JSON.stringify({kind:'import',path:'/outside/private/evidence',format})],review]),
+      ...['requests','phases','messages','spans','logs','packets','correlate','data','schema','query_plan'].map(operation=>[`network-data-${operation}`,['testrun','diagnostics','query',investigation,analysis,'--filters',JSON.stringify({view:'network_data',networkData:{operation,...(operation==='correlate'?{traceId:'11111111111111111111111111111111'}:operation==='data'?{collection:'orders',equals:{field:'state',value:null}}:{})}})],review]),
+      ...['ui-performance-v1','package-size-v1'].map(format=>[`performance-${format}`,['testrun','diagnostics','start',investigation,'--submission-id','performance','--source',JSON.stringify({kind:'import',path:'/outside/private/performance.json',format})],review]),
+      ...['summary','startup','frames','stages','interaction','trees','accessibility','gpu','sizes'].map(operation=>[`performance-${operation}`,['testrun','diagnostics','query',investigation,analysis,'--filters',JSON.stringify({view:'performance',performance:{operation,...(operation==='accessibility'?{minTargetSize:44}:{})}})],review]),
+      ...['java-hprof','memory-graph-v1','memory-series-v1'].map(format=>[`memory-${format}`,['testrun','diagnostics','start',investigation,'--submission-id','memory','--source',JSON.stringify({kind:'import',path:'/outside/private/heap',format})],review]),
+      ...['summary','classes','objects','object','edges','retainers','paths','dominators','series'].map(operation=>[`memory-${operation}`,['testrun','diagnostics','query',investigation,analysis,'--filters',JSON.stringify({view:'memory',memory:{operation,...(['object','edges','retainers','paths'].includes(operation)?{objectId:'0x42'}:{})}})],review]),
+      ...['Allocations','Leaks'].map(template=>[`memory-apple-${template}`,['testrun','diagnostics','start',investigation,'--submission-id','memory','--source',JSON.stringify({kind:'native_trace',backend:'xctrace',mode:'capture',targetId:'device:ACME',appId:'com.example.acme',processId:42,template,allowAttach:true,allowAllocationRecording:true,allowHeapInspection:true})],review]),
+      ...['timeline','call_tree','flamegraph'].map(view=>[`native-${view}`,['testrun','diagnostics','query',investigation,analysis,'--filters',JSON.stringify({view})],review]),
     );
     mcp.push(
       ['diagnostics-open','diagnostics_open',{submissionId:'acme',question:'Investigate Acme'},routine],
@@ -280,6 +302,33 @@ export async function currentToolCases(name) {
       ['diagnostics-prepare-missing','diagnostics_prepare',{},review],
       ['diagnostics-project','diagnostics_project',{investigationId:investigation,analysisId:analysis,scope:'all'},review],
       ['diagnostics-export','diagnostics_export',{investigationId:investigation,analysisId:analysis,path:'/outside/report.json'},review],
+      ...['perfetto','simpleperf','xctrace','stack_sample'].flatMap(backend=>['capture','import'].map(mode=>[`native-${backend}-${mode}`,'diagnostics_start',{investigationId:investigation,submissionId:'native',source:nativeSource(backend,mode)},review])),
+      ['native-export','diagnostics_export',{investigationId:investigation,analysisId:analysis,path:'/outside/native.trace',format:'native_artifact',scope:'all'},review],
+      ['native-thread','diagnostics_query',{investigationId:investigation,analysisId:analysis,view:'timeline',nativeUpid:5,nativeUtid:3},review],
+      ...['runtime-checks-v1','sanitizer-report-text'].map(format=>[`runtime-checks-${format}`,'diagnostics_start',{investigationId:investigation,submissionId:'checks',source:{kind:'import',path:'/outside/private/checks',format}},review]),
+      ['runtime-checks-query','diagnostics_query',{investigationId:investigation,analysisId:analysis,kind:'failure',correlationId:'fault-1'},review],
+      ...debugActions.map(action=>[`interactive-${action.kind}`,'browser_send',{targetId:'browser:acme',request:{operation:'page_debugger',page:debugPage,action}},change]),
+      ['interactive-logpoint-shared','act',{targetId:'browser:acme',actions:[{action:'page_debugger',page:debugPage,input:{action:'logpoint_set',url:'https://example.com/app.js',line:4,marker:'Acme'}}]},review],
+      ['interactive-native-unknown','debugger_attach',{targetId:'android:Acme',processId:42,adapter:'lldb'},review],
+      ['diagnostic-build-inline','build_start',{project:'.',inline:{builder:'custom',platform:'android',target_kind:'emulator',custom:{command:['make','asan']},artifact:{path:'build/acme.apk'},diagnostics:{symbols:'external',profileable:true,sanitizers:['address'],coverage:false,probes:[],timing:'instrumented'}}},review],
+      ['scenario-import','diagnostics_start',{investigationId:investigation,submissionId:'scenario',source:{kind:'import',path:'/outside/private/scenario.json',format:'scenario-context-v1'}},review],
+      ['scenario-android-context','diagnostics_start',{investigationId:investigation,submissionId:'context',source:{kind:'android_state',targetId:'android:ACME',appId:'com.example.acme',userId:0,groups:['media','device_context']}},review],
+      ...['summary','timeline','lifecycle','media','peripherals','energy','settings','restore'].map(operation=>[`scenario-${operation}`,'diagnostics_query',{investigationId:investigation,analysisId:analysis,view:'scenario',scenario:{operation}},review]),
+      ['scenario-malformed-active-restore','diagnostics_query',{investigationId:investigation,analysisId:analysis,view:'scenario',scenario:{operation:'restore',execute:true,activateCamera:true}},review],
+      ...['network-evidence-v1','data-snapshot-v1','pcap'].map(format=>[`network-data-${format}`,'diagnostics_start',{investigationId:investigation,submissionId:'network-data',source:{kind:'import',path:'/outside/private/evidence',format}},review]),
+      ...['requests','phases','messages','spans','logs','packets','correlate','data','schema','query_plan'].map(operation=>[`network-data-${operation}`,'diagnostics_query',{investigationId:investigation,analysisId:analysis,view:'network_data',networkData:{operation,...(operation==='correlate'?{traceId:'11111111111111111111111111111111'}:operation==='data'?{collection:'orders',equals:{field:'state',value:null}}:{})}},review]),
+      ['network-data-scoped-request','diagnostics_query',{investigationId:investigation,analysisId:analysis,view:'network_data',networkData:{operation:'correlate',requestId:'acme-request',identityScope:'app-epoch'}},review],
+      ['network-data-malformed-sql','diagnostics_query',{investigationId:investigation,analysisId:analysis,view:'network_data',networkData:{operation:'data',sql:'DELETE FROM orders',decrypt:true,flush:true}},review],
+      ...['ui-performance-v1','package-size-v1'].map(format=>[`performance-${format}`,'diagnostics_start',{investigationId:investigation,submissionId:'performance',source:{kind:'import',path:'/outside/private/performance.json',format}},review]),
+      ...['summary','startup','frames','stages','interaction','trees','accessibility','gpu','sizes'].map(operation=>[`performance-${operation}`,'diagnostics_query',{investigationId:investigation,analysisId:analysis,view:'performance',performance:{operation,...(operation==='accessibility'?{minTargetSize:44}:{})}},review]),
+      ['performance-malformed','diagnostics_query',{investigationId:investigation,analysisId:analysis,view:'performance',performance:{operation:'frames',captureGpu:true,evaluate:'must-not-run'}},review],
+      ...['java-hprof','memory-graph-v1','memory-series-v1'].map(format=>[`memory-${format}`,'diagnostics_start',{investigationId:investigation,submissionId:'memory',source:{kind:'import',path:'/outside/private/heap',format}},review]),
+      ...['summary','classes','objects','object','edges','retainers','paths','dominators','series'].map(operation=>[`memory-${operation}`,'diagnostics_query',{investigationId:investigation,analysisId:analysis,view:'memory',memory:{operation,...(['object','edges','retainers','paths'].includes(operation)?{objectId:'0x42'}:{})}},review]),
+      ...['Allocations','Leaks'].flatMap(template=>[true,false].map(optIn=>[`memory-apple-${template}-${optIn}`,'diagnostics_start',{investigationId:investigation,submissionId:'memory',source:{kind:'native_trace',backend:'xctrace',mode:'capture',targetId:'device:ACME',appId:'com.example.acme',processId:42,template,allowAttach:true,allowAllocationRecording:optIn,allowHeapInspection:optIn}},review])),
+      ['memory-malformed','diagnostics_query',{investigationId:investigation,analysisId:analysis,view:'memory',memory:{operation:'paths',evaluate:'must-not-run',forceGc:true}},review],
+      ['native-export-missing-scope','diagnostics_export',{investigationId:investigation,analysisId:analysis,path:'/outside/native.trace',format:'native_artifact'},review],
+      ['native-arbitrary-sql','diagnostics_start',{investigationId:investigation,submissionId:'native',source:{kind:'native_trace',sql:'SELECT readfile(secret)',command:'must-not-run'}},review],
+      ...['timeline','call_tree','flamegraph'].map(view=>[`native-${view}`,'diagnostics_query',{investigationId:investigation,analysisId:analysis,view},review]),
     );
     cli.push(
       ['project-status',['testrun','project','status','ios-dev'],allow],

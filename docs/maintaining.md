@@ -43,6 +43,15 @@ Expected decisions are independent of policy constructors. Do not copy evaluator
 output into fixtures. Compare the tool's actual CLI/MCP interfaces, side effects,
 argument boundaries, launch criteria and restrictions across all profiles.
 
+Each fixture file contains at most 1,024 cases and fits the 1 MiB artifact limit.
+Larger current-tool suites are generated as `cases.json`, `cases-2.json`, and
+consecutive numbered files, with at most 64 files per release. The generator
+preserves every case and its order. Source checks and the release builder validate
+every file independently through the schema and Shield; every fixture file is
+published and retained byte-for-byte on later releases. A failure in any file
+prevents signing and publication. To reproduce a decision, pass the corresponding
+file to Shield's `__internal test-pack --pack PACK --cases FILE` entry point.
+
 ## Source contract
 
 Packs are declarative data. The current `schema_version: 1` contract requires

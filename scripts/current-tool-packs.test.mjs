@@ -9,6 +9,7 @@ import {currentToolCases} from './current-tool-cases.mjs';
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
 import {checkPublication,digest} from './registry-release.mjs';
+import {splitCaseFiles,caseFileNames} from './fixture-files.mjs';
 
 test('tool permission reset retains published setup and preview decisions', {skip:!process.env.SHIELD_BINARY}, async () => {
   const catalog = await checkPublication(new URL('../public',import.meta.url).pathname,
@@ -286,7 +287,26 @@ test('testrun browser defaults and cross-frame evaluation preserve opaque and sh
           {name:`worker-route-act-${index}-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'act',arguments:{targetId:'browser:acme',actions:[action]},original_input:{}},expected:'ask'},
         );
       }
+      for(const operation of ['context_close','page_close']) {
+        const reference=operation==='context_close'?{context}:{page:capturePage};
+        const request={operation,...reference},action={action:operation,...reference};
+        rows.push(
+          {name:`closed-sdk-owner-cli-${operation}-${profile}`,profile,argv:['testrun','browser','send',JSON.stringify(request)],expected:profile==='loose'?'allow':'ask'},
+          {name:`closed-sdk-owner-mcp-${operation}-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'browser_send',arguments:{targetId:'browser:acme',request},original_input:{}},expected:profile==='strict'?'ask':'allow'},
+          {name:`closed-sdk-owner-act-${operation}-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'act',arguments:{targetId:'browser:acme',actions:[action]},original_input:{}},expected:'ask'},
+        );
+      }
       const debuggerControls=[{operation:'context_debugger',context,action:{kind:'status'}},{operation:'context_debugger',context,action:{kind:'next',pauseId:capturePage.id}}];
+      for(const located of [false,true]) {
+        const source={file:'src/Acme-collected-caller.rs',line:20,column:3};
+        const request={operation:'page_action',page:capturePage,locator:{kind:'css',selector:'#waiting'},action:located?{kind:'at_source',source,action:{kind:'click'}}:{kind:'click'}};
+        const action={action:'page_action',page:capturePage,locator:{kind:'css',selector:'#waiting'},input:located?{action:'at_source',source,input:{action:'click'}}:{action:'click'}};
+        rows.push(
+          {name:`collected-caller-cli-${located}-${profile}`,profile,argv:['testrun','browser','send',JSON.stringify(request)],expected:profile==='loose'?'allow':'ask'},
+          {name:`collected-caller-mcp-${located}-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'browser_send',arguments:{targetId:'browser:acme',request},original_input:{}},expected:profile==='strict'?'ask':'allow'},
+          {name:`collected-caller-act-${located}-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'act',arguments:{targetId:'browser:acme',actions:[action]},original_input:{}},expected:'ask'},
+        );
+      }
       const debuggerBatch={operation:'batch',requests:debuggerControls};
       rows.push(
         {name:`collected-debugger-batch-cli-${profile}`,profile,argv:['testrun','browser','send',JSON.stringify(debuggerBatch)],expected:profile==='loose'?'allow':'ask'},
@@ -323,6 +343,10 @@ test('testrun browser defaults and cross-frame evaluation preserve opaque and sh
         {operation:'http_context_storage_state',httpContext:context,options:{indexedDB:true,opfs:true}},
         {operation:'http_evidence_finalize',captureId:'11111111-1111-4111-8111-111111111111'},
         {operation:'http_fetch',httpContext:context,request:{url:'https://example.com/redirect',headers:[{name:'Authorization',value:'Acme-example'},{name:'Proxy-Authorization',value:'Acme-proxy-example'},{name:'Cookie',value:'Acme=example'},{name:'Host',value:'example.com'},{name:'X-Acme',value:''}]}},
+        {operation:'context_create',options:{viewport:{width:640,height:480},deviceScaleFactor:1,clientCertificates:[{origin:'https://localhost:8081',cert:'QWNtZS1jZXJ0',key:'QWNtZS1rZXk='}]}},
+        {operation:'http_context_create',options:{clientCertificates:[{origin:'https://localhost:8081',cert:'QWNtZS1jZXJ0',key:'QWNtZS1rZXk='}]}},
+        {operation:'http_context_create',options:{browserContext:context,clientCertificates:[]}},
+        {operation:'http_context_create',options:{browserContext:context,clientCertificates:null}},
       ];
       for(const [index,request] of credentialRequests.entries()) {
         const {operation,...parameters}=request;
@@ -351,6 +375,9 @@ test('testrun browser defaults and cross-frame evaluation preserve opaque and sh
         {name:`proxy-launch-cli-${profile}`,profile,argv:['testrun','connect','--engine','chrome','--context',JSON.stringify({...credentialOptions,proxy:{server:'http://127.0.0.1:8080',username:'Acme proxy',password:'example'}})],expected:'ask'},
         {name:`proxy-launch-mcp-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'browser_connect',arguments:{engine:'firefox',mode:'headless',context:{proxy:{server:'http://127.0.0.1:8080',bypass:'localhost'}}},original_input:{}},expected:'ask'},
         {name:`proxy-launch-shared-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'connect',arguments:{engine:'webkit',mode:'headed',context:{proxy:{server:'http://127.0.0.1:8080',username:'Acme proxy',password:''}}},original_input:{}},expected:'ask'},
+        {name:`client-certificate-launch-cli-${profile}`,profile,argv:['testrun','connect','--engine','firefox','--context',JSON.stringify({viewport:{width:640,height:480},deviceScaleFactor:1,clientCertificates:[{origin:'https://localhost:8081',cert:'QWNtZS1jZXJ0',key:'QWNtZS1rZXk='}]})],expected:'ask'},
+        {name:`client-certificate-launch-mcp-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'browser_connect',arguments:{engine:'firefox',mode:'headless',context:{viewport:{width:640,height:480},deviceScaleFactor:1,clientCertificates:[{origin:'https://localhost:8081',cert:'QWNtZS1jZXJ0',key:'QWNtZS1rZXk='}]}},original_input:{}},expected:'ask'},
+        {name:`client-certificate-launch-shared-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'connect',arguments:{engine:'webkit',mode:'headed',context:{viewport:{width:640,height:480},deviceScaleFactor:1,clientCertificates:[{origin:'https://localhost:8081',cert:'QWNtZS1jZXJ0',key:'QWNtZS1rZXk='}]}},original_input:{}},expected:'ask'},
         {name:`credentials-launch-cli-${profile}`,profile,argv:['testrun','connect','--engine','firefox','--context',JSON.stringify(credentialOptions)],expected:'ask'},
         {name:`credentials-launch-mcp-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'browser_connect',arguments:{engine:'firefox',mode:'headless',context:credentialOptions},original_input:{}},expected:'ask'},
         {name:`credentials-launch-shared-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'connect',arguments:{engine:'firefox',mode:'headless',context:credentialOptions},original_input:{}},expected:'ask'},
@@ -398,7 +425,9 @@ for (const name of Object.keys(currentToolVersions)) {
     const pack = await currentToolPack(name);
     const cases = await currentToolCases(name);
     const validate = schemaValidator(schema);
-    for (const [file,document] of [['pack.yml',pack],['cases.json',cases]]) {
+    const fixtures = splitCaseFiles(cases);
+    assert.deepEqual(await caseFileNames(currentDirectory(name)),fixtures.map(([file]) => file));
+    for (const [file,document] of [['pack.yml',pack],...fixtures]) {
       const bytes = readFileSync(new URL(file,currentDirectory(name)));
       assert.ok(bytes.length <= 1_048_576,`${name} ${file}: artifact limit`);
       assert.deepEqual(JSON.parse(bytes),document);
@@ -415,14 +444,21 @@ for (const name of Object.keys(currentToolVersions)) {
     assert.equal(new Set(ids).size,ids.length);
     assert.deepEqual(pack.mcp_integrations[name].fields['/args'],{exact:['mcp','serve']});
   });
-  test(`${name} new and retained decisions use the production evaluator`,{skip:!process.env.SHIELD_BINARY},()=>{
-    const result = spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack',
-      '--pack',new URL('pack.yml',currentDirectory(name)).pathname,
-      '--cases',new URL('cases.json',currentDirectory(name)).pathname],
-    {encoding:'utf8',timeout:120000,maxBuffer:32*1024*1024});
-    const report = JSON.parse(result.stdout||'{}');
-    assert.equal(result.status,0,JSON.stringify(report.cases?.filter(row=>!row.passed)??report)+result.stderr);
-    assert.equal(report.passed,true);
+  test(`${name} new and retained decisions use the production evaluator`,{skip:!process.env.SHIELD_BINARY},async t=>{
+    let total = 0;
+    for (const file of await caseFileNames(currentDirectory(name))) {
+      const result = spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack',
+        '--pack',new URL('pack.yml',currentDirectory(name)).pathname,
+        '--cases',new URL(file,currentDirectory(name)).pathname],
+      {encoding:'utf8',timeout:120000,maxBuffer:32*1024*1024});
+      const report = JSON.parse(result.stdout||'{}');
+      assert.equal(result.status,0,JSON.stringify(report.cases?.filter(row=>!row.passed)??report)+result.stderr);
+      assert.equal(report.passed,true);
+      assert.equal(report.cases.length,JSON.parse(readFileSync(new URL(file,currentDirectory(name)))).cases.length);
+      total += report.cases.length;
+    }
+    assert.equal(total,(await currentToolCases(name)).cases.length);
+    t.diagnostic(`Evaluated all ${total} independent ${name} cases.`);
   });
   test(`${name} a launch with extra project arguments cannot gain this pack`,{skip:!process.env.SHIELD_BINARY},()=>{
     const dir = mkdtempSync(join(tmpdir(),'current-pack-launch-'));

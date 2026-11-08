@@ -7,6 +7,7 @@ import { tmpdir } from 'node:os';
 import { schemaValidator } from './schema-validation.mjs';
 import { registryPage } from './registry-page.mjs';
 import {buildHistory,checkReference,historyEntries} from './catalog-history.mjs';
+import {caseFileNames} from './fixture-files.mjs';
 
 export const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 const document = bytes => JSON.parse(bytes.toString('utf8'));
@@ -119,15 +120,16 @@ export async function checkPublication(root, expectedKey, now = new Date()) {
   return catalog.schema_version===3 ? {...catalog,releases} : catalog;
 }
 
-async function validateRelease(shield, bytes, cases) {
+async function validateRelease(shield, bytes, fixtures) {
   const owner = await mkdtemp(resolve(tmpdir(), 'shield-release-'));
   try {
     await writeFile(resolve(owner, 'pack.json'), bytes);
-    await writeFile(resolve(owner, 'cases.json'), cases);
-    for (const args of [
-      ['__internal', 'validate', '--pack', resolve(owner, 'pack.json')],
-      ['__internal', 'test-pack', '--pack', resolve(owner, 'pack.json'), '--cases', resolve(owner, 'cases.json')],
-    ]) {
+    const commands = [['__internal', 'validate', '--pack', resolve(owner, 'pack.json')]];
+    for (const [name, cases] of fixtures) {
+      await writeFile(resolve(owner, name), cases);
+      commands.push(['__internal', 'test-pack', '--pack', resolve(owner, 'pack.json'), '--cases', resolve(owner, name)]);
+    }
+    for (const args of commands) {
       const result = spawnSync(shield, args, { encoding: 'utf8', timeout: 120_000 });
       if (result.error || result.status !== 0) throw Error('Shield validation failed');
       const value = JSON.parse(result.stdout);
@@ -168,16 +170,21 @@ export async function build(root, keyPath, shield) {
     if (pack.kind !== 'pack' && !retained) {
       throw Error('Historical format requires an unchanged authenticated published release');
     }
-    const cases = await regular(root, `${dirname(path)}/cases.json`);
+    const fixtureNames = await caseFileNames(resolve(root, dirname(path)));
+    const fixtures = await Promise.all(fixtureNames.map(async name =>
+      [name, await regular(root, `${dirname(path)}/${name}`)]));
+    if (retained && JSON.stringify(fixtureNames) !== JSON.stringify(await caseFileNames(resolve(output, dirname(path)))))
+      throw Error('Historical release assets changed');
     if (!retained) {
-      if (!validate(pack) || !validate(document(cases))) throw Error('Structured schema validation failed');
-      await validateRelease(shield, bytes, cases);
+      if (!validate(pack) || fixtures.some(([, cases]) => !validate(document(cases))))
+        throw Error('Structured schema validation failed');
+      await validateRelease(shield, bytes, fixtures);
     }
     entries.push({ id: pack.id, version: pack.version, path, sha256: digest(bytes) });
     artifacts.push([path, bytes]);
-    for (const name of ['cases.json', 'README.md', 'LICENSE', ...(pack.capabilities.includes('argv-options-v1') || pack.capabilities.includes('argument-rules-v1') ? ['commands.json'] : [])]) {
+    for (const name of [...fixtureNames, 'README.md', 'LICENSE', ...(pack.capabilities.includes('argv-options-v1') || pack.capabilities.includes('argument-rules-v1') ? ['commands.json'] : [])]) {
       const relative = `${dirname(path)}/${name}`;
-      const content = name === 'cases.json' ? cases : await regular(root, relative);
+      const content = fixtures.find(([file]) => file === name)?.[1] ?? await regular(root, relative);
       if (retained && !content.equals(await regular(output, relative))) throw Error('Historical release assets changed');
       artifacts.push([relative, content]);
     }

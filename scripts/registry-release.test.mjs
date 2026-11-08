@@ -120,6 +120,39 @@ test('An oversized manifest fails before key access, validation or public writes
     /65 releases; current clients support at most 64/);
   assert.deepEqual(await readFile(join(f.root, 'public/catalog.json')), previous);
 });
+test('Publication evaluates every fixture file and retains each published shard exactly',
+  {skip:!process.env.SHIELD_BINARY},async t=>{
+    const f=await releaseFixture(t);
+    const prefix='packs/canonic/git/0.3.0';
+    const fixture=JSON.parse(await readFile(join(f.root,`${prefix}/cases.json`)));
+    const extra=JSON.stringify({...fixture,cases:[fixture.cases[0]]});
+    await f.put(`${prefix}/cases-2.json`,extra);
+    await build(f.root,join(f.root,'test-key.pem'),process.env.SHIELD_BINARY);
+    assert.equal(await readFile(join(f.root,`public/${prefix}/cases-2.json`),'utf8'),extra);
+    f.release.sequence=3;
+    await f.put('release.json',JSON.stringify(f.release));
+    await build(f.root,join(f.root,'test-key.pem'),'/unused-validator');
+    const catalogBefore=await readFile(join(f.root,'public/catalog.json'));
+    await f.put(`${prefix}/cases-2.json`,extra+'\n');
+    await assert.rejects(build(f.root,join(f.root,'test-key.pem'),'/unused-validator'),/Historical release assets changed/);
+    assert.deepEqual(await readFile(join(f.root,'public/catalog.json')),catalogBefore);
+    await f.put(`${prefix}/cases-2.json`,extra);
+    await rm(join(f.root,`${prefix}/cases-2.json`));
+    await assert.rejects(build(f.root,join(f.root,'test-key.pem'),'/unused-validator'),/Historical release assets changed/);
+    assert.deepEqual(await readFile(join(f.root,'public/catalog.json')),catalogBefore);
+  });
+
+test('A failed decision in a secondary fixture prevents signing and public writes',
+  {skip:!process.env.SHIELD_BINARY},async t=>{
+    const f=await releaseFixture(t);
+    const prefix='packs/canonic/git/0.3.0';
+    const fixture=JSON.parse(await readFile(join(f.root,`${prefix}/cases.json`)));
+    const row={...fixture.cases[0],expected:fixture.cases[0].expected==='allow'?'deny':'allow'};
+    await f.put(`${prefix}/cases-2.json`,JSON.stringify({...fixture,cases:[row]}));
+    const catalogBefore=await readFile(join(f.root,'public/catalog.json'));
+    await assert.rejects(build(f.root,join(f.root,'test-key.pem'),process.env.SHIELD_BINARY),/Shield validation failed/);
+    assert.deepEqual(await readFile(join(f.root,'public/catalog.json')),catalogBefore);
+  });
 test('Indexed publication signs and retains old pins beyond 64 releases',
   {skip:!process.env.SHIELD_BINARY},async t=>{
     const f=await releaseFixture(t);
