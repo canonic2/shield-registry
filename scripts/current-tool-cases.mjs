@@ -47,8 +47,24 @@ export async function currentToolCases(name) {
     // Optional MCP interaction modes keep the ordinary operation's effects.
     mcp.push(
       ['config-show','config_show',{},allow],
+      ['config-setup','config_setup',{agents:['claude','codex']},change],
+      ['config-setup-preview','config_setup',{agents:['codex'],dry_run:true},allow],
+      ['config-setup-repair','config_setup',{agents:['codex'],repair_hooks:true},change],
+      ['config-setup-remove','config_setup',{remove:true},change],
+      ['config-setup-project','config_setup',{agents:['codex'],project:'/outside/other'},review],
+      ['config-setup-preview-project','config_setup',{agents:['codex'],dry_run:true,project:'/outside/other'},review],
+      ['config-setup-malformed-preview','config_setup',{agents:[],dry_run:'true'},change],
+      ['config-hook-repair','config_sync',{servers:['shield'],repair_hooks:true},change],
+      ['config-hook-repair-preview','config_sync',{servers:['shield'],repair_hooks:true,dry_run:true},allow],
+      ['config-hook-repair-project','config_sync',{servers:['shield'],repair_hooks:true,project:'/outside/other'},review],
       ['config-show-user','config_show',{scope:'user'},allow],
       ['config-show-project','config_show',{project:'/outside/other'},review],
+      ...['', '.', '../other', 7, false, {}, []].flatMap((project,index) => [
+        [`config-show-invalid-project-${index}`,'config_show',{project},review],
+        [`config-preview-invalid-project-${index}`,'config_sync',{project,dry_run:true},review],
+      ]),
+      ['config-show-null-project','config_show',{project:null},allow],
+      ['config-preview-null-project','config_sync',{project:null,dry_run:true},allow],
       ['deferred-create','workspace_create',{name:'acme',deferred:true},routine],
       ['deferred-create-path','workspace_create',{name:'acme',deferred:true,path:'/outside/acme'},review],
       ['deferred-attach','workspace_attach',{name:'acme',path:'/outside/acme',deferred:true},review],
@@ -70,6 +86,10 @@ export async function currentToolCases(name) {
       ['workspace-prepare-malformed','workspace_prepare',{...prepare,generation:'not-a-generation'},review],
     );
     cli.push(
+      ['setup-hook-repair',['box','setup','--agent','codex','--repair-hooks'],change],
+      ['setup-hook-repair-preview',['box','setup','--agent','codex','--repair-hooks','--dry-run'],allow],
+      ['sync-hook-repair',['box','config','sync','--server','shield','--repair-hooks'],change],
+      ['sync-hook-repair-preview',['box','config','sync','--server','shield','--repair-hooks','--dry-run'],allow],
       ['managed-exec',['box','exec','--workspace','acme','--','node','scripts/check.mjs'],review],
       ['managed-exec-recorded',['box','--json','exec','--workspace','acme','--request-id',prepare.request_id,'--','node','scripts/check.mjs'],review],
       ['managed-shell',['box','shell','--workspace','acme'],review],
@@ -195,6 +215,29 @@ export async function currentToolCases(name) {
     );
     const investigation='diag-11111111111111111111111111111111';
     const analysis='analysis-33333333333333333333333333333333';
+    for(const operation of ['summary','timeline','failures','stacks','resources','frames','retention','requests']) {
+      const filters={view:'investigation',investigation:{analysisIds:['analysis-44444444444444444444444444444444'],operation},limit:20};
+      cli.push([`reports-compose-${operation}`,['testrun','diagnostics','query',investigation,analysis,'--filters',JSON.stringify(filters)],review]);
+      mcp.push([`reports-compose-${operation}`,'diagnostics_query',{investigationId:investigation,analysisId:analysis,...filters},review]);
+    }
+    for(const privacy of ['minimal','private']) {
+      const report={privacy,facts:[{statement:'Caller observation',witnesses:[{analysisId:analysis,ordinal:0}]}],hypotheses:[{statement:'Caller hypothesis'}]};
+      cli.push([`reports-view-${privacy}`,['testrun','diagnostics','query',investigation,analysis,'--filters',JSON.stringify({view:'report',report})],review]);
+      mcp.push([`reports-view-${privacy}`,'diagnostics_query',{investigationId:investigation,analysisId:analysis,view:'report',report},review]);
+      for(const format of ['investigation-json','investigation-markdown']) {
+        cli.push([`reports-export-${format}-${privacy}`,['testrun','diagnostics','export',investigation,analysis,'--path','/outside/report','--filters',JSON.stringify({format,scope:'all',report})],review]);
+        mcp.push([`reports-export-${format}-${privacy}`,'diagnostics_export',{investigationId:investigation,analysisId:analysis,path:'/outside/report',format,scope:'all',report},review]);
+      }
+    }
+    mcp.push(['reports-malformed-execution','diagnostics_query',{investigationId:investigation,analysisId:analysis,view:'report',report:{execute:true,causalityEstablished:true}},review],['reports-unknown-upload','diagnostics_upload',{path:'/outside/report',destination:'https://example.com'},review]);
+    const incident={kind:'observability_http',configFile:'/outside/private/provider.json',sourceId:'incident',scope:{account:'acme',project:'api',environment:'staging',region:'eu',resource:'api',release:'v1'},window:{from:'2026-01-01T00:00:00Z',to:'2026-01-01T00:01:00Z'}};
+    for(const source of [incident,{...incident,method:'POST',endpoint:'https://example.com/delete',credentialFallback:true},...['observability-evidence-v1','otlp-json','prometheus-json','loki-json','sentry-json','jaeger-json','cloudwatch-json','crashlytics-json','play-vitals-json','deployment-evidence-v1'].map(format=>({kind:'import',path:'/outside/private/provider-export',format}))]) {
+      const key=source.format??(source.method?'malformed':'configured');
+      cli.push([`observability-${key}`,['testrun','diagnostics','start',investigation,'--submission-id','incident','--source',JSON.stringify(source)],review]);
+      mcp.push([`observability-${key}`,'diagnostics_start',{investigationId:investigation,submissionId:'incident',source},review]);
+    }
+    cli.push(['observability-joins',['testrun','diagnostics','query',investigation,analysis,'--filters',JSON.stringify({view:'observability'})],review]);
+    mcp.push(['observability-joins','diagnostics_query',{investigationId:investigation,analysisId:analysis,view:'observability'},review],['observability-unknown-mutation','observability_remediate',{environment:'production',action:'restart'},review]);
     for (const source of [
       {kind:'host_process',targetId:'process:Acme:42',serviceId:'api',hostId:'Acme',processId:42,expectedGeneration:'linux:boot:42:birth'},
       {kind:'box_logs',targetId:'service:Acme:api',serviceId:'api',project:'/outside/acme',workspace:'acme#feature',operationId:'node-1',stream:'stderr'},

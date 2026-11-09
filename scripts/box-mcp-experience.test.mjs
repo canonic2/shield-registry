@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync, mkdtempSync, writeFileSync, rmSync} from 'node:fs';
+import {readFileSync, mkdtempSync, writeFileSync, rmSync, mkdirSync, realpathSync, symlinkSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {spawnSync} from 'node:child_process';
@@ -20,19 +20,26 @@ test('Box candidate reproduces admitted policy, inventory and independent fixtur
     assert.deepEqual(JSON.parse(bytes),document);
     assert.equal(validate(document),true,JSON.stringify(validate.errors));
   }
-  const published = JSON.parse(readFileSync(new URL('../packs/canonic/box/0.2.2/pack.yml',import.meta.url)));
-  const retainedCases = JSON.parse(readFileSync(new URL('../packs/canonic/box/0.2.2/cases.json',import.meta.url)));
+  const published = JSON.parse(readFileSync(new URL('../packs/canonic/box/0.2.3/pack.yml',import.meta.url)));
+  const retainedCases = JSON.parse(readFileSync(new URL('../packs/canonic/box/0.2.3/cases.json',import.meta.url)));
   for (const row of retainedCases.cases) {
     assert.deepEqual(cases.cases.find(next => next.name === row.name),row,row.name);
   }
   for (const old of published.rules) {
     const next = pack.rules.find(rule => rule.id === old.id);
+    if (old.conditions.domain==='mcp' && old.conditions.fields?.['/project']) {
+      assert.equal(next,undefined,old.id);
+      const gate=pack.preconditions.find(rule => rule.id===old.id);
+      assert.ok(gate,old.id);
+      assert.deepEqual(gate.on_unmet.decision,old.decision,old.id);
+      continue;
+    }
     assert.ok(next,old.id);
     if (old.id !== 'mcp-unlisted') assert.deepEqual(next,old,old.id);
   }
   const fallback = pack.rules.find(rule => rule.id === 'mcp-unlisted');
   const oldFallback = structuredClone(published.rules.find(rule => rule.id === 'mcp-unlisted'));
-  oldFallback.conditions.tool.not.one_of.push('config_show');
+  oldFallback.conditions.tool.not.one_of.push('config_setup');
   // Tool ordering is not permission semantics.
   oldFallback.conditions.tool.not.one_of.sort();
   const actualFallback = structuredClone(fallback);
@@ -52,6 +59,87 @@ test('Box candidate CLI and MCP cases use the production evaluator', {skip:!proc
   const report = JSON.parse(result.stdout || '{}');
   assert.equal(result.status,0,JSON.stringify(report.cases?.filter(row => !row.passed) ?? report)+result.stderr);
   assert.equal(report.passed,true);
+});
+
+test('Box explicit current-checkout paths preserve ordinary MCP decisions', {skip:!process.env.SHIELD_BINARY}, t => {
+  const temp=realpathSync(mkdtempSync(join(tmpdir(),'box-project-pack-')));
+  const project=join(temp,'.gate','workspaces','feature');
+  const child=join(project,'child'),other=join(temp,'other');
+  const lookalike=project+'-other';
+  for (const path of [child,other,lookalike]) mkdirSync(path,{recursive:true});
+  const alias=join(temp,'alias'),escape=join(project,'escape');
+  symlinkSync(project,alias,'dir');
+  symlinkSync(other,escape,'dir');
+  const binding={box:{transport:{type:'stdio',command:'box',args:['mcp','serve'],env:{}},agents:{codex:'box'},packs:{'canonic/box':'box'}}};
+  const operations=[
+    ['config_show',{},['allow','allow','allow']],
+    ['config_sync',{dry_run:true},['allow','allow','allow']],
+    ['config_sync',{},['allow','ask','ask']],
+    ['config_sync',{dry_run:false},['allow','ask','ask']],
+    ['config_sync',{dry_run:'true'},['allow','ask','ask']],
+    ['status',{},['allow','allow','allow']],
+    ['plugin_list',{},['allow','allow','allow']],
+    ['workspace_create',{name:'acme'},['allow','allow','ask']],
+    ['workspace_create',{name:'acme',path:'/outside/acme'},['ask','ask','ask']],
+    ['workspace_prepare',{workspace:'acme'},['ask','ask','ask']],
+    ['exec',{command:['node','check.mjs']},['ask','ask','ask']],
+    ['workspace_cleanup',{workspace:'acme',dry_run:true},['allow','allow','allow']],
+    ['workspace_cleanup',{workspace:'acme',worktree:true},['ask','ask','deny']],
+    ['workspace_remove',{workspace:'acme',delete_checkout:true},['ask','ask','deny']],
+    ['workspace_remove',{workspace:'acme',forget:true},['ask','ask','deny']],
+    ['workspace_remove',{workspace:'acme',discard_changes:true},['ask','ask','deny']],
+    ['stop',{workspace:'acme',allow_self_stop:true},['ask','ask','ask']],
+    ['recover',{workspace:'acme',operation:'1'.repeat(32)},['ask','ask','ask']],
+    ['unknown_tool',{},['ask','ask','ask']],
+  ];
+  const selections=[
+    ['omitted',{},true],['null',{project:null},true],
+    ['exact',{project},true],['trailing-slash',{project:project+'/'},true],
+    ['alias',{project:alias},true],['parent-components',{project:join(project,'child')+'/..'},true],
+    ['child',{project:child},false],['parent',{project:join(temp,'.gate','workspaces')},false],
+    ['other',{project:other},false],['lookalike',{project:lookalike},false],['escape',{project:escape},false],
+    ['missing',{project:join(temp,'missing')},false],['relative',{project:'.'},false],
+    ['empty',{project:''},false],['malformed',{project:42},false],
+  ];
+  try {
+    const rows=[];
+    for (const [index,profile] of ['loose','recommended','strict'].entries()) {
+      for (const [operation,[tool,args,decisions]] of operations.entries()) {
+        for (const [label,selection,same] of selections) {
+          // Outside projects keep the former explicit-project review boundary,
+          // including Strict cleanup/deletion denial even on a cleanup preview.
+          const deniedOutside=profile==='strict' && ['workspace_cleanup','workspace_remove'].includes(tool);
+          rows.push({name:`${profile}-${operation}-${label}`,profile,mcp:binding,
+            input:{kind:'mcp',server:'box',tool,arguments:{...args,...selection},original_input:{}},
+            expected:same?decisions[index]:deniedOutside?'deny':'ask'});
+        }
+      }
+    }
+    const path=join(temp,'cases.json');
+    writeFileSync(path,JSON.stringify({schema_version:1,cases:rows}));
+    const result=spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack',
+      '--pack',new URL('pack.yml',currentDirectory('box')).pathname,'--cases',path],
+      {cwd:project,encoding:'utf8',timeout:120000,maxBuffer:8*1024*1024});
+    const report=JSON.parse(result.stdout||'{}');
+    assert.equal(result.status,0,JSON.stringify(report.cases?.filter(row=>!row.passed)??report)+result.stderr);
+    assert.equal(report.passed,true);
+    assert.equal(report.cases.length,rows.length);
+    t.diagnostic(`Evaluated ${rows.length} independent project-selection cases across all profiles.`);
+    for (const transport of [
+      {type:'stdio',command:'box',args:['mcp','serve','--project',project],env:{}},
+      {type:'http',url:'https://example.com/mcp'},
+    ]) {
+      const mismatched=structuredClone(binding);
+      mismatched.box.transport=transport;
+      writeFileSync(path,JSON.stringify({schema_version:1,cases:[{name:'wrong-transport',profile:'recommended',mcp:mismatched,
+        input:{kind:'mcp',server:'box',tool:'config_show',arguments:{project},original_input:{}},expected:'allow'}]}));
+      const refused=spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack',
+        '--pack',new URL('pack.yml',currentDirectory('box')).pathname,'--cases',path],
+        {cwd:project,encoding:'utf8',timeout:120000});
+      assert.equal(refused.status,2,refused.stdout+refused.stderr);
+      assert.match(refused.stdout,/connection does not match its pack integration/);
+    }
+  } finally {rmSync(temp,{recursive:true,force:true});}
 });
 
 test('Box 0.27 cleanup and retired-workspace repair retain signed 0.2.3 boundaries', {skip:!process.env.SHIELD_BINARY}, async () => {

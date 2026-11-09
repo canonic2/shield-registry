@@ -445,6 +445,13 @@ for (const name of Object.keys(currentToolVersions)) {
     const previous = JSON.parse(readFileSync(new URL('pack.yml',currentDirectory(name,'0.2.1'))));
     for (const old of previous.rules) {
       const next = pack.rules.find(row=>row.id===old.id);
+      if (name==='box' && old.conditions.domain==='mcp' && old.conditions.fields?.['/project']) {
+        assert.equal(next,undefined,old.id);
+        const gate=pack.preconditions.find(row=>row.id===old.id);
+        assert.ok(gate,old.id);
+        assert.deepEqual(gate.on_unmet.decision,old.decision,old.id);
+        continue;
+      }
       assert.ok(next,old.id);
       if (old.id==='mcp-unlisted' || name==='testrun' && ['mcp-act','mcp-browser_connect','browser-connect'].includes(old.id)) continue;
       assert.deepEqual(next,old,old.id);

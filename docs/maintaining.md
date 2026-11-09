@@ -132,11 +132,20 @@ manifest entry, not just that reference. It remembers paths, never key material,
 in ignored `.release.local.json`; later invocations can omit those options.
 Without a terminal it uses the remembered paths.
 
+Run the same command with `--preflight` to inspect pending paths and verify the
+signing key, Shield executable and live publication without changing files:
+
+```sh
+npm run release -- canonic/PACK@VERSION --preflight
+```
+
 The helper advances the sequence above the local signed catalog, runs the full
 suite, validates every new pack and its complete fixtures through Rust, then
 builds and signs `public/`. Captured temporary bytes bind validation to signing.
-The private key must match `keys/main.pub`. Check the deployed catalog before
-publication too; its sequence must be lower than the new one.
+The private key must match `keys/main.pub`. Before making changes, the release
+command authenticates the deployed catalog, compares catalog/signature bytes
+with local `public/`, and checks each served current pack against its digest.
+A pending or mismatched deployment stops preparation before the sequence changes.
 
 Verify the signed output:
 
@@ -149,6 +158,18 @@ publication authorization. The **Validate and publish registry** workflow checks
 signatures and digests, then deploys Pages. Confirm the workflow for the exact
 commit and compare live catalog/signature bytes and new pack digests before
 reporting publication. No custom GitHub signing secrets are required.
+
+After Pages succeeds, verify the deployment through the registry's own runtime:
+
+```sh
+npm run release -- --check-live
+```
+
+This checks the reviewed signing root, unexpired catalog, exact local/live
+catalog and signature bytes, and every current pack digest. Requests have bounded
+timeouts and artifact sizes. Use these CLI entry points for release checks;
+importing registry modules in an isolated REPL does not use the checkout's Node
+dependency resolution.
 
 ## Retention and growth
 

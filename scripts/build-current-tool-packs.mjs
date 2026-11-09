@@ -9,7 +9,7 @@ import {testrun} from './testrun-policy.mjs';
 import {currentToolCases} from './current-tool-cases.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 
-export const currentToolVersions = {box:'0.2.3', gate:'0.2.2', testrun:'0.2.6'};
+export const currentToolVersions = {box:'0.2.4', gate:'0.2.2', testrun:'0.2.7'};
 export const currentDirectory = (name, version = currentToolVersions[name]) =>
   new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -84,6 +84,8 @@ function updateBox(pack) {
   const tools = Object.fromEntries(commands.filter(([words]) => words.join(' ') !== 'plugin launch')
     .map(([words, category, reason]) => [words.join('_'),[category,reason]]));
   tools.config_show = ['inspect','Inspect redacted effective agent configuration and publication state without writing.'];
+  tools.config_setup = ['integration','Choose agents and publish configuration through an exact host-confirmed review.',[
+    {id:'dry-run', fields:{'/dry_run':{exact:true}}, category:'inspect', reason:'Preview agent registration and optional hook repair without writing.'}]];
   tools.config_sync = ['integration','Review and publish agent configuration.',[
     {id:'dry-run', fields:{'/dry_run':{exact:true}}, category:'inspect', reason:'Inspect publication without writing.'}]];
   for (const name of ['plugin_enable','plugin_disable','plugin_reset','plugin_workflow_run','plugin_workflow_resume','plugin_check']) {
@@ -111,6 +113,32 @@ function updateBox(pack) {
     });
   // Manager ownership does not reduce arbitrary execution effects. Retain the
   // frozen exec/shell Ask decisions and the explicit immediate-self-stop rules.
+  // Gate project selection before ranking ordinary rules. A passing gate must
+  // not compete with preview/mutation rules or grant arbitrary execution.
+  const projectRules = pack.rules.filter(rule => rule.conditions.domain === 'mcp'
+    && rule.conditions.fields?.['/project']);
+  pack.preconditions = projectRules.map(rule => ({
+    id:rule.id,
+    conditions:{domain:'mcp',server:'box',tool:rule.conditions.tool,
+      fields:{'/project':{not:{exact:null}}}},
+    requires_any:[{field_paths:{'/project':{absolute:true,path:{exact:{root:'project'}}}}}],
+    on_unmet:{decision:rule.decision,message:'Review project selection that does not resolve to the enrolled checkout.'},
+    reason:'An explicit current-checkout path keeps the ordinary operation decision.',
+  }));
+  // A failed project gate replaces ordinary rules, so retain any stronger
+  // destructive Deny branch as a matching project precondition as well.
+  for (const rule of pack.rules) {
+    if (projectRules.includes(rule) || rule.conditions.domain !== 'mcp') continue;
+    const gate = pack.preconditions.find(row => row.conditions.tool === rule.conditions.tool);
+    if (!gate || !Object.keys(rule.decision).some(profile => rule.decision[profile] === 'deny'
+      && gate.on_unmet.decision[profile] !== 'deny')) continue;
+    pack.preconditions.push({...structuredClone(gate),id:`${rule.id}-project-boundary`,
+      conditions:{...structuredClone(rule.conditions),fields:{...rule.conditions.fields,'/project':{not:{exact:null}}}},
+      on_unmet:{...gate.on_unmet,decision:Object.fromEntries(Object.keys(rule.decision)
+        .map(profile => [profile,rule.decision[profile] === 'deny' ? 'deny' : gate.on_unmet.decision[profile]]))}});
+  }
+  pack.rules = pack.rules.filter(rule => !projectRules.includes(rule));
+  pack.capabilities = [...new Set([...pack.capabilities,'field-paths-v1','preconditions-v1'])].sort();
 }
 
 function updateGate(pack) {
@@ -169,7 +197,7 @@ function updateTestrun(pack) {
     [['diagnostics','analyze'],'execute','Parse retained private evidence and publish a derived index; explicit Apple symbolication materializes retained symbol files and runs UUID/architecture verification plus atos.'],
     [['diagnostics','analysis-status'],'inspect','Inspect retained analysis lifecycle and provenance without captured content.'],
     [['diagnostics','analysis-cancel'],'routine','Cancel an owned parser process, preserving original evidence.'],
-    [['diagnostics','query'],'execute','Expose private diagnostic evidence, test results and fixed retained-evidence assertions; imported identity/ownership/measurement claims are not authority or causal proof.'],
+    [['diagnostics','query'],'execute','Expose private diagnostic evidence, remote telemetry and exact trace joins, test results and retained-evidence assertions; imported identities and associations are not authority or causal proof.'],
     [['diagnostics','compare'],'execute','Read private retained analyses and compare declared scope and measurements.'],
     [['diagnostics','capabilities'],'inspect','Inspect static diagnostic effects, scope, costs and dependency metadata without starting helpers.'],
     [['diagnostics','plan'],'inspect','Plan bounded reproduction collectors and existing fault/fixture owners without source reads, execution or readiness probes.'],
@@ -195,7 +223,7 @@ function updateTestrun(pack) {
     diagnostics_analyze:['execute','Run a bounded private parser; optional explicit Apple symbolication reads retained artifacts, creates private temporary copies and runs dwarfdump/atos after UUID/architecture checks.'],
     diagnostics_analysis_status:['inspect','Inspect retained analysis state without captured content.'],
     diagnostics_analysis_cancel:['routine','Stop only an owned parser, preserving evidence.'],
-    diagnostics_query:['execute','Expose private diagnostic evidence, test results and fixed retained-evidence assertions; imported identity/ownership/measurement claims are not authority or causal proof.'],
+    diagnostics_query:['execute','Expose private diagnostic evidence, remote telemetry and exact trace joins, test results and retained-evidence assertions; imported identities and associations are not authority or causal proof.'],
     diagnostics_compare:['execute','Expose private retained analysis measurements and compatibility.'],
     diagnostics_capabilities:['inspect','Inspect static effects, limits and dependency metadata without source access.'],
     diagnostics_plan:['inspect','Plan bounded reproduction presets, effects and existing cleanup owners without executing actions or probing targets.'],
@@ -203,6 +231,15 @@ function updateTestrun(pack) {
     diagnostics_project:['execute','Expose a scoped numeric projection; numeric/timing data can remain sensitive.'],
     diagnostics_export:['execute','Publish a projection page or explicitly selected unredacted native trace artifact to a caller-owned host file.'],
   });
+  for (const id of ['diagnostics-start','mcp-diagnostics_start']) {
+    pack.rules.find(rule=>rule.id===id).reason += ' Configured observability reads one explicit private config/optional bearer file and sends one bounded GET which can incur provider query cost; no refresh, stronger credential fallback, retry, redirect or mutation.';
+  }
+  for (const id of ['diagnostics-query','mcp-diagnostics_query']) {
+    pack.rules.find(rule=>rule.id===id).reason += ' Investigation/report views read up to four retained private analyses; caller hypotheses are not causal proof.';
+  }
+  for (const id of ['diagnostics-export','mcp-diagnostics_export']) {
+    pack.rules.find(rule=>rule.id===id).reason += ' Investigation JSON/Markdown exports require an explicit path and scope; minimal reports omit text/identities, explicit private reports retain sensitive text. No automatic upload or overwrite of different bytes.';
+  }
   const reproductionPlan=pack.rules.find(rule=>rule.id==='diagnostics-plan');
   reproductionPlan.conditions.arguments={kind:'options',prefix:['diagnostics','plan'],leading:testrun.leading,flags:['--json'],values:['--platform','--options'],operands:true,require_any:['--platform']};
   const reproductionMcp=pack.rules.find(rule=>rule.id==='mcp-diagnostics_plan');
