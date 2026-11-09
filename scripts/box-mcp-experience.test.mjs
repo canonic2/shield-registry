@@ -23,10 +23,15 @@ test('Box candidate reproduces admitted policy, inventory and independent fixtur
   const published = JSON.parse(readFileSync(new URL('../packs/canonic/box/0.2.3/pack.yml',import.meta.url)));
   const retainedCases = JSON.parse(readFileSync(new URL('../packs/canonic/box/0.2.3/cases.json',import.meta.url)));
   for (const row of retainedCases.cases) {
-    assert.deepEqual(cases.cases.find(next => next.name === row.name),row,row.name);
+    const retired = ['box_docs_list','box_docs_search','box_docs_read'].includes(row.input?.tool);
+    assert.deepEqual(cases.cases.find(next => next.name === row.name),retired?{...row,expected:'ask'}:row,row.name);
   }
   for (const old of published.rules) {
     const next = pack.rules.find(rule => rule.id === old.id);
+    if (['box_docs_list','box_docs_search','box_docs_read'].includes(old.conditions.tool)) {
+      assert.equal(next,undefined,old.id);
+      continue;
+    }
     if (old.conditions.domain==='mcp' && old.conditions.fields?.['/project']) {
       assert.equal(next,undefined,old.id);
       const gate=pack.preconditions.find(rule => rule.id===old.id);
@@ -39,7 +44,9 @@ test('Box candidate reproduces admitted policy, inventory and independent fixtur
   }
   const fallback = pack.rules.find(rule => rule.id === 'mcp-unlisted');
   const oldFallback = structuredClone(published.rules.find(rule => rule.id === 'mcp-unlisted'));
-  oldFallback.conditions.tool.not.one_of.push('config_setup');
+  oldFallback.conditions.tool.not.one_of.push('setup');
+  oldFallback.conditions.tool.not.one_of = oldFallback.conditions.tool.not.one_of
+    .filter(name => !['box_docs_list','box_docs_search','box_docs_read'].includes(name));
   // Tool ordering is not permission semantics.
   oldFallback.conditions.tool.not.one_of.sort();
   const actualFallback = structuredClone(fallback);
@@ -61,6 +68,21 @@ test('Box candidate CLI and MCP cases use the production evaluator', {skip:!proc
   assert.equal(report.passed,true);
 });
 
+test('Box 0.29 candidate keeps the authenticated 0.2.4 release immutable', async () => {
+  const catalog = await checkPublication(new URL('../public',import.meta.url).pathname,
+    readFileSync(new URL('../keys/main.pub',import.meta.url),'utf8').trim());
+  const baseline = catalog.releases.find(row => row.id==='canonic/box' && row.version==='0.2.4');
+  assert.ok(baseline);
+  const directory = new URL('../packs/canonic/box/0.2.4/',import.meta.url);
+  assert.equal(digest(readFileSync(new URL('pack.yml',directory))),baseline.sha256);
+  for (const file of ['pack.yml','cases.json','commands.json','README.md','LICENSE']) {
+    assert.deepEqual(readFileSync(new URL(file,directory)),
+      readFileSync(new URL(`../public/packs/canonic/box/0.2.4/${file}`,import.meta.url)),file);
+  }
+  const manifest = JSON.parse(readFileSync(new URL('../release.json',import.meta.url)));
+  assert.equal(manifest.packs.filter(path => path==='packs/canonic/box/0.2.5/pack.yml').length,1);
+});
+
 test('Box explicit current-checkout paths preserve ordinary MCP decisions', {skip:!process.env.SHIELD_BINARY}, t => {
   const temp=realpathSync(mkdtempSync(join(tmpdir(),'box-project-pack-')));
   const project=join(temp,'.gate','workspaces','feature');
@@ -72,6 +94,9 @@ test('Box explicit current-checkout paths preserve ordinary MCP decisions', {ski
   symlinkSync(other,escape,'dir');
   const binding={box:{transport:{type:'stdio',command:'box',args:['mcp','serve'],env:{}},agents:{codex:'box'},packs:{'canonic/box':'box'}}};
   const operations=[
+    ['setup',{agents:['codex']},['allow','ask','ask']],
+    ['setup',{agents:['codex'],dry_run:true},['allow','allow','allow']],
+    ['setup',{agents:['codex'],repair_hooks:true},['allow','ask','ask']],
     ['config_show',{},['allow','allow','allow']],
     ['config_sync',{dry_run:true},['allow','allow','allow']],
     ['config_sync',{},['allow','ask','ask']],

@@ -9,7 +9,7 @@ import {testrun} from './testrun-policy.mjs';
 import {currentToolCases} from './current-tool-cases.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 
-export const currentToolVersions = {box:'0.2.4', gate:'0.2.2', testrun:'0.2.7'};
+export const currentToolVersions = {box:'0.2.5', gate:'0.2.2', testrun:'0.2.7'};
 export const currentDirectory = (name, version = currentToolVersions[name]) =>
   new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -84,7 +84,7 @@ function updateBox(pack) {
   const tools = Object.fromEntries(commands.filter(([words]) => words.join(' ') !== 'plugin launch')
     .map(([words, category, reason]) => [words.join('_'),[category,reason]]));
   tools.config_show = ['inspect','Inspect redacted effective agent configuration and publication state without writing.'];
-  tools.config_setup = ['integration','Choose agents and publish configuration through an exact host-confirmed review.',[
+  tools.setup = ['integration','Choose agents and publish configuration through an exact host-confirmed review.',[
     {id:'dry-run', fields:{'/dry_run':{exact:true}}, category:'inspect', reason:'Preview agent registration and optional hook repair without writing.'}]];
   tools.config_sync = ['integration','Review and publish agent configuration.',[
     {id:'dry-run', fields:{'/dry_run':{exact:true}}, category:'inspect', reason:'Inspect publication without writing.'}]];
@@ -94,6 +94,9 @@ function updateBox(pack) {
     command.push([{id:'dry-run', any:['--dry-run'], category:'inspect', reason:'Prepare without effects.'}]);
   }
   extend(pack, box, commands, tools);
+  // The frozen CLI `box mcp setup` already owns the rule ID mcp-setup.
+  // Keep its decision and give the new MCP setup tool a distinct rule ID.
+  mcpRule(pack,'mcp-tool-setup','setup',change);
   const prepare = pack.rules.find(rule => rule.id === 'mcp-workspace_prepare');
   prepare.requirements = {fields:{
     '/workspace':{text:{not:{exact:''}}},
@@ -138,6 +141,12 @@ function updateBox(pack) {
         .map(profile => [profile,rule.decision[profile] === 'deny' ? 'deny' : gate.on_unmet.decision[profile]]))}});
   }
   pack.rules = pack.rules.filter(rule => !projectRules.includes(rule));
+  // Box publishes only docs_*; retired aliases receive the unknown-tool review.
+  const retiredDocs = ['box_docs_list','box_docs_search','box_docs_read'];
+  pack.rules = pack.rules.filter(rule => !retiredDocs.includes(rule.conditions.tool));
+  const fallback = pack.rules.find(rule => rule.id === 'mcp-unlisted');
+  fallback.conditions.tool.not.one_of = fallback.conditions.tool.not.one_of
+    .filter(name => !retiredDocs.includes(name));
   pack.capabilities = [...new Set([...pack.capabilities,'field-paths-v1','preconditions-v1'])].sort();
 }
 

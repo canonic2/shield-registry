@@ -11,6 +11,31 @@ import {schema} from './policy-schema.mjs';
 import {checkPublication,digest} from './registry-release.mjs';
 import {splitCaseFiles,caseFileNames} from './fixture-files.mjs';
 
+test('published Gate permits both workspace containers within approved roots', {skip:!process.env.SHIELD_BINARY}, () => {
+  const dir=mkdtempSync(join(tmpdir(),'gate-workspace-paths-'));
+  try {
+    const binding={gate:{transport:{type:'stdio',command:'gate',args:['mcp','serve'],env:{}},agents:{codex:'gate'},packs:{'canonic/gate':'gate'}}};
+    const rows=[];
+    for (const profile of ['loose','recommended','strict']) {
+      for (const container of ['workspaces','tasks']) {
+        for (const outside of [false,true]) {
+          const path=`${outside?'/outside/':''}.gate/${container}/feature`;
+          rows.push({name:`${profile}-${container}-${outside}`,profile,mcp:binding,
+            input:{kind:'mcp',server:'gate',tool:'worktree_add',arguments:{path,branch:'feature'},original_input:{}},
+            expected:outside?'ask':'allow'});
+        }
+      }
+    }
+    const cases=join(dir,'cases.json');
+    writeFileSync(cases,JSON.stringify({schema_version:1,cases:rows}));
+    const result=spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack','--pack',
+      new URL('../packs/canonic/gate/0.2.2/pack.yml',import.meta.url).pathname,'--cases',cases],
+      {encoding:'utf8',timeout:120000});
+    assert.equal(result.status,0,result.stdout+result.stderr);
+    assert.equal(JSON.parse(result.stdout).passed,true);
+  } finally {rmSync(dir,{recursive:true,force:true});}
+});
+
 test('tool permission reset retains published setup and preview decisions', {skip:!process.env.SHIELD_BINARY}, async () => {
   const catalog = await checkPublication(new URL('../public',import.meta.url).pathname,
     readFileSync(new URL('../keys/main.pub',import.meta.url),'utf8').trim());
@@ -104,6 +129,21 @@ test('testrun browser defaults and cross-frame evaluation preserve opaque and sh
         );
       }
       const handle = {...frame,id:'44444444-4444-4444-8444-444444444444'};
+      // Relationship queries retain opaque browser-send decisions even for
+      // invalid handles. Public validation and getter effects belong to Testrun;
+      // shared browser actions continue to require review in every profile.
+      const relationshipBinding = {testrun:{transport:{type:'stdio',command:'testrun',args:['mcp','serve'],env:{}},agents:{codex:'testrun'},packs:{'canonic/testrun':'testrun'}}};
+      for (const operation of ['handle_owner_frame','handle_content_frame']) {
+        for (const [shape,parameters] of [['owned',{handle}],['missing',{}],['malformed',{handle:'foreign'}]]) {
+          const request={operation,...parameters};
+          const change=profile==='loose'?'allow':'ask';
+          rows.push(
+            {name:`relationship-cli-${operation}-${shape}-${profile}`,profile,argv:['testrun','browser','send',JSON.stringify(request)],expected:change},
+            {name:`relationship-mcp-${operation}-${shape}-${profile}`,profile,mcp:relationshipBinding,input:{kind:'mcp',server:'testrun',tool:'browser_send',arguments:{targetId:'browser:acme',request},original_input:{}},expected:change},
+            {name:`relationship-act-${operation}-${shape}-${profile}`,profile,mcp:relationshipBinding,input:{kind:'mcp',server:'testrun',tool:'act',arguments:{targetId:'browser:acme',actions:[{action:operation,...parameters}]},original_input:{}},expected:'ask'},
+          );
+        }
+      }
       const pausedRequests = [
         {operation:'evaluate',scope:frame,expression:'()=>42',isFunction:true},
         {operation:'evaluate',scope:handle,expression:'owner=>owner',isFunction:true,returnHandle:true},
@@ -445,6 +485,10 @@ for (const name of Object.keys(currentToolVersions)) {
     const previous = JSON.parse(readFileSync(new URL('pack.yml',currentDirectory(name,'0.2.1'))));
     for (const old of previous.rules) {
       const next = pack.rules.find(row=>row.id===old.id);
+      if (name==='box' && ['box_docs_list','box_docs_search','box_docs_read'].includes(old.conditions.tool)) {
+        assert.equal(next,undefined,old.id);
+        continue;
+      }
       if (name==='box' && old.conditions.domain==='mcp' && old.conditions.fields?.['/project']) {
         assert.equal(next,undefined,old.id);
         const gate=pack.preconditions.find(row=>row.id===old.id);

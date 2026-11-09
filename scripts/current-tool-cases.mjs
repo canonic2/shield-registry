@@ -11,6 +11,13 @@ const destroy = ['ask','ask','deny'];
 export async function currentToolCases(name) {
   const previous = new URL(`../packs/canonic/${name}/0.2.1/cases.json`,import.meta.url);
   const cases = JSON.parse(await readFile(previous));
+  if (name === 'box') {
+    // These names are not exposed by Box 0.29; current fixtures review them as unknown.
+    for (const row of cases.cases) {
+      if (['box_docs_list','box_docs_search','box_docs_read'].includes(row.input?.tool))
+        row.expected = 'ask';
+    }
+  }
   if (name === 'testrun') {
     // Explicit targets now select either mobile input or opaque browser batches.
     for (const row of cases.cases) if (row.argv?.includes('act') && row.argv.includes('--target')
@@ -47,16 +54,28 @@ export async function currentToolCases(name) {
     // Optional MCP interaction modes keep the ordinary operation's effects.
     mcp.push(
       ['config-show','config_show',{},allow],
-      ['config-setup','config_setup',{agents:['claude','codex']},change],
-      ['config-setup-preview','config_setup',{agents:['codex'],dry_run:true},allow],
-      ['config-setup-repair','config_setup',{agents:['codex'],repair_hooks:true},change],
-      ['config-setup-remove','config_setup',{remove:true},change],
-      ['config-setup-project','config_setup',{agents:['codex'],project:'/outside/other'},review],
-      ['config-setup-preview-project','config_setup',{agents:['codex'],dry_run:true,project:'/outside/other'},review],
-      ['config-setup-malformed-preview','config_setup',{agents:[],dry_run:'true'},change],
+      ['config-setup','setup',{agents:['claude','codex']},change],
+      ['retired-config-setup','config_setup',{agents:['codex'],dry_run:true},review],
+      ['config-setup-preview','setup',{agents:['codex'],dry_run:true},allow],
+      ['config-setup-repair','setup',{agents:['codex'],repair_hooks:true},change],
+      ['config-setup-remove','setup',{remove:true},change],
+      ['config-setup-project','setup',{agents:['codex'],project:'/outside/other'},review],
+      ['config-setup-preview-project','setup',{agents:['codex'],dry_run:true,project:'/outside/other'},review],
+      ['config-setup-malformed-preview','setup',{agents:[],dry_run:'true'},change],
+      ['setup-missing-agents','setup',{},change],
+      ['setup-empty-agents','setup',{agents:[]},change],
+      ['setup-removal-agent-conflict','setup',{agents:['codex'],remove:true},change],
+      ['setup-removal-repair-conflict','setup',{remove:true,repair_hooks:true},change],
+      ['setup-user-repair','setup',{scope:'user',agents:['codex'],repair_hooks:true},change],
+      ['setup-user-repair-preview','setup',{scope:'user',agents:['codex'],repair_hooks:true,dry_run:true},allow],
+      ['setup-user-removal','setup',{scope:'user',remove:true},change],
+      ['setup-malformed-repair-preview','setup',{agents:['codex'],repair_hooks:'true',dry_run:'true'},change],
       ['config-hook-repair','config_sync',{servers:['shield'],repair_hooks:true},change],
       ['config-hook-repair-preview','config_sync',{servers:['shield'],repair_hooks:true,dry_run:true},allow],
       ['config-hook-repair-project','config_sync',{servers:['shield'],repair_hooks:true,project:'/outside/other'},review],
+      ['config-hook-repair-user','config_sync',{scope:'user',agents:['codex'],repair_hooks:true},change],
+      ['config-hook-repair-user-preview','config_sync',{scope:'user',agents:['codex'],repair_hooks:true,dry_run:true},allow],
+      ['config-hook-repair-malformed-preview','config_sync',{repair_hooks:true,dry_run:'true'},change],
       ['config-show-user','config_show',{scope:'user'},allow],
       ['config-show-project','config_show',{project:'/outside/other'},review],
       ...['', '.', '../other', 7, false, {}, []].flatMap((project,index) => [
@@ -88,6 +107,10 @@ export async function currentToolCases(name) {
     cli.push(
       ['setup-hook-repair',['box','setup','--agent','codex','--repair-hooks'],change],
       ['setup-hook-repair-preview',['box','setup','--agent','codex','--repair-hooks','--dry-run'],allow],
+      ['setup-user-hook-repair',['box','setup','--scope','user','--agent','codex','--repair-hooks'],change],
+      ['setup-user-hook-repair-preview',['box','setup','--scope','user','--agent','codex','--repair-hooks','--dry-run'],allow],
+      ['setup-remove-repair-conflict',['box','setup','--remove','--repair-hooks'],change],
+      ['setup-remove-agent-conflict',['box','setup','--remove','--agent','codex'],change],
       ['sync-hook-repair',['box','config','sync','--server','shield','--repair-hooks'],change],
       ['sync-hook-repair-preview',['box','config','sync','--server','shield','--repair-hooks','--dry-run'],allow],
       ['managed-exec',['box','exec','--workspace','acme','--','node','scripts/check.mjs'],review],

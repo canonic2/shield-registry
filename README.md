@@ -50,7 +50,7 @@ pending candidates. Older artifacts remain available for pinned installations.
 | --- | --- | --- |
 | [canonic/aws](packs/canonic/aws/0.2.0/README.md) | 0.2.0 | AWS CLI and MCP operations, optional profile and region restrictions |
 | [canonic/baseline](packs/canonic/baseline/0.11.1/README.md) | 0.11.1 | Standard commands, approved file paths and verified Workbench docs tools |
-| [canonic/box](packs/canonic/box/0.2.4/README.md) | 0.2.4 | Workspaces, exact current-checkout MCP selection, configuration inspection, execution and recovery |
+| [canonic/box](packs/canonic/box/0.2.5/README.md) | 0.2.5 | Workspaces, current setup and documentation tools, exact current-checkout MCP selection, execution and recovery |
 | [canonic/gate](packs/canonic/gate/0.2.2/README.md) | 0.2.2 | Repository and worktree workflows, rename, discard and path checks |
 | [canonic/git](packs/canonic/git/0.8.0/README.md) | 0.8.0 | Inspection, staging, local changes, remote access and destructive boundaries |
 | [canonic/github](packs/canonic/github/0.4.0/README.md) | 0.4.0 | GitHub CLI/MCP and parsed inline GraphQL reads with optional repository scope |
