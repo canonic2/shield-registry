@@ -30,6 +30,9 @@ export async function currentToolCases(name) {
   const mcp = [];
   if (name === 'gate') {
     cli.push(
+      ['portable-status',['gate','status','-r','acme'],allow],
+      ['portable-stage',['gate','add','-r','acme','packages/acme'],allow],
+      ['portable-status-outside',['gate','--project','/outside/other','status'],review],
       ['rename-preview',['gate','rename','-r','acme','private'],allow],
       ['rename-confirm',['gate','rename','-r','acme','private','--confirm','digest'],change],
       ['discard-preview',['gate','discard','-r','acme','--all','--dry-run'],allow],
@@ -40,6 +43,19 @@ export async function currentToolCases(name) {
       ['unknown',['gate','unknown-operation'],review],
     );
     mcp.push(
+      ['portable-status','status',{repo:'acme'},allow],
+      ['portable-stage','add',{repo:'acme',paths:['packages/acme']},allow],
+      ['portable-stage-outside','add',{repo:'acme',paths:['packages/acme'],project:'/outside/other'},review],
+      ['docs-list','docs_list',{offset:0,limit:10},allow],
+      ['docs-search','docs_search',{query:'worktrees'},allow],
+      ['docs-read','docs_read',{path:'native-worktrees.md'},allow],
+      // Documentation is bundled, so malformed paths never acquire host-file
+      // access; Gate owns schema and bundle-path rejection after admission.
+      ['docs-read-missing','docs_read',{},allow],
+      ['docs-read-host-path','docs_read',{path:'/outside/private.txt'},allow],
+      ...['gate_docs_list','gate_docs_search','gate_docs_read'].map(tool =>
+        [`retained-${tool}`,tool,{path:'native-worktrees.md',query:'worktrees'},allow]),
+      ['unknown','future_tool',{},review],
       ['rename','rename',{repo:'acme',new_id:'private'},change],
       ['rename-project-outside','rename',{repo:'acme',new_id:'private',project:'/outside/other'},review],
       ['discard','discard',{repo:'acme',all:true},destroy],

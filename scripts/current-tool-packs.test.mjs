@@ -36,6 +36,32 @@ test('published Gate permits both workspace containers within approved roots', {
   } finally {rmSync(dir,{recursive:true,force:true});}
 });
 
+test('Gate current transport admits only reviewed stdio launches', {skip:!process.env.SHIELD_BINARY}, () => {
+  const dir=mkdtempSync(join(tmpdir(),'gate-current-transports-'));
+  try {
+    for (const [label,transport,accepted] of [
+      ['bare',{type:'stdio',command:'gate',args:['mcp','serve'],env:{}},true],
+      ['installed',{type:'stdio',command:'/Users/acme/.local/bin/gate',args:['mcp','serve'],env:{}},true],
+      ['wrapper',{type:'stdio',command:'node',args:['mcp','serve'],env:{}},false],
+      ['http',{type:'http',url:'https://example.com/mcp'},false],
+      ['extra-project',{type:'stdio',command:'gate',args:['mcp','serve','--project','/outside/other'],env:{}},false],
+    ]) {
+      const binding={gate:{transport,agents:{codex:'gate'},packs:{'canonic/gate':'gate'}}};
+      const rows=['loose','recommended','strict'].map(profile => ({
+        name:`${label}-${profile}`,profile,mcp:binding,
+        input:{kind:'mcp',server:'gate',tool:'docs_read',arguments:{path:'README.md'},original_input:{}},expected:'allow',
+      }));
+      const cases=join(dir,'cases.json');
+      writeFileSync(cases,JSON.stringify({schema_version:1,cases:rows}));
+      const result=spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack','--pack',
+        new URL('pack.yml',currentDirectory('gate')).pathname,'--cases',cases],{encoding:'utf8',timeout:120000});
+      assert.equal(result.status,accepted?0:2,result.stdout+result.stderr);
+      if (accepted) assert.equal(JSON.parse(result.stdout).passed,true);
+      else assert.match(result.stdout,/connection does not match its pack integration/);
+    }
+  } finally {rmSync(dir,{recursive:true,force:true});}
+});
+
 test('tool permission reset retains published setup and preview decisions', {skip:!process.env.SHIELD_BINARY}, async () => {
   const catalog = await checkPublication(new URL('../public',import.meta.url).pathname,
     readFileSync(new URL('../keys/main.pub',import.meta.url),'utf8').trim());
