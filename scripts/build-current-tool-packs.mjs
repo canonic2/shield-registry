@@ -9,7 +9,7 @@ import {testrun} from './testrun-policy.mjs';
 import {currentToolCases} from './current-tool-cases.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 
-export const currentToolVersions = {box:'0.2.5', gate:'0.2.3', testrun:'0.2.7'};
+export const currentToolVersions = {box:'0.2.5', gate:'0.2.4', testrun:'0.2.7'};
 export const currentDirectory = (name, version = currentToolVersions[name]) =>
   new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -184,9 +184,10 @@ function updateGate(pack) {
   risky.conditions.arguments.flags.push('--discard-changes','--remove-branch');
   risky.decision = destroy;
   pack.rules.push(risky);
-  // Keep reviewed gate_docs_* permissions for older installed Gate versions
-  // until the documented retirement window has elapsed.
-  pack.description = 'Gate repository workflows and portable workspace metadata refresh, with explicit remote, data-loss and ownership boundaries.';
+  // Keep reviewed gate_docs_* permissions, and the relocate, worktree repair
+  // and worktree_repair permissions, for older installed Gate versions until
+  // their documented retirement windows have elapsed.
+  pack.description = 'Gate repository workflows and automatic workspace storage conversion, with explicit remote, data-loss and ownership boundaries.';
 }
 
 function updateTestrun(pack) {

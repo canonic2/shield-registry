@@ -237,6 +237,9 @@ for (const name of dynamicDefs) defs[packName(name)] = withVariables(defs[name])
 for (const name of ['textSelector', 'identitySelector', 'pathReference']) {
   defs[packName(name)].oneOf.push(ref('variableReference'));
 }
+// variable-prefixes-v1: literal text and variable parts joined into one literal prefix.
+defs[packName('textSelector')].oneOf.push(object({prefix: {...array(one([text(0), ref('variableReference')]), 1, false, 16),
+  contains: ref('variableReference')}}));
 // Optional variable matches and conditional presence items are limited to options.
 const packOptions = defs.packArguments.oneOf.find(branch => branch.properties.kind.const === 'options');
 for (const phase of [packOptions.properties, packOptions.properties.leading.properties]) {
@@ -374,7 +377,7 @@ defs.documentCapabilities.allOf.push({if: at(['capabilities'], {contains: {const
     ? [at([key, '*', field], {type: 'string', pattern: '\\{\\{'})]
     : [at([key, '*', field, 'message'], {type: 'string', pattern: '\\{\\{'}), at([key, '*', field, 'alternatives', '*'], {type: 'string', pattern: '\\{\\{'})])))});
 const document = pack => {
-  const allowedCaps = pack ? [...caps, 'variables-v1', 'variable-parts-v1', 'preconditions-v1', 'templates-v1'] : caps;
+  const allowedCaps = pack ? [...caps, 'variables-v1', 'variable-parts-v1', 'variable-prefixes-v1', 'preconditions-v1', 'templates-v1'] : caps;
   const base = { schema_version: { const: 1 }, kind: { const: pack ? 'pack' : 'custom' },
     capabilities: { ...array(enumeration(allowedCaps), 1, true, allowedCaps.length), contains: { const: 'structured-rules-v1' } },
     rules: array(ref(pack ? 'packRule' : 'customRule'), 0, false, 500000),

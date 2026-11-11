@@ -51,15 +51,16 @@ pending candidates. Older artifacts remain available for pinned installations.
 | [canonic/aws](packs/canonic/aws/0.2.0/README.md) | 0.2.0 | AWS CLI and MCP operations, optional profile and region restrictions |
 | [canonic/baseline](packs/canonic/baseline/0.11.1/README.md) | 0.11.1 | Standard commands, approved file paths and verified Workbench docs tools |
 | [canonic/box](packs/canonic/box/0.2.5/README.md) | 0.2.5 | Workspaces, current setup and documentation tools, exact current-checkout MCP selection, execution and recovery |
-| [canonic/gate](packs/canonic/gate/0.2.3/README.md) | 0.2.3 | Repository and worktree workflows, bundled documentation tools, portable metadata refresh, rename, discard and path checks |
+| [canonic/gate](packs/canonic/gate/0.2.4/README.md) | 0.2.4 | Repository and worktree workflows, bundled documentation tools, automatic storage conversion, rename, discard and path checks |
 | [canonic/git](packs/canonic/git/0.8.0/README.md) | 0.8.0 | Inspection, staging, local changes, remote access and destructive boundaries |
-| [canonic/github](packs/canonic/github/0.4.0/README.md) | 0.4.0 | GitHub CLI/MCP and parsed inline GraphQL reads with optional repository scope |
+| [canonic/github](packs/canonic/github/0.5.0/README.md) | 0.5.0 | GitHub CLI/MCP, parsed inline GraphQL reads and literal REST reads with optional repository scope |
 | [canonic/node](packs/canonic/node/0.4.0/README.md) | 0.4.0 | Node, npm, pnpm, Yarn and Corepack, with optional manager selection |
 | [canonic/rust](packs/canonic/rust/0.2.0/README.md) | 0.2.0 | Cargo, Rust tools, dependencies and explicit argument paths |
 | [canonic/testrun](packs/canonic/testrun/0.2.7/README.md) | 0.2.7 | Mobile/browser QA, diagnostics, observability, investigation reports, project workflows and builds |
 | [canonic/workbench](packs/canonic/workbench/0.1.0/README.md) | 0.1.0 | All 18 current Workbench MCP tools allowed across every profile, with verified stdio bindings |
 
-GitHub requires Shield `>=0.22.0, <1.0.0` with `graphql-v1`. The other latest
+GitHub requires Shield `>=0.22.0, <1.0.0` with `graphql-v1` and
+`variable-prefixes-v1`. The other latest
 releases require Shield `>=0.20.0, <1.0.0`. Each pack declares its exact required
 capabilities; clients refuse unsupported packs rather than weakening checks.
 
