@@ -578,6 +578,13 @@ export async function currentToolCases(name) {
       ['trace-export-start-act','act',{targetId:'browser:acme',actions:[{action:'trace_start',context,options:{filePath:'/private/tmp/acme-trace/trace.json.gz'}}]},review],
       ['trace-export-stop-act','act',{targetId:'browser:acme',actions:[{action:'trace_stop',filePath:'/private/tmp/acme-trace/trace.json'}]},review],
       ['host-file','act',{actions:[{action:'heap_import',path:'/outside/secrets'}]},review],
+      // Route replies stay in the isolated browser unless they serve a host file.
+      ['route-abort-code','browser_send',{targetId:'browser:acme',request:{operation:'callback_resolve',callback:context,response:{kind:'route_abort',errorCode:'connectionrefused'}}},routine],
+      ['route-fulfill-json','browser_send',{targetId:'browser:acme',request:{operation:'callback_resolve',callback:context,response:{kind:'route_fulfill',json:{acme:[1,true]},headers:[{name:'X-Acme',value:'one'}]}}},routine],
+      ['route-fulfill-path','browser_send',{targetId:'browser:acme',request:{operation:'callback_resolve',callback:context,response:{kind:'route_fulfill',path:'/outside/secrets'}}},change],
+      ['route-fulfill-relative-path','browser_send',{targetId:'browser:acme',request:{operation:'callback_resolve',callback:context,response:{kind:'route_fulfill',path:'secrets.txt',body:'Acme'}}},change],
+      ['route-fulfill-path-batch','browser_send',{targetId:'browser:acme',request:{operation:'batch',requests:[{operation:'callback_resolve',callback:context,response:{kind:'route_fulfill',path:'/outside/secrets'}}]}},change],
+      ['route-clear-default','browser_send',{targetId:'browser:acme',request:{operation:'network_route',scope:context,action:{kind:'clear',behavior:'default'}}},change],
       ['mixed-last','act',{actions:[...Array.from({length:7},()=>tap),{action:'storage_export'}]},review],
       ['overflow','act',{actions:Array.from({length:9},()=>tap)},review],
       ['launch-env','act',{actions:[tap,{action:'app_launch',appId:'com.example.acme',env:{DYLD_INSERT_LIBRARIES:'/outside/inject'}}]},review],
