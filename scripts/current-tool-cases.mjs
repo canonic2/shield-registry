@@ -17,6 +17,9 @@ export async function currentToolCases(name) {
       if (['box_docs_list','box_docs_search','box_docs_read'].includes(row.input?.tool))
         row.expected = 'ask';
     }
+    // A plain workspace_remove deletes resources, so Strict denies it in
+    // another project as it does any other deletion.
+    for (const row of cases.cases) if (row.name === 'mcp-remove-project-strict') row.expected = 'deny';
   }
   if (name === 'testrun') {
     // Explicit targets now select either mobile input or opaque browser batches.
@@ -39,7 +42,16 @@ export async function currentToolCases(name) {
       ['discard',['gate','discard','-r','acme','--all'],destroy],
       ['discard-confirm-dry-token',['gate','discard','-r','acme','--all','--confirm','--dry-run'],destroy],
       ['discard-repo-dry-token',['gate','discard','--repo','--dry-run','--all','--confirm','digest'],destroy],
-      ['worktree-discard',['gate','worktree','remove','.gate/tasks/feature','--discard-changes','--confirm','digest'],destroy],
+      ['worktree-discard',['gate','worktree','remove','.gate/worktrees/feature','--discard-changes','--confirm','digest'],destroy],
+      // Gate's in-project worktree location; .gate/tasks and .gate/workspaces
+      // remain for older installed versions.
+      ['worktree-add',['gate','worktree','add','-b','feature','.gate/worktrees/feature'],allow],
+      ['worktree-add-name',['gate','worktree','--json','add','.gate/worktrees/feature','--branch=feature','--name','fix'],allow],
+      ['worktree-add-escape',['gate','worktree','add','-b','feature','.gate/worktrees/../../../feature'],review],
+      ['worktree-add-protected',['gate','worktree','add','-b','feature','.git/worktrees/feature'],review],
+      ['worktree-remove-plan',['gate','worktree','remove','.gate/worktrees/feature'],allow],
+      ['retained-tasks-worktree-add',['gate','worktree','add','-b','feature','.gate/tasks/feature'],allow],
+      ['retained-workspaces-worktree-add',['gate','worktree','add','-b','feature','.gate/workspaces/feature'],allow],
       ['unknown',['gate','unknown-operation'],review],
     );
     mcp.push(
@@ -62,7 +74,17 @@ export async function currentToolCases(name) {
       ['discard-untracked','discard',{repo:'acme',all:true,untracked:true},destroy],
       ['discard-preview','discard',{repo:'acme',all:true,untracked:true,dry_run:true},allow],
       ['discard-preview-outside','discard',{repo:'acme',all:true,dry_run:true,project:'/outside/other'},destroy],
-      ['worktree-discard','worktree_remove',{path:'.gate/tasks/feature',discard_changes:true},destroy],
+      ['worktree-discard','worktree_remove',{path:'.gate/worktrees/feature',discard_changes:true},destroy],
+      ['worktree-add','worktree_add',{path:'.gate/worktrees/feature',branch:'feature'},allow],
+      ['worktree-add-name','worktree_add',{path:'.gate/worktrees/fix.1',branch:'feature',name:'fix.1'},allow],
+      ['worktree-add-escape','worktree_add',{path:'.gate/worktrees/../../../feature',branch:'feature'},review],
+      ['worktree-add-outside','worktree_add',{path:'/outside/.gate/worktrees/feature',branch:'feature'},review],
+      ['worktree-add-protected','worktree_add',{path:'.shield/.gate/worktrees/feature',branch:'feature'},review],
+      ['worktree-remove','worktree_remove',{path:'.gate/worktrees/feature'},allow],
+      ...['tasks','workspaces'].flatMap(container => [
+        [`retained-${container}-worktree-add`,'worktree_add',{path:`.gate/${container}/feature`,branch:'feature'},allow],
+        [`retained-${container}-worktree-add-escape`,'worktree_add',{path:`.gate/${container}/../../../feature`,branch:'feature'},review],
+      ]),
     );
   }
   if (name === 'box') {
@@ -135,8 +157,27 @@ export async function currentToolCases(name) {
       ['managed-shell-command',['box','shell','--workspace','acme','--','codex'],review],
       ['managed-shell-shortcut',['box','--','codex'],review],
       ['managed-shell-workspace-shortcut',['box','--workspace','acme','--','codex'],review],
-      ['remove-deferred-close',['box','workspace','remove','acme'],change],
-      ['remove-immediate-close',['box','workspace','remove','acme','--allow-self-stop'],review],
+      // A plain removal deletes the checkout, merged created branches and data.
+      ['remove-deferred-close',['box','workspace','remove','acme'],destroy],
+      ['remove-immediate-close',['box','workspace','remove','acme','--allow-self-stop'],destroy],
+      ['remove-keep-data',['box','workspace','remove','acme','--keep','data'],destroy],
+      // Confirming a previewed digest is the deletion itself.
+      ['remove-confirm',['box','workspace','remove','acme','--confirm','digest'],destroy],
+      ['remove-confirm-attached',['box','--json','workspace','remove','acme','--confirm=digest'],destroy],
+      ['remove-confirm-discard',['box','workspace','remove','acme','--discard-changes','--confirm','digest'],destroy],
+      ['remove-confirm-detached',['box','workspace','remove','acme','--confirm','digest','--request-id','id','--no-wait'],destroy],
+      ['remove-forget',['box','--json','workspace','remove','acme','--forget','--confirm','digest'],destroy],
+      // CLI grammar cannot prove that all three resources are kept.
+      ['remove-keep-all',['box','workspace','remove','acme','--keep','checkout','--keep','branches','--keep=data'],destroy],
+      // A CLI preview keeps the registration decision of the frozen prefix rule.
+      ['remove-preview',['box','workspace','remove','acme','--dry-run'],change],
+      ['remove-preview-json',['box','--json','workspace','remove','--dry-run','acme'],change],
+      // Box rejects every option combined with --dry-run. Discarding, forgetting
+      // and ending this session keep their own decisions; other conflicts stay previews.
+      ['remove-preview-discard-conflict',['box','workspace','remove','acme','--dry-run','--discard-changes'],destroy],
+      ['remove-preview-forget-conflict',['box','workspace','remove','acme','--dry-run','--forget'],destroy],
+      ['remove-preview-self-conflict',['box','workspace','remove','acme','--dry-run','--allow-self-stop'],review],
+      ['remove-preview-confirm-conflict',['box','workspace','remove','acme','--dry-run','--confirm','digest'],change],
       ['stop-session',['box','stop','acme','--allow-self-stop'],review],
       ['cleanup-preview',['box','workspace','cleanup','acme','--dry-run'],allow],
       ['remove-discard',['box','workspace','remove','acme','--delete-checkout','--discard-changes','--confirm','digest'],destroy],
@@ -158,8 +199,24 @@ export async function currentToolCases(name) {
       ['managed-exec-recorded','exec',{workspace:'acme',command:['node','scripts/check.mjs'],request_id:prepare.request_id},review],
       ['managed-exec-borrowed','exec',{workspace:'acme',command:['node','scripts/check.mjs'],execution:'execution'},review],
       ['managed-exec-project','exec',{workspace:'acme',command:['node','scripts/check.mjs'],project:'/outside/other'},review],
-      ['remove-deferred-close','workspace_remove',{workspace:'acme'},change],
-      ['remove-immediate-close','workspace_remove',{workspace:'acme',allow_self_stop:true},review],
+      ['remove-deferred-close','workspace_remove',{workspace:'acme'},destroy],
+      ['remove-immediate-close','workspace_remove',{workspace:'acme',allow_self_stop:true},destroy],
+      ['remove-keep-data','workspace_remove',{workspace:'acme',keep:['data']},destroy],
+      ['remove-keep-all','workspace_remove',{workspace:'acme',keep:['checkout','branches','data']},change],
+      ['remove-keep-all-self','workspace_remove',{workspace:'acme',keep:['checkout','branches','data'],allow_self_stop:true},review],
+      // Another order is the same request; the pack reviews it as a deletion.
+      ['remove-keep-all-reordered','workspace_remove',{workspace:'acme',keep:['data','checkout','branches']},destroy],
+      ['remove-keep-all-forget','workspace_remove',{workspace:'acme',keep:['checkout','branches','data'],forget:true},destroy],
+      ['remove-keep-all-discard','workspace_remove',{workspace:'acme',keep:['checkout','branches','data'],discard_changes:true},destroy],
+      // Another project keeps Strict's removal denial, as cleanup does.
+      ['remove-keep-all-project','workspace_remove',{workspace:'acme',keep:['checkout','branches','data'],project:'/outside/other'},destroy],
+      ['remove-forget','workspace_remove',{workspace:'acme',forget:true},destroy],
+      ['remove-preview','workspace_remove',{workspace:'acme',dry_run:true},allow],
+      ['remove-preview-project','workspace_remove',{workspace:'acme',dry_run:true,project:'/outside/other'},destroy],
+      ['remove-preview-malformed','workspace_remove',{workspace:'acme',dry_run:'true'},destroy],
+      ['remove-preview-discard-conflict','workspace_remove',{workspace:'acme',dry_run:true,discard_changes:true},destroy],
+      ['remove-preview-self-conflict','workspace_remove',{workspace:'acme',dry_run:true,allow_self_stop:true},destroy],
+      ['remove-project','workspace_remove',{workspace:'acme',project:'/outside/other'},destroy],
       ['stop-session','stop',{workspace:'acme',allow_self_stop:true},review],
       ['cleanup-preview','workspace_cleanup',{workspace:'acme',dry_run:true},allow],
       ['cleanup-discard','workspace_cleanup',{workspace:'acme',worktree:true,discard_changes:true},destroy],

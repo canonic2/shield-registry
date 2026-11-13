@@ -16,7 +16,8 @@ Current source builders are grouped by capability rather than a release diary:
 | Pack | Policy and fixture sources |
 | --- | --- |
 | Baseline | `scripts/build-docs-tool-packs.mjs` extends the reviewed policy with verified bundled docs tools |
-| Git, Node, Rust, AWS | `scripts/build-reviewed-profiles.mjs` and `scripts/build-reviewed-profile-cases.mjs` |
+| Git | `scripts/build-git-inspection.mjs` extends the reviewed profiles with read-only inspection options |
+| Node, Rust, AWS | `scripts/build-reviewed-profiles.mjs` and `scripts/build-reviewed-profile-cases.mjs` |
 | Box, Gate, Testrun | `scripts/build-current-tool-packs.mjs` and `scripts/current-tool-cases.mjs` extend frozen sources; the builder accepts a tool selection |
 | GitHub | `scripts/build-github-graphql-pack.mjs` and `scripts/build-github-graphql-cases.mjs` |
 | Workbench | `scripts/workbench-policy.mjs` and independent `scripts/workbench-cases.mjs`; regenerate with `node scripts/build-workbench-pack.mjs` |

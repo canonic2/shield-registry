@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "registry_id": "canonic-shield-main",
-  "sequence": 42,
+  "sequence": 43,
   "expires_at": "2027-02-03T00:00:00Z",
   "packs": [
     {
@@ -18,21 +18,21 @@
     },
     {
       "id": "canonic/box",
-      "version": "0.2.5",
-      "path": "packs/canonic/box/0.2.5/pack.yml",
-      "sha256": "b398bf3081d1d8bfdec2ec957962a937807dd0c78af1a4b366d35e2f10be7e01"
+      "version": "0.2.6",
+      "path": "packs/canonic/box/0.2.6/pack.yml",
+      "sha256": "6c63f6f6df59324969e5c373e4b5969c20f4221868e49f6653b6f615a9519c95"
     },
     {
       "id": "canonic/gate",
-      "version": "0.2.4",
-      "path": "packs/canonic/gate/0.2.4/pack.yml",
-      "sha256": "a29da22f5711271fe6c73d9ffc9c64be5cdee25c50cf3b229e7ebbd06de2a481"
+      "version": "0.2.5",
+      "path": "packs/canonic/gate/0.2.5/pack.yml",
+      "sha256": "ab3d06611ada8f56b0c9ae84d863b0f26deef1b9e11cc546df6861746da08c2d"
     },
     {
       "id": "canonic/git",
-      "version": "0.8.0",
-      "path": "packs/canonic/git/0.8.0/pack.yml",
-      "sha256": "3cad0b36ee15db076477c37d94b3b35a6e9f3f98111b54996d7f6af0d05263dd"
+      "version": "0.9.0",
+      "path": "packs/canonic/git/0.9.0/pack.yml",
+      "sha256": "44b12fbbb12c429d7f914b4a69d2a54e0337236e1dc76bc39206df2bea844a25"
     },
     {
       "id": "canonic/github",
@@ -123,22 +123,22 @@
       "last": "0.11.1"
     },
     "canonic/box": {
-      "path": "metadata/68096535c785a04d668ca0d6b30b82c65395bada2017d70212f74f53302d2aa5.json",
-      "sha256": "68096535c785a04d668ca0d6b30b82c65395bada2017d70212f74f53302d2aa5",
+      "path": "metadata/69aadbaa8db455be2aebf83a968a09a463770f1d35050af5ce0b7b3ac3826ec1.json",
+      "sha256": "69aadbaa8db455be2aebf83a968a09a463770f1d35050af5ce0b7b3ac3826ec1",
+      "first": "0.1.0",
+      "last": "0.2.6"
+    },
+    "canonic/gate": {
+      "path": "metadata/8c799bccb59d3f4a786c472064bcced5191341f1f371dd6a01c0db337815b419.json",
+      "sha256": "8c799bccb59d3f4a786c472064bcced5191341f1f371dd6a01c0db337815b419",
       "first": "0.1.0",
       "last": "0.2.5"
     },
-    "canonic/gate": {
-      "path": "metadata/d0465d6eb2793d3d301672ef2907f0c697784264391556f96a88f07007300df0.json",
-      "sha256": "d0465d6eb2793d3d301672ef2907f0c697784264391556f96a88f07007300df0",
-      "first": "0.1.0",
-      "last": "0.2.4"
-    },
     "canonic/git": {
-      "path": "metadata/ccd2ac2b514575cdcf3c9fd37e41e1e51df1e47f5a4b463e7cedbe1c130194fb.json",
-      "sha256": "ccd2ac2b514575cdcf3c9fd37e41e1e51df1e47f5a4b463e7cedbe1c130194fb",
+      "path": "metadata/e1dc0d1313cdb9aa299d2f06c900757311ea51ca13e95aa9a1d1a36f0cfbacc1.json",
+      "sha256": "e1dc0d1313cdb9aa299d2f06c900757311ea51ca13e95aa9a1d1a36f0cfbacc1",
       "first": "0.1.0",
-      "last": "0.8.0"
+      "last": "0.9.0"
     },
     "canonic/github": {
       "path": "metadata/c102bf2c1d5e8a237e469f53f85d520b107b8f2b70cc540b47e61b32116c1cc9.json",

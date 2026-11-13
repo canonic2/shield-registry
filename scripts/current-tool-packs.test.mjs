@@ -159,8 +159,9 @@ test('testrun browser defaults and cross-frame evaluation preserve opaque and sh
       // invalid handles. Public validation and getter effects belong to Testrun;
       // shared browser actions continue to require review in every profile.
       const relationshipBinding = {testrun:{transport:{type:'stdio',command:'testrun',args:['mcp','serve'],env:{}},agents:{codex:'testrun'},packs:{'canonic/testrun':'testrun'}}};
-      for (const operation of ['handle_owner_frame','handle_content_frame']) {
-        for (const [shape,parameters] of [['owned',{handle}],['missing',{}],['malformed',{handle:'foreign'}]]) {
+      for (const operation of ['handle_owner_frame','handle_content_frame','frame_element']) {
+        const field=operation==='frame_element'?'frame':'handle';
+        for (const [shape,parameters] of [['owned',{[field]:operation==='frame_element'?frame:handle}],['missing',{}],['malformed',{[field]:'foreign'}]]) {
           const request={operation,...parameters};
           const change=profile==='loose'?'allow':'ask';
           rows.push(
@@ -176,13 +177,15 @@ test('testrun browser defaults and cross-frame evaluation preserve opaque and sh
         {operation:'selector_evaluate',scope:frame,options:{locator:{kind:'css',selector:'button'},expression:'element=>element.textContent',isFunction:true}},
         {operation:'handle_read',handle},
         {operation:'handle_dispose',handle},
+        {operation:'handle_property',handle,name:'release'},
+        {operation:'handle_properties',handle,query:{offset:0,limit:1}},
       ];
       for (const [index,request] of pausedRequests.entries()) {
         const {operation,...parameters}=request;
         const change=profile==='loose'?'allow':'ask';
         rows.push(
           {name:`paused-evaluation-cli-${index}-${profile}`,profile,argv:['testrun','browser','send',JSON.stringify(request)],expected:change},
-          {name:`paused-evaluation-mcp-${index}-${profile}`,profile,mcp:associatedStateBinding,input:{kind:'mcp',server:'testrun',tool:'browser_send',arguments:{targetId:'browser:acme',request},original_input:{}},expected:['evaluate','handle_read','handle_dispose'].includes(operation) && profile!=='strict'?'allow':change},
+          {name:`paused-evaluation-mcp-${index}-${profile}`,profile,mcp:associatedStateBinding,input:{kind:'mcp',server:'testrun',tool:'browser_send',arguments:{targetId:'browser:acme',request},original_input:{}},expected:['evaluate','handle_read','handle_dispose','handle_property','handle_properties'].includes(operation) && profile!=='strict'?'allow':change},
           {name:`paused-evaluation-act-${index}-${profile}`,profile,mcp:associatedStateBinding,input:{kind:'mcp',server:'testrun',tool:'act',arguments:{targetId:'browser:acme',actions:[{action:operation,...parameters}]},original_input:{}},expected:'ask'},
         );
       }
@@ -304,6 +307,19 @@ test('testrun browser defaults and cross-frame evaluation preserve opaque and sh
       const workerCallback={...context,id:'55555555-5555-4555-8555-555555555555'};
       const capturePage={...context,id:'77777777-7777-4777-8777-777777777777'};
       const workerRouteRequests=[
+        {isolated:false,request:{operation:'frame_retain',frame:capturePage}},
+        {isolated:false,request:{operation:'frame_owner_release',frame:capturePage}},
+        {isolated:true,request:{operation:'evaluate',scope:capturePage,isFunction:true,expression:"()=>Object.assign(new Map([['Acme',42]]),{own:13})"}},
+        {isolated:true,request:{operation:'evaluate',scope:capturePage,isFunction:true,expression:'()=>function Acme(){}'}},
+        {isolated:true,request:{operation:'evaluate',scope:capturePage,isFunction:true,expression:"()=>Symbol('Acme')"}},
+        {isolated:true,request:{operation:'evaluate',scope:capturePage,isFunction:true,expression:"()=>({get refused(){throw Error('Acme')},own:42})"}},
+        {isolated:true,request:{operation:'evaluate',scope:capturePage,isFunction:true,expression:"()=>Object.defineProperty({},'toJSON',{value(){return {own:42}}})"}},
+        {isolated:false,request:{operation:'binding_read',callback:capturePage}},
+        {isolated:true,request:{operation:'evaluate',scope:capturePage,isFunction:true,expression:'()=>new ArrayBuffer(4)'}},
+        {isolated:true,request:{operation:'evaluate',scope:capturePage,isFunction:true,expression:'()=>{const b=new ArrayBuffer(1);structuredClone(b,{transfer:[b]});return b}'}},
+        {isolated:true,request:{operation:'handle_read',handle:capturePage}},
+        {isolated:true,request:{operation:'evaluate',scope:capturePage,isFunction:true,expression:'b=>new Uint8Array(b)'}},
+        ...['binding_resolve_value','binding_reject_value'].map(kind=>({isolated:true,request:{operation:'callback_resolve',callback:capturePage,response:{kind,value:{kind:'json',value:{extra:'Acme buffer projection'}}}}})),
         ...['binding_resolve_value','binding_reject_value'].flatMap(kind=>[
           {kind:'undefined'},
           {kind:'bigint',value:'9007199254740993'},
@@ -323,6 +339,11 @@ test('testrun browser defaults and cross-frame evaluation preserve opaque and sh
         {isolated:false,request:{operation:'har_capture_start',context,content:'embed',mode:'minimal',urlFilter:{kind:'regex',pattern:'[]'}}},
         {isolated:false,request:{operation:'web_socket_route_add_matcher',scope:capturePage,matcher:{kind:'regex',pattern:''}}},
         {isolated:false,request:{operation:'web_socket_route_add_matcher',scope:capturePage,matcher:{kind:'regex',pattern:String.raw`[\101]cme`}}},
+        ...[String.raw`\101cme`,String.raw`\k`,String.raw`(Acme)\1`].flatMap(pattern=>[
+          {isolated:false,request:{operation:'network_route',scope:capturePage,action:{kind:'add_matcher',matcher:{kind:'regex',pattern}}}},
+          {isolated:false,request:{operation:'har_capture_start',context,content:'embed',mode:'minimal',urlFilter:{kind:'regex',pattern}}},
+          {isolated:false,request:{operation:'web_socket_route_add_matcher',scope:capturePage,matcher:{kind:'regex',pattern}}},
+        ]),
         {isolated:true,request:{operation:'page_close',page:capturePage}},
         {isolated:true,request:{operation:'page_create',context,select:false}},
         {isolated:false,request:{operation:'har_capture_start',context,content:'embed',mode:'full',urlFilter:{kind:'glob',pattern:'**/wire/*'}}},
@@ -420,8 +441,62 @@ test('testrun browser defaults and cross-frame evaluation preserve opaque and sh
         {operation:'http_fetch',httpContext:context,request:{url:'https://example.com/redirect',headers:[{name:'Authorization',value:'Acme-example'},{name:'Proxy-Authorization',value:'Acme-proxy-example'},{name:'Cookie',value:'Acme=example'},{name:'Host',value:'example.com'},{name:'X-Acme',value:''}]}},
         {operation:'context_create',options:{viewport:{width:640,height:480},deviceScaleFactor:1,clientCertificates:[{origin:'https://localhost:8081',cert:'QWNtZS1jZXJ0',key:'QWNtZS1rZXk='}]}},
         {operation:'http_context_create',options:{clientCertificates:[{origin:'https://localhost:8081',cert:'QWNtZS1jZXJ0',key:'QWNtZS1rZXk='}]}},
+        {operation:'http_context_create',options:{clientCertificates:[{origin:'https://localhost:8081',pfx:'QWNtZS1wZng=',passphrase:'Acme example'}]}},
+        {operation:'http_context_create',options:{clientCertificates:[{origin:'https://localhost:8081',cert:'QWNtZS1jZXJ0',key:'QWNtZS1lbmNyeXB0ZWQ=',passphrase:'Acme example'}]}},
+        {operation:'context_create',options:{viewport:{width:640,height:480},deviceScaleFactor:1,clientCertificates:[{origin:'https://localhost:8081',pfx:'QWNtZS1wZng=',passphrase:'Acme example'}]}},
+        {operation:'http_context_create',options:{clientCertificates:[{origin:'https://localhost:8081',pfx:'QWNtZS1wZng=',cert:'QWNtZS1jZXJ0',key:'QWNtZS1rZXk='}]}},
         {operation:'http_context_create',options:{browserContext:context,clientCertificates:[]}},
         {operation:'http_context_create',options:{browserContext:context,clientCertificates:null}},
+        {operation:'http_context_create',options:{clientCertificates:[{origin:'https://localhost:8081',certPath:'Acme certificate.pem',keyPath:'Acme key.pem'}]}},
+        {operation:'http_context_create',options:{clientCertificates:[{origin:'https://localhost:8081',pfxPath:'/private/tmp/Acme archive.pfx',passphrase:'Acme example'}]}},
+        {operation:'context_create',options:{viewport:{width:640,height:480},deviceScaleFactor:1,clientCertificates:[{origin:'https://localhost:8081',certPath:'Acme certificate.pem',keyPath:'Acme encrypted.pem',passphrase:'Acme example'}]}},
+        {operation:'http_context_create',options:{clientCertificates:[{origin:'https://localhost:8081',cert:'',certPath:'Acme fallback.pem',keyPath:'Acme key.pem'}]}},
+        {operation:'http_response_read',requestId:'11111111-1111-4111-8111-111111111111',maxBytes:65536},
+        {operation:'http_response_read',requestId:'11111111-1111-4111-8111-111111111111',maxBytes:1},
+        {operation:'http_response_remove',requestId:'11111111-1111-4111-8111-111111111111'},
+        {operation:'http_context_create',options:{headers:[{name:'X-Acme',value:'global'}],timeoutMs:0}},
+        {operation:'http_context_create',options:{browserContext:context,timeoutMs:0}},
+        {operation:'http_fetch',httpContext:context,request:{url:'http://127.0.0.1:8081/Acme',timeoutMs:0}},
+        {operation:'route_fetch',httpContext:context,callback:context,timeoutMs:0},
+        {operation:'http_context_cookies_add',httpContext:context,cookies:[{name:'Acme',value:'example',url:'https://example.com/acme/page'}]},
+        {operation:'http_context_cookies_add',httpContext:context,cookies:[{name:'Acme',value:'example',domain:'example.com',path:'/',expires:0}]},
+        {operation:'http_context_cookies_read',httpContext:context},
+        {operation:'http_context_cookies_read',httpContext:context,urls:'https://example.com/acme'},
+        {operation:'http_context_cookies_read',httpContext:context,urls:['https://example.com/','http://localhost/']},
+        {operation:'http_context_cookies_clear',httpContext:context,options:{name:'Acme',domain:'example.com',path:'/'}},
+        {operation:'http_context_cookies_clear',httpContext:context,options:{name:{regex:'(?<=Acme)42$',flags:'i'}}},
+        {operation:'http_context_cookies_clear',httpContext:context,options:{name:{regex:'^(a+)b\\1$',flags:'g'}}},
+        {operation:'http_context_cookies_clear',httpContext:context,options:{name:{regex:'^[\\p{ASCII}&&\\p{Letter}]+$',flags:'v'}}},
+        {operation:'http_context_cookies_clear',httpContext:context,options:{name:{regex:'[',flags:'uv'}}},
+        {operation:'http_context_cookies_clear',httpContext:context,options:{name:null}},
+        {operation:'http_context_dispose',httpContext:context},
+        {operation:'http_context_dispose',httpContext:context,options:{reason:'Acme request context closed'}},
+        {operation:'http_context_dispose',httpContext:context,options:{}},
+        {operation:'http_context_read',httpContext:context,includeReason:true,maxBytes:65536},
+        {operation:'http_context_read',httpContext:context,includeReason:false,maxBytes:1},
+        {operation:'http_response_body_read',requestId:'11111111-1111-4111-8111-111111111111',format:'text',maxBytes:65536},
+        {operation:'http_response_body_read',requestId:'11111111-1111-4111-8111-111111111111',format:'json',maxBytes:1},
+        {operation:'http_response_dispose',requestId:'11111111-1111-4111-8111-111111111111'},
+        {operation:'http_context_dispose',options:{reason:'Acme missing owner'}},
+        {operation:'http_context_dispose',httpContext:context,options:{reason:{Acme:'invalid reason shape'}}},
+        {operation:'http_response_body_read',requestId:'11111111-1111-4111-8111-111111111111',format:'invalid'},
+        {operation:'http_context_read',includeReason:true},
+        {operation:'http_response_read',requestId:'11111111-1111-4111-8111-111111111111',includeHeadersObject:true},
+        {operation:'http_response_read',requestId:'11111111-1111-4111-8111-111111111111',includeHeadersObject:false,maxBytes:1},
+        {operation:'http_response_read',requestId:'11111111-1111-4111-8111-111111111111',includeHeadersObject:'invalid'},
+        {operation:'http_response_body_read',requestId:'11111111-1111-4111-8111-111111111111',format:'json_value'},
+        {operation:'http_evidence_read',evidenceId:'11111111-1111-4111-8111-111111111111',format:'json_value',maxBytes:65536},
+        {operation:'http_evidence_read',format:'json_value',maxBytes:0},
+        {operation:'http_fetch',httpContext:context,request:{url:'https://Acme:example@example.com/Acme#fragment'}},
+        {operation:'http_fetch',httpContext:context,request:{url:'\t https://example.com/Acme path?q=one two \r\n'}},
+        {operation:'http_fetch',httpContext:context,request:{url:'https://example.com/Acme',headers:[{name:'X-Latin',value:'ÿ'}]}},
+        {operation:'http_fetch',httpContext:context,request:{url:'https://example.com/Acme',headers:[{name:'X-Acme',value:'💩'}]}},
+        {operation:'http_fetch',httpContext:context,request:{url:'https://Acme:%ff@example.com/Acme'}},
+        {operation:'http_context_create',options:{baseUrl:'https://Acme:example@example.com/Acme#fragment',headers:[{name:'X-Latin',value:'ÿ'}]}},
+        {operation:'http_context_create',options:{clientCertificates:[{origin:'https://localhost:8081/Acme',cert:'QWNtZS1jZXJ0LUE=',key:'QWNtZS1rZXk='},{origin:'https://localhost:8081',cert:'QWNtZS1jZXJ0LUI=',key:'QWNtZS1rZXk='}]}},
+        {operation:'http_context_create',options:{clientCertificates:[{origin:'https://localhost:8081',pfx:'QWNtZS1wZng=',passphrase:'Acme example'},{origin:'https://localhost:8081',cert:'QWNtZS1jZXJ0',key:'QWNtZS1rZXk='}]}},
+        {operation:'context_create',options:{viewport:{width:640,height:480},deviceScaleFactor:1,clientCertificates:[{origin:'https://localhost:8081',cert:'QWNtZS1jZXJ0LUE=',key:'QWNtZS1rZXk='},{origin:'https://localhost:8081',cert:'QWNtZS1jZXJ0LUI=',key:'QWNtZS1rZXk='}]}},
+        {operation:'http_context_create',options:{browserContext:context,clientCertificates:[{origin:'https://localhost:8081',cert:'QWNtZS1jZXJ0LUE=',key:'QWNtZS1rZXk='},{origin:'https://localhost:8081',cert:'QWNtZS1jZXJ0LUI=',key:'QWNtZS1rZXk='}]}},
       ];
       for(const [index,request] of credentialRequests.entries()) {
         const {operation,...parameters}=request;
@@ -444,6 +519,22 @@ test('testrun browser defaults and cross-frame evaluation preserve opaque and sh
           {name:`credential-setting-cli-${index}-${profile}`,profile,argv:['testrun','browser','send',JSON.stringify(request)],expected:change},
           {name:`credential-setting-mcp-${index}-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'browser_send',arguments:{targetId:'browser:acme',request},original_input:{}},expected:change},
           {name:`credential-setting-act-${index}-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'act',arguments:{targetId:'browser:acme',actions:[{action:'context_configure',context,setting}]},original_input:{}},expected:'ask'},
+        );
+      }
+      for(const [format,material] of [
+        ['pfx',{pfx:'QWNtZS1wZng=',passphrase:'Acme example'}],
+        ['encrypted-pem',{cert:'QWNtZS1jZXJ0',key:'QWNtZS1lbmNyeXB0ZWQ=',passphrase:'Acme example'}],
+        ['pfx-path',{pfxPath:'Acme archive.pfx',passphrase:'Acme example'}],
+        ['pem-path',{certPath:'Acme certificate.pem',keyPath:'Acme key.pem'}],
+      ]) {
+        const context={viewport:{width:640,height:480},deviceScaleFactor:1,clientCertificates:[{origin:'https://localhost:8081',...material}]};
+        rows.push(
+          {name:`certificate-${format}-initial-cli-${profile}`,profile,argv:['testrun','browser','connect','--engine','firefox','--context',JSON.stringify(context)],expected:'ask'},
+          {name:`certificate-${format}-initial-mcp-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'browser_connect',arguments:{engine:'firefox',mode:'headless',context},original_input:{}},expected:'ask'},
+          {name:`certificate-${format}-initial-shared-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'connect',arguments:{engine:'webkit',mode:'headed',context},original_input:{}},expected:'ask'},
+          {name:`certificate-${format}-native-initial-cli-${profile}`,profile,argv:['testrun','browser','connect','--engine','chrome','--context',JSON.stringify(context)],expected:'ask'},
+          {name:`certificate-${format}-native-initial-mcp-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'browser_connect',arguments:{engine:'chrome',mode:'headless',context},original_input:{}},expected:'ask'},
+          {name:`certificate-${format}-native-initial-shared-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'connect',arguments:{engine:'chrome',mode:'headed',context},original_input:{}},expected:'ask'},
         );
       }
       rows.push(
@@ -473,6 +564,33 @@ test('testrun browser defaults and cross-frame evaluation preserve opaque and sh
           {name:`headers-cli-${index}-${profile}`,profile,argv:['testrun','browser','send',JSON.stringify(request)],expected:change},
           {name:`headers-mcp-${index}-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'browser_send',arguments:{targetId:'browser:acme',request},original_input:{}},expected:change},
           {name:`headers-act-${index}-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'act',arguments:{targetId:'browser:acme',actions:[{action:operation,...parameters}]},original_input:{}},expected:'ask'},
+        );
+      }
+      for (const [index,request] of [
+        {operation:'http_request_inputs_set',context,enabled:true},
+        {operation:'http_request_inputs_set',context,enabled:false},
+        {operation:'http_fetch_request',httpContext:context,sourceRequestId:'11111111-1111-4111-8111-111111111111'},
+        {operation:'http_fetch_request',httpContext:context,sourceRequestId:'11111111-1111-4111-8111-111111111111',options:{method:'',headers:[],body:{kind:'base64',data:'AP+A'}}},
+        {operation:'http_request_input_remove',sourceRequestId:'11111111-1111-4111-8111-111111111111'},
+        {operation:'http_fetch_request',sourceRequestId:'malformed'},
+        {operation:'callback_resolve',callback:context,response:{kind:'route_continue_with',overrides:{url:'http://127.0.0.1:8080/Acme',method:'PUT',headers:[{name:'Cookie',value:'AcmeFallback=private'}],bodyBase64:'AP+A'}}},
+        {operation:'callback_resolve',callback:context,response:{kind:'route_fallback_with',overrides:{headers:[],bodyBase64:''}}},
+        {operation:'callback_resolve',callback:context,response:{kind:'route_fallback_with',overrides:{headers:[{name:'X-Acme',value:'first'},{name:'x-acme',value:'last'},{name:'Cookie',value:'AcmeLayer=private'},{name:'__proto__',value:'Acme literal'}]}}},
+        {operation:'diagnostics_start',context},
+        {operation:'diagnostics_stop',context},
+        {operation:'network_read',context,requestId:'11111111-1111-4111-8111-111111111111',options:{body:'request'}},
+        {operation:'http_fetch',httpContext:context,request:{url:'http://127.0.0.1:8080/Acme',method:'POST',headers:[{name:'Content-Type',value:'application/json'},{name:'content-type',value:'text/plain'}],body:{kind:'text',text:'Acme invalid\nline'}}},
+        {operation:'http_fetch',httpContext:context,request:{url:'http://127.0.0.1:8080/Acme',headers:[{name:'Content-Type',value:'application/json'}],body:{kind:'base64',data:'AP+A'}}},
+        {operation:'http_fetch_request',httpContext:context,sourceRequestId:'11111111-1111-4111-8111-111111111111',options:{headers:[{name:'Content-Type',value:'application/json'}],body:{kind:'text',text:''}}},
+        {operation:'context_create',options:{viewport:{width:640,height:480},deviceScaleFactor:1,clientCertificates:[],ignoreHTTPSErrors:false}},
+        {operation:'context_create',options:{viewport:{width:640,height:480},deviceScaleFactor:1,proxy:{server:'https://localhost:8080',username:'Acme proxy',password:'Acme example'},clientCertificates:[{origin:'https://localhost:8081',cert:'QWNtZS1jZXJ0',key:'QWNtZS1rZXk='},{origin:'https://localhost:8081',pfx:'QWNtZS1wZng=',passphrase:'Acme example'}]}},
+      ].entries()) {
+        const {operation,...parameters}=request;
+        const change=profile==='loose'?'allow':'ask';
+        rows.push(
+          {name:`owned-request-cli-${index}-${profile}`,profile,argv:['testrun','browser','send',JSON.stringify(request)],expected:change},
+          {name:`owned-request-mcp-${index}-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'browser_send',arguments:{targetId:'browser:acme',request},original_input:{}},expected:['callback_resolve','diagnostics_start','diagnostics_stop'].includes(operation)&&profile!=='strict'?'allow':change},
+          {name:`owned-request-act-${index}-${profile}`,profile,mcp:headerBinding,input:{kind:'mcp',server:'testrun',tool:'act',arguments:{targetId:'browser:acme',actions:[{action:operation,...parameters}]},original_input:{}},expected:'ask'},
         );
       }
       rows.push(

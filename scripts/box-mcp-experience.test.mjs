@@ -22,9 +22,18 @@ test('Box candidate reproduces admitted policy, inventory and independent fixtur
   }
   const published = JSON.parse(readFileSync(new URL('../packs/canonic/box/0.2.3/pack.yml',import.meta.url)));
   const retainedCases = JSON.parse(readFileSync(new URL('../packs/canonic/box/0.2.3/cases.json',import.meta.url)));
+  // A plain workspace removal deletes resources: these forms were tightened to
+  // the deletion decision, Ask/Ask/Deny.
+  const tightened = /^(mcp-remove-project-strict|current-(cli|mcp)-remove-(deferred|immediate)-close-(loose|recommended|strict))$/;
   for (const row of retainedCases.cases) {
     const retired = ['box_docs_list','box_docs_search','box_docs_read'].includes(row.input?.tool);
-    assert.deepEqual(cases.cases.find(next => next.name === row.name),retired?{...row,expected:'ask'}:row,row.name);
+    const next = cases.cases.find(next => next.name === row.name);
+    if (tightened.test(row.name)) {
+      assert.deepEqual({...next,expected:row.expected},row,row.name);
+      assert.equal(next.expected,row.profile==='strict'?'deny':'ask',row.name);
+      continue;
+    }
+    assert.deepEqual(next,retired?{...row,expected:'ask'}:row,row.name);
   }
   for (const old of published.rules) {
     const next = pack.rules.find(rule => rule.id === old.id);
@@ -113,6 +122,9 @@ test('Box explicit current-checkout paths preserve ordinary MCP decisions', {ski
     ['workspace_remove',{workspace:'acme',delete_checkout:true},['ask','ask','deny']],
     ['workspace_remove',{workspace:'acme',forget:true},['ask','ask','deny']],
     ['workspace_remove',{workspace:'acme',discard_changes:true},['ask','ask','deny']],
+    ['workspace_remove',{workspace:'acme'},['ask','ask','deny']],
+    ['workspace_remove',{workspace:'acme',dry_run:true},['allow','allow','allow']],
+    ['workspace_remove',{workspace:'acme',keep:['checkout','branches','data']},['allow','ask','ask']],
     ['stop',{workspace:'acme',allow_self_stop:true},['ask','ask','ask']],
     ['recover',{workspace:'acme',operation:'1'.repeat(32)},['ask','ask','ask']],
     ['unknown_tool',{},['ask','ask','ask']],
@@ -141,14 +153,18 @@ test('Box explicit current-checkout paths preserve ordinary MCP decisions', {ski
       }
     }
     const path=join(temp,'cases.json');
-    writeFileSync(path,JSON.stringify({schema_version:1,cases:rows}));
-    const result=spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack',
-      '--pack',new URL('pack.yml',currentDirectory('box')).pathname,'--cases',path],
-      {cwd:project,encoding:'utf8',timeout:120000,maxBuffer:8*1024*1024});
-    const report=JSON.parse(result.stdout||'{}');
-    assert.equal(result.status,0,JSON.stringify(report.cases?.filter(row=>!row.passed)??report)+result.stderr);
-    assert.equal(report.passed,true);
-    assert.equal(report.cases.length,rows.length);
+    // The evaluator accepts at most 1024 cases per fixture; preserve every case.
+    for (let offset=0;offset<rows.length;offset+=1024) {
+      const selected=rows.slice(offset,offset+1024);
+      writeFileSync(path,JSON.stringify({schema_version:1,cases:selected}));
+      const result=spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack',
+        '--pack',new URL('pack.yml',currentDirectory('box')).pathname,'--cases',path],
+        {cwd:project,encoding:'utf8',timeout:120000,maxBuffer:8*1024*1024});
+      const report=JSON.parse(result.stdout||'{}');
+      assert.equal(result.status,0,JSON.stringify(report.cases?.filter(row=>!row.passed)??report)+result.stderr);
+      assert.equal(report.passed,true);
+      assert.equal(report.cases.length,selected.length);
+    }
     t.diagnostic(`Evaluated ${rows.length} independent project-selection cases across all profiles.`);
     for (const transport of [
       {type:'stdio',command:'box',args:['mcp','serve','--project',project],env:{}},

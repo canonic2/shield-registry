@@ -9,7 +9,7 @@ import {testrun} from './testrun-policy.mjs';
 import {currentToolCases} from './current-tool-cases.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 
-export const currentToolVersions = {box:'0.2.5', gate:'0.2.4', testrun:'0.2.7'};
+export const currentToolVersions = {box:'0.2.6', gate:'0.2.5', testrun:'0.2.7'};
 export const currentDirectory = (name, version = currentToolVersions[name]) =>
   new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -107,6 +107,34 @@ function updateBox(pack) {
     separatePreview(pack,name);
   mcpRule(pack,'mcp-workspace_remove-discard','workspace_remove',destroy,{'/discard_changes':{exact:true}});
   mcpRule(pack,'mcp-workspace_cleanup-discard','workspace_cleanup',destroy,{'/discard_changes':{exact:true}});
+  // Box workspace removal deletes the checkout, merged created branches, data
+  // and finished command history unless the request keeps them. Only a preview
+  // or keeping every resource deletes nothing. Older Box kept every resource on
+  // a plain removal; the pack cannot tell versions apart, so that form is
+  // tightened as well. Cleanup names stay for older installed versions.
+  // Missing fields never match, so the deletion decision applies to every call
+  // at the identity rank. A literal preview or keep-everything request outranks
+  // it; other options keep their stronger rules.
+  const keepAll = ['checkout','branches','data'];
+  mcpRule(pack,'mcp-workspace_remove-delete','workspace_remove',destroy)
+    .reason = 'Delete the workspace checkout, branches and data it does not keep.';
+  mcpRule(pack,'mcp-workspace_remove-dry-run','workspace_remove',allow,{'/dry_run':{exact:true}})
+    .reason = 'Assess workspace resources without deleting them.';
+  mcpRule(pack,'mcp-workspace_remove-keep-all','workspace_remove',change,{'/keep':{exact:keepAll}})
+    .reason = 'Remove a workspace registration, keeping its checkout, branches and data.';
+  // Ending this session does not lower the deletion decision.
+  mcpRule(pack,'mcp-workspace_remove-self-delete','workspace_remove',review,{'/allow_self_stop':{exact:true}},
+    {fields:{'/keep':{exact:keepAll}}}).on_unmet = {decision:destroy,
+    message:'Review a removal that ends this session and deletes workspace resources.'};
+  const discard = pack.rules.find(rule => rule.id === 'workspace-remove-discard');
+  const deletion = structuredClone(discard);
+  deletion.id = 'workspace-remove-delete';
+  Object.assign(deletion.conditions.arguments, {flags:['--json','--dry-run'], values:['--project'], forbid:['--dry-run']});
+  delete deletion.conditions.arguments.require_any;
+  deletion.reason = 'Delete the workspace checkout, branches and data it does not keep.';
+  // A CLI preview keeps the frozen registration decision: that prefix rule's
+  // working-folder check gives it the same rank as any option rule.
+  pack.rules.push(deletion);
   // Selector conflicts are rejected by Box before recovery; they cannot borrow
   // the ordinary Loose allowance, including with an explicit project.
   pack.capabilities = [...new Set([...pack.capabilities,'field-negation-v1'])].sort();
@@ -184,7 +212,15 @@ function updateGate(pack) {
   risky.conditions.arguments.flags.push('--discard-changes','--remove-branch');
   risky.decision = destroy;
   pack.rules.push(risky);
-  // Keep reviewed gate_docs_* permissions, and the relocate, worktree repair
+  // Gate names .gate/worktrees/<name> as its in-project worktree location. It
+  // takes the decision and path checks of the retained .gate/tasks rule.
+  const taskFolder = pack.rules.findIndex(rule => rule.id === 'mcp-worktree_add-task-folder');
+  const worktreeFolder = structuredClone(pack.rules[taskFolder]);
+  worktreeFolder.id = 'mcp-worktree_add-worktree-folder';
+  worktreeFolder.conditions.fields['/path'].text.regex = '\\.gate/worktrees/[A-Za-z0-9_][A-Za-z0-9_.-]*';
+  worktreeFolder.reason = 'Create a combined worktree under .gate/worktrees.';
+  pack.rules.splice(taskFolder + 1, 0, worktreeFolder);
+  // Keep reviewed gate_docs_* permissions, the .gate/tasks worktree folder, and the relocate, worktree repair
   // and worktree_repair permissions, for older installed Gate versions until
   // their documented retirement windows have elapsed.
   pack.description = 'Gate repository workflows and automatic workspace storage conversion, with explicit remote, data-loss and ownership boundaries.';
