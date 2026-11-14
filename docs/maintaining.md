@@ -15,7 +15,7 @@ Current source builders are grouped by capability rather than a release diary:
 
 | Pack | Policy and fixture sources |
 | --- | --- |
-| Baseline | `scripts/build-docs-tool-packs.mjs` extends the reviewed policy with verified bundled docs tools |
+| Baseline | `scripts/build-baseline-recursive-grep.mjs` extends the docs-tools release with checked recursive `grep` searches |
 | Git | `scripts/build-git-inspection.mjs` extends the reviewed profiles with read-only inspection options |
 | Node, Rust, AWS | `scripts/build-reviewed-profiles.mjs` and `scripts/build-reviewed-profile-cases.mjs` |
 | Box, Gate, Testrun | `scripts/build-current-tool-packs.mjs` and `scripts/current-tool-cases.mjs` extend frozen sources; the builder accepts a tool selection |

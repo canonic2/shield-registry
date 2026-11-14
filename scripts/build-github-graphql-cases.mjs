@@ -2,7 +2,8 @@ import {writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {usableGithubCases} from './build-github-usable-cases.mjs';
-import {destination, currentDestination} from './build-github-graphql-pack.mjs';
+import {destination, currentDestination, nextDestination} from './build-github-graphql-pack.mjs';
+import {splitCaseFiles} from './fixture-files.mjs';
 
 export const reviewQuery = `query { repository(owner:"acme", name:"web") { pullRequest(number:12) {
   reviewThreads(first:100) { pageInfo { hasNextPage endCursor } nodes {
@@ -120,8 +121,113 @@ export function currentGithubCases() {
     });
   return cases;
 }
+// Observed 2026-11-14: scoped PR lookups by ticket search and by branch name.
+// Expected decisions per [unscoped, scoped].
+export function nextGithubCases() {
+  const cases = currentGithubCases();
+  const list = search => ['gh', 'pr', 'list', '-R', 'acme/web', '--state', 'all', '--search', search, '--json', 'number,headRefName,state'];
+  const inputs = [
+    ['search-ticket', list('FHA-1524'), 'allow', 'allow'],
+    ['search-words', list('invoice tags'), 'allow', 'allow'],
+    ['search-short', ['gh', 'issue', 'list', '-R', 'acme/web', '-S', 'login bug'], 'allow', 'allow'],
+    // Words that only begin with an operator are ordinary terms.
+    ['search-operator-prefixes', list('ORACLE ANDROID NOTES or-gate'), 'allow', 'allow'],
+    ['search-or', list('FHA-1524 OR FHA-1527'), 'allow', 'deny'],
+    ['search-lowercase-or', list('FHA-1524 or FHA-1527'), 'allow', 'deny'],
+    ['search-and', list('invoice AND tags'), 'allow', 'deny'],
+    ['search-not', list('invoice NOT tags'), 'allow', 'deny'],
+    ['search-parentheses', list('(invoice)'), 'allow', 'deny'],
+    ['search-quoted', list('"invoice tags"'), 'allow', 'deny'],
+    ['search-repo-qualifier', list('repo:other/web'), 'allow', 'deny'],
+    ['search-org-qualifier', list('bug org:other'), 'allow', 'deny'],
+    ['search-negated-qualifier', list('bug -repo:acme/web'), 'allow', 'deny'],
+    ['search-short-qualifier', ['gh', 'pr', 'list', '-R', 'acme/web', '-S', 'repo:other/web'], 'allow', 'deny'],
+    ['search-other-repository', ['gh', 'pr', 'list', '-R', 'other/web', '--search', 'FHA-1524'], 'allow', 'deny'],
+    ['pr-view-branch', ['gh', 'pr', 'view', 'codex/FHA-1524-invoice-tags', '-R', 'acme/web', '--json', 'number,state,mergedAt'], 'allow', 'allow'],
+    ['pr-view-branch-comments', ['gh', 'pr', 'view', 'fix-tags', '--comments', '-R', 'acme/web'], 'allow', 'allow'],
+    ['pr-view-number', ['gh', 'pr', 'view', '12', '-R', 'acme/web', '--json', 'number'], 'allow', 'allow'],
+    ['pr-diff-branch', ['gh', 'pr', 'diff', 'codex/fix', '-R', 'acme/web', '--name-only'], 'allow', 'allow'],
+    ['pr-checks-branch', ['gh', 'pr', 'checks', 'release/1.2', '-R', 'acme/web', '--required'], 'allow', 'allow'],
+    ['pr-view-branch-other-repository', ['gh', 'pr', 'view', 'fix', '-R', 'other/web'], 'allow', 'deny'],
+    ['pr-view-url', ['gh', 'pr', 'view', 'https://github.com/other/web/pull/1', '-R', 'acme/web'], 'ask', 'deny'],
+    ['pr-diff-url', ['gh', 'pr', 'diff', 'https://github.com/other/web/pull/1', '-R', 'acme/web'], 'ask', 'deny'],
+    ['pr-view-fork-head', ['gh', 'pr', 'view', 'other:fix', '-R', 'acme/web'], 'ask', 'deny'],
+    ['pr-view-hash-number', ['gh', 'pr', 'view', '#12', '-R', 'acme/web'], 'ask', 'deny'],
+    ['pr-view-two-selectors', ['gh', 'pr', 'view', 'fix', '12', '-R', 'acme/web'], 'ask', 'deny'],
+    ['pr-view-branch-web', ['gh', 'pr', 'view', 'fix', '--web', '-R', 'acme/web'], 'ask', 'deny'],
+    // Issues have no branch selector; the scope admits the form but no rule allows it.
+    ['issue-view-branch', ['gh', 'issue', 'view', 'fix', '-R', 'acme/web'], 'ask', 'ask'],
+    ['issue-view-number', ['gh', 'issue', 'view', '12', '-R', 'acme/web'], 'allow', 'allow'],
+    ['pr-view-missing-repository', ['gh', 'pr', 'view', 'fix'], 'allow', 'deny'],
+  ];
+  for (const scoped of [false, true]) for (const profile of ['loose', 'recommended', 'strict'])
+    for (const [name, argv, unscoped, inside] of inputs) cases.push({
+      name: `${scoped ? 'scoped' : 'unscoped'}-${name}-${profile}`, profile,
+      ...(scoped ? {variables: {repository: 'acme/web'}} : {}), argv, expected: scoped ? inside : unscoped,
+    });
+  return mutationCases(cases);
+}
+// Profile rows of the matching CLI operations: comments and edits, merges,
+// destructive changes, and unlisted requests.
+const row = (loose, recommended, strict) => ({loose, recommended, strict});
+const routine = row('allow', 'allow', 'ask'), merging = row('allow', 'ask', 'ask'),
+  destructive = row('ask', 'ask', 'deny'), asked = row('ask', 'ask', 'ask'), denied = row('deny', 'deny', 'deny');
+// Observed 2026-11-14: resolving two review threads in one aliased mutation.
+// Expected decisions per [unscoped, scoped asking (unset or ask), scoped profile].
+function mutationCases(cases) {
+  const mutation = (query, ...extra) => ['gh', 'api', 'graphql', '-f', `query=${query}`, ...extra];
+  const resolve = id => `resolveReviewThread(input:{threadId:"${id}"}){thread{id isResolved}}`;
+  const merge = 'mergePullRequest(input:{pullRequestId:"PR_example",mergeMethod:SQUASH}){pullRequest{id merged}}';
+  const remove = 'deleteIssueComment(input:{id:"IC_example"}){clientMutationId}';
+  const inputs = [
+    ['mutation-resolve-threads', mutation(`mutation{a:${resolve('PRRT_a')} b:${resolve('PRRT_b')}}`), routine, asked, routine],
+    ['mutation-unresolve-variable', mutation('mutation($id:ID!){unresolveReviewThread(input:{threadId:$id}){thread{id}}}', '-f', 'id=PRRT_a'), routine, asked, routine],
+    ['mutation-thread-reply', mutation('mutation{addPullRequestReviewThreadReply(input:{pullRequestReviewThreadId:"PRRT_a",body:"Fixed."}){comment{id url}}}'), routine, asked, routine],
+    ['mutation-add-comment', mutation('mutation{addComment(input:{subjectId:"PR_example",body:"Thanks"}){commentEdge{node{id url}}}}'), routine, asked, routine],
+    ['mutation-edit-comment', mutation('mutation{updateIssueComment(input:{id:"IC_example",body:"Edited"}){issueComment{id body}}}'), routine, asked, routine],
+    ['mutation-merge', mutation(`mutation{${merge}}`), merging, asked, merging],
+    ['mutation-auto-merge', mutation('mutation{enablePullRequestAutoMerge(input:{pullRequestId:"PR_example"}){clientMutationId}}'), merging, asked, merging],
+    ['mutation-delete-comment', mutation(`mutation{${remove}}`), destructive, destructive, destructive],
+    // A batch takes its strictest class.
+    ['mutation-resolve-and-merge', mutation(`mutation{${resolve('PRRT_a')} ${merge}}`), merging, asked, merging],
+    ['mutation-resolve-and-delete', mutation(`mutation{${resolve('PRRT_a')} ${remove}}`), destructive, destructive, destructive],
+    // Skipped fields, fragments and operation selection still count; aliases do not rename.
+    ['mutation-skipped-merge', mutation(`mutation($skip:Boolean=true){${resolve('PRRT_a')} mergePullRequest(input:{pullRequestId:"PR_example"}) @skip(if:$skip){clientMutationId}}`), merging, asked, merging],
+    ['mutation-fragment-delete', mutation(`mutation{...D} fragment D on Mutation{${remove}}`), destructive, destructive, destructive],
+    ['mutation-alias-disguise', mutation(`mutation{resolveReviewThread:${merge}}`), merging, asked, merging],
+    ['mutation-selected-operation', mutation(`query Read{repository(owner:"acme",name:"web"){nameWithOwner}} mutation Write{${resolve('PRRT_a')}}`, '-f', 'operationName=Write'), routine, asked, routine],
+    // Outside the reviewed inventory: unscoped review, scoped refusal.
+    ['mutation-unlisted', mutation('mutation{addStar(input:{starrableId:"R_example"}){clientMutationId}}'), asked, denied, denied],
+    ['mutation-listed-and-unlisted', mutation(`mutation{${resolve('PRRT_a')} addStar(input:{starrableId:"R_example"}){clientMutationId}}`), asked, denied, denied],
+    ['mutation-undeclared-input', mutation('mutation{resolveReviewThread(input:{threadId:"PRRT_a",extra:"x"}){thread{id}}}'), asked, denied, denied],
+    ['mutation-missing-input', mutation('mutation{resolveReviewThread(input:{clientMutationId:"c"}){thread{id}}}'), asked, denied, denied],
+    ['mutation-duplicate-input-key', mutation('mutation{resolveReviewThread(input:{threadId:"PRRT_a",threadId:"PRRT_b"}){thread{id}}}'), asked, denied, denied],
+    ['mutation-list-input', mutation('mutation{resolveReviewThread(input:{threadId:["PRRT_a"]}){thread{id}}}'), asked, denied, denied],
+    ['mutation-object-variable', mutation('mutation($input:ResolveReviewThreadInput!){resolveReviewThread(input:$input){thread{id}}}', '-f', 'input=PRRT_a'), asked, denied, denied],
+    ['mutation-payload-repository', mutation('mutation{resolveReviewThread(input:{threadId:"PRRT_a"}){thread{id pullRequest{repository{nameWithOwner}}}}}'), asked, denied, denied],
+    ['mutation-paginate', mutation(`mutation{${resolve('PRRT_a')}}`, '--paginate'), asked, denied, denied],
+  ];
+  const modes = [['unscoped', undefined, 1], ['scoped', {repository: 'acme/web'}, 2],
+    ['scoped-ask', {repository: 'acme/web', repository_writes: 'ask'}, 2],
+    ['scoped-profile', {repository: 'acme/web', repository_writes: 'profile'}, 3]];
+  // The earlier fixtures' listed mutations now take the routine row.
+  const listedBefore = /^(unscoped|scoped)-graphql-(mutation|review-lines-mutation)-(loose|recommended|strict)$/;
+  for (const item of cases) {
+    const match = listedBefore.exec(item.name);
+    if (match) item.expected = (match[1] === 'scoped' ? asked : routine)[match[3]];
+  }
+  for (const [mode, variables, column] of modes) for (const profile of ['loose', 'recommended', 'strict'])
+    for (const input of inputs) cases.push({
+      name: `${mode}-${input[0]}-${profile}`, profile, ...(variables ? {variables} : {}),
+      argv: input[1], expected: input[1 + column][profile],
+    });
+  return cases;
+}
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  // Default: the current candidate. Pass 0.4.0 to reproduce the published release.
-  const [output, cases] = process.argv[2] === '0.4.0' ? [destination, graphqlGithubCases()] : [currentDestination, currentGithubCases()];
-  await writeFile(new URL('cases.json',output),JSON.stringify({schema_version:1,cases},null,2)+'\n');
+  // Default: the current candidate. Pass 0.4.0 or 0.5.0 to reproduce a published release.
+  const releases = {'0.4.0': [destination, graphqlGithubCases], '0.5.0': [currentDestination, currentGithubCases]};
+  const [output, build] = releases[process.argv[2]] ?? [nextDestination, nextGithubCases];
+  // Larger releases continue in cases-2.json, ... at Shield's per-file limit.
+  for (const [name, document] of splitCaseFiles({schema_version:1,cases:build()}))
+    await writeFile(new URL(name,output),JSON.stringify(document,null,2)+'\n');
 }

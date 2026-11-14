@@ -116,6 +116,148 @@ export function currentGithubPack() {
     reason: 'Read the configured repository through a plain REST GET; the path gate refuses traversal and placeholders.'});
   return pack;
 }
+// 0.6.0: plain --search/-S terms and branch selectors under the repository
+// setting, and a separate refusal naming a wrong -R/--repo value.
+export const nextDestination = new URL('../packs/canonic/github/0.6.0/', import.meta.url);
+// gh resolves a URL operand's own repository and ignores -R, and OWNER/REPO#N
+// or owner:branch forms name other targets, so a branch excludes ':' and '#'.
+const branch = '[A-Za-z0-9_][A-Za-z0-9._/+-]*';
+// GitHub search applies qualifiers (repo:, org:, -repo:), parentheses and
+// boolean operators across the query gh scopes with repo:OWNER/REPO, so either
+// could widen it. Plain terms exclude ':', '(', ')' and '"', and the words OR,
+// AND and NOT in either case.
+const c = except => `[^${except}\\s:()"]`;
+const term = [`${c('')}{4,}`, c(''), `${c('Oo')}${c('')}`, `[Oo]${c('Rr')}`,
+  `${c('AaNn')}${c('')}{2}`, `[Aa]${c('Nn')}${c('')}`, `[Aa][Nn]${c('Dd')}`,
+  `[Nn]${c('Oo')}${c('')}`, `[Nn][Oo]${c('Tt')}`].join('|');
+export const plainSearch = {regex: `\\s*(?:${term})(?:\\s+(?:${term}))*\\s*`};
+const sameWords = (left, right) => JSON.stringify(left) === JSON.stringify(right);
+export function nextGithubPack() {
+  const pack = currentGithubPack();
+  pack.version = '0.6.0';
+  pack.variables.repository.description = 'Optional exact OWNER/REPO for CLI and MCP. Listed CLI commands use -R/--repo, list --search/-S takes plain terms without qualifiers or boolean operators, and gh api accepts inline GraphQL reads rooted at this repository and plain GETs of repos/OWNER/REPO/ paths. Unknown targets deny.';
+  const selector = {regex: `[1-9][0-9]*|${branch}`};
+  const listPrefix = [{one_of: ['issue', 'pr']}, 'list'];
+  const viewPrefix = [{one_of: ['issue', 'pr']}, 'view'];
+  const diffPrefix = ['pr', {one_of: ['diff', 'checks']}];
+  const scope = pack.preconditions.find(gate => gate.id === 'cli-scope');
+  const gateBranch = prefix => scope.requires_any.find(alternative => sameWords(alternative.arguments?.prefix, prefix)).arguments;
+  const rule = id => pack.rules.find(item => item.id === id);
+  // Unscoped lists accept -S like --search; scoped lists accept only plain terms.
+  rule('issue-pr-list').conditions.arguments.values.splice(rule('issue-pr-list').conditions.arguments.values.indexOf('--search') + 1, 0, '-S');
+  gateBranch(listPrefix).values.splice(2, 0, {name: '--search', match: plainSearch}, {name: '-S', match: plainSearch});
+  // cli-scope is at Shield's 16-alternative limit, so issue view shares the
+  // widened selector there; its allow rule keeps numbers, leaving branches unlisted.
+  gateBranch(viewPrefix).operands.match = selector;
+  gateBranch(diffPrefix).operands.match = selector;
+  rule('pr-diff-checks').conditions.arguments.operands.match = selector;
+  const view = rule('issue-pr-view');
+  const index = pack.rules.indexOf(view);
+  pack.rules.splice(index + 1, 0, {...structuredClone(view), id: 'pr-view-branch',
+    conditions: {...structuredClone(view.conditions), arguments: {...structuredClone(view.conditions.arguments),
+      prefix: ['pr', 'view'], operands: {match: {regex: branch}, min: 1, max: 1}}},
+    reason: 'Read the pull request whose head is this branch using listed options.'});
+  scope.on_unmet.message = 'With the repository setting, gh runs only the listed commands and options, with -R {{repository}}. pr view, diff and checks take a PR number or branch name, not a URL; issue view takes a number. list --search/-S takes plain terms: no qualifiers such as repo:, no OR/AND/NOT and no parentheses. Remove unlisted options or operands, then retry.';
+  // An additional refusal only: cli-scope still requires the exact repository.
+  const repositoryOptions = values => ({kind: 'options', prefix: [], flags: [], values, operands: true,
+    unknown_options: 'skip', require_any: ['-R', '--repo']});
+  pack.preconditions.splice(pack.preconditions.indexOf(scope) + 1, 0, {id: 'cli-repository', when: scope.when,
+    conditions: {domain: 'argv', executable: scope.conditions.executable, arguments: repositoryOptions(['-R', '--repo'])},
+    requires_any: [{arguments: repositoryOptions(['-R', '--repo'].map(name => ({name, match: {var: 'repository'}})))}],
+    on_unmet: {decision: 'deny', message: '-R/--repo must name {{repository}}; the project\'s GitHub setting allows no other repository. Use -R {{repository}}, then retry.'}});
+  return addMutations(pack);
+}
+// 0.6.0 also adds reviewed GraphQL mutations (graphql-mutations-v1). Mutations
+// name their targets by opaque node IDs, which Shield cannot attribute to a
+// repository, so each listed mutation takes the profile row of its CLI equivalent
+// and, with the repository setting, asks unless repository_writes is profile.
+// Inputs and payloads follow https://docs.github.com/en/graphql/reference/mutations.
+const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
+const input = fields => ({input: {required: true, match: {object: {...fields, clientMutationId: scalar('string')}}}});
+const id = {...scalar('string'), required: true};
+const body = {...scalar('string'), required: true};
+const merge = {pullRequestId: id, mergeMethod: scalar('enum'), commitHeadline: scalar('string'),
+  commitBody: scalar('string'), expectedHeadOid: scalar('string'), authorEmail: scalar('string')};
+// Each class reuses the decisions of the matching CLI rows: issue-pr-change,
+// pr-merge and issue-delete.
+export const mutationClasses = [
+  {id: 'routine', decision: profiles('allow', 'allow', 'ask'),
+    reason: 'Resolve review threads, reply, comment or edit comments through a reviewed GraphQL mutation; its target is an unverified node ID.',
+    fields: {
+      resolveReviewThread: [{threadId: id}, 'threadPayload'],
+      unresolveReviewThread: [{threadId: id}, 'threadPayload'],
+      addPullRequestReviewThreadReply: [{pullRequestReviewThreadId: id, pullRequestReviewId: scalar('string'), body}, 'replyPayload'],
+      addComment: [{subjectId: id, body}, 'addCommentPayload'],
+      updateIssueComment: [{id, body}, 'issueCommentPayload'],
+      updatePullRequestReviewComment: [{pullRequestReviewCommentId: id, body}, 'reviewCommentPayload'],
+    }},
+  {id: 'merge', decision: profiles('allow', 'ask', 'ask'),
+    reason: 'Merge a pull request or change its auto-merge through a reviewed GraphQL mutation; its target is an unverified node ID.',
+    fields: {
+      mergePullRequest: [merge, 'pullRequestPayload'],
+      enablePullRequestAutoMerge: [merge, 'pullRequestPayload'],
+      disablePullRequestAutoMerge: [{pullRequestId: id}, 'pullRequestPayload'],
+    }},
+  {id: 'destructive', decision: profiles('ask', 'ask', 'deny'),
+    reason: 'Delete a comment through a reviewed GraphQL mutation; review the target and consequences.',
+    fields: {
+      deleteIssueComment: [{id}, 'deletePayload'],
+      deletePullRequestReviewComment: [{id}, 'deletePayload'],
+    }},
+];
+export const mutationFields = mutationClasses.flatMap(group => Object.keys(group.fields));
+// Payloads return the changed object's own leaves; none reaches a repository,
+// owner, viewer or another object's collections.
+export function mutationModel() {
+  const fields = {};
+  for (const group of mutationClasses) for (const [name, [arguments_, payload]] of Object.entries(group.fields))
+    fields[name] = select(payload, input(arguments_));
+  return {root: 'mutation', states: {
+    mutation: state('Mutation', fields),
+    threadPayload: state('ResolveReviewThreadPayload UnresolveReviewThreadPayload', {...leaf('__typename clientMutationId'), thread: select('thread')}),
+    thread: state('PullRequestReviewThread', leaf('__typename id isResolved isOutdated path line')),
+    replyPayload: state('AddPullRequestReviewThreadReplyPayload', {...leaf('__typename clientMutationId'), comment: select('reviewComment')}),
+    reviewCommentPayload: state('UpdatePullRequestReviewCommentPayload', {...leaf('__typename clientMutationId'), pullRequestReviewComment: select('reviewComment')}),
+    reviewComment: state('PullRequestReviewComment', leaf('__typename id databaseId url body createdAt updatedAt path line')),
+    addCommentPayload: state('AddCommentPayload', {...leaf('__typename clientMutationId'), commentEdge: select('commentEdge')}),
+    commentEdge: state('IssueCommentEdge', {...leaf('__typename cursor'), node: select('issueComment')}),
+    issueCommentPayload: state('UpdateIssueCommentPayload', {...leaf('__typename clientMutationId'), issueComment: select('issueComment')}),
+    issueComment: state('IssueComment', leaf('__typename id databaseId url body createdAt updatedAt')),
+    pullRequestPayload: state('MergePullRequestPayload EnablePullRequestAutoMergePayload DisablePullRequestAutoMergePayload',
+      {...leaf('__typename clientMutationId'), pullRequest: select('pullRequest')}),
+    pullRequest: state('PullRequest', leaf('__typename id number url state merged closed')),
+    deletePayload: state('DeleteIssueCommentPayload DeletePullRequestReviewCommentPayload', leaf('__typename clientMutationId')),
+  }};
+}
+function addMutations(pack) {
+  pack.engines.shield = '>=0.31.0, <1.0.0';
+  pack.capabilities.push('graphql-mutations-v1');
+  pack.variables.repository.description = 'Optional exact OWNER/REPO for CLI and MCP. Listed CLI commands use -R/--repo, list --search/-S takes plain terms without qualifiers or boolean operators, and gh api accepts inline GraphQL reads rooted at this repository, plain GETs of repos/OWNER/REPO/ paths and listed GraphQL mutations, whose targets it cannot verify. Unknown targets deny.';
+  pack.variables.repository_writes = {type: 'choice',
+    description: 'With the repository setting, how listed GraphQL mutations are decided. Their node-ID targets cannot be verified as inside the repository: ask (default) asks in every profile; profile uses their profile decision and does not confine writes to the repository.',
+    values: ['ask', 'profile'],
+    setup: {question: 'Ask before GraphQL writes whose repository cannot be verified?', unset: 'Ask for every listed mutation', ask_when: [{var: 'repository', set: true}]}};
+  const model = mutationModel();
+  const all = {carrier: 'gh-api', operation: 'mutation', root_fields: mutationFields, selection: model};
+  const scope = pack.preconditions.find(gate => gate.id === 'cli-api-scope');
+  scope.requires_any.push({graphql: all});
+  scope.on_unmet.message = 'With the repository setting, gh api accepts inline GraphQL query reads rooted at {{repository}}, listed GraphQL mutations and plain GETs of repos/{{repository}}/... paths, with only --paginate, --slurp, --include, --silent, --verbose or -X GET. Remove fields, --input, headers, other hosts, --jq/--template and unlisted mutations or fields, then retry.';
+  const {executable} = scope.conditions;
+  const api = {kind: 'prefix', values: ['api']};
+  for (const group of mutationClasses) pack.rules.push({id: `graphql-mutation-${group.id}`,
+    conditions: {domain: 'argv', executable, arguments: api,
+      graphql: {...all, root_fields: Object.keys(group.fields)}},
+    decision: group.decision, reason: group.reason});
+  // Equal-rank rules resolve to the strictest decision, so this overlay turns a
+  // class's Allow into Ask and leaves a stricter Deny in place.
+  const overlay = {conditions: {domain: 'argv', executable, arguments: api, graphql: all},
+    decision: profiles('ask'),
+    reason: 'With the repository setting, a listed GraphQL mutation names its target by node ID, which cannot be verified as inside {{repository}}. Confirm the target before approving.'};
+  pack.rules.push(
+    {id: 'graphql-mutation-unverified-target', when: [{var: 'repository', set: true}, {var: 'repository_writes', set: false}], ...overlay},
+    {id: 'graphql-mutation-unverified-target-ask', when: [{var: 'repository', set: true}, {var: 'repository_writes', equals: 'ask'}], ...overlay});
+  return pack;
+}
 const writePack = async (pack, output) => {
   await mkdir(output, {recursive: true});
   await writeFile(new URL('pack.yml', output), JSON.stringify(pack, null, 2) + '\n');
@@ -124,6 +266,8 @@ const writePack = async (pack, output) => {
 };
 export const buildGraphqlGithubPack = () => writePack(graphqlGithubPack(), destination);
 export const buildCurrentGithubPack = () => writePack(currentGithubPack(), currentDestination);
-// Default: the current candidate. Pass 0.4.0 to reproduce the published release.
+export const buildNextGithubPack = () => writePack(nextGithubPack(), nextDestination);
+// Default: the current candidate. Pass 0.4.0 or 0.5.0 to reproduce a published release.
+const builds = {'0.4.0': buildGraphqlGithubPack, '0.5.0': buildCurrentGithubPack};
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href)
-  await (process.argv[2] === '0.4.0' ? buildGraphqlGithubPack() : buildCurrentGithubPack());
+  await (builds[process.argv[2]] ?? buildNextGithubPack)();

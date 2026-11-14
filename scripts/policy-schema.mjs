@@ -115,7 +115,7 @@ function rule(pack, domain) {
 }
 
 // Pack selectors resolve before evaluation; custom documents keep literal schemas.
-const dynamicDefs = new Set(['textSelector', 'identitySelector', 'pathReference', 'pathPredicate', 'targets', 'environment', 'url', 'arguments', 'argumentPaths', 'graphql']);
+const dynamicDefs = new Set(['textSelector', 'identitySelector', 'pathReference', 'pathPredicate', 'targets', 'environment', 'url', 'arguments', 'argumentPaths', 'graphql', 'graphqlArgument']);
 const packName = name => `pack${name[0].toUpperCase()}${name.slice(1)}`;
 function withVariables(value) {
   if (Array.isArray(value)) return value.map(withVariables);
@@ -170,15 +170,21 @@ defs.input = one([
   input('mcp', { server: text(1), tool: text(1), arguments: jsonObject }),
   input('unknown', { host_tool: text(1) }),
 ]);
-const graphqlArgument = object({match: one([
+// graphql-mutations-v1 adds object matchers for mutation input objects; Rust
+// admits them only in models rooted at Mutation, at most four levels deep.
+defs.graphqlArgument = object({match: one([
   object({text:ref('textSelector')}), object({exact:{type:['string','number','boolean']}}),
   object({scalar:enumeration(['string','integer','number','boolean','enum'])}),
+  object({object:{type:'object',minProperties:1,maxProperties:64,additionalProperties:ref('graphqlArgument')}}),
 ]), required:{type:'boolean'},nullable:{type:'boolean'},cursor:{type:'boolean'}}, ['match']);
-const graphqlField = object({select:text(1,64),leaf:{const:true},arguments:{type:'object',maxProperties:64,additionalProperties:graphqlArgument}}, []);
+const graphqlField = object({select:text(1,64),leaf:{const:true},arguments:{type:'object',maxProperties:64,additionalProperties:ref('graphqlArgument')}}, []);
 graphqlField.oneOf = [{required:['select'],not:{required:['leaf']}},{required:['leaf'],not:{required:['select']}}];
-defs.graphql = object({carrier:{const:'gh-api'},operation:{const:'query'},selection:object({root:text(1,64),states:{
+defs.graphql = {...object({carrier:{const:'gh-api'},operation:enumeration(['query','mutation']),
+  root_fields:array({...text(1,64),pattern:'^[_A-Za-z][_0-9A-Za-z]*$'},1,true,256),
+  selection:object({root:text(1,64),states:{
   type:'object',minProperties:1,maxProperties:256,additionalProperties:object({types:array(text(1),1,true,64),fields:{type:'object',minProperties:1,maxProperties:256,additionalProperties:graphqlField}}),
-}})}, ['carrier','operation']);
+}})}, ['carrier','operation']),
+  if:{properties:{operation:{const:'mutation'}}},then:{required:['selection','root_fields']},else:{not:{required:['root_fields']}}};
 const caps = ['structured-rules-v1', 'argument-rules-v1', 'graphql-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1', 'fallback-rules-v1', 'invocation-groups-v1', 'command-sets-v1', 'mcp-integrations-v1', 'mcp-connection-facts-v1', 'mcp-command-fields-v1', 'mcp-effective-fields-v1'];
 caps.push('argument-paths-v1');
 caps.push('field-paths-v1');
@@ -187,6 +193,7 @@ caps.push('directory-options-v1');
 caps.push('unknown-options-v1', 'option-abbreviations-v1', 'negated-selectors-v1');
 caps.push('interleaved-leading-v1');
 caps.push('field-negation-v1');
+caps.push('graphql-mutations-v1');
 // An option that only chooses the folder a tool works in, such as `npm --prefix`.
 // A file value names the files the tool finds in that folder by default.
 defs.directoryOption = {
@@ -283,6 +290,7 @@ const argumentPathSelections = [['argument_paths', 'options', '@', 'path'], ['ar
 textPaths.push(...argumentPathSelections.map(path => [...path, 'match']));
 const feature = {
   'graphql-v1': eitherPredicate(['graphql']),
+  'graphql-mutations-v1': eitherPredicate(['graphql', 'operation'], {const: 'mutation'}),
   'prefix-leading-v1': eitherPredicate(['arguments'], {allOf: [at(['kind'], {const: 'prefix'}), has('leading')]}),
   'argument-paths-v1': eitherPredicate(['argument_paths']),
   'field-paths-v1': eitherPredicate(['field_paths']),

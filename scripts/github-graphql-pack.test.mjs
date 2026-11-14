@@ -2,23 +2,34 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
-import {destination,currentDestination,graphqlGithubPack,currentGithubPack} from './build-github-graphql-pack.mjs';
-import {graphqlGithubCases,currentGithubCases} from './build-github-graphql-cases.mjs';
+import {destination,currentDestination,nextDestination,graphqlGithubPack,currentGithubPack,nextGithubPack} from './build-github-graphql-pack.mjs';
+import {graphqlGithubCases,currentGithubCases,nextGithubCases} from './build-github-graphql-cases.mjs';
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
+import {splitCaseFiles} from './fixture-files.mjs';
 
-const releases = [['0.4.0',destination,graphqlGithubPack,graphqlGithubCases],['0.5.0',currentDestination,currentGithubPack,currentGithubCases]];
+const releases = [['0.4.0',destination,graphqlGithubPack,graphqlGithubCases],['0.5.0',currentDestination,currentGithubPack,currentGithubCases],['0.6.0',nextDestination,nextGithubPack,nextGithubCases]];
+const files = cases => splitCaseFiles({schema_version:1,cases:cases()});
+const releaseCases = new Map(releases.map(([,root,,cases])=>[root.href,cases]));
+// Run every fixture file of a release and combine their case reports.
 const run = (root,extra=[]) => {
-  const result=spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack','--pack',new URL('pack.yml',root).pathname,'--cases',new URL('cases.json',root).pathname,...extra],{encoding:'utf8',timeout:120000,maxBuffer:32*1024*1024});
-  return {result,report:JSON.parse(result.stdout||'{}')};
+  const reports=files(releaseCases.get(root.href)).map(([name])=>{
+    const result=spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack','--pack',new URL('pack.yml',root).pathname,'--cases',new URL(name,root).pathname,...extra],{encoding:'utf8',timeout:120000,maxBuffer:32*1024*1024});
+    return {result,report:JSON.parse(result.stdout||'{}')};
+  });
+  const failed=reports.find(({result})=>result.status!==0);
+  return {result:failed?.result??reports[0].result,report:failed?.report??{cases:reports.flatMap(({report})=>report.cases??[])}};
 };
 for (const [version,root,pack,cases] of releases) {
   const read = name => JSON.parse(readFileSync(new URL(name,root)));
   test(`GitHub GraphQL ${version} artifacts reproduce and satisfy the source schema`,()=>{
     assert.deepEqual(read('pack.yml'),pack());
-    assert.deepEqual(read('cases.json'),{schema_version:1,cases:cases()});
     const validate=schemaValidator(schema);
-    for (const document of [read('pack.yml'),read('cases.json')]) assert.equal(validate(document),true,JSON.stringify(validate.errors));
+    assert.equal(validate(read('pack.yml')),true,JSON.stringify(validate.errors));
+    for (const [name,document] of files(cases)) {
+      assert.deepEqual(read(name),document,name);
+      assert.equal(validate(read(name)),true,JSON.stringify(validate.errors));
+    }
   });
   for (const baseline of [false,true]) test(`GitHub GraphQL ${version} reads preserve targets, profiles and unsupported-input boundaries${baseline?' with Baseline':''}`, {skip:!process.env.SHIELD_BINARY},()=>{
     const companions=baseline?['--with-pack',new URL('../packs/canonic/baseline/0.11.1/pack.yml',import.meta.url).pathname]:[];
@@ -44,4 +55,30 @@ test('GitHub 0.5.0 scoped gh api refusals carry exactly one gate message', {skip
     assert.equal(gates.get(`scoped-${name}`),'cli-api-path',name);
   for (const name of ['graphql-review-lines-unlisted-field','graphql-review-lines-comment-repository','graphql-review-lines-other-owner','graphql-outside'])
     assert.equal(gates.get(`scoped-${name}`),'cli-graphql-scope',name);
+});
+// With the right repository, an unsupported option or operand names only the
+// command shape; a wrong -R/--repo also names the repository refusal.
+test('GitHub 0.6.0 scoped CLI refusals name the shape or the repository', {skip:!process.env.SHIELD_BINARY},()=>{
+  const {result,report}=run(nextDestination,['--details']);
+  assert.equal(result.status,0,result.stderr);
+  const cli=new Set(nextGithubCases().slice(currentGithubCases().length).map(row=>row.name));
+  const gates=new Map(report.cases.filter(row=>row.variables && row.actual==='deny' && cli.has(row.name))
+    .map(row=>[row.name.replace(/-(loose|recommended|strict)$/,''),row.evaluation.guidance.map(item=>item.rule_ref.rule_id).sort().join(',')]));
+  for (const name of ['search-or','search-repo-qualifier','search-parentheses','pr-view-url','pr-view-fork-head','pr-view-branch-web','pr-view-missing-repository'])
+    assert.equal(gates.get(`scoped-${name}`),'cli-scope',name);
+  for (const name of ['search-other-repository','pr-view-branch-other-repository'])
+    assert.equal(gates.get(`scoped-${name}`),'cli-repository,cli-scope',name);
+});
+// Unlisted or malformed mutations refuse at the API boundary, whose message names
+// listed mutations; a listed mutation's Ask comes from the unverified-target rule.
+test('GitHub 0.6.0 scoped mutations ask for the unverified target or refuse at the API gate', {skip:!process.env.SHIELD_BINARY},()=>{
+  const {result,report}=run(nextDestination,['--details']);
+  assert.equal(result.status,0,result.stderr);
+  const rows=new Map(report.cases.map(row=>[row.name,row]));
+  for (const name of ['mutation-unlisted','mutation-listed-and-unlisted','mutation-duplicate-input-key','mutation-payload-repository','mutation-paginate']) {
+    const ids=rows.get(`scoped-${name}-recommended`).evaluation.guidance.map(item=>item.rule_ref.rule_id);
+    assert.deepEqual(ids,['cli-api-scope'],name);
+  }
+  for (const [name,rule] of [['scoped-mutation-resolve-threads-loose','graphql-mutation-unverified-target'],['scoped-ask-mutation-resolve-threads-loose','graphql-mutation-unverified-target-ask'],['scoped-profile-mutation-resolve-threads-loose','graphql-mutation-routine']])
+    assert.equal(JSON.stringify(rows.get(name).evaluation).includes(`"rule_id":"${rule}"`),true,name);
 });

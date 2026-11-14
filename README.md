@@ -49,18 +49,18 @@ pending candidates. Older artifacts remain available for pinned installations.
 | Pack | Latest version | Coverage |
 | --- | --- | --- |
 | [canonic/aws](packs/canonic/aws/0.2.0/README.md) | 0.2.0 | AWS CLI and MCP operations, optional profile and region restrictions |
-| [canonic/baseline](packs/canonic/baseline/0.11.1/README.md) | 0.11.1 | Standard commands, approved file paths and verified Workbench docs tools |
+| [canonic/baseline](packs/canonic/baseline/0.12.0/README.md) | 0.12.0 | Standard commands, approved file paths, checked recursive `grep` searches and verified Workbench docs tools |
 | [canonic/box](packs/canonic/box/0.2.7/README.md) | 0.2.7 | Workspaces, current setup and documentation tools, exact current-checkout MCP selection, execution, blocked-creation retry, retained recovery and resource-deleting workspace removal |
 | [canonic/gate](packs/canonic/gate/0.2.5/README.md) | 0.2.5 | Repository and worktree workflows, `.gate/worktrees` creation, bundled documentation tools, automatic storage conversion, rename, discard and path checks |
-| [canonic/git](packs/canonic/git/0.9.0/README.md) | 0.9.0 | Inspection with everyday read-only display options, staging, local changes, remote access and destructive boundaries |
-| [canonic/github](packs/canonic/github/0.5.0/README.md) | 0.5.0 | GitHub CLI/MCP, parsed inline GraphQL reads and literal REST reads with optional repository scope |
+| [canonic/git](packs/canonic/git/0.10.0/README.md) | 0.10.0 | Inspection with everyday read-only display options and `merge-tree` checks, staging, local changes, remote access and destructive boundaries |
+| [canonic/github](packs/canonic/github/0.6.0/README.md) | 0.6.0 | GitHub CLI/MCP, parsed inline GraphQL reads, reviewed GraphQL mutations and literal REST reads with optional repository scope, plain-term search and branch selectors |
 | [canonic/node](packs/canonic/node/0.4.0/README.md) | 0.4.0 | Node, npm, pnpm, Yarn and Corepack, with optional manager selection |
 | [canonic/rust](packs/canonic/rust/0.2.0/README.md) | 0.2.0 | Cargo, Rust tools, dependencies and explicit argument paths |
 | [canonic/testrun](packs/canonic/testrun/0.2.8/README.md) | 0.2.8 | Mobile/browser QA, browser interception with reviewed host-file route replies, diagnostics, observability, investigation reports, project workflows and builds |
 | [canonic/workbench](packs/canonic/workbench/0.1.0/README.md) | 0.1.0 | All 18 current Workbench MCP tools allowed across every profile, with verified stdio bindings |
 
-GitHub requires Shield `>=0.22.0, <1.0.0` with `graphql-v1` and
-`variable-prefixes-v1`. The other latest
+GitHub requires Shield `>=0.31.0, <1.0.0` with `graphql-v1`,
+`graphql-mutations-v1` and `variable-prefixes-v1`. The other latest
 releases require Shield `>=0.20.0, <1.0.0`. Each pack declares its exact required
 capabilities; clients refuse unsupported packs rather than weakening checks.
 

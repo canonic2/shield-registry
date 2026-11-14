@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
-import {gitInspectionPack, gitInspectionCases, inspection, revision} from './build-git-inspection.mjs';
+import {gitInspectionPack, gitInspectionCases, inspection, revision, gitMergeTreePack, gitMergeTreeCases, mergeTreeRevision, mergeTreeRule} from './build-git-inspection.mjs';
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
 
@@ -39,11 +39,35 @@ test('Git inspection candidate reproduces and only widens allowed inspection gra
   }
 });
 
-test('Git inspection options and neighboring boundaries use production decisions', {skip: !process.env.SHIELD_BINARY}, () => {
-  const result = spawnSync(process.env.SHIELD_BINARY, ['__internal', 'test-pack',
-    '--pack', new URL('pack.yml', directory(revision[1])).pathname,
-    '--cases', new URL('cases.json', directory(revision[1])).pathname],
-  {encoding: 'utf8', timeout: 120000, maxBuffer: 16 * 1024 * 1024});
-  const report = JSON.parse(result.stdout || '{}');
-  assert.equal(result.status, 0, JSON.stringify(report.cases?.filter(row => !row.passed) ?? report) + result.stderr);
+test('Git merge-tree candidate reproduces and only adds the merge-tree form', async () => {
+  const validate = schemaValidator(schema);
+  const pack = await gitMergeTreePack();
+  const cases = {schema_version: 1, cases: await gitMergeTreeCases()};
+  const [previousVersion, version] = mergeTreeRevision;
+  assert.deepEqual(read(version), pack);
+  assert.deepEqual(read(version, 'cases.json'), cases);
+  assert.deepEqual(read(version, 'commands.json'), read(previousVersion, 'commands.json'));
+  for (const document of [pack, cases]) assert.equal(validate(document), true, JSON.stringify(validate.errors));
+  assert.equal(new Set(cases.cases.map(row => row.name)).size, cases.cases.length);
+  const previous = read(previousVersion);
+  const {rules, version: nextVersion, ...rest} = pack;
+  const {rules: oldRules, version: oldVersion, ...oldRest} = previous;
+  assert.deepEqual(rest, oldRest);
+  assert.equal(nextVersion, version);
+  assert.deepEqual(rules.filter(rule => rule.id !== mergeTreeRule.id), oldRules);
+  assert.equal(oldRules.some(rule => rule.id === mergeTreeRule.id), false);
+  // Every earlier fixture keeps its expectation.
+  assert.deepEqual(cases.cases.slice(0, read(previousVersion, 'cases.json').cases.length), read(previousVersion, 'cases.json').cases);
+  const listed = names(mergeTreeRule.conditions.arguments);
+  for (const unsafe of ['--stdin', '-s', '--strategy', '--output']) assert.ok(!listed.includes(unsafe), `merge-tree must not list ${unsafe}`);
 });
+
+for (const version of [revision[1], mergeTreeRevision[1]])
+  test(`Git ${version} options and neighboring boundaries use production decisions`, {skip: !process.env.SHIELD_BINARY}, () => {
+    const result = spawnSync(process.env.SHIELD_BINARY, ['__internal', 'test-pack',
+      '--pack', new URL('pack.yml', directory(version)).pathname,
+      '--cases', new URL('cases.json', directory(version)).pathname],
+    {encoding: 'utf8', timeout: 120000, maxBuffer: 16 * 1024 * 1024});
+    const report = JSON.parse(result.stdout || '{}');
+    assert.equal(result.status, 0, JSON.stringify(report.cases?.filter(row => !row.passed) ?? report) + result.stderr);
+  });

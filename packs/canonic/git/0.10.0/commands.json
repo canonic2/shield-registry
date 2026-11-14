@@ -1,0 +1,698 @@
+{
+  "git_version": "2.56.0",
+  "source": "https://github.com/git/git/blob/v2.56.0/command-list.txt",
+  "commands": [
+    {
+      "name": "add",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "am",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "annotate",
+      "category": "ancillaryinterrogators"
+    },
+    {
+      "name": "apply",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "archimport",
+      "category": "foreignscminterface"
+    },
+    {
+      "name": "archive",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "backfill",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "bisect",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "blame",
+      "category": "ancillaryinterrogators"
+    },
+    {
+      "name": "branch",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "bugreport",
+      "category": "ancillaryinterrogators"
+    },
+    {
+      "name": "bundle",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "cat-file",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "check-attr",
+      "category": "purehelpers"
+    },
+    {
+      "name": "check-ignore",
+      "category": "purehelpers"
+    },
+    {
+      "name": "check-mailmap",
+      "category": "purehelpers"
+    },
+    {
+      "name": "check-ref-format",
+      "category": "purehelpers"
+    },
+    {
+      "name": "checkout",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "checkout--worker",
+      "category": "internal"
+    },
+    {
+      "name": "checkout-index",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "cherry",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "cherry-pick",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "citool",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "clean",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "clone",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "column",
+      "category": "purehelpers"
+    },
+    {
+      "name": "commit",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "commit-graph",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "commit-tree",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "config",
+      "category": "ancillarymanipulators"
+    },
+    {
+      "name": "count-objects",
+      "category": "ancillaryinterrogators"
+    },
+    {
+      "name": "credential",
+      "category": "purehelpers"
+    },
+    {
+      "name": "credential-cache",
+      "category": "purehelpers"
+    },
+    {
+      "name": "credential-cache--daemon",
+      "category": "internal"
+    },
+    {
+      "name": "credential-store",
+      "category": "purehelpers"
+    },
+    {
+      "name": "cvsexportcommit",
+      "category": "foreignscminterface"
+    },
+    {
+      "name": "cvsimport",
+      "category": "foreignscminterface"
+    },
+    {
+      "name": "cvsserver",
+      "category": "foreignscminterface"
+    },
+    {
+      "name": "daemon",
+      "category": "synchingrepositories"
+    },
+    {
+      "name": "describe",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "diagnose",
+      "category": "ancillaryinterrogators"
+    },
+    {
+      "name": "diff",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "diff-files",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "diff-index",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "diff-pairs",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "diff-tree",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "difftool",
+      "category": "ancillaryinterrogators"
+    },
+    {
+      "name": "fast-export",
+      "category": "ancillarymanipulators"
+    },
+    {
+      "name": "fast-import",
+      "category": "ancillarymanipulators"
+    },
+    {
+      "name": "fetch",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "fetch-pack",
+      "category": "synchingrepositories"
+    },
+    {
+      "name": "filter-branch",
+      "category": "ancillarymanipulators"
+    },
+    {
+      "name": "fmt-merge-msg",
+      "category": "purehelpers"
+    },
+    {
+      "name": "for-each-ref",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "for-each-repo",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "format-patch",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "format-rev",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "fsck",
+      "category": "ancillaryinterrogators"
+    },
+    {
+      "name": "fsck-objects",
+      "category": "internal"
+    },
+    {
+      "name": "fsmonitor--daemon",
+      "category": "internal"
+    },
+    {
+      "name": "gc",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "get-tar-commit-id",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "grep",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "gui",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "hash-object",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "help",
+      "category": "ancillaryinterrogators"
+    },
+    {
+      "name": "history",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "hook",
+      "category": "purehelpers"
+    },
+    {
+      "name": "http-backend",
+      "category": "synchingrepositories"
+    },
+    {
+      "name": "http-fetch",
+      "category": "synchelpers"
+    },
+    {
+      "name": "http-push",
+      "category": "synchelpers"
+    },
+    {
+      "name": "imap-send",
+      "category": "foreignscminterface"
+    },
+    {
+      "name": "index-pack",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "init",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "init-db",
+      "category": "internal"
+    },
+    {
+      "name": "instaweb",
+      "category": "ancillaryinterrogators"
+    },
+    {
+      "name": "interpret-trailers",
+      "category": "purehelpers"
+    },
+    {
+      "name": "last-modified",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "log",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "ls-files",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "ls-remote",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "ls-tree",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "mailinfo",
+      "category": "purehelpers"
+    },
+    {
+      "name": "mailsplit",
+      "category": "purehelpers"
+    },
+    {
+      "name": "maintenance",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "merge",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "merge-base",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "merge-file",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "merge-index",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "merge-one-file",
+      "category": "purehelpers"
+    },
+    {
+      "name": "merge-ours",
+      "category": "internal"
+    },
+    {
+      "name": "merge-recursive",
+      "category": "internal"
+    },
+    {
+      "name": "merge-recursive-ours",
+      "category": "internal"
+    },
+    {
+      "name": "merge-recursive-theirs",
+      "category": "internal"
+    },
+    {
+      "name": "merge-subtree",
+      "category": "internal"
+    },
+    {
+      "name": "merge-tree",
+      "category": "ancillaryinterrogators"
+    },
+    {
+      "name": "mergetool",
+      "category": "ancillarymanipulators"
+    },
+    {
+      "name": "mktag",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "mktree",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "multi-pack-index",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "mv",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "name-rev",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "notes",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "p4",
+      "category": "foreignscminterface"
+    },
+    {
+      "name": "pack-objects",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "pack-redundant",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "pack-refs",
+      "category": "ancillarymanipulators"
+    },
+    {
+      "name": "patch-id",
+      "category": "purehelpers"
+    },
+    {
+      "name": "pickaxe",
+      "category": "internal"
+    },
+    {
+      "name": "prune",
+      "category": "ancillarymanipulators"
+    },
+    {
+      "name": "prune-packed",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "pull",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "push",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "quiltimport",
+      "category": "foreignscminterface"
+    },
+    {
+      "name": "range-diff",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "read-tree",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "rebase",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "receive-pack",
+      "category": "synchelpers"
+    },
+    {
+      "name": "reflog",
+      "category": "ancillarymanipulators"
+    },
+    {
+      "name": "refs",
+      "category": "ancillarymanipulators"
+    },
+    {
+      "name": "remote",
+      "category": "ancillarymanipulators"
+    },
+    {
+      "name": "remote-ext",
+      "category": "internal"
+    },
+    {
+      "name": "remote-fd",
+      "category": "internal"
+    },
+    {
+      "name": "repack",
+      "category": "ancillarymanipulators"
+    },
+    {
+      "name": "replace",
+      "category": "ancillarymanipulators"
+    },
+    {
+      "name": "replay",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "repo",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "request-pull",
+      "category": "foreignscminterface"
+    },
+    {
+      "name": "rerere",
+      "category": "ancillaryinterrogators"
+    },
+    {
+      "name": "reset",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "restore",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "rev-list",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "rev-parse",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "revert",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "rm",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "send-email",
+      "category": "foreignscminterface"
+    },
+    {
+      "name": "send-pack",
+      "category": "synchingrepositories"
+    },
+    {
+      "name": "sh-i18n",
+      "category": "purehelpers"
+    },
+    {
+      "name": "sh-setup",
+      "category": "purehelpers"
+    },
+    {
+      "name": "shell",
+      "category": "synchelpers"
+    },
+    {
+      "name": "shortlog",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "show",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "show-branch",
+      "category": "ancillaryinterrogators"
+    },
+    {
+      "name": "show-index",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "show-ref",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "sparse-checkout",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "stage",
+      "category": "alias"
+    },
+    {
+      "name": "stash",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "status",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "stripspace",
+      "category": "purehelpers"
+    },
+    {
+      "name": "submodule",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "submodule--helper",
+      "category": "internal"
+    },
+    {
+      "name": "svn",
+      "category": "foreignscminterface"
+    },
+    {
+      "name": "switch",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "symbolic-ref",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "tag",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "unpack-file",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "unpack-objects",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "update-index",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "update-ref",
+      "category": "plumbingmanipulators"
+    },
+    {
+      "name": "update-server-info",
+      "category": "synchingrepositories"
+    },
+    {
+      "name": "upload-archive",
+      "category": "synchelpers"
+    },
+    {
+      "name": "upload-archive--writer",
+      "category": "internal"
+    },
+    {
+      "name": "upload-pack",
+      "category": "synchelpers"
+    },
+    {
+      "name": "url-parse",
+      "category": "purehelpers"
+    },
+    {
+      "name": "var",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "verify-commit",
+      "category": "ancillaryinterrogators"
+    },
+    {
+      "name": "verify-pack",
+      "category": "plumbinginterrogators"
+    },
+    {
+      "name": "verify-tag",
+      "category": "ancillaryinterrogators"
+    },
+    {
+      "name": "version",
+      "category": "ancillaryinterrogators"
+    },
+    {
+      "name": "whatchanged",
+      "category": "ancillaryinterrogators"
+    },
+    {
+      "name": "worktree",
+      "category": "mainporcelain"
+    },
+    {
+      "name": "write-tree",
+      "category": "plumbingmanipulators"
+    }
+  ]
+}

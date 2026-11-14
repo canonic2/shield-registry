@@ -1,0 +1,2286 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "scoped-mutation-payload-repository-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id pullRequest{repository{nameWithOwner}}}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-mutation-paginate-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}}}",
+        "--paginate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-resolve-threads-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{a:resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} b:resolveReviewThread(input:{threadId:\"PRRT_b\"}){thread{id isResolved}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-unresolve-variable-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($id:ID!){unresolveReviewThread(input:{threadId:$id}){thread{id}}}",
+        "-f",
+        "id=PRRT_a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-thread-reply-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addPullRequestReviewThreadReply(input:{pullRequestReviewThreadId:\"PRRT_a\",body:\"Fixed.\"}){comment{id url}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-add-comment-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addComment(input:{subjectId:\"PR_example\",body:\"Thanks\"}){commentEdge{node{id url}}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-edit-comment-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{updateIssueComment(input:{id:\"IC_example\",body:\"Edited\"}){issueComment{id body}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-merge-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-auto-merge-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{enablePullRequestAutoMerge(input:{pullRequestId:\"PR_example\"}){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-delete-comment-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-resolve-and-merge-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-resolve-and-delete-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-skipped-merge-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($skip:Boolean=true){resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} mergePullRequest(input:{pullRequestId:\"PR_example\"}) @skip(if:$skip){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-fragment-delete-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{...D} fragment D on Mutation{deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-alias-disguise-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread:mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-selected-operation-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=query Read{repository(owner:\"acme\",name:\"web\"){nameWithOwner}} mutation Write{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}}}",
+        "-f",
+        "operationName=Write"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-unlisted-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addStar(input:{starrableId:\"R_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-listed-and-unlisted-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} addStar(input:{starrableId:\"R_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-undeclared-input-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\",extra:\"x\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-missing-input-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{clientMutationId:\"c\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-duplicate-input-key-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\",threadId:\"PRRT_b\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-list-input-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:[\"PRRT_a\"]}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-object-variable-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($input:ResolveReviewThreadInput!){resolveReviewThread(input:$input){thread{id}}}",
+        "-f",
+        "input=PRRT_a"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-payload-repository-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id pullRequest{repository{nameWithOwner}}}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-paginate-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}}}",
+        "--paginate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-resolve-threads-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{a:resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} b:resolveReviewThread(input:{threadId:\"PRRT_b\"}){thread{id isResolved}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-unresolve-variable-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($id:ID!){unresolveReviewThread(input:{threadId:$id}){thread{id}}}",
+        "-f",
+        "id=PRRT_a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-thread-reply-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addPullRequestReviewThreadReply(input:{pullRequestReviewThreadId:\"PRRT_a\",body:\"Fixed.\"}){comment{id url}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-add-comment-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addComment(input:{subjectId:\"PR_example\",body:\"Thanks\"}){commentEdge{node{id url}}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-edit-comment-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{updateIssueComment(input:{id:\"IC_example\",body:\"Edited\"}){issueComment{id body}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-merge-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-auto-merge-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{enablePullRequestAutoMerge(input:{pullRequestId:\"PR_example\"}){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-delete-comment-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-resolve-and-merge-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-resolve-and-delete-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-skipped-merge-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($skip:Boolean=true){resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} mergePullRequest(input:{pullRequestId:\"PR_example\"}) @skip(if:$skip){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-fragment-delete-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{...D} fragment D on Mutation{deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-alias-disguise-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread:mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-selected-operation-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=query Read{repository(owner:\"acme\",name:\"web\"){nameWithOwner}} mutation Write{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}}}",
+        "-f",
+        "operationName=Write"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-unlisted-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addStar(input:{starrableId:\"R_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-listed-and-unlisted-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} addStar(input:{starrableId:\"R_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-undeclared-input-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\",extra:\"x\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-missing-input-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{clientMutationId:\"c\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-duplicate-input-key-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\",threadId:\"PRRT_b\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-list-input-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:[\"PRRT_a\"]}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-object-variable-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($input:ResolveReviewThreadInput!){resolveReviewThread(input:$input){thread{id}}}",
+        "-f",
+        "input=PRRT_a"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-payload-repository-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id pullRequest{repository{nameWithOwner}}}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-paginate-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}}}",
+        "--paginate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-resolve-threads-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{a:resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} b:resolveReviewThread(input:{threadId:\"PRRT_b\"}){thread{id isResolved}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-unresolve-variable-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($id:ID!){unresolveReviewThread(input:{threadId:$id}){thread{id}}}",
+        "-f",
+        "id=PRRT_a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-thread-reply-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addPullRequestReviewThreadReply(input:{pullRequestReviewThreadId:\"PRRT_a\",body:\"Fixed.\"}){comment{id url}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-add-comment-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addComment(input:{subjectId:\"PR_example\",body:\"Thanks\"}){commentEdge{node{id url}}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-edit-comment-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{updateIssueComment(input:{id:\"IC_example\",body:\"Edited\"}){issueComment{id body}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-merge-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-auto-merge-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{enablePullRequestAutoMerge(input:{pullRequestId:\"PR_example\"}){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-delete-comment-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-resolve-and-merge-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-resolve-and-delete-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-skipped-merge-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($skip:Boolean=true){resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} mergePullRequest(input:{pullRequestId:\"PR_example\"}) @skip(if:$skip){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-fragment-delete-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{...D} fragment D on Mutation{deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-alias-disguise-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread:mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-selected-operation-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=query Read{repository(owner:\"acme\",name:\"web\"){nameWithOwner}} mutation Write{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}}}",
+        "-f",
+        "operationName=Write"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-ask-mutation-unlisted-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addStar(input:{starrableId:\"R_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-listed-and-unlisted-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} addStar(input:{starrableId:\"R_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-undeclared-input-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\",extra:\"x\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-missing-input-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{clientMutationId:\"c\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-duplicate-input-key-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\",threadId:\"PRRT_b\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-list-input-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:[\"PRRT_a\"]}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-object-variable-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($input:ResolveReviewThreadInput!){resolveReviewThread(input:$input){thread{id}}}",
+        "-f",
+        "input=PRRT_a"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-payload-repository-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id pullRequest{repository{nameWithOwner}}}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-ask-mutation-paginate-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "ask"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}}}",
+        "--paginate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-resolve-threads-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{a:resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} b:resolveReviewThread(input:{threadId:\"PRRT_b\"}){thread{id isResolved}}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-profile-mutation-unresolve-variable-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($id:ID!){unresolveReviewThread(input:{threadId:$id}){thread{id}}}",
+        "-f",
+        "id=PRRT_a"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-profile-mutation-thread-reply-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addPullRequestReviewThreadReply(input:{pullRequestReviewThreadId:\"PRRT_a\",body:\"Fixed.\"}){comment{id url}}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-profile-mutation-add-comment-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addComment(input:{subjectId:\"PR_example\",body:\"Thanks\"}){commentEdge{node{id url}}}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-profile-mutation-edit-comment-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{updateIssueComment(input:{id:\"IC_example\",body:\"Edited\"}){issueComment{id body}}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-profile-mutation-merge-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-profile-mutation-auto-merge-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{enablePullRequestAutoMerge(input:{pullRequestId:\"PR_example\"}){clientMutationId}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-profile-mutation-delete-comment-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-resolve-and-merge-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-profile-mutation-resolve-and-delete-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-skipped-merge-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($skip:Boolean=true){resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} mergePullRequest(input:{pullRequestId:\"PR_example\"}) @skip(if:$skip){clientMutationId}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-profile-mutation-fragment-delete-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{...D} fragment D on Mutation{deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-alias-disguise-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread:mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-profile-mutation-selected-operation-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=query Read{repository(owner:\"acme\",name:\"web\"){nameWithOwner}} mutation Write{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}}}",
+        "-f",
+        "operationName=Write"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-profile-mutation-unlisted-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addStar(input:{starrableId:\"R_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-listed-and-unlisted-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} addStar(input:{starrableId:\"R_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-undeclared-input-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\",extra:\"x\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-missing-input-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{clientMutationId:\"c\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-duplicate-input-key-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\",threadId:\"PRRT_b\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-list-input-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:[\"PRRT_a\"]}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-object-variable-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($input:ResolveReviewThreadInput!){resolveReviewThread(input:$input){thread{id}}}",
+        "-f",
+        "input=PRRT_a"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-payload-repository-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id pullRequest{repository{nameWithOwner}}}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-paginate-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}}}",
+        "--paginate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-resolve-threads-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{a:resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} b:resolveReviewThread(input:{threadId:\"PRRT_b\"}){thread{id isResolved}}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-profile-mutation-unresolve-variable-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($id:ID!){unresolveReviewThread(input:{threadId:$id}){thread{id}}}",
+        "-f",
+        "id=PRRT_a"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-profile-mutation-thread-reply-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addPullRequestReviewThreadReply(input:{pullRequestReviewThreadId:\"PRRT_a\",body:\"Fixed.\"}){comment{id url}}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-profile-mutation-add-comment-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addComment(input:{subjectId:\"PR_example\",body:\"Thanks\"}){commentEdge{node{id url}}}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-profile-mutation-edit-comment-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{updateIssueComment(input:{id:\"IC_example\",body:\"Edited\"}){issueComment{id body}}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-profile-mutation-merge-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-auto-merge-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{enablePullRequestAutoMerge(input:{pullRequestId:\"PR_example\"}){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-delete-comment-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-resolve-and-merge-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-resolve-and-delete-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-skipped-merge-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($skip:Boolean=true){resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} mergePullRequest(input:{pullRequestId:\"PR_example\"}) @skip(if:$skip){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-fragment-delete-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{...D} fragment D on Mutation{deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-alias-disguise-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread:mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-selected-operation-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=query Read{repository(owner:\"acme\",name:\"web\"){nameWithOwner}} mutation Write{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}}}",
+        "-f",
+        "operationName=Write"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-profile-mutation-unlisted-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addStar(input:{starrableId:\"R_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-listed-and-unlisted-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} addStar(input:{starrableId:\"R_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-undeclared-input-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\",extra:\"x\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-missing-input-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{clientMutationId:\"c\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-duplicate-input-key-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\",threadId:\"PRRT_b\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-list-input-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:[\"PRRT_a\"]}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-object-variable-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($input:ResolveReviewThreadInput!){resolveReviewThread(input:$input){thread{id}}}",
+        "-f",
+        "input=PRRT_a"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-payload-repository-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id pullRequest{repository{nameWithOwner}}}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-paginate-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}}}",
+        "--paginate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-resolve-threads-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{a:resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} b:resolveReviewThread(input:{threadId:\"PRRT_b\"}){thread{id isResolved}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-unresolve-variable-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($id:ID!){unresolveReviewThread(input:{threadId:$id}){thread{id}}}",
+        "-f",
+        "id=PRRT_a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-thread-reply-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addPullRequestReviewThreadReply(input:{pullRequestReviewThreadId:\"PRRT_a\",body:\"Fixed.\"}){comment{id url}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-add-comment-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addComment(input:{subjectId:\"PR_example\",body:\"Thanks\"}){commentEdge{node{id url}}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-edit-comment-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{updateIssueComment(input:{id:\"IC_example\",body:\"Edited\"}){issueComment{id body}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-merge-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-auto-merge-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{enablePullRequestAutoMerge(input:{pullRequestId:\"PR_example\"}){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-delete-comment-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-resolve-and-merge-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-resolve-and-delete-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-skipped-merge-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($skip:Boolean=true){resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} mergePullRequest(input:{pullRequestId:\"PR_example\"}) @skip(if:$skip){clientMutationId}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-fragment-delete-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{...D} fragment D on Mutation{deleteIssueComment(input:{id:\"IC_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-alias-disguise-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread:mergePullRequest(input:{pullRequestId:\"PR_example\",mergeMethod:SQUASH}){pullRequest{id merged}}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-selected-operation-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=query Read{repository(owner:\"acme\",name:\"web\"){nameWithOwner}} mutation Write{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}}}",
+        "-f",
+        "operationName=Write"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-profile-mutation-unlisted-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{addStar(input:{starrableId:\"R_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-listed-and-unlisted-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}} addStar(input:{starrableId:\"R_example\"}){clientMutationId}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-undeclared-input-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\",extra:\"x\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-missing-input-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{clientMutationId:\"c\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-duplicate-input-key-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\",threadId:\"PRRT_b\"}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-list-input-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:[\"PRRT_a\"]}){thread{id}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-object-variable-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation($input:ResolveReviewThreadInput!){resolveReviewThread(input:$input){thread{id}}}",
+        "-f",
+        "input=PRRT_a"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-payload-repository-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id pullRequest{repository{nameWithOwner}}}}}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-profile-mutation-paginate-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": "acme/web",
+        "repository_writes": "profile"
+      },
+      "argv": [
+        "gh",
+        "api",
+        "graphql",
+        "-f",
+        "query=mutation{resolveReviewThread(input:{threadId:\"PRRT_a\"}){thread{id isResolved}}}",
+        "--paginate"
+      ],
+      "expected": "deny"
+    }
+  ]
+}

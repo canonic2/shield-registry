@@ -1,12 +1,15 @@
 // Git inspection grammars accept the read-only display, filter and diff options
 // agents use every day. Only allowed inspection forms change; options that write
 // files, launch external programs or read outside the repository stay unlisted.
+// The next revision adds merge-tree, which computes a merge without touching
+// refs, the index or the working tree.
 import {readFile, writeFile, mkdir, copyFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {reviewedCases} from './build-reviewed-profile-cases.mjs';
 
 export const revision = ['0.8.0', '0.9.0'];
+export const mergeTreeRevision = ['0.9.0', '0.10.0'];
 const split = value => value.split(' ');
 const digits = split('-0 -1 -2 -3 -4 -5 -6 -7 -8 -9');
 
@@ -177,5 +180,101 @@ export async function buildGitInspection() {
   await writeFile(new URL('README.md', directory), readme);
 }
 
+// git merge-tree (Git 2.38+ documentation): --write-tree mode, the default with
+// two operands, and the deprecated three-operand --trivial-merge mode. --stdin
+// reads merge requests from standard input and stays unlisted.
+export const mergeTreeRule = {
+  id: 'form-73-merge-tree',
+  conditions: {
+    domain: 'argv',
+    executable: 'git',
+    arguments: {
+      kind: 'options',
+      prefix: ['merge-tree'],
+      flags: split('--write-tree --trivial-merge -z --name-only --messages --no-messages --quiet --allow-unrelated-histories'),
+      values: split('--merge-base -X --strategy-option'),
+      operands: true,
+      optional_values: [],
+    },
+  },
+  reason: 'Compute a merge result without changing refs, the index or the working tree; it may add unreferenced objects to the object store, so Strict reviews it.',
+  decision: {loose: 'allow', recommended: 'allow', strict: 'ask'},
+  invocation: 'git',
+};
+
+export async function gitMergeTreePack() {
+  const pack = JSON.parse(await readFile(new URL(`../packs/canonic/git/${mergeTreeRevision[0]}/pack.yml`, import.meta.url)));
+  // Follow the other allowed forms, ahead of the token-scan boundaries.
+  const after = pack.rules.findIndex(rule => rule.id === 'form-72-rm');
+  pack.rules.splice(after + 1, 0, structuredClone(mergeTreeRule));
+  pack.version = mergeTreeRevision[1];
+  return pack;
+}
+
+const computed = ['allow', 'allow', 'ask'];
+const mergeTreeAdded = [
+  ['pr-check', 'merge-tree --write-tree --name-only origin/develop HEAD', computed],
+  ['directory-option', '-C . merge-tree --write-tree --name-only origin/develop HEAD', computed],
+  ['combined-worktree', '-C .gate/repos/public merge-tree --write-tree --name-only origin/develop HEAD', computed],
+  ['no-pager', '--no-pager merge-tree main feature', computed],
+  ['two-operands', 'merge-tree main feature', computed],
+  ['nul-output', 'merge-tree --write-tree -z --no-messages main feature', computed],
+  ['quiet', 'merge-tree --quiet main feature', computed],
+  ['messages', 'merge-tree --messages --allow-unrelated-histories main feature', computed],
+  ['merge-base-equals', 'merge-tree --merge-base=abc123 main feature', computed],
+  ['merge-base-separate', 'merge-tree --merge-base abc123 main feature', computed],
+  ['strategy-attached', 'merge-tree -Xours main feature', computed],
+  ['strategy-separate', 'merge-tree -X ignore-space-change main feature', computed],
+  ['strategy-long', 'merge-tree --strategy-option=theirs main feature', computed],
+  ['deprecated', 'merge-tree base main feature', computed],
+  ['trivial-merge', 'merge-tree --trivial-merge base main feature', computed],
+  // Neighboring boundaries stay reviewed.
+  ['stdin', 'merge-tree --stdin', review],
+  ['stdin-nul', 'merge-tree --write-tree --stdin -z', review],
+  ['unknown-option', 'merge-tree --future main feature', review],
+  ['write-tree-command', 'write-tree', review],
+];
+
+export async function gitMergeTreeCases() {
+  const {cases} = JSON.parse(await readFile(new URL(`../packs/canonic/git/${mergeTreeRevision[0]}/cases.json`, import.meta.url)));
+  for (const [name, command, decisions] of mergeTreeAdded)
+    ['loose', 'recommended', 'strict'].forEach((profile, index) => cases.push({
+      name: `merge-tree-${name}-${profile}`, profile, argv: ['git', ...split(command)], expected: decisions[index]}));
+  return cases;
+}
+
+const mergeTreeReadme = `# Git permissions ${mergeTreeRevision[1]}
+
+Requires Shield \`>=0.20.0, <1.0.0\`.
+
+Profiles, boundaries and command coverage follow [${mergeTreeRevision[0]}](../${mergeTreeRevision[0]}/README.md).
+This release classifies \`git merge-tree\`, which agents use to check whether two
+branches merge cleanly:
+
+- Loose and Recommended allow the \`--write-tree\` mode, including the two-operand
+  default, and the deprecated three-operand \`--trivial-merge\` mode, with
+  \`--name-only\`, \`-z\`, \`--messages\`, \`--no-messages\`, \`--quiet\`,
+  \`--allow-unrelated-histories\`, \`--merge-base\` and \`-X\`/\`--strategy-option\`.
+- Strict asks: the merge never changes refs, the index or the working tree, but it
+  can add unreferenced objects to the object store.
+
+\`--stdin\` and unlisted options still ask in every profile.
+
+Generate with \`node scripts/build-git-inspection.mjs\`. Validate with
+\`npm test -- --shield /absolute/path/to/shield scripts/git-inspection.test.mjs\`.
+`;
+
+export async function buildGitMergeTree() {
+  const directory = new URL(`../packs/canonic/git/${mergeTreeRevision[1]}/`, import.meta.url);
+  const previous = new URL(`../packs/canonic/git/${mergeTreeRevision[0]}/`, import.meta.url);
+  await mkdir(directory, {recursive: true});
+  await writeFile(new URL('pack.yml', directory), JSON.stringify(await gitMergeTreePack(), null, 2) + '\n');
+  await writeFile(new URL('cases.json', directory), JSON.stringify({schema_version: 1, cases: await gitMergeTreeCases()}, null, 2) + '\n');
+  await copyFile(new URL('commands.json', previous), new URL('commands.json', directory));
+  await copyFile(new URL('../LICENSE', import.meta.url), new URL('LICENSE', directory));
+  await writeFile(new URL('README.md', directory), mergeTreeReadme);
+}
+
+// Published revisions keep their bytes; generate only the pending candidate.
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href)
-  await buildGitInspection();
+  await buildGitMergeTree();
