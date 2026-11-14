@@ -136,7 +136,13 @@ export async function currentToolCases(name) {
       ['dashboard-unknown','dashboard_refresh',{},review],
     );
     cli.push(['workspace-prepare',['box','workspace','prepare','acme','--operation',prepare.operation,'--generation',prepare.generation,'--request-id',prepare.request_id,'--repo-from','a=origin/review'],routine]);
+    // Without a revised selection, prepare retries the blocked creation's
+    // recorded selection: the same checkout effect as a revised attempt.
+    const {repo_from:_selection, ...retry} = prepare;
+    cli.push(['workspace-prepare-retry',['box','workspace','prepare','acme','--operation',prepare.operation,'--generation',prepare.generation,'--request-id',prepare.request_id],routine]);
     mcp.push(
+      ['workspace-prepare-retry','workspace_prepare',retry,routine],
+      ['workspace-prepare-retry-project','workspace_prepare',{...retry,project:'/outside/other'},review],
       ['workspace-prepare','workspace_prepare',prepare,routine],
       ['workspace-prepare-project','workspace_prepare',{...prepare,project:'/outside/other'},review],
       ['workspace-prepare-missing','workspace_prepare',{workspace:'acme',repo_from:{a:'HEAD'}},review],
