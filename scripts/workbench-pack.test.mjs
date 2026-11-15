@@ -18,10 +18,10 @@ test('Workbench sources reproduce with independent coverage for all current tool
   assert.equal(readFileSync(new URL('README.md', directory), 'utf8'), guide());
   const validate = schemaValidator(schema);
   for (const document of [pack, cases]) assert.equal(validate(document), true, JSON.stringify(validate.errors));
-  const allow = pack.rules.filter(rule => !rule.fallback);
-  assert.deepEqual(allow.map(rule => rule.conditions.tool).sort(), requests.map(([tool]) => tool).sort());
-  for (const rule of allow) assert.deepEqual(rule.decision, {loose:'allow', recommended:'allow', strict:'allow'});
-  assert.equal(pack.rules.at(-1).decision, 'ask');
+  const listed = pack.rules.filter(rule => !rule.fallback);
+  assert.deepEqual(listed.map(rule => rule.conditions.tool).sort(), requests.map(([tool]) => tool).sort());
+  for (const rule of listed) assert.deepEqual(rule.decision, {loose:'allow', recommended:'allow', strict:'allow'});
+  assert.equal(pack.rules.at(-1).decision, 'allow');
 });
 
 function evaluate(cases) {
@@ -35,7 +35,7 @@ function evaluate(cases) {
   } finally { rmSync(owner, {recursive:true, force:true}); }
 }
 
-test('production Shield allows every known tool across profiles and retains unknown-tool review', {skip:!process.env.SHIELD_BINARY}, () => {
+test('production Shield allows every Workbench tool across profiles, including unlisted ones', {skip:!process.env.SHIELD_BINARY}, () => {
   const result = evaluate(workbenchCases());
   assert.equal(result.status, 0, result.stdout + result.stderr);
   assert.equal(JSON.parse(result.stdout).passed, true);
@@ -47,6 +47,7 @@ test('the Workbench name cannot authorize another executable, wrapper, transport
     {type:'stdio',command:'workbench-evil',args:['mcp','serve'],env:{}},
     {type:'stdio',command:'sh',args:['-c','workbench mcp serve'],env:{}},
     {type:'stdio',command:'workbench',args:['mcp','serve','--project','/acme/other'],env:{}},
+    {type:'stdio',command:'workbench',args:['mcp','serve','--config','/acme/other/workbench.yaml'],env:{}},
     {type:'stdio',command:'workbench',args:['mcp','setup'],env:{}},
     {type:'http',url:'https://example.com/mcp'},
   ]) {

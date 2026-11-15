@@ -2,7 +2,7 @@ import {writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {usableGithubCases} from './build-github-usable-cases.mjs';
-import {destination, currentDestination, nextDestination} from './build-github-graphql-pack.mjs';
+import {destination, currentDestination, nextDestination, destination070} from './build-github-graphql-pack.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 
 export const reviewQuery = `query { repository(owner:"acme", name:"web") { pullRequest(number:12) {
@@ -223,10 +223,91 @@ function mutationCases(cases) {
     });
   return cases;
 }
+// Observed 2026-11-14: `gh pr view BRANCH -R OWNER/REPO --json url` needed a
+// one-time approval under 0.5.0. 0.7.0 allows read options the grammars do not
+// list, keeps --jq/--template on Ask, and checks only the target when scoped.
+// Expected rows per [unscoped, scoped].
+const read = row('allow', 'allow', 'ask'), allowed = row('allow', 'allow', 'allow');
+export const changedIn070 = {
+  // Unlisted read options and selectors: Ask became the read row.
+  'unscoped-pr-view-url': read, 'unscoped-pr-diff-url': read, 'unscoped-pr-view-fork-head': read,
+  'unscoped-pr-view-hash-number': read, 'unscoped-pr-view-two-selectors': read, 'unscoped-pr-view-branch-web': read,
+  'unscoped-issue-view-branch': read, 'unscoped-read-unknown-option': read,
+  // The target check admits these in scope; the read rule or the merge row decides them.
+  'scoped-read-unknown-option': read, 'scoped-merge-branch': merging, 'scoped-merge-future': merging,
+  'scoped-pr-view-branch-web': read, 'scoped-pr-view-hash-number': read, 'scoped-pr-view-two-selectors': read,
+  'scoped-issue-view-branch': read,
+  // A REST read's --jq over the response reads no environment.
+  'scoped-rest-jq': allowed,
+};
+export function githubCases070() {
+  const cases = nextGithubCases();
+  for (const item of cases) {
+    const changed = changedIn070[item.name.replace(/-(loose|recommended|strict)$/, '')];
+    if (changed) item.expected = changed[item.profile];
+  }
+  const inputs = [
+    ['observed-pr-view-branch-url', ['gh', 'pr', 'view', 'Fix-Login-Redirect', '-R', 'acme/web', '--json', 'url'], allowed, allowed],
+    ['pr-view-web', ['gh', 'pr', 'view', '12', '--web', '-R', 'acme/web'], read, read],
+    ['pr-checks-watch', ['gh', 'pr', 'checks', '12', '--watch', '-R', 'acme/web'], read, read],
+    // A skipped option's value is checked like any other token.
+    ['pr-diff-color-value', ['gh', 'pr', 'diff', 'fix', '--color', 'never', '-R', 'acme/web'], read, read],
+    ['pr-list-draft', ['gh', 'pr', 'list', '--draft', '-R', 'acme/web', '--json', 'number'], read, read],
+    ['run-list-commit', ['gh', 'run', 'list', '--commit', 'abc123', '-R', 'acme/web'], read, read],
+    ['run-view-web', ['gh', 'run', 'view', '123', '--web', '-R', 'acme/web'], read, read],
+    // Output expressions over the response are reads in every spelling.
+    ['pr-view-jq', ['gh', 'pr', 'view', '12', '-R', 'acme/web', '--json', 'url', '--jq', '.url'], read, read],
+    ['pr-view-jq-equals', ['gh', 'pr', 'view', '12', '-R', 'acme/web', '--json', 'url', '--jq=.url'], read, read],
+    ['pr-view-jq-short', ['gh', 'pr', 'view', '12', '-R', 'acme/web', '--json', 'url', '-q', '.url'], read, read],
+    ['pr-view-jq-cluster', ['gh', 'pr', 'view', '12', '-R', 'acme/web', '--json', 'url', '-wq.url'], read, read],
+    ['pr-view-template', ['gh', 'pr', 'view', '12', '-R', 'acme/web', '--json', 'url', '-t', '{{.url}}'], read, read],
+    ['release-list-jq', ['gh', 'release', 'list', '-R', 'acme/web', '--json', 'tagName', '--jq', '.[].tagName'], read, read],
+    // Expressions that read the environment ask in every spelling.
+    ['pr-view-jq-env', ['gh', 'pr', 'view', '12', '-R', 'acme/web', '--json', 'url', '--jq', 'env'], asked, asked],
+    ['pr-view-jq-env-variable', ['gh', 'pr', 'view', '12', '-R', 'acme/web', '--json', 'url', '--jq', '$ENV.GH_TOKEN'], asked, asked],
+    ['pr-view-jq-env-equals', ['gh', 'pr', 'view', '12', '-R', 'acme/web', '--json', 'url', '--jq=env.GH_TOKEN'], asked, asked],
+    ['pr-view-jq-env-cluster', ['gh', 'pr', 'view', '12', '-R', 'acme/web', '--json', 'url', '-qenv'], asked, asked],
+    ['pr-view-jq-env-interpolated', ['gh', 'pr', 'view', '12', '-R', 'acme/web', '--json', 'url', '--jq', '"\\(env.HOME)"'], asked, asked],
+    // Observed 2026-11-15: a scoped REST read of a workflow run with --jq.
+    ['api-run-jq', ['gh', 'api', 'repos/acme/web/actions/runs/43071998706', '--jq', '.head_sha,.event,.run_attempt'], asked, allowed],
+    ['api-run-template', ['gh', 'api', 'repos/acme/web/actions/runs/1', '--template', '{{.head_sha}}'], asked, allowed],
+    ['api-run-jq-env', ['gh', 'api', 'repos/acme/web/actions/runs/1', '--jq', '$ENV.GH_TOKEN'], asked, denied],
+    ['api-other-repository-jq', ['gh', 'api', 'repos/other/web/actions/runs/1', '--jq', '.head_sha'], asked, denied],
+    // A leading -R keeps listed forms only.
+    ['leading-repository-unlisted', ['gh', '-R', 'acme/web', 'pr', 'view', '12', '--web'], asked, denied],
+    ['leading-repository-jq', ['gh', '-R', 'acme/web', 'pr', 'view', '12', '--json', 'url', '--jq', '.url'], asked, denied],
+    // Other targets stay outside the scope whatever the options.
+    ['pr-view-url-web', ['gh', 'pr', 'view', 'https://github.com/other/web/pull/1', '--web', '-R', 'acme/web'], read, denied],
+    ['pr-view-repository-hash', ['gh', 'pr', 'view', 'other/web#1', '-R', 'acme/web'], read, denied],
+    ['pr-view-unlisted-other-repository', ['gh', 'pr', 'view', 'fix', '--web', '-R', 'other/web'], read, denied],
+    ['pr-view-unlisted-missing-repository', ['gh', 'pr', 'view', 'fix', '--web'], read, denied],
+    ['issue-comment-url', ['gh', 'issue', 'comment', 'https://github.com/other/web/issues/1', '--body', 'Thanks', '-R', 'acme/web'], asked, denied],
+    ['pr-list-unlisted-search-or', ['gh', 'pr', 'list', '--draft', '-S', 'login OR signup', '-R', 'acme/web'], read, denied],
+    ['pr-list-unlisted-qualifier', ['gh', 'pr', 'list', '--draft', '-S', 'repo:other/web', '-R', 'acme/web'], read, denied],
+    // Unlisted list options with ':' values refuse conservatively; listed ones pass.
+    ['pr-list-unlisted-label-colon', ['gh', 'pr', 'list', '--draft', '--label', 'type:bug', '-R', 'acme/web'], read, denied],
+    ['pr-list-listed-label-colon', ['gh', 'pr', 'list', '--label', 'type:bug', '-R', 'acme/web'], allowed, allowed],
+    ['workflow-view', ['gh', 'workflow', 'view', 'ci.yml', '-R', 'acme/web'], read, denied],
+    ['repo-view-other', ['gh', 'repo', 'view', 'other/web', '--web'], read, denied],
+    // Writes with unlisted options ask instead of refusing in scope.
+    ['pr-create-fill', ['gh', 'pr', 'create', '--fill', '-R', 'acme/web'], asked, asked],
+    ['pr-edit-unlisted-other-repository', ['gh', 'pr', 'edit', '12', '--add-reviewer', 'octo', '-R', 'other/web'], asked, denied],
+    ['pr-comment-listed-body', ['gh', 'pr', 'comment', '12', '--body', 'Fixes: see #3', '-R', 'acme/web'], routine, routine],
+    ['pr-merge-branch', ['gh', 'pr', 'merge', 'fix', '--squash', '-R', 'acme/web'], merging, merging],
+    ['local-version', ['gh', '--version'], allowed, allowed],
+    ['local-help-topic', ['gh', 'help', 'pr'], asked, denied],
+  ];
+  for (const scoped of [false, true]) for (const profile of ['loose', 'recommended', 'strict'])
+    for (const [name, argv, unscoped, inside] of inputs) cases.push({
+      name: `${scoped ? 'scoped' : 'unscoped'}-${name}-${profile}`, profile,
+      ...(scoped ? {variables: {repository: 'acme/web'}} : {}), argv, expected: (scoped ? inside : unscoped)[profile],
+    });
+  return cases;
+}
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  // Default: the current candidate. Pass 0.4.0 or 0.5.0 to reproduce a published release.
-  const releases = {'0.4.0': [destination, graphqlGithubCases], '0.5.0': [currentDestination, currentGithubCases]};
-  const [output, build] = releases[process.argv[2]] ?? [nextDestination, nextGithubCases];
+  // Default: the current candidate. Pass 0.4.0, 0.5.0 or 0.6.0 to reproduce a published release.
+  const releases = {'0.4.0': [destination, graphqlGithubCases], '0.5.0': [currentDestination, currentGithubCases], '0.6.0': [nextDestination, nextGithubCases]};
+  const [output, build] = releases[process.argv[2]] ?? [destination070, githubCases070];
   // Larger releases continue in cases-2.json, ... at Shield's per-file limit.
   for (const [name, document] of splitCaseFiles({schema_version:1,cases:build()}))
     await writeFile(new URL(name,output),JSON.stringify(document,null,2)+'\n');

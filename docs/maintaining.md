@@ -15,10 +15,12 @@ Current source builders are grouped by capability rather than a release diary:
 
 | Pack | Policy and fixture sources |
 | --- | --- |
-| Baseline | `scripts/build-baseline-recursive-grep.mjs` extends the docs-tools release with checked recursive `grep` searches |
-| Git | `scripts/build-git-inspection.mjs` extends the reviewed profiles with read-only inspection options |
-| Node, Rust, AWS | `scripts/build-reviewed-profiles.mjs` and `scripts/build-reviewed-profile-cases.mjs` |
+| Baseline | `scripts/build-baseline-everyday-reads.mjs` extends the package-script release (`scripts/build-node-everyday.mjs`, itself extending `scripts/build-baseline-recursive-grep.mjs`) with path-checked `rg` searches and everyday read-only process, clock and Docker listings |
+| Git | `scripts/build-git-allow-by-default.mjs` extends the inspection release (`scripts/build-git-inspection.mjs`) to allow everyday use and review known-harmful forms |
+| Node | `scripts/build-node-everyday.mjs` extends the reviewed-profiles release to allow project scripts and read-only listings |
+| Rust, AWS | `scripts/build-reviewed-profiles.mjs` and `scripts/build-reviewed-profile-cases.mjs` |
 | Box, Gate, Testrun | `scripts/build-current-tool-packs.mjs` and `scripts/current-tool-cases.mjs` extend frozen sources; the builder accepts a tool selection |
+| Hub | `scripts/hub-policy.mjs` and independent `scripts/hub-cases.mjs`; regenerate with `node scripts/build-hub-pack.mjs` |
 | GitHub | `scripts/build-github-graphql-pack.mjs` and `scripts/build-github-graphql-cases.mjs` |
 | Workbench | `scripts/workbench-policy.mjs` and independent `scripts/workbench-cases.mjs`; regenerate with `node scripts/build-workbench-pack.mjs` |
 
@@ -101,8 +103,10 @@ This checks schema admission, reproducibility, inventories, signed retention,
 policy decisions and composition using the production evaluator. Historical
 incompatible-version skips are acceptable; every pending version must pass its
 own complete fixtures. Historical fixture bytes retain their original engine's
-expectations. Current-engine tests separately cover modeling changes, including
-sed target evidence through `scripts/baseline-preview.mjs`.
+expectations. Current-engine tests separately cover modeling changes through
+`scripts/baseline-preview.mjs`: sed target evidence and, from Shield 0.33,
+trailing ripgrep options and hidden walks in the fixture project. Adaptations
+match exact reviewed arguments; published fixture bytes remain unchanged.
 
 Native hook acceptance is separate. Run it when native integration behavior
 changes, with host access for its isolated projects and Unix PTYs:

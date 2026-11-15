@@ -1,0 +1,2441 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "pwd-loose",
+      "profile": "loose",
+      "argv": [
+        "pwd"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pwd-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pwd"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pwd-strict",
+      "profile": "strict",
+      "argv": [
+        "pwd"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cat-loose",
+      "profile": "loose",
+      "argv": [
+        "cat",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cat-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cat",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cat-strict",
+      "profile": "strict",
+      "argv": [
+        "cat",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cat-unsupported-loose",
+      "profile": "loose",
+      "argv": [
+        "cat",
+        "--future",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cat-unsupported-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cat",
+        "--future",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cat-unsupported-strict",
+      "profile": "strict",
+      "argv": [
+        "cat",
+        "--future",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "grep-unsupported-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "--future",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "grep-unsupported-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "--future",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "grep-unsupported-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "--future",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "grep-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "-nF",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-nF",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "-nF",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "disk-list-loose",
+      "profile": "loose",
+      "argv": [
+        "diskutil",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "disk-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "diskutil",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "disk-list-strict",
+      "profile": "strict",
+      "argv": [
+        "diskutil",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "disk-info-loose",
+      "profile": "loose",
+      "argv": [
+        "diskutil",
+        "info",
+        "-plist",
+        "disk0"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "disk-info-recommended",
+      "profile": "recommended",
+      "argv": [
+        "diskutil",
+        "info",
+        "-plist",
+        "disk0"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "disk-info-strict",
+      "profile": "strict",
+      "argv": [
+        "diskutil",
+        "info",
+        "-plist",
+        "disk0"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sudo-loose",
+      "profile": "loose",
+      "argv": [
+        "sudo",
+        "make",
+        "install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sudo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sudo",
+        "make",
+        "install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sudo-strict",
+      "profile": "strict",
+      "argv": [
+        "sudo",
+        "make",
+        "install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unmount-loose",
+      "profile": "loose",
+      "argv": [
+        "umount",
+        "/Volumes/Acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unmount-recommended",
+      "profile": "recommended",
+      "argv": [
+        "umount",
+        "/Volumes/Acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unmount-strict",
+      "profile": "strict",
+      "argv": [
+        "umount",
+        "/Volumes/Acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-cleanup-loose",
+      "profile": "loose",
+      "argv": [
+        "docker",
+        "rm",
+        "acme-test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-cleanup-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "rm",
+        "acme-test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-cleanup-strict",
+      "profile": "strict",
+      "argv": [
+        "docker",
+        "rm",
+        "acme-test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "docker-image-cleanup-loose",
+      "profile": "loose",
+      "argv": [
+        "docker",
+        "rmi",
+        "acme/test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-image-cleanup-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "rmi",
+        "acme/test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-image-cleanup-strict",
+      "profile": "strict",
+      "argv": [
+        "docker",
+        "rmi",
+        "acme/test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "kubectl-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "kubectl",
+        "delete",
+        "pod",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "kubectl-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "kubectl",
+        "delete",
+        "pod",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "kubectl-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "kubectl",
+        "delete",
+        "pod",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloud-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "aws",
+        "s3",
+        "rm",
+        "s3://acme/example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloud-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "aws",
+        "s3",
+        "rm",
+        "s3://acme/example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloud-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "aws",
+        "s3",
+        "rm",
+        "s3://acme/example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-loose",
+      "profile": "loose",
+      "argv": [
+        "cat",
+        ".aws/credentials"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cat",
+        ".aws/credentials"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "secret-strict",
+      "profile": "strict",
+      "argv": [
+        "cat",
+        ".aws/credentials"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-loose",
+      "profile": "loose",
+      "argv": [
+        "cat",
+        "/outside/secret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cat",
+        "/outside/secret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-strict",
+      "profile": "strict",
+      "argv": [
+        "cat",
+        "/outside/secret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "environment-loose",
+      "profile": "loose",
+      "argv": [
+        "printenv"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "environment-recommended",
+      "profile": "recommended",
+      "argv": [
+        "printenv"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "environment-strict",
+      "profile": "strict",
+      "argv": [
+        "printenv"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keychain-loose",
+      "profile": "loose",
+      "argv": [
+        "security",
+        "find-generic-password",
+        "-w"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keychain-recommended",
+      "profile": "recommended",
+      "argv": [
+        "security",
+        "find-generic-password",
+        "-w"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keychain-strict",
+      "profile": "strict",
+      "argv": [
+        "security",
+        "find-generic-password",
+        "-w"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "raw-disk-loose",
+      "profile": "loose",
+      "argv": [
+        "dd",
+        "if=/dev/zero",
+        "of=/dev/disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "raw-disk-recommended",
+      "profile": "recommended",
+      "argv": [
+        "dd",
+        "if=/dev/zero",
+        "of=/dev/disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "raw-disk-strict",
+      "profile": "strict",
+      "argv": [
+        "dd",
+        "if=/dev/zero",
+        "of=/dev/disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "erase-disk-loose",
+      "profile": "loose",
+      "argv": [
+        "diskutil",
+        "eraseDisk",
+        "APFS",
+        "Acme",
+        "disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "erase-disk-recommended",
+      "profile": "recommended",
+      "argv": [
+        "diskutil",
+        "eraseDisk",
+        "APFS",
+        "Acme",
+        "disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "erase-disk-strict",
+      "profile": "strict",
+      "argv": [
+        "diskutil",
+        "eraseDisk",
+        "APFS",
+        "Acme",
+        "disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-erase-disk-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/sbin/diskutil",
+        "eraseDisk",
+        "APFS",
+        "Acme",
+        "disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-erase-disk-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/sbin/diskutil",
+        "eraseDisk",
+        "APFS",
+        "Acme",
+        "disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-erase-disk-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/sbin/diskutil",
+        "eraseDisk",
+        "APFS",
+        "Acme",
+        "disk0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "destroy-infrastructure-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "destroy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "destroy-infrastructure-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "destroy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "destroy-infrastructure-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "destroy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "workbench-docs_list-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_list-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-docs_search-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_search-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-docs_read-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_read-loose",
+      "profile": "loose",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-docs_list-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_list-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-docs_search-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_search-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-docs_read-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_read-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-docs_list-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_list-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-docs_search-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_search-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_search",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-docs_read-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "workbench-workbench_docs_read-strict",
+      "profile": "strict",
+      "mcp": {
+        "workbench": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/baseline",
+            "integration": "workbench"
+          },
+          "agents": {
+            "codex": "workbench"
+          },
+          "packs": {
+            "canonic/baseline": "workbench"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workbench",
+        "tool": "workbench_docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "grep-recursive-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "-rn",
+        "-i",
+        "Acme",
+        "docs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-recursive-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-rn",
+        "-i",
+        "Acme",
+        "docs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-recursive-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "-rn",
+        "-i",
+        "Acme",
+        "docs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-recursive-trailing-include-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "-rn",
+        "Acme",
+        "docs",
+        "--include=*.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-recursive-trailing-include-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-rn",
+        "Acme",
+        "docs",
+        "--include=*.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-recursive-trailing-include-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "-rn",
+        "Acme",
+        "docs",
+        "--include=*.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-recursive-long-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "--recursive",
+        "-l",
+        "Acme",
+        "docs",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-recursive-filters-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-r",
+        "--include",
+        "*.md",
+        "--exclude-dir",
+        "agents",
+        "Acme",
+        "docs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-recursive-patterns-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-r",
+        "-e",
+        "Acme",
+        "--regexp=Shield",
+        "docs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-pattern-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-n",
+        "-e",
+        "Acme",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "grep-recursive-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "grep",
+        "-r",
+        "Acme",
+        ".."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "grep-recursive-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-r",
+        "Acme",
+        ".."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "grep-recursive-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "grep",
+        "-r",
+        "Acme",
+        ".."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "grep-recursive-without-path-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-r",
+        "Acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "grep-recursive-missing-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-r",
+        "Acme",
+        "missing-folder"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "grep-recursive-trailing-value-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-r",
+        "Acme",
+        "docs",
+        "--include",
+        "*.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "grep-recursive-pattern-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-r",
+        "-f",
+        "README.md",
+        "docs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "grep-dereference-recursive-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "-R",
+        "Acme",
+        "docs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "grep-folder-without-recursion-recommended",
+      "profile": "recommended",
+      "argv": [
+        "grep",
+        "Acme",
+        "docs"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-option-after-path-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "-n",
+        "Shield",
+        "docs",
+        "-g",
+        "*.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-option-after-path-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "-n",
+        "Shield",
+        "docs",
+        "-g",
+        "*.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-option-after-path-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "-n",
+        "Shield",
+        "docs",
+        "-g",
+        "*.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-files-glob-after-path-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--files",
+        "docs",
+        "-g",
+        "*.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-depth-after-pattern-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "-l",
+        "Shield",
+        "--max-depth",
+        "2",
+        "docs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-sort-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--sort",
+        "path",
+        "-n",
+        "Shield",
+        "docs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-sort-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--sort",
+        "path",
+        "-n",
+        "Shield",
+        "docs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-sort-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--sort",
+        "path",
+        "-n",
+        "Shield",
+        "docs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-only-matching-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "-o",
+        "-N",
+        "Shield",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-multiline-json-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "-U",
+        "--json",
+        "Shield",
+        "docs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-files-without-match-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--files-without-match",
+        "Shield",
+        "docs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-several-patterns-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "-n",
+        "-e",
+        "Shield",
+        "-e",
+        "pack",
+        "docs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-attached-values-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "-g*.md",
+        "-A3",
+        "Shield",
+        "docs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-pattern-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "-f",
+        "LICENSE",
+        "docs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-hidden-folder-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--hidden",
+        "Shield",
+        "docs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-short-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-type-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--type-list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rg-preprocessor-loose",
+      "profile": "loose",
+      "argv": [
+        "rg",
+        "--pre",
+        "cat",
+        "Shield",
+        "docs"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-preprocessor-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--pre",
+        "cat",
+        "Shield",
+        "docs"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-preprocessor-strict",
+      "profile": "strict",
+      "argv": [
+        "rg",
+        "--pre",
+        "cat",
+        "Shield",
+        "docs"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-preprocessor-glob-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--pre-glob",
+        "*",
+        "Shield",
+        "docs"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-search-zip-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "-z",
+        "Shield",
+        "docs"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-hostname-program-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--hostname-bin",
+        "hostname",
+        "Shield",
+        "docs"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-follow-after-path-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "Shield",
+        "docs",
+        "-L"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-undefined-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "--future-option",
+        "Shield",
+        "docs"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "Shield",
+        ".."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-outside-pattern-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "-f",
+        "../outside-patterns",
+        "docs"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rg-missing-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rg",
+        "Shield",
+        "missing-folder"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ps-all-fields-loose",
+      "profile": "loose",
+      "argv": [
+        "ps",
+        "-axo",
+        "pid,ppid,comm"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ps-all-fields-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ps",
+        "-axo",
+        "pid,ppid,comm"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ps-all-fields-strict",
+      "profile": "strict",
+      "argv": [
+        "ps",
+        "-axo",
+        "pid,ppid,comm"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ps-every-fields-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ps",
+        "-eo",
+        "pid,etime,comm"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ps-user-fields-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ps",
+        "-Ao",
+        "pid,user,%cpu,comm"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ps-user-selection-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ps",
+        "-o",
+        "pid,comm",
+        "-u",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ps-command-field-loose",
+      "profile": "loose",
+      "argv": [
+        "ps",
+        "-axo",
+        "pid,command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ps-command-field-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ps",
+        "-axo",
+        "pid,command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ps-command-field-strict",
+      "profile": "strict",
+      "argv": [
+        "ps",
+        "-axo",
+        "pid,command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ps-args-field-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ps",
+        "-eo",
+        "pid,args"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ps-bsd-all-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ps",
+        "aux"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ps-default-columns-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ps",
+        "-e"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "date-utc-loose",
+      "profile": "loose",
+      "argv": [
+        "date",
+        "-u"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "date-utc-recommended",
+      "profile": "recommended",
+      "argv": [
+        "date",
+        "-u"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "date-utc-strict",
+      "profile": "strict",
+      "argv": [
+        "date",
+        "-u"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "date-utc-format-recommended",
+      "profile": "recommended",
+      "argv": [
+        "date",
+        "-u",
+        "+%Y-%m-%dT%H:%M:%SZ"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "date-relative-recommended",
+      "profile": "recommended",
+      "argv": [
+        "date",
+        "-d",
+        "yesterday",
+        "+%F"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "date-adjusted-recommended",
+      "profile": "recommended",
+      "argv": [
+        "date",
+        "-v-1d",
+        "+%F"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "date-set-operand-loose",
+      "profile": "loose",
+      "argv": [
+        "date",
+        "0101000026"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "date-set-operand-recommended",
+      "profile": "recommended",
+      "argv": [
+        "date",
+        "0101000026"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "date-set-operand-strict",
+      "profile": "strict",
+      "argv": [
+        "date",
+        "0101000026"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "date-set-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "date",
+        "-s",
+        "now"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pgrep-full-loose",
+      "profile": "loose",
+      "argv": [
+        "pgrep",
+        "-f",
+        "node"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgrep-full-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pgrep",
+        "-f",
+        "node"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgrep-full-strict",
+      "profile": "strict",
+      "argv": [
+        "pgrep",
+        "-f",
+        "node"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgrep-user-newest-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pgrep",
+        "-u",
+        "acme",
+        "-n",
+        "node"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgrep-list-full-loose",
+      "profile": "loose",
+      "argv": [
+        "pgrep",
+        "-fl",
+        "node"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pgrep-list-full-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pgrep",
+        "-fl",
+        "node"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pgrep-list-full-strict",
+      "profile": "strict",
+      "argv": [
+        "pgrep",
+        "-fl",
+        "node"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pgrep-list-arguments-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pgrep",
+        "-a",
+        "node"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pgrep-pid-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pgrep",
+        "-F",
+        "server.pid"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg-isready-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_isready",
+        "-h",
+        "localhost",
+        "-p",
+        "5432"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg-isready-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_isready",
+        "-h",
+        "localhost",
+        "-p",
+        "5432"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg-isready-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_isready",
+        "-h",
+        "localhost",
+        "-p",
+        "5432"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg-isready-quiet-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_isready",
+        "-q",
+        "-d",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "docker-ps-loose",
+      "profile": "loose",
+      "argv": [
+        "docker",
+        "ps"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "docker-ps-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "ps"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "docker-ps-strict",
+      "profile": "strict",
+      "argv": [
+        "docker",
+        "ps"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "docker-ps-filter-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "ps",
+        "-a",
+        "--filter",
+        "status=running"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "docker-images-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "images"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "docker-image-ls-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "image",
+        "ls",
+        "-q"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "docker-compose-ps-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "compose",
+        "ps"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "docker-compose-ls-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "compose",
+        "ls"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "docker-network-ls-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "network",
+        "ls"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "docker-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "docker-ps-no-trunc-loose",
+      "profile": "loose",
+      "argv": [
+        "docker",
+        "ps",
+        "--no-trunc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-ps-no-trunc-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "ps",
+        "--no-trunc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-ps-no-trunc-strict",
+      "profile": "strict",
+      "argv": [
+        "docker",
+        "ps",
+        "--no-trunc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-ps-format-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "ps",
+        "--format",
+        "{{.Command}}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-info-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "info"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-inspect-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "inspect",
+        "web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-logs-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "logs",
+        "web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-exec-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "exec",
+        "web",
+        "sh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-run-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "run",
+        "alpine"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "docker-remote-host-recommended",
+      "profile": "recommended",
+      "argv": [
+        "docker",
+        "-H",
+        "tcp://example.com:2375",
+        "ps"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jq-object-shorthand-loose",
+      "profile": "loose",
+      "argv": [
+        "jq",
+        "{head_sha,event,run_attempt,status,conclusion}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jq-object-shorthand-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jq",
+        "{head_sha,event,run_attempt,status,conclusion}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jq-object-shorthand-strict",
+      "profile": "strict",
+      "argv": [
+        "jq",
+        "{head_sha,event,run_attempt,status,conclusion}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jq-select-map-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jq",
+        "-r",
+        ".items | map(select(.enabled)) | .[].name"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jq-variable-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jq",
+        "-n",
+        "--arg",
+        "sha",
+        "abc123",
+        "{sha: $sha}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jq-file-object-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jq",
+        "{name,version}",
+        "package.json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jq-variable-value-not-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jq",
+        "--arg",
+        "mode",
+        "fast",
+        ".items[] | select(.mode == $mode)"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jq-two-variables-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jq",
+        "--arg",
+        "a",
+        "1",
+        "--argjson",
+        "b",
+        "2",
+        "[$a, $b]"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jq-variable-and-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jq",
+        "--arg",
+        "a",
+        "1",
+        "{a: $a, name}",
+        "package.json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jq-environment-loose",
+      "profile": "loose",
+      "argv": [
+        "jq",
+        "env"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jq-environment-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jq",
+        "env"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jq-environment-strict",
+      "profile": "strict",
+      "argv": [
+        "jq",
+        "env"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jq-environment-variable-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jq",
+        "$ENV.HOME"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jq-environment-in-string-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jq",
+        "-r",
+        "\"home: \\(env.HOME)\""
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jq-module-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jq",
+        "import \"helper\" as h; h::read"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jq-slurp-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jq",
+        "--slurpfile",
+        "data",
+        "package.json",
+        "$data"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jq-program-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jq",
+        "-f",
+        "filter.jq",
+        "package.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jq-path-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jq",
+        ".",
+        "../outside.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "jq-object-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jq",
+        "{name}",
+        "../outside.json"
+      ],
+      "expected": "ask"
+    }
+  ]
+}

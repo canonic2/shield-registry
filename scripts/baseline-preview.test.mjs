@@ -9,6 +9,26 @@ import {baselinePreviewCases, shieldVersion} from './baseline-preview.mjs';
 const pack = new URL('../packs/canonic/baseline/0.10.0/pack.yml', import.meta.url);
 const historical = JSON.parse(readFileSync(new URL('cases.json', pack))).cases;
 
+test('Shield 0.33 ripgrep expectations change only the nine reviewed historical forms in every profile', () => {
+  const cases = JSON.parse(readFileSync(new URL('../packs/canonic/baseline/0.8.1/cases.json', import.meta.url))).cases;
+  const before = structuredClone(cases);
+  const current = baselinePreviewCases(cases, '0.33.0');
+  const changed = current.filter((fixture, index) => fixture.expected !== cases[index].expected);
+  assert.equal(changed.length, 27);
+  assert.deepEqual(new Set(changed.map(fixture => fixture.name.replace(/-(loose|recommended|strict)$/, ''))),
+    new Set(['rg-trailing-config', 'rg-hidden-tree', 'usable-hidden-content', 'usable-hidden-content-names',
+      'usable-hidden-content-no-ignore', 'usable-hidden-listing-late-option', 'usable-hidden-listing-no-mode',
+      'usable-hidden-listing-mode-as-value', 'usable-hidden-listing-mode-as-operand']));
+  for (const [index, fixture] of current.entries())
+    assert.deepEqual(fixture, changed.includes(fixture) ? {...cases[index], expected: 'allow'} : cases[index]);
+  assert.deepEqual(cases, before);
+  assert.deepEqual(baselinePreviewCases(cases, '0.32.0'), cases);
+  assert.deepEqual(baselinePreviewCases(current, '0.33.0'), current);
+  const altered = structuredClone(changed[0]);
+  altered.argv.push('.aws/credentials');
+  assert.throws(() => baselinePreviewCases([altered], '0.33.0'), /explicit review/);
+});
+
 test('Current Baseline preview expectations preserve every historical case except the nine reviewed sed forms', () => {
   const before = structuredClone(historical);
   const current = baselinePreviewCases(historical, '0.10.0');

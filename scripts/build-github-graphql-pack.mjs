@@ -258,6 +258,61 @@ function addMutations(pack) {
     {id: 'graphql-mutation-unverified-target-ask', when: [{var: 'repository', set: true}, {var: 'repository_writes', equals: 'ask'}], ...overlay});
   return pack;
 }
+// 0.7.0: read commands allow options the grammars do not list, and the
+// repository setting checks the target instead of every option. Listed rules
+// keep Strict exhaustive: their rank-2 Allow outranks the rank-1 read rule.
+export const destination070 = new URL('../packs/canonic/github/0.7.0/', import.meta.url);
+const readCommands = [{one_of: ['issue', 'pr', 'run', 'workflow', 'release', 'repo']}, {one_of: ['list', 'view', 'diff', 'checks']}];
+// gh's --jq runs gojq, which reaches beyond the response only through env and
+// $ENV (gh loads no modules); --template has no environment function. Tokens
+// naming them ask, including a short cluster such as -qenv, where no word
+// boundary separates the option from the expression.
+const environmentWord = '(?s:.*(?:\\benv\\b|\\$ENV\\b|\\binclude\\b|\\bimport\\b).*)';
+const outputExpressions = [{regex: environmentWord}, {regex: '-[A-Za-z0-9]*[qt](?s:.*(?:env|ENV|include|import).*)'}];
+const quietExpression = {not: {regex: environmentWord}};
+// Tokens naming another target: a URL (gh ignores -R for it), OWNER/REPO#N and owner:branch.
+const otherTarget = '(?i:[a-z][a-z0-9+.-]*://)(?s:.*)|[^\\s#/]+/[^\\s#/]+#(?s:.*)|[^\\s:/-][^\\s:/]*:\\S*';
+// List tokens also exclude what GitHub search applies across the query: qualifiers,
+// parentheses, quotes and the words OR, AND and NOT.
+const searchWidening = '(?s:.*[:()"].*)|(?s:(?:.*\\s)?)(?i:or|and|not)(?s:(?:\\s.*)?)';
+const tokens = regex => ({kind: 'each', match: {not: {regex}}});
+export function githubPack070() {
+  const pack = nextGithubPack();
+  pack.version = '0.7.0';
+  const executable = pack.rules.find(rule => rule.id === 'issue-pr-view').conditions.executable;
+  const index = pack.rules.findIndex(rule => rule.id === 'cli-unlisted');
+  pack.rules.splice(index, 0,
+    // No leading options: the risk rule's prefix cannot skip them either.
+    {id: 'read-options', conditions: {domain: 'argv', executable, arguments: {kind: 'prefix', values: readCommands}},
+      decision: {loose: 'allow', recommended: 'allow', strict: 'ask'}, reason: 'Read GitHub metadata with options the listed forms do not name.'},
+    {id: 'read-output-expression', conditions: {domain: 'argv', executable, arguments: {kind: 'risk_tokens', prefix: readCommands, any_of: outputExpressions}},
+      decision: {loose: 'ask', recommended: 'ask', strict: 'ask'}, reason: 'Review --jq and --template expressions that read environment values.'});
+  // Scoped REST reads also accept output expressions that read no environment.
+  const expressions = ['-q', '--jq', '-t', '--template'].map(name => ({name, match: quietExpression}));
+  const restReads = [...pack.preconditions.flatMap(gate => [gate.conditions.arguments, ...gate.requires_any.map(item => item.arguments)]),
+    ...pack.rules.filter(rule => rule.id.startsWith('repository-rest-read-')).map(rule => rule.conditions.arguments)]
+    .filter(grammar => grammar?.kind === 'options' && sameWords(grammar.prefix, ['api']));
+  for (const grammar of restReads) grammar.values.push(...expressions);
+  const api = pack.preconditions.find(gate => gate.id === 'cli-api-scope');
+  api.on_unmet.message = api.on_unmet.message.replace('--jq/--template', '--jq/--template expressions that read env or $ENV');
+  const scope = pack.preconditions.find(gate => gate.id === 'cli-scope');
+  // Merge the three local forms into one alternative to stay within 16.
+  const local = ['--version', '--help', 'help'];
+  scope.requires_any = scope.requires_any.filter(item => !(item.arguments?.kind === 'exact' && local.includes(item.arguments.values[0])));
+  scope.requires_any.unshift({arguments: {kind: 'sequence', prefix: [{one_of: local}], rest: {kind: 'none'}}});
+  scope.requires_any.push(
+    {arguments: {kind: 'sequence', prefix: [{one_of: ['issue', 'pr', 'run', 'workflow', 'release']}, 'list'], rest: tokens(`${searchWidening}|${otherTarget}`)}},
+    {arguments: {kind: 'sequence', prefix: [{one_of: ['issue', 'pr', 'run']}, {one_of: ['view', 'diff', 'checks', 'create', 'comment', 'edit', 'close', 'reopen', 'merge']}], rest: tokens(otherTarget)}});
+  scope.on_unmet.message = 'With the repository setting, gh runs issue, pr and run commands with -R {{repository}}. Selectors are a PR number or branch name: URLs, OWNER/REPO#N and owner:branch name other targets. list --search/-S takes plain terms: no qualifiers such as repo:, no OR/AND/NOT, parentheses or quotes. Other commands take listed options only. Change the request, then retry.';
+  // The loose alternatives cannot require -R, so this gate does; cli-repository checks its value.
+  const present = {kind: 'options', prefix: [], flags: [], values: ['-R', '--repo'], operands: true, unknown_options: 'skip', require_any: ['-R', '--repo']};
+  pack.preconditions.splice(pack.preconditions.findIndex(gate => gate.id === 'cli-repository') + 1, 0, {id: 'cli-repository-required', when: scope.when,
+    conditions: {domain: 'argv', executable, arguments: {kind: 'sequence', prefix: [{one_of: ['issue', 'pr', 'run', 'workflow', 'release']},
+      {one_of: ['list', 'view', 'diff', 'checks', 'create', 'comment', 'edit', 'close', 'reopen', 'merge']}], rest: {kind: 'any'}}},
+    requires_any: [{arguments: present}],
+    on_unmet: {decision: 'deny', message: 'Add -R {{repository}}: without it gh chooses the repository from the local checkout. Then retry.'}});
+  return pack;
+}
 const writePack = async (pack, output) => {
   await mkdir(output, {recursive: true});
   await writeFile(new URL('pack.yml', output), JSON.stringify(pack, null, 2) + '\n');
@@ -267,7 +322,8 @@ const writePack = async (pack, output) => {
 export const buildGraphqlGithubPack = () => writePack(graphqlGithubPack(), destination);
 export const buildCurrentGithubPack = () => writePack(currentGithubPack(), currentDestination);
 export const buildNextGithubPack = () => writePack(nextGithubPack(), nextDestination);
-// Default: the current candidate. Pass 0.4.0 or 0.5.0 to reproduce a published release.
-const builds = {'0.4.0': buildGraphqlGithubPack, '0.5.0': buildCurrentGithubPack};
+export const buildGithubPack070 = () => writePack(githubPack070(), destination070);
+// Default: the current candidate. Pass 0.4.0, 0.5.0 or 0.6.0 to reproduce a published release.
+const builds = {'0.4.0': buildGraphqlGithubPack, '0.5.0': buildCurrentGithubPack, '0.6.0': buildNextGithubPack};
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href)
-  await (builds[process.argv[2]] ?? buildNextGithubPack)();
+  await (builds[process.argv[2]] ?? buildGithubPack070)();

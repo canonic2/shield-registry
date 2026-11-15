@@ -4,12 +4,24 @@ import {readFileSync, mkdtempSync, writeFileSync, rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {spawnSync} from 'node:child_process';
-import {currentToolVersions,currentDirectory,currentToolPack} from './build-current-tool-packs.mjs';
+import {currentToolVersions,currentDirectory,currentToolPack,gateRelaxed,widenGrammar} from './build-current-tool-packs.mjs';
 import {currentToolCases} from './current-tool-cases.mjs';
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
 import {checkPublication,digest} from './registry-release.mjs';
 import {splitCaseFiles,caseFileNames} from './fixture-files.mjs';
+import {gate} from './gate-policy.mjs';
+import {toolPack} from './tool-pack.mjs';
+
+test('building current Gate leaves historical policy definitions and later builds unchanged', async () => {
+  const definition = structuredClone(gate);
+  const historical = toolPack(gate);
+  const first = await currentToolPack('gate');
+  assert.deepEqual(gate, definition);
+  assert.deepEqual(toolPack(gate), historical);
+  assert.deepEqual(historical, JSON.parse(readFileSync(new URL('../packs/canonic/gate/0.1.0/pack.yml', import.meta.url))));
+  assert.deepEqual(await currentToolPack('gate'), first);
+});
 
 test('published Gate permits both workspace containers within approved roots', {skip:!process.env.SHIELD_BINARY}, () => {
   const dir=mkdtempSync(join(tmpdir(),'gate-workspace-paths-'));
@@ -33,6 +45,41 @@ test('published Gate permits both workspace containers within approved roots', {
       {encoding:'utf8',timeout:120000});
     assert.equal(result.status,0,result.stdout+result.stderr);
     assert.equal(JSON.parse(result.stdout).passed,true);
+  } finally {rmSync(dir,{recursive:true,force:true});}
+});
+
+function withoutOption(rule,option) {
+  const copy=structuredClone(rule);
+  for (const grammar of [copy.conditions.arguments,copy.requirements?.argument_paths?.grammar])
+    for (const list of [grammar?.values,grammar?.leading?.values])
+      if (list?.includes(option)) list.splice(list.indexOf(option),1);
+  return copy;
+}
+
+test('Gate current policy files inside the project keep ordinary MCP decisions', {skip:!process.env.SHIELD_BINARY}, () => {
+  const dir=mkdtempSync(join(tmpdir(),'gate-current-config-'));
+  try {
+    // test-pack evaluates with its working directory as the project root.
+    const inside=join(process.cwd(),'acme.yml'),protectedFile=join(process.cwd(),'.ssh','gate.yml');
+    const binding={gate:{transport:{type:'stdio',command:'gate',args:['mcp','serve'],env:{}},agents:{codex:'gate'},packs:{'canonic/gate':'gate'}}};
+    const rows=[];
+    for (const [index,profile] of ['loose','recommended','strict'].entries()) {
+      for (const [label,tool,arguments_,expected] of [
+        ['status','status',{config:inside},['allow','allow','allow']],
+        ['stage','add',{repo:'acme',paths:['packages/acme'],config:inside},['allow','allow','allow']],
+        ['discard-preview','discard',{repo:'acme',all:true,dry_run:true,config:inside},['allow','allow','allow']],
+        ['discard','discard',{repo:'acme',all:true,config:inside},['ask','ask','deny']],
+        ['protected','status',{config:protectedFile},['allow','allow','allow']],
+      ]) rows.push({name:`${label}-${profile}`,profile,mcp:binding,
+        input:{kind:'mcp',server:'gate',tool,arguments:arguments_,original_input:{}},expected:expected[index]});
+    }
+    const cases=join(dir,'cases.json');
+    writeFileSync(cases,JSON.stringify({schema_version:1,cases:rows}));
+    const result=spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack','--pack',
+      new URL('pack.yml',currentDirectory('gate')).pathname,'--cases',cases],{encoding:'utf8',timeout:120000});
+    const report=JSON.parse(result.stdout||'{}');
+    assert.equal(result.status,0,JSON.stringify(report.cases?.filter(row=>!row.passed)??report)+result.stderr);
+    assert.equal(report.passed,true);
   } finally {rmSync(dir,{recursive:true,force:true});}
 });
 
@@ -641,7 +688,20 @@ for (const name of Object.keys(currentToolVersions)) {
         continue;
       }
       assert.ok(next,old.id);
-      if (old.id==='mcp-unlisted' || name==='testrun' && ['mcp-act','mcp-browser_connect','browser-connect'].includes(old.id)) continue;
+      if (old.id==='mcp-unlisted' && name!=='gate' || name==='testrun' && ['mcp-act','mcp-browser_connect','browser-connect'].includes(old.id)) continue;
+      // Gate declares its global --config beside --project, skips undeclared
+      // options in path checks and relaxes only the listed decisions.
+      if (name==='gate') {
+        const expected=structuredClone(old);
+        Object.assign(expected.decision,gateRelaxed[old.id]?.decision);
+        if (gateRelaxed[old.id]?.reason) expected.reason=gateRelaxed[old.id].reason;
+        // New MCP tools join the unknown-tool exclusion list.
+        if (old.id==='mcp-unlisted') expected.conditions.tool.not.one_of=next.conditions.tool.not.one_of;
+        const grammar=expected.requirements?.argument_paths?.grammar;
+        if (grammar?.kind==='options' && grammar.operands===true) widenGrammar(grammar);
+        assert.deepEqual(old.conditions.domain==='argv' ? withoutOption(next,'--config') : next,expected,old.id);
+        continue;
+      }
       assert.deepEqual(next,old,old.id);
     }
     const ids = pack.rules.map(row=>row.id);

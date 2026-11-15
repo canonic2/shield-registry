@@ -103,6 +103,9 @@ function interleavedPrefixes(leading, words) {
  *   other field rules apply only when their arguments are actually present.
  */
 export function toolPack(tool) {
+  // Release transforms own their data; mutating a candidate must not change
+  // the policy definitions used to reproduce earlier published versions.
+  tool = structuredClone(tool);
   // Versioned candidates may select reviewed profiles without rewriting
   // immutable earlier releases or duplicating their command/path grammars.
   const profileDecisions = tool.profileDecisions ?? decisions;

@@ -49,15 +49,16 @@ pending candidates. Older artifacts remain available for pinned installations.
 | Pack | Latest version | Coverage |
 | --- | --- | --- |
 | [canonic/aws](packs/canonic/aws/0.2.0/README.md) | 0.2.0 | AWS CLI and MCP operations, optional profile and region restrictions |
-| [canonic/baseline](packs/canonic/baseline/0.12.0/README.md) | 0.12.0 | Standard commands, approved file paths, checked recursive `grep` searches and verified Workbench docs tools |
+| [canonic/baseline](packs/canonic/baseline/0.14.0/README.md) | 0.14.0 | Standard commands, approved file paths, path-checked searches, everyday read-only listings and package-script fallback rules |
 | [canonic/box](packs/canonic/box/0.2.7/README.md) | 0.2.7 | Workspaces, current setup and documentation tools, exact current-checkout MCP selection, execution, blocked-creation retry, retained recovery and resource-deleting workspace removal |
-| [canonic/gate](packs/canonic/gate/0.2.5/README.md) | 0.2.5 | Repository and worktree workflows, `.gate/worktrees` creation, bundled documentation tools, automatic storage conversion, rename, discard and path checks |
-| [canonic/git](packs/canonic/git/0.10.0/README.md) | 0.10.0 | Inspection with everyday read-only display options and `merge-tree` checks, staging, local changes, remote access and destructive boundaries |
-| [canonic/github](packs/canonic/github/0.6.0/README.md) | 0.6.0 | GitHub CLI/MCP, parsed inline GraphQL reads, reviewed GraphQL mutations and literal REST reads with optional repository scope, plain-term search and branch selectors |
-| [canonic/node](packs/canonic/node/0.4.0/README.md) | 0.4.0 | Node, npm, pnpm, Yarn and Corepack, with optional manager selection |
+| [canonic/gate](packs/canonic/gate/0.2.6/README.md) | 0.2.6 | Everyday repository and worktree workflows, policy-file selection, bundled documentation and project, remote and destructive boundaries |
+| [canonic/git](packs/canonic/git/0.11.0/README.md) | 0.11.0 | Everyday local commands, network reads and rebase, with execution, configuration and destructive boundaries |
+| [canonic/github](packs/canonic/github/0.7.0/README.md) | 0.7.0 | GitHub CLI/MCP, GraphQL, everyday read options and response filters, with optional repository scope and reviewed mutations |
+| [canonic/hub](packs/canonic/hub/0.1.0/README.md) | 0.1.0 | Workspaces, tasks, processes, agents and configuration, with arbitrary execution, irreversible deletion and input-file boundaries |
+| [canonic/node](packs/canonic/node/0.5.0/README.md) | 0.5.0 | Everyday project scripts, Node files and package-manager listings, with optional manager selection and execution boundaries |
 | [canonic/rust](packs/canonic/rust/0.2.0/README.md) | 0.2.0 | Cargo, Rust tools, dependencies and explicit argument paths |
 | [canonic/testrun](packs/canonic/testrun/0.2.8/README.md) | 0.2.8 | Mobile/browser QA, browser interception with reviewed host-file route replies, diagnostics, observability, investigation reports, project workflows and builds |
-| [canonic/workbench](packs/canonic/workbench/0.1.0/README.md) | 0.1.0 | All 18 current Workbench MCP tools allowed across every profile, with verified stdio bindings |
+| [canonic/workbench](packs/canonic/workbench/0.2.0/README.md) | 0.2.0 | All 21 current Workbench MCP tools and future tools allowed across every profile, with verified stdio bindings |
 
 GitHub requires Shield `>=0.31.0, <1.0.0` with `graphql-v1`,
 `graphql-mutations-v1` and `variable-prefixes-v1`. The other latest

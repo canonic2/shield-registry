@@ -2,13 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
-import {destination,currentDestination,nextDestination,graphqlGithubPack,currentGithubPack,nextGithubPack} from './build-github-graphql-pack.mjs';
-import {graphqlGithubCases,currentGithubCases,nextGithubCases} from './build-github-graphql-cases.mjs';
+import {destination,currentDestination,nextDestination,destination070,graphqlGithubPack,currentGithubPack,nextGithubPack,githubPack070} from './build-github-graphql-pack.mjs';
+import {graphqlGithubCases,currentGithubCases,nextGithubCases,githubCases070} from './build-github-graphql-cases.mjs';
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 
-const releases = [['0.4.0',destination,graphqlGithubPack,graphqlGithubCases],['0.5.0',currentDestination,currentGithubPack,currentGithubCases],['0.6.0',nextDestination,nextGithubPack,nextGithubCases]];
+const releases = [['0.4.0',destination,graphqlGithubPack,graphqlGithubCases],['0.5.0',currentDestination,currentGithubPack,currentGithubCases],['0.6.0',nextDestination,nextGithubPack,nextGithubCases],['0.7.0',destination070,githubPack070,githubCases070]];
 const files = cases => splitCaseFiles({schema_version:1,cases:cases()});
 const releaseCases = new Map(releases.map(([,root,,cases])=>[root.href,cases]));
 // Run every fixture file of a release and combine their case reports.
@@ -68,6 +68,20 @@ test('GitHub 0.6.0 scoped CLI refusals name the shape or the repository', {skip:
     assert.equal(gates.get(`scoped-${name}`),'cli-scope',name);
   for (const name of ['search-other-repository','pr-view-branch-other-repository'])
     assert.equal(gates.get(`scoped-${name}`),'cli-repository,cli-scope',name);
+});
+// A scoped refusal names its one cause: the target or option shape, a wrong
+// -R/--repo value, or a missing -R/--repo.
+test('GitHub 0.7.0 scoped CLI refusals name the target shape or the repository', {skip:!process.env.SHIELD_BINARY},()=>{
+  const {result,report}=run(destination070,['--details']);
+  assert.equal(result.status,0,result.stderr);
+  const gates=new Map(report.cases.filter(row=>row.variables && row.actual==='deny' && row.evaluation.guidance)
+    .map(row=>[row.name.replace(/-(loose|recommended|strict)$/,''),row.evaluation.guidance.map(item=>item.rule_ref.rule_id).sort().join(',')]));
+  for (const name of ['search-or','search-repo-qualifier','pr-view-url','pr-view-fork-head','pr-view-url-web','pr-view-repository-hash','issue-comment-url','pr-list-unlisted-search-or','leading-repository-unlisted','workflow-view'])
+    assert.equal(gates.get(`scoped-${name}`),'cli-scope',name);
+  for (const name of ['pr-view-unlisted-other-repository','pr-edit-unlisted-other-repository'])
+    assert.equal(gates.get(`scoped-${name}`),'cli-repository',name);
+  for (const name of ['pr-view-missing-repository','pr-view-unlisted-missing-repository'])
+    assert.equal(gates.get(`scoped-${name}`),'cli-repository-required',name);
 });
 // Unlisted or malformed mutations refuse at the API boundary, whose message names
 // listed mutations; a listed mutation's Ask comes from the unverified-target rule.

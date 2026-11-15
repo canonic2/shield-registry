@@ -9,7 +9,7 @@ import {testrun} from './testrun-policy.mjs';
 import {currentToolCases} from './current-tool-cases.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 
-export const currentToolVersions = {box:'0.2.7', gate:'0.2.5', testrun:'0.2.8'};
+export const currentToolVersions = {box:'0.2.7', gate:'0.2.6', testrun:'0.2.8'};
 export const currentDirectory = (name, version = currentToolVersions[name]) =>
   new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -223,7 +223,122 @@ function updateGate(pack) {
   // Keep reviewed gate_docs_* permissions, the .gate/tasks worktree folder, and the relocate, worktree repair
   // and worktree_repair permissions, for older installed Gate versions until
   // their documented retirement windows have elapsed.
-  pack.description = 'Gate repository workflows and automatic workspace storage conversion, with explicit remote, data-loss and ownership boundaries.';
+  declarePolicyFile(pack);
+  allowEverydayGate(pack);
+  pack.description = 'Gate repository workflows allowed by default inside the project, with explicit remote, data-loss, ownership and policy-acceptance boundaries.';
+}
+
+// Gate's global `--config PATH` (MCP `config`) names the policy file Gate reads
+// instead of gate.yml. Gate refuses a file other than the accepted one until
+// `gate sync` accepts it, and sync keeps its own review, so the option only
+// needs declaring wherever `--project` is: each command keeps its own decision.
+function declarePolicyFile(pack) {
+  const declare = grammar => {
+    for (const phase of [grammar?.leading, grammar?.kind === 'options' ? grammar : undefined])
+      if (phase?.values?.includes('--project') && !phase.values.includes('--config')) phase.values.push('--config');
+  };
+  for (const rule of pack.rules.filter(rule => rule.conditions.domain === 'argv')) {
+    declare(rule.conditions.arguments);
+    declare(rule.requirements?.argument_paths?.grammar);
+  }
+}
+
+// Gate 0.2.6 allows everyday use by default and reviews known-harmful forms.
+// Earlier releases asked for any Gate command, option or MCP tool the pack did
+// not list. Here, inside the approved project:
+//
+// - an unlisted command or option is allowed in Loose and Recommended, while an
+//   explicit `--project` outside the approved roots or in a protected folder,
+//   and Gate run from outside the project, still ask;
+// - an unknown MCP tool is allowed in Loose and Recommended;
+// - Loose allows `commit --amend`, and Recommended allows removing a clean
+//   worktree with `--confirm`, as its MCP tool already does.
+//
+// Discard, forced branch deletion, force-push, session deletion, discarding
+// worktree removal, staging ignored files, remote binding, policy acceptance
+// and migration keep their decisions. Strict still asks for anything unlisted.
+// Path checks skip undeclared options. `--force` is declared because the
+// shared grammar lists only `-f`, and `gate add --force` failed its check in
+// Loose while `-f` passed.
+export function widenGrammar(grammar) {
+  grammar.unknown_options = 'skip';
+  if (grammar.flags.includes('-f') && !grammar.flags.includes('--force')) grammar.flags.push('--force');
+}
+export const gateRelaxed = {
+  'commit-amend': {decision:{loose:'allow'}},
+  'mcp-commit-amend': {decision:{loose:'allow'}},
+  'worktree-remove-confirm': {decision:{recommended:'allow'}},
+  'unlisted': {decision:{loose:'allow', recommended:'allow'},
+    reason:'Unlisted Gate commands and options inside the approved project are everyday use; Strict reviews them.'},
+  'mcp-unlisted': {decision:{loose:'allow', recommended:'allow'},
+    reason:'Unknown Gate MCP tools are everyday use; Strict reviews them.'},
+};
+function allowEverydayGate(pack) {
+  for (const [id, {decision, reason}] of Object.entries(gateRelaxed)) {
+    const rule = pack.rules.find(rule => rule.id === id);
+    Object.assign(rule.decision, decision);
+    if (reason) rule.reason = reason;
+  }
+  // A grammar that refuses undeclared options would turn a new option into an
+  // unmet path check; skip it, so its value is still path-checked as an operand.
+  for (const rule of pack.rules) {
+    const grammar = rule.requirements?.argument_paths?.grammar;
+    if (grammar?.kind === 'options' && grammar.operands === true) widenGrammar(grammar);
+  }
+  projectBoundary(pack);
+}
+
+// The unlisted rules rank below every listed rule, so the project boundary that
+// the listed rules check for themselves is gated once, before ranking, for
+// every request. A failed gate replaces the pack's rules, so each Deny branch
+// gets its own gate that keeps that Deny.
+function projectBoundary(pack) {
+  const message = 'Run Gate inside the approved project, and select a project inside the approved roots and outside protected folders.';
+  const reason = 'Gate inside the approved project keeps the ordinary operation decision.';
+  const kept = decision => Object.fromEntries(Object.entries(decision)
+    .map(([profile, value]) => [profile, value === 'deny' ? 'deny' : 'ask']));
+  const denies = rule => Object.values(rule.decision).includes('deny');
+  const argv = pack.rules.filter(rule => rule.conditions.domain === 'argv');
+  const status = pack.rules.find(rule => rule.id === 'status');
+  const executable = structuredClone(status.conditions.executable);
+  const gates = [{id:'gate-folder', reason, conditions:{domain:'argv', executable, arguments:{kind:'any'}},
+    requires_any:[{cwd:{within:{root:'read'}}}], on_unmet:{decision:'ask', message}}];
+  // Commands that change files keep needing a writable folder.
+  const writing = new Map();
+  for (const rule of argv) if (rule.conditions.cwd?.within?.root === 'write' && rule.conditions.arguments.kind === 'prefix')
+    writing.set(JSON.stringify(rule.conditions.arguments.values), rule);
+  for (const rule of writing.values()) {
+    const conditions = structuredClone(rule.conditions);
+    delete conditions.cwd;
+    gates.push({id:`${rule.id}-write-folder`, reason, conditions,
+      requires_any:[{cwd:{within:{root:'write'}}}], on_unmet:{decision:'ask', message}});
+  }
+  const grammar = structuredClone(status.requirements.argument_paths.grammar);
+  const project = [{argument_paths:{grammar, options:{'--project':structuredClone(status.requirements.argument_paths.options['--project'])}}}];
+  gates.push({id:'gate-project-option', reason, conditions:{domain:'argv', executable:structuredClone(executable),
+    arguments:{...structuredClone(grammar), require_any:['--project']}},
+    requires_any:project, on_unmet:{decision:'ask', message}});
+  for (const rule of argv.filter(denies)) {
+    const conditions = structuredClone(rule.conditions);
+    conditions.arguments.require_all = [...(conditions.arguments.require_all ?? []), '--project'];
+    gates.push({id:`${rule.id}-project-boundary`, reason, conditions,
+      requires_any:structuredClone(project), on_unmet:{decision:kept(rule.decision), message}});
+  }
+  const projectPath = pack.rules.find(rule => rule.id === 'mcp-status-project').requirements.field_paths['/project'];
+  const mcpProject = [{field_paths:{'/project':structuredClone(projectPath)}}];
+  const present = {'/project':{not:{exact:null}}};
+  // Documentation tools read only bundled guides and take no project.
+  const docs = pack.rules.find(rule => rule.id === 'mcp-unlisted').conditions.tool.not.one_of
+    .filter(tool => tool.includes('docs_'));
+  gates.push({id:'mcp-project', reason,
+    conditions:{domain:'mcp', server:'gate', tool:{not:{one_of:docs}}, fields:structuredClone(present)},
+    requires_any:mcpProject, on_unmet:{decision:'ask', message}});
+  for (const rule of pack.rules.filter(rule => rule.conditions.domain === 'mcp' && denies(rule)))
+    gates.push({id:`${rule.id}-project-boundary`, reason,
+      conditions:{...structuredClone(rule.conditions), fields:{...rule.conditions.fields, ...present}},
+      requires_any:structuredClone(mcpProject), on_unmet:{decision:kept(rule.decision), message}});
+  pack.preconditions = gates;
+  pack.capabilities = [...new Set([...pack.capabilities, 'field-negation-v1', 'preconditions-v1'])];
 }
 
 function updateTestrun(pack) {

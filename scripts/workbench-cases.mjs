@@ -17,6 +17,10 @@ export const requests = [
   ['page_list', {}],
   ['page_interact', {page: 'pg_acme', steps: [{action: 'click', target: {selector: 'button'}}]}],
   ['page_stop', {page: 'pg_acme'}],
+  ['image_inspect', {file: 'public/images/hero.png'}],
+  ['image_list', {target, sizes: ['mobile','laptop']}],
+  ['image_edit', {file: 'public/images/hero.png', steps: [{trim: {}}], outputs: [{format: 'webp', densities: [1, 2]}],
+    out: 'public/images/', replace: true}],
   ['docs_list', {}],
   ['docs_search', {query: 'scenarios'}],
   ['docs_read', {path: 'agent-tools.md'}],
@@ -37,7 +41,7 @@ export function workbenchCases() {
     }
     for (const tool of ['future_tool','current_view','workbench_docs_read','page_interact_shell','VIEW_SHOW']) {
       cases.push({name: `unknown-${tool}-${profile}`, profile, mcp: binding(),
-        input: {kind: 'mcp', server: 'workbench', tool, arguments: {}, original_input: {}}, expected: 'ask'});
+        input: {kind: 'mcp', server: 'workbench', tool, arguments: {}, original_input: {}}, expected: 'allow'});
     }
     for (const command of ['workbench','/usr/local/bin/workbench','/opt/homebrew/bin/workbench',
       '/Users/acme/.local/bin/workbench','/home/acme/.local/bin/workbench',

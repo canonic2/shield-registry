@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "registry_id": "canonic-shield-main",
-  "sequence": 46,
+  "sequence": 47,
   "expires_at": "2027-02-03T00:00:00Z",
   "packs": [
     {
@@ -12,9 +12,9 @@
     },
     {
       "id": "canonic/baseline",
-      "version": "0.12.0",
-      "path": "packs/canonic/baseline/0.12.0/pack.yml",
-      "sha256": "af5ed662543f1319f7f346effbce80624ce213d95adc3e52e69591c0a5b00776"
+      "version": "0.14.0",
+      "path": "packs/canonic/baseline/0.14.0/pack.yml",
+      "sha256": "42ab036dd47b335e6b4f12f6619d159a998c253c8983314cf6ebad3453647202"
     },
     {
       "id": "canonic/box",
@@ -24,27 +24,33 @@
     },
     {
       "id": "canonic/gate",
-      "version": "0.2.5",
-      "path": "packs/canonic/gate/0.2.5/pack.yml",
-      "sha256": "ab3d06611ada8f56b0c9ae84d863b0f26deef1b9e11cc546df6861746da08c2d"
+      "version": "0.2.6",
+      "path": "packs/canonic/gate/0.2.6/pack.yml",
+      "sha256": "6d0714376fd737518019462980160608df395ab0ddc2fcd8a27fa01faf6ff7b4"
     },
     {
       "id": "canonic/git",
-      "version": "0.10.0",
-      "path": "packs/canonic/git/0.10.0/pack.yml",
-      "sha256": "1463c605485bb833441ffb6be45809b3c3face44b5fbbab47bc8d02b86827dc7"
+      "version": "0.11.0",
+      "path": "packs/canonic/git/0.11.0/pack.yml",
+      "sha256": "45db26f536e65c502fa3efb4806efbe1d6a3bc0a40416225ce57b56cb7ab9c2d"
     },
     {
       "id": "canonic/github",
-      "version": "0.6.0",
-      "path": "packs/canonic/github/0.6.0/pack.yml",
-      "sha256": "121713510898b3d2cb333b38987c752b9362a20c0431fba43808e88f76c950c7"
+      "version": "0.7.0",
+      "path": "packs/canonic/github/0.7.0/pack.yml",
+      "sha256": "c8af1934dae4000e5b4455e029166fe80ac22e092f13fa570d3a14b5dc0995a6"
+    },
+    {
+      "id": "canonic/hub",
+      "version": "0.1.0",
+      "path": "packs/canonic/hub/0.1.0/pack.yml",
+      "sha256": "0d6afee26436e02429c01c4a8bb4cb22e865dfdfb34d9a79e0e21d9482970cec"
     },
     {
       "id": "canonic/node",
-      "version": "0.4.0",
-      "path": "packs/canonic/node/0.4.0/pack.yml",
-      "sha256": "b28bf09567b2b4406f5f7b5b34d2868ecfb298b2fe637307948f7ca7016aed1a"
+      "version": "0.5.0",
+      "path": "packs/canonic/node/0.5.0/pack.yml",
+      "sha256": "e2fd2cf34296acde537865a95ab48425c84eac9896e1f229fbee533f43256af9"
     },
     {
       "id": "canonic/rust",
@@ -60,9 +66,9 @@
     },
     {
       "id": "canonic/workbench",
-      "version": "0.1.0",
-      "path": "packs/canonic/workbench/0.1.0/pack.yml",
-      "sha256": "f18fb47d70804fd851514f0d6e12ab6e29080fed64a177417f2c1d29902c7a8e"
+      "version": "0.2.0",
+      "path": "packs/canonic/workbench/0.2.0/pack.yml",
+      "sha256": "18128d619f9c617248f33ddc312cc6b83313b37c4581c2decaa92a1a29653593"
     }
   ],
   "commands": {
@@ -74,6 +80,9 @@
     ],
     "canonic/box": [
       "box"
+    ],
+    "canonic/hub": [
+      "hub"
     ],
     "canonic/testrun": [
       "testrun"
@@ -117,10 +126,10 @@
       "last": "0.2.0"
     },
     "canonic/baseline": {
-      "path": "metadata/f8a3e4c0fbf4f623d303af5a923bfdc1a5c8c532843bac9e715cf2a8ed890f4c.json",
-      "sha256": "f8a3e4c0fbf4f623d303af5a923bfdc1a5c8c532843bac9e715cf2a8ed890f4c",
+      "path": "metadata/f960e9f0a834c73fe7b69d8341a1d0945c1426afd77aaebcc27b83b0eed39338.json",
+      "sha256": "f960e9f0a834c73fe7b69d8341a1d0945c1426afd77aaebcc27b83b0eed39338",
       "first": "0.1.0",
-      "last": "0.12.0"
+      "last": "0.14.0"
     },
     "canonic/box": {
       "path": "metadata/94233bb31edd11a6f3965772baa2569a1b3e576cef36db8375d106f506e2fa78.json",
@@ -129,28 +138,34 @@
       "last": "0.2.7"
     },
     "canonic/gate": {
-      "path": "metadata/8c799bccb59d3f4a786c472064bcced5191341f1f371dd6a01c0db337815b419.json",
-      "sha256": "8c799bccb59d3f4a786c472064bcced5191341f1f371dd6a01c0db337815b419",
+      "path": "metadata/02b7bdb5935b1dee4818afe7bf6254d4b7fa52d0cd29627d26930b7e5793ef5f.json",
+      "sha256": "02b7bdb5935b1dee4818afe7bf6254d4b7fa52d0cd29627d26930b7e5793ef5f",
       "first": "0.1.0",
-      "last": "0.2.5"
+      "last": "0.2.6"
     },
     "canonic/git": {
-      "path": "metadata/7e7c28626b430f7582c7e956a1bf2d38e4174834201d81b8c0d409050002e8bc.json",
-      "sha256": "7e7c28626b430f7582c7e956a1bf2d38e4174834201d81b8c0d409050002e8bc",
+      "path": "metadata/7174d93c0fca705315a6606ef0f996868f5bb17adb941aaf4ab69011b1e44d3b.json",
+      "sha256": "7174d93c0fca705315a6606ef0f996868f5bb17adb941aaf4ab69011b1e44d3b",
       "first": "0.1.0",
-      "last": "0.10.0"
+      "last": "0.11.0"
     },
     "canonic/github": {
-      "path": "metadata/777a4d851084534634d1b6fbc5f1ba288c4fd2881bef49cc1c238c2d9806afd2.json",
-      "sha256": "777a4d851084534634d1b6fbc5f1ba288c4fd2881bef49cc1c238c2d9806afd2",
+      "path": "metadata/970eab54c86e55066e430130bf143c7f1a9f42f5f44d4568c3daaec9b7baf7b8.json",
+      "sha256": "970eab54c86e55066e430130bf143c7f1a9f42f5f44d4568c3daaec9b7baf7b8",
       "first": "0.1.0",
-      "last": "0.6.0"
+      "last": "0.7.0"
+    },
+    "canonic/hub": {
+      "path": "metadata/14c4f850e8568d568c0cdb2ccb722a4e24108f34fca69bf94aaaff26fe0906fb.json",
+      "sha256": "14c4f850e8568d568c0cdb2ccb722a4e24108f34fca69bf94aaaff26fe0906fb",
+      "first": "0.1.0",
+      "last": "0.1.0"
     },
     "canonic/node": {
-      "path": "metadata/385ec73cb02bcb41845d9fbac93406880e97502e1fc162fa06fe7f22aa57657b.json",
-      "sha256": "385ec73cb02bcb41845d9fbac93406880e97502e1fc162fa06fe7f22aa57657b",
+      "path": "metadata/7fb5d4dd479a5830263f9cb8c21d6562eb0b08dc9d328970f34f581878c90eea.json",
+      "sha256": "7fb5d4dd479a5830263f9cb8c21d6562eb0b08dc9d328970f34f581878c90eea",
       "first": "0.1.0",
-      "last": "0.4.0"
+      "last": "0.5.0"
     },
     "canonic/rust": {
       "path": "metadata/e911fd68b20b45d0afe53420f19bd844103e2fd796d9c924aed43a043a37a5dd.json",
@@ -165,10 +180,10 @@
       "last": "0.2.8"
     },
     "canonic/workbench": {
-      "path": "metadata/debb4b4c21741b23d8109cf996fb2892d46af146dd8b1dd9b357f481c86d8fe9.json",
-      "sha256": "debb4b4c21741b23d8109cf996fb2892d46af146dd8b1dd9b357f481c86d8fe9",
+      "path": "metadata/7f2f4f121b1d2bbfc452f7c9a64de1607ee0afa16882a6e1d8f26858feb2a9b6.json",
+      "sha256": "7f2f4f121b1d2bbfc452f7c9a64de1607ee0afa16882a6e1d8f26858feb2a9b6",
       "first": "0.1.0",
-      "last": "0.1.0"
+      "last": "0.2.0"
     }
   }
 }

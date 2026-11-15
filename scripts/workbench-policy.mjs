@@ -1,6 +1,7 @@
-// Reviewed Workbench 0.19 MCP surface. Authorization is intentionally Allow for
-// every listed tool; the server still owns schemas, project trust and lifetimes.
-export const version = '0.1.0';
+// Reviewed Workbench 0.21 MCP surface. Every tool of the verified Workbench
+// server is Allow regardless of arguments, including tools not listed here; the
+// list documents coverage. The server still owns schemas, project trust and lifetimes.
+export const version = '0.2.0';
 export const tools = {
   view_show: 'Read the current canvas and its artboard targets.',
   view_set: 'Change the selected artboard in the last-used canvas.',
@@ -17,6 +18,9 @@ export const tools = {
   page_list: 'List the MCP connection’s private page handles.',
   page_interact: 'Interact with a private page and run its project behavior.',
   page_stop: 'Close a private page handle.',
+  image_inspect: 'Read an image file’s format, size, transparency, padding and colours.',
+  image_list: 'Render a page privately and list how its images fit their displayed sizes.',
+  image_edit: 'Edit and encode an image, keeping results in Workbench’s own folder unless out is given.',
   docs_list: 'List the bundled Workbench documentation.',
   docs_search: 'Search the bundled Workbench documentation.',
   docs_read: 'Read a bundled Workbench documentation page.',
@@ -26,7 +30,7 @@ export function workbenchPack() {
   const names = Object.keys(tools);
   return {
     schema_version: 1, kind: 'pack', id: 'canonic/workbench', version,
-    description: 'Allow every current Workbench MCP tool, including canvas changes and private page interaction, across all profiles.',
+    description: 'Allow every Workbench MCP tool, including canvas changes, private page interaction and image editing, on a verified Workbench connection.',
     license: 'MIT', maintainers: ['Canonic'], engines: {shield: '>=0.20.0, <1.0.0'},
     capabilities: ['fallback-rules-v1','mcp-integrations-v1','negated-selectors-v1','regex-v1','structured-rules-v1'],
     mcp_integrations: {
@@ -46,7 +50,7 @@ export function workbenchPack() {
       })),
       {id: 'mcp-unlisted', fallback: true,
         conditions: {domain: 'mcp', server: 'workbench', tool: {not: {one_of: names}}},
-        decision: 'ask', reason: 'Review tools outside the explicitly reviewed Workbench MCP surface.'},
+        decision: 'allow', reason: 'Allow other tools from the verified Workbench server, such as tools added in later releases.'},
     ],
   };
 }

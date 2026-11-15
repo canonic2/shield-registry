@@ -29,6 +29,14 @@ export async function currentToolCases(name) {
     for (const row of cases.cases) if (row.name === `mcp-device-action-${row.profile}`)
       row.input.arguments = {actions:[{action:'tap',point:{x:0.5,y:0.5}}]};
   }
+  if (name === 'gate') {
+    // Unlisted commands and tools are everyday use outside Strict, and Loose
+    // allows amending the last commit.
+    const relaxed = {'unknown-loose':'allow','unknown-recommended':'allow',
+      'mcp-unknown-loose':'allow','mcp-unknown-recommended':'allow',
+      'switch-project-amend-loose':'allow','routine-8-loose':'allow'};
+    for (const row of cases.cases) if (row.name in relaxed) row.expected = relaxed[row.name];
+  }
   const cli = [];
   const mcp = [];
   if (name === 'gate') {
@@ -52,7 +60,42 @@ export async function currentToolCases(name) {
       ['worktree-remove-plan',['gate','worktree','remove','.gate/worktrees/feature'],allow],
       ['retained-tasks-worktree-add',['gate','worktree','add','-b','feature','.gate/tasks/feature'],allow],
       ['retained-workspaces-worktree-add',['gate','worktree','add','-b','feature','.gate/workspaces/feature'],allow],
-      ['unknown',['gate','unknown-operation'],review],
+      // Unlisted commands and options inside the project are everyday use;
+      // Strict still reviews them.
+      ['unknown',['gate','unknown-operation'],routine],
+      ['unknown-option',['gate','status','--future-option'],allow],
+      ['unknown-command-option',['gate','future-command','--future-option','value'],routine],
+      ['unknown-worktree-option',['gate','worktree','add','--future-option','.gate/worktrees/feature'],allow],
+      ['unknown-worktree-option-outside',['gate','worktree','add','--future-option','/outside/feature'],review],
+      ['unknown-project-outside',['gate','--project','/outside/other','future-command'],review],
+      ['unknown-project-protected',['gate','future-command','--project','.ssh'],review],
+      ['amend',['gate','commit','-r','acme','--amend','-m','fix'],change],
+      ['worktree-remove-confirm',['gate','worktree','remove','.gate/worktrees/feature','--confirm','digest'],routine],
+      // Harmful forms keep their review.
+      ['stage-ignored',['gate','add','-r','acme','--force','build'],change],
+      ['push',['gate','push','-r','acme','origin','main'],change],
+      ['force-push',['gate','push','-r','acme','origin','main','--force-with-lease','0123abcd'],destroy],
+      ['branch-force',['gate','branch','remove','-r','acme','old','--force'],destroy],
+      ['remote-add',['gate','remote','add','-r','acme','origin','https://example.com/acme.git'],change],
+      ['sync-apply',['gate','sync'],change],
+      // --config names the policy file Gate reads, before or after the command.
+      // Gate refuses a file it has not accepted until `gate sync` accepts it.
+      ['config-status',['gate','--config','acme.yml','status'],allow],
+      ['config-status-after',['gate','status','--config=acme.yml'],allow],
+      ['config-stage',['gate','--config','acme.yml','add','-r','acme','packages/acme'],allow],
+      ['config-sync-preview',['gate','--config','acme.yml','sync','--dry-run'],allow],
+      ['config-worktree-add',['gate','worktree','add','--config','acme.yml','-b','feature','.gate/worktrees/feature'],allow],
+      ['config-status-outside',['gate','status','--config','/outside/gate.yml'],allow],
+      ['config-leading-outside',['gate','--config','/outside/gate.yml','status'],allow],
+      ['config-status-escape',['gate','status','--config','../outside/gate.yml'],allow],
+      ['config-missing-value',['gate','status','--config'],review],
+      ['config-sync-outside',['gate','--config','/outside/gate.yml','sync'],change],
+      ['config-discard',['gate','--config','acme.yml','discard','-r','acme','--all'],destroy],
+      ['config-discard-outside',['gate','discard','-r','acme','--all','--config','/outside/gate.yml'],destroy],
+      ['config-discard-preview-outside',['gate','discard','-r','acme','--all','--dry-run','--config','/outside/gate.yml'],allow],
+      ['config-discard-dry-token',['gate','discard','-r','acme','--all','--config','--dry-run'],destroy],
+      ['config-force-push-outside',['gate','push','origin','main','--force-with-lease','0123abcd','--config','/outside/gate.yml'],destroy],
+      ['config-branch-force-outside',['gate','--config','/outside/gate.yml','branch','remove','-r','acme','old','--force'],destroy],
     );
     mcp.push(
       ['portable-status','status',{repo:'acme'},allow],
@@ -67,7 +110,11 @@ export async function currentToolCases(name) {
       ['docs-read-host-path','docs_read',{path:'/outside/private.txt'},allow],
       ...['gate_docs_list','gate_docs_search','gate_docs_read'].map(tool =>
         [`retained-${tool}`,tool,{path:'native-worktrees.md',query:'worktrees'},allow]),
-      ['unknown','future_tool',{},review],
+      ['unknown','future_tool',{},routine],
+      ['unknown-field','status',{repo:'acme',future_field:true},allow],
+      ['amend','commit',{repo:'acme',message:'fix',amend:true},change],
+      ['stage-ignored','add',{repo:'acme',paths:['build'],force:true},change],
+      ['remote-add','remote_add',{repo:'acme',name:'origin',url:'https://example.com/acme.git'},change],
       ['rename','rename',{repo:'acme',new_id:'private'},change],
       ['rename-project-outside','rename',{repo:'acme',new_id:'private',project:'/outside/other'},review],
       ['discard','discard',{repo:'acme',all:true},destroy],
@@ -85,6 +132,22 @@ export async function currentToolCases(name) {
         [`retained-${container}-worktree-add`,'worktree_add',{path:`.gate/${container}/feature`,branch:'feature'},allow],
         [`retained-${container}-worktree-add-escape`,'worktree_add',{path:`.gate/${container}/../../../feature`,branch:'feature'},review],
       ]),
+      // `config` keeps each tool's own decision; Gate refuses relative and
+      // unaccepted policy files, and accepting one is sync's reviewed decision.
+      ['config-relative','status',{config:'gate.yml'},allow],
+      ['config-outside','status',{config:'/outside/gate.yml'},allow],
+      ['config-outside-stage','add',{repo:'acme',paths:['packages/acme'],config:'/outside/gate.yml'},allow],
+      ['config-outside-worktree-add','worktree_add',{path:'.gate/worktrees/feature',branch:'feature',config:'/outside/gate.yml'},allow],
+      // Gate's MCP sync confirms acceptance with the host itself.
+      ['config-outside-sync','sync',{config:'/outside/gate.yml'},allow],
+      ['unknown-project-outside','future_tool',{project:'/outside/other'},review],
+      ['unknown-project-relative','future_tool',{project:'acme'},review],
+      ['config-outside-discard','discard',{repo:'acme',all:true,config:'/outside/gate.yml'},destroy],
+      ['config-outside-discard-preview','discard',{repo:'acme',all:true,dry_run:true,config:'/outside/gate.yml'},allow],
+      ['config-outside-retained','worktree_repair',{path:'.gate/worktrees/feature',config:'/outside/gate.yml'},allow],
+      ['config-null','status',{config:null},allow],
+      ['config-docs','docs_read',{path:'native-worktrees.md',config:'/outside/gate.yml'},allow],
+      ['config-unknown','future_tool',{config:'/outside/gate.yml'},routine],
     );
   }
   if (name === 'box') {
