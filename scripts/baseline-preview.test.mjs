@@ -29,6 +29,19 @@ test('Shield 0.33 ripgrep expectations change only the nine reviewed historical 
   assert.throws(() => baselinePreviewCases([altered], '0.33.0'), /explicit review/);
 });
 
+test('Shield 0.36 grep expectations change only the reviewed recursive search without a path', () => {
+  const cases = JSON.parse(readFileSync(new URL('../packs/canonic/baseline/0.14.0/cases.json', import.meta.url))).cases;
+  const before = structuredClone(cases);
+  const current = baselinePreviewCases(cases, '0.36.0');
+  const changed = current.filter((fixture, index) => fixture.expected !== cases[index].expected);
+  assert.deepEqual(changed.map(fixture => [fixture.name, fixture.expected]), [['grep-recursive-without-path-recommended', 'allow']]);
+  assert.deepEqual(cases, before);
+  assert.deepEqual(baselinePreviewCases(cases, '0.35.0'), cases);
+  const altered = {...cases.find(fixture => fixture.name === 'grep-recursive-without-path-recommended')};
+  altered.argv = [...altered.argv, '/etc'];
+  assert.throws(() => baselinePreviewCases([altered], '0.36.0'), /explicit review/);
+});
+
 test('Current Baseline preview expectations preserve every historical case except the nine reviewed sed forms', () => {
   const before = structuredClone(historical);
   const current = baselinePreviewCases(historical, '0.10.0');

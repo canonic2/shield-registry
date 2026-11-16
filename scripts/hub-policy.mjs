@@ -1,5 +1,5 @@
-// Reviewed Hub CLI and MCP surface of hub 0.36.0: src/interface/cli.rs, the
-// task, agent, plugin and MCP-integration argument types, and the 66 tools of
+// Reviewed Hub CLI and MCP surface of hub 0.39.0: src/interface/cli.rs, the
+// task, agent, plugin and MCP-integration argument types, and the 91 tools of
 // src/interface/mcp/catalog.rs (`hub mcp serve --check`). Hub succeeds Box;
 // canonic/box keeps covering the box executable.
 // Expected decisions live independently in hub-cases.mjs.
@@ -10,8 +10,9 @@
 // prompting other agents, self-confirmed or irreversible deletion, and named
 // files in credential or agent-settings locations. Strict reviews changes.
 import {toolPack} from './tool-pack.mjs';
+import {addPreviewTools} from './dry-run-tools.mjs';
 
-export const version = '0.1.0';
+export const version = '0.1.1';
 export const engine = '>=0.20.0, <1.0.0';
 
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -39,8 +40,8 @@ const grammars = {
   taskImport: {flags: mutation.flags, values: [...mutation.values, '--file', '--mode']},
   step: {flags: [...mutation.flags, '--top-level'], operands: true, values: [...mutation.values, '--title', '--description',
     '--description-file', '--status', '--parent', '--depends-on', '--result', '--reason', '--before', '--after', '--position', '--fields-json']},
-  create: {flags: ['--no-wait', '--no-copy', '--shell'], operands: true, values: [...initial, '--path', '--branch',
-    '--existing-branch', '--from', '--repo-from', '--request-id', '--provider', ...globals]},
+  create: {flags: ['--no-wait', '--no-copy', '--no-fetch', '--shell'], operands: true, values: [...initial, '--path', '--branch',
+    '--existing-branch', '--from', '--source', '--copy-source', '--repo-from', '--request-id', '--provider', ...globals]},
   attach: {flags: ['--no-wait'], operands: true, values: [...initial, '--request-id', '--provider', ...globals]},
   agentStart: {flags: [], operands: true, values: [...workspace, '--prompt', '--prompt-file', '--model', '--host', '--request-id', ...globals]},
   agentMessage: {flags: [], operands: true, values: [...workspace, '--prompt', '--prompt-file', '--if-operation-sequence', '--request-id', ...globals]},
@@ -62,10 +63,11 @@ export const hub = {
   profileDecisions: decisions,
   activeProjectAdjustments: true,
   commands: [
-    ...words(['status', 'doctor', 'workspace list', 'workspace show', 'operation show', 'manager status', 'process url',
+    ...words(['status', 'doctor', 'workspace list', 'workspace show', 'operation show', 'operation list',
+      'manager status', 'manager blocker list', 'process list', 'process url',
       'process logs', 'process gateway status', 'task show', 'task history', 'task step list', 'task step next', 'task export',
       'agent list', 'agent show', 'config check', 'config plan', 'config schema', 'docs list', 'docs search', 'docs read',
-      'plugin list', 'plugin show', 'plugin context show', 'plugin prepare', 'plugin workflow list', 'plugin workflow show',
+      'plugin list', 'plugin show', 'plugin binding list', 'plugin context show', 'plugin prepare', 'plugin workflow list', 'plugin workflow show',
       'mcp auth list', 'mcp auth show', 'mcp auth manager status', 'mcp serve'],
     'inspect', 'Inspect Hub state, configuration or documentation.'),
     ...words(['init', 'setup', 'mcp setup', 'mcp auth setup', 'mcp auth logout', 'mcp auth headers', 'mcp app create',
@@ -94,7 +96,7 @@ export const hub = {
     [['workspace', 'data-reset'], 'inspect', 'Print the workspace\'s owned data inventory.', [
       {id: 'confirm', any: ['--confirm'], values: ['--confirm'], category: 'destroy', reason: 'Delete the workspace\'s data and volumes.'}]],
     // Arbitrary programs and other agents are not judged by this pack's rules.
-    ...words(['process exec', 'process shell', 'plugin launch', 'plugin workflow run', 'plugin workflow resume'],
+    ...words(['process exec', 'shell', 'process shell', 'plugin launch', 'plugin workflow run', 'plugin workflow resume'],
       'execute', 'Run an arbitrary program or external workflow, which other command policy does not see.'),
     [['--'], 'shortcut', 'Run a command on a terminal in the current workspace.'],
     [['agent', 'start'], 'execute', 'Start an agent in the workspace checkout.', [
@@ -105,10 +107,10 @@ export const hub = {
   risks: [['create-command', ['workspace', 'create'], ['--'], 'shortcut', 'Run a command in the new workspace.']],
   extraCapabilities: ['argument-paths-v1', 'requirements-v1'],
   mcpTools: Object.fromEntries([
-    ...['workspace_list', 'workspace_show', 'status', 'operation_show', 'process_logs', 'process_url', 'process_gateway_status',
-      'manager_status', 'config_check', 'config_plan', 'config_schema', 'doctor', 'task_show', 'task_history', 'task_export',
+    ...['workspace_list', 'workspace_show', 'status', 'operation_show', 'operation_list', 'process_list', 'process_logs', 'process_url', 'process_gateway_status',
+      'manager_status', 'manager_blocker_list', 'config_check', 'config_plan', 'config_schema', 'doctor', 'task_show', 'task_history', 'task_export',
       'task_step_list', 'task_step_next', 'agent_list', 'agent_show', 'plugin_list', 'plugin_show', 'plugin_context_show',
-      'plugin_prepare', 'plugin_workflow_list', 'plugin_workflow_show', 'docs_list', 'docs_search', 'docs_read']
+      'plugin_prepare', 'plugin_binding_list', 'plugin_workflow_list', 'plugin_workflow_show', 'docs_list', 'docs_search', 'docs_read']
       .map(name => [name, ['inspect', 'Inspect Hub state, configuration or documentation.']]),
     ...['init', 'setup', 'workspace_create', 'workspace_attach', 'workspace_prepare', 'workspace_data_reset',
       'task_update', 'task_import', 'task_step_add', 'task_step_update', 'task_step_remove', 'task_check_add',
@@ -128,6 +130,7 @@ export const hub = {
 
 export function hubPack() {
   const pack = toolPack(hub);
+  addPreviewTools(pack, 'hub');
   // CLI `hub mcp setup` owns the rule IDs mcp-setup*; give the MCP setup tool
   // its own prefix.
   for (const row of pack.rules) if (row.conditions.domain === 'mcp' && row.conditions.tool === 'setup')

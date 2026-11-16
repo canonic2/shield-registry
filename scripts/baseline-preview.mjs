@@ -2,8 +2,12 @@
 // complete GNU/BSD sed footprints; Shield 0.21 models both readings. Shield
 // 0.33 parses trailing ripgrep options and checks hidden walks against existing
 // entries. These fixture projects contain no protected hidden descendants.
+// Shield 0.36 checks the working directory a recursive grep without a path walks.
 import assert from 'node:assert/strict';
+import {mkdtempSync, readFileSync, rmSync, writeFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
 
 let selectedVersion;
 export function shieldVersion() {
@@ -36,10 +40,21 @@ const ripgrepForms = new Map([
   ['usable-hidden-listing-mode-as-operand', ['rg', '--hidden', '--', '--files']],
 ]);
 
+const grepForms = new Map([
+  ['grep-recursive-without-path', ['grep', '-r', 'Acme']],
+]);
+
 export function baselinePreviewCases(cases, version = shieldVersion()) {
   const [major, minor] = version.split('.').map(Number);
   if (major === 0 && minor >= 33) return cases.map(fixture => {
-    const argv = ripgrepForms.get(fixture.name.replace(/-(loose|recommended|strict)$/, ''));
+    const name = fixture.name.replace(/-(loose|recommended|strict)$/, '');
+    const grep = minor >= 36 && grepForms.get(name);
+    if (grep) {
+      assert.deepEqual(fixture.argv, grep, 'A changed historical fixture needs explicit review');
+      assert.ok(['ask', 'allow'].includes(fixture.expected), 'A changed historical decision needs explicit review');
+      return {...fixture, expected: 'allow'};
+    }
+    const argv = ripgrepForms.get(name);
     if (!argv) return fixture;
     assert.deepEqual(fixture.argv, argv, 'A changed historical fixture needs explicit review');
     assert.ok(['deny', 'allow'].includes(fixture.expected), 'A changed historical decision needs explicit review');
@@ -53,4 +68,14 @@ export function baselinePreviewCases(cases, version = shieldVersion()) {
     assert.equal(fixture.expected, fixture.profile === 'strict' ? 'ask' : 'allow');
     return {...fixture, expected: 'deny'};
   });
+}
+
+/** Writes a published cases file with the selected Shield's expectations; removed after the test. */
+export function baselinePreviewCasesPath(t, cases) {
+  const owner = mkdtempSync(join(tmpdir(), 'shield-baseline-cases-'));
+  t.after(() => rmSync(owner, {recursive: true, force: true}));
+  const document = JSON.parse(readFileSync(cases));
+  const path = join(owner, 'cases.json');
+  writeFileSync(path, JSON.stringify({...document, cases: baselinePreviewCases(document.cases)}));
+  return path;
 }

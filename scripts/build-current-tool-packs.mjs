@@ -8,8 +8,9 @@ import {gate} from './gate-policy.mjs';
 import {testrun} from './testrun-policy.mjs';
 import {currentToolCases} from './current-tool-cases.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
+import {addPreviewTools} from './dry-run-tools.mjs';
 
-export const currentToolVersions = {box:'0.2.7', gate:'0.2.6', testrun:'0.2.8'};
+export const currentToolVersions = {box:'0.2.8', gate:'0.2.7', testrun:'0.2.9'};
 export const currentDirectory = (name, version = currentToolVersions[name]) =>
   new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -70,6 +71,8 @@ function updateBox(pack) {
   const administrative = ['plugin enable','plugin disable','plugin reset','plugin workflow reconcile','plugin workflow abandon'];
   const execution = ['plugin launch','plugin workflow run','plugin workflow resume'];
   const commands = [
+    ...['project list','workspace runtime list','manager blocker list','docs list','docs search','docs read']
+      .map(words => [words.split(' '),'inspect','Read a bounded page of recorded state or bundled documentation.']),
     [['workspace','prepare'],'routine','Continue a blocked checkout with revised selection, preserving its task and rejecting unresolved provider effects.'],
     ...['remove','cleanup'].map(verb => [['workspace',verb], 'destroy', 'Discard selected workspace resources.', [
       {id:'discard', any:['--discard-changes'], values:['--confirm','--request-id'], category:'destroy',
@@ -81,9 +84,11 @@ function updateBox(pack) {
     ...execution.map(words => [words.split(' '),'execute','Launch an external native tool or workflow.']),
     [['plugin','check'],'routine','Run one finite recipe command and retain its evidence.'],
   ];
-  const tools = Object.fromEntries(commands.filter(([words]) => words.join(' ') !== 'plugin launch')
+  const tools = Object.fromEntries(commands.filter(([words]) => words.join(' ') !== 'plugin launch' && words[0] !== 'docs')
     .map(([words, category, reason]) => [words.join('_'),[category,reason]]));
   tools.config_show = ['inspect','Inspect redacted effective agent configuration and publication state without writing.'];
+  for (const name of ['project_list','workspace_runtime_list','manager_blocker_list'])
+    tools[name] = ['inspect','Read recorded state or bundled documentation without starting services.'];
   tools.setup = ['integration','Choose agents and publish configuration through an exact host-confirmed review.',[
     {id:'dry-run', fields:{'/dry_run':{exact:true}}, category:'inspect', reason:'Preview agent registration and optional hook repair without writing.'}]];
   tools.config_sync = ['integration','Review and publish agent configuration.',[
@@ -94,6 +99,14 @@ function updateBox(pack) {
     command.push([{id:'dry-run', any:['--dry-run'], category:'inspect', reason:'Prepare without effects.'}]);
   }
   extend(pack, box, commands, tools);
+  // Declare value-bearing log options so their values cannot impersonate
+  // --follow. Keep the retired max-bytes spelling for installed older tools.
+  const logFollow = pack.rules.find(rule => rule.id === 'logs-follow');
+  logFollow.conditions.arguments.values = [...new Set([
+    ...logFollow.conditions.arguments.values, '--cursor','--limit','--max-bytes',
+    '--workspace','--operation','--service','--stream',
+  ])];
+  logFollow.conditions.arguments.flags.push('--from-start');
   // The frozen CLI `box mcp setup` already owns the rule ID mcp-setup.
   // Keep its decision and give the new MCP setup tool a distinct rule ID.
   mcpRule(pack,'mcp-tool-setup','setup',change);
@@ -180,6 +193,8 @@ function updateBox(pack) {
 
 function updateGate(pack) {
   extend(pack, gate, [
+    ...['list','search','read'].map(verb =>
+      [['docs',verb],'inspect','Read bundled documentation without accessing host files.']),
     [['rename'],'inspect','Review a repository ID migration.',[
       {id:'confirm', any:['--confirm'], values:['--confirm'], category:'change', reason:'Apply the exact reviewed migration.'}]],
     // Without --dry-run, discard may prompt and apply even without --confirm.
@@ -343,7 +358,10 @@ function projectBoundary(pack) {
 
 function updateTestrun(pack) {
   extend(pack, testrun, [
+    ...['list','search','read'].map(verb =>
+      [['docs',verb],'inspect','Read embedded Testrun documentation without host-file access.']),
     [['init'],'execute','Review detected application projects and create project configuration without overwriting existing files.'],
+    [['project','discover'],'inspect','Inspect application candidates without running project code or writing files.'],
     [['project','list'],'inspect','List configured applications.'],
     [['project','show'],'inspect','Inspect one application configuration.'],
     [['project','status'],'inspect','Inspect configured Expo and optional app inventory.',[
@@ -416,10 +434,10 @@ function updateTestrun(pack) {
   prepareParserMcp.requirements={fields:{'/component':{exact:'builtin-parser'}}};
   prepareParserMcp.on_unmet={decision:'ask',message:'Only the bundled parser self-check has this preparation permission.'};
   initPreview.id='init-dry-run';
-  const initGrammar={kind:'options',prefix:['init'],leading:testrun.leading,flags:['--json','--yes','--dry-run'],values:['--root','--path','--kind','--platform'],operands:false};
+  const initGrammar={kind:'options',prefix:['init'],leading:testrun.leading,flags:['--json','--yes','--dry-run'],values:['--root','--path','--kind','--platform','--config'],operands:false};
   pack.rules.find(rule=>rule.id==='init').conditions.arguments={...initGrammar,forbid:['--dry-run']};
   initPreview.conditions.arguments={...initGrammar,require_any:['--dry-run']};
-  initPreview.requirements={cwd:{within:{root:'write'}},argument_paths:{grammar:initGrammar,options:{'--root':{path:{within:{root:'read'}}},'--path':{path:{within:{root:'read'}}}}}};
+  initPreview.requirements={cwd:{within:{root:'write'}},argument_paths:{grammar:initGrammar,options:{'--root':{path:{within:{root:'read'}}},'--path':{path:{within:{root:'read'}}},'--config':{path:{within:{root:'read'}}}}}};
   initPreview.decision=allow;
   initPreview.on_unmet={decision:'ask',message:'Review initialization discovery outside approved read roots.'};
   pack.rules.push(initPreview);
@@ -439,8 +457,8 @@ function updateTestrun(pack) {
   for (const words of [['project','list'],['project','show'],['project','status'],['config','check'],['config','show'],['config','schema']]) {
     const rule=structuredClone(pack.rules.find(rule=>rule.id===words.join('-')));
     rule.id=`${words.join('-')}-root`;
-    rule.conditions.arguments={kind:'options',prefix:words,leading:testrun.leading,flags:['--json','--local'],values:['--root','--profile','--offset','--limit','--version','--target'],operands:true,require_any:['--root']};
-    rule.requirements={cwd:{within:{root:'write'}},argument_paths:{grammar:{kind:'options',prefix:words,leading:testrun.leading,flags:['--json','--local'],values:['--root','--profile','--offset','--limit','--version','--target'],operands:true},options:{'--root':{path:{within:{root:'read'}}}}}};
+    rule.conditions.arguments={kind:'options',prefix:words,leading:testrun.leading,flags:['--json','--local'],values:['--root','--profile','--offset','--cursor','--limit','--version','--target','--config'],operands:true,unknown_options:'skip',require_any:['--root']};
+    rule.requirements={cwd:{within:{root:'write'}},argument_paths:{grammar:{kind:'options',prefix:words,leading:testrun.leading,flags:['--json','--local'],values:['--root','--profile','--offset','--cursor','--limit','--version','--target','--config'],operands:true,unknown_options:'skip'},options:{'--root':{path:{within:{root:'read'}}}}}};
     rule.decision=allow;
     rule.on_unmet={decision:'ask',message:'Review explicit configuration roots outside approved read roots.'};
     pack.rules.push(rule);
@@ -521,12 +539,69 @@ function updateTestrun(pack) {
     conditions:{domain:'mcp',server:'testrun',tool:'browser_send',fields:{
       '/request/operation':{exact:'callback_resolve'},'/request/response/path':{not:{exact:null}}}},
     reason:'Serve a host file to the page from a route callback.'});
+  testrunConfigurationPaths(pack);
+}
+
+// Configuration selection is a path effect, independent of output/paging options.
+// These guards also cover options placed before a config/project subcommand.
+function testrunConfigurationPaths(pack) {
+  const template = pack.rules.find(rule => rule.id === 'project-list');
+  const path = root => ({path:{within:{root}}});
+  pack.preconditions ??= [];
+  pack.capabilities = [...new Set([...pack.capabilities,'preconditions-v1'])].sort();
+  // --config is global within these groups, so it may precede the verb.
+  // Preconditions below still parse its path, independently of rule matching.
+  for (const rule of pack.rules) {
+    const arguments_ = rule.conditions.arguments;
+    if (!['config','project'].includes((arguments_?.prefix ?? arguments_?.values)?.[0])) continue;
+    for (const grammar of [arguments_,rule.requirements?.argument_paths?.grammar]) {
+      if (!grammar?.leading) continue;
+      grammar.leading = {...grammar.leading,interleaved:true,
+        values:[...new Set([...grammar.leading.values,'--config'])]};
+    }
+  }
+  for (const [id,prefix,options] of [
+    ['config',['config'],{'--project':path('read'),'--root':path('read'),'--config':path('read')}],
+    ['config-init',['config','init'],{'--project':path('write'),'--root':path('write'),'--config':path('write')}],
+    ['project',['project'],{'--project':path('read'),'--root':path('read'),'--path':path('read'),'--config':path('read')}],
+    ['build',['build','start'],{'--project':path('write'),'--root':path('write'),'--config':path('read')}],
+  ]) {
+    const grammar = {kind:'options',prefix,leading:testrun.leading,operands:true,unknown_options:'skip',
+      flags:['--json','--local','--all','--install','--launch','--replace','--boot','--no-wait','--prepare'],
+      values:['--target','--project','--root','--path','--config','--profile','--app','--cursor','--limit','--offset',
+        '--version','--task','--check','--submission-id','--inline','--set-env','--configuration','--variant',
+        '--flavor','--entry-point','--mode','--timeout-ms','--launch-arg','--launch-env']};
+    if (id==='config-init') grammar.leading = {...testrun.leading,interleaved:true,
+      values:[...testrun.leading.values,'--project','--root','--config']};
+    pack.preconditions.push({id:`cli-${id}-paths`,
+      conditions:{domain:'argv',executable:structuredClone(template.conditions.executable),
+        arguments:{...grammar,require_any:Object.keys(options)}},
+      requires_any:[{argument_paths:{grammar,options}}],
+      on_unmet:{decision:'ask',message:'Select configuration files and project paths inside approved roots.'},
+      reason:'Explicit configuration and discovery paths must respect the host filesystem boundary.'});
+  }
+  for (const tool of ['config_check','config_show','config_schema','build_start','project_list','project_show',
+    'project_status','project_start','project_open','project_discover','project_init','project_init_preview']) {
+    pack.preconditions.push({id:`mcp-${tool}-config-file`,
+      conditions:{domain:'mcp',server:'testrun',tool,fields:{'/config':{not:{exact:null}}}},
+      requires_any:[{field_paths:{'/config':{relative_to:'project',...path('read')}}}],
+      on_unmet:{decision:'ask',message:'Select a configuration file inside approved read roots.'},
+      reason:'A caller-selected configuration file is read from the host.'});
+  }
+  for (const field of ['root','project','config']) {
+    pack.preconditions.push({id:`mcp-config_init-${field}-path`,
+      conditions:{domain:'mcp',server:'testrun',tool:'config_init',fields:{[`/${field}`]:{not:{exact:null}}}},
+      requires_any:[{field_paths:{[`/${field}`]:{relative_to:'project',...path('write')}}}],
+      on_unmet:{decision:'ask',message:'Create configuration only inside approved write roots.'},
+      reason:'Configuration initialization writes the selected file and its local ignore entry.'});
+  }
 }
 
 export async function currentToolPack(name) {
   const pack = JSON.parse(await readFile(new URL('pack.yml',currentDirectory(name,'0.2.1'))));
   pack.version = currentToolVersions[name];
   ({box:updateBox, gate:updateGate, testrun:updateTestrun})[name](pack);
+  addPreviewTools(pack, name);
   const fields = pack.mcp_integrations[name].fields;
   delete fields['/args/0'];
   delete fields['/args/1'];
@@ -547,7 +622,119 @@ export async function buildCurrentToolPacks(names = Object.keys(currentToolVersi
       .filter(rule => rule.conditions.domain === 'argv').map(rule => rule.id)}]};
     await writeFile(new URL('commands.json',directory),JSON.stringify(inventory,null,2)+'\n');
     await copyFile(new URL('../LICENSE',import.meta.url),new URL('LICENSE',directory));
+    if (name !== 'box') {
+      const previous = {gate:'0.2.6',testrun:'0.2.8'}[name];
+      await writeFile(new URL('README.md',directory), `# ${name === 'gate' ? 'Gate' : 'Testrun'} permissions ${currentToolVersions[name]}
+
+Requires Shield \`>=0.20.0, <1.0.0\`.
+
+The separately named read-only \`*_preview\` tools are Allow in Loose,
+Recommended and Strict. They cannot apply changes or execute workflows, and
+reject a caller-supplied dry-run argument. Current applying MCP tools also reject
+that argument; use the preview identity for inspection. Rules for older binaries
+retain their reviewed decisions. Approved-root and stdio
+connection boundaries remain enforced; unknown tool names keep their fallback.
+
+${name === 'gate' ? 'Bundled CLI `docs list|search|read` and MCP `docs_list|docs_search|docs_read`\nare Allow in every profile with opaque `cursor` and `limit`. Gate validates\nqueries, page names and paging arguments without acquiring host-file access.\nThe former MCP `offset` and `start_line` forms retain their permissions and\nindependent fixtures. Their first verified absence is this 2026-11-15 source\ncheckout (0.26.1); Gate has no published feature release starting retirement.\nRemoval remains deferred until three subsequent published feature releases.\n' : testrunCurrentGuide()}
+
+${name === 'gate' ? gateCurrentGuide() : ''}
+
+All other coverage, supported older interfaces and retirement constraints remain
+as described in [${previous}](../${previous}/README.md). No coverage is retired.
+${name === 'gate' ? '\nGate status supports `--entries-only` and MCP `entries_only: true` to return public\nrepository navigation entries without inspecting working changes. It remains a\nread-only Allow operation in every profile; independent fixtures cover both forms.\n' : ''}
+
+${name === 'gate' ? gatePushDestinationGuide() : ''}
+Regenerate with \`node scripts/build-current-tool-packs.mjs ${name}\` and validate
+with \`npm test -- --shield /absolute/path/to/shield scripts/current-tool-packs.test.mjs\`.
+`);
+    }
   }
+}
+function gateCurrentGuide() {
+  return `Reviewed 2026-11-16 against Gate 0.28.0 source and installed catalog:
+42 current MCP tools, including seven separate previews, plus retained
+compatibility names. The MCP \`dry_run\` argument on \`discard\`, \`rename\`,
+\`sync\`, \`migrate\`, \`branch_remove\`, \`session_remove\` and \`worktree_remove\`
+is first verified absent in 0.27.0 on 2026-11-15. Use each tool’s
+\`*_preview\` identity instead. The old argument forms retain their exact
+decisions, including Strict Deny for forced branch deletion, session deletion
+and removal with discarded changes. Independent fixtures cover every retained
+form across profiles. Gate has no published feature release starting this
+window; earliest removal is deferred until three subsequent published feature
+releases are verified. No safety exception is applied. Malformed preview
+arguments remain Allow because Gate rejects them before dispatch; they cannot
+change a preview into an applying call.
+`;
+}
+
+function gatePushDestinationGuide() {
+  return `Reviewed 2026-11-16 against Gate 0.28.0 source and installed CLI: \`push --destination\`
+and MCP \`destination_branch\` select a remote branch name, with no host-path
+effect. Existing prefix matching and unknown-option skipping cover both CLI
+value forms without an option allowance. Ordinary CLI publication remains
+Allow/Ask/Ask in Loose/Recommended/Strict; leased rewrites remain Ask/Ask/Deny.
+MCP publication remains Allow in all profiles because Gate confirms it;
+leased MCP rewrites remain Allow/Allow/Deny. Independent fixtures cover both
+interfaces, exact lease forms, malformed selection and outside-project guards.
+No policy decision or historical source changes for destination selection.
+
+`;
+}
+
+function testrunCurrentGuide() {
+  return `Reviewed 2026-11-15 against Testrun 0.6.0 source and installed catalog:
+76 current MCP tools plus three retained documentation aliases. CLI
+\`project discover\` is inspection, with explicit root/path selections checked
+against approved read roots. Current list, UI, log and documentation interfaces
+use opaque \`cursor\` and \`limit\`; pagination preserves each operation's decision.
+Explicit-root checks accept other options without listing allowed output forms.
+Initialization previews also check an explicit \`--config\` destination.
+Bundled documentation reads embedded pages, not arbitrary host files.
+Agent Kit setup remains a registration change; its preview/reset flags keep
+the existing setup decisions and do not start the runtime.
+
+Reviewed again 2026-11-16 against the installed Testrun 0.6.0 catalog and
+CLI. \`project_init\` requires \`root\` and the \`planDigest\` that
+\`project_init_preview\` returns; Testrun refuses creation when the selections no
+longer match that plan. The digest is an opaque plan identity with no path,
+host or execution effect, so creation keeps its Ask in every profile, and
+explicit roots and configuration files keep their path checks. CLI
+initialization is \`testrun init\`, with \`--dry-run\` as its read-only preview.
+
+## Safety exception: explicit configuration paths
+
+The published policy allows, for example, \`config_show\` with \`root: "."\`
+and \`config: "/outside/testrun.yml"\`. Testrun's configuration loader reads the
+explicit file and its sibling local overlay, independently of the selected
+root. This is an unsafe Allow across the approved filesystem boundary.
+CLI config/project/build selections now check explicit configuration files
+and directory paths; MCP configuration consumers check \`config\` as a read
+path. Configuration initialization checks write paths. Outside or unverifiable
+paths Ask in all profiles; ordinary in-root decisions remain unchanged.
+This tightening applies immediately rather than waiting for retirement.
+Move the configuration under approved roots or review the external path.
+Inline builds, environment overrides, opaque browser requests, host-file
+transfers and diagnostic content retain their existing Ask/Deny boundaries.
+
+## Retained compatibility
+
+| Form | Replacement | First verified absence | Removal |
+| --- | --- | --- | --- |
+| \`testrun_docs_list\`, \`testrun_docs_search\`, \`testrun_docs_read\` | \`docs_list\`, \`docs_search\`, \`docs_read\` | Local 0.6.0, 2026-11-15 | Deferred; no qualifying shipped-release evidence |
+| Collection/log/documentation \`offset\`, documentation \`start_line\` and CLI \`--offset\`/\`--start-line\` on the reviewed paged interfaces | Opaque \`cursor\` and \`limit\` | Local 0.6.0, 2026-11-15 | Deferred; no qualifying shipped-release evidence |
+| \`project_init\` with \`dryRun\` | \`project_init_preview\` | Installed 0.6.0, 2026-11-16 | Deferred; no qualifying shipped-release evidence |
+
+The aliases and older argument forms keep their exact reviewed decisions and
+independent fixtures. Three subsequent published tool feature releases are
+required before removal is eligible; local builds and pack versions do not count.
+\`project_init\` with \`dryRun: true\` keeps its preview permission for older
+binaries; the separately named \`project_init_preview\` cannot apply changes.
+Current names and retained aliases have separate inventories.
+
+Validate this review, published compatibility, transport matching and complete
+current tool coverage with
+\`npm test -- --shield /absolute/path/to/shield scripts/testrun-current-pack.test.mjs\`.
+`;
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href)
   await buildCurrentToolPacks(process.argv.length > 2 ? process.argv.slice(2) : undefined);

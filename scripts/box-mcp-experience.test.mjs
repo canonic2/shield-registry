@@ -7,6 +7,7 @@ import {spawnSync} from 'node:child_process';
 import {checkPublication, digest} from './registry-release.mjs';
 import {currentDirectory, currentToolPack} from './build-current-tool-packs.mjs';
 import {currentToolCases} from './current-tool-cases.mjs';
+import {previewSources} from './dry-run-tools.mjs';
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
 
@@ -37,6 +38,14 @@ test('Box candidate reproduces admitted policy, inventory and independent fixtur
   }
   for (const old of published.rules) {
     const next = pack.rules.find(rule => rule.id === old.id);
+    if (old.id === 'logs-follow') {
+      const expected = structuredClone(old);
+      expected.conditions.arguments.values = [...new Set([...expected.conditions.arguments.values,
+        '--cursor','--limit','--max-bytes','--workspace','--operation','--service','--stream'])];
+      expected.conditions.arguments.flags.push('--from-start');
+      assert.deepEqual(next,expected,old.id);
+      continue;
+    }
     if (['box_docs_list','box_docs_search','box_docs_read'].includes(old.conditions.tool)) {
       assert.equal(next,undefined,old.id);
       continue;
@@ -53,7 +62,9 @@ test('Box candidate reproduces admitted policy, inventory and independent fixtur
   }
   const fallback = pack.rules.find(rule => rule.id === 'mcp-unlisted');
   const oldFallback = structuredClone(published.rules.find(rule => rule.id === 'mcp-unlisted'));
-  oldFallback.conditions.tool.not.one_of.push('setup');
+  // Reviewed read-only previews have their own Allow rules, outside the fallback.
+  oldFallback.conditions.tool.not.one_of.push('setup','project_list','workspace_runtime_list','manager_blocker_list',
+    ...previewSources.box.map(source => `${source}_preview`));
   oldFallback.conditions.tool.not.one_of = oldFallback.conditions.tool.not.one_of
     .filter(name => !['box_docs_list','box_docs_search','box_docs_read'].includes(name));
   // Tool ordering is not permission semantics.

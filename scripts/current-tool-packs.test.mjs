@@ -13,6 +13,23 @@ import {splitCaseFiles,caseFileNames} from './fixture-files.mjs';
 import {gate} from './gate-policy.mjs';
 import {toolPack} from './tool-pack.mjs';
 
+test('Gate current names and retained compatibility names have independent profile fixtures', async () => {
+  // Reviewed from Gate 0.27's catalog, independently of policy constructors.
+  const current = ['status','diff','check','explain','doctor','remote_show','branch_list','session_status',
+    'discard','rename','init','add','apply','remote_add','attach','sync','migrate','commit','fetch','push',
+    'switch','branch_remove','recover','session_start','session_stop','session_resume','session_promote',
+    'session_remove','worktree_add','worktree_list','worktree_status','worktree_remove',
+    'discard_preview','rename_preview','sync_preview','migrate_preview','branch_remove_preview',
+    'session_remove_preview','worktree_remove_preview','docs_list','docs_search','docs_read'];
+  const retained = ['gate_docs_list','gate_docs_search','gate_docs_read','worktree_repair'];
+  const pack = await currentToolPack('gate');
+  const listed = [...new Set(pack.rules.map(rule => rule.conditions.tool).filter(tool => typeof tool === 'string'))];
+  assert.deepEqual(listed.sort(), [...current,...retained].sort());
+  const {cases} = await currentToolCases('gate');
+  for (const tool of [...current,...retained]) for (const profile of ['loose','recommended','strict'])
+    assert.ok(cases.some(row => row.profile === profile && row.input?.tool === tool), `${tool}: ${profile}`);
+});
+
 test('building current Gate leaves historical policy definitions and later builds unchanged', async () => {
   const definition = structuredClone(gate);
   const historical = toolPack(gate);
@@ -676,6 +693,14 @@ for (const name of Object.keys(currentToolVersions)) {
     const previous = JSON.parse(readFileSync(new URL('pack.yml',currentDirectory(name,'0.2.1'))));
     for (const old of previous.rules) {
       const next = pack.rules.find(row=>row.id===old.id);
+      if (name === 'box' && old.id === 'logs-follow') {
+        const expected = structuredClone(old);
+        expected.conditions.arguments.values = [...new Set([...expected.conditions.arguments.values,
+          '--cursor','--limit','--max-bytes','--workspace','--operation','--service','--stream'])];
+        expected.conditions.arguments.flags.push('--from-start');
+        assert.deepEqual(next, expected);
+        continue;
+      }
       if (name==='box' && ['box_docs_list','box_docs_search','box_docs_read'].includes(old.conditions.tool)) {
         assert.equal(next,undefined,old.id);
         continue;
@@ -689,6 +714,16 @@ for (const name of Object.keys(currentToolVersions)) {
       }
       assert.ok(next,old.id);
       if (old.id==='mcp-unlisted' && name!=='gate' || name==='testrun' && ['mcp-act','mcp-browser_connect','browser-connect'].includes(old.id)) continue;
+      if (name==='testrun' && ['config','project'].includes(
+        (old.conditions.arguments?.prefix ?? old.conditions.arguments?.values)?.[0])) {
+        const expected = structuredClone(old);
+        for (const grammar of [expected.conditions.arguments,expected.requirements?.argument_paths?.grammar]) {
+          if (grammar?.leading) grammar.leading = {...grammar.leading,interleaved:true,
+            values:[...new Set([...grammar.leading.values,'--config'])]};
+        }
+        assert.deepEqual(next,expected,old.id);
+        continue;
+      }
       // Gate declares its global --config beside --project, skips undeclared
       // options in path checks and relaxes only the listed decisions.
       if (name==='gate') {

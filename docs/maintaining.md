@@ -15,7 +15,7 @@ Current source builders are grouped by capability rather than a release diary:
 
 | Pack | Policy and fixture sources |
 | --- | --- |
-| Baseline | `scripts/build-baseline-everyday-reads.mjs` extends the package-script release (`scripts/build-node-everyday.mjs`, itself extending `scripts/build-baseline-recursive-grep.mjs`) with path-checked `rg` searches and everyday read-only process, clock and Docker listings |
+| Baseline | `scripts/build-baseline-grep-effects.mjs` decides `grep` by the files it reads, extending the everyday-reads release (`scripts/build-baseline-everyday-reads.mjs`, itself extending `scripts/build-node-everyday.mjs` and `scripts/build-baseline-recursive-grep.mjs`) with its path-checked `rg` searches and everyday read-only process, clock and Docker listings |
 | Git | `scripts/build-git-allow-by-default.mjs` extends the inspection release (`scripts/build-git-inspection.mjs`) to allow everyday use and review known-harmful forms |
 | Node | `scripts/build-node-everyday.mjs` extends the reviewed-profiles release to allow project scripts and read-only listings |
 | Rust, AWS | `scripts/build-reviewed-profiles.mjs` and `scripts/build-reviewed-profile-cases.mjs` |
@@ -89,6 +89,7 @@ For focused feedback, select the relevant test file:
 
 ```sh
 npm test -- --shield /absolute/path/to/shield scripts/current-tool-packs.test.mjs
+npm test -- --shield /absolute/path/to/shield scripts/testrun-current-pack.test.mjs
 npm test -- --shield /absolute/path/to/shield scripts/github-graphql-pack.test.mjs
 npm test -- --shield /absolute/path/to/shield --workbench /absolute/path/to/workbench scripts/workbench-pack.test.mjs
 ```

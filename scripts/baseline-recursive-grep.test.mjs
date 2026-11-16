@@ -6,6 +6,7 @@ import {previous, destination, recursiveGrepPack, recursiveGrepCases} from './bu
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
 import {shieldFor} from './pack-formats.mjs';
+import {baselinePreviewCasesPath} from './baseline-preview.mjs';
 
 const read = (name, root = destination) => JSON.parse(readFileSync(new URL(name, root)));
 const compatibleShield = shieldFor(read('pack.yml'));
@@ -28,9 +29,9 @@ test('Baseline recursive grep release is reproducible, schema valid and keeps ea
   assert.deepEqual(read('cases.json').cases.slice(0, read('cases.json', previous).cases.length), read('cases.json', previous).cases);
 });
 
-test('Baseline recursive grep decides its independent fixtures through production Shield', {skip: !compatibleShield}, () => {
+test('Baseline recursive grep decides its independent fixtures through production Shield', {skip: !compatibleShield}, t => {
   const result = spawnSync(process.env.SHIELD_BINARY, ['__internal', 'test-pack', '--pack', new URL('pack.yml', destination).pathname,
-    '--cases', new URL('cases.json', destination).pathname], {encoding: 'utf8', timeout: 120000, maxBuffer: 8 * 1024 * 1024});
+    '--cases', baselinePreviewCasesPath(t, new URL('cases.json', destination))], {encoding: 'utf8', timeout: 120000, maxBuffer: 8 * 1024 * 1024});
   const report = JSON.parse(result.stdout || '{}');
   assert.equal(result.status, 0, JSON.stringify(report.cases?.filter(c => !c.passed) ?? report) + result.stderr);
   assert.equal(report.passed, true);

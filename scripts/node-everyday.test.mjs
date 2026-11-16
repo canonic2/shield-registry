@@ -6,6 +6,7 @@ import {nodeEverydayPack, nodeEverydayCases, nodeEverydayCommands, baselineScrip
   nodeRevision, baselineRevision, changed} from './build-node-everyday.mjs';
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
+import {baselinePreviewCasesPath} from './baseline-preview.mjs';
 
 const directory = (name, version) => new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const read = (name, version, file = 'pack.yml') => JSON.parse(readFileSync(new URL(file, directory(name, version))));
@@ -88,8 +89,9 @@ test(`Node ${nodeRevision[1]} decisions use production Shield, alone and with Ba
   }
 });
 
-test(`Baseline ${baselineRevision[1]} keeps its decisions without a package-manager pack`, {skip: !process.env.SHIELD_BINARY}, () => {
-  const {result, report} = run(path('baseline', baselineRevision[1]), path('baseline', baselineRevision[1], 'cases.json'));
+test(`Baseline ${baselineRevision[1]} keeps its decisions without a package-manager pack`, {skip: !process.env.SHIELD_BINARY}, t => {
+  const cases = baselinePreviewCasesPath(t, new URL('cases.json', directory('baseline', baselineRevision[1])));
+  const {result, report} = run(path('baseline', baselineRevision[1]), cases);
   assert.equal(result.status, 0, failures(report) + result.stderr);
 });
 

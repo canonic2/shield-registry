@@ -40,8 +40,33 @@ export async function currentToolCases(name) {
   const cli = [];
   const mcp = [];
   if (name === 'gate') {
+    for (const [tool, args] of [
+      ['diff',{repo:'acme',staged:true,paths:['src']}],
+      ['check',{repo:'acme',history:'HEAD'}],
+      ['explain',{paths:['src']}],
+      ['doctor',{}],
+      ['remote_show',{repo:'acme',name:'origin'}],
+      ['branch_list',{all_repos:true}],
+      ['session_status',{repo:'acme'}],
+      ['worktree_list',{}],
+      ['worktree_status',{}],
+      ['session_start',{repo:'acme'}],
+      ['session_stop',{repo:'acme'}],
+      ['session_resume',{session:'acme'}],
+      ['session_promote',{session:'acme',branch:'feature'}],
+    ]) {
+      mcp.push([`catalog-${tool}`,tool,args,allow]);
+      mcp.push([`catalog-${tool}-malformed`,tool,{repo:42,session:null,paths:'invalid'},allow]);
+    }
     cli.push(
+      ['docs-list',['gate','docs','list','--cursor','opaque','--limit','2','--json'],allow],
+      ['docs-search',['gate','docs','search','worktrees','--path','native-worktrees.md','--cursor','opaque','--limit','2'],allow],
+      ['docs-read',['gate','docs','read','native-worktrees.md','--cursor','opaque','--limit','2'],allow],
+      ['docs-invalid-limit',['gate','docs','list','--limit','0'],allow],
+      ['docs-missing-path',['gate','docs','read'],allow],
+      ['docs-host-path',['gate','docs','read','/outside/private.txt'],allow],
       ['portable-status',['gate','status','-r','acme'],allow],
+      ['workspace-base-entries',['gate','status','--all-repos','--entries-only'],allow],
       ['portable-stage',['gate','add','-r','acme','packages/acme'],allow],
       ['portable-status-outside',['gate','--project','/outside/other','status'],review],
       ['rename-preview',['gate','rename','-r','acme','private'],allow],
@@ -75,6 +100,15 @@ export async function currentToolCases(name) {
       ['stage-ignored',['gate','add','-r','acme','--force','build'],change],
       ['push',['gate','push','-r','acme','origin','main'],change],
       ['force-push',['gate','push','-r','acme','origin','main','--force-with-lease','0123abcd'],destroy],
+      // Destination branch selection changes no permission effect. Gate owns
+      // literal branch validation and remote-ref lease enforcement.
+      ['push-destination',['gate','push','-r','acme','origin','review','--destination','main'],change],
+      ['push-destination-equals',['gate','push','--destination=main','origin','review'],change],
+      ['push-destination-missing',['gate','push','origin','review','--destination'],change],
+      ['push-destination-outside',['gate','--project','/outside/other','push','origin','review','--destination','main'],review],
+      ['push-destination-lease',['gate','push','origin','review','--destination','main','--force-with-lease','0123456789abcdef0123456789abcdef01234567'],destroy],
+      ['push-destination-lease-equals',['gate','push','--force-with-lease=0123456789abcdef0123456789abcdef01234567','--destination=main','origin','review'],destroy],
+      ['push-destination-lease-outside',['gate','--project','/outside/other','push','origin','review','--destination','main','--force-with-lease=0123456789abcdef0123456789abcdef01234567'],destroy],
       ['branch-force',['gate','branch','remove','-r','acme','old','--force'],destroy],
       ['remote-add',['gate','remote','add','-r','acme','origin','https://example.com/acme.git'],change],
       ['sync-apply',['gate','sync'],change],
@@ -102,6 +136,13 @@ export async function currentToolCases(name) {
       ['portable-stage','add',{repo:'acme',paths:['packages/acme']},allow],
       ['portable-stage-outside','add',{repo:'acme',paths:['packages/acme'],project:'/outside/other'},review],
       ['docs-list','docs_list',{offset:0,limit:10},allow],
+      ['docs-list-cursor','docs_list',{cursor:'opaque',limit:2},allow],
+      ['docs-search-cursor','docs_search',{query:'worktrees',path:'native-worktrees.md',cursor:'opaque',limit:2},allow],
+      ['docs-read-cursor','docs_read',{path:'native-worktrees.md',cursor:'opaque',limit:2},allow],
+      ['retained-docs-search-offset','docs_search',{query:'worktrees',offset:1,limit:2},allow],
+      ['retained-docs-read-start-line','docs_read',{path:'native-worktrees.md',start_line:2,limit:2},allow],
+      ['docs-invalid-limit','docs_list',{limit:0},allow],
+      ['docs-invalid-cursor','docs_read',{path:'README.md',cursor:42},allow],
       ['docs-search','docs_search',{query:'worktrees'},allow],
       ['docs-read','docs_read',{path:'native-worktrees.md'},allow],
       // Documentation is bundled, so malformed paths never acquire host-file
@@ -114,6 +155,11 @@ export async function currentToolCases(name) {
       ['unknown-field','status',{repo:'acme',future_field:true},allow],
       ['amend','commit',{repo:'acme',message:'fix',amend:true},change],
       ['stage-ignored','add',{repo:'acme',paths:['build'],force:true},change],
+      ['push-destination','push',{repo:'acme',remote:'origin',branch:'review',destination_branch:'main'},allow],
+      ['push-destination-malformed','push',{repo:'acme',remote:'origin',branch:'review',destination_branch:42},allow],
+      ['push-destination-outside','push',{repo:'acme',remote:'origin',branch:'review',destination_branch:'main',project:'/outside/other'},review],
+      ['push-destination-lease','push',{repo:'acme',remote:'origin',branch:'review',destination_branch:'main',force_with_lease:'0123456789abcdef0123456789abcdef01234567'},['allow','allow','deny']],
+      ['push-destination-lease-outside','push',{repo:'acme',remote:'origin',branch:'review',destination_branch:'main',force_with_lease:'0123456789abcdef0123456789abcdef01234567',project:'/outside/other'},destroy],
       ['remote-add','remote_add',{repo:'acme',name:'origin',url:'https://example.com/acme.git'},change],
       ['rename','rename',{repo:'acme',new_id:'private'},change],
       ['rename-project-outside','rename',{repo:'acme',new_id:'private',project:'/outside/other'},review],
@@ -135,6 +181,7 @@ export async function currentToolCases(name) {
       // `config` keeps each tool's own decision; Gate refuses relative and
       // unaccepted policy files, and accepting one is sync's reviewed decision.
       ['config-relative','status',{config:'gate.yml'},allow],
+      ['workspace-base-entries','status',{all_repos:true,entries_only:true},allow],
       ['config-outside','status',{config:'/outside/gate.yml'},allow],
       ['config-outside-stage','add',{repo:'acme',paths:['packages/acme'],config:'/outside/gate.yml'},allow],
       ['config-outside-worktree-add','worktree_add',{path:'.gate/worktrees/feature',branch:'feature',config:'/outside/gate.yml'},allow],
@@ -149,9 +196,59 @@ export async function currentToolCases(name) {
       ['config-docs','docs_read',{path:'native-worktrees.md',config:'/outside/gate.yml'},allow],
       ['config-unknown','future_tool',{config:'/outside/gate.yml'},routine],
     );
+    // Gate 0.27 publishes separate previews. Preserve the exact older
+    // argument permissions rather than treating dry_run as a new allowance.
+    for (const [tool, args, expected] of [
+      ['discard',{repo:'acme',all:true},allow],
+      ['rename',{repo:'acme',new_id:'private'},change],
+      ['sync',{},allow],
+      ['migrate',{repos:['acme=repos/acme/.git']},allow],
+      ['branch_remove',{repo:'acme',branches:['feature']},allow],
+      ['session_remove',{session:'acme'},['allow','allow','deny']],
+      ['worktree_remove',{path:'.gate/worktrees/feature'},allow],
+    ]) {
+      mcp.push([`retained-${tool}-dry-run`,tool,{...args,dry_run:true},expected]);
+      mcp.push([`${tool}-preview-missing`,`${tool}_preview`,{},allow]);
+      mcp.push([`${tool}-preview-invalid`,`${tool}_preview`,{...args,dry_run:false,confirm:'untrusted'},allow]);
+      mcp.push([`${tool}-readonly-preview-outside`,`${tool}_preview`,{...args,project:'/outside/other'},review]);
+    }
+    mcp.push(
+      ['retained-branch-force-dry-run','branch_remove',{repo:'acme',branches:['feature'],force:true,dry_run:true},['allow','allow','deny']],
+      ['retained-worktree-discard-dry-run','worktree_remove',{path:'.gate/worktrees/feature',discard_changes:true,dry_run:true},destroy],
+      ['branch-force-readonly-preview','branch_remove_preview',{repo:'acme',branches:['feature'],force:true},allow],
+      ['worktree-discard-readonly-preview','worktree_remove_preview',{path:'.gate/worktrees/feature',discard_changes:true},allow],
+    );
   }
   if (name === 'box') {
     const prepare = {workspace:'acme',operation:'11111111111111111111111111111111',generation:'22222222222222222222222222222222',request_id:'33333333333333333333333333333333',repo_from:{a:'origin/review'}};
+    for (const [words,tool,args] of [
+      ['project list','project_list',{}],
+      ['workspace runtime list','workspace_runtime_list',{workspace:'acme',section:'executions'}],
+      ['manager blocker list','manager_blocker_list',{}],
+      ['docs list','docs_list',{}],
+      ['docs search','docs_search',{query:'workspace'}],
+      ['docs read','docs_read',{path:'workspaces.md'}],
+    ]) {
+      cli.push([`page-${tool}`,['box',...words.split(' '),'--cursor','opaque','--limit','1'],allow]);
+      mcp.push([`page-${tool}`,tool,{...args,cursor:'opaque',limit:1},allow]);
+      mcp.push([`page-${tool}-malformed`,tool,{...args,cursor:7,limit:0},allow]);
+      if (!tool.startsWith('docs_')) mcp.push([`page-${tool}-outside`,tool,{...args,project:'/outside/other'},review]);
+      else mcp.push([`page-${tool}-project-ignored`,tool,{...args,project:'/outside/other'},allow]);
+    }
+    cli.push(
+      ['logs-page',['box','logs','acme','--service','web','--cursor','opaque','--limit','3'],allow],
+      ['logs-from-start',['box','logs','acme','--service','web','--from-start','--limit','3'],allow],
+      ['logs-retired-max-bytes',['box','logs','acme','--service','web','--max-bytes','3'],allow],
+      ['logs-follow-page',['box','logs','acme','--service','web','--follow','--limit','3'],review],
+      ['logs-cursor-follow-token',['box','logs','acme','--service','web','--cursor','--follow'],allow],
+      ['watch-page-conservative',['box','watch','--limit','1'],review],
+      ['watch-follow',['box','watch','--follow'],review],
+    );
+    mcp.push(
+      ['logs-page','logs',{workspace:'acme',service:'web',cursor:'opaque',limit:3},allow],
+      ['logs-from-start','logs',{workspace:'acme',service:'web',from_start:true,limit:3},allow],
+      ['logs-retired-max-bytes','logs',{workspace:'acme',operation:'node',max_bytes:3},allow],
+    );
     // Optional MCP interaction modes keep the ordinary operation's effects.
     mcp.push(
       ['config-show','config_show',{},allow],
@@ -334,6 +431,103 @@ export async function currentToolCases(name) {
   }
   if (name === 'testrun') {
     const tap = {action:'tap',point:{x:0.5,y:0.5}};
+    for (const [tool,args] of [
+      ['doctor',{targetId:'simulator:ACME'}],['control_status',{}],['media_status',{}],['observe',{}],
+      ['preview_status',{previewId:'preview-acme'}],['recording_status',{recordingId:'recording-acme'}],
+      ['ui_read',{element:{elementId:'acme'}}],['volume_get',{destination:{kind:'stream'}}],
+      ['wait',{conditions:[{kind:'app',appId:'com.example.acme'}]}],['browser_doctor',{engine:'firefox'}],
+    ]) mcp.push([`interface-${tool}`,tool,args,allow]);
+    for (const [tool,args] of [
+      ['app_install',{path:'app.apk'}],['audio_probe',{}],['browser_cancel',{operationId:'acme'}],
+      ['browser_disconnect',{targetId:'browser:acme'}],['cancel',{targetId:'browser:acme',actionId:'acme'}],
+      ['control_acquire',{}],['control_release',{}],['developer_mode_reveal',{targetId:'device:ACME'}],
+      ['disconnect',{}],['media_send',{destination:{kind:'session'},command:'play'}],['network_set',{mode:'online'}],
+      ['preview_start',{}],['preview_stop',{previewId:'preview-acme'}],['recording_start',{}],
+      ['recording_stop',{recordingId:'recording-acme'}],['volume_set',{destination:{kind:'stream'},value:1}],
+      ['connect',{targetId:'simulator:ACME'}],['build_cancel',{operationId:'build-'+'1'.repeat(32)}],
+      ['config_init',{root:'.'}],
+    ]) mcp.push([`interface-${tool}`,tool,args,routine]);
+    for (const [tool,args] of [
+      ['clipboard_read',{}],['app_uninstall',{appId:'com.example.acme'}],
+      ['developer_support_install',{targetId:'device:ACME'}],
+    ]) mcp.push([`interface-${tool}`,tool,args,change]);
+    // Current pagination and retained offset forms have independently reviewed
+    // decisions. Opaque cursors do not grant filesystem or execution authority.
+    for (const [words,tool,args,expected] of [
+      ['target list','target_list',{},allow],
+      ['app list','app_list',{},allow],
+      ['browser list','browser_list',{},allow],
+      ['status','status',{},allow],
+      ['browser status','browser_status',{},allow],
+      ['ui snapshot','ui_snapshot',{scope:{kind:'display'}},allow],
+      ['ui find','ui_find',{scope:{kind:'display'},query:{label:'Acme'}},allow],
+      ['build status','build_status',{},allow],
+      ['build log build-11111111111111111111111111111111','build_log',{operationId:'build-11111111111111111111111111111111'},allow],
+      ['project list','project_list',{root:'.'},allow],
+      ['project discover','project_discover',{root:'.'},allow],
+      ['docs list','docs_list',{},allow],
+      ['docs search connect','docs_search',{query:'connect'},allow],
+      ['docs read cli.md','docs_read',{path:'cli.md'},allow],
+    ]) {
+      cli.push([`page-${tool}`,['testrun',...words.split(' '),'--cursor','opaque','--limit','1'],expected]);
+      mcp.push([`page-${tool}`,tool,{...args,cursor:'opaque',limit:1},expected],
+        [`page-${tool}-malformed`,tool,{...args,cursor:7,limit:0},expected]);
+    }
+    for (const [tool,args] of [
+      ['diagnostics_query',{investigationId:'diag-'+'1'.repeat(32),analysisId:'analysis-'+'3'.repeat(32)}],
+      ['diagnostics_project',{investigationId:'diag-'+'1'.repeat(32),analysisId:'analysis-'+'3'.repeat(32)}],
+      ['diagnostics_read',{investigationId:'diag-'+'1'.repeat(32),collectorId:'collector-'+'2'.repeat(32)}],
+    ]) mcp.push([`page-${tool}`,tool,{...args,cursor:'opaque',limit:1},review]);
+    // Diagnostic reads expose private evidence, so their pages keep Ask in every
+    // profile; an export page still writes the caller's file.
+    {
+      const investigation = 'diag-'+'1'.repeat(32), analysis = 'analysis-'+'3'.repeat(32);
+      mcp.push(['page-diagnostics_export','diagnostics_export',
+        {investigationId:investigation,analysisId:analysis,path:'/outside/projection.json',cursor:'opaque',limit:1},review]);
+      for (const [name,words] of [
+        ['read',['read',investigation,'collector-'+'2'.repeat(32)]],
+        ['query',['query',investigation,analysis]],
+        ['project',['project',investigation,analysis]],
+        ['export',['export',investigation,analysis,'--path','/outside/projection.json']],
+      ]) cli.push([`page-diagnostics-${name}`,['testrun','diagnostics',...words,'--cursor','opaque','--limit','1'],review]);
+    }
+    for (const [tool,args] of [
+      ['docs_list',{offset:0,limit:2}],['docs_search',{query:'connect',offset:1,limit:2}],
+      ['docs_read',{path:'cli.md',start_line:2,limit:2}],
+      ['testrun_docs_list',{offset:0}],['testrun_docs_search',{query:'connect'}],
+      ['testrun_docs_read',{path:'cli.md',start_line:1}],
+    ]) mcp.push([`retained-${tool}`,tool,args,allow]);
+    mcp.push(['docs-missing-path','docs_read',{},allow],['docs-missing-query','docs_search',{},allow],
+      ['docs-host-path','docs_read',{path:'/outside/private.txt'},allow],
+      ['future-tool','future_tool',{},review]);
+    cli.push(['retained-docs-start-line',['testrun','docs','read','cli.md','--start-line','1'],allow],
+      ['project-list-root-page',['testrun','project','list','--root','.','--cursor','opaque','--limit','1'],allow],
+      ['project-list-root-future-option',['testrun','project','list','--root','.','--future-format'],allow],
+      ['project-list-outside-page',['testrun','project','list','--root','/outside/other','--cursor','opaque','--limit','1'],review],
+      ['project-discover-path',['testrun','project','discover','--root','.','--path','.'],allow],
+      ['project-discover-outside',['testrun','project','discover','--root','/outside/other'],review],
+      ['project-discover-path-outside',['testrun','project','discover','--root','.','--path','/outside/other'],review],
+      ['project-list-config',['testrun','project','--config','testrun.yml','list','--root','.'],allow],
+      ['config-show-file',['testrun','config','show','--config','testrun.yml'],allow],
+      ['config-show-file-outside',['testrun','config','show','--config','/outside/testrun.yml'],review],
+      ['project-list-file-outside',['testrun','project','list','--root','.','--config','/outside/testrun.yml'],review],
+      ['config-before-subcommand-outside',['testrun','config','--config','/outside/testrun.yml','show'],review],
+      ['config-project-outside',['testrun','config','show','--project','/outside/other'],review],
+      ['config-init-file-outside',['testrun','config','init','--config','/outside/testrun.yml'],review],
+      ['config-init-before-verb',['testrun','config','--config','testrun.yml','init'],routine],
+      ['config-init-before-verb-outside',['testrun','config','--config','/outside/testrun.yml','init'],review]);
+    for (const tool of ['config_check','config_show','config_schema','build_start','project_list','project_show','project_status','project_start','project_open']) {
+      const args = {root:'.',project:'mobile',profile:'dev',task:'check',targetId:'simulator:ACME'};
+      mcp.push([`config-file-outside-${tool}`,tool,{...args,config:'/outside/testrun.yml'},review]);
+      if (['config_check','config_show','config_schema','project_list','project_show','project_status'].includes(tool))
+        mcp.push([`config-file-inside-${tool}`,tool,{...args,config:'testrun.yml'},allow]);
+    }
+    mcp.push(['config-init-outside','config_init',{root:'.',config:'/outside/testrun.yml'},review]);
+    for (const tool of ['project_discover','project_init_preview']) mcp.push(
+      [`preview-config-inside-${tool}`,tool,{root:'.',config:'testrun.yml'},allow],
+      [`preview-config-outside-${tool}`,tool,{root:'.',config:'/outside/testrun.yml'},review]);
+    mcp.push(['retained-preview-config-outside','project_init',
+      {root:'.',config:'/outside/testrun.yml',dryRun:true},review]);
     mcp.push(
       ['project-discover','project_discover',{root:'.'},allow],
       ['project-discover-outside','project_discover',{root:'/outside/other'},review],
@@ -345,6 +539,13 @@ export async function currentToolCases(name) {
       ['project-init-apply','project_init',{root:'.',dryRun:false,planDigest:'1'.repeat(64)},review],
       ['project-init-missing-plan','project_init',{root:'.',dryRun:false},review],
       ['project-init-dry-string','project_init',{root:'.',dryRun:'true'},review],
+      // The current interface: creation with the preview's plan digest.
+      ['project-init-plan','project_init',{root:'.',planDigest:'1'.repeat(64)},review],
+      ['project-init-plan-projects','project_init',{root:'.',projects:[{path:'web',kind:'vue',platforms:['web']}],planDigest:'1'.repeat(64)},review],
+      ['project-init-plan-outside','project_init',{root:'/outside/other',planDigest:'1'.repeat(64)},review],
+      ['project-init-plan-config-outside','project_init',{root:'.',config:'/outside/testrun.yml',planDigest:'1'.repeat(64)},review],
+      ['project-init-plan-malformed','project_init',{root:'.',planDigest:'short'},review],
+      ['project-init-preview-plan','project_init_preview',{root:'.',planDigest:'1'.repeat(64)},allow],
     );
     cli.push(
       ['init',['testrun','init'],review],
@@ -355,6 +556,8 @@ export async function currentToolCases(name) {
       ['init-preview-path-outside',['testrun','init','--path','/outside/other','--dry-run'],review],
       ['init-kind-dry-token',['testrun','init','--path','.','--kind','--dry-run','--yes'],review],
       ['init-preview-unknown',['testrun','init','--dry-run','--unknown'],review],
+      ['init-preview-config',['testrun','init','--dry-run','--config','testrun.yml'],allow],
+      ['init-preview-config-outside',['testrun','init','--dry-run','--config','/outside/testrun.yml'],review],
     );
     cli.push(
       ['project-list',['testrun','project','list'],allow],
@@ -664,6 +867,32 @@ export async function currentToolCases(name) {
       ['unknown','future_tool',{},review],
     );
   }
+  // Expected read-only decisions are independent of policy constructors.
+  const previews = {
+    gate:['discard','rename','sync','migrate','branch_remove','session_remove','worktree_remove'],
+    box:['setup','config_sync','workspace_remove','workspace_update','content_apply','content_import',
+      'roadmap_add','roadmap_update','roadmap_remove','criterion_add','criterion_update','criterion_remove',
+      'blocker_add','blocker_update','blocker_resolve','blocker_reopen','blocker_remove',
+      'evidence_add','evidence_update','evidence_remove','reference_add','reference_update','reference_remove',
+      'note_add','note_update','note_remove','handoff_set','handoff_clear','review_acknowledge',
+      'agent_preference_set','conversation_attach','conversation_update','conversation_detach','conversation_sync','conversation_observe',
+      'conversation_operation_reconcile','conversation_operation_cancel','conversation_operation_abandon',
+      'plugin_enable','plugin_disable','plugin_reset','plugin_binding_add','plugin_binding_remove',
+      'plugin_workflow_run','plugin_workflow_resume','plugin_check'],
+    testrun:['project_init'],
+  }[name];
+  for (const source of previews) {
+    const sample = name === 'testrun' ? {root:'.',projects:[{path:'web',kind:'vue',platforms:['web']}]} : structuredClone(mcp.find(([,tool]) => tool === source)?.[2]
+      ?? cases.cases.find(row => row.input?.tool === source)?.input.arguments ?? {});
+    delete sample.dry_run;
+    delete sample.dryRun;
+    mcp.push([`${source}-readonly-preview`,`${source}_preview`,sample,allow]);
+  }
+  if (name === 'gate' || name === 'box') mcp.push(['preview-other-project','workspace_remove_preview',
+    {workspace:'feature',project:'/outside/other'},review]);
+  if (name === 'gate') mcp[mcp.length-1][1] = 'worktree_remove_preview';
+  if (name === 'testrun') mcp.push(['preview-outside-root','project_init_preview',{root:'/outside/other'},review],
+    ['preview-missing-root','project_init_preview',{},review]);
   const binding = {[name]:{transport:{type:'defaults',pack:`canonic/${name}`,integration:name},
     agents:{codex:name},packs:{[`canonic/${name}`]:name}}};
   for (const [index,profile] of profiles.entries()) {

@@ -1,4 +1,4 @@
-// Independent expected decisions for canonic/hub, reviewed against hub 0.36.0.
+// Independent expected decisions for canonic/hub, reviewed against hub 0.39.0.
 // Keep these explicit rather than importing the policy's inventory or deriving
 // expectations from its decisions.
 const profiles = ['loose','recommended','strict'];
@@ -45,6 +45,7 @@ export const tools = [
   ['process_run',{targets:['web'],workspace:'feature'},routine],
   ['process_exec',{command:['node','scripts/check.mjs']},execute],
   ['process_stop',{workspace:'feature'},routine],
+  ['process_list',{workspace:'feature',limit:10},allow],
   ['process_logs',{service:'web',stream:'stderr'},allow],
   ['process_url',{},allow],
   ['process_gateway_enable',{port:4780},routine],
@@ -62,6 +63,7 @@ export const tools = [
   ['plugin_reset',{plugin:'speckit'},routine],
   ['plugin_binding_add',{plugin:'speckit',work:'specs/001-acme',...mutation},routine],
   ['plugin_binding_remove',{binding:'b1',...mutation},routine],
+  ['plugin_binding_list',{workspace:'feature',limit:10},allow],
   ['plugin_context_show',{plugin:'speckit'},allow],
   ['plugin_prepare',{plugin:'speckit',command:['codex']},allow],
   ['plugin_workflow_run',{plugin:'speckit',workflow:'review',request_id:id},execute],
@@ -76,15 +78,39 @@ export const tools = [
   ['manager_status',{},allow],
   ['manager_stop',{},routine],
   ['manager_drain',{},routine],
+  ['manager_blocker_list',{limit:10},allow],
+  ['operation_list',{workspace:'feature',limit:10},allow],
   ['operation_show',{id:'o1'},allow],
   ['operation_cancel',{id:'o1',reason:'reviewed'},routine],
-  ['docs_list',{offset:0,limit:10},allow],
+  ['docs_list',{limit:10},allow],
   ['docs_search',{query:'workspace'},allow],
   ['docs_read',{path:'workspaces.md'},allow],
 ];
 
+const previews = ['setup','workspace_remove','task_update','task_import','task_step_add','task_step_update','task_step_remove',
+  'task_check_add','task_check_update','task_check_remove','task_note_add','task_note_update','task_note_remove',
+  'plugin_enable','plugin_disable','plugin_reset','plugin_binding_add','plugin_binding_remove',
+  'plugin_workflow_run','plugin_workflow_resume','plugin_check'];
+const docs = tools.splice(-3);
+for (const source of previews) tools.push([`${source}_preview`,structuredClone(tools.find(([tool]) => tool === source)[1]),allow]);
+tools.push(...docs);
+
 const mcp = [
   ...tools.map(([tool,arguments_,expected]) => [`tool-${tool}`,tool,arguments_,expected]),
+  // Continuations are opaque and validated by Hub, not permission selectors.
+  ...['workspace_list','process_list','operation_list','manager_blocker_list','agent_list',
+    'plugin_list','plugin_binding_list','plugin_workflow_list','task_show','task_step_list',
+    'task_step_next','task_history','task_export','process_url','process_logs','docs_list','docs_search','docs_read']
+    .flatMap(tool => [
+      [`paged-${tool}`,tool,{...tools.find(([name]) => name === tool)[1],cursor:'opaque-cursor',limit:1},allow],
+      [`malformed-page-${tool}`,tool,{cursor:7,limit:0},allow],
+    ]),
+  // Missing required fields keep the operation decision; Hub refuses the call.
+  ['docs-read-missing-path','docs_read',{},allow],
+  ['docs-search-missing-query','docs_search',{},allow],
+  // Retained older documentation arguments; see the guide's retirement ledger.
+  ['legacy-docs-list-offset','docs_list',{offset:0,limit:10},allow],
+  ['legacy-docs-read-lines','docs_read',{path:'workspaces.md',start_line:1,end_line:20},allow],
   // Selection, configuration files, options and malformed arguments are Hub's
   // to validate; they keep the operation's decision.
   ['project-other','task_show',{project:'/outside/other'},allow],
@@ -94,6 +120,8 @@ const mcp = [
   ['setup-agent-config','setup',{agent_config:'/outside/.hub/config.yml',repair_hooks:true},routine],
   ['setup-preview','setup',{dry_run:true},routine],
   ['create-path','workspace_create',{name:'feature',path:'/outside/acme-feature',provider:'gate',repo_from:{a:'HEAD'}},routine],
+  ['create-cached-source','workspace_create',{name:'optimization',from:'HEAD',source:'feature',copy_source:'main',no_fetch:true},routine],
+  ['create-malformed-source','workspace_create',{name:'optimization',source:7,no_fetch:'yes'},routine],
   ['prepare-malformed','workspace_prepare',{workspace:'feature',generation:'not-a-generation'},routine],
   ['run-detach','process_run',{targets:['web'],detach:true,wait_ms:0},routine],
   ['stop-self','process_stop',{workspace:'feature',allow_self_stop:true},routine],
@@ -121,6 +149,11 @@ const cli = [
   ['doctor',['hub','doctor'],allow],
   ['workspace-list',['hub','workspace','list','--removed','--label','acme'],allow],
   ['workspace-show',['hub','workspace','--json','show','--workspace','acme#feature'],allow],
+  ['process-list',['hub','process','list','-w','feature','--cursor','opaque-cursor','--limit','1'],allow],
+  ['operation-list',['hub','operation','list','--workspace=feature','--limit=10'],allow],
+  ['manager-blocker-list',['hub','--json','manager','blocker','list','--limit','100'],allow],
+  ['plugin-binding-list',['hub','plugin','binding','list','--workspace','feature','--cursor','opaque-cursor'],allow],
+  ['process-list-malformed',['hub','process','list','--limit','0','--cursor'],allow],
   ['task-show',['hub','task','show','--section','summary','-w','feature'],allow],
   ['task-step-next',['hub','task','step','next','--all'],allow],
   ['task-export',['hub','task','export','--output','/outside/task.json','--overwrite'],allow],
@@ -128,6 +161,8 @@ const cli = [
   ['logs-follow',['hub','process','logs','--operation','o1','--follow'],allow],
   ['config-plan',['hub','config','plan','web','--set-env','NODE_ENV=test'],allow],
   ['docs-read',['hub','docs','read','workspaces.md','--start-line','1'],allow],
+  ['docs-read-cursor',['hub','docs','read','workspaces.md','--cursor','opaque-cursor','--limit','20'],allow],
+  ['docs-search-cursor',['hub','docs','search','workspace','--path','workspaces.md','--cursor','opaque-cursor','--limit','10'],allow],
   ['plugin-prepare',['hub','plugin','prepare','speckit','--','codex'],allow],
   ['auth-list',['hub','mcp','auth','list'],allow],
   ['serve',['hub','mcp','serve'],allow],
@@ -151,6 +186,9 @@ const cli = [
   ['check-update',['hub','task','check','update','c1','--if-revision','3','--state','met','--evidence','Tests pass'],routine],
   ['note-add',['hub','task','note','add','--if-revision','3','--text','Acme'],routine],
   ['create',['hub','workspace','create','feature','--goal','Ship Acme search','--check','Tests pass'],routine],
+  ['create-cached-source',['hub','workspace','create','optimization','--from','HEAD','--source','feature','--copy-source','main','--no-fetch'],routine],
+  ['create-cached-goal-file',['hub','workspace','create','optimization','--no-fetch','--source','feature','--copy-source','main','--goal-file','notes/goal.md'],routine],
+  ['create-cached-sensitive-file',['hub','workspace','create','optimization','--no-fetch','--source','feature','--copy-source','main','--goal-file','.ssh/config'],review],
   ['create-path',['hub','workspace','create','feature','--path','../acme-feature','--provider','gate','--repo-from','a=HEAD'],routine],
   ['attach',['hub','workspace','attach','review','/outside/review'],routine],
   ['prepare',['hub','workspace','prepare','-w','feature','--operation',id,'--generation',id,'--request-id',id],routine],
@@ -178,6 +216,9 @@ const cli = [
   ['exec',['hub','process','exec','--','node','scripts/check.mjs'],execute],
   ['exec-json',['hub','--json','process','exec','-w','feature','--request-id',id,'--','make','test'],execute],
   ['shell',['hub','process','shell','-w','feature'],execute],
+  ['current-shell',['hub','shell','-w','feature'],execute],
+  ['shell-command',['hub','shell','--execution','e1','--','node','scripts/check.mjs'],execute],
+  ['shell-options',['hub','--config','/outside/hub.yml','shell','--shell','/bin/sh','--timeout-ms','1000'],execute],
   ['create-shell',['hub','workspace','create','feature','--shell'],execute],
   // Raw `--` command forms ask in every profile.
   ['shortcut',['hub','--','rm','-rf','/outside'],review],
