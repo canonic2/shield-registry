@@ -53,15 +53,17 @@ pending candidates. Older artifacts remain available for pinned installations.
 | [canonic/box](packs/canonic/box/0.2.8/README.md) | 0.2.8 | Workspaces, current setup and documentation tools, read-only previews, paginated inspection, exact current-checkout MCP selection, execution, retained recovery and resource-deleting workspace removal |
 | [canonic/gate](packs/canonic/gate/0.2.7/README.md) | 0.2.7 | Everyday repository and worktree workflows, read-only previews, push destination selection, policy-file selection, bundled documentation and project, remote and destructive boundaries |
 | [canonic/git](packs/canonic/git/0.11.0/README.md) | 0.11.0 | Everyday local commands, network reads and rebase, with execution, configuration and destructive boundaries |
-| [canonic/github](packs/canonic/github/0.7.1/README.md) | 0.7.1 | GitHub CLI/MCP, GraphQL, everyday read options and response filters, with optional repository scope, reviewed mutations and approval for scoped REST requests with bodies |
+| [canonic/github](packs/canonic/github/0.8.0/README.md) | 0.8.0 | GitHub CLI/MCP, GraphQL queries with optional repository-root matching and unrestricted nested reads, reviewed mutations, everyday read options and approval for scoped REST requests with bodies |
 | [canonic/hub](packs/canonic/hub/0.1.1/README.md) | 0.1.1 | Workspaces, tasks, processes, agents and configuration, read-only previews and paginated inspection, with arbitrary execution, irreversible deletion and input-file boundaries |
 | [canonic/node](packs/canonic/node/0.5.0/README.md) | 0.5.0 | Everyday project scripts, Node files and package-manager listings, with optional manager selection and execution boundaries |
 | [canonic/rust](packs/canonic/rust/0.2.0/README.md) | 0.2.0 | Cargo, Rust tools, dependencies and explicit argument paths |
 | [canonic/testrun](packs/canonic/testrun/0.2.9/README.md) | 0.2.9 | Mobile/browser QA, browser interception with reviewed host-file route replies, read-only previews, checked configuration paths, diagnostics, observability, investigation reports, project workflows and builds |
 | [canonic/workbench](packs/canonic/workbench/0.2.0/README.md) | 0.2.0 | All 21 current Workbench MCP tools and future tools allowed across every profile, with verified stdio bindings |
 
-GitHub requires Shield `>=0.31.0, <1.0.0` with `graphql-v1`,
-`graphql-mutations-v1` and `variable-prefixes-v1`. Baseline requires Shield
+GitHub 0.8.0 uses a root-only GraphQL boundary: every query root must name the
+configured repository, while nested fields and related-object reads are unrestricted.
+It requires Shield `>=0.39.0, <1.0.0` with `graphql-v1`,
+`graphql-mutations-v1`, `graphql-subtree-v1` and `variable-prefixes-v1`. Baseline requires Shield
 `>=0.36.0, <1.0.0`. The other latest
 releases require Shield `>=0.20.0, <1.0.0`. Each pack declares its exact required
 capabilities; clients refuse unsupported packs rather than weakening checks.

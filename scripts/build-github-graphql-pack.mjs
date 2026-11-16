@@ -336,6 +336,21 @@ export function githubPack071() {
   path.requires_any = [{arguments: restRequest(literalPath)}];
   return pack;
 }
+export const destination080 = new URL('../packs/canonic/github/0.8.0/', import.meta.url);
+export function githubPack080() {
+  const pack = githubPack071();
+  pack.version = '0.8.0';
+  pack.description = 'GitHub CLI and official MCP permissions. Optional OWNER/REPO target setting; GraphQL query roots must match it, with unrestricted nested reads. Mutations retain separate reviewed permissions.';
+  pack.engines.shield = '>=0.39.0, <1.0.0';
+  pack.capabilities.push('graphql-subtree-v1');
+  pack.variables.repository.description = 'Optional exact OWNER/REPO for CLI and MCP. GraphQL queries must start every root at that repository; all nested reads, including related repositories and owners, are allowed. Listed mutations retain their separate target-review policy. REST requests require a literal repos/OWNER/REPO/ endpoint.';
+  const root = repositoryModel().states.query;
+  root.fields.repository = {arguments: root.fields.repository.arguments, subtree: true};
+  const gate = pack.preconditions.find(gate => gate.id === 'cli-graphql-scope');
+  gate.requires_any = [{graphql: {carrier:'gh-api', operation:'query', selection:{root:'query', states:{query:root}}}}];
+  gate.on_unmet.message = 'Start every GraphQL query root at repository(owner, name) for {{repository}}. Other roots and repository targets are refused. Nested selections beneath a matching root are unrestricted; use a supported inline query with verified root arguments.';
+  return pack;
+}
 const writePack = async (pack, output) => {
   await mkdir(output, {recursive: true});
   await writeFile(new URL('pack.yml', output), JSON.stringify(pack, null, 2) + '\n');
@@ -347,7 +362,8 @@ export const buildCurrentGithubPack = () => writePack(currentGithubPack(), curre
 export const buildNextGithubPack = () => writePack(nextGithubPack(), nextDestination);
 export const buildGithubPack070 = () => writePack(githubPack070(), destination070);
 export const buildGithubPack071 = () => writePack(githubPack071(), destination071);
+export const buildGithubPack080 = () => writePack(githubPack080(), destination080);
 // Default: the current candidate. A version argument reproduces a published release.
-const builds = {'0.4.0': buildGraphqlGithubPack, '0.5.0': buildCurrentGithubPack, '0.6.0': buildNextGithubPack, '0.7.0': buildGithubPack070};
+const builds = {'0.4.0': buildGraphqlGithubPack, '0.5.0': buildCurrentGithubPack, '0.6.0': buildNextGithubPack, '0.7.0': buildGithubPack070, '0.7.1': buildGithubPack071};
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href)
-  await (builds[process.argv[2]] ?? buildGithubPack071)();
+  await (builds[process.argv[2]] ?? buildGithubPack080)();

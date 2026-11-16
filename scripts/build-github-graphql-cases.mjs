@@ -2,7 +2,7 @@ import {writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {usableGithubCases} from './build-github-usable-cases.mjs';
-import {destination, currentDestination, nextDestination, destination070, destination071} from './build-github-graphql-pack.mjs';
+import {destination, currentDestination, nextDestination, destination070, destination071, destination080} from './build-github-graphql-pack.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 
 export const reviewQuery = `query { repository(owner:"acme", name:"web") { pullRequest(number:12) {
@@ -346,10 +346,43 @@ export function githubCases071() {
     });
   return cases;
 }
+export function githubCases080() {
+  const cases = githubCases071();
+  // Root-only permission deliberately includes related objects beneath the root.
+  const nestedReads = new Set(['graphql-parent','graphql-head-repository','graphql-actor-escape',
+    'graphql-conditional-escape','graphql-review-lines-unlisted-field','graphql-review-lines-comment-repository']);
+  for (const row of cases) {
+    const name = row.name.replace(/^scoped-/, '').replace(/-(loose|recommended|strict)$/, '');
+    if (row.variables?.repository && nestedReads.has(name)) row.expected = 'allow';
+  }
+  const inputs = [
+    ['review-outdated', reviewLinesQuery.replace('body diffHunk path', 'body outdated commit { oid } diffHunk path'), [], true],
+    ['unknown-nested', '{repository(owner:"acme",name:"web"){futureScalar futureObject(filter:{enabled:true}){newField}}}', [], true],
+    ['related-owner', '{repository(owner:"acme",name:"web"){owner{repositories(first:100){nodes{name}}}}}', [], true],
+    ['root-fragments', '{...Roots} fragment Roots on Query{a:repository(owner:"acme",name:"web"){...Data} b:repository(owner:"acme",name:"web"){future}} fragment Data on Repository{unknown}', [], true],
+    ['root-wrong-owner', '{repository(owner:"other",name:"web"){future}}', [], false],
+    ['root-wrong-name', '{repository(owner:"acme",name:"other"){future}}', [], false],
+    ['root-alias-viewer', '{repository:viewer{login}}', [], false],
+    ['root-sibling-viewer', '{repository(owner:"acme",name:"web"){future} viewer{login}}', [], false],
+    ['root-sibling-search', '{repository(owner:"acme",name:"web"){future} search(query:"all",type:REPOSITORY){nodes{id}}}', [], false],
+    ['root-fragment-outside', '{repository(owner:"acme",name:"web"){future} ...Other} fragment Other on Query{repository(owner:"other",name:"web") @skip(if:true){name}}', [], false],
+    ['root-reused-fragment', '{repository(owner:"acme",name:"web"){...Data} ...Data} fragment Data on Query{viewer{login}}', [], false],
+    ['root-missing-name', '{repository(owner:"acme"){future}}', [], false],
+    ['root-mutation', 'mutation{repository(owner:"acme",name:"web"){future}}', [], false],
+    ['root-variable', 'query($owner:String!="acme"){repository(owner:$owner,name:"web"){future}}', [], true],
+    ['root-variable-outside', 'query($owner:String!="acme"){repository(owner:$owner,name:"web"){future}}', ['-f','owner=other'], false],
+    ['root-selected-query', 'query Read{repository(owner:"acme",name:"web"){future}} mutation Write{field}', ['-f','operationName=Read'], true],
+    ['root-selected-mutation', 'query Read{repository(owner:"acme",name:"web"){future}} mutation Write{field}', ['-f','operationName=Write'], false],
+  ];
+  for (const profile of ['loose','recommended','strict']) for (const [name,query,extra,allowed] of inputs)
+    cases.push({name:`scoped-${name}-${profile}`,profile,variables:{repository:'acme/web'},
+      argv:['gh','api','graphql','-f',`query=${query}`,...extra],expected:allowed?'allow':'deny'});
+  return cases;
+}
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   // Default: the current candidate. A version argument reproduces a published release.
-  const releases = {'0.4.0': [destination, graphqlGithubCases], '0.5.0': [currentDestination, currentGithubCases], '0.6.0': [nextDestination, nextGithubCases], '0.7.0': [destination070, githubCases070]};
-  const [output, build] = releases[process.argv[2]] ?? [destination071, githubCases071];
+  const releases = {'0.4.0': [destination, graphqlGithubCases], '0.5.0': [currentDestination, currentGithubCases], '0.6.0': [nextDestination, nextGithubCases], '0.7.0': [destination070, githubCases070], '0.7.1':[destination071,githubCases071]};
+  const [output, build] = releases[process.argv[2]] ?? [destination080, githubCases080];
   // Larger releases continue in cases-2.json, ... at Shield's per-file limit.
   for (const [name, document] of splitCaseFiles({schema_version:1,cases:build()}))
     await writeFile(new URL(name,output),JSON.stringify(document,null,2)+'\n');

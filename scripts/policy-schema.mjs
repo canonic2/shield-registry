@@ -177,8 +177,8 @@ defs.graphqlArgument = object({match: one([
   object({scalar:enumeration(['string','integer','number','boolean','enum'])}),
   object({object:{type:'object',minProperties:1,maxProperties:64,additionalProperties:ref('graphqlArgument')}}),
 ]), required:{type:'boolean'},nullable:{type:'boolean'},cursor:{type:'boolean'}}, ['match']);
-const graphqlField = object({select:text(1,64),leaf:{const:true},arguments:{type:'object',maxProperties:64,additionalProperties:ref('graphqlArgument')}}, []);
-graphqlField.oneOf = [{required:['select'],not:{required:['leaf']}},{required:['leaf'],not:{required:['select']}}];
+const graphqlField = object({select:text(1,64),leaf:{const:true},subtree:{const:true},arguments:{type:'object',maxProperties:64,additionalProperties:ref('graphqlArgument')}}, []);
+graphqlField.oneOf = ['select','leaf','subtree'].map(key => ({required:[key],not:{anyOf:['select','leaf','subtree'].filter(other => other !== key).map(other => ({required:[other]}))}}));
 defs.graphql = {...object({carrier:{const:'gh-api'},operation:enumeration(['query','mutation']),
   root_fields:array({...text(1,64),pattern:'^[_A-Za-z][_0-9A-Za-z]*$'},1,true,256),
   selection:object({root:text(1,64),states:{
@@ -194,6 +194,7 @@ caps.push('unknown-options-v1', 'option-abbreviations-v1', 'negated-selectors-v1
 caps.push('interleaved-leading-v1');
 caps.push('field-negation-v1');
 caps.push('graphql-mutations-v1');
+caps.push('graphql-subtree-v1');
 // An option that only chooses the folder a tool works in, such as `npm --prefix`.
 // A file value names the files the tool finds in that folder by default.
 defs.directoryOption = {
@@ -291,6 +292,7 @@ textPaths.push(...argumentPathSelections.map(path => [...path, 'match']));
 const feature = {
   'graphql-v1': eitherPredicate(['graphql']),
   'graphql-mutations-v1': eitherPredicate(['graphql', 'operation'], {const: 'mutation'}),
+  'graphql-subtree-v1': eitherPredicate(['graphql', 'selection', 'states', '@', 'fields', '@', 'subtree'], {const: true}),
   'prefix-leading-v1': eitherPredicate(['arguments'], {allOf: [at(['kind'], {const: 'prefix'}), has('leading')]}),
   'argument-paths-v1': eitherPredicate(['argument_paths']),
   'field-paths-v1': eitherPredicate(['field_paths']),
