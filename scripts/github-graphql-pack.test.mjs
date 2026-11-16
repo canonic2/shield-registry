@@ -2,13 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
-import {destination,currentDestination,nextDestination,destination070,graphqlGithubPack,currentGithubPack,nextGithubPack,githubPack070} from './build-github-graphql-pack.mjs';
-import {graphqlGithubCases,currentGithubCases,nextGithubCases,githubCases070} from './build-github-graphql-cases.mjs';
+import {destination,currentDestination,nextDestination,destination070,destination071,graphqlGithubPack,currentGithubPack,nextGithubPack,githubPack070,githubPack071} from './build-github-graphql-pack.mjs';
+import {graphqlGithubCases,currentGithubCases,nextGithubCases,githubCases070,githubCases071} from './build-github-graphql-cases.mjs';
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 
-const releases = [['0.4.0',destination,graphqlGithubPack,graphqlGithubCases],['0.5.0',currentDestination,currentGithubPack,currentGithubCases],['0.6.0',nextDestination,nextGithubPack,nextGithubCases],['0.7.0',destination070,githubPack070,githubCases070]];
+const releases = [['0.4.0',destination,graphqlGithubPack,graphqlGithubCases],['0.5.0',currentDestination,currentGithubPack,currentGithubCases],['0.6.0',nextDestination,nextGithubPack,nextGithubCases],['0.7.0',destination070,githubPack070,githubCases070],['0.7.1',destination071,githubPack071,githubCases071]];
 const files = cases => splitCaseFiles({schema_version:1,cases:cases()});
 const releaseCases = new Map(releases.map(([,root,,cases])=>[root.href,cases]));
 // Run every fixture file of a release and combine their case reports.

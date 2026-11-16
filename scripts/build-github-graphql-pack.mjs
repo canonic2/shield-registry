@@ -313,6 +313,29 @@ export function githubPack070() {
     on_unmet: {decision: 'deny', message: 'Add -R {{repository}}: without it gh chooses the repository from the local checkout. Then retry.'}});
   return pack;
 }
+// REST scope checks parse the API interface independently of its permission.
+// Body, method and output options do not turn a known repository into an
+// unknown target. Unsupported effects still reach cli-unlisted's Ask.
+export const destination071 = new URL('../packs/canonic/github/0.7.1/', import.meta.url);
+function restRequest(path) {
+  return {kind: 'options', prefix: ['api'],
+    flags: ['--allow-escape-sequences', '-i', '--include', '--paginate', '--silent', '--slurp', '--verbose', '--help'],
+    values: ['--cache', '-F', '--field', '-H', '--header', '--input', '-q', '--jq', '-X', '--method', '-p', '--preview', '-f', '--raw-field', '-t', '--template',
+      {name: '--hostname', match: 'github.com'}],
+    operands: {match: path, min: 1, max: 1}};
+}
+export function githubPack071() {
+  const pack = githubPack070();
+  pack.version = '0.7.1';
+  pack.variables.repository.description = 'Optional exact OWNER/REPO for CLI and MCP. Listed CLI commands use -R/--repo; inline GraphQL reads verify selections, listed mutations ask for unverified targets, and literal REST requests under repos/OWNER/REPO/ pass the target boundary. Plain REST GETs allow; bodies and other unreviewed effects ask. Unknown targets deny.';
+  const scope = pack.preconditions.find(gate => gate.id === 'cli-api-scope');
+  scope.requires_any.push({arguments: restRequest(repositoryPath)});
+  scope.on_unmet.message = 'With the repository setting, use one literal REST endpoint under repos/{{repository}}/... on github.com, or a supported inline GraphQL request. Other repositories, hosts and unresolved targets are refused. REST requests with bodies, custom headers or other unreviewed effects require approval.';
+  const path = pack.preconditions.find(gate => gate.id === 'cli-api-path');
+  path.conditions.arguments = restRequest(repositoryPath);
+  path.requires_any = [{arguments: restRequest(literalPath)}];
+  return pack;
+}
 const writePack = async (pack, output) => {
   await mkdir(output, {recursive: true});
   await writeFile(new URL('pack.yml', output), JSON.stringify(pack, null, 2) + '\n');
@@ -323,7 +346,8 @@ export const buildGraphqlGithubPack = () => writePack(graphqlGithubPack(), desti
 export const buildCurrentGithubPack = () => writePack(currentGithubPack(), currentDestination);
 export const buildNextGithubPack = () => writePack(nextGithubPack(), nextDestination);
 export const buildGithubPack070 = () => writePack(githubPack070(), destination070);
-// Default: the current candidate. Pass 0.4.0, 0.5.0 or 0.6.0 to reproduce a published release.
-const builds = {'0.4.0': buildGraphqlGithubPack, '0.5.0': buildCurrentGithubPack, '0.6.0': buildNextGithubPack};
+export const buildGithubPack071 = () => writePack(githubPack071(), destination071);
+// Default: the current candidate. A version argument reproduces a published release.
+const builds = {'0.4.0': buildGraphqlGithubPack, '0.5.0': buildCurrentGithubPack, '0.6.0': buildNextGithubPack, '0.7.0': buildGithubPack070};
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href)
-  await (builds[process.argv[2]] ?? buildGithubPack070)();
+  await (builds[process.argv[2]] ?? buildGithubPack071)();

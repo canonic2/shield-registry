@@ -2,7 +2,7 @@ import {writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {usableGithubCases} from './build-github-usable-cases.mjs';
-import {destination, currentDestination, nextDestination, destination070} from './build-github-graphql-pack.mjs';
+import {destination, currentDestination, nextDestination, destination070, destination071} from './build-github-graphql-pack.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 
 export const reviewQuery = `query { repository(owner:"acme", name:"web") { pullRequest(number:12) {
@@ -304,10 +304,52 @@ export function githubCases070() {
     });
   return cases;
 }
+export function githubCases071() {
+  const cases = githubCases070();
+  const reviewable = new Set(['rest-method-post', 'rest-field-post', 'rest-get-with-field', 'rest-method-patch',
+    'rest-header', 'rest-input', 'api-run-jq-env']);
+  for (const item of cases) {
+    const name = item.name.replace(/^scoped-/, '').replace(/-(loose|recommended|strict)$/, '');
+    if (item.variables?.repository && reviewable.has(name)) item.expected = 'ask';
+  }
+  const endpoint = 'repos/acme/web/pulls/12/reviews';
+  const inputs = [
+    ['review-post-input', [endpoint, '--method', 'POST', '--input', '/tmp/acme-review.json', '--jq', '{url: .html_url, state: .state}'], 'ask'],
+    ['review-post-options-first', ['--method=POST', '--input=review.json', '--jq=.html_url', endpoint], 'ask'],
+    ['review-post-short-cluster', ['-XPOST', '-fbody=Thanks', endpoint], 'ask'],
+    ['review-post-typed-file', [endpoint, '-F', 'body=@review.txt'], 'ask'],
+    ['review-post-stdin', [endpoint, '--input', '-'], 'ask'],
+    ['review-delete', [endpoint + '/1', '--method', 'DELETE'], 'ask'],
+    ['review-output-env', [endpoint, '--jq', 'env'], 'ask'],
+    ['review-cache', [endpoint, '--cache', '1h'], 'ask'],
+    ['review-preview', [endpoint, '--preview', 'corsair'], 'ask'],
+    ['review-explicit-host', [endpoint, '--hostname', 'github.com', '--method', 'POST', '--input', 'review.json'], 'ask'],
+    ['review-other-host', [endpoint, '--hostname', 'example.com', '--method', 'POST', '--input', 'review.json'], 'deny'],
+    ['review-duplicate-host', [endpoint, '--hostname', 'github.com', '--hostname=example.com', '--input', 'review.json'], 'deny'],
+    ['review-other-repository', ['repos/other/web/pulls/12/reviews', '--method', 'POST', '--input', 'review.json'], 'deny'],
+    ['review-sibling-repository', ['repos/acme/web-other/pulls/12/reviews', '--input', 'review.json'], 'deny'],
+    ['review-dot-escape', ['repos/acme/web/../../other/web/pulls/12/reviews', '--input', 'review.json'], 'deny'],
+    ['review-encoded-escape', ['repos/acme/web/%2e%2e/other/pulls/12/reviews', '--input', 'review.json'], 'deny'],
+    ['review-placeholder', ['repos/acme/web/pulls/{branch}/reviews', '--input', 'review.json'], 'deny'],
+    ['review-full-url', ['https://api.github.com/' + endpoint, '--input', 'review.json'], 'deny'],
+    ['review-two-endpoints', [endpoint, 'repos/other/web/pulls/12/reviews', '--input', 'review.json'], 'deny'],
+    ['review-missing-input', [endpoint, '--input'], 'deny'],
+    ['review-unknown-option', [endpoint, '--future-option', 'repos/other/web/pulls'], 'deny'],
+    // Option values cannot stand in for a missing endpoint.
+    ['review-endpoint-in-body', ['--raw-field', 'body=' + endpoint], 'deny'],
+  ];
+  for (const scoped of [false, true]) for (const profile of ['loose', 'recommended', 'strict'])
+    for (const [name, args, expected] of inputs) cases.push({
+      name: `${scoped ? 'scoped' : 'unscoped'}-${name}-${profile}`, profile,
+      ...(scoped ? {variables: {repository: 'acme/web'}} : {}), argv: ['gh', 'api', ...args],
+      expected: scoped ? expected : 'ask',
+    });
+  return cases;
+}
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  // Default: the current candidate. Pass 0.4.0, 0.5.0 or 0.6.0 to reproduce a published release.
-  const releases = {'0.4.0': [destination, graphqlGithubCases], '0.5.0': [currentDestination, currentGithubCases], '0.6.0': [nextDestination, nextGithubCases]};
-  const [output, build] = releases[process.argv[2]] ?? [destination070, githubCases070];
+  // Default: the current candidate. A version argument reproduces a published release.
+  const releases = {'0.4.0': [destination, graphqlGithubCases], '0.5.0': [currentDestination, currentGithubCases], '0.6.0': [nextDestination, nextGithubCases], '0.7.0': [destination070, githubCases070]};
+  const [output, build] = releases[process.argv[2]] ?? [destination071, githubCases071];
   // Larger releases continue in cases-2.json, ... at Shield's per-file limit.
   for (const [name, document] of splitCaseFiles({schema_version:1,cases:build()}))
     await writeFile(new URL(name,output),JSON.stringify(document,null,2)+'\n');

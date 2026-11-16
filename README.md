@@ -53,7 +53,7 @@ pending candidates. Older artifacts remain available for pinned installations.
 | [canonic/box](packs/canonic/box/0.2.8/README.md) | 0.2.8 | Workspaces, current setup and documentation tools, read-only previews, paginated inspection, exact current-checkout MCP selection, execution, retained recovery and resource-deleting workspace removal |
 | [canonic/gate](packs/canonic/gate/0.2.7/README.md) | 0.2.7 | Everyday repository and worktree workflows, read-only previews, push destination selection, policy-file selection, bundled documentation and project, remote and destructive boundaries |
 | [canonic/git](packs/canonic/git/0.11.0/README.md) | 0.11.0 | Everyday local commands, network reads and rebase, with execution, configuration and destructive boundaries |
-| [canonic/github](packs/canonic/github/0.7.0/README.md) | 0.7.0 | GitHub CLI/MCP, GraphQL, everyday read options and response filters, with optional repository scope and reviewed mutations |
+| [canonic/github](packs/canonic/github/0.7.1/README.md) | 0.7.1 | GitHub CLI/MCP, GraphQL, everyday read options and response filters, with optional repository scope, reviewed mutations and approval for scoped REST requests with bodies |
 | [canonic/hub](packs/canonic/hub/0.1.1/README.md) | 0.1.1 | Workspaces, tasks, processes, agents and configuration, read-only previews and paginated inspection, with arbitrary execution, irreversible deletion and input-file boundaries |
 | [canonic/node](packs/canonic/node/0.5.0/README.md) | 0.5.0 | Everyday project scripts, Node files and package-manager listings, with optional manager selection and execution boundaries |
 | [canonic/rust](packs/canonic/rust/0.2.0/README.md) | 0.2.0 | Cargo, Rust tools, dependencies and explicit argument paths |
