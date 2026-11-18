@@ -1,6 +1,6 @@
 // One-step maintainer release: update release.json, run every test against a
 // real Shield, then sign and verify public/.
-// Usage: npm run release -- ID@VERSION [--key PATH] [--shield PATH]
+// Usage: npm run release -- ID@VERSION [--key PATH] [--shield PATH] [--hub PATH]
 import { readFile, writeFile, access } from 'node:fs/promises';
 import { createInterface } from 'node:readline/promises';
 import { homedir } from 'node:os';
@@ -42,7 +42,7 @@ async function ask(prompt, given, remembered) {
 
 async function main(args) {
   const { values, positionals: [reference] } = parseArgs({ args, allowPositionals: true,
-    options: { key: { type: 'string' }, shield: { type: 'string' },
+    options: { key: { type: 'string' }, shield: { type: 'string' }, hub: { type: 'string' },
       preflight:{type:'boolean'}, 'check-live':{type:'boolean'} } });
   if (values['check-live']) {
     if (reference || values.preflight) throw Error('--check-live takes no release reference or --preflight');
@@ -51,7 +51,7 @@ async function main(args) {
     return;
   }
   const match = /^(canonic\/[a-z0-9-]+)@(\d+\.\d+\.\d+)$/.exec(reference ?? '');
-  if (!match) throw Error('Usage: npm run release -- canonic/PACK@VERSION [--key PATH] [--shield PATH]');
+  if (!match) throw Error('Usage: npm run release -- canonic/PACK@VERSION [--key PATH] [--shield PATH] [--hub PATH]');
   const path = `packs/${match[1]}/${match[2]}/pack.yml`;
   await access(resolve(root, path)).catch(() => { throw Error(`Missing ${path}; generate the pack first`); });
 
@@ -59,6 +59,7 @@ async function main(args) {
   try { settings = JSON.parse(await readFile(settingsPath, 'utf8')); } catch {}
   const key = await ask('Private signing key path', values.key, settings.key);
   const shield = await ask('Shield binary path', values.shield, settings.shield);
+  const hub = values.hub ? expand(values.hub) : settings.hub;
   if (!key || !shield) throw Error('Pass --key PATH and --shield PATH once; later releases reuse them');
   const privateKey = createPrivateKey(await readFile(key));
   const publicKey = Buffer.from(createPublicKey(privateKey).export({format:'jwk'}).x,'base64url').toString('hex');
@@ -67,6 +68,11 @@ async function main(args) {
     throw Error('Private key does not match the reviewed Ed25519 public root');
   const version = spawnSync(shield,['--version'],{encoding:'utf8',timeout:10000});
   if (version.error || version.status !== 0) throw Error(`Shield executable unavailable: ${version.error?.message ?? version.stderr}`);
+  if (hub) {
+    const hubVersion = spawnSync(hub, ['--version'], {encoding:'utf8',timeout:10000});
+    if (hubVersion.error || hubVersion.status !== 0)
+      throw Error(`Hub executable unavailable: ${hubVersion.error?.message ?? hubVersion.stderr}`);
+  }
   const published = await checkLivePublication(root);
   const release = JSON.parse(await readFile(resolve(root, 'release.json'), 'utf8'));
   const next = planRelease(release, published.sequence, path);
@@ -75,11 +81,11 @@ async function main(args) {
   const pending = next.packs.filter(entry=>!retained.has(entry));
   console.log(`Preflight passed: ${version.stdout.trim()}, live sequence ${published.sequence}, pending ${pending.join(', ') || 'none'}.`);
   if (values.preflight || pending.length === 0) return;
-  await writeFile(settingsPath, JSON.stringify({ key, shield }, null, 2) + '\n');
+  await writeFile(settingsPath, JSON.stringify({ key, shield, ...(hub ? {hub} : {}) }, null, 2) + '\n');
   await writeFile(resolve(root, 'release.json'), JSON.stringify(next, null, 2) + '\n');
   console.log(`Releasing ${reference} as catalog sequence ${next.sequence}.`);
 
-  if (runTests(shield) !== 0) throw Error('Tests failed; nothing was signed');
+  if (runTests(shield, undefined, undefined, hub) !== 0) throw Error('Tests failed; nothing was signed');
 
   const { catalog } = await build(root, key, shield);
   const verified = await checkPublication(resolve(root, 'public'), (await readFile(resolve(root, 'keys/main.pub'), 'utf8')).trim());

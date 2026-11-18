@@ -20,7 +20,7 @@ Current source builders are grouped by capability rather than a release diary:
 | Node | `scripts/build-node-everyday.mjs` extends the reviewed-profiles release to allow project scripts and read-only listings |
 | Rust, AWS | `scripts/build-reviewed-profiles.mjs` and `scripts/build-reviewed-profile-cases.mjs` |
 | Box, Gate, Testrun | `scripts/build-current-tool-packs.mjs` and `scripts/current-tool-cases.mjs` extend frozen sources; the builder accepts a tool selection. Testrun's universal trust policy and independent fixtures are in `scripts/testrun-trusted-policy.mjs` and `scripts/testrun-trusted-cases.mjs`. |
-| Hub | `scripts/hub-policy.mjs` and independent `scripts/hub-cases.mjs`; regenerate with `node scripts/build-hub-pack.mjs` |
+| Hub | `scripts/hub-policy.mjs` and independent `scripts/hub-cases.mjs`; regenerate with `node scripts/build-hub-pack.mjs`; select a source build in focused tests with `--hub /absolute/path/to/hub` |
 | GitHub | `scripts/build-github-graphql-pack.mjs` and `scripts/build-github-graphql-cases.mjs` |
 | Workbench | `scripts/workbench-policy.mjs` and independent `scripts/workbench-cases.mjs`; regenerate with `node scripts/build-workbench-pack.mjs` |
 | Docker | `scripts/docker-policy.mjs` and independent `scripts/docker-cases.mjs`; regenerate with `node scripts/build-docker-pack.mjs` |
@@ -146,6 +146,11 @@ Replace `PACK` and `VERSION` with the prepared pack. The command processes every
 manifest entry, not just that reference. It remembers paths, never key material,
 in ignored `.release.local.json`; later invocations can omit those options.
 Without a terminal it uses the remembered paths.
+
+When a Hub candidate targets a newer interface than the installed executable,
+select the matching build with `--hub /absolute/path/to/hub`. The release helper
+checks that executable during preflight, forwards it to the suite's catalog
+comparison and remembers the path in `.release.local.json`.
 
 Run the same command with `--preflight` to inspect pending paths and verify the
 signing key, Shield executable and live publication without changing files:

@@ -1,5 +1,5 @@
-// Reviewed Hub CLI and MCP surface of hub 0.39.0: src/interface/cli.rs, the
-// task, agent, plugin and MCP-integration argument types, and the 91 tools of
+// Reviewed Hub CLI and MCP surface of hub 0.41.0: src/interface/cli.rs, the
+// task, agent, plugin and MCP-integration argument types, and the 95 tools of
 // src/interface/mcp/catalog.rs (`hub mcp serve --check`). Hub succeeds Box;
 // canonic/box keeps covering the box executable.
 // Expected decisions live independently in hub-cases.mjs.
@@ -12,7 +12,7 @@
 import {toolPack} from './tool-pack.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 
-export const version = '0.1.1';
+export const version = '0.1.2';
 export const engine = '>=0.20.0, <1.0.0';
 
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -65,14 +65,14 @@ export const hub = {
   commands: [
     ...words(['status', 'doctor', 'workspace list', 'workspace show', 'operation show', 'operation list',
       'manager status', 'manager blocker list', 'process list', 'process url',
-      'process logs', 'process gateway status', 'task show', 'task history', 'task step list', 'task step next', 'task export',
+      'process logs', 'process stats', 'process gateway status', 'task show', 'task history', 'task step list', 'task step next', 'task export',
       'agent list', 'agent show', 'config check', 'config plan', 'config schema', 'docs list', 'docs search', 'docs read',
       'plugin list', 'plugin show', 'plugin binding list', 'plugin context show', 'plugin prepare', 'plugin workflow list', 'plugin workflow show',
       'mcp auth list', 'mcp auth show', 'mcp auth manager status', 'mcp serve'],
     'inspect', 'Inspect Hub state, configuration or documentation.'),
     ...words(['init', 'setup', 'mcp setup', 'mcp auth setup', 'mcp auth logout', 'mcp auth headers', 'mcp app create',
       'mcp auth manager stop', 'mcp auth manager drain', 'manager stop', 'manager drain', 'operation cancel',
-      'workspace prepare', 'process run', 'process stop', 'process gateway enable', 'process gateway disable', 'agent stop',
+      'workspace prepare', 'process run', 'process restart', 'process pause', 'process resume', 'process stop', 'process gateway enable', 'process gateway disable', 'agent stop',
       'task step remove', 'task check add', 'task check update', 'task check remove', 'task note add', 'task note update',
       'task note remove', 'plugin enable', 'plugin disable', 'plugin reset', 'plugin binding add', 'plugin binding remove',
       'plugin workflow reconcile', 'plugin workflow abandon', 'plugin check'],
@@ -107,7 +107,7 @@ export const hub = {
   risks: [['create-command', ['workspace', 'create'], ['--'], 'shortcut', 'Run a command in the new workspace.']],
   extraCapabilities: ['argument-paths-v1', 'requirements-v1'],
   mcpTools: Object.fromEntries([
-    ...['workspace_list', 'workspace_show', 'status', 'operation_show', 'operation_list', 'process_list', 'process_logs', 'process_url', 'process_gateway_status',
+    ...['workspace_list', 'workspace_show', 'status', 'operation_show', 'operation_list', 'process_list', 'process_logs', 'process_stats', 'process_url', 'process_gateway_status',
       'manager_status', 'manager_blocker_list', 'config_check', 'config_plan', 'config_schema', 'doctor', 'task_show', 'task_history', 'task_export',
       'task_step_list', 'task_step_next', 'agent_list', 'agent_show', 'plugin_list', 'plugin_show', 'plugin_context_show',
       'plugin_prepare', 'plugin_binding_list', 'plugin_workflow_list', 'plugin_workflow_show', 'docs_list', 'docs_search', 'docs_read']
@@ -115,7 +115,7 @@ export const hub = {
     ...['init', 'setup', 'workspace_create', 'workspace_attach', 'workspace_prepare', 'workspace_data_reset',
       'task_update', 'task_import', 'task_step_add', 'task_step_update', 'task_step_remove', 'task_check_add',
       'task_check_update', 'task_check_remove', 'task_note_add', 'task_note_update', 'task_note_remove', 'process_run',
-      'process_stop', 'process_gateway_enable', 'process_gateway_disable', 'agent_stop', 'plugin_enable', 'plugin_disable',
+      'process_restart', 'process_pause', 'process_resume', 'process_stop', 'process_gateway_enable', 'process_gateway_disable', 'agent_stop', 'plugin_enable', 'plugin_disable',
       'plugin_reset', 'plugin_binding_add', 'plugin_binding_remove', 'plugin_workflow_reconcile', 'plugin_workflow_abandon',
       'plugin_check', 'manager_stop', 'manager_drain', 'operation_cancel']
       .map(name => [name, ['routine', 'Change Hub configuration, tasks, processes or plugins; Hub asks the host user before confirmed effects.']]),

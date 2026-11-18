@@ -10,7 +10,7 @@ export const directory = new URL(`../packs/canonic/hub/${version}/`, import.meta
 export function guide() {
   return `# Hub permissions ${version}
 
-Reviewed against Hub 0.39.0: its CLI definitions and the 91 tools that
+Reviewed against Hub 0.41.0 with the Compose follow-up: its CLI definitions and the 95 tools that
 \`hub mcp serve --check\` lists. Hub succeeds Box; \`canonic/box\` keeps covering
 the \`box\` executable, and this pack grants nothing to it.
 
@@ -20,6 +20,19 @@ Ordinary Hub use is allowed. Hub validates its own arguments, selection and
 configuration, and asks its user before the effects it confirms, so the pack
 does not match every option. It reviews only the forms an agent could use to
 escape other command policy or cause loss that cannot be undone.
+
+Compose member restart (CLI \`process restart\`, MCP \`process_restart\`) has
+the routine process-change decision. Hub verifies execution, target, service,
+engine and exact container ownership; restart accepts no arbitrary command.
+Compose pause/resume have the same routine decision and can affect a shared
+generation's other owners. Live member logs and bounded container stats are
+inspection, allowed in all profiles; selectors cannot select arbitrary containers.
+Container \`process exec\` uses \`execution\`, \`target\` and \`service\`, with
+literal inner argv visible in the request. It retains arbitrary execution's
+Allow/Ask/Ask decisions; this pack does not evaluate that inner program through
+other packs. Declarative Compose build/restart sequences invoked by configured
+\`process run\` retain the configured-target decision. Missing/malformed selectors
+are Hub's validation responsibility and keep the operation's decision.
 
 Workspace creation can query and fetch the configured integration branch or
 remote default, using the user's Git transport credentials, URL rewrites and
@@ -89,7 +102,7 @@ Exact permissions and independent fixtures for these forms remain. Remove no
 coverage until three subsequent published tool feature releases establish
 eligibility and supported versions no longer need it. Current MCP tool names
 and retained argument forms are checked separately; no retired MCP tool names
-were identified. Published pack 0.1.0 and its companion assets remain immutable.
+were identified. Published packs 0.1.0 and 0.1.1 and their companion assets remain immutable.
 
 ## Connection
 
@@ -99,7 +112,7 @@ wrappers and HTTP do not match. Executable identity and PATH remain host
 responsibilities.
 
 Generate with \`node scripts/build-hub-pack.mjs\`. Validate with
-\`npm test -- --shield /absolute/path/to/shield scripts/hub-pack.test.mjs\`.
+\`npm test -- --shield /absolute/path/to/shield --hub /absolute/path/to/hub scripts/hub-pack.test.mjs\`.
 `;
 }
 

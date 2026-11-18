@@ -18,7 +18,7 @@ const catalog = ['init','config_check','config_plan','config_schema','setup','wo
   'workspace_list','workspace_show','workspace_remove','workspace_prepare','workspace_data_reset','task_show','task_update',
   'task_history','task_export','task_import','task_step_list','task_step_next','task_step_add','task_step_update',
   'task_step_remove','task_check_add','task_check_update','task_check_remove','task_note_add','task_note_update',
-  'task_note_remove','process_run','process_exec','process_stop','process_list','process_logs','process_url','process_gateway_enable',
+  'task_note_remove','process_run','process_exec','process_restart','process_pause','process_resume','process_stop','process_list','process_logs','process_stats','process_url','process_gateway_enable',
   'process_gateway_disable','process_gateway_status','agent_start','agent_list','agent_show','agent_message','agent_stop',
   'plugin_list','plugin_show','plugin_enable','plugin_disable','plugin_reset','plugin_binding_add','plugin_binding_remove','plugin_binding_list',
   'plugin_context_show','plugin_prepare','plugin_workflow_run','plugin_workflow_resume','plugin_workflow_list',
@@ -69,15 +69,15 @@ function evaluate(file) {
 }
 
 test('Hub retains the signed release bytes and every published decision', {skip:!process.env.SHIELD_BINARY}, async () => {
-  const previous = new URL('../packs/canonic/hub/0.1.0/', import.meta.url);
+  const previous = new URL('../packs/canonic/hub/0.1.1/', import.meta.url);
   const catalog = await checkPublication(new URL('../public', import.meta.url).pathname,
     readFileSync(new URL('../keys/main.pub', import.meta.url), 'utf8').trim());
-  const published = catalog.releases.find(row => row.id === 'canonic/hub' && row.version === '0.1.0');
+  const published = catalog.releases.find(row => row.id === 'canonic/hub' && row.version === '0.1.1');
   assert.ok(published, 'authenticated published baseline');
   assert.equal(digest(readFileSync(new URL('pack.yml', previous))), published.sha256);
   for (const file of ['pack.yml', ...await caseFileNames(previous), 'commands.json', 'README.md', 'LICENSE']) {
     assert.deepEqual(readFileSync(new URL(file, previous)),
-      readFileSync(new URL(`../public/packs/canonic/hub/0.1.0/${file}`, import.meta.url)),
+      readFileSync(new URL(`../public/packs/canonic/hub/0.1.1/${file}`, import.meta.url)),
       `published ${file} remains immutable`);
   }
   // Independently authored historical fixtures run unchanged against the candidate.
