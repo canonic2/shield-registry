@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync, mkdtempSync, writeFileSync, rmSync} from 'node:fs';
+import {readFileSync, mkdtempSync, writeFileSync, rmSync, mkdirSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -59,6 +59,49 @@ test('Current Baseline preview expectations preserve every historical case excep
   altered.argv.push('another-file');
   assert.throws(() => baselinePreviewCases([altered], '0.10.0'), /explicit review/);
 });
+
+test('Shield 0.40 adapts only the exact historical missing-path ripgrep case without changing its source',()=>{
+  const cases=JSON.parse(readFileSync(new URL('../packs/canonic/baseline/0.15.0/cases.json',import.meta.url))).cases;
+  const before=structuredClone(cases);
+  const current=baselinePreviewCases(cases,'0.40.0');
+  const changed=current.filter((fixture,index)=>fixture.expected!==cases[index].expected);
+  assert.deepEqual(changed.map(fixture=>[fixture.name,fixture.argv,fixture.expected]),
+    [['rg-missing-recommended',['rg','Shield','missing-folder'],'allow']]);
+  assert.deepEqual(cases,before);
+  assert.deepEqual(baselinePreviewCases(cases,'0.39.0'),cases);
+  assert.deepEqual(baselinePreviewCases(current,'0.40.0'),current);
+  const altered={...changed[0],argv:['rg','Shield','../outside']};
+  assert.throws(()=>baselinePreviewCases([altered],'0.40.0'),/explicit review/);
+  assert.throws(()=>baselinePreviewCases([{...changed[0],expected:'ask'}],'0.40.0'),/explicit review/);
+  const neighbors=[
+    {name:'rg-missing-outside-recommended',profile:'recommended',argv:['rg','Shield','../outside'],expected:'deny'},
+    {name:'rg-missing-protected-recommended',profile:'recommended',argv:['rg','Shield','.aws/missing'],expected:'deny'},
+  ];
+  assert.deepEqual(baselinePreviewCases(neighbors,'0.40.0'),neighbors);
+});
+
+test('production Shield allows a stable absent ripgrep root but still denies outside and protected paths',
+  {skip:!process.env.SHIELD_BINARY},t=>{
+    const [major,minor]=shieldVersion().split('.').map(Number);
+    if(major!==0 || minor<40) return t.skip('Stable missing-path evidence starts with Shield 0.40');
+    const owner=mkdtempSync(join(tmpdir(),'shield-missing-path-preview-'));
+    t.after(()=>rmSync(owner,{recursive:true,force:true}));
+    const root=join(owner,'project');mkdirSync(root);
+    const rows=['loose','recommended','strict'].flatMap(profile=>[
+      {name:`absent-${profile}`,profile,argv:['rg','Shield','missing-folder'],expected:'allow'},
+      {name:`outside-${profile}`,profile,argv:['rg','Shield','../outside'],expected:'deny'},
+      {name:`protected-${profile}`,profile,argv:['rg','Shield','.aws/missing'],expected:'deny'},
+      {name:`outside-pattern-${profile}`,profile,argv:['rg','-f','../patterns','missing-folder'],expected:'deny'},
+    ]);
+    const path=join(owner,'cases.json');writeFileSync(path,JSON.stringify({schema_version:1,cases:rows}));
+    const result=spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack','--pack',
+      new URL('../packs/canonic/baseline/0.15.0/pack.yml',import.meta.url).pathname,'--cases',path],
+      {cwd:root,encoding:'utf8',timeout:120000,maxBuffer:4*1024*1024});
+    const report=JSON.parse(result.stdout || '{}');
+    assert.equal(result.status,0,JSON.stringify(report.cases?.filter(row=>!row.passed) ?? report)+result.stderr);
+    assert.equal(report.passed,true);
+    assert.equal(report.cases.length,12);
+  });
 
 test('Shield sed previews enforce the versioned target-evidence contract',
   {skip: !process.env.SHIELD_BINARY}, t => {

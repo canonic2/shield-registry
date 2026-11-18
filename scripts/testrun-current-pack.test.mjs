@@ -109,12 +109,13 @@ test('Testrun retains signed 0.2.8 bytes and independent historical decisions', 
     assert.deepEqual(readFileSync(new URL(file,previous)),
       readFileSync(new URL(`../public/packs/canonic/testrun/0.2.8/${file}`,import.meta.url)),file);
   for (const file of await caseFileNames(previous)) {
-    const result = evaluate(new URL(file,previous).pathname);
-    assert.equal(result.status,0,result.stdout+result.stderr);
+    const result = evaluate(new URL(file,previous).pathname,new URL('pack.yml',previous).pathname);
+    const report=JSON.parse(result.stdout || '{}');
+    assert.equal(result.status,0,JSON.stringify(report.cases?.filter(row=>!row.passed) ?? report)+result.stderr);
   }
 });
 
-test('published configuration-file escape demonstrates the documented safety exception', {skip:!process.env.SHIELD_BINARY}, () => {
+test('historical Testrun 0.2.8 configuration-file decisions stay frozen', {skip:!process.env.SHIELD_BINARY}, () => {
   const owner = mkdtempSync(join(tmpdir(),'testrun-config-pack-'));
   try {
     const file = join(owner,'cases.json');

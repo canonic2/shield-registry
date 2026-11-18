@@ -159,7 +159,7 @@ test('tool permission reset retains published setup and preview decisions', {ski
   } finally {rmSync(dir,{recursive:true,force:true});}
 });
 
-test('testrun browser defaults and cross-frame evaluation preserve opaque and shared-action decisions', {skip:!process.env.SHIELD_BINARY}, t => {
+test('published Testrun 0.2.9 preserves its browser defaults and cross-frame decisions', {skip:!process.env.SHIELD_BINARY}, t => {
   const dir = mkdtempSync(join(tmpdir(),'testrun-browser-contracts-pack-'));
   try {
     const context = {connectionId:'acme',id:'context',generation:'owned'};
@@ -667,7 +667,7 @@ test('testrun browser defaults and cross-frame evaluation preserve opaque and sh
     for (let offset=0;offset<rows.length;offset+=1024) {
       const selected=rows.slice(offset,offset+1024),cases=join(dir,`cases-${offset}.json`);
       writeFileSync(cases,JSON.stringify({schema_version:1,cases:selected}));
-      const result=spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack','--pack',new URL('pack.yml',currentDirectory('testrun')).pathname,'--cases',cases],{encoding:'utf8',timeout:120000,maxBuffer:8*1024*1024});
+      const result=spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack','--pack',new URL('pack.yml',currentDirectory('testrun','0.2.9')).pathname,'--cases',cases],{encoding:'utf8',timeout:120000,maxBuffer:8*1024*1024});
       const report=JSON.parse(result.stdout||'{}');
       assert.equal(result.status,0,JSON.stringify(report.cases?.filter(row=>!row.passed)??report)+result.stderr);
       assert.equal(report.passed,true);
@@ -691,7 +691,9 @@ for (const name of Object.keys(currentToolVersions)) {
       assert.equal(validate(document),true,JSON.stringify(validate.errors));
     }
     const previous = JSON.parse(readFileSync(new URL('pack.yml',currentDirectory(name,'0.2.1'))));
-    for (const old of previous.rules) {
+    // Testrun's operator-selected universal trust supersedes its old per-effect
+    // rules; the dedicated trusted-pack suite checks that contract and identity.
+    for (const old of name==='testrun' ? [] : previous.rules) {
       const next = pack.rules.find(row=>row.id===old.id);
       if (name === 'box' && old.id === 'logs-follow') {
         const expected = structuredClone(old);

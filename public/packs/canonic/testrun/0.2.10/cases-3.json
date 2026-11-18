@@ -1,0 +1,2458 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "trusted-mcp-15-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "future_tool",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-16-request-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_read",
+        "arguments": {
+          "path": "cli.md"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-16-empty-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-16-malformed-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_read",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-server-alias-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "qa": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "qa"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "qa",
+        "tool": "connect",
+        "arguments": {
+          "engine": "webkit"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-136-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "testrun",
+        "connect",
+        "--engine",
+        "chrome"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-137-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "testrun",
+        "act",
+        "--target",
+        "browser:acme",
+        "[{\"action\":\"page_navigate\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"},\"navigation\":{\"kind\":\"goto\",\"url\":\"http://app.localhost\"}},{\"action\":\"page_snapshot\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"}}]"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-138-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "testrun",
+        "browser",
+        "send",
+        "{\"operation\":\"batch\",\"requests\":[{\"operation\":\"page_navigate\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"},\"navigation\":{\"kind\":\"goto\",\"url\":\"http://app.localhost\"}},{\"operation\":\"page_snapshot\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"}}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-139-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "testrun",
+        "app",
+        "uninstall",
+        "com.example.acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-140-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "testrun",
+        "manager",
+        "stop"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-141-5-recommended",
+      "profile": "recommended",
+      "argv": [
+        "testrun",
+        "mcp",
+        "setup",
+        "--yes"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-142-6-recommended",
+      "profile": "recommended",
+      "argv": [
+        "testrun",
+        "future-command",
+        "--future-option",
+        "/outside/qa"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-143-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/testrun",
+        "connect",
+        "--engine",
+        "chrome"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-144-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/testrun",
+        "act",
+        "--target",
+        "browser:acme",
+        "[{\"action\":\"page_navigate\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"},\"navigation\":{\"kind\":\"goto\",\"url\":\"http://app.localhost\"}},{\"action\":\"page_snapshot\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"}}]"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-145-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/testrun",
+        "browser",
+        "send",
+        "{\"operation\":\"batch\",\"requests\":[{\"operation\":\"page_navigate\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"},\"navigation\":{\"kind\":\"goto\",\"url\":\"http://app.localhost\"}},{\"operation\":\"page_snapshot\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"}}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-146-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/testrun",
+        "app",
+        "uninstall",
+        "com.example.acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-147-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/testrun",
+        "manager",
+        "stop"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-148-5-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/testrun",
+        "mcp",
+        "setup",
+        "--yes"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-149-6-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/testrun",
+        "future-command",
+        "--future-option",
+        "/outside/qa"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-150-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/testrun",
+        "connect",
+        "--engine",
+        "chrome"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-151-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/testrun",
+        "act",
+        "--target",
+        "browser:acme",
+        "[{\"action\":\"page_navigate\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"},\"navigation\":{\"kind\":\"goto\",\"url\":\"http://app.localhost\"}},{\"action\":\"page_snapshot\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"}}]"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-152-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/testrun",
+        "browser",
+        "send",
+        "{\"operation\":\"batch\",\"requests\":[{\"operation\":\"page_navigate\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"},\"navigation\":{\"kind\":\"goto\",\"url\":\"http://app.localhost\"}},{\"operation\":\"page_snapshot\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"}}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-153-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/testrun",
+        "app",
+        "uninstall",
+        "com.example.acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-154-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/testrun",
+        "manager",
+        "stop"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-155-5-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/testrun",
+        "mcp",
+        "setup",
+        "--yes"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-156-6-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/testrun",
+        "future-command",
+        "--future-option",
+        "/outside/qa"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-157-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/testrun",
+        "connect",
+        "--engine",
+        "chrome"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-158-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/testrun",
+        "act",
+        "--target",
+        "browser:acme",
+        "[{\"action\":\"page_navigate\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"},\"navigation\":{\"kind\":\"goto\",\"url\":\"http://app.localhost\"}},{\"action\":\"page_snapshot\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"}}]"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-159-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/testrun",
+        "browser",
+        "send",
+        "{\"operation\":\"batch\",\"requests\":[{\"operation\":\"page_navigate\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"},\"navigation\":{\"kind\":\"goto\",\"url\":\"http://app.localhost\"}},{\"operation\":\"page_snapshot\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"}}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-160-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/testrun",
+        "app",
+        "uninstall",
+        "com.example.acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-161-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/testrun",
+        "manager",
+        "stop"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-162-5-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/testrun",
+        "mcp",
+        "setup",
+        "--yes"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-163-6-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/testrun",
+        "future-command",
+        "--future-option",
+        "/outside/qa"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unrelated-164-recommended",
+      "profile": "recommended",
+      "argv": [
+        "acme",
+        "connect"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unrelated-165-recommended",
+      "profile": "recommended",
+      "argv": [
+        "testrun-other",
+        "connect"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unrelated-166-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/forged/testrun",
+        "connect"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unrelated-167-recommended",
+      "profile": "recommended",
+      "argv": [
+        "hub",
+        "operation",
+        "show",
+        "acme",
+        "--json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "trusted-mcp-0-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "connect",
+        "arguments": {
+          "engine": "chrome",
+          "mode": "headless"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-0-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "connect",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-0-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "connect",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-1-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_connect",
+        "arguments": {
+          "engine": "firefox",
+          "mode": "headless",
+          "context": {
+            "permissions": [
+              "clipboard-read"
+            ]
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-1-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_connect",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-1-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_connect",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-2-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "arguments": {
+          "targetId": "browser:acme",
+          "actions": [
+            {
+              "action": "page_navigate",
+              "page": {
+                "connectionId": "11111111-1111-4111-8111-111111111111",
+                "generation": "22222222-2222-4222-8222-222222222222",
+                "id": "33333333-3333-4333-8333-333333333333"
+              },
+              "navigation": {
+                "kind": "goto",
+                "url": "http://app.localhost"
+              }
+            },
+            {
+              "action": "page_snapshot",
+              "page": {
+                "connectionId": "11111111-1111-4111-8111-111111111111",
+                "generation": "22222222-2222-4222-8222-222222222222",
+                "id": "33333333-3333-4333-8333-333333333333"
+              }
+            }
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-2-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-2-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-3-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "arguments": {
+          "targetId": "browser:acme",
+          "actions": [
+            {
+              "action": "page_navigate",
+              "page": {
+                "connectionId": "11111111-1111-4111-8111-111111111111",
+                "generation": "22222222-2222-4222-8222-222222222222",
+                "id": "33333333-3333-4333-8333-333333333333"
+              },
+              "navigation": {
+                "kind": "goto",
+                "url": "https://example.com"
+              }
+            }
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-3-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-3-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-4-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "arguments": {
+          "actions": [
+            {
+              "action": "app_launch",
+              "appId": "com.example.acme",
+              "env": {
+                "ACME_TEST_MODE": "1"
+              }
+            }
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-4-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-4-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "act",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-5-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "arguments": {
+          "request": {
+            "operation": "batch",
+            "requests": [
+              {
+                "operation": "page_navigate",
+                "page": {
+                  "connectionId": "11111111-1111-4111-8111-111111111111",
+                  "generation": "22222222-2222-4222-8222-222222222222",
+                  "id": "33333333-3333-4333-8333-333333333333"
+                },
+                "navigation": {
+                  "kind": "goto",
+                  "url": "http://app.localhost"
+                }
+              },
+              {
+                "operation": "page_snapshot",
+                "page": {
+                  "connectionId": "11111111-1111-4111-8111-111111111111",
+                  "generation": "22222222-2222-4222-8222-222222222222",
+                  "id": "33333333-3333-4333-8333-333333333333"
+                }
+              }
+            ]
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-5-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-5-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-6-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "arguments": {
+          "request": {
+            "operation": "page_add_script_tag",
+            "scope": {
+              "connectionId": "11111111-1111-4111-8111-111111111111",
+              "generation": "22222222-2222-4222-8222-222222222222",
+              "id": "33333333-3333-4333-8333-333333333333"
+            },
+            "path": "/outside/fixture.js"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-6-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-6-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-7-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "arguments": {
+          "request": {
+            "operation": "http_fetch",
+            "httpContext": {
+              "connectionId": "11111111-1111-4111-8111-111111111111",
+              "generation": "22222222-2222-4222-8222-222222222222",
+              "id": "33333333-3333-4333-8333-333333333333"
+            },
+            "request": {
+              "url": "https://example.com",
+              "method": "POST"
+            }
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-7-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-7-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-8-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "arguments": {
+          "request": {
+            "operation": "future_qa_operation",
+            "options": {
+              "path": "/outside/fixture",
+              "env": {
+                "ACME_TEST_MODE": "1"
+              }
+            }
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-8-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-8-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-9-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "arguments": {
+          "request": {
+            "operation": "context_configure",
+            "context": {
+              "connectionId": "11111111-1111-4111-8111-111111111111",
+              "generation": "22222222-2222-4222-8222-222222222222",
+              "id": "33333333-3333-4333-8333-333333333333"
+            },
+            "setting": {
+              "kind": "permissions_grant",
+              "origin": "https://example.com",
+              "permissions": [
+                "camera"
+              ]
+            }
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-9-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-9-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "browser_send",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-10-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "arguments": {
+          "project": "/outside/qa",
+          "inline": {
+            "command": "acme-build"
+          },
+          "env": {
+            "ACME_TEST_MODE": "1"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-10-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-10-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "build_start",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-11-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "app_install",
+        "arguments": {
+          "path": "/outside/app.apk",
+          "replace": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-11-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "app_install",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-11-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "app_install",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-12-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "app_uninstall",
+        "arguments": {
+          "appId": "com.example.acme"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-12-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "app_uninstall",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-12-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "app_uninstall",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-13-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_export",
+        "arguments": {
+          "path": "/outside/report.json"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-13-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_export",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-13-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_export",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-14-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_remove",
+        "arguments": {
+          "investigationId": "acme"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-14-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_remove",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-14-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_remove",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-15-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "future_tool",
+        "arguments": {
+          "path": "/outside/qa"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-15-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "future_tool",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-15-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "future_tool",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-16-request-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_read",
+        "arguments": {
+          "path": "cli.md"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-16-empty-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-mcp-16-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "testrun": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "testrun"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_read",
+        "arguments": {
+          "request": null,
+          "actions": "invalid"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-server-alias-strict",
+      "profile": "strict",
+      "mcp": {
+        "qa": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/testrun",
+            "integration": "testrun"
+          },
+          "agents": {
+            "codex": "qa"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "qa",
+        "tool": "connect",
+        "arguments": {
+          "engine": "webkit"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-220-0-strict",
+      "profile": "strict",
+      "argv": [
+        "testrun",
+        "connect",
+        "--engine",
+        "chrome"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-221-1-strict",
+      "profile": "strict",
+      "argv": [
+        "testrun",
+        "act",
+        "--target",
+        "browser:acme",
+        "[{\"action\":\"page_navigate\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"},\"navigation\":{\"kind\":\"goto\",\"url\":\"http://app.localhost\"}},{\"action\":\"page_snapshot\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"}}]"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-222-2-strict",
+      "profile": "strict",
+      "argv": [
+        "testrun",
+        "browser",
+        "send",
+        "{\"operation\":\"batch\",\"requests\":[{\"operation\":\"page_navigate\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"},\"navigation\":{\"kind\":\"goto\",\"url\":\"http://app.localhost\"}},{\"operation\":\"page_snapshot\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"}}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-223-3-strict",
+      "profile": "strict",
+      "argv": [
+        "testrun",
+        "app",
+        "uninstall",
+        "com.example.acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-224-4-strict",
+      "profile": "strict",
+      "argv": [
+        "testrun",
+        "manager",
+        "stop"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-225-5-strict",
+      "profile": "strict",
+      "argv": [
+        "testrun",
+        "mcp",
+        "setup",
+        "--yes"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-226-6-strict",
+      "profile": "strict",
+      "argv": [
+        "testrun",
+        "future-command",
+        "--future-option",
+        "/outside/qa"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-227-0-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/testrun",
+        "connect",
+        "--engine",
+        "chrome"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-228-1-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/testrun",
+        "act",
+        "--target",
+        "browser:acme",
+        "[{\"action\":\"page_navigate\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"},\"navigation\":{\"kind\":\"goto\",\"url\":\"http://app.localhost\"}},{\"action\":\"page_snapshot\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"}}]"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-229-2-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/testrun",
+        "browser",
+        "send",
+        "{\"operation\":\"batch\",\"requests\":[{\"operation\":\"page_navigate\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"},\"navigation\":{\"kind\":\"goto\",\"url\":\"http://app.localhost\"}},{\"operation\":\"page_snapshot\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"}}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-230-3-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/testrun",
+        "app",
+        "uninstall",
+        "com.example.acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-231-4-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/testrun",
+        "manager",
+        "stop"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-232-5-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/testrun",
+        "mcp",
+        "setup",
+        "--yes"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-233-6-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/testrun",
+        "future-command",
+        "--future-option",
+        "/outside/qa"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-234-0-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/testrun",
+        "connect",
+        "--engine",
+        "chrome"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-235-1-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/testrun",
+        "act",
+        "--target",
+        "browser:acme",
+        "[{\"action\":\"page_navigate\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"},\"navigation\":{\"kind\":\"goto\",\"url\":\"http://app.localhost\"}},{\"action\":\"page_snapshot\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"}}]"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-236-2-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/testrun",
+        "browser",
+        "send",
+        "{\"operation\":\"batch\",\"requests\":[{\"operation\":\"page_navigate\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"},\"navigation\":{\"kind\":\"goto\",\"url\":\"http://app.localhost\"}},{\"operation\":\"page_snapshot\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"}}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-237-3-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/testrun",
+        "app",
+        "uninstall",
+        "com.example.acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-238-4-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/testrun",
+        "manager",
+        "stop"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-239-5-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/testrun",
+        "mcp",
+        "setup",
+        "--yes"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-240-6-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/testrun",
+        "future-command",
+        "--future-option",
+        "/outside/qa"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-241-0-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/testrun",
+        "connect",
+        "--engine",
+        "chrome"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-242-1-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/testrun",
+        "act",
+        "--target",
+        "browser:acme",
+        "[{\"action\":\"page_navigate\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"},\"navigation\":{\"kind\":\"goto\",\"url\":\"http://app.localhost\"}},{\"action\":\"page_snapshot\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"}}]"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-243-2-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/testrun",
+        "browser",
+        "send",
+        "{\"operation\":\"batch\",\"requests\":[{\"operation\":\"page_navigate\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"},\"navigation\":{\"kind\":\"goto\",\"url\":\"http://app.localhost\"}},{\"operation\":\"page_snapshot\",\"page\":{\"connectionId\":\"11111111-1111-4111-8111-111111111111\",\"generation\":\"22222222-2222-4222-8222-222222222222\",\"id\":\"33333333-3333-4333-8333-333333333333\"}}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-244-3-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/testrun",
+        "app",
+        "uninstall",
+        "com.example.acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-245-4-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/testrun",
+        "manager",
+        "stop"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-246-5-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/testrun",
+        "mcp",
+        "setup",
+        "--yes"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "trusted-cli-247-6-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/testrun",
+        "future-command",
+        "--future-option",
+        "/outside/qa"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unrelated-248-strict",
+      "profile": "strict",
+      "argv": [
+        "acme",
+        "connect"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unrelated-249-strict",
+      "profile": "strict",
+      "argv": [
+        "testrun-other",
+        "connect"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unrelated-250-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/forged/testrun",
+        "connect"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unrelated-251-strict",
+      "profile": "strict",
+      "argv": [
+        "hub",
+        "operation",
+        "show",
+        "acme",
+        "--json"
+      ],
+      "expected": "ask"
+    }
+  ]
+}

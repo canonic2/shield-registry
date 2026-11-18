@@ -1,5 +1,6 @@
 // Expected outcomes are reviewed independently from the policy constructors.
 import {readFile} from 'node:fs/promises';
+import {applyTrustedTestrunExpectations} from './testrun-trusted-cases.mjs';
 
 const profiles = ['loose','recommended','strict'];
 const allow = ['allow','allow','allow'];
@@ -900,5 +901,6 @@ export async function currentToolCases(name) {
     for (const [label,tool,arguments_,expected] of mcp) cases.cases.push({name:`current-mcp-${label}-${profile}`,profile,mcp:binding,
       input:{kind:'mcp',server:name,tool,arguments:arguments_,original_input:{}},expected:expected[index]});
   }
+  if (name === 'testrun') applyTrustedTestrunExpectations(cases);
   return cases;
 }

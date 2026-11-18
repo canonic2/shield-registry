@@ -1,0 +1,1279 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/testrun",
+  "version": "0.2.10",
+  "description": "Allow every Testrun CLI command and verified MCP tool, including future operations, in every profile.",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.20.0, <1.0.0"
+  },
+  "capabilities": [
+    "argument-rules-v1",
+    "fallback-rules-v1",
+    "mcp-integrations-v1",
+    "negated-selectors-v1",
+    "structured-rules-v1"
+  ],
+  "mcp_integrations": {
+    "testrun": {
+      "transport": "stdio",
+      "fields": {
+        "/command": {
+          "text": {
+            "one_of": [
+              "testrun",
+              "/usr/bin/testrun",
+              "/usr/local/bin/testrun",
+              "/opt/homebrew/bin/testrun"
+            ]
+          }
+        },
+        "/args": {
+          "exact": [
+            "mcp",
+            "serve"
+          ]
+        }
+      },
+      "defaults": {
+        "type": "stdio",
+        "command": "testrun",
+        "args": [
+          "mcp",
+          "serve"
+        ],
+        "env": {}
+      }
+    }
+  },
+  "rules": [
+    {
+      "id": "cli-testrun",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "testrun",
+            "/usr/bin/testrun",
+            "/usr/local/bin/testrun",
+            "/opt/homebrew/bin/testrun"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust all Testrun QA commands and arguments."
+    },
+    {
+      "id": "mcp-build_status",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "build_status"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-config_check",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "config_check"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-config_schema",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "config_schema"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-config_show",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "config_show"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-control_status",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "control_status"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-doctor",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "doctor"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-media_status",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "media_status"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-observe",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "observe"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-preview_status",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "preview_status"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-recording_status",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "recording_status"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-status",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "status"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-target_list",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "target_list"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-testrun_docs_list",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_list"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-testrun_docs_read",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_read"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-testrun_docs_search",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "testrun_docs_search"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-ui_find",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "ui_find"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-ui_read",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "ui_read"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-ui_snapshot",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "ui_snapshot"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-volume_get",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "volume_get"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-wait",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "wait"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-app_list",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "app_list"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-browser_doctor",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_doctor"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-browser_list",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_list"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-browser_status",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_status"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-clipboard_read",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "clipboard_read"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-act",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "act"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-app_install",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "app_install"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-audio_probe",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "audio_probe"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-browser_cancel",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_cancel"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-browser_connect",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_connect"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-browser_disconnect",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_disconnect"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-cancel",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "cancel"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-control_acquire",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "control_acquire"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-control_release",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "control_release"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-developer_mode_reveal",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "developer_mode_reveal"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-disconnect",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "disconnect"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-media_send",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "media_send"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-network_set",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "network_set"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-preview_start",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "preview_start"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-preview_stop",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "preview_stop"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-recording_start",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "recording_start"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-recording_stop",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "recording_stop"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-volume_set",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "volume_set"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-connect",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "connect"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-browser_send",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "browser_send"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-build_start",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "build_start"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-build_cancel",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "build_cancel"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-config_init",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "config_init"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-app_uninstall",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "app_uninstall"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-developer_support_install",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "developer_support_install"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-docs_list",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "docs_list"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-docs_search",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "docs_search"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-docs_read",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "docs_read"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-project_discover",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "project_discover"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-project_init",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "project_init"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-project_list",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "project_list"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-project_show",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "project_show"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-project_status",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "project_status"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-project_start",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "project_start"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-project_open",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "project_open"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-build_log",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "build_log"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-diagnostics_open",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_open"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-diagnostics_start",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_start"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-diagnostics_status",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_status"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-diagnostics_read",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_read"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-diagnostics_stop",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_stop"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-diagnostics_close",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_close"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-diagnostics_remove",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_remove"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-diagnostics_analyze",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_analyze"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-diagnostics_analysis_status",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_analysis_status"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-diagnostics_analysis_cancel",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_analysis_cancel"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-diagnostics_query",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_query"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-diagnostics_compare",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_compare"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-diagnostics_capabilities",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_capabilities"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-diagnostics_plan",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_plan"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-diagnostics_prepare",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_prepare"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-diagnostics_project",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_project"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-diagnostics_export",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "diagnostics_export"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-project_init_preview",
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": "project_init_preview"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "allow"
+      },
+      "reason": "Trust this Testrun QA tool and its arguments."
+    },
+    {
+      "id": "mcp-unlisted",
+      "fallback": true,
+      "conditions": {
+        "domain": "mcp",
+        "server": "testrun",
+        "tool": {
+          "not": {
+            "one_of": [
+              "build_status",
+              "config_check",
+              "config_schema",
+              "config_show",
+              "control_status",
+              "doctor",
+              "media_status",
+              "observe",
+              "preview_status",
+              "recording_status",
+              "status",
+              "target_list",
+              "testrun_docs_list",
+              "testrun_docs_read",
+              "testrun_docs_search",
+              "ui_find",
+              "ui_read",
+              "ui_snapshot",
+              "volume_get",
+              "wait",
+              "app_list",
+              "browser_doctor",
+              "browser_list",
+              "browser_status",
+              "clipboard_read",
+              "act",
+              "app_install",
+              "audio_probe",
+              "browser_cancel",
+              "browser_connect",
+              "browser_disconnect",
+              "cancel",
+              "control_acquire",
+              "control_release",
+              "developer_mode_reveal",
+              "disconnect",
+              "media_send",
+              "network_set",
+              "preview_start",
+              "preview_stop",
+              "recording_start",
+              "recording_stop",
+              "volume_set",
+              "connect",
+              "browser_send",
+              "build_start",
+              "build_cancel",
+              "config_init",
+              "app_uninstall",
+              "developer_support_install",
+              "docs_list",
+              "docs_search",
+              "docs_read",
+              "project_discover",
+              "project_init",
+              "project_list",
+              "project_show",
+              "project_status",
+              "project_start",
+              "project_open",
+              "build_log",
+              "diagnostics_open",
+              "diagnostics_start",
+              "diagnostics_status",
+              "diagnostics_read",
+              "diagnostics_stop",
+              "diagnostics_close",
+              "diagnostics_remove",
+              "diagnostics_analyze",
+              "diagnostics_analysis_status",
+              "diagnostics_analysis_cancel",
+              "diagnostics_query",
+              "diagnostics_compare",
+              "diagnostics_capabilities",
+              "diagnostics_plan",
+              "diagnostics_prepare",
+              "diagnostics_project",
+              "diagnostics_export",
+              "project_init_preview"
+            ]
+          }
+        }
+      },
+      "decision": "allow",
+      "reason": "Trust other tools from the verified Testrun server, including future QA operations."
+    }
+  ]
+}

@@ -3,6 +3,7 @@
 // 0.33 parses trailing ripgrep options and checks hidden walks against existing
 // entries. These fixture projects contain no protected hidden descendants.
 // Shield 0.36 checks the working directory a recursive grep without a path walks.
+// Shield 0.40 verifies stable missing ripgrep paths through existing ancestors.
 import assert from 'node:assert/strict';
 import {mkdtempSync, readFileSync, rmSync, writeFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
@@ -43,11 +44,20 @@ const ripgrepForms = new Map([
 const grepForms = new Map([
   ['grep-recursive-without-path', ['grep', '-r', 'Acme']],
 ]);
+const missingRipgrepForms = new Map([
+  ['rg-missing', ['rg', 'Shield', 'missing-folder']],
+]);
 
 export function baselinePreviewCases(cases, version = shieldVersion()) {
   const [major, minor] = version.split('.').map(Number);
   if (major === 0 && minor >= 33) return cases.map(fixture => {
     const name = fixture.name.replace(/-(loose|recommended|strict)$/, '');
+    const missing = minor >= 40 && missingRipgrepForms.get(name);
+    if (missing) {
+      assert.deepEqual(fixture.argv, missing, 'A changed historical fixture needs explicit review');
+      assert.ok(['deny', 'allow'].includes(fixture.expected), 'A changed historical decision needs explicit review');
+      return {...fixture, expected: 'allow'};
+    }
     const grep = minor >= 36 && grepForms.get(name);
     if (grep) {
       assert.deepEqual(fixture.argv, grep, 'A changed historical fixture needs explicit review');

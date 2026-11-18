@@ -15,14 +15,15 @@ Current source builders are grouped by capability rather than a release diary:
 
 | Pack | Policy and fixture sources |
 | --- | --- |
-| Baseline | `scripts/build-baseline-grep-effects.mjs` decides `grep` by the files it reads, extending the everyday-reads release (`scripts/build-baseline-everyday-reads.mjs`, itself extending `scripts/build-node-everyday.mjs` and `scripts/build-baseline-recursive-grep.mjs`) with its path-checked `rg` searches and everyday read-only process, clock and Docker listings |
+| Baseline | `scripts/build-baseline-base64.mjs`, independent `scripts/base64-cases.mjs` and `scripts/sed-addresses.mjs` prepare 0.16.0 with stream transformations, checked input/output files and sed regex addresses/ranges. They extend the published grep-effects release (`scripts/build-baseline-grep-effects.mjs`) and its earlier everyday-read sources. |
 | Git | `scripts/build-git-allow-by-default.mjs` extends the inspection release (`scripts/build-git-inspection.mjs`) to allow everyday use and review known-harmful forms |
 | Node | `scripts/build-node-everyday.mjs` extends the reviewed-profiles release to allow project scripts and read-only listings |
 | Rust, AWS | `scripts/build-reviewed-profiles.mjs` and `scripts/build-reviewed-profile-cases.mjs` |
-| Box, Gate, Testrun | `scripts/build-current-tool-packs.mjs` and `scripts/current-tool-cases.mjs` extend frozen sources; the builder accepts a tool selection |
+| Box, Gate, Testrun | `scripts/build-current-tool-packs.mjs` and `scripts/current-tool-cases.mjs` extend frozen sources; the builder accepts a tool selection. Testrun's universal trust policy and independent fixtures are in `scripts/testrun-trusted-policy.mjs` and `scripts/testrun-trusted-cases.mjs`. |
 | Hub | `scripts/hub-policy.mjs` and independent `scripts/hub-cases.mjs`; regenerate with `node scripts/build-hub-pack.mjs` |
 | GitHub | `scripts/build-github-graphql-pack.mjs` and `scripts/build-github-graphql-cases.mjs` |
 | Workbench | `scripts/workbench-policy.mjs` and independent `scripts/workbench-cases.mjs`; regenerate with `node scripts/build-workbench-pack.mjs` |
+| Docker | `scripts/docker-policy.mjs` and independent `scripts/docker-cases.mjs`; regenerate with `node scripts/build-docker-pack.mjs` |
 
 Read each builder's imports and destination before running it. Shared builders
 may generate several packs. Historical builders remain dependencies and
@@ -112,7 +113,10 @@ own complete fixtures. Historical fixture bytes retain their original engine's
 expectations. Current-engine tests separately cover modeling changes through
 `scripts/baseline-preview.mjs`: sed target evidence and, from Shield 0.33,
 trailing ripgrep options and hidden walks in the fixture project. Adaptations
-match exact reviewed arguments; published fixture bytes remain unchanged.
+also cover recursive grep's working directory from Shield 0.36 and the exact
+stable missing-path ripgrep fixture from Shield 0.40. Adaptations match exact
+reviewed arguments; published fixture bytes remain unchanged. Outside and
+protected missing paths retain independent denial fixtures.
 
 Native hook acceptance is separate. Run it when native integration behavior
 changes, with host access for its isolated projects and Unix PTYs:

@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "registry_id": "canonic-shield-main",
-  "sequence": 50,
+  "sequence": 51,
   "expires_at": "2027-02-03T00:00:00Z",
   "packs": [
     {
@@ -12,15 +12,21 @@
     },
     {
       "id": "canonic/baseline",
-      "version": "0.15.0",
-      "path": "packs/canonic/baseline/0.15.0/pack.yml",
-      "sha256": "e6f5fee62feb011a91c7a6bf5f790869848fee2d05f9d43570ae823803b1e364"
+      "version": "0.16.0",
+      "path": "packs/canonic/baseline/0.16.0/pack.yml",
+      "sha256": "f59a663e1bd6e3670148dea221bfa5128e73bfaa1084a1af8d6d9b1a96c04615"
     },
     {
       "id": "canonic/box",
       "version": "0.2.8",
       "path": "packs/canonic/box/0.2.8/pack.yml",
       "sha256": "c01df80558e67cb640bb53c670862c7b582cada6755e855b46192c4a40f3bfd2"
+    },
+    {
+      "id": "canonic/docker",
+      "version": "0.1.0",
+      "path": "packs/canonic/docker/0.1.0/pack.yml",
+      "sha256": "62e6739e83df2cfcdbca8fc353e1efee75ff72b339b92787964d627ae8a2a230"
     },
     {
       "id": "canonic/gate",
@@ -60,9 +66,9 @@
     },
     {
       "id": "canonic/testrun",
-      "version": "0.2.9",
-      "path": "packs/canonic/testrun/0.2.9/pack.yml",
-      "sha256": "f29c53b47ab0f7f06c570b99e5d71b88731eb635f3c5fdd8ae797f91a4687569"
+      "version": "0.2.10",
+      "path": "packs/canonic/testrun/0.2.10/pack.yml",
+      "sha256": "4507d904f10bd476434429d91c07f86767324e244e62405f28b2545f7b5b4b5a"
     },
     {
       "id": "canonic/workbench",
@@ -105,6 +111,10 @@
       "yarnpkg",
       "corepack"
     ],
+    "canonic/docker": [
+      "docker",
+      "docker-compose"
+    ],
     "canonic/rust": [
       "cargo",
       "rustc",
@@ -126,16 +136,22 @@
       "last": "0.2.0"
     },
     "canonic/baseline": {
-      "path": "metadata/3451ab26f71735ec251b76bd4a374c64b254f4aaeacac74067ba1b749d16ebea.json",
-      "sha256": "3451ab26f71735ec251b76bd4a374c64b254f4aaeacac74067ba1b749d16ebea",
+      "path": "metadata/04624dbefc29c5db4e9e2bf3520e10b066425637f188c852feedc80907b51221.json",
+      "sha256": "04624dbefc29c5db4e9e2bf3520e10b066425637f188c852feedc80907b51221",
       "first": "0.1.0",
-      "last": "0.15.0"
+      "last": "0.16.0"
     },
     "canonic/box": {
       "path": "metadata/37305ba2f24b5d2cff019ec03e2e172e6541b72a1dcc3ed84b381b7fedbf3775.json",
       "sha256": "37305ba2f24b5d2cff019ec03e2e172e6541b72a1dcc3ed84b381b7fedbf3775",
       "first": "0.1.0",
       "last": "0.2.8"
+    },
+    "canonic/docker": {
+      "path": "metadata/a6b978b3606019bb1f0d9b2118b2854c1a9d3ba069bb814757f6e83f6f339cee.json",
+      "sha256": "a6b978b3606019bb1f0d9b2118b2854c1a9d3ba069bb814757f6e83f6f339cee",
+      "first": "0.1.0",
+      "last": "0.1.0"
     },
     "canonic/gate": {
       "path": "metadata/9927cec121a5965149252515fa6bcb36ced092b3879a8977e3fe949e7f160c6c.json",
@@ -174,10 +190,10 @@
       "last": "0.2.0"
     },
     "canonic/testrun": {
-      "path": "metadata/e2710650abcac8208ac57195415f760630ab0972a99fb480db3f4f6c8a2a6fe4.json",
-      "sha256": "e2710650abcac8208ac57195415f760630ab0972a99fb480db3f4f6c8a2a6fe4",
+      "path": "metadata/3d0661e31af962c297ba0fa547d25c66241326880c396864c901766aa9eaa65f.json",
+      "sha256": "3d0661e31af962c297ba0fa547d25c66241326880c396864c901766aa9eaa65f",
       "first": "0.1.0",
-      "last": "0.2.9"
+      "last": "0.2.10"
     },
     "canonic/workbench": {
       "path": "metadata/7f2f4f121b1d2bbfc452f7c9a64de1607ee0afa16882a6e1d8f26858feb2a9b6.json",

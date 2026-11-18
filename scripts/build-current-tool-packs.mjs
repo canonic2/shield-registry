@@ -9,8 +9,9 @@ import {testrun} from './testrun-policy.mjs';
 import {currentToolCases} from './current-tool-cases.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
+import {trustedTestrunPack,trustedTestrunGuide} from './testrun-trusted-policy.mjs';
 
-export const currentToolVersions = {box:'0.2.8', gate:'0.2.7', testrun:'0.2.9'};
+export const currentToolVersions = {box:'0.2.8', gate:'0.2.7', testrun:'0.2.10'};
 export const currentDirectory = (name, version = currentToolVersions[name]) =>
   new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -598,10 +599,11 @@ function testrunConfigurationPaths(pack) {
 }
 
 export async function currentToolPack(name) {
-  const pack = JSON.parse(await readFile(new URL('pack.yml',currentDirectory(name,'0.2.1'))));
+  let pack = JSON.parse(await readFile(new URL('pack.yml',currentDirectory(name,'0.2.1'))));
   pack.version = currentToolVersions[name];
   ({box:updateBox, gate:updateGate, testrun:updateTestrun})[name](pack);
   addPreviewTools(pack, name);
+  if (name === 'testrun') pack = trustedTestrunPack(pack);
   const fields = pack.mcp_integrations[name].fields;
   delete fields['/args/0'];
   delete fields['/args/1'];
@@ -622,8 +624,12 @@ export async function buildCurrentToolPacks(names = Object.keys(currentToolVersi
       .filter(rule => rule.conditions.domain === 'argv').map(rule => rule.id)}]};
     await writeFile(new URL('commands.json',directory),JSON.stringify(inventory,null,2)+'\n');
     await copyFile(new URL('../LICENSE',import.meta.url),new URL('LICENSE',directory));
+    if (name === 'testrun') {
+      await writeFile(new URL('README.md',directory),`# Testrun permissions ${currentToolVersions[name]}\n\nRequires Shield \`${pack.engines.shield}\`.\n\n${trustedTestrunGuide()}`);
+      continue;
+    }
     if (name !== 'box') {
-      const previous = {gate:'0.2.6',testrun:'0.2.8'}[name];
+      const previous = {gate:'0.2.6',testrun:'0.2.9'}[name];
       await writeFile(new URL('README.md',directory), `# ${name === 'gate' ? 'Gate' : 'Testrun'} permissions ${currentToolVersions[name]}
 
 Requires Shield \`>=0.20.0, <1.0.0\`.
@@ -635,7 +641,7 @@ that argument; use the preview identity for inspection. Rules for older binaries
 retain their reviewed decisions. Approved-root and stdio
 connection boundaries remain enforced; unknown tool names keep their fallback.
 
-${name === 'gate' ? 'Bundled CLI `docs list|search|read` and MCP `docs_list|docs_search|docs_read`\nare Allow in every profile with opaque `cursor` and `limit`. Gate validates\nqueries, page names and paging arguments without acquiring host-file access.\nThe former MCP `offset` and `start_line` forms retain their permissions and\nindependent fixtures. Their first verified absence is this 2026-11-15 source\ncheckout (0.26.1); Gate has no published feature release starting retirement.\nRemoval remains deferred until three subsequent published feature releases.\n' : testrunCurrentGuide()}
+${name === 'gate' ? 'Bundled CLI `docs list|search|read` and MCP `docs_list|docs_search|docs_read`\nare Allow in every profile with opaque `cursor` and `limit`. Gate validates\nqueries, page names and paging arguments without acquiring host-file access.\nThe former MCP `offset` and `start_line` forms retain their permissions and\nindependent fixtures. Their first verified absence is this 2026-11-15 source\ncheckout (0.26.1); Gate has no published feature release starting retirement.\nRemoval remains deferred until three subsequent published feature releases.\n' : ''}
 
 ${name === 'gate' ? gateCurrentGuide() : ''}
 
@@ -681,60 +687,5 @@ No policy decision or historical source changes for destination selection.
 `;
 }
 
-function testrunCurrentGuide() {
-  return `Reviewed 2026-11-15 against Testrun 0.6.0 source and installed catalog:
-76 current MCP tools plus three retained documentation aliases. CLI
-\`project discover\` is inspection, with explicit root/path selections checked
-against approved read roots. Current list, UI, log and documentation interfaces
-use opaque \`cursor\` and \`limit\`; pagination preserves each operation's decision.
-Explicit-root checks accept other options without listing allowed output forms.
-Initialization previews also check an explicit \`--config\` destination.
-Bundled documentation reads embedded pages, not arbitrary host files.
-Agent Kit setup remains a registration change; its preview/reset flags keep
-the existing setup decisions and do not start the runtime.
-
-Reviewed again 2026-11-16 against the installed Testrun 0.6.0 catalog and
-CLI. \`project_init\` requires \`root\` and the \`planDigest\` that
-\`project_init_preview\` returns; Testrun refuses creation when the selections no
-longer match that plan. The digest is an opaque plan identity with no path,
-host or execution effect, so creation keeps its Ask in every profile, and
-explicit roots and configuration files keep their path checks. CLI
-initialization is \`testrun init\`, with \`--dry-run\` as its read-only preview.
-
-## Safety exception: explicit configuration paths
-
-The published policy allows, for example, \`config_show\` with \`root: "."\`
-and \`config: "/outside/testrun.yml"\`. Testrun's configuration loader reads the
-explicit file and its sibling local overlay, independently of the selected
-root. This is an unsafe Allow across the approved filesystem boundary.
-CLI config/project/build selections now check explicit configuration files
-and directory paths; MCP configuration consumers check \`config\` as a read
-path. Configuration initialization checks write paths. Outside or unverifiable
-paths Ask in all profiles; ordinary in-root decisions remain unchanged.
-This tightening applies immediately rather than waiting for retirement.
-Move the configuration under approved roots or review the external path.
-Inline builds, environment overrides, opaque browser requests, host-file
-transfers and diagnostic content retain their existing Ask/Deny boundaries.
-
-## Retained compatibility
-
-| Form | Replacement | First verified absence | Removal |
-| --- | --- | --- | --- |
-| \`testrun_docs_list\`, \`testrun_docs_search\`, \`testrun_docs_read\` | \`docs_list\`, \`docs_search\`, \`docs_read\` | Local 0.6.0, 2026-11-15 | Deferred; no qualifying shipped-release evidence |
-| Collection/log/documentation \`offset\`, documentation \`start_line\` and CLI \`--offset\`/\`--start-line\` on the reviewed paged interfaces | Opaque \`cursor\` and \`limit\` | Local 0.6.0, 2026-11-15 | Deferred; no qualifying shipped-release evidence |
-| \`project_init\` with \`dryRun\` | \`project_init_preview\` | Installed 0.6.0, 2026-11-16 | Deferred; no qualifying shipped-release evidence |
-
-The aliases and older argument forms keep their exact reviewed decisions and
-independent fixtures. Three subsequent published tool feature releases are
-required before removal is eligible; local builds and pack versions do not count.
-\`project_init\` with \`dryRun: true\` keeps its preview permission for older
-binaries; the separately named \`project_init_preview\` cannot apply changes.
-Current names and retained aliases have separate inventories.
-
-Validate this review, published compatibility, transport matching and complete
-current tool coverage with
-\`npm test -- --shield /absolute/path/to/shield scripts/testrun-current-pack.test.mjs\`.
-`;
-}
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href)
   await buildCurrentToolPacks(process.argv.length > 2 ? process.argv.slice(2) : undefined);
