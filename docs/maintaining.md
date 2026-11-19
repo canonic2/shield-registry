@@ -44,9 +44,10 @@ node scripts/build-github-graphql-pack.mjs
 node scripts/build-github-graphql-cases.mjs
 ```
 
-These generate the GitHub 0.8.0 root-only query boundary. It requires
+These generate GitHub 0.8.1: the root-only query boundary, with scoped REST
+reads that also accept an explicit `--hostname github.com`. It requires
 `graphql-subtree-v1`; use a compatible Shield development binary for validation.
-Published 0.7.1 and earlier artifacts remain immutable. A version argument
+Published 0.8.0 and earlier artifacts remain immutable. A version argument
 reproduces the corresponding historical builder instead.
 
 Expected decisions are independent of policy constructors. Do not copy evaluator

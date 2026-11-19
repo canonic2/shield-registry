@@ -2,7 +2,7 @@ import {writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {usableGithubCases} from './build-github-usable-cases.mjs';
-import {destination, currentDestination, nextDestination, destination070, destination071, destination080} from './build-github-graphql-pack.mjs';
+import {destination, currentDestination, nextDestination, destination070, destination071, destination080, destination081} from './build-github-graphql-pack.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 
 export const reviewQuery = `query { repository(owner:"acme", name:"web") { pullRequest(number:12) {
@@ -379,10 +379,41 @@ export function githubCases080() {
       argv:['gh','api','graphql','-f',`query=${query}`,...extra],expected:allowed?'allow':'deny'});
   return cases;
 }
+// Observed 2026-11-19: a scoped REST read of PR reviews with an explicit
+// --hostname github.com asked under 0.8.0. github.com is the default and only
+// accepted host, so the read keeps its decision; other hosts still refuse.
+// Expected decisions per [unscoped, scoped].
+export function githubCases081() {
+  const cases = githubCases080();
+  const endpoint = 'repos/acme/web/pulls/12/reviews';
+  const read = '{ repository(owner:"acme",name:"web") { nameWithOwner } }';
+  const inputs = [
+    ['rest-observed-explicit-host', ['--hostname', 'github.com', '--paginate', endpoint], 'ask', 'allow'],
+    ['rest-explicit-host-equals', ['--hostname=github.com', 'repos/acme/web/pulls/12/comments'], 'ask', 'allow'],
+    ['rest-explicit-host-after-endpoint', ['repos/acme/web/actions/runs/1', '--hostname', 'github.com', '--jq', '.head_sha'], 'ask', 'allow'],
+    ['rest-explicit-host-get', ['-X', 'GET', '--hostname', 'github.com', endpoint], 'ask', 'allow'],
+    ['rest-explicit-host-jq-env', [endpoint, '--hostname', 'github.com', '--jq', '$ENV.GH_TOKEN'], 'ask', 'ask'],
+    ['rest-explicit-host-post', ['--hostname', 'github.com', '-X', 'POST', endpoint, '-f', 'body=ok'], 'ask', 'ask'],
+    ['rest-other-host-get', ['--hostname', 'example.com', '--paginate', endpoint], 'ask', 'deny'],
+    ['rest-other-host-equals', ['--hostname=example.com', endpoint], 'ask', 'deny'],
+    ['rest-host-then-other-host', ['--hostname', 'github.com', '--hostname', 'example.com', endpoint], 'ask', 'deny'],
+    ['rest-host-capitalized', ['--hostname', 'GitHub.com', endpoint], 'ask', 'deny'],
+    ['rest-host-missing-value', [endpoint, '--hostname'], 'ask', 'deny'],
+    ['rest-explicit-host-other-repository', ['--hostname', 'github.com', 'repos/other/web/pulls/12/reviews'], 'ask', 'deny'],
+    ['graphql-explicit-host', ['--hostname', 'github.com', 'graphql', '-f', `query=${read}`], 'allow', 'allow'],
+  ];
+  for (const scoped of [false, true]) for (const profile of ['loose', 'recommended', 'strict'])
+    for (const [name, args, unscoped, inside] of inputs) cases.push({
+      name: `${scoped ? 'scoped' : 'unscoped'}-${name}-${profile}`, profile,
+      ...(scoped ? {variables: {repository: 'acme/web'}} : {}), argv: ['gh', 'api', ...args],
+      expected: scoped ? inside : unscoped,
+    });
+  return cases;
+}
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   // Default: the current candidate. A version argument reproduces a published release.
-  const releases = {'0.4.0': [destination, graphqlGithubCases], '0.5.0': [currentDestination, currentGithubCases], '0.6.0': [nextDestination, nextGithubCases], '0.7.0': [destination070, githubCases070], '0.7.1':[destination071,githubCases071]};
-  const [output, build] = releases[process.argv[2]] ?? [destination080, githubCases080];
+  const releases = {'0.4.0': [destination, graphqlGithubCases], '0.5.0': [currentDestination, currentGithubCases], '0.6.0': [nextDestination, nextGithubCases], '0.7.0': [destination070, githubCases070], '0.7.1':[destination071,githubCases071], '0.8.0':[destination080,githubCases080]};
+  const [output, build] = releases[process.argv[2]] ?? [destination081, githubCases081];
   // Larger releases continue in cases-2.json, ... at Shield's per-file limit.
   for (const [name, document] of splitCaseFiles({schema_version:1,cases:build()}))
     await writeFile(new URL(name,output),JSON.stringify(document,null,2)+'\n');

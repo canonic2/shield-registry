@@ -351,6 +351,21 @@ export function githubPack080() {
   gate.on_unmet.message = 'Start every GraphQL query root at repository(owner, name) for {{repository}}. Other roots and repository targets are refused. Nested selections beneath a matching root are unrestricted; use a supported inline query with verified root arguments.';
   return pack;
 }
+// 0.8.1: github.com is the default and the only accepted host, so naming it
+// explicitly leaves a plain REST GET a read. Other hosts still fail the grammar.
+export const destination081 = new URL('../packs/canonic/github/0.8.1/', import.meta.url);
+export function githubPack081() {
+  const pack = githubPack080();
+  pack.version = '0.8.1';
+  const plainGet = grammar => grammar?.kind === 'options' && sameWords(grammar.prefix, ['api'])
+    && grammar.values.some(value => value.name === '-X' && value.match === 'GET');
+  const grammars = [...pack.preconditions.flatMap(gate => [gate.conditions.arguments, ...gate.requires_any.map(item => item.arguments)]),
+    ...pack.rules.map(rule => rule.conditions.arguments)].filter(plainGet);
+  for (const grammar of new Set(grammars)) grammar.values.push({name: '--hostname', match: 'github.com'});
+  const api = pack.preconditions.find(gate => gate.id === 'cli-api-scope');
+  api.on_unmet.message = 'With the repository setting, use one literal REST endpoint under repos/{{repository}}/... on github.com, or a supported inline GraphQL request. Other repositories, hosts and unresolved targets are refused. Plain GETs allow, including with --hostname github.com; REST requests with bodies, custom headers or other unreviewed effects require approval.';
+  return pack;
+}
 const writePack = async (pack, output) => {
   await mkdir(output, {recursive: true});
   await writeFile(new URL('pack.yml', output), JSON.stringify(pack, null, 2) + '\n');
@@ -363,7 +378,8 @@ export const buildNextGithubPack = () => writePack(nextGithubPack(), nextDestina
 export const buildGithubPack070 = () => writePack(githubPack070(), destination070);
 export const buildGithubPack071 = () => writePack(githubPack071(), destination071);
 export const buildGithubPack080 = () => writePack(githubPack080(), destination080);
+export const buildGithubPack081 = () => writePack(githubPack081(), destination081);
 // Default: the current candidate. A version argument reproduces a published release.
-const builds = {'0.4.0': buildGraphqlGithubPack, '0.5.0': buildCurrentGithubPack, '0.6.0': buildNextGithubPack, '0.7.0': buildGithubPack070, '0.7.1': buildGithubPack071};
+const builds = {'0.4.0': buildGraphqlGithubPack, '0.5.0': buildCurrentGithubPack, '0.6.0': buildNextGithubPack, '0.7.0': buildGithubPack070, '0.7.1': buildGithubPack071, '0.8.0': buildGithubPack080};
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href)
-  await (builds[process.argv[2]] ?? buildGithubPack080)();
+  await (builds[process.argv[2]] ?? buildGithubPack081)();
