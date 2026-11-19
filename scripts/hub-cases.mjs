@@ -173,7 +173,8 @@ const cli = [
   ['logs-container',['hub','process','logs','--execution','e1','--target','stack','--service','api','--since','5m','--tail','100','--follow'],allow],
   ['task-show',['hub','task','show','--section','summary','-w','feature'],allow],
   ['task-step-next',['hub','task','step','next','--all'],allow],
-  ['task-export',['hub','task','export','--output','/outside/task.json','--overwrite'],allow],
+  ['task-export-stdout',['hub','task','export','--format','json','-w','feature'],allow],
+  ['task-export-inside',['hub','task','export','--format','markdown','--output','exports/task.md','--overwrite'],allow],
   ['agent-list',['hub','agent','list','--refresh'],allow],
   ['logs-follow',['hub','process','logs','--operation','o1','--follow'],allow],
   ['config-plan',['hub','config','plan','web','--set-env','NODE_ENV=test'],allow],
@@ -264,6 +265,12 @@ const cli = [
   ['task-import-agent-settings',['hub','task','import','--if-revision','3','--file','.claude/settings.json'],review],
   ['create-goal-git',['hub','workspace','create','feature','--goal-file','.git/config'],review],
   ['agent-message-shield',['hub','agent','message','a1','--prompt-file','.shield/policy.yml'],review],
+  // A task export written outside the writable roots, or into a protected
+  // location, can replace a file there; it asks in every profile.
+  ['task-export',['hub','task','export','--output','/outside/task.json','--overwrite'],review],
+  ['task-export-equals-outside',['hub','task','export','--output=/outside/task.json'],review],
+  ['task-export-git',['hub','task','export','--output','.git/hooks/pre-commit','--overwrite'],review],
+  ['task-export-agent-settings',['hub','task','export','--format','json','--output','.claude/settings.json','--overwrite'],review],
 ];
 
 export function binding(transport = {type:'defaults',pack:'canonic/hub',integration:'hub'}, server = 'hub') {

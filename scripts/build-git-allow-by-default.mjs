@@ -17,8 +17,10 @@
 import {readFile, writeFile, mkdir, copyFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
+import {gitOutputCases} from './git-output-cases.mjs';
 
 export const revision = ['0.10.0', '0.11.0'];
+export const outputRevision = '0.12.0';
 const split = value => value.split(' ');
 const everyday = {loose: 'allow', recommended: 'allow', strict: 'ask'};
 const always = {loose: 'ask', recommended: 'ask', strict: 'ask'};
@@ -299,16 +301,62 @@ Generate with \`node scripts/build-git-allow-by-default.mjs\`. Validate with
 \`npm test -- --shield /absolute/path/to/shield scripts/git-allow-by-default.test.mjs\`.
 `;
 
-export async function buildGitAllowByDefault() {
-  const directory = new URL(`../packs/canonic/git/${revision[1]}/`, import.meta.url);
-  const previous = new URL(`../packs/canonic/git/${revision[0]}/`, import.meta.url);
-  await mkdir(directory, {recursive: true});
-  await writeFile(new URL('pack.yml', directory), JSON.stringify(await gitAllowByDefaultPack(), null, 2) + '\n');
-  await writeFile(new URL('cases.json', directory), JSON.stringify({schema_version: 1, cases: await gitAllowByDefaultCases()}, null, 2) + '\n');
-  await copyFile(new URL('commands.json', previous), new URL('commands.json', directory));
-  await copyFile(new URL('../LICENSE', import.meta.url), new URL('LICENSE', directory));
-  await writeFile(new URL('README.md', directory), readme);
+export async function gitScopedOutputPack() {
+  const pack = await gitAllowByDefaultPack();
+  pack.version = outputRevision;
+  pack.capabilities.push('access-paths-v1', 'location-v1', 'preconditions-v1');
+  pack.capabilities.sort();
+  const rule = pack.rules.find(rule => rule.id === 'file-output');
+  const modeled = split('log show diff diff-tree diff-index whatchanged');
+  rule.conditions.arguments.prefix = [one(diffFamily.filter(name => !modeled.includes(name)))];
+  const targets = {action: 'write', all: {
+    within: {root: 'write'},
+    exclude: ['.git', '.gate', '.shield', '.config/shield'].map(path => ({root: 'write', path})),
+  }};
+  pack.preconditions = pack.invocations.git.segments[0].map((prefix, index) => ({
+    id: `file-output-scope-${index}`,
+    conditions: {...git, arguments: {kind: 'risk_tokens', prefix: [...prefix, one(modeled)], any_of: option('--output')}},
+    requires_any: [{targets}],
+    on_unmet: {decision: 'ask', message: 'Use a verified writable destination for Git output or ask for approval.'},
+  }));
+  return pack;
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href)
-  await buildGitAllowByDefault();
+const outputReadme = `# Git permissions ${outputRevision}
+
+Requires Shield \`>=0.20.0, <1.0.0\`.
+
+Command coverage and other decisions follow [${revision[1]}](../${revision[1]}/README.md).
+
+With Git output target support in Shield, Loose and Recommended allow
+\`--output\` on \`diff\`, \`show\`, \`log\`, \`diff-tree\`, \`diff-index\` and
+\`whatchanged\` when all destinations are within the writable scope. In native
+agent integrations this includes verified system temporary directories.
+Git, Gate and Shield metadata directories are excluded. An unverified or
+excluded destination asks in every profile. Strict reviews file output, as
+do older clients without the target model. Archive output and other output
+modes follow the existing review rules.
+
+Generate with \`node scripts/build-git-allow-by-default.mjs ${outputRevision}\`.
+Validate with \`npm test -- --shield /absolute/path/to/shield scripts/git-scoped-output.test.mjs\`.
+`;
+
+export async function buildGitAllowByDefault(version = revision[1]) {
+  const scoped = version === outputRevision;
+  const directory = new URL(`../packs/canonic/git/${version}/`, import.meta.url);
+  const previous = new URL(`../packs/canonic/git/${scoped ? revision[1] : revision[0]}/`, import.meta.url);
+  const pack = await (scoped ? gitScopedOutputPack() : gitAllowByDefaultPack());
+  const cases = scoped ? gitOutputCases() : await gitAllowByDefaultCases();
+  await mkdir(directory, {recursive: true});
+  await writeFile(new URL('pack.yml', directory), JSON.stringify(pack, null, 2) + '\n');
+  await writeFile(new URL('cases.json', directory), JSON.stringify({schema_version: 1, cases}, null, 2) + '\n');
+  await copyFile(new URL('commands.json', previous), new URL('commands.json', directory));
+  await copyFile(new URL('../LICENSE', import.meta.url), new URL('LICENSE', directory));
+  await writeFile(new URL('README.md', directory), scoped ? outputReadme : readme);
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+  const version = process.argv[2] ?? revision[1];
+  if (![revision[1], outputRevision].includes(version)) throw Error(`Unknown Git pack version ${version}`);
+  await buildGitAllowByDefault(version);
+}

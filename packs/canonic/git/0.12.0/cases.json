@@ -1,0 +1,6821 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "status-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "status-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "status-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "add-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "add",
+        "src"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "add-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "add",
+        "src"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "add-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "add",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fetch-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "fetch",
+        "origin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fetch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "fetch",
+        "origin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fetch-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "fetch",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "push-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "push",
+        "origin",
+        "main"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "push-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "push",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "push-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "push",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rebase-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "rebase",
+        "main"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rebase-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "rebase",
+        "main"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rebase-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "rebase",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "amend-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "commit",
+        "--amend",
+        "-m",
+        "Fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "amend-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "commit",
+        "--amend",
+        "-m",
+        "Fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "amend-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "commit",
+        "--amend",
+        "-m",
+        "Fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "viewer-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "difftool"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "viewer-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "difftool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "viewer-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "difftool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maintenance-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "maintenance",
+        "run"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "maintenance-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "maintenance",
+        "run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maintenance-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "maintenance",
+        "run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "worktree-remove-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "worktree",
+        "remove",
+        "acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "worktree-remove-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "worktree",
+        "remove",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "worktree-remove-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "worktree",
+        "remove",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "worktree-force-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "worktree",
+        "remove",
+        "--force",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "worktree-force-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "worktree",
+        "remove",
+        "--force",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "worktree-force-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "worktree",
+        "remove",
+        "--force",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "submodule-init-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "submodule",
+        "update",
+        "--init"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "submodule-init-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "submodule",
+        "update",
+        "--init"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "submodule-init-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "submodule",
+        "update",
+        "--init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-edit-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "config",
+        "--edit"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-edit-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "config",
+        "--edit"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-edit-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "config",
+        "--edit"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "credential-admin-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "credential",
+        "reject"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "credential-admin-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "credential",
+        "reject"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "credential-admin-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "credential",
+        "reject"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "credential-disclosure-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "credential",
+        "fill"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "credential-disclosure-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "credential",
+        "fill"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "credential-disclosure-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "credential",
+        "fill"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "credential-store-disclosure-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "credential-store",
+        "get"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "credential-store-disclosure-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "credential-store",
+        "get"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "credential-store-disclosure-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "credential-store",
+        "get"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ref-create-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "update-ref",
+        "refs/heads/acme",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ref-create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "update-ref",
+        "refs/heads/acme",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ref-create-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "update-ref",
+        "refs/heads/acme",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ref-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "update-ref",
+        "-d",
+        "refs/heads/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ref-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "update-ref",
+        "-d",
+        "refs/heads/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ref-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "update-ref",
+        "-d",
+        "refs/heads/acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "replacement-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "replace",
+        "HEAD~1",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "replacement-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "replace",
+        "HEAD~1",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "replacement-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "replace",
+        "HEAD~1",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "replacement-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "replace",
+        "-d",
+        "HEAD~1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "replacement-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "replace",
+        "-d",
+        "HEAD~1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "replacement-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "replace",
+        "-d",
+        "HEAD~1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "index-checkout-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "checkout-index",
+        "src/app.ts"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "index-checkout-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "checkout-index",
+        "src/app.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "index-checkout-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "checkout-index",
+        "src/app.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "index-checkout-force-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "checkout-index",
+        "--force",
+        "src/app.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "index-checkout-force-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "checkout-index",
+        "--force",
+        "src/app.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "index-checkout-force-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "checkout-index",
+        "--force",
+        "src/app.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "read-tree-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "read-tree",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "read-tree-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "read-tree",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "read-tree-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "read-tree",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "read-tree-reset-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "read-tree",
+        "--reset",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "read-tree-reset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "read-tree",
+        "--reset",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "read-tree-reset-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "read-tree",
+        "--reset",
+        "HEAD"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pack-inspection-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "pack-redundant",
+        "--all"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pack-inspection-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "pack-redundant",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pack-inspection-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "pack-redundant",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "reflog-expire-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "reflog",
+        "expire",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "reflog-expire-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "reflog",
+        "expire",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "reflog-expire-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "reflog",
+        "expire",
+        "--all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "discard-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "reset",
+        "--hard"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "discard-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "reset",
+        "--hard"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "discard-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "reset",
+        "--hard"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "force-push-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "push",
+        "--force",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "force-push-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "push",
+        "--force",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "force-push-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "push",
+        "--force",
+        "origin",
+        "main"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-range-diff-stat-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "range-diff",
+        "A^..B",
+        "C~1..C",
+        "--stat"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-range-diff-stat-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "range-diff",
+        "A^..B",
+        "C~1..C",
+        "--stat"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-range-diff-stat-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "range-diff",
+        "A^..B",
+        "C~1..C",
+        "--stat"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-range-diff-display-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "range-diff",
+        "--no-color",
+        "--name-only",
+        "-U3",
+        "main...HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-range-diff-display-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "range-diff",
+        "--no-color",
+        "--name-only",
+        "-U3",
+        "main...HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-range-diff-display-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "range-diff",
+        "--no-color",
+        "--name-only",
+        "-U3",
+        "main...HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-graph-count-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log",
+        "--oneline",
+        "--graph",
+        "-8",
+        "HEAD",
+        "origin/main"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-graph-count-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log",
+        "--oneline",
+        "--graph",
+        "-8",
+        "HEAD",
+        "origin/main"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-graph-count-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log",
+        "--oneline",
+        "--graph",
+        "-8",
+        "HEAD",
+        "origin/main"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-count-cluster-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log",
+        "--abbrev-commit",
+        "-20"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-count-cluster-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log",
+        "--abbrev-commit",
+        "-20"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-count-cluster-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log",
+        "--abbrev-commit",
+        "-20"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-decorate-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log",
+        "--oneline",
+        "--decorate",
+        "--all"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-decorate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log",
+        "--oneline",
+        "--decorate",
+        "--all"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-decorate-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log",
+        "--oneline",
+        "--decorate",
+        "--all"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-decorate-value-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log",
+        "--decorate=short",
+        "-5"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-decorate-value-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log",
+        "--decorate=short",
+        "-5"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-decorate-value-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log",
+        "--decorate=short",
+        "-5"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-grep-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log",
+        "--grep=fix",
+        "-i",
+        "--invert-grep",
+        "--oneline"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-grep-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log",
+        "--grep=fix",
+        "-i",
+        "--invert-grep",
+        "--oneline"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-grep-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log",
+        "--grep=fix",
+        "-i",
+        "--invert-grep",
+        "--oneline"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-regexp-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log",
+        "-E",
+        "--grep",
+        "x",
+        "--all-match"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-regexp-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log",
+        "-E",
+        "--grep",
+        "x",
+        "--all-match"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-regexp-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log",
+        "-E",
+        "--grep",
+        "x",
+        "--all-match"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-reflog-walk-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log",
+        "-g",
+        "--oneline"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-reflog-walk-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log",
+        "-g",
+        "--oneline"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-reflog-walk-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log",
+        "-g",
+        "--oneline"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-signature-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log",
+        "--show-signature",
+        "--no-notes",
+        "--use-mailmap",
+        "-1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-signature-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log",
+        "--show-signature",
+        "--no-notes",
+        "--use-mailmap",
+        "-1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-signature-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log",
+        "--show-signature",
+        "--no-notes",
+        "--use-mailmap",
+        "-1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-pretty-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log",
+        "--pretty",
+        "-3"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-pretty-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log",
+        "--pretty",
+        "-3"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-pretty-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log",
+        "--pretty",
+        "-3"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-pretty-format-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log",
+        "--pretty=format:%h",
+        "-10"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-pretty-format-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log",
+        "--pretty=format:%h",
+        "-10"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-pretty-format-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log",
+        "--pretty=format:%h",
+        "-10"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-line-range-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log",
+        "-L",
+        "1,5:src/app.ts"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-line-range-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log",
+        "-L",
+        "1,5:src/app.ts"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-line-range-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log",
+        "-L",
+        "1,5:src/app.ts"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-color-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log",
+        "--color=always",
+        "--stat"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-color-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log",
+        "--color=always",
+        "--stat"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-color-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log",
+        "--color=always",
+        "--stat"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-show-oneline-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "show",
+        "--oneline",
+        "--no-patch",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-show-oneline-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "show",
+        "--oneline",
+        "--no-patch",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-show-oneline-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "show",
+        "--oneline",
+        "--no-patch",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-show-abbrev-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "show",
+        "--abbrev-commit",
+        "-s",
+        "--decorate",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-show-abbrev-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "show",
+        "--abbrev-commit",
+        "-s",
+        "--decorate",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-show-abbrev-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "show",
+        "--abbrev-commit",
+        "-s",
+        "--decorate",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-show-merge-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "show",
+        "--cc",
+        "--first-parent",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-show-merge-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "show",
+        "--cc",
+        "--first-parent",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-show-merge-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "show",
+        "--cc",
+        "--first-parent",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-merge-base-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--stat",
+        "--merge-base",
+        "main"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-merge-base-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--stat",
+        "--merge-base",
+        "main"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-merge-base-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--stat",
+        "--merge-base",
+        "main"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-renames-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--numstat",
+        "--find-renames"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-renames-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--numstat",
+        "--find-renames"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-renames-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--numstat",
+        "--find-renames"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-submodules-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--submodule=log",
+        "--ignore-submodules"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-submodules-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--submodule=log",
+        "--ignore-submodules"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-submodules-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--submodule=log",
+        "--ignore-submodules"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-stat-width-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--stat=120",
+        "HEAD~1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-stat-width-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--stat=120",
+        "HEAD~1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-stat-width-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--stat=120",
+        "HEAD~1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-compact-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--compact-summary",
+        "-M",
+        "-C",
+        "HEAD~1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-compact-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--compact-summary",
+        "-M",
+        "-C",
+        "HEAD~1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-compact-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--compact-summary",
+        "-M",
+        "-C",
+        "HEAD~1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-stage-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--ours",
+        "src/app.ts"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-stage-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--ours",
+        "src/app.ts"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-stage-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--ours",
+        "src/app.ts"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-tree-merge-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff-tree",
+        "-r",
+        "-c",
+        "--no-commit-id",
+        "--name-only",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-tree-merge-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff-tree",
+        "-r",
+        "-c",
+        "--no-commit-id",
+        "--name-only",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-diff-tree-merge-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff-tree",
+        "-r",
+        "-c",
+        "--no-commit-id",
+        "--name-only",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-status-renames-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "status",
+        "--short",
+        "--renames",
+        "--no-ahead-behind"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-status-renames-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "status",
+        "--short",
+        "--renames",
+        "--no-ahead-behind"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-status-renames-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "status",
+        "--short",
+        "--renames",
+        "--no-ahead-behind"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-status-untracked-bare-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "status",
+        "--untracked-files"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-status-untracked-bare-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "status",
+        "--untracked-files"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-status-untracked-bare-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "status",
+        "--untracked-files"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-grep-only-matching-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "grep",
+        "-o",
+        "--column",
+        "Acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-grep-only-matching-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "grep",
+        "-o",
+        "--column",
+        "Acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-grep-only-matching-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "grep",
+        "-o",
+        "--column",
+        "Acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-grep-function-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "grep",
+        "-p",
+        "-n",
+        "Acme",
+        "src"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-grep-function-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "grep",
+        "-p",
+        "-n",
+        "Acme",
+        "src"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-grep-function-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "grep",
+        "-p",
+        "-n",
+        "Acme",
+        "src"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-ls-files-tags-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "ls-files",
+        "-t",
+        "--recurse-submodules"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-ls-files-tags-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "ls-files",
+        "-t",
+        "--recurse-submodules"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-ls-files-tags-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "ls-files",
+        "-t",
+        "--recurse-submodules"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-blame-short-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "blame",
+        "-l",
+        "-t",
+        "src/app.ts"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-blame-short-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "blame",
+        "-l",
+        "-t",
+        "src/app.ts"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-blame-short-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "blame",
+        "-l",
+        "-t",
+        "src/app.ts"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-rev-list-abbrev-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "rev-list",
+        "--abbrev-commit",
+        "--no-walk",
+        "-3",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-rev-list-abbrev-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "rev-list",
+        "--abbrev-commit",
+        "--no-walk",
+        "-3",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-rev-list-abbrev-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "rev-list",
+        "--abbrev-commit",
+        "--no-walk",
+        "-3",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-branch-abbrev-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "branch",
+        "-vv",
+        "--no-abbrev"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-branch-abbrev-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "branch",
+        "-vv",
+        "--no-abbrev"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-branch-abbrev-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "branch",
+        "-vv",
+        "--no-abbrev"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-stash-list-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "stash",
+        "list",
+        "--oneline",
+        "--date=relative"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-stash-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "stash",
+        "list",
+        "--oneline",
+        "--date=relative"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-stash-list-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "stash",
+        "list",
+        "--oneline",
+        "--date=relative"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-reflog-show-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "reflog",
+        "show",
+        "--oneline",
+        "-20"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-reflog-show-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "reflog",
+        "show",
+        "--oneline",
+        "-20"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-reflog-show-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "reflog",
+        "show",
+        "--oneline",
+        "-20"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-output-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log",
+        "--oneline",
+        "--output=out"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log",
+        "--oneline",
+        "--output=out"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-log-output-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log",
+        "--oneline",
+        "--output=out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-diff-external-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--ext-diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-diff-external-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--ext-diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-diff-external-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--ext-diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-diff-textconv-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--textconv"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-diff-textconv-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--textconv"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-diff-textconv-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--textconv"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-diff-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--no-index",
+        "a",
+        "b"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-diff-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--no-index",
+        "a",
+        "b"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-diff-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--no-index",
+        "a",
+        "b"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-range-diff-external-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "range-diff",
+        "--ext-diff",
+        "A..B",
+        "C..D"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-range-diff-external-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "range-diff",
+        "--ext-diff",
+        "A..B",
+        "C..D"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-range-diff-external-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "range-diff",
+        "--ext-diff",
+        "A..B",
+        "C..D"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-grep-pager-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "grep",
+        "-O",
+        "less",
+        "Acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-grep-pager-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "grep",
+        "-O",
+        "less",
+        "Acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-grep-pager-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "grep",
+        "-O",
+        "less",
+        "Acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-show-unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "show",
+        "--future",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-show-unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "show",
+        "--future",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "inspection-show-unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "show",
+        "--future",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-reflog-expire-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "reflog",
+        "expire",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-reflog-expire-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "reflog",
+        "expire",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inspection-reflog-expire-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "reflog",
+        "expire",
+        "--all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "merge-tree-pr-check-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--write-tree",
+        "--name-only",
+        "origin/develop",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-pr-check-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--write-tree",
+        "--name-only",
+        "origin/develop",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-pr-check-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--write-tree",
+        "--name-only",
+        "origin/develop",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-directory-option-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "-C",
+        ".",
+        "merge-tree",
+        "--write-tree",
+        "--name-only",
+        "origin/develop",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-directory-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "-C",
+        ".",
+        "merge-tree",
+        "--write-tree",
+        "--name-only",
+        "origin/develop",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-directory-option-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "-C",
+        ".",
+        "merge-tree",
+        "--write-tree",
+        "--name-only",
+        "origin/develop",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-combined-worktree-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "-C",
+        ".gate/repos/public",
+        "merge-tree",
+        "--write-tree",
+        "--name-only",
+        "origin/develop",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-combined-worktree-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "-C",
+        ".gate/repos/public",
+        "merge-tree",
+        "--write-tree",
+        "--name-only",
+        "origin/develop",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-combined-worktree-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "-C",
+        ".gate/repos/public",
+        "merge-tree",
+        "--write-tree",
+        "--name-only",
+        "origin/develop",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-no-pager-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "--no-pager",
+        "merge-tree",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-no-pager-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "--no-pager",
+        "merge-tree",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-no-pager-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "--no-pager",
+        "merge-tree",
+        "main",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-two-operands-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge-tree",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-two-operands-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge-tree",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-two-operands-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge-tree",
+        "main",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-nul-output-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--write-tree",
+        "-z",
+        "--no-messages",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-nul-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--write-tree",
+        "-z",
+        "--no-messages",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-nul-output-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--write-tree",
+        "-z",
+        "--no-messages",
+        "main",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-quiet-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--quiet",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-quiet-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--quiet",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-quiet-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--quiet",
+        "main",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-messages-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--messages",
+        "--allow-unrelated-histories",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-messages-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--messages",
+        "--allow-unrelated-histories",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-messages-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--messages",
+        "--allow-unrelated-histories",
+        "main",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-merge-base-equals-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--merge-base=abc123",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-merge-base-equals-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--merge-base=abc123",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-merge-base-equals-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--merge-base=abc123",
+        "main",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-merge-base-separate-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--merge-base",
+        "abc123",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-merge-base-separate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--merge-base",
+        "abc123",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-merge-base-separate-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--merge-base",
+        "abc123",
+        "main",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-strategy-attached-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge-tree",
+        "-Xours",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-strategy-attached-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge-tree",
+        "-Xours",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-strategy-attached-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge-tree",
+        "-Xours",
+        "main",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-strategy-separate-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge-tree",
+        "-X",
+        "ignore-space-change",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-strategy-separate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge-tree",
+        "-X",
+        "ignore-space-change",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-strategy-separate-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge-tree",
+        "-X",
+        "ignore-space-change",
+        "main",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-strategy-long-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--strategy-option=theirs",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-strategy-long-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--strategy-option=theirs",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-strategy-long-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--strategy-option=theirs",
+        "main",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-deprecated-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge-tree",
+        "base",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-deprecated-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge-tree",
+        "base",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-deprecated-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge-tree",
+        "base",
+        "main",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-trivial-merge-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--trivial-merge",
+        "base",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-trivial-merge-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--trivial-merge",
+        "base",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-trivial-merge-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--trivial-merge",
+        "base",
+        "main",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-stdin-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--stdin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-stdin-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--stdin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-stdin-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--stdin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-stdin-nul-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--write-tree",
+        "--stdin",
+        "-z"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-stdin-nul-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--write-tree",
+        "--stdin",
+        "-z"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-stdin-nul-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--write-tree",
+        "--stdin",
+        "-z"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-unknown-option-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--future",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-unknown-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--future",
+        "main",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-unknown-option-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge-tree",
+        "--future",
+        "main",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "merge-tree-write-tree-command-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "write-tree"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-write-tree-command-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "write-tree"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "merge-tree-write-tree-command-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "write-tree"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-commit-trailer-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "commit",
+        "--trailer",
+        "Acked-by:Acme",
+        "-m",
+        "fix"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-commit-trailer-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "commit",
+        "--trailer",
+        "Acked-by:Acme",
+        "-m",
+        "fix"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-commit-trailer-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "commit",
+        "--trailer",
+        "Acked-by:Acme",
+        "-m",
+        "fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-log-new-option-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log",
+        "--some-future-option"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-log-new-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log",
+        "--some-future-option"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-log-new-option-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log",
+        "--some-future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-worktree-add-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "worktree",
+        "add",
+        "../acme-feature",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-worktree-add-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "worktree",
+        "add",
+        "../acme-feature",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-worktree-add-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "worktree",
+        "add",
+        "../acme-feature",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-user-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "config",
+        "user.name",
+        "Acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-config-user-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "config",
+        "user.name",
+        "Acme"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-config-user-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "config",
+        "user.name",
+        "Acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-global-user-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "config",
+        "--global",
+        "user.email",
+        "dev@example.com"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-config-global-user-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "config",
+        "--global",
+        "user.email",
+        "dev@example.com"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-config-global-user-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "config",
+        "--global",
+        "user.email",
+        "dev@example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-list-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "config",
+        "--list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-config-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "config",
+        "--list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-config-list-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "config",
+        "--list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-config-read-remote-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "config",
+        "--get",
+        "remote.origin.url"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-config-read-remote-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "config",
+        "--get",
+        "remote.origin.url"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-config-read-remote-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "config",
+        "--get",
+        "remote.origin.url"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-config-read-aliases-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "config",
+        "--get-regexp",
+        "alias"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-config-read-aliases-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "config",
+        "--get-regexp",
+        "alias"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-config-read-aliases-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "config",
+        "--get-regexp",
+        "alias"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-bisect-start-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "bisect",
+        "start"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-bisect-start-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "bisect",
+        "start"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-bisect-start-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "bisect",
+        "start"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-archive-stdout-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "archive",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-archive-stdout-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "archive",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-archive-stdout-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "archive",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-format-patch-directory-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "format-patch",
+        "-o",
+        "patches",
+        "main"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-format-patch-directory-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "format-patch",
+        "-o",
+        "patches",
+        "main"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-format-patch-directory-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "format-patch",
+        "-o",
+        "patches",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-rebase-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "rebase",
+        "origin/main"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-rebase-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "rebase",
+        "origin/main"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-rebase-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "rebase",
+        "origin/main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-rebase-continue-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "rebase",
+        "--continue"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-rebase-continue-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "rebase",
+        "--continue"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-rebase-continue-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "rebase",
+        "--continue"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-merge-no-ff-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge",
+        "--no-ff",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-merge-no-ff-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge",
+        "--no-ff",
+        "feature"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-merge-no-ff-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge",
+        "--no-ff",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-fetch-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "fetch",
+        "origin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-fetch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "fetch",
+        "origin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-fetch-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "fetch",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-fetch-prune-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "fetch",
+        "--prune",
+        "origin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-fetch-prune-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "fetch",
+        "--prune",
+        "origin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-fetch-prune-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "fetch",
+        "--prune",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-fetch-branch-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "fetch",
+        "origin",
+        "main"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-fetch-branch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "fetch",
+        "origin",
+        "main"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-fetch-branch-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "fetch",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pull-rebase-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "pull",
+        "--rebase",
+        "origin",
+        "main"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pull-rebase-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "pull",
+        "--rebase",
+        "origin",
+        "main"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pull-rebase-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "pull",
+        "--rebase",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-clone-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "clone",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-clone-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "clone",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-clone-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "clone",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-remote-show-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "remote",
+        "show",
+        "origin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-remote-show-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "remote",
+        "show",
+        "origin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-remote-show-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "remote",
+        "show",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-remote-update-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "remote",
+        "update"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-remote-update-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "remote",
+        "update"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-remote-update-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "remote",
+        "update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-submodule-update-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "submodule",
+        "update",
+        "--init",
+        "--recursive"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-submodule-update-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "submodule",
+        "update",
+        "--init",
+        "--recursive"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-submodule-update-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "submodule",
+        "update",
+        "--init",
+        "--recursive"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-submodule-update-remote-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "submodule",
+        "update",
+        "--remote"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-submodule-update-remote-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "submodule",
+        "update",
+        "--remote"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-submodule-update-remote-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "submodule",
+        "update",
+        "--remote"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-branch-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--heads",
+        "origin",
+        "feature-x"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-branch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--heads",
+        "origin",
+        "feature-x"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-branch-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--heads",
+        "origin",
+        "feature-x"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-combined-worktree-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "-C",
+        ".gate/repos/public",
+        "ls-remote",
+        "--heads",
+        "origin",
+        "Fix-PR-Skill-Without-Local-Tools"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-combined-worktree-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "-C",
+        ".gate/repos/public",
+        "ls-remote",
+        "--heads",
+        "origin",
+        "Fix-PR-Skill-Without-Local-Tools"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-combined-worktree-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "-C",
+        ".gate/repos/public",
+        "ls-remote",
+        "--heads",
+        "origin",
+        "Fix-PR-Skill-Without-Local-Tools"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-no-pager-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "--no-pager",
+        "ls-remote",
+        "origin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-no-pager-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "--no-pager",
+        "ls-remote",
+        "origin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-no-pager-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "--no-pager",
+        "ls-remote",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-default-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "ls-remote"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-default-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "ls-remote"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-default-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "ls-remote"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-tags-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "ls-remote",
+        "-t",
+        "--refs",
+        "origin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-tags-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "ls-remote",
+        "-t",
+        "--refs",
+        "origin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-tags-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "ls-remote",
+        "-t",
+        "--refs",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-symref-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--symref",
+        "origin",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-symref-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--symref",
+        "origin",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-symref-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--symref",
+        "origin",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-sort-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--sort=-v:refname",
+        "--tags",
+        "origin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-sort-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--sort=-v:refname",
+        "--tags",
+        "origin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-sort-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--sort=-v:refname",
+        "--tags",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-url-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "ls-remote",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-url-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "ls-remote",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-url-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "ls-remote",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-server-option-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "ls-remote",
+        "-o",
+        "trace",
+        "origin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-server-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "ls-remote",
+        "-o",
+        "trace",
+        "origin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-ls-remote-server-option-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "ls-remote",
+        "-o",
+        "trace",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-push-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "push",
+        "origin",
+        "feature-x"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-push-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "push",
+        "origin",
+        "feature-x"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-push-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "push",
+        "origin",
+        "feature-x"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-push-upstream-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "push",
+        "-u",
+        "origin",
+        "feature-x"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-push-upstream-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "push",
+        "-u",
+        "origin",
+        "feature-x"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-push-upstream-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "push",
+        "-u",
+        "origin",
+        "feature-x"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-upload-pack-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--upload-pack=/tmp/helper",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-upload-pack-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--upload-pack=/tmp/helper",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-upload-pack-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--upload-pack=/tmp/helper",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-upload-pack-separate-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--upload-pack",
+        "/tmp/helper",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-upload-pack-separate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--upload-pack",
+        "/tmp/helper",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-upload-pack-separate-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--upload-pack",
+        "/tmp/helper",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-upload-pack-after-remote-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "ls-remote",
+        "origin",
+        "--upload-pack=/tmp/helper"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-upload-pack-after-remote-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "ls-remote",
+        "origin",
+        "--upload-pack=/tmp/helper"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-upload-pack-after-remote-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "ls-remote",
+        "origin",
+        "--upload-pack=/tmp/helper"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-exec-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--exec=/tmp/helper",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-exec-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--exec=/tmp/helper",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-ls-remote-exec-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "ls-remote",
+        "--exec=/tmp/helper",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-fetch-upload-pack-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "fetch",
+        "--upload-pack=/tmp/helper",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-fetch-upload-pack-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "fetch",
+        "--upload-pack=/tmp/helper",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-fetch-upload-pack-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "fetch",
+        "--upload-pack=/tmp/helper",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-push-receive-pack-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "push",
+        "--receive-pack=/tmp/helper",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-push-receive-pack-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "push",
+        "--receive-pack=/tmp/helper",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-push-receive-pack-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "push",
+        "--receive-pack=/tmp/helper",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-archive-exec-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "archive",
+        "--remote=origin",
+        "--exec=/tmp/helper",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-archive-exec-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "archive",
+        "--remote=origin",
+        "--exec=/tmp/helper",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-archive-exec-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "archive",
+        "--remote=origin",
+        "--exec=/tmp/helper",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-clone-upload-pack-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "clone",
+        "-u",
+        "/tmp/helper",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-clone-upload-pack-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "clone",
+        "-u",
+        "/tmp/helper",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-clone-upload-pack-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "clone",
+        "-u",
+        "/tmp/helper",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-clone-template-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "clone",
+        "--template=/tmp/template",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-clone-template-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "clone",
+        "--template=/tmp/template",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-clone-template-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "clone",
+        "--template=/tmp/template",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-clone-config-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "clone",
+        "-c",
+        "core.hooksPath=/tmp/hooks",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-clone-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "clone",
+        "-c",
+        "core.hooksPath=/tmp/hooks",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-clone-config-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "clone",
+        "-c",
+        "core.hooksPath=/tmp/hooks",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-clone-config-long-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "clone",
+        "--config=core.sshCommand=helper",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-clone-config-long-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "clone",
+        "--config=core.sshCommand=helper",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-clone-config-long-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "clone",
+        "--config=core.sshCommand=helper",
+        "https://example.com/acme/repo.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-init-template-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "init",
+        "--template=/tmp/template"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-init-template-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "init",
+        "--template=/tmp/template"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-init-template-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "init",
+        "--template=/tmp/template"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-log-ext-diff-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log",
+        "-p",
+        "--ext-diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-log-ext-diff-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log",
+        "-p",
+        "--ext-diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-log-ext-diff-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log",
+        "-p",
+        "--ext-diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-show-textconv-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "show",
+        "--textconv",
+        "HEAD:README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-show-textconv-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "show",
+        "--textconv",
+        "HEAD:README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-show-textconv-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "show",
+        "--textconv",
+        "HEAD:README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-grep-pager-long-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "grep",
+        "--open-files-in-pager=less",
+        "Acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-grep-pager-long-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "grep",
+        "--open-files-in-pager=less",
+        "Acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-grep-pager-long-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "grep",
+        "--open-files-in-pager=less",
+        "Acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-alias-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "config",
+        "alias.st",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-alias-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "config",
+        "alias.st",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-alias-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "config",
+        "alias.st",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-ssh-command-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "config",
+        "core.sshCommand",
+        "helper"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-ssh-command-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "config",
+        "core.sshCommand",
+        "helper"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-ssh-command-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "config",
+        "core.sshCommand",
+        "helper"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-hooks-path-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "config",
+        "core.hooksPath",
+        "/tmp/hooks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-hooks-path-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "config",
+        "core.hooksPath",
+        "/tmp/hooks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-hooks-path-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "config",
+        "core.hooksPath",
+        "/tmp/hooks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-include-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "config",
+        "--add",
+        "include.path",
+        "/tmp/acme.inc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-include-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "config",
+        "--add",
+        "include.path",
+        "/tmp/acme.inc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-include-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "config",
+        "--add",
+        "include.path",
+        "/tmp/acme.inc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-credential-helper-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "config",
+        "set",
+        "credential.helper",
+        "store"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-credential-helper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "config",
+        "set",
+        "credential.helper",
+        "store"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-credential-helper-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "config",
+        "set",
+        "credential.helper",
+        "store"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-url-rewrite-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "config",
+        "url.https://example.com/.insteadOf",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-url-rewrite-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "config",
+        "url.https://example.com/.insteadOf",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-url-rewrite-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "config",
+        "url.https://example.com/.insteadOf",
+        "origin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-filter-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "config",
+        "filter.acme.clean",
+        "helper"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-filter-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "config",
+        "filter.acme.clean",
+        "helper"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-filter-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "config",
+        "filter.acme.clean",
+        "helper"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-read-hooks-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "config",
+        "--get",
+        "core.hooksPath"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-read-hooks-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "config",
+        "--get",
+        "core.hooksPath"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-read-hooks-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "config",
+        "--get",
+        "core.hooksPath"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-rebase-exec-short-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "rebase",
+        "-x",
+        "make",
+        "origin/main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-rebase-exec-short-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "rebase",
+        "-x",
+        "make",
+        "origin/main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-rebase-exec-short-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "rebase",
+        "-x",
+        "make",
+        "origin/main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-rebase-exec-long-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "rebase",
+        "--exec=make",
+        "origin/main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-rebase-exec-long-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "rebase",
+        "--exec=make",
+        "origin/main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-rebase-exec-long-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "rebase",
+        "--exec=make",
+        "origin/main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-rebase-interactive-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "rebase",
+        "-i",
+        "HEAD~3"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-rebase-interactive-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "rebase",
+        "-i",
+        "HEAD~3"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-rebase-interactive-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "rebase",
+        "-i",
+        "HEAD~3"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-rebase-strategy-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "rebase",
+        "-s",
+        "ours",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-rebase-strategy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "rebase",
+        "-s",
+        "ours",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-rebase-strategy-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "rebase",
+        "-s",
+        "ours",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pull-strategy-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "pull",
+        "-s",
+        "ours",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pull-strategy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "pull",
+        "-s",
+        "ours",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pull-strategy-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "pull",
+        "-s",
+        "ours",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pull-strategy-equals-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "pull",
+        "--strategy=ours",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pull-strategy-equals-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "pull",
+        "--strategy=ours",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pull-strategy-equals-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "pull",
+        "--strategy=ours",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-merge-strategy-equals-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge",
+        "--strategy=octopus",
+        "a",
+        "b"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-merge-strategy-equals-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge",
+        "--strategy=octopus",
+        "a",
+        "b"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-merge-strategy-equals-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge",
+        "--strategy=octopus",
+        "a",
+        "b"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-merge-strategy-attached-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "merge",
+        "-sours",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-merge-strategy-attached-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "merge",
+        "-sours",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-merge-strategy-attached-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "merge",
+        "-sours",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-bisect-run-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "bisect",
+        "run",
+        "make",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-bisect-run-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "bisect",
+        "run",
+        "make",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-bisect-run-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "bisect",
+        "run",
+        "make",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-shell-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "shell",
+        "-c",
+        "ls"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-shell-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "shell",
+        "-c",
+        "ls"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-shell-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "shell",
+        "-c",
+        "ls"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-grep-no-index-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "grep",
+        "--no-index",
+        "secret",
+        "/tmp/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-grep-no-index-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "grep",
+        "--no-index",
+        "secret",
+        "/tmp/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-grep-no-index-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "grep",
+        "--no-index",
+        "secret",
+        "/tmp/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-blame-contents-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "blame",
+        "--contents",
+        "/tmp/acme",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-blame-contents-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "blame",
+        "--contents",
+        "/tmp/acme",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-blame-contents-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "blame",
+        "--contents",
+        "/tmp/acme",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-log-output-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log",
+        "--output=/tmp/acme.log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-log-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log",
+        "--output=/tmp/acme.log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-log-output-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log",
+        "--output=/tmp/acme.log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-archive-output-short-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "archive",
+        "-o",
+        "/tmp/acme.tar",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-archive-output-short-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "archive",
+        "-o",
+        "/tmp/acme.tar",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-archive-output-short-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "archive",
+        "-o",
+        "/tmp/acme.tar",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-archive-output-long-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "archive",
+        "--output=/tmp/acme.tar",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-archive-output-long-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "archive",
+        "--output=/tmp/acme.tar",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-archive-output-long-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "archive",
+        "--output=/tmp/acme.tar",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-option-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "-c",
+        "core.pager=helper",
+        "log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "-c",
+        "core.pager=helper",
+        "log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-config-option-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "-c",
+        "core.pager=helper",
+        "log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-git-dir-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "--git-dir=/tmp/acme",
+        "log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-git-dir-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "--git-dir=/tmp/acme",
+        "log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-git-dir-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "--git-dir=/tmp/acme",
+        "log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-rm-cluster-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "rm",
+        "-rf",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-rm-cluster-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "rm",
+        "-rf",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-rm-cluster-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "rm",
+        "-rf",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "everyday-branch-cluster-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "branch",
+        "-Df",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-branch-cluster-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "branch",
+        "-Df",
+        "feature"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-branch-cluster-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "branch",
+        "-Df",
+        "feature"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "everyday-checkout-cluster-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "checkout",
+        "-qf",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-checkout-cluster-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "checkout",
+        "-qf",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-checkout-cluster-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "checkout",
+        "-qf",
+        "main"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "everyday-push-lease-equals-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "push",
+        "--force-with-lease=main",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-push-lease-equals-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "push",
+        "--force-with-lease=main",
+        "origin",
+        "main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-push-lease-equals-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "push",
+        "--force-with-lease=main",
+        "origin",
+        "main"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "everyday-commit-hook-bypass-cluster-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "commit",
+        "-an",
+        "-m",
+        "fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-commit-hook-bypass-cluster-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "commit",
+        "-an",
+        "-m",
+        "fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-commit-hook-bypass-cluster-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "commit",
+        "-an",
+        "-m",
+        "fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-fetch-force-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "fetch",
+        "-f",
+        "origin",
+        "main:main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-fetch-force-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "fetch",
+        "-f",
+        "origin",
+        "main:main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-fetch-force-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "fetch",
+        "-f",
+        "origin",
+        "main:main"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "everyday-fetch-forced-refspec-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "fetch",
+        "origin",
+        "+main:main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-fetch-forced-refspec-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "fetch",
+        "origin",
+        "+main:main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-fetch-forced-refspec-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "fetch",
+        "origin",
+        "+main:main"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "everyday-submodule-update-force-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "submodule",
+        "update",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-submodule-update-force-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "submodule",
+        "update",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-submodule-update-force-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "submodule",
+        "update",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "everyday-reset-hard-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "reset",
+        "--hard",
+        "HEAD~1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-reset-hard-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "reset",
+        "--hard",
+        "HEAD~1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-reset-hard-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "reset",
+        "--hard",
+        "HEAD~1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "everyday-clean-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "clean",
+        "-fd"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-clean-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "clean",
+        "-fd"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-clean-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "clean",
+        "-fd"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scoped-output-diff-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "base",
+        "head",
+        "--output=review.diff"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-output-diff-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "base",
+        "head",
+        "--output=review.diff"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-output-diff-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "base",
+        "head",
+        "--output=review.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-show-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "--no-pager",
+        "show",
+        "HEAD",
+        "--output",
+        "review.diff"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-output-show-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "--no-pager",
+        "show",
+        "HEAD",
+        "--output",
+        "review.diff"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-output-show-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "--no-pager",
+        "show",
+        "HEAD",
+        "--output",
+        "review.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-chdir-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "-C",
+        "scripts",
+        "diff",
+        "base",
+        "head",
+        "--output=../review.diff"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-output-chdir-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "-C",
+        "scripts",
+        "diff",
+        "base",
+        "head",
+        "--output=../review.diff"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-output-chdir-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "-C",
+        "scripts",
+        "diff",
+        "base",
+        "head",
+        "--output=../review.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-chdir-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "-C",
+        "scripts",
+        "diff",
+        "--output=../../review.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-chdir-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "-C",
+        "scripts",
+        "diff",
+        "--output=../../review.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-chdir-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "-C",
+        "scripts",
+        "diff",
+        "--output=../../review.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-log-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "log",
+        "--output=review.log",
+        "--",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-output-log-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "log",
+        "--output=review.log",
+        "--",
+        "README.md"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-output-log-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "log",
+        "--output=review.log",
+        "--",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-diff-tree-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff-tree",
+        "--output=review.diff",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-output-diff-tree-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff-tree",
+        "--output=review.diff",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-output-diff-tree-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff-tree",
+        "--output=review.diff",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-diff-index-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff-index",
+        "--output=review.diff",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-output-diff-index-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff-index",
+        "--output=review.diff",
+        "HEAD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-output-diff-index-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff-index",
+        "--output=review.diff",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-diff-files-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff-files",
+        "--output=review.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-diff-files-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff-files",
+        "--output=review.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-diff-files-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff-files",
+        "--output=review.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-whatchanged-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "whatchanged",
+        "--output=review.log"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-output-whatchanged-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "whatchanged",
+        "--output=review.log"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-output-whatchanged-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "whatchanged",
+        "--output=review.log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-repeated-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--output=first.diff",
+        "--output",
+        "second.diff"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-output-repeated-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--output=first.diff",
+        "--output",
+        "second.diff"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-output-repeated-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--output=first.diff",
+        "--output",
+        "second.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--output",
+        "../review.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--output",
+        "../review.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--output",
+        "../review.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-earlier-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--output=../first.diff",
+        "--output=second.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-earlier-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--output=../first.diff",
+        "--output=second.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-earlier-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--output=../first.diff",
+        "--output=second.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-later-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--output=first.diff",
+        "--output=../second.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-later-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--output=first.diff",
+        "--output=../second.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-later-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--output=first.diff",
+        "--output=../second.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-missing-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--output"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-missing-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--output"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-missing-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--output"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-empty-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--output="
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-empty-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--output="
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-empty-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--output="
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-separator-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--output",
+        "--",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-separator-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--output",
+        "--",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-separator-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--output",
+        "--",
+        "README.md"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-pathspec-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--",
+        "--output=literal"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-pathspec-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--",
+        "--output=literal"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-pathspec-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--",
+        "--output=literal"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-uncertain-separator-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--output=first.diff",
+        "--",
+        "--output=../second.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-uncertain-separator-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--output=first.diff",
+        "--",
+        "--output=../second.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-uncertain-separator-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--output=first.diff",
+        "--",
+        "--output=../second.diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-git-metadata-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--output=.git/config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-git-metadata-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--output=.git/config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-git-metadata-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--output=.git/config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-gate-metadata-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--output=.gate/repos/public/.git/config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-gate-metadata-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--output=.gate/repos/public/.git/config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-gate-metadata-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--output=.gate/repos/public/.git/config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-shield-policy-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "show",
+        "--output",
+        ".shield/config.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-shield-policy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "show",
+        "--output",
+        ".shield/config.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-shield-policy-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "show",
+        "--output",
+        ".shield/config.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-grouped-shield-policy-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "show",
+        "--output",
+        ".config/shield/config.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-grouped-shield-policy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "show",
+        "--output",
+        ".config/shield/config.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-grouped-shield-policy-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "show",
+        "--output",
+        ".config/shield/config.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-ext-diff-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--output=review.diff",
+        "--ext-diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-ext-diff-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--output=review.diff",
+        "--ext-diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-ext-diff-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--output=review.diff",
+        "--ext-diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-textconv-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "show",
+        "--output=review.diff",
+        "--textconv"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-textconv-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "show",
+        "--output=review.diff",
+        "--textconv"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-textconv-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "show",
+        "--output=review.diff",
+        "--textconv"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-no-index-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "diff",
+        "--no-index",
+        "--output=review.diff",
+        "../first",
+        "../second"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-no-index-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "diff",
+        "--no-index",
+        "--output=review.diff",
+        "../first",
+        "../second"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-no-index-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "diff",
+        "--no-index",
+        "--output=review.diff",
+        "../first",
+        "../second"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-archive-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "archive",
+        "--output=review.tar",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-archive-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "archive",
+        "--output=review.tar",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-archive-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "archive",
+        "--output=review.tar",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-format-patch-loose",
+      "profile": "loose",
+      "argv": [
+        "git",
+        "format-patch",
+        "--output=review.diff",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-format-patch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "git",
+        "format-patch",
+        "--output=review.diff",
+        "HEAD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-output-format-patch-strict",
+      "profile": "strict",
+      "argv": [
+        "git",
+        "format-patch",
+        "--output=review.diff",
+        "HEAD"
+      ],
+      "expected": "ask"
+    }
+  ]
+}

@@ -10,7 +10,7 @@ export const directory = new URL(`../packs/canonic/hub/${version}/`, import.meta
 export function guide() {
   return `# Hub permissions ${version}
 
-Reviewed against Hub 0.41.0 with the Compose follow-up: its CLI definitions and the 95 tools that
+Reviewed against Hub 0.43.0: its CLI definitions and the 95 tools that
 \`hub mcp serve --check\` lists. Hub succeeds Box; \`canonic/box\` keeps covering
 the \`box\` executable, and this pack grants nothing to it.
 
@@ -57,6 +57,7 @@ their reviewed decisions for older installed binaries.
 | Unknown MCP tools and unrecognized command lines, including \`hub -w WORKSPACE -- COMMAND\` | Allow | Ask | Ask |
 | Self-confirmed or irreversible deletion: \`--confirm DIGEST\`, \`--discard-changes\`, \`--forget\`, \`data-reset --confirm\`, and \`discard_changes\` or \`forget\` in \`workspace_remove\` | Ask | Ask | Deny |
 | A named input file in version control, Shield state, credentials or agent settings, or outside the approved roots | Ask | Ask | Ask |
+| A \`task export --output\` file outside the writable roots or in a protected location | Ask | Ask | Ask |
 
 Arbitrary programs, workflows and agent prompts run outside the rules other
 packs apply to commands, so they are reviewed rather than trusted. Removing a
@@ -68,6 +69,20 @@ Input files are \`--goal-file\`, \`--description-file\`, \`--prompt-file\` and
 \`task import --file\`. Hub reads them into its task or a prompt; the checked
 locations are \`.git\`, \`.shield\`, \`.aws\`, \`.ssh\`, \`.env\`, \`.mcp.json\`, \`.codex\`
 and \`.claude\` in the project, and anything outside the approved roots.
+
+\`task export --output FILE\` writes one task revision to \`FILE\`, and with
+\`--overwrite\` replaces an existing file there. Inside the writable roots it is
+inspection, allowed in all profiles; \`FILE\` outside them or in a protected
+location asks in all profiles. Export without \`--output\`, and the MCP
+\`task_export\` tool, return text and write no file.
+
+This tightens 0.1.2, which allowed \`--output\` anywhere, including the
+published case \`task-export\` (\`--output /outside/task.json --overwrite\`).
+Hub writes the export file wherever it is named, so the earlier allowance let an
+agent replace a file outside the writable roots. That case now asks in every
+profile; every other published decision is unchanged. To keep exporting without
+approval, name a file inside the project, or omit \`--output\` and save the
+printed text.
 
 Project selection, explicit configuration files, checkout paths, environment
 overrides and malformed arguments keep the operation's decision; Hub validates
@@ -102,7 +117,7 @@ Exact permissions and independent fixtures for these forms remain. Remove no
 coverage until three subsequent published tool feature releases establish
 eligibility and supported versions no longer need it. Current MCP tool names
 and retained argument forms are checked separately; no retired MCP tool names
-were identified. Published packs 0.1.0 and 0.1.1 and their companion assets remain immutable.
+were identified. Published packs 0.1.0, 0.1.1 and 0.1.2 and their companion assets remain immutable.
 
 ## Connection
 

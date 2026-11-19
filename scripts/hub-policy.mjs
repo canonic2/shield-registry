@@ -1,4 +1,4 @@
-// Reviewed Hub CLI and MCP surface of hub 0.41.0: src/interface/cli.rs, the
+// Reviewed Hub CLI and MCP surface of hub 0.43.0: src/interface/cli.rs, the
 // task, agent, plugin and MCP-integration argument types, and the 95 tools of
 // src/interface/mcp/catalog.rs (`hub mcp serve --check`). Hub succeeds Box;
 // canonic/box keeps covering the box executable.
@@ -7,12 +7,13 @@
 // Ordinary Hub use is allowed: Hub validates its own arguments and asks its
 // user before confirmed effects. The pack reviews only the forms an agent could
 // use to escape other policy or cause loss: arbitrary commands, starting or
-// prompting other agents, self-confirmed or irreversible deletion, and named
-// files in credential or agent-settings locations. Strict reviews changes.
+// prompting other agents, self-confirmed or irreversible deletion, named input
+// files in credential or agent-settings locations, and a task export written
+// outside the writable roots. Strict reviews changes.
 import {toolPack} from './tool-pack.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 
-export const version = '0.1.2';
+export const version = '0.1.3';
 export const engine = '>=0.20.0, <1.0.0';
 
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -45,6 +46,7 @@ const grammars = {
   attach: {flags: ['--no-wait'], operands: true, values: [...initial, '--request-id', '--provider', ...globals]},
   agentStart: {flags: [], operands: true, values: [...workspace, '--prompt', '--prompt-file', '--model', '--host', '--request-id', ...globals]},
   agentMessage: {flags: [], operands: true, values: [...workspace, '--prompt', '--prompt-file', '--if-operation-sequence', '--request-id', ...globals]},
+  taskExport: {flags: ['--overwrite'], values: [...workspace, '--format', '--output', '--cursor', '--limit', ...globals]},
 };
 // A named input file is read into Hub state. Files in version control, Shield
 // state, credentials or agent settings, or outside the approved roots, ask.
@@ -52,6 +54,12 @@ const grammars = {
 const files = (options, prefixes, grammar, category = 'routine') => ({
   id: 'files', any: options, values: [...options, ...prefixes], category, unmet: 'folder', grammar,
   reason: 'Read text from a named file.', paths: Object.fromEntries(options.map(name => [name, 'read']))});
+// `task export --output` writes, and with --overwrite replaces, the named file.
+// Inside the writable roots it stays inspection; elsewhere it asks like a
+// named input file.
+const output = {
+  id: 'output', any: ['--output'], values: ['--output'], category: 'inspect', unmet: 'folder',
+  grammar: grammars.taskExport, reason: 'Write the task export to a named file.', paths: {'--output': 'write'}};
 const words = (rows, category, reason) => rows.map(row => [row.split(' '), category, reason]);
 
 export const hub = {
@@ -65,7 +73,7 @@ export const hub = {
   commands: [
     ...words(['status', 'doctor', 'workspace list', 'workspace show', 'operation show', 'operation list',
       'manager status', 'manager blocker list', 'process list', 'process url',
-      'process logs', 'process stats', 'process gateway status', 'task show', 'task history', 'task step list', 'task step next', 'task export',
+      'process logs', 'process stats', 'process gateway status', 'task show', 'task history', 'task step list', 'task step next',
       'agent list', 'agent show', 'config check', 'config plan', 'config schema', 'docs list', 'docs search', 'docs read',
       'plugin list', 'plugin show', 'plugin binding list', 'plugin context show', 'plugin prepare', 'plugin workflow list', 'plugin workflow show',
       'mcp auth list', 'mcp auth show', 'mcp auth manager status', 'mcp serve'],
@@ -77,6 +85,7 @@ export const hub = {
       'task note remove', 'plugin enable', 'plugin disable', 'plugin reset', 'plugin binding add', 'plugin binding remove',
       'plugin workflow reconcile', 'plugin workflow abandon', 'plugin check'],
     'routine', 'Change Hub configuration, tasks, processes or plugins; Hub confirms reviewed effects itself.'),
+    [['task', 'export'], 'inspect', 'Export one task revision.', [output]],
     [['task', 'update'], 'routine', 'Change the task.', [files(['--goal-file', '--description-file'], ['--goal', '--description'], grammars.taskUpdate)]],
     [['task', 'import'], 'routine', 'Apply task changes from a file.', [files(['--file'], [], grammars.taskImport)]],
     ...['add', 'update'].map(verb => [['task', 'step', verb], 'routine', 'Edit task steps.',
