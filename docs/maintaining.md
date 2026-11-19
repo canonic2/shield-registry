@@ -19,7 +19,7 @@ Current source builders are grouped by capability rather than a release diary:
 | Git | `scripts/build-git-allow-by-default.mjs` extends the inspection release (`scripts/build-git-inspection.mjs`) to allow everyday use and review known-harmful forms |
 | Node | `scripts/build-node-everyday.mjs` extends the reviewed-profiles release to allow project scripts and read-only listings |
 | Rust, AWS | `scripts/build-reviewed-profiles.mjs` and `scripts/build-reviewed-profile-cases.mjs` |
-| Box, Gate, Testrun | `scripts/build-current-tool-packs.mjs` and `scripts/current-tool-cases.mjs` extend frozen sources; the builder accepts a tool selection. Testrun's universal trust policy and independent fixtures are in `scripts/testrun-trusted-policy.mjs` and `scripts/testrun-trusted-cases.mjs`. |
+| Box, Gate, Testrun | `scripts/build-current-tool-packs.mjs` and `scripts/current-tool-cases.mjs` extend frozen sources; the builder accepts a tool selection. Testrun's allow-by-default policy is in `scripts/testrun-trusted-policy.mjs`, its host-file checks in `scripts/testrun-host-paths.mjs` and its independent fixtures in `scripts/testrun-trusted-cases.mjs`. |
 | Hub | `scripts/hub-policy.mjs` and independent `scripts/hub-cases.mjs`; regenerate with `node scripts/build-hub-pack.mjs`; select a source build in focused tests with `--hub /absolute/path/to/hub` |
 | GitHub | `scripts/build-github-graphql-pack.mjs` and `scripts/build-github-graphql-cases.mjs` |
 | Workbench | `scripts/workbench-policy.mjs` and independent `scripts/workbench-cases.mjs`; regenerate with `node scripts/build-workbench-pack.mjs` |

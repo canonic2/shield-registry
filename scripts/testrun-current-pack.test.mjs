@@ -12,7 +12,7 @@ import {schema} from './policy-schema.mjs';
 import {checkPublication, digest} from './registry-release.mjs';
 
 // Independent source inventory: catalog.rs and its mobile, browser, build,
-// project, diagnostic and bundled-documentation schema owners, Testrun 0.6.0.
+// project, diagnostic and bundled-documentation schema owners, Testrun 0.9.0.
 const current = [
   'target_list','doctor','developer_mode_reveal','developer_support_install','connect','act','observe','status','disconnect',
   'control_status','control_acquire','control_release','app_install','app_uninstall','app_list','clipboard_read',

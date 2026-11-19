@@ -21,6 +21,16 @@ test('Fixture partitioning preserves every case and profile at the evaluator bou
     assert.throws(()=>splitCaseFiles({schema_version:1,cases}),/Fixture collection/);
 });
 
+test('Fixture partitioning keeps every written file inside the 1 MiB artifact limit', () => {
+  const cases = Array.from({length:1500},(_,index)=>({name:`case-${index}`,profile:'strict',
+    argv:['acme','inspect','x'.repeat(2000)],expected:'ask'}));
+  const files = splitCaseFiles({schema_version:1,cases});
+  assert.ok(files.length > 2);
+  assert.deepEqual(files.flatMap(([,fixture])=>fixture.cases),cases);
+  for (const [,fixture] of files)
+    assert.ok(Buffer.byteLength(JSON.stringify(fixture,null,2)+'\n') <= 1_048_576);
+});
+
 test('Fixture discovery requires the complete consecutive file set', async t => {
   const directory = await mkdtemp(join(tmpdir(),'registry-fixtures-'));
   t.after(()=>rm(directory,{recursive:true,force:true}));

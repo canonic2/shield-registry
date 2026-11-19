@@ -58,7 +58,7 @@ pending candidates. Older artifacts remain available for pinned installations.
 | [canonic/hub](packs/canonic/hub/0.1.2/README.md) | 0.1.2 | Workspaces, tasks, processes, agents and configuration, paginated inspection, live logs/stats and Compose restart/pause/resume, with arbitrary execution, irreversible deletion and input-file boundaries |
 | [canonic/node](packs/canonic/node/0.5.0/README.md) | 0.5.0 | Everyday project scripts, Node files and package-manager listings, with optional manager selection and execution boundaries |
 | [canonic/rust](packs/canonic/rust/0.2.0/README.md) | 0.2.0 | Cargo, Rust tools, dependencies and explicit argument paths |
-| [canonic/testrun](packs/canonic/testrun/0.2.10/README.md) | 0.2.10 | Every Testrun CLI command and verified MCP tool allowed in all profiles, including browser connect, batched actions, builds, diagnostics and future operations |
+| [canonic/testrun](packs/canonic/testrun/0.2.11/README.md) | 0.2.11 | Every Testrun CLI command and verified MCP tool allowed in all profiles, including browser storage, batched actions, builds, diagnostics and future operations, with caller-named host files kept inside approved roots |
 | [canonic/workbench](packs/canonic/workbench/0.2.0/README.md) | 0.2.0 | All 21 current Workbench MCP tools and future tools allowed across every profile, with verified stdio bindings |
 
 GitHub 0.8.0 uses a root-only GraphQL boundary: every query root must name the

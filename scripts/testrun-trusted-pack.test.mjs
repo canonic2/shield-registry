@@ -5,19 +5,33 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {currentDirectory,currentToolPack} from './build-current-tool-packs.mjs';
-import {binding,requests,trustedTestrunCases} from './testrun-trusted-cases.mjs';
+import {binding,requests,trustedTestrunCases,hostPathCases} from './testrun-trusted-cases.mjs';
 import {trustedTestrunGuide} from './testrun-trusted-policy.mjs';
+import {caseFileNames} from './fixture-files.mjs';
+import {checkPublication,digest} from './registry-release.mjs';
 
-test('Testrun trusts all arguments and future names without retaining approval gates',async()=>{
+const allowed=decision=>decision==='allow' || Object.values(decision).every(value=>value==='allow');
+const asked=decision=>Object.values(decision).every(value=>value==='ask');
+
+test('Testrun allows every operation and gates only host files on approved roots',async()=>{
   const pack=await currentToolPack('testrun');
   assert.deepEqual(JSON.parse(readFileSync(new URL('pack.yml',currentDirectory('testrun')))),pack);
   assert.ok(!pack.preconditions?.length);
   for(const rule of pack.rules) {
-    assert.equal(rule.requirements,undefined,rule.id);
-    assert.equal(rule.on_unmet,undefined,rule.id);
     assert.equal(rule.conditions.cwd,undefined,rule.id);
-    assert.ok(rule.decision==='allow' || Object.values(rule.decision).every(decision=>decision==='allow'),rule.id);
-    if(rule.conditions.domain==='mcp') assert.equal(rule.conditions.fields,undefined,rule.id);
+    if(!rule.requirements) {
+      // Identity rules allow; overflow and opaque-JSON rules ask in every profile.
+      assert.ok(allowed(rule.decision) || asked(rule.decision) && /-overflow$|^cli-json-host-path$/.test(rule.id),rule.id);
+      assert.equal(rule.on_unmet,undefined,rule.id);
+      continue;
+    }
+    assert.ok(allowed(rule.decision),rule.id);
+    assert.equal(rule.on_unmet.decision,'ask',rule.id);
+    assert.deepEqual(Object.keys(rule.requirements),[rule.conditions.domain==='mcp' ? 'field_paths' : 'argument_paths'],rule.id);
+    const selections=rule.conditions.domain==='mcp' ? Object.values(rule.requirements.field_paths)
+      : [...Object.values(rule.requirements.argument_paths.options ?? {}),rule.requirements.argument_paths.operands].filter(Boolean);
+    assert.ok(selections.length,rule.id);
+    for(const selection of selections) assert.ok(['read','write'].includes(selection.path.within.root),rule.id);
   }
   const previous=JSON.parse(readFileSync(new URL('pack.yml',currentDirectory('testrun','0.2.9'))));
   assert.deepEqual(pack.mcp_integrations,previous.mcp_integrations);
@@ -42,9 +56,29 @@ function passed(result) {
   return report;
 }
 
-test('production Shield approves connect, browser act, every argument shape and future tools in every profile',{skip:!process.env.SHIELD_BINARY},t=>{
+test('production Shield allows Testrun operations and asks for host files outside approved roots',{skip:!process.env.SHIELD_BINARY},t=>{
   const report=passed(evaluate(trustedTestrunCases()));
-  t.diagnostic(`Evaluated ${report.cases.length} independent trusted-tool and unrelated-command decisions.`);
+  const all=hostPathCases();
+  let total=report.cases.length;
+  for(let index=0;index<all.length;index+=1024) total+=passed(evaluate(all.slice(index,index+1024))).cases.length;
+  t.diagnostic(`Evaluated ${total} independent operation, host-file and unrelated-command decisions.`);
+});
+
+test('Testrun retains signed 0.2.10 bytes and its independent decisions',{skip:!process.env.SHIELD_BINARY},async()=>{
+  const previous=currentDirectory('testrun','0.2.10');
+  const catalog=await checkPublication(new URL('../public',import.meta.url).pathname,
+    readFileSync(new URL('../keys/main.pub',import.meta.url),'utf8').trim());
+  const published=catalog.releases.find(row=>row.id==='canonic/testrun' && row.version==='0.2.10');
+  assert.ok(published);
+  assert.equal(digest(readFileSync(new URL('pack.yml',previous))),published.sha256);
+  for(const file of ['pack.yml',...await caseFileNames(previous),'commands.json','README.md','LICENSE'])
+    assert.deepEqual(readFileSync(new URL(file,previous)),
+      readFileSync(new URL(`../public/packs/canonic/testrun/0.2.10/${file}`,import.meta.url)),file);
+  for(const file of await caseFileNames(previous)) {
+    const result=spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack','--pack',new URL('pack.yml',previous).pathname,
+      '--cases',new URL(file,previous).pathname],{encoding:'utf8',timeout:120000,maxBuffer:32*1024*1024});
+    passed(result);
+  }
 });
 
 test('the reported browser workflow remains approved when Baseline is installed',{skip:!process.env.SHIELD_BINARY},()=>{
