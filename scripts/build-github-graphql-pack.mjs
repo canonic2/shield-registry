@@ -366,6 +366,56 @@ export function githubPack081() {
   api.on_unmet.message = 'With the repository setting, use one literal REST endpoint under repos/{{repository}}/... on github.com, or a supported inline GraphQL request. Other repositories, hosts and unresolved targets are refused. Plain GETs allow, including with --hostname github.com; REST requests with bodies, custom headers or other unreviewed effects require approval.';
   return pack;
 }
+// 0.9.0: the repository setting lists several OWNER/REPO values, such as a fork
+// and its upstream. Plain -R/--repo matches take any listed value; split owner
+// and name fields and joined repos/OWNER/REPO/ prefixes sit in requires_any
+// branches, which Shield repeats per value (variable-list-branches-v1) so an
+// owner and a name always come from the same value. A bound string from earlier
+// releases reads as a one-item list, so existing settings keep their meaning.
+export const destination090 = new URL('../packs/canonic/github/0.9.0/', import.meta.url);
+// cli-api-scope keeps two GraphQL alternatives beside one repeated REST branch,
+// and Shield allows 16 alternatives.
+export const maxRepositories = 8;
+// Messages are capped at 512 bytes, which a full list may not fit, so they name
+// the setting instead of rendering it; rule reasons render it.
+const listed = 'a repository listed in the project\'s GitHub repository setting';
+export function githubPack090() {
+  const pack = githubPack081();
+  pack.version = '0.9.0';
+  pack.description = 'GitHub CLI and official MCP permissions. Optional list of OWNER/REPO targets; GraphQL query roots must match one of them, with unrestricted nested reads. Mutations retain separate reviewed permissions.';
+  // variable-list-branches-v1 first shipped in Shield 0.47.0.
+  pack.engines.shield = '>=0.47.0, <1.0.0';
+  pack.capabilities.push('variable-list-branches-v1');
+  const {match, max_length} = pack.variables.repository;
+  pack.variables.repository = {type: 'list',
+    description: 'Optional exact OWNER/REPO values for CLI and MCP, such as a fork and its upstream. Requests must name one listed repository. GraphQL queries must start every root at the same listed repository; all nested reads, including related repositories and owners, are allowed. Listed mutations retain their separate target-review policy. REST requests require a literal repos/OWNER/REPO/ endpoint.',
+    items: {type: 'string', match, max_length}, max_items: maxRepositories,
+    setup: {question: 'Limit GitHub operations to these repositories?', unset: 'Any repository (no scope check)',
+      value: 'Only these repositories', placeholder: 'acme/web, acme-forks/web'}};
+  const gate = id => pack.preconditions.find(item => item.id === id);
+  const plainGet = grammar => grammar?.values.some(value => value.name === '-X' && value.match === 'GET');
+  const repos = {prefix: 'repos/'};
+  // The REST request branch admits every plain GET the read branch did.
+  const api = gate('cli-api-scope');
+  api.requires_any = api.requires_any.filter(item => !plainGet(item.arguments));
+  api.on_unmet.message = `With the repository setting, use one literal REST endpoint repos/OWNER/REPO/... on github.com for ${listed}, or a supported inline GraphQL request. Other repositories, hosts and unresolved targets are refused. Plain GETs allow, including with --hostname github.com; REST requests with bodies, custom headers or other unreviewed effects require approval.`;
+  // Rules and conditions cannot repeat per value, so they recognize every
+  // repos/ path; cli-api-scope confines the repository and cli-api-path the spelling.
+  const path = gate('cli-api-path');
+  path.conditions.arguments = {...structuredClone(path.conditions.arguments), operands: {...path.conditions.arguments.operands, match: repos}};
+  path.on_unmet.message = 'Write the REST path literally as repos/OWNER/REPO/...: dot segments, percent escapes, {owner}/{repo} placeholders, backslashes and spaces are refused.';
+  for (const rule of pack.rules.filter(rule => rule.id.startsWith('repository-rest-read-'))) {
+    rule.conditions.arguments.operands = {...rule.conditions.arguments.operands, match: repos};
+    rule.reason = 'Read a configured repository through a plain REST GET; the scope gate confines the repository and the path gate refuses traversal and placeholders.';
+  }
+  gate('cli-scope').on_unmet.message = `With the repository setting, gh runs issue, pr and run commands with -R naming ${listed}. Selectors are a PR number or branch name: URLs, OWNER/REPO#N and owner:branch name other targets. list --search/-S takes plain terms: no qualifiers such as repo:, no OR/AND/NOT, parentheses or quotes. Other commands take listed options only. Change the request, then retry.`;
+  gate('cli-repository').on_unmet.message = `-R/--repo must name ${listed}; no other repository is allowed. Use a listed repository, then retry.`;
+  gate('cli-repository-required').on_unmet.message = `Add -R naming ${listed}: without it gh chooses the repository from the local checkout. Then retry.`;
+  gate('cli-graphql-scope').on_unmet.message = `Start every GraphQL query root at repository(owner, name) for ${listed}, all roots naming the same one. Other roots and repository targets are refused; send one query per repository. Nested selections beneath a matching root are unrestricted.`;
+  for (const rule of pack.rules.filter(rule => rule.id.startsWith('graphql-mutation-unverified-target')))
+    rule.reason = 'With the repository setting, a listed GraphQL mutation names its target by node ID, which cannot be verified as inside one of {{repository}}. Confirm the target before approving.';
+  return pack;
+}
 const writePack = async (pack, output) => {
   await mkdir(output, {recursive: true});
   await writeFile(new URL('pack.yml', output), JSON.stringify(pack, null, 2) + '\n');
@@ -379,7 +429,8 @@ export const buildGithubPack070 = () => writePack(githubPack070(), destination07
 export const buildGithubPack071 = () => writePack(githubPack071(), destination071);
 export const buildGithubPack080 = () => writePack(githubPack080(), destination080);
 export const buildGithubPack081 = () => writePack(githubPack081(), destination081);
+export const buildGithubPack090 = () => writePack(githubPack090(), destination090);
 // Default: the current candidate. A version argument reproduces a published release.
-const builds = {'0.4.0': buildGraphqlGithubPack, '0.5.0': buildCurrentGithubPack, '0.6.0': buildNextGithubPack, '0.7.0': buildGithubPack070, '0.7.1': buildGithubPack071, '0.8.0': buildGithubPack080};
+const builds = {'0.4.0': buildGraphqlGithubPack, '0.5.0': buildCurrentGithubPack, '0.6.0': buildNextGithubPack, '0.7.0': buildGithubPack070, '0.7.1': buildGithubPack071, '0.8.0': buildGithubPack080, '0.8.1': buildGithubPack081};
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href)
-  await (builds[process.argv[2]] ?? buildGithubPack081)();
+  await (builds[process.argv[2]] ?? buildGithubPack090)();

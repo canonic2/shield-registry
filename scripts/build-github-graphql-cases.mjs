@@ -2,7 +2,7 @@ import {writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {usableGithubCases} from './build-github-usable-cases.mjs';
-import {destination, currentDestination, nextDestination, destination070, destination071, destination080, destination081} from './build-github-graphql-pack.mjs';
+import {destination, currentDestination, nextDestination, destination070, destination071, destination080, destination081, destination090} from './build-github-graphql-pack.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 
 export const reviewQuery = `query { repository(owner:"acme", name:"web") { pullRequest(number:12) {
@@ -410,10 +410,67 @@ export function githubCases081() {
     });
   return cases;
 }
+// 0.9.0: a project working with a fork and its upstream lists both. Earlier rows
+// keep their string bindings, which read as one-item lists. Owners and names of
+// different listed repositories never combine. Expected rows per profile.
+export const forkRepositories = ['acme/web', 'example/web-fork'];
+export function githubCases090() {
+  const cases = githubCases081();
+  const graphql = query => ['gh', 'api', 'graphql', '-f', `query=${query}`];
+  const root = (owner, name, alias = '') => `${alias}repository(owner:"${owner}",name:"${name}"){nameWithOwner}`;
+  const mcp = {github: {transport: {type: 'defaults', pack: 'canonic/github', integration: 'hosted'},
+    agents: {codex: 'github'}, packs: {'canonic/github': 'hosted'}}};
+  const tool = (name, arguments_) => ({mcp, input: {kind: 'mcp', server: 'github', tool: name, arguments: arguments_, original_input: {}}});
+  const argv = command => ({argv: command});
+  const inputs = [
+    // Each listed repository works on its own.
+    ['two-pr-view-upstream', argv(['gh', 'pr', 'view', '12', '-R', 'acme/web', '--json', 'number']), allowed],
+    ['two-pr-view-fork', argv(['gh', 'pr', 'view', '12', '-R', 'example/web-fork', '--json', 'number']), allowed],
+    ['two-pr-list-fork', argv(['gh', 'pr', 'list', '-R', 'example/web-fork', '--search', 'FHA-1524']), allowed],
+    ['two-pr-comment-fork', argv(['gh', 'pr', 'comment', '12', '--body', 'Rebased.', '-R', 'example/web-fork']), routine],
+    ['two-rest-upstream', argv(['gh', 'api', 'repos/acme/web/pulls/12/comments', '--paginate']), allowed],
+    ['two-rest-fork', argv(['gh', 'api', 'repos/example/web-fork/pulls/12/reviews']), allowed],
+    ['two-rest-fork-post', argv(['gh', 'api', 'repos/example/web-fork/pulls/12/reviews', '--method', 'POST', '--input', 'review.json']), asked],
+    ['two-graphql-fork', argv(graphql(`{${root('example', 'web-fork')}}`)), allowed],
+    ['two-graphql-fork-twice', argv(graphql(`{${root('example', 'web-fork', 'a:')} ${root('example', 'web-fork', 'b:')}}`)), allowed],
+    ['two-mcp-read-fork', tool('get_file_contents', {owner: 'example', repo: 'web-fork', path: 'README.md'}), allowed],
+    ['two-mcp-comment-upstream', tool('add_issue_comment', {owner: 'acme', repo: 'web', issue_number: 12, body: 'Reviewed'}), routine],
+    ['two-mutation-resolve', argv(graphql('mutation{resolveReviewThread(input:{threadId:"PRRT_a"}){thread{id}}}')), asked],
+    // An owner of one listed repository with the name of the other is unlisted.
+    ['two-cross-cli-owner-upstream', argv(['gh', 'pr', 'view', '12', '-R', 'acme/web-fork']), denied],
+    ['two-cross-cli-owner-fork', argv(['gh', 'pr', 'view', '12', '-R', 'example/web']), denied],
+    ['two-cross-rest-owner-upstream', argv(['gh', 'api', 'repos/acme/web-fork/pulls']), denied],
+    ['two-cross-rest-owner-fork', argv(['gh', 'api', 'repos/example/web/pulls']), denied],
+    ['two-cross-graphql-owner-upstream', argv(graphql(`{${root('acme', 'web-fork')}}`)), denied],
+    ['two-cross-graphql-owner-fork', argv(graphql(`{${root('example', 'web')}}`)), denied],
+    ['two-cross-mcp-owner-upstream', tool('get_file_contents', {owner: 'acme', repo: 'web-fork', path: 'README.md'}), denied],
+    ['two-cross-mcp-owner-fork', tool('get_file_contents', {owner: 'example', repo: 'web', path: 'README.md'}), denied],
+    // One query is confined to one listed repository: roots naming both refuse.
+    ['two-graphql-both-roots', argv(graphql(`{${root('acme', 'web', 'a:')} ${root('example', 'web-fork', 'b:')}}`)), denied],
+    // Other targets and spellings stay outside every listed repository.
+    ['two-cli-other', argv(['gh', 'pr', 'view', '12', '-R', 'other/web']), denied],
+    ['two-cli-missing-repository', argv(['gh', 'pr', 'view', '12']), denied],
+    ['two-rest-sibling', argv(['gh', 'api', 'repos/example/web-fork-other/pulls']), denied],
+    ['two-rest-root', argv(['gh', 'api', 'repos/example/web-fork']), denied],
+    ['two-rest-escape', argv(['gh', 'api', 'repos/example/web-fork/../../acme/web/pulls']), denied],
+    ['two-rest-other', argv(['gh', 'api', 'repos/other/web/pulls']), denied],
+    ['two-graphql-other', argv(graphql(`{${root('other', 'web')}}`)), denied],
+    ['two-mcp-other', tool('get_file_contents', {owner: 'other', repo: 'web', path: 'README.md'}), denied],
+  ];
+  for (const profile of ['loose', 'recommended', 'strict']) for (const [name, request, expected] of inputs)
+    cases.push({name: `scoped-${name}-${profile}`, profile, variables: {repository: forkRepositories}, ...request, expected: expected[profile]});
+  // A one-item list decides like the string binding of earlier releases.
+  for (const profile of ['loose', 'recommended', 'strict']) for (const [name, request, expected] of [
+    ['one-pr-view', argv(['gh', 'pr', 'view', '12', '-R', 'acme/web', '--json', 'number']), allowed],
+    ['one-pr-view-fork', argv(['gh', 'pr', 'view', '12', '-R', 'example/web-fork']), denied],
+    ['one-mcp-read', tool('get_file_contents', {owner: 'acme', repo: 'web', path: 'README.md'}), allowed],
+  ]) cases.push({name: `scoped-${name}-${profile}`, profile, variables: {repository: ['acme/web']}, ...request, expected: expected[profile]});
+  return cases;
+}
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   // Default: the current candidate. A version argument reproduces a published release.
-  const releases = {'0.4.0': [destination, graphqlGithubCases], '0.5.0': [currentDestination, currentGithubCases], '0.6.0': [nextDestination, nextGithubCases], '0.7.0': [destination070, githubCases070], '0.7.1':[destination071,githubCases071], '0.8.0':[destination080,githubCases080]};
-  const [output, build] = releases[process.argv[2]] ?? [destination081, githubCases081];
+  const releases = {'0.4.0': [destination, graphqlGithubCases], '0.5.0': [currentDestination, currentGithubCases], '0.6.0': [nextDestination, nextGithubCases], '0.7.0': [destination070, githubCases070], '0.7.1':[destination071,githubCases071], '0.8.0':[destination080,githubCases080], '0.8.1':[destination081,githubCases081]};
+  const [output, build] = releases[process.argv[2]] ?? [destination090, githubCases090];
   // Larger releases continue in cases-2.json, ... at Shield's per-file limit.
   for (const [name, document] of splitCaseFiles({schema_version:1,cases:build()}))
     await writeFile(new URL(name,output),JSON.stringify(document,null,2)+'\n');
