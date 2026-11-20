@@ -16,7 +16,7 @@ Current source builders are grouped by capability rather than a release diary:
 | Pack | Policy and fixture sources |
 | --- | --- |
 | Baseline | `scripts/build-baseline-base64.mjs`, independent `scripts/base64-cases.mjs` and `scripts/sed-addresses.mjs` prepare 0.16.0 with stream transformations, checked input/output files and sed regex addresses/ranges. They extend the published grep-effects release (`scripts/build-baseline-grep-effects.mjs`) and its earlier everyday-read sources. |
-| Git | `scripts/build-git-allow-by-default.mjs 0.12.0` adds writable destination checks to the everyday-use policy. Independent cases are in `scripts/git-output-cases.mjs`. |
+| Git | `scripts/build-git-allow-by-default.mjs 0.12.1` adds no-op editor settings such as `-c core.editor=true` to the shared leading forms, on top of 0.12.0's writable destination checks. Independent cases are in `scripts/git-output-cases.mjs` and the builder's `editorCases`. |
 | Node | `scripts/build-node-everyday.mjs` extends the reviewed-profiles release to allow project scripts and read-only listings |
 | Rust, AWS | `scripts/build-reviewed-profiles.mjs` and `scripts/build-reviewed-profile-cases.mjs` |
 | Box, Gate, Testrun | `scripts/build-current-tool-packs.mjs` and `scripts/current-tool-cases.mjs` extend frozen sources; the builder accepts a tool selection. Testrun's allow-by-default policy is in `scripts/testrun-trusted-policy.mjs`, its host-file checks in `scripts/testrun-host-paths.mjs` and its independent fixtures in `scripts/testrun-trusted-cases.mjs`. |

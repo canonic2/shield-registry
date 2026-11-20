@@ -53,7 +53,7 @@ pending candidates. Older artifacts remain available for pinned installations.
 | [canonic/box](packs/canonic/box/0.2.8/README.md) | 0.2.8 | Workspaces, current setup and documentation tools, read-only previews, paginated inspection, exact current-checkout MCP selection, execution, retained recovery and resource-deleting workspace removal |
 | [canonic/docker](packs/canonic/docker/0.1.0/README.md) | 0.1.0 | Local containers, images, builds and Compose, with approved context selection and review for host mounts, privileges, secrets, publication and data removal |
 | [canonic/gate](packs/canonic/gate/0.2.7/README.md) | 0.2.7 | Everyday repository and worktree workflows, read-only previews, push destination selection, policy-file selection, bundled documentation and project, remote and destructive boundaries |
-| [canonic/git](packs/canonic/git/0.12.0/README.md) | 0.12.0 | Everyday local commands, network reads and rebase, with Git patch output checked against writable roots |
+| [canonic/git](packs/canonic/git/0.12.1/README.md) | 0.12.1 | Everyday local commands, network reads and rebase, with Git patch output checked against writable roots and no-op editor settings accepted |
 | [canonic/github](packs/canonic/github/0.8.1/README.md) | 0.8.1 | GitHub CLI/MCP, GraphQL queries with optional repository-root matching and unrestricted nested reads, reviewed mutations, everyday read options, scoped REST reads with or without an explicit `--hostname github.com`, and approval for scoped REST requests with bodies |
 | [canonic/hub](packs/canonic/hub/0.1.3/README.md) | 0.1.3 | Workspaces, tasks, processes, agents and configuration, with writable-root checks for task exports |
 | [canonic/node](packs/canonic/node/0.5.0/README.md) | 0.5.0 | Everyday project scripts, Node files and package-manager listings, with optional manager selection and execution boundaries |
@@ -66,8 +66,9 @@ configured repository, while nested fields and related-object reads are unrestri
 It requires Shield `>=0.39.0, <1.0.0` with `graphql-v1`,
 `graphql-mutations-v1`, `graphql-subtree-v1` and `variable-prefixes-v1`. Baseline requires Shield
 `>=0.40.0, <1.0.0` with the Base64 file-effects model. The other latest
-releases require Shield `>=0.20.0, <1.0.0`. Git 0.12.0 can allow scoped patch
-output in Loose and Recommended on Shield 0.44.0 and later. Hub 0.1.3 asks
+releases require Shield `>=0.20.0, <1.0.0`. Git 0.12.1 can allow scoped patch
+output in Loose and Recommended on Shield 0.44.0 and later, and takes the same
+decision after a leading `-c core.editor=true` or similar no-op editor setting. Hub 0.1.3 asks
 before exporting to files outside the writable roots or in protected locations.
 Each pack declares its exact required capabilities. Clients refuse packs whose
 required capabilities they lack.

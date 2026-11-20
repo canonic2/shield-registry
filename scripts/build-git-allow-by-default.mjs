@@ -21,6 +21,7 @@ import {gitOutputCases} from './git-output-cases.mjs';
 
 export const revision = ['0.10.0', '0.11.0'];
 export const outputRevision = '0.12.0';
+export const editorRevision = '0.12.1';
 const split = value => value.split(' ');
 const everyday = {loose: 'allow', recommended: 'allow', strict: 'ask'};
 const always = {loose: 'ask', recommended: 'ask', strict: 'ask'};
@@ -313,13 +314,70 @@ export async function gitScopedOutputPack() {
     within: {root: 'write'},
     exclude: ['.git', '.gate', '.shield', '.config/shield'].map(path => ({root: 'write', path})),
   }};
-  pack.preconditions = pack.invocations.git.segments[0].map((prefix, index) => ({
+  pack.preconditions = outputScopes(pack, targets);
+  return pack;
+}
+
+// Preconditions do not follow shared invocation routing, so the output scope
+// gate is repeated for every leading form the invocation group declares.
+function outputScopes(pack, targets) {
+  const modeled = split('log show diff diff-tree diff-index whatchanged');
+  const forms = pack.invocations.git.segments.reduce(
+    (prefixes, segment) => prefixes.flatMap(prefix => segment.map(part => [...prefix, ...part])), [[]]);
+  return forms.map((prefix, index) => ({
     id: `file-output-scope-${index}`,
     conditions: {...git, arguments: {kind: 'risk_tokens', prefix: [...prefix, one(modeled)], any_of: option('--output')}},
     requires_any: [{targets}],
     on_unmet: {decision: 'ask', message: 'Use a verified writable destination for Git output or ask for approval.'},
   }));
+}
+
+// 0.12.1: `-c core.editor=true` is the usual way to skip the editor in
+// `rebase --continue` and commits. `:` makes Git skip the editor and `true`
+// resolves through PATH like any configured editor, so these exact settings
+// add no effect of their own and take the decision of the command they
+// precede. Any other value, key or second `-c` still matches no form and asks.
+export const noopEditors = ['core.editor=true', 'core.editor=:', 'sequence.editor=true', 'sequence.editor=:'];
+export async function gitNoopEditorPack() {
+  const pack = await gitScopedOutputPack();
+  pack.version = editorRevision;
+  pack.invocations.git.segments.push([[], ...noopEditors.map(setting => ['-c', setting])]);
+  pack.preconditions = outputScopes(pack, pack.preconditions[0].requires_any[0].targets);
   return pack;
+}
+
+const allowedRow = ['allow', 'allow', 'ask'];
+// Observed 2026-11-19: `git -C .gate/repos/public -c core.editor=true rebase --continue`
+// asked under 0.12.0 because no form matched the leading `-c`.
+export const editorCases = [
+  ['rebase-continue', ['-c', 'core.editor=true', 'rebase', '--continue'], allowedRow],
+  ['rebase-continue-colon', ['-c', 'core.editor=:', 'rebase', '--continue'], allowedRow],
+  ['rebase-continue-sequence', ['-c', 'sequence.editor=true', 'rebase', '--continue'], allowedRow],
+  ['rebase-continue-pager', ['--no-pager', '-c', 'sequence.editor=:', 'rebase', '--continue'], allowedRow],
+  ['rebase-upstream', ['-c', 'core.editor=true', 'rebase', 'origin/main'], allowedRow],
+  // The command after the setting keeps its own review or refusal. Shield
+  // releases before the no-op editor output model cannot verify an inside
+  // destination after the setting either, so only refusals are fixed here.
+  ['rebase-interactive', ['-c', 'core.editor=true', 'rebase', '-i', 'HEAD~3'], reviewed],
+  ['rebase-exec', ['-c', 'sequence.editor=:', 'rebase', '-x', 'make', 'origin/main'], reviewed],
+  ['reset-hard', ['-c', 'core.editor=true', 'reset', '--hard', 'HEAD~1'], lossy],
+  ['push', ['-c', 'core.editor=true', 'push', 'origin', 'feature-x'], pushed],
+  ['output-outside', ['-c', 'core.editor=true', 'diff', '--output', '../review.diff'], reviewed],
+  ['output-policy', ['-c', 'core.editor=true', 'show', '--output', '.shield/config.yml'], reviewed],
+  // Editors that run a program, other spellings and other settings ask.
+  ['editor-program', ['-c', 'core.editor=vim', 'rebase', '--continue'], reviewed],
+  ['editor-script', ['-c', 'core.editor=true; sh acme.sh', 'rebase', '--continue'], reviewed],
+  ['editor-uppercase-value', ['-c', 'core.editor=TRUE', 'rebase', '--continue'], reviewed],
+  ['editor-attached', ['-ccore.editor=true', 'rebase', '--continue'], reviewed],
+  ['editor-config-env', ['--config-env=core.editor=EDITOR', 'rebase', '--continue'], reviewed],
+  ['editor-then-pager', ['-c', 'core.editor=true', '-c', 'core.pager=helper', 'log'], reviewed],
+  ['pager-setting', ['-c', 'core.pager=helper', 'log'], reviewed],
+];
+
+export function gitNoopEditorCases() {
+  return [...gitOutputCases(), ...editorCases.flatMap(([name, argv, decisions]) =>
+    ['loose', 'recommended', 'strict'].map((profile, index) => ({
+      name: `noop-editor-${name}-${profile}`, profile, argv: ['git', ...argv], expected: decisions[index]})))];
 }
 
 const outputReadme = `# Git permissions ${outputRevision}
@@ -341,22 +399,51 @@ Generate with \`node scripts/build-git-allow-by-default.mjs ${outputRevision}\`.
 Validate with \`npm test -- --shield /absolute/path/to/shield scripts/git-scoped-output.test.mjs\`.
 `;
 
+const editorReadme = `# Git permissions ${editorRevision}
+
+Requires Shield \`>=0.20.0, <1.0.0\`.
+
+Command coverage and other decisions follow [${outputRevision}](../${outputRevision}/README.md).
+
+A leading \`-c core.editor=true\`, \`-c core.editor=:\`, \`-c sequence.editor=true\` or
+\`-c sequence.editor=:\` is the usual way to skip an editor, as in
+\`git -c core.editor=true rebase --continue\`. These settings add no effect of
+their own, so the command takes the decision it has without the setting. They
+do not guarantee that no editor runs: \`GIT_EDITOR\` takes precedence, and
+\`sequence.editor\` covers only the rebase todo list. Recommended allows
+\`rebase --continue\`, \`rebase -i\` still asks and \`reset --hard\` still asks.
+It may follow \`--no-pager\` or \`-P\`. Output destinations keep their writable-scope
+check after the setting; Shield versions that cannot read past the setting to
+verify a destination ask.
+
+Any other value, such as \`-c core.editor=vim\`, another key, an attached
+\`-ccore.editor=true\`, \`--config-env\` or a second \`-c\` matches no form and asks
+in every profile, because those settings can run programs or change what Git reads.
+
+Generate with \`node scripts/build-git-allow-by-default.mjs ${editorRevision}\`.
+Validate with \`npm test -- --shield /absolute/path/to/shield scripts/git-noop-editor.test.mjs\`.
+`;
+
+const builds = {
+  [revision[1]]: {pack: gitAllowByDefaultPack, cases: gitAllowByDefaultCases, previous: revision[0], readme},
+  [outputRevision]: {pack: gitScopedOutputPack, cases: gitOutputCases, previous: revision[1], readme: outputReadme},
+  [editorRevision]: {pack: gitNoopEditorPack, cases: gitNoopEditorCases, previous: outputRevision, readme: editorReadme},
+};
+
 export async function buildGitAllowByDefault(version = revision[1]) {
-  const scoped = version === outputRevision;
+  const build = builds[version];
+  if (!build) throw Error(`Unknown Git pack version ${version}`);
   const directory = new URL(`../packs/canonic/git/${version}/`, import.meta.url);
-  const previous = new URL(`../packs/canonic/git/${scoped ? revision[1] : revision[0]}/`, import.meta.url);
-  const pack = await (scoped ? gitScopedOutputPack() : gitAllowByDefaultPack());
-  const cases = scoped ? gitOutputCases() : await gitAllowByDefaultCases();
+  const previous = new URL(`../packs/canonic/git/${build.previous}/`, import.meta.url);
+  const pack = await build.pack();
+  const cases = await build.cases();
   await mkdir(directory, {recursive: true});
   await writeFile(new URL('pack.yml', directory), JSON.stringify(pack, null, 2) + '\n');
   await writeFile(new URL('cases.json', directory), JSON.stringify({schema_version: 1, cases}, null, 2) + '\n');
   await copyFile(new URL('commands.json', previous), new URL('commands.json', directory));
   await copyFile(new URL('../LICENSE', import.meta.url), new URL('LICENSE', directory));
-  await writeFile(new URL('README.md', directory), scoped ? outputReadme : readme);
+  await writeFile(new URL('README.md', directory), build.readme);
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  const version = process.argv[2] ?? revision[1];
-  if (![revision[1], outputRevision].includes(version)) throw Error(`Unknown Git pack version ${version}`);
-  await buildGitAllowByDefault(version);
-}
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href)
+  await buildGitAllowByDefault(process.argv[2] ?? revision[1]);
