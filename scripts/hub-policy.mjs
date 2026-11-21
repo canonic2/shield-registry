@@ -1,4 +1,4 @@
-// Reviewed Hub CLI and MCP surface of hub 0.43.0: src/interface/cli.rs, the
+// Reviewed Hub CLI and MCP surface of Hub 0.45.1: src/interface/cli.rs, the
 // task, agent, plugin and MCP-integration argument types, and the 95 tools of
 // src/interface/mcp/catalog.rs (`hub mcp serve --check`). Hub succeeds Box;
 // canonic/box keeps covering the box executable.
@@ -13,7 +13,7 @@
 import {toolPack} from './tool-pack.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 
-export const version = '0.1.3';
+export const version = '0.1.4';
 export const engine = '>=0.20.0, <1.0.0';
 
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -25,6 +25,7 @@ export const decisions = {
   shortcut: profiles('ask'),
   destroy: profiles('ask', 'ask', 'deny'),
   folder: profiles('ask'),
+  confirmation: profiles('ask'),
   // Unknown tool names may be newer operations, and unparsed command lines
   // include `hub -w WORKSPACE -- COMMAND`.
   unlisted: profiles('allow', 'ask', 'ask'),
@@ -78,13 +79,19 @@ export const hub = {
       'plugin list', 'plugin show', 'plugin binding list', 'plugin context show', 'plugin prepare', 'plugin workflow list', 'plugin workflow show',
       'mcp auth list', 'mcp auth show', 'mcp auth manager status', 'mcp serve'],
     'inspect', 'Inspect Hub state, configuration or documentation.'),
-    ...words(['init', 'setup', 'mcp setup', 'mcp auth setup', 'mcp auth logout', 'mcp auth headers', 'mcp app create',
+    ...words(['init', 'setup', 'mcp setup', 'mcp auth logout', 'mcp auth headers',
       'mcp auth manager stop', 'mcp auth manager drain', 'manager stop', 'manager drain', 'operation cancel',
       'workspace prepare', 'process run', 'process restart', 'process pause', 'process resume', 'process stop', 'process gateway enable', 'process gateway disable', 'agent stop',
       'task step remove', 'task check add', 'task check update', 'task check remove', 'task note add', 'task note update',
       'task note remove', 'plugin enable', 'plugin disable', 'plugin reset', 'plugin binding add', 'plugin binding remove',
       'plugin workflow reconcile', 'plugin workflow abandon', 'plugin check'],
     'routine', 'Change Hub configuration, tasks, processes or plugins; Hub confirms reviewed effects itself.'),
+    [['mcp', 'auth', 'setup'], 'routine', 'Configure Hub-managed MCP credentials after a terminal review.', [
+      {id: 'confirm', any: ['--yes'], forbid: ['--dry-run'], values: [...globals, '--name', '--agent', '--scope'],
+        flags: ['--remove'], category: 'confirmation', reason: 'Change MCP credential routing without Hub’s terminal confirmation.'}]],
+    [['mcp', 'app', 'create'], 'routine', 'Provision an MCP app after a terminal review.', [
+      {id: 'client-executable', any: ['--claude-bin'], values: [...globals, '--claude-bin', '--server-key', '--agent', '--app-id', '--client-id'],
+        flags: ['--app-only', '--no-browser'], category: 'execute', reason: 'Run the supplied native client executable before app confirmation.'}]],
     [['task', 'export'], 'inspect', 'Export one task revision.', [output]],
     [['task', 'update'], 'routine', 'Change the task.', [files(['--goal-file', '--description-file'], ['--goal', '--description'], grammars.taskUpdate)]],
     [['task', 'import'], 'routine', 'Apply task changes from a file.', [files(['--file'], [], grammars.taskImport)]],
@@ -148,6 +155,9 @@ export function hubPack() {
   // Risk-token forms enumerate their spellings and stay at --json/--project,
   // so `hub --config FILE -- COMMAND` reaches the unlisted review.
   for (const row of pack.rules) {
+    // User-scope auth setup can write from any directory. The confirmation
+    // rule only asks, so the current directory cannot weaken it.
+    if (row.id === 'mcp-auth-setup-confirm') delete row.conditions.cwd;
     const leading = row.conditions.arguments?.leading;
     if (leading) leading.values = [...new Set([...leading.values, ...globals])];
     const grammar = row.requirements?.argument_paths?.grammar;

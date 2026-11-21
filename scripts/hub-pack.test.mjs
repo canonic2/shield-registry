@@ -13,7 +13,7 @@ import {schema} from './policy-schema.mjs';
 import {checkPublication, digest} from './registry-release.mjs';
 
 // The current interface, independently of the policy: `hub mcp serve --check`
-// of hub 0.43.0 in catalog order (including appended preview identities).
+// of Hub 0.45.1 in catalog order (including appended preview identities).
 const catalog = ['init','config_check','config_plan','config_schema','setup','workspace_create','workspace_attach',
   'workspace_list','workspace_show','workspace_remove','workspace_prepare','workspace_data_reset','task_show','task_update',
   'task_history','task_export','task_import','task_step_list','task_step_next','task_step_add','task_step_update',
@@ -49,6 +49,9 @@ test('Hub sources reproduce with schema-valid policy and fixtures', async () => 
   });
   const ids = pack.rules.map(rule => rule.id);
   assert.equal(new Set(ids).size, ids.length);
+  const authConfirmation = pack.rules.find(rule => rule.id === 'mcp-auth-setup-confirm');
+  assert.equal(Object.hasOwn(authConfirmation.conditions, 'cwd'), false,
+    'user-scope credential changes require confirmation from any directory');
   assert.deepEqual(pack.mcp_integrations.hub.fields['/args'], {exact: ['mcp','serve']});
 });
 
@@ -68,20 +71,20 @@ function evaluate(file) {
     {encoding:'utf8', timeout:120000, maxBuffer:32*1024*1024});
 }
 
-// 0.1.3 tightens a task export file outside the writable roots from Allow to
-// Ask in every profile; the guide records the evidence and migration.
-const tightened = /^cli-task-export-(loose|recommended|strict)$/;
+// A caller providing --yes skips the auth routing review. The versioned
+// guide records why the two former Allow decisions now Ask.
+const tightened = /^cli-auth-setup-(loose|recommended)$/;
 
-test('Hub retains the signed release bytes and every published decision', {skip:!process.env.SHIELD_BINARY}, async () => {
-  const previous = new URL('../packs/canonic/hub/0.1.2/', import.meta.url);
+test('Hub retains signed release bytes and published decisions with reviewed exceptions', {skip:!process.env.SHIELD_BINARY}, async () => {
+  const previous = new URL('../packs/canonic/hub/0.1.3/', import.meta.url);
   const catalog = await checkPublication(new URL('../public', import.meta.url).pathname,
     readFileSync(new URL('../keys/main.pub', import.meta.url), 'utf8').trim());
-  const published = catalog.releases.find(row => row.id === 'canonic/hub' && row.version === '0.1.2');
+  const published = catalog.releases.find(row => row.id === 'canonic/hub' && row.version === '0.1.3');
   assert.ok(published, 'authenticated published baseline');
   assert.equal(digest(readFileSync(new URL('pack.yml', previous))), published.sha256);
   for (const file of ['pack.yml', ...await caseFileNames(previous), 'commands.json', 'README.md', 'LICENSE']) {
     assert.deepEqual(readFileSync(new URL(file, previous)),
-      readFileSync(new URL(`../public/packs/canonic/hub/0.1.2/${file}`, import.meta.url)),
+      readFileSync(new URL(`../public/packs/canonic/hub/${published.version}/${file}`, import.meta.url)),
       `published ${file} remains immutable`);
   }
   // Independently authored historical fixtures run unchanged against the
@@ -106,7 +109,7 @@ test('Hub retains the signed release bytes and every published decision', {skip:
       assert.equal(result.status, 0, result.stdout + result.stderr);
       assert.equal(JSON.parse(result.stdout).passed, true);
     }
-    assert.equal(changed, 3, 'one tightened case per profile');
+    assert.equal(changed, 2, 'both former Allow decisions now Ask');
   } finally { rmSync(owner, {recursive:true, force:true}); }
 });
 

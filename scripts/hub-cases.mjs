@@ -1,4 +1,4 @@
-// Independent expected decisions for canonic/hub, reviewed against hub 0.39.0.
+// Independent expected decisions for canonic/hub, reviewed against Hub 0.45.1.
 // Keep these explicit rather than importing the policy's inventory or deriving
 // expectations from its decisions.
 const profiles = ['loose','recommended','strict'];
@@ -193,10 +193,19 @@ const cli = [
   ['setup',['hub','setup','--agent','claude','--agent','codex','--repair-hooks'],routine],
   ['setup-preview',['hub','setup','--dry-run','--json'],routine],
   ['mcp-setup',['hub','mcp','setup','--agent','codex','--reset-tool-permissions'],routine],
-  ['auth-setup',['hub','mcp','auth','setup','slack','--yes'],routine],
+  ['auth-setup',['hub','mcp','auth','setup','slack','--yes'],review],
+  ['auth-setup-interactive',['hub','mcp','auth','setup','slack'],routine],
+  ['auth-setup-dry-run',['hub','mcp','auth','setup','slack','--yes','--dry-run'],routine],
+  ['auth-setup-remove-confirmed',['hub','mcp','--json','auth','setup','slack','--scope=user','--remove','--yes'],review],
+  ['auth-setup-name-value',['hub','mcp','auth','setup','https://example.com/mcp','--name=--yes'],routine],
+  ['auth-setup-dry-run-token-as-value',['hub','mcp','auth','setup','slack','--agent-config','agent.yml','--name=--dry-run','--yes'],review],
   ['auth-logout',['hub','mcp','auth','logout','slack'],routine],
   ['auth-headers',['hub','mcp','auth','headers'],routine],
   ['app-create',['hub','mcp','app','create','slack'],routine],
+  ['app-create-override',['hub','mcp','app','create','slack','--claude-bin','/acme/bin/client'],execute],
+  ['app-create-override-equals',['hub','mcp','app','--project','/acme','create','--agent','claude','slack','--claude-bin=/acme/bin/client','--no-browser'],execute],
+  ['app-create-override-missing-value',['hub','mcp','app','create','slack','--claude-bin'],routine],
+  ['app-create-client-value',['hub','mcp','app','create','slack','--server-key=--claude-bin'],routine],
   ['task-update',['hub','task','update','--if-revision','3','--goal','Ship Acme search'],routine],
   ['task-update-file',['hub','task','update','--if-revision','3','--goal-file','notes/goal.md'],routine],
   ['task-import',['hub','task','import','--if-revision','3','--file','changes.json','--mode','merge'],routine],

@@ -10,9 +10,8 @@ export const directory = new URL(`../packs/canonic/hub/${version}/`, import.meta
 export function guide() {
   return `# Hub permissions ${version}
 
-Reviewed against Hub 0.43.0: its CLI definitions and the 95 tools that
-\`hub mcp serve --check\` lists. Hub succeeds Box; \`canonic/box\` keeps covering
-the \`box\` executable, and this pack grants nothing to it.
+Reviewed against the Hub 0.45.1 CLI and the 95 MCP tools listed by
+\`hub mcp serve --check\`. The \`canonic/box\` pack covers the \`box\` executable.
 
 Requires Shield \`${engine}\`, including \`argument-paths-v1\`.
 
@@ -53,6 +52,8 @@ their reviewed decisions for older installed binaries.
 | Separately named read-only \`*_preview\` tools, which cannot apply or execute effects | Allow | Allow | Allow |
 | Everything else Hub covers: task edits, workspaces, configured \`process run\`, process stop, setup, plugins, manager, agent stop, MCP logins and apps | Allow | Allow | Ask |
 | Arbitrary programs and other agents: \`process exec\`, \`shell\`, retained \`process shell\`, \`workspace create --shell\`, plugin workflows and launch, \`agent start\` and \`agent message\` | Allow | Ask | Ask |
+| App creation with an explicit \`--claude-bin\` | Allow | Ask | Ask |
+| MCP auth setup with \`--yes\` and without \`--dry-run\` | Ask | Ask | Ask |
 | The raw \`hub -- COMMAND\` shortcut and \`workspace create NAME -- COMMAND\` | Ask | Ask | Ask |
 | Unknown MCP tools and unrecognized command lines, including \`hub -w WORKSPACE -- COMMAND\` | Allow | Ask | Ask |
 | Self-confirmed or irreversible deletion: \`--confirm DIGEST\`, \`--discard-changes\`, \`--forget\`, \`data-reset --confirm\`, and \`discard_changes\` or \`forget\` in \`workspace_remove\` | Ask | Ask | Deny |
@@ -76,13 +77,22 @@ inspection, allowed in all profiles; \`FILE\` outside them or in a protected
 location asks in all profiles. Export without \`--output\`, and the MCP
 \`task_export\` tool, return text and write no file.
 
-This tightens 0.1.2, which allowed \`--output\` anywhere, including the
-published case \`task-export\` (\`--output /outside/task.json --overwrite\`).
-Hub writes the export file wherever it is named, so the earlier allowance let an
-agent replace a file outside the writable roots. That case now asks in every
-profile; every other published decision is unchanged. To keep exporting without
-approval, name a file inside the project, or omit \`--output\` and save the
-printed text.
+### Explicit client execution and auth confirmation
+
+Hub runs the executable supplied to \`mcp app create --claude-bin\` to check
+its version and capabilities before the app review. The override now follows
+the arbitrary-program decision. Omit it to use the installed default client
+and the ordinary provisioning decision.
+
+Hub applies \`mcp auth setup --yes\` without terminal confirmation, including
+when \`--remove\` restores direct server URLs. The published 0.1.3
+\`auth-setup\` fixture allowed that form in Loose and Recommended. All profiles
+now ask before applying it. Omit \`--yes\` for Hub’s terminal review or use
+\`--dry-run\` to inspect the routing changes without applying them.
+
+These tighter decisions apply to forms still present in Hub 0.45.1. The
+per-group Compose \`startup_timeout_ms\` setting changes how long configured
+startup can wait and uses the existing \`process run\` decision.
 
 Project selection, explicit configuration files, checkout paths, environment
 overrides and malformed arguments keep the operation's decision; Hub validates
@@ -117,7 +127,7 @@ Exact permissions and independent fixtures for these forms remain. Remove no
 coverage until three subsequent published tool feature releases establish
 eligibility and supported versions no longer need it. Current MCP tool names
 and retained argument forms are checked separately; no retired MCP tool names
-were identified. Published packs 0.1.0, 0.1.1 and 0.1.2 and their companion assets remain immutable.
+were identified.
 
 ## Connection
 

@@ -1,0 +1,2816 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "metadata-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "view",
+        "zod",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "metadata-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "view",
+        "zod",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "metadata-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "view",
+        "zod",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "install-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "ci"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "ci"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "install-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "ci"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "add-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "install",
+        "zod"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "add-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "install",
+        "zod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "add-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "install",
+        "zod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pnpm-install-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "install",
+        "--frozen-lockfile"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pnpm-install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "install",
+        "--frozen-lockfile"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pnpm-install-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "install",
+        "--frozen-lockfile"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pnpm-add-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "add",
+        "zod"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pnpm-add-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "add",
+        "zod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pnpm-add-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "add",
+        "zod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-install-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "install"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "yarn-install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "install"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "yarn-install-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "corepack-install-loose",
+      "profile": "loose",
+      "argv": [
+        "corepack",
+        "npm",
+        "ci"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "corepack-install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "corepack",
+        "npm",
+        "ci"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "corepack-install-strict",
+      "profile": "strict",
+      "argv": [
+        "corepack",
+        "npm",
+        "ci"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "publish-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "publish-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "publish-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "global-install-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "install",
+        "-g",
+        "typescript"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "global-install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "install",
+        "-g",
+        "typescript"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "global-install-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "install",
+        "-g",
+        "typescript"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "login-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "login"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "login-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "login"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "login-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "login"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-registry-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "config",
+        "get",
+        "registry"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "config-registry-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "config",
+        "get",
+        "registry"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-registry-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "config",
+        "get",
+        "registry"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-token-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "config-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "config-token-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-config-token-loose",
+      "profile": "loose",
+      "argv": [
+        "corepack",
+        "npm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-config-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "corepack",
+        "npm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-config-token-strict",
+      "profile": "strict",
+      "argv": [
+        "corepack",
+        "npm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pnpm-config-token-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pnpm-config-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pnpm-config-token-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-pnpm-config-token-loose",
+      "profile": "loose",
+      "argv": [
+        "corepack",
+        "pnpm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-pnpm-config-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "corepack",
+        "pnpm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-pnpm-config-token-strict",
+      "profile": "strict",
+      "argv": [
+        "corepack",
+        "pnpm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pnpm-directory-token-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "--dir",
+        ".",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pnpm-directory-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "--dir",
+        ".",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pnpm-directory-token-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "--dir",
+        ".",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-directory-token-loose",
+      "profile": "loose",
+      "argv": [
+        "corepack",
+        "pnpm",
+        "--dir",
+        ".",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-directory-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "corepack",
+        "pnpm",
+        "--dir",
+        ".",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "corepack-directory-token-strict",
+      "profile": "strict",
+      "argv": [
+        "corepack",
+        "pnpm",
+        "--dir",
+        ".",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "npm-global-token-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "--global",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "npm-global-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "--global",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "npm-global-token-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "--global",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "nonsecret-global-config-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "--global",
+        "config",
+        "get",
+        "registry"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nonsecret-global-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "--global",
+        "config",
+        "get",
+        "registry"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nonsecret-global-config-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "--global",
+        "config",
+        "get",
+        "registry"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "script-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "script-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inline-loose",
+      "profile": "loose",
+      "argv": [
+        "node",
+        "-e",
+        "console.log(1)"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inline-recommended",
+      "profile": "recommended",
+      "argv": [
+        "node",
+        "-e",
+        "console.log(1)"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inline-strict",
+      "profile": "strict",
+      "argv": [
+        "node",
+        "-e",
+        "console.log(1)"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "package-exec-loose",
+      "profile": "loose",
+      "argv": [
+        "npx",
+        "acme-tool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "package-exec-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npx",
+        "acme-tool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "package-exec-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "acme-tool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "selected-manager-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "install"
+      ],
+      "variables": {
+        "package_manager": "pnpm"
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "selected-manager-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "install"
+      ],
+      "variables": {
+        "package_manager": "pnpm"
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "selected-manager-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "install"
+      ],
+      "variables": {
+        "package_manager": "pnpm"
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "wrong-manager-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "ci"
+      ],
+      "variables": {
+        "package_manager": "pnpm"
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "wrong-manager-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "ci"
+      ],
+      "variables": {
+        "package_manager": "pnpm"
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "wrong-manager-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "ci"
+      ],
+      "variables": {
+        "package_manager": "pnpm"
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "everyday-npm-test-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "test"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-npm-test-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "test"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-npm-test-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-npm-workspace-script-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "--workspace",
+        "web",
+        "run",
+        "build"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-npm-workspace-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "--workspace",
+        "web",
+        "run",
+        "build"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-npm-workspace-script-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "--workspace",
+        "web",
+        "run",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-script-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "build"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "build"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-script-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-run-script-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "run",
+        "check"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-run-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "run",
+        "check"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-run-script-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "run",
+        "check"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-filter-script-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "--filter",
+        "web",
+        "build"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-filter-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "--filter",
+        "web",
+        "build"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-filter-script-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "--filter",
+        "web",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-recursive-script-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "-r",
+        "test"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-recursive-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "-r",
+        "test"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-recursive-script-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "-r",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-script-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "test"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "test"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-script-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-script-arguments-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "test",
+        "--watch=false",
+        "src/app.test.ts"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-script-arguments-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "test",
+        "--watch=false",
+        "src/app.test.ts"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-script-arguments-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "test",
+        "--watch=false",
+        "src/app.test.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-script-dash-e-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "test",
+        "-e",
+        "x"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-script-dash-e-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "test",
+        "-e",
+        "x"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-script-dash-e-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "test",
+        "-e",
+        "x"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-shorthand-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "format:check"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-shorthand-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "format:check"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-shorthand-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "format:check"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-shorthand-binary-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "tsc",
+        "--noEmit"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-shorthand-binary-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "tsc",
+        "--noEmit"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-shorthand-binary-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "tsc",
+        "--noEmit"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-shorthand-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "openapi:generate"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-shorthand-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "openapi:generate"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-shorthand-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "openapi:generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-workspace-script-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "workspace",
+        "@acme/web",
+        "test"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-workspace-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "workspace",
+        "@acme/web",
+        "test"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-workspace-script-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "workspace",
+        "@acme/web",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-workspace-shorthand-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "workspace",
+        "@acme/web",
+        "lint:fix"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-workspace-shorthand-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "workspace",
+        "@acme/web",
+        "lint:fix"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-workspace-shorthand-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "workspace",
+        "@acme/web",
+        "lint:fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-corepack-script-loose",
+      "profile": "loose",
+      "argv": [
+        "corepack",
+        "yarn",
+        "test"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-corepack-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "corepack",
+        "yarn",
+        "test"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-corepack-script-strict",
+      "profile": "strict",
+      "argv": [
+        "corepack",
+        "yarn",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-corepack-pnpm-script-loose",
+      "profile": "loose",
+      "argv": [
+        "corepack",
+        "pnpm",
+        "--filter",
+        "web",
+        "build"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-corepack-pnpm-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "corepack",
+        "pnpm",
+        "--filter",
+        "web",
+        "build"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-corepack-pnpm-script-strict",
+      "profile": "strict",
+      "argv": [
+        "corepack",
+        "pnpm",
+        "--filter",
+        "web",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-corepack-npm-script-loose",
+      "profile": "loose",
+      "argv": [
+        "corepack",
+        "npm",
+        "run",
+        "build"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-corepack-npm-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "corepack",
+        "npm",
+        "run",
+        "build"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-corepack-npm-script-strict",
+      "profile": "strict",
+      "argv": [
+        "corepack",
+        "npm",
+        "run",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-corepack-shorthand-loose",
+      "profile": "loose",
+      "argv": [
+        "corepack",
+        "yarn",
+        "format:check"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-corepack-shorthand-recommended",
+      "profile": "recommended",
+      "argv": [
+        "corepack",
+        "yarn",
+        "format:check"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-corepack-shorthand-strict",
+      "profile": "strict",
+      "argv": [
+        "corepack",
+        "yarn",
+        "format:check"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-test-loose",
+      "profile": "loose",
+      "argv": [
+        "node",
+        "--test",
+        "src/app.test.mjs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-node-test-recommended",
+      "profile": "recommended",
+      "argv": [
+        "node",
+        "--test",
+        "src/app.test.mjs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-node-test-strict",
+      "profile": "strict",
+      "argv": [
+        "node",
+        "--test",
+        "src/app.test.mjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-test-options-loose",
+      "profile": "loose",
+      "argv": [
+        "node",
+        "--test",
+        "--test-concurrency=4",
+        "src/app.test.mjs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-node-test-options-recommended",
+      "profile": "recommended",
+      "argv": [
+        "node",
+        "--test",
+        "--test-concurrency=4",
+        "src/app.test.mjs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-node-test-options-strict",
+      "profile": "strict",
+      "argv": [
+        "node",
+        "--test",
+        "--test-concurrency=4",
+        "src/app.test.mjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-script-loose",
+      "profile": "loose",
+      "argv": [
+        "node",
+        "scripts/build.mjs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-node-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "node",
+        "scripts/build.mjs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-node-script-strict",
+      "profile": "strict",
+      "argv": [
+        "node",
+        "scripts/build.mjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-dot-folder-script-loose",
+      "profile": "loose",
+      "argv": [
+        "node",
+        ".local-tools/sync.mjs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-node-dot-folder-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "node",
+        ".local-tools/sync.mjs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-node-dot-folder-script-strict",
+      "profile": "strict",
+      "argv": [
+        "node",
+        ".local-tools/sync.mjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-typescript-loose",
+      "profile": "loose",
+      "argv": [
+        "node",
+        "src/server.ts"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-node-typescript-recommended",
+      "profile": "recommended",
+      "argv": [
+        "node",
+        "src/server.ts"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-node-typescript-strict",
+      "profile": "strict",
+      "argv": [
+        "node",
+        "src/server.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-list-depth-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "list",
+        "--depth",
+        "0"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-list-depth-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "list",
+        "--depth",
+        "0"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-list-depth-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "list",
+        "--depth",
+        "0"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-ls-json-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "ls",
+        "--json",
+        "--depth",
+        "1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-ls-json-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "ls",
+        "--json",
+        "--depth",
+        "1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-ls-json-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "ls",
+        "--json",
+        "--depth",
+        "1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-why-recursive-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "why",
+        "typescript",
+        "--recursive"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-why-recursive-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "why",
+        "typescript",
+        "--recursive"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-why-recursive-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "why",
+        "typescript",
+        "--recursive"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-outdated-format-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "outdated",
+        "--format",
+        "json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-outdated-format-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "outdated",
+        "--format",
+        "json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-outdated-format-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "outdated",
+        "--format",
+        "json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-root-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "root"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-root-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "root"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-pnpm-root-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "root"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-workspaces-list-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "workspaces",
+        "list",
+        "--json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-workspaces-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "workspaces",
+        "list",
+        "--json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-workspaces-list-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "workspaces",
+        "list",
+        "--json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-node-inline-loose",
+      "profile": "loose",
+      "argv": [
+        "node",
+        "-p",
+        "process.version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-inline-recommended",
+      "profile": "recommended",
+      "argv": [
+        "node",
+        "-p",
+        "process.version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-inline-strict",
+      "profile": "strict",
+      "argv": [
+        "node",
+        "-p",
+        "process.version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-preload-loose",
+      "profile": "loose",
+      "argv": [
+        "node",
+        "--import",
+        "./hook.mjs",
+        "scripts/build.mjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-preload-recommended",
+      "profile": "recommended",
+      "argv": [
+        "node",
+        "--import",
+        "./hook.mjs",
+        "scripts/build.mjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-preload-strict",
+      "profile": "strict",
+      "argv": [
+        "node",
+        "--import",
+        "./hook.mjs",
+        "scripts/build.mjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-script-inline-argument-loose",
+      "profile": "loose",
+      "argv": [
+        "node",
+        "scripts/build.mjs",
+        "-e",
+        "x"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-script-inline-argument-recommended",
+      "profile": "recommended",
+      "argv": [
+        "node",
+        "scripts/build.mjs",
+        "-e",
+        "x"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-script-inline-argument-strict",
+      "profile": "strict",
+      "argv": [
+        "node",
+        "scripts/build.mjs",
+        "-e",
+        "x"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-outside-file-loose",
+      "profile": "loose",
+      "argv": [
+        "node",
+        "/tmp/acme/run.mjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-outside-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "node",
+        "/tmp/acme/run.mjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-outside-file-strict",
+      "profile": "strict",
+      "argv": [
+        "node",
+        "/tmp/acme/run.mjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-parent-file-loose",
+      "profile": "loose",
+      "argv": [
+        "node",
+        "../acme/run.mjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-parent-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "node",
+        "../acme/run.mjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-node-parent-file-strict",
+      "profile": "strict",
+      "argv": [
+        "node",
+        "../acme/run.mjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-npx-local-binary-loose",
+      "profile": "loose",
+      "argv": [
+        "npx",
+        "tsc",
+        "--noEmit"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-npx-local-binary-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npx",
+        "tsc",
+        "--noEmit"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-npx-local-binary-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "tsc",
+        "--noEmit"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-dlx-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "acme-tool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-dlx-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "acme-tool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-dlx-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "acme-tool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-dlx-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "dlx",
+        "acme-tool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-dlx-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "dlx",
+        "acme-tool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-dlx-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "acme-tool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-exec-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "exec",
+        "acme-tool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-exec-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "exec",
+        "acme-tool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-exec-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "acme-tool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-node-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "node",
+        "-e",
+        "x"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-node-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "node",
+        "-e",
+        "x"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-node-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "node",
+        "-e",
+        "x"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-add-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "add",
+        "zod"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "everyday-yarn-add-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "add",
+        "zod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-add-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "add",
+        "zod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-add-unlisted-option-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "add",
+        "zod",
+        "--some-future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-add-unlisted-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "add",
+        "zod",
+        "--some-future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-add-unlisted-option-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "add",
+        "zod",
+        "--some-future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-leading-option-add-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "--some-future-option",
+        "add",
+        "zod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-leading-option-add-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "--some-future-option",
+        "add",
+        "zod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-leading-option-add-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "--some-future-option",
+        "add",
+        "zod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-leading-option-shorthand-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "--silent",
+        "lint:fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-leading-option-shorthand-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "--silent",
+        "lint:fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-leading-option-shorthand-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "--silent",
+        "lint:fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-plugin-import-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "plugin",
+        "import",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-plugin-import-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "plugin",
+        "import",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-plugin-import-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "plugin",
+        "import",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-set-version-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "set",
+        "version",
+        "stable"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-set-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "set",
+        "version",
+        "stable"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-set-version-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "set",
+        "version",
+        "stable"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-rebuild-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "rebuild"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-rebuild-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "rebuild"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-rebuild-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "rebuild"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-publish-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-publish-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-publish-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-list-global-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "list",
+        "--global"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-list-global-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "list",
+        "--global"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-list-global-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "list",
+        "--global"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-script-registry-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "test",
+        "--registry=https://example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-script-registry-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "test",
+        "--registry=https://example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-yarn-script-registry-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "test",
+        "--registry=https://example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "everyday-pnpm-config-token-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "everyday-pnpm-config-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "everyday-pnpm-config-token-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "config",
+        "get",
+        "_authToken"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "everyday-wrong-manager-script-loose",
+      "profile": "loose",
+      "variables": {
+        "package_manager": "pnpm"
+      },
+      "argv": [
+        "yarn",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "everyday-wrong-manager-script-recommended",
+      "profile": "recommended",
+      "variables": {
+        "package_manager": "pnpm"
+      },
+      "argv": [
+        "yarn",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "everyday-wrong-manager-script-strict",
+      "profile": "strict",
+      "variables": {
+        "package_manager": "pnpm"
+      },
+      "argv": [
+        "yarn",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "yarn-cwd-node-version-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "node",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "yarn-cwd-node-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "node",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "yarn-cwd-node-version-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "node",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-short-version-loose",
+      "profile": "loose",
+      "argv": [
+        "yarnpkg",
+        "--cwd=.",
+        "node",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "yarn-cwd-node-short-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarnpkg",
+        "--cwd=.",
+        "node",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "yarn-cwd-node-short-version-strict",
+      "profile": "strict",
+      "argv": [
+        "yarnpkg",
+        "--cwd=.",
+        "node",
+        "-v"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-absolute-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "--cwd=/outside/project",
+        "node",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-absolute-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "--cwd=/outside/project",
+        "node",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-absolute-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "--cwd=/outside/project",
+        "node",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-parent-directory-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "--cwd",
+        "..",
+        "node",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-parent-directory-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "--cwd",
+        "..",
+        "node",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-parent-directory-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "--cwd",
+        "..",
+        "node",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-missing-cwd-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "--cwd"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-missing-cwd-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "--cwd"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-missing-cwd-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "--cwd"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-missing-version-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "node"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-missing-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "node"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-missing-version-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "node"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-yarn-version-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "--cwd",
+        "node",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "yarn-cwd-node-yarn-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "--cwd",
+        "node",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "yarn-cwd-node-yarn-version-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "--cwd",
+        "node",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "yarn-cwd-node-repeat-cwd-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "--cwd",
+        ".",
+        "node",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-repeat-cwd-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "--cwd",
+        ".",
+        "node",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-repeat-cwd-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "--cwd",
+        ".",
+        "node",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-delimiter-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "--",
+        "node",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-delimiter-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "--",
+        "node",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-delimiter-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "--",
+        "node",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-inline-code-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "node",
+        "-e",
+        "process.version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-inline-code-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "node",
+        "-e",
+        "process.version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-inline-code-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "node",
+        "-e",
+        "process.version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-preload-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "node",
+        "--version",
+        "--require=./hook.cjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-preload-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "node",
+        "--version",
+        "--require=./hook.cjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-preload-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "node",
+        "--version",
+        "--require=./hook.cjs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "yarn-cwd-node-different-manager-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "node",
+        "--version"
+      ],
+      "expected": "deny",
+      "variables": {
+        "package_manager": "pnpm"
+      }
+    },
+    {
+      "name": "yarn-cwd-node-different-manager-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "node",
+        "--version"
+      ],
+      "expected": "deny",
+      "variables": {
+        "package_manager": "pnpm"
+      }
+    },
+    {
+      "name": "yarn-cwd-node-different-manager-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "--cwd",
+        ".",
+        "node",
+        "--version"
+      ],
+      "expected": "deny",
+      "variables": {
+        "package_manager": "pnpm"
+      }
+    }
+  ]
+}

@@ -55,8 +55,8 @@ pending candidates. Older artifacts remain available for pinned installations.
 | [canonic/gate](packs/canonic/gate/0.2.7/README.md) | 0.2.7 | Everyday repository and worktree workflows, read-only previews, push destination selection, policy-file selection, bundled documentation and project, remote and destructive boundaries |
 | [canonic/git](packs/canonic/git/0.12.1/README.md) | 0.12.1 | Everyday local commands, network reads and rebase, with Git patch output checked against writable roots and no-op editor settings accepted |
 | [canonic/github](packs/canonic/github/0.9.0/README.md) | 0.9.0 | GitHub CLI/MCP, an optional list of repositories with GraphQL query roots matching one of them and unrestricted nested reads, reviewed mutations, everyday read options, scoped REST reads with or without an explicit `--hostname github.com`, and approval for scoped REST requests with bodies |
-| [canonic/hub](packs/canonic/hub/0.1.3/README.md) | 0.1.3 | Workspaces, tasks, processes, agents and configuration, with writable-root checks for task exports |
-| [canonic/node](packs/canonic/node/0.5.0/README.md) | 0.5.0 | Everyday project scripts, Node files and package-manager listings, with optional manager selection and execution boundaries |
+| [canonic/hub](packs/canonic/hub/0.1.4/README.md) | 0.1.4 | Workspaces, tasks, processes, agents and configuration, with review for credential-routing changes that skip Hub’s confirmation and for explicit client executables |
+| [canonic/node](packs/canonic/node/0.5.1/README.md) | 0.5.1 | Everyday project scripts, Node files, package-manager listings and in-project Node version queries through Yarn |
 | [canonic/rust](packs/canonic/rust/0.2.0/README.md) | 0.2.0 | Cargo, Rust tools, dependencies and explicit argument paths |
 | [canonic/testrun](packs/canonic/testrun/0.2.11/README.md) | 0.2.11 | Every Testrun CLI command and verified MCP tool allowed in all profiles, including browser storage, batched actions, builds, diagnostics and future operations, with caller-named host files kept inside approved roots |
 | [canonic/workbench](packs/canonic/workbench/0.2.0/README.md) | 0.2.0 | All 21 current Workbench MCP tools and future tools allowed across every profile, with verified stdio bindings |
@@ -70,8 +70,12 @@ and `variable-list-branches-v1`. Baseline requires Shield
 `>=0.40.0, <1.0.0` with the Base64 file-effects model. The other latest
 releases require Shield `>=0.20.0, <1.0.0`. Git 0.12.1 can allow scoped patch
 output in Loose and Recommended on Shield 0.44.0 and later, and takes the same
-decision after a leading `-c core.editor=true` or similar no-op editor setting. Hub 0.1.3 asks
-before exporting to files outside the writable roots or in protected locations.
+decision after a leading `-c core.editor=true` or similar no-op editor setting.
+Hub 0.1.4 applies the arbitrary-program profile to an explicit client executable
+and asks in every profile when `mcp auth setup --yes` applies credential routing
+without Hub's terminal confirmation. Node 0.5.1 allows
+`yarn --cwd DIR node --version` in Loose and Recommended when both directories
+are inside the project. Strict asks.
 Each pack declares its exact required capabilities. Clients refuse packs whose
 required capabilities they lack.
 
