@@ -1,3 +1,10 @@
+// Current remote operations, kept separate from the frozen base below.
+export const gateRemoteChanges = [
+  [['set-url'], 'remote_set_url', 'Replace the bound destination and clear its local tracking refs.'],
+  [['rename'], 'remote_rename', 'Move a bound remote and recreate its tracking refs under a new name.'],
+  [['remove','rm'], 'remote_remove', 'Remove a binding, its local tracking refs and its branch settings.'],
+];
+
 // Reviewed Gate CLI and MCP command data, from `gate --help` for every
 // subcommand and the published MCP tool schemas of gate 0.x.
 export const gate = {

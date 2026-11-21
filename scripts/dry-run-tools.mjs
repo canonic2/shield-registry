@@ -1,7 +1,8 @@
 // Reviewed read-only MCP identities. Applying tools and older dry-run arguments
 // keep their existing permissions; aliases cannot apply even with extra fields.
 export const previewSources = {
-  gate: ['discard','rename','sync','migrate','branch_remove','session_remove','worktree_remove'],
+  gate: ['discard','rename','sync','migrate','branch_remove','session_remove','worktree_remove',
+    'remote_set_url','remote_rename','remote_remove'],
   box: ['setup','config_sync','workspace_remove','workspace_update','content_apply','content_import',
     'roadmap_add','roadmap_update','roadmap_remove','criterion_add','criterion_update','criterion_remove',
     'blocker_add','blocker_update','blocker_resolve','blocker_reopen','blocker_remove',

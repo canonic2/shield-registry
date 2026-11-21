@@ -14,13 +14,15 @@ import {gate} from './gate-policy.mjs';
 import {toolPack} from './tool-pack.mjs';
 
 test('Gate current names and retained compatibility names have independent profile fixtures', async () => {
-  // Reviewed from Gate 0.27's catalog, independently of policy constructors.
+  // Reviewed from the Gate 0.33.0 catalog, independently of policy constructors.
   const current = ['status','diff','check','explain','doctor','remote_show','branch_list','session_status',
-    'discard','rename','init','add','apply','remote_add','attach','sync','migrate','commit','fetch','push',
+    'discard','rename','init','add','apply','remote_add','remote_set_url','remote_rename','remote_remove',
+    'attach','sync','migrate','commit','fetch','push',
     'switch','branch_remove','recover','session_start','session_stop','session_resume','session_promote',
     'session_remove','worktree_add','worktree_list','worktree_status','worktree_remove',
     'discard_preview','rename_preview','sync_preview','migrate_preview','branch_remove_preview',
-    'session_remove_preview','worktree_remove_preview','docs_list','docs_search','docs_read'];
+    'session_remove_preview','worktree_remove_preview','remote_set_url_preview','remote_rename_preview',
+    'remote_remove_preview','docs_list','docs_search','docs_read'];
   const retained = ['gate_docs_list','gate_docs_search','gate_docs_read','worktree_repair'];
   const pack = await currentToolPack('gate');
   const listed = [...new Set(pack.rules.map(rule => rule.conditions.tool).filter(tool => typeof tool === 'string'))];

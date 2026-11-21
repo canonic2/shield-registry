@@ -4,14 +4,14 @@ import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {toolPack} from './tool-pack.mjs';
 import {box} from './box-policy.mjs';
-import {gate} from './gate-policy.mjs';
+import {gate,gateRemoteChanges} from './gate-policy.mjs';
 import {testrun} from './testrun-policy.mjs';
 import {currentToolCases} from './current-tool-cases.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 import {trustedTestrunPack,trustedTestrunGuide} from './testrun-trusted-policy.mjs';
 
-export const currentToolVersions = {box:'0.2.8', gate:'0.2.7', testrun:'0.2.11'};
+export const currentToolVersions = {box:'0.2.8', gate:'0.2.8', testrun:'0.2.11'};
 export const currentDirectory = (name, version = currentToolVersions[name]) =>
   new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -201,10 +201,15 @@ function updateGate(pack) {
     // Without --dry-run, discard may prompt and apply even without --confirm.
     [['discard'],'destroy','Discard selected staged and working changes.',[
       {id:'dry-run', any:['--dry-run'], category:'inspect', reason:'Inspect the discard inventory without changes.'}]],
+    ...gateRemoteChanges.flatMap(([verbs,,effect]) => verbs.map(verb =>
+      [['remote',verb],'inspect','Review a change to a bound remote.',[
+        {id:'confirm', any:['--confirm'], values:['--confirm','--config','--repo'],
+          flags:['--dry-run'], category:'destroy', reason:effect}]])),
   ], {
     rename:['change','Rename a repository ID after exact host confirmation.'],
     discard:['destroy','Discard selected staged and working changes after confirmation.',[
       {id:'dry-run', fields:{'/dry_run':{exact:true}}, category:'inspect', reason:'Inspect selected changes without discarding them.'}]],
+    ...Object.fromEntries(gateRemoteChanges.map(([,tool,effect]) => [tool,['destroy',effect]])),
   });
   separatePreview(pack,'discard');
   const template = pack.rules.find(rule => rule.id === 'mcp-status-project');
@@ -629,7 +634,7 @@ export async function buildCurrentToolPacks(names = Object.keys(currentToolVersi
       continue;
     }
     if (name !== 'box') {
-      const previous = {gate:'0.2.6',testrun:'0.2.9'}[name];
+      const previous = {gate:'0.2.7',testrun:'0.2.9'}[name];
       await writeFile(new URL('README.md',directory), `# ${name === 'gate' ? 'Gate' : 'Testrun'} permissions ${currentToolVersions[name]}
 
 Requires Shield \`>=0.20.0, <1.0.0\`.
@@ -650,6 +655,7 @@ as described in [${previous}](../${previous}/README.md). No coverage is retired.
 ${name === 'gate' ? '\nGate status supports `--entries-only` and MCP `entries_only: true` to return public\nrepository navigation entries without inspecting working changes. It remains a\nread-only Allow operation in every profile; independent fixtures cover both forms.\n' : ''}
 
 ${name === 'gate' ? gatePushDestinationGuide() : ''}
+${name === 'gate' ? gateRemoteGuide() : ''}
 Regenerate with \`node scripts/build-current-tool-packs.mjs ${name}\` and validate
 with \`npm test -- --shield /absolute/path/to/shield scripts/current-tool-packs.test.mjs\`.
 `);
@@ -657,8 +663,8 @@ with \`npm test -- --shield /absolute/path/to/shield scripts/current-tool-packs.
   }
 }
 function gateCurrentGuide() {
-  return `Reviewed 2026-11-16 against Gate 0.28.0 source and installed catalog:
-42 current MCP tools, including seven separate previews, plus retained
+  return `Reviewed against Gate 0.33.0 source and its installed catalog:
+48 current MCP tools, including ten separate previews, plus retained
 compatibility names. The MCP \`dry_run\` argument on \`discard\`, \`rename\`,
 \`sync\`, \`migrate\`, \`branch_remove\`, \`session_remove\` and \`worktree_remove\`
 is first verified absent in 0.27.0 on 2026-11-15. Use each tool’s
@@ -670,6 +676,10 @@ window; earliest removal is deferred until three subsequent published feature
 releases are verified. No safety exception is applied. Malformed preview
 arguments remain Allow because Gate rejects them before dispatch; they cannot
 change a preview into an applying call.
+
+The CLI \`worktree status --runtime\` reports readiness and repository entry
+bindings. It keeps the same read-only decisions and project boundary as
+\`worktree status\`.
 `;
 }
 
@@ -683,6 +693,19 @@ MCP publication remains Allow in all profiles because Gate confirms it;
 leased MCP rewrites remain Allow/Allow/Deny. Independent fixtures cover both
 interfaces, exact lease forms, malformed selection and outside-project guards.
 No policy decision or historical source changes for destination selection.
+
+`;
+}
+
+function gateRemoteGuide() {
+  return `Gate 0.33.0 exposes \`remote set-url\`, \`remote rename\`, and
+\`remote remove\` (alias \`rm\`). CLI reviews and the three dedicated MCP
+preview tools are Allow in all profiles inside approved project roots.
+CLI \`--confirm\` and the applying MCP tools are Ask in Loose and Recommended
+and Deny in Strict. Gate still verifies the reviewed digest or asks the host
+for confirmation. These commands only edit local repository metadata.
+\`remote set-url\` records the destination for subsequent Git transport.
+Reviewing or applying the URL change leaves the destination untouched.
 
 `;
 }

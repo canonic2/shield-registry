@@ -52,7 +52,7 @@ pending candidates. Older artifacts remain available for pinned installations.
 | [canonic/baseline](packs/canonic/baseline/0.16.0/README.md) | 0.16.0 | Standard commands, approved file paths, Base64 transformations with checked input/output files, path-checked `rg` and `grep` searches, everyday read-only listings and package-script fallback rules |
 | [canonic/box](packs/canonic/box/0.2.8/README.md) | 0.2.8 | Workspaces, current setup and documentation tools, read-only previews, paginated inspection, exact current-checkout MCP selection, execution, retained recovery and resource-deleting workspace removal |
 | [canonic/docker](packs/canonic/docker/0.1.0/README.md) | 0.1.0 | Local containers, images, builds and Compose, with approved context selection and review for host mounts, privileges, secrets, publication and data removal |
-| [canonic/gate](packs/canonic/gate/0.2.7/README.md) | 0.2.7 | Everyday repository and worktree workflows, read-only previews, push destination selection, policy-file selection, bundled documentation and project, remote and destructive boundaries |
+| [canonic/gate](packs/canonic/gate/0.2.8/README.md) | 0.2.8 | Repository and worktree workflows, read-only previews, and reviewed changes to bound remotes |
 | [canonic/git](packs/canonic/git/0.12.1/README.md) | 0.12.1 | Everyday local commands, network reads and rebase, with Git patch output checked against writable roots and no-op editor settings accepted |
 | [canonic/github](packs/canonic/github/0.9.0/README.md) | 0.9.0 | GitHub CLI/MCP, an optional list of repositories with GraphQL query roots matching one of them and unrestricted nested reads, reviewed mutations, everyday read options, scoped REST reads with or without an explicit `--hostname github.com`, and approval for scoped REST requests with bodies |
 | [canonic/hub](packs/canonic/hub/0.1.4/README.md) | 0.1.4 | Workspaces, tasks, processes, agents and configuration, with review for credential-routing changes that skip Hub’s confirmation and for explicit client executables |
@@ -71,6 +71,8 @@ and `variable-list-branches-v1`. Baseline requires Shield
 releases require Shield `>=0.20.0, <1.0.0`. Git 0.12.1 can allow scoped patch
 output in Loose and Recommended on Shield 0.44.0 and later, and takes the same
 decision after a leading `-c core.editor=true` or similar no-op editor setting.
+Gate 0.2.8 allows remote-change previews in every profile, asks before applying
+remote changes in Loose and Recommended, and denies applying them in Strict.
 Hub 0.1.4 applies the arbitrary-program profile to an explicit client executable
 and asks in every profile when `mcp auth setup --yes` applies credential routing
 without Hub's terminal confirmation. Node 0.5.1 allows

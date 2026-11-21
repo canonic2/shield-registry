@@ -59,7 +59,51 @@ export async function currentToolCases(name) {
       mcp.push([`catalog-${tool}`,tool,args,allow]);
       mcp.push([`catalog-${tool}-malformed`,tool,{repo:42,session:null,paths:'invalid'},allow]);
     }
+    for (const [verb, operands] of [
+      ['set-url',['origin','https://example.com/acme-new.git']],
+      ['rename',['origin','upstream']],
+      ['remove',['origin']],
+      ['rm',['origin']],
+    ]) {
+      const command = ['gate','remote',verb,'-r','acme',...operands];
+      cli.push(
+        [`remote-${verb}-review`,command,allow],
+        [`remote-${verb}-dry-run`,[...command,'--dry-run'],allow],
+        [`remote-${verb}-confirm`,[...command,'--confirm','digest'],destroy],
+        [`remote-${verb}-confirm-equals`,['gate','remote','--json',verb,'--confirm=digest','--repo=acme',...operands],destroy],
+        [`remote-${verb}-confirm-with-config`,[...command,'--config','acme.yml','--confirm=digest'],destroy],
+        [`remote-${verb}-dry-run-outside`,[...command,'--dry-run','--project','/outside/other'],review],
+        [`remote-${verb}-confirm-outside`,[...command,'--confirm=digest','--project=/outside/other'],destroy],
+        [`remote-${verb}-confirm-looks-like-preview`,[...command,'--confirm=--dry-run'],destroy],
+      );
+    }
+    for (const [tool, args] of [
+      ['remote_set_url',{repo:'acme',name:'origin',url:'https://example.com/acme-new.git'}],
+      ['remote_rename',{repo:'acme',name:'origin',new_name:'upstream'}],
+      ['remote_remove',{repo:'acme',name:'origin'}],
+    ]) {
+      mcp.push(
+        [tool,tool,args,destroy],
+        [`${tool}-invalid`,tool,{repo:42,name:null,dry_run:true},destroy],
+        [`${tool}-outside`,tool,{...args,project:'/outside/other'},destroy],
+        [`${tool}-preview`,`${tool}_preview`,args,allow],
+        [`${tool}-preview-invalid`,`${tool}_preview`,{name:42,confirm:'untrusted'},allow],
+        [`${tool}-preview-outside`,`${tool}_preview`,{...args,project:'/outside/other'},review],
+      );
+    }
+    // A local destination is a config value here. Transport is a separate operation.
+    const localUrl = '/outside/acme/remote.git';
+    const localSetUrl = ['gate','remote','set-url','-r','acme','origin',localUrl];
+    const localRemote = {repo:'acme',name:'origin',url:localUrl};
+    mcp.push(
+      ['remote-set-url-local','remote_set_url',localRemote,destroy],
+      ['remote-set-url-local-preview','remote_set_url_preview',localRemote,allow],
+    );
     cli.push(
+      ['remote-set-url-local-review',localSetUrl,allow],
+      ['remote-set-url-local-confirm',[...localSetUrl,'--confirm=digest'],destroy],
+      ['worktree-status-runtime',['gate','--json','worktree','status','--runtime'],allow],
+      ['worktree-status-runtime-outside',['gate','worktree','status','--runtime','--project=/outside/other'],review],
       ['docs-list',['gate','docs','list','--cursor','opaque','--limit','2','--json'],allow],
       ['docs-search',['gate','docs','search','worktrees','--path','native-worktrees.md','--cursor','opaque','--limit','2'],allow],
       ['docs-read',['gate','docs','read','native-worktrees.md','--cursor','opaque','--limit','2'],allow],
