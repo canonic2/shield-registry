@@ -1,0 +1,326 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "mcp-unknown-plugin_launch-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "plugin_launch",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-workspace_cleanup-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "workspace_cleanup",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-recover-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "recover",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-conversation_message-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "conversation_message",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-box_docs_read-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "box_docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "transport-hub-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "stdio",
+            "command": "hub",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "task_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport--usr-local-bin-hub-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "stdio",
+            "command": "/usr/local/bin/hub",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "task_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport--opt-homebrew-bin-hub-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "stdio",
+            "command": "/opt/homebrew/bin/hub",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "task_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport--Users-acme-.local-bin-hub-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "stdio",
+            "command": "/Users/acme/.local/bin/hub",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "task_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport--home-acme-.local-bin-hub-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "stdio",
+            "command": "/home/acme/.local/bin/hub",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "task_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "alias-strict",
+      "profile": "strict",
+      "mcp": {
+        "workspaces": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "workspaces"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workspaces",
+        "tool": "process_exec",
+        "arguments": {
+          "command": [
+            "make"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

@@ -10,14 +10,23 @@ export const directory = new URL(`../packs/canonic/hub/${version}/`, import.meta
 export function guide() {
   return `# Hub permissions ${version}
 
-Reviewed against the Hub 0.45.1 CLI and the 95 MCP tools listed by
+Reviewed against Hub 0.49.0 and the 99 MCP tools listed by
 \`hub mcp serve --check\`. The \`canonic/box\` pack covers the \`box\` executable.
 
 Requires Shield \`${engine}\`, including \`argument-paths-v1\`.
 
 The workspace MCP headers helper uses the routine decision and can start the
-same-user loopback passthrough. The workspace MCP stdio launcher uses the
-arbitrary-program decision because its launch data supplies an executable.
+same-user loopback passthrough. The optional \`--port\` must match the user's
+Hub configuration and keeps the routine decision. The workspace MCP stdio
+launcher uses the arbitrary-program decision because its launch data supplies
+an executable.
+
+Hub Proxy reads can list projects, gateway state and redacted deliveries from
+\`https://app.canonic.sh\` through CLI or MCP. Selecting a different controller
+origin or a private trust root asks in all profiles. Signing in, revoking a
+login, enrolling a connector and changing hosted endpoints or public routes
+also ask in all profiles. The standalone \`hub-proxy-connector\` development
+binary follows the project's ordinary Shield policy.
 
 Ordinary Hub use is allowed. Hub validates its own arguments, selection and
 configuration, and asks its user before the effects it confirms, so the pack
@@ -50,6 +59,12 @@ Current applying and preview MCP tools reject dry-run arguments. Use the
 separately named preview identity for inspection. Legacy argument rules retain
 their reviewed decisions for older installed binaries.
 
+Workspace and configured target commands can dispatch project lifecycle hooks.
+Command hooks require approval in an ignored, untracked local Hub configuration.
+Removal previews list the exact approved hook commands alongside the confirmed
+inventory. The configured lifecycle commands retain their routine decisions.
+Invoking the private hook worker directly asks in every profile.
+
 | Operation | Loose | Recommended | Strict |
 | --- | --- | --- | --- |
 | Inspection: status, workspaces, the task, agents, processes, operations, manager blockers, plugin bindings, logs, URLs, configuration, plugin state, documentation | Allow | Allow | Allow |
@@ -57,7 +72,10 @@ their reviewed decisions for older installed binaries.
 | Everything else Hub covers: task edits, workspaces, configured \`process run\`, process stop, setup, plugins, manager, agent stop, MCP logins and apps | Allow | Allow | Ask |
 | Arbitrary programs and other agents: \`process exec\`, \`shell\`, retained \`process shell\`, \`workspace create --shell\`, plugin workflows and launch, \`agent start\` and \`agent message\` | Allow | Ask | Ask |
 | App creation with an explicit \`--claude-bin\` | Allow | Ask | Ask |
+| \`shell --secrets PROFILE\` and \`config secrets-sync TARGET FILE\` | Ask | Ask | Ask |
 | MCP auth setup with \`--yes\` and without \`--dry-run\` | Ask | Ask | Ask |
+| Hosted proxy inspection at the default Canonic controller with default trust | Allow | Allow | Allow |
+| Hosted proxy access with another controller or private trust root, login changes, connector enrollment and endpoint or route changes | Ask | Ask | Ask |
 | The raw \`hub -- COMMAND\` shortcut and \`workspace create NAME -- COMMAND\` | Ask | Ask | Ask |
 | Unknown MCP tools and unrecognized command lines, including \`hub -w WORKSPACE -- COMMAND\` | Allow | Ask | Ask |
 | Self-confirmed or irreversible deletion: \`--confirm DIGEST\`, \`--discard-changes\`, \`--forget\`, \`data-reset --confirm\`, and \`discard_changes\` or \`forget\` in \`workspace_remove\` | Ask | Ask | Deny |

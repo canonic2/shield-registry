@@ -13,13 +13,13 @@ import {schema} from './policy-schema.mjs';
 import {checkPublication, digest} from './registry-release.mjs';
 
 // The current interface, independently of the policy: `hub mcp serve --check`
-// of Hub 0.45.1 in catalog order (including appended preview identities).
+// of Hub 0.49.0 in catalog order (including preview identities).
 const catalog = ['init','config_check','config_plan','config_schema','setup','workspace_create','workspace_attach',
   'workspace_list','workspace_show','workspace_remove','workspace_prepare','workspace_data_reset','task_show','task_update',
   'task_history','task_export','task_import','task_step_list','task_step_next','task_step_add','task_step_update',
   'task_step_remove','task_check_add','task_check_update','task_check_remove','task_note_add','task_note_update',
   'task_note_remove','process_run','process_exec','process_restart','process_pause','process_resume','process_stop','process_list','process_logs','process_stats','process_url','process_gateway_enable',
-  'process_gateway_disable','process_gateway_status','agent_start','agent_list','agent_show','agent_message','agent_stop',
+  'process_gateway_disable','process_gateway_status','proxy_projects','proxy_status','proxy_deliveries','proxy_route_update','agent_start','agent_list','agent_show','agent_message','agent_stop',
   'plugin_list','plugin_show','plugin_enable','plugin_disable','plugin_reset','plugin_binding_add','plugin_binding_remove','plugin_binding_list',
   'plugin_context_show','plugin_prepare','plugin_workflow_run','plugin_workflow_resume','plugin_workflow_list',
   'plugin_workflow_show','plugin_workflow_reconcile','plugin_workflow_abandon','plugin_check','status','doctor',
@@ -52,6 +52,9 @@ test('Hub sources reproduce with schema-valid policy and fixtures', async () => 
   const authConfirmation = pack.rules.find(rule => rule.id === 'mcp-auth-setup-confirm');
   assert.equal(Object.hasOwn(authConfirmation.conditions, 'cwd'), false,
     'user-scope credential changes require confirmation from any directory');
+  const proxyReview = pack.rules.find(rule => rule.id === 'proxy');
+  assert.equal(Object.hasOwn(proxyReview.conditions, 'cwd'), false,
+    'hosted proxy operations require review even outside a Hub project');
   assert.deepEqual(pack.mcp_integrations.hub.fields['/args'], {exact: ['mcp','serve']});
 });
 
@@ -111,6 +114,24 @@ test('Hub retains signed release bytes and published decisions with reviewed exc
     }
     assert.equal(changed, 2, 'both former Allow decisions now Ask');
   } finally { rmSync(owner, {recursive:true, force:true}); }
+});
+
+test('Hub 0.1.5 retains signed companion assets and independent decisions', {skip:!process.env.SHIELD_BINARY}, async () => {
+  const previous = new URL('../packs/canonic/hub/0.1.5/', import.meta.url);
+  const signed = new URL('../public/packs/canonic/hub/0.1.5/', import.meta.url);
+  const catalog = await checkPublication(new URL('../public', import.meta.url).pathname,
+    readFileSync(new URL('../keys/main.pub', import.meta.url), 'utf8').trim());
+  const published = catalog.releases.find(row => row.id === 'canonic/hub' && row.version === '0.1.5');
+  assert.ok(published, 'authenticated published predecessor');
+  assert.equal(digest(readFileSync(new URL('pack.yml', previous))), published.sha256);
+  const fixtures = await caseFileNames(previous);
+  for (const file of ['pack.yml', ...fixtures, 'commands.json', 'README.md', 'LICENSE'])
+    assert.deepEqual(readFileSync(new URL(file, previous)), readFileSync(new URL(file, signed)), file);
+  for (const file of fixtures) {
+    const result = evaluate(new URL(file, previous).pathname);
+    assert.equal(result.status, 0, result.stdout + result.stderr);
+    assert.equal(JSON.parse(result.stdout).passed, true);
+  }
 });
 
 test('production Shield reproduces every independent Hub decision', {skip:!process.env.SHIELD_BINARY}, async t => {

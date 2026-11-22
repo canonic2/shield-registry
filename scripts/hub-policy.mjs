@@ -1,5 +1,5 @@
-// Reviewed Hub CLI and MCP surface of Hub 0.45.1: src/interface/cli.rs, the
-// task, agent, plugin and MCP-integration argument types, and the 95 tools of
+// Reviewed Hub CLI and MCP surface of Hub 0.49.0: src/interface/cli.rs, the
+// task, agent, plugin and integration argument types, and the 99 tools of
 // src/interface/mcp/catalog.rs (`hub mcp serve --check`). Hub succeeds Box;
 // canonic/box keeps covering the box executable.
 // Expected decisions live independently in hub-cases.mjs.
@@ -13,7 +13,7 @@
 import {toolPack} from './tool-pack.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 
-export const version = '0.1.5';
+export const version = '0.1.6';
 export const engine = '>=0.20.0, <1.0.0';
 
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -33,6 +33,14 @@ export const decisions = {
 
 const workspace = ['--workspace', '-w'];
 const globals = ['--config', '--agent-config'];
+const defaultController = {one_of: ['https://app.canonic.sh', 'https://app.canonic.sh/']};
+const proxyReads = {
+  projects: [],
+  status: ['--remote-project'],
+  deliveries: ['--remote-project', '--query'],
+};
+const inspectProxy = 'Read hosted proxy state from the default Canonic controller.';
+const reviewController = 'Review an authenticated request to a caller-selected controller.';
 const mutation = {flags: ['--dry-run'], values: [...workspace, '--if-revision', '--request-id', '--preview-digest', ...globals]};
 const initial = ['--goal', '--description', '--priority', '--labels', '--check', '--goal-file', '--description-file'];
 // Complete option sets, so a file check parses every spelling of the command.
@@ -65,7 +73,7 @@ const words = (rows, category, reason) => rows.map(row => [row.split(' '), categ
 
 export const hub = {
   name: 'hub', title: 'Hub', version, engine,
-  description: 'Hub workspaces, tasks, processes, agents and configuration, reviewing arbitrary commands, agent prompts, self-confirmed deletion and credential files.',
+  description: 'Hub workspaces, tasks, processes, agents, configuration and hosted proxies, with review for arbitrary commands, agent prompts, self-confirmed deletion, credential files and public route changes.',
   leading: {flags: ['--json'], values: ['--project']},
   shortOptions: {flags: [], values: ['-w']},
   homeInstall: '.local/bin',
@@ -86,6 +94,14 @@ export const hub = {
       'task note remove', 'plugin enable', 'plugin disable', 'plugin reset', 'plugin binding add', 'plugin binding remove',
       'plugin workflow reconcile', 'plugin workflow abandon', 'plugin check'],
     'routine', 'Change Hub configuration, tasks, processes or plugins; Hub confirms reviewed effects itself.'),
+    ...Object.keys(proxyReads).map(verb => [['proxy', verb], 'inspect', inspectProxy]),
+    ...words(['proxy login', 'proxy logout'], 'confirmation', 'Acquire or revoke a controller login.'),
+    ...words(['proxy endpoint', 'proxy endpoint create', 'proxy endpoint rename', 'proxy endpoint pause',
+      'proxy endpoint resume', 'proxy endpoint delete'], 'confirmation', 'Change a hosted endpoint and its public routes.'),
+    ...words(['proxy route', 'proxy route create', 'proxy route update', 'proxy route delete'],
+      'confirmation', 'Change the assignment or availability of a public route.'),
+    [['proxy', 'connect'], 'confirmation', 'Enroll an outbound connector for a local workspace.'],
+    [['proxy'], 'confirmation', 'Review controller login, custom trust, connector enrollment and hosted proxy changes.'],
     [['mcp', 'workspace-headers'], 'routine', 'Verify the current checkout and start the same-user MCP passthrough when needed.'],
     [['mcp', 'workspace-launch'], 'execute', 'Launch a stdio MCP server with workspace ports and a supplied executable.'],
     [['mcp', 'auth', 'setup'], 'routine', 'Configure Hub-managed MCP credentials after a terminal review.', [
@@ -114,8 +130,12 @@ export const hub = {
     [['workspace', 'data-reset'], 'inspect', 'Print the workspace\'s owned data inventory.', [
       {id: 'confirm', any: ['--confirm'], values: ['--confirm'], category: 'destroy', reason: 'Delete the workspace\'s data and volumes.'}]],
     // Arbitrary programs and other agents are not judged by this pack's rules.
-    ...words(['process exec', 'shell', 'process shell', 'plugin launch', 'plugin workflow run', 'plugin workflow resume'],
+    ...words(['process exec', 'process shell', 'plugin launch', 'plugin workflow run', 'plugin workflow resume'],
       'execute', 'Run an arbitrary program or external workflow, which other command policy does not see.'),
+    [['shell'], 'execute', 'Open a workspace shell.', [
+      {id: 'secret-profile', any: ['--secrets'], values: ['--secrets'], category: 'confirmation', reason: 'Supply a configured set of credentials to a shell and its descendants.'}]],
+    [['config', 'secrets-sync'], 'confirmation', 'Write or refresh a declared secret file in a checkout.'],
+    [['hook-child'], 'confirmation', 'Directly invoke the private command-hook worker with a launch plan on stdin.'],
     [['--'], 'shortcut', 'Run a command on a terminal in the current workspace.'],
     [['agent', 'start'], 'execute', 'Start an agent in the workspace checkout.', [
       files(['--prompt-file'], ['--prompt'], grammars.agentStart, 'execute')]],
@@ -130,6 +150,10 @@ export const hub = {
       'task_step_list', 'task_step_next', 'agent_list', 'agent_show', 'plugin_list', 'plugin_show', 'plugin_context_show',
       'plugin_prepare', 'plugin_binding_list', 'plugin_workflow_list', 'plugin_workflow_show', 'docs_list', 'docs_search', 'docs_read']
       .map(name => [name, ['inspect', 'Inspect Hub state, configuration or documentation.']]),
+    ...Object.keys(proxyReads).map(verb => [`proxy_${verb}`, ['inspect', inspectProxy, [
+      {id: 'controller', fields: {'/controller': {text: {not: defaultController}}},
+        category: 'confirmation', reason: reviewController},
+    ]]]),
     ...['init', 'setup', 'workspace_create', 'workspace_attach', 'workspace_prepare', 'workspace_data_reset',
       'task_update', 'task_import', 'task_step_add', 'task_step_update', 'task_step_remove', 'task_check_add',
       'task_check_update', 'task_check_remove', 'task_note_add', 'task_note_update', 'task_note_remove', 'process_run',
@@ -137,6 +161,7 @@ export const hub = {
       'plugin_reset', 'plugin_binding_add', 'plugin_binding_remove', 'plugin_workflow_reconcile', 'plugin_workflow_abandon',
       'plugin_check', 'manager_stop', 'manager_drain', 'operation_cancel']
       .map(name => [name, ['routine', 'Change Hub configuration, tasks, processes or plugins; Hub asks the host user before confirmed effects.']]),
+    ['proxy_route_update', ['confirmation', 'Change the connector assignment or availability of a public route.']],
     // MCP removal always asks the host user; only its irreversible options are reviewed.
     ['workspace_remove', ['routine', 'Remove a workspace after the host user confirms.', [
       {id: 'discard', fields: {'/discard_changes': {exact: true}}, category: 'destroy', reason: 'Permanently discard uncommitted checkout files.'},
@@ -160,6 +185,19 @@ export function hubPack() {
     // User-scope auth setup can write from any directory. The confirmation
     // rule only asks, so the current directory cannot weaken it.
     if (row.id === 'mcp-auth-setup-confirm') delete row.conditions.cwd;
+    if (row.conditions.domain === 'argv' && (row.id === 'proxy' || row.id.startsWith('proxy-'))) {
+      // Controller operations also work outside Hub projects. Keep the review
+      // rule in force there, and allow only parsed reads using default trust.
+      delete row.conditions.cwd;
+      const verb = row.id.slice('proxy-'.length);
+      if (Object.hasOwn(proxyReads, verb)) {
+        const {leading, values: prefix} = row.conditions.arguments;
+        row.conditions.arguments = {kind: 'options', leading, prefix, flags: ['--json'],
+          values: ['--project', ...globals, ...proxyReads[verb],
+            {name: '--controller', match: defaultController, repeat: 'forbid'}, '--controller-ca'],
+          forbid: ['--controller-ca'], operands: false};
+      }
+    }
     const leading = row.conditions.arguments?.leading;
     if (leading) leading.values = [...new Set([...leading.values, ...globals])];
     const grammar = row.requirements?.argument_paths?.grammar;

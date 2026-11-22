@@ -1,4 +1,4 @@
-// Independent expected decisions for canonic/hub, reviewed against Hub 0.45.1.
+// Independent expected decisions for canonic/hub, reviewed against Hub 0.49.0.
 // Keep these explicit rather than importing the policy's inventory or deriving
 // expectations from its decisions.
 const profiles = ['loose','recommended','strict'];
@@ -55,6 +55,10 @@ export const tools = [
   ['process_gateway_enable',{port:4780},routine],
   ['process_gateway_disable',{},routine],
   ['process_gateway_status',{},allow],
+  ['proxy_projects',{},allow],
+  ['proxy_status',{remote_project:'project-1'},allow],
+  ['proxy_deliveries',{remote_project:'project-1',query:'callback'},allow],
+  ['proxy_route_update',{remote_project:'project-1',route_id:'route-1',revision:2,enabled:false},review],
   ['agent_start',{kind:'codex',prompt:'Review Acme'},execute],
   ['agent_list',{refresh:true},allow],
   ['agent_show',{agent:'a1'},allow],
@@ -101,6 +105,7 @@ tools.push(...docs);
 
 const mcp = [
   ...tools.map(([tool,arguments_,expected]) => [`tool-${tool}`,tool,arguments_,expected]),
+  ['secret-provider-plugin','plugin_show',{plugin:'1password'},allow],
   // Continuations are opaque and validated by Hub, not permission selectors.
   ...['workspace_list','process_list','operation_list','manager_blocker_list','agent_list',
     'plugin_list','plugin_binding_list','plugin_workflow_list','task_show','task_step_list',
@@ -120,6 +125,14 @@ const mcp = [
   ['project-other','task_show',{project:'/outside/other'},allow],
   ['project-workspace-checkout','process_run',{project:'/outside/acme-feature',targets:['web']},routine],
   ['project-malformed','workspace_list',{project:7},allow],
+  ['proxy-projects-other-controller','proxy_projects',{controller:'https://controller.example.com'},review],
+  ['proxy-status-other-controller','proxy_status',{remote_project:'project-1',controller:'http://127.0.0.1:8050'},review],
+  ['proxy-deliveries-other-controller','proxy_deliveries',{remote_project:'project-1',controller:'https://app.canonic.sh.example.com'},review],
+  ['proxy-deliveries-default-controller','proxy_deliveries',{remote_project:'project-1',controller:'https://app.canonic.sh/'},allow],
+  ['proxy-status-missing-project','proxy_status',{},allow],
+  ['proxy-status-malformed-controller','proxy_status',{remote_project:'project-1',controller:7},allow],
+  ['proxy-update-malformed','proxy_route_update',{remote_project:'project-1'},review],
+  ['proxy-update-assignment','proxy_route_update',{remote_project:'project-1',route_id:'route-1',revision:3,connector:'grant-1'},review],
   ['config-file','process_run',{targets:['web'],config:'/outside/hub.yml',set_env:['NODE_ENV=test']},routine],
   ['setup-agent-config','setup',{agent_config:'/outside/.hub/config.yml',repair_hooks:true},routine],
   ['setup-preview','setup',{dry_run:true},routine],
@@ -149,7 +162,7 @@ const mcp = [
   ['logs-container','process_logs',{execution:'e1',target:'stack',service:'api',since:'5m',tail:100,stream:'stderr',cursor:'opaque-cursor',limit:1},allow],
   ['agent-start-silent','agent_start',{kind:'claude',host:'unix:///outside/control.sock'},execute],
   // Unknown names may be newer operations; Box names are unknown to Hub.
-  ...['future_tool','process_shell','plugin_launch','workspace_cleanup','recover','conversation_message','box_docs_read']
+  ...['future_tool','proxy_future','process_shell','plugin_launch','workspace_cleanup','recover','conversation_message','box_docs_read']
     .map(tool => [`unknown-${tool}`,tool,{},execute]),
 ];
 
@@ -185,6 +198,32 @@ const cli = [
   ['auth-list',['hub','mcp','auth','list'],allow],
   ['serve',['hub','mcp','serve'],allow],
   ['serve-check',['hub','mcp','serve','--check'],allow],
+  ['proxy-projects',['hub','proxy','projects'],allow],
+  ['proxy-status',['hub','proxy','status','--remote-project','project-1'],allow],
+  ['proxy-status-default-controller',['hub','proxy','--json','status','--controller','https://app.canonic.sh','--remote-project=project-1'],allow],
+  ['proxy-deliveries',['hub','proxy','deliveries','--remote-project','project-1','--query=callback','--controller=https://app.canonic.sh/'],allow],
+  ['proxy-other-controller',['hub','proxy','projects','--controller=https://controller.example.com'],review],
+  ['proxy-controller-loopback',['hub','proxy','status','--remote-project','project-1','--controller','http://127.0.0.1:8050'],review],
+  ['proxy-controller-lookalike',['hub','proxy','projects','--controller=https://app.canonic.sh.example.com'],review],
+  ['proxy-controller-missing-value',['hub','proxy','projects','--controller'],review],
+  ['proxy-controller-repeat',['hub','proxy','projects','--controller=https://app.canonic.sh','--controller=https://controller.example.com'],review],
+  ['proxy-private-ca',['hub','proxy','projects','--controller-ca','/outside/controller.crt'],review],
+  ['proxy-default-with-private-ca',['hub','proxy','projects','--controller=https://app.canonic.sh','--controller-ca=.ssh/controller.crt'],review],
+  ['proxy-help',['hub','proxy','connect','--help'],allow],
+  ['proxy-future',['hub','proxy','future-command'],review],
+  ['proxy-login',['hub','proxy','login','--show-url'],review],
+  ['proxy-login-device',['hub','proxy','login','--device'],review],
+  ['proxy-logout',['hub','proxy','logout'],review],
+  ['proxy-connect',['hub','--project','/acme','proxy','connect','--remote-project','project-1','-w','feature','--service','web'],review],
+  ['proxy-connect-update',['hub','proxy','connect','--remote-project=project-1','--workspace=feature','--service=web','--grant=grant-1','--grant-revision=2','--edge-ca=/outside/edge.crt'],review],
+  ['proxy-endpoint-create',['hub','proxy','endpoint','--remote-project','project-1','create','--name','Callback','--method','GET','--path','/callback','--request-id','request-1'],review],
+  ['proxy-endpoint-rename',['hub','proxy','endpoint','--remote-project','project-1','rename','endpoint-1','--name','Login callback','--revision','2'],review],
+  ['proxy-endpoint-pause',['hub','proxy','endpoint','--remote-project','project-1','pause','endpoint-1','--revision','2'],review],
+  ['proxy-endpoint-resume',['hub','proxy','endpoint','--remote-project','project-1','resume','endpoint-1','--revision','3'],review],
+  ['proxy-endpoint-delete',['hub','proxy','endpoint','--remote-project','project-1','delete','endpoint-1','--revision','3'],review],
+  ['proxy-route-create',['hub','proxy','route','--remote-project','project-1','create','endpoint-1','--method','POST','--path','/webhook','--request-id','request-2'],review],
+  ['proxy-route-update',['hub','proxy','route','--remote-project','project-1','update','route-1','--revision','2','--enabled','false'],review],
+  ['proxy-route-delete',['hub','proxy','route','--remote-project','project-1','delete','route-1','--revision','3'],review],
   ['other-project',['hub','--project','/outside/other','status'],allow],
   ['other-config',['hub','--config','/outside/hub.yml','config','check'],allow],
   ['data-reset-inventory',['hub','workspace','data-reset','-w','feature'],allow],
@@ -202,6 +241,8 @@ const cli = [
   ['auth-logout',['hub','mcp','auth','logout','slack'],routine],
   ['auth-headers',['hub','mcp','auth','headers'],routine],
   ['workspace-headers',['hub','mcp','workspace-headers'],routine],
+  ['workspace-headers-configured-port',['hub','mcp','workspace-headers','--port','4851'],routine],
+  ['workspace-headers-malformed-port',['hub','mcp','workspace-headers','--port=out-of-range'],routine],
   ['workspace-launch',['hub','mcp','workspace-launch','opaque-definition'],execute],
   ['app-create',['hub','mcp','app','create','slack'],routine],
   ['app-create-override',['hub','mcp','app','create','slack','--claude-bin','/acme/bin/client'],execute],
@@ -250,6 +291,10 @@ const cli = [
   ['exec-json',['hub','--json','process','exec','-w','feature','--request-id',id,'--','make','test'],execute],
   ['shell',['hub','process','shell','-w','feature'],execute],
   ['current-shell',['hub','shell','-w','feature'],execute],
+  ['secret-shell',['hub','shell','-w','feature','--secrets','billing'],review],
+  ['secret-shell-attached',['hub','shell','--secrets=billing'],review],
+  ['secret-sync',['hub','config','secrets-sync','billing','APP_ENV_FILE','-w','feature'],review],
+  ['private-hook-worker',['hub','--json','hook-child'],review],
   ['shell-command',['hub','shell','--execution','e1','--','node','scripts/check.mjs'],execute],
   ['shell-options',['hub','--config','/outside/hub.yml','shell','--shell','/bin/sh','--timeout-ms','1000'],execute],
   ['create-shell',['hub','workspace','create','feature','--shell'],execute],
