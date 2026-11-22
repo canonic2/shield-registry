@@ -44,7 +44,8 @@ Relative MCP paths are checked against the enrolled project.
 | Interface | Reads | Writes |
 | --- | --- | --- |
 | \`browser_send\` request, each batch entry and each browser \`act\` action | \`path\` (\`storage_register\`, \`har_register\`, \`heap_import\`, \`page_add_script_tag\`, \`page_add_style_tag\`), \`response.path\` (\`callback_resolve\`), \`options.storageState\` given as a path, \`options.sourceFiles[]\`, \`options.clientCertificates[].certPath/keyPath/pfxPath\`, multipart \`file_path\` field paths | \`options.path\` (\`storage_export\`, \`http_context_storage_state\`), \`path\` and \`resourcesDir\` (\`har_capture_start\`), \`filePath\` and \`options.filePath\` (traces), \`options.recordHar.path\` |
-| \`browser_connect\`, browser \`connect\` | \`context.storageState\` given as a path, \`context.clientCertificates[]\` files | \`context.recordHar.path\` |
+| \`browser_connect\`, browser \`connect\` | \`context.storageState\` given as a path, \`context.clientCertificates[]\` files, \`mediaFixtures.microphonePath\` and \`mediaFixtures.cameraPath\` | \`context.recordHar.path\` |
+| CLI \`connect\` and \`browser connect\` | \`--microphone-fixture\` and \`--camera-fixture\` | |
 | \`app_install\`, CLI \`app install\` | \`path\` | |
 | \`diagnostics_start\` source | \`path\`, \`reportDirectory\`, \`endpointFile\`, \`project\`, \`configFile\`, \`toolPath\` | |
 | \`diagnostics_export\`, CLI \`diagnostics export --path\` | | \`path\` |
@@ -97,6 +98,8 @@ retained documentation aliases and the installed catalog. The rules also cover
 older argument forms, including the retired \`storage_apply\` \`replace\`
 boolean, and future names; no form is retired.
 Historical versions and their independent fixtures retain their published bytes.
+Version 0.2.12 covers Chrome launch media fixtures in Testrun 0.12.0 source.
+Both selected inputs must pass the usual read-root check.
 
 Policy is owned by \`scripts/testrun-host-paths.mjs\` and
 \`scripts/testrun-trusted-policy.mjs\`; independent expectations by

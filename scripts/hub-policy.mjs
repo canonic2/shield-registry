@@ -13,7 +13,7 @@
 import {toolPack} from './tool-pack.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 
-export const version = '0.1.4';
+export const version = '0.1.5';
 export const engine = '>=0.20.0, <1.0.0';
 
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -86,6 +86,8 @@ export const hub = {
       'task note remove', 'plugin enable', 'plugin disable', 'plugin reset', 'plugin binding add', 'plugin binding remove',
       'plugin workflow reconcile', 'plugin workflow abandon', 'plugin check'],
     'routine', 'Change Hub configuration, tasks, processes or plugins; Hub confirms reviewed effects itself.'),
+    [['mcp', 'workspace-headers'], 'routine', 'Verify the current checkout and start the same-user MCP passthrough when needed.'],
+    [['mcp', 'workspace-launch'], 'execute', 'Launch a stdio MCP server with workspace ports and a supplied executable.'],
     [['mcp', 'auth', 'setup'], 'routine', 'Configure Hub-managed MCP credentials after a terminal review.', [
       {id: 'confirm', any: ['--yes'], forbid: ['--dry-run'], values: [...globals, '--name', '--agent', '--scope'],
         flags: ['--remove'], category: 'confirmation', reason: 'Change MCP credential routing without Hub’s terminal confirmation.'}]],

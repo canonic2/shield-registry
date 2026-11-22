@@ -56,6 +56,99 @@ function passed(result) {
   return report;
 }
 
+test('Testrun retains authenticated 0.2.11 policy and companion bytes',async()=>{
+  const directory=currentDirectory('testrun','0.2.11');
+  const catalog=await checkPublication(new URL('../public',import.meta.url).pathname,
+    readFileSync(new URL('../keys/main.pub',import.meta.url),'utf8').trim());
+  const published=catalog.releases.find(row=>row.id==='canonic/testrun' && row.version==='0.2.11');
+  assert.ok(published);
+  assert.equal(digest(readFileSync(new URL('pack.yml',directory))),published.sha256);
+  for(const file of ['pack.yml',...await caseFileNames(directory),'commands.json','README.md','LICENSE'])
+    assert.deepEqual(readFileSync(new URL(file,directory)),
+      readFileSync(new URL(`../public/packs/canonic/testrun/0.2.11/${file}`,import.meta.url)),file);
+});
+
+// Independent Testrun 0.10.0 expectations. Clock inputs name no host files;
+// another request in the same batch still retains its ordinary path boundary.
+test('native Chrome clocks stay allowed without weakening mixed-batch host-file checks',
+  {skip:!process.env.SHIELD_BINARY},t=>{
+  const context={connectionId:'11111111-1111-4111-8111-111111111111',
+    generation:'22222222-2222-4222-8222-222222222222',id:'33333333-3333-4333-8333-333333333333'};
+  const actions=[{kind:'install'},{kind:'install',timeMs:0},{kind:'set_fixed_time',timeMs:0},
+    {kind:'set_system_time',timeMs:100},{kind:'pause_at',timeMs:200},
+    {kind:'run_for',durationMs:0},{kind:'fast_forward',durationMs:604800000},{kind:'resume'}];
+  const cases=[];
+  for(const profile of ['loose','recommended','strict']) {
+    const mcp=(label,tool,args,expected='allow')=>cases.push({name:`clock-${label}-${profile}`,profile,mcp:binding(),
+      input:{kind:'mcp',server:'testrun',tool,arguments:{targetId:'browser:acme',...args},original_input:{}},expected});
+    for(const [index,action] of actions.entries()) {
+      const request={operation:'context_clock',context,action};
+      const {kind,...parameters}=action;
+      const act={action:'context_clock',context,input:{action:kind,...parameters}};
+      mcp(`send-${index}`,'browser_send',{request});
+      mcp(`batch-${index}`,'browser_send',{request:{operation:'batch',requests:[request]}});
+      mcp(`act-${index}`,'act',{actions:[act]});
+      for(const [command,payload] of [[['browser','send'],request],[['act'],[act]]])
+        cases.push({name:`clock-cli-${command.join('-')}-${index}-${profile}`,profile,
+          argv:['testrun','--target','browser:acme',...command,JSON.stringify(payload)],expected:'allow'});
+    }
+    mcp('missing-input','browser_send',{request:{operation:'context_clock',context}});
+    mcp('malformed-input','browser_send',{request:{operation:'context_clock',context,action:{kind:'run_for',durationMs:'invalid'}}});
+    for(const [label,path,expected] of [['inside','reports/state.json','allow'],['outside','/outside/state.json','ask']]) {
+      const clock={operation:'context_clock',context,action:{kind:'resume'}};
+      const exportState={operation:'storage_export',context,options:{path}};
+      mcp(`mixed-send-${label}`,'browser_send',{request:{operation:'batch',requests:[clock,exportState]}},expected);
+      mcp(`mixed-act-${label}`,'act',{actions:[{action:'context_clock',context,input:{action:'resume'}},
+        {action:'storage_export',context,options:{path}}]},expected);
+    }
+  }
+  const report=passed(evaluate(cases));
+  t.diagnostic(`Evaluated ${report.cases.length} clock and mixed-batch decisions against the unchanged policy.`);
+});
+
+// Independent Testrun 5.4 expectations. Passkey, credential-snapshot and broker
+// sign-in inputs name no host files; brokers live in Testrun's own data root.
+// A credential export to a caller path keeps the ordinary path boundary.
+test('passkeys and broker sign-in stay allowed while credential exports keep host-file checks',
+  {skip:!process.env.SHIELD_BINARY},t=>{
+  const context={connectionId:'11111111-1111-4111-8111-111111111111',
+    generation:'22222222-2222-4222-8222-222222222222',id:'33333333-3333-4333-8333-333333333333'};
+  const journey={origin:'https://app.example.com',username:{kind:'label',text:'Email'},password:{kind:'label',text:'Password'},
+    submit:{kind:'role',role:'button',name:'Sign in'},signedIn:{kind:'css',selector:'#account'},
+    signedOut:{kind:'role',role:'heading',name:'Sign in to Acme'},identity:{kind:'css',selector:'#account'}};
+  const requests=[
+    {operation:'context_credentials',context,action:{kind:'install'}},
+    {operation:'context_credentials',context,action:{kind:'create',rpId:'app.example.com',userHandle:'dXNlcg',signCount:3}},
+    {operation:'context_credentials',context,action:{kind:'list',rpId:'app.example.com',cursor:'opaque',limit:10}},
+    {operation:'context_credentials',context,action:{kind:'delete',id:'YWNtZQ'}},
+    {operation:'storage_export',context,options:{credentials:true}},
+    {operation:'storage_apply',context,snapshot:context,mode:'replace',installAuthenticator:true},
+    {operation:'auth_broker_list',limit:10},
+    {operation:'auth_sign_in',page:context,broker:'acme-vault',account:'staff',journey,expectedIdentity:'Staff user'},
+    {operation:'auth_status',page:context,journey},
+  ];
+  const act=({operation,action,...rest})=>({action:operation,...rest,...(action?{input:{...action,action:action.kind,kind:undefined}}:{})});
+  const cases=[];
+  for(const profile of ['loose','recommended','strict']) {
+    const mcp=(label,tool,args,expected='allow')=>cases.push({name:`credentials-${label}-${profile}`,profile,mcp:binding(),
+      input:{kind:'mcp',server:'testrun',tool,arguments:{targetId:'browser:acme',...args},original_input:{}},expected});
+    for(const [index,request] of requests.entries()) {
+      mcp(`send-${index}`,'browser_send',{request});
+      mcp(`batch-${index}`,'browser_send',{request:{operation:'batch',requests:[request]}});
+      mcp(`act-${index}`,'act',{actions:[JSON.parse(JSON.stringify(act(request)))]});
+      cases.push({name:`credentials-cli-${index}-${profile}`,profile,
+        argv:['testrun','--target','browser:acme','browser','send',JSON.stringify(request)],expected:'allow'});
+    }
+    for(const [label,path,expected] of [['inside','reports/passkeys.json','allow'],['outside','/outside/passkeys.json','ask']]) {
+      const exported={operation:'storage_export',context,options:{credentials:true,path}};
+      mcp(`export-${label}`,'browser_send',{request:exported},expected);
+      mcp(`export-batch-${label}`,'browser_send',{request:{operation:'batch',requests:[requests[1],exported]}},expected);
+    }
+  }
+  const report=passed(evaluate(cases));
+  t.diagnostic(`Evaluated ${report.cases.length} passkey, credential-snapshot and sign-in decisions against the unchanged policy.`);
+});
+
 test('production Shield allows Testrun operations and asks for host files outside approved roots',{skip:!process.env.SHIELD_BINARY},t=>{
   const report=passed(evaluate(trustedTestrunCases()));
   const all=hostPathCases();

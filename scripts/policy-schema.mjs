@@ -137,7 +137,7 @@ const defs = {
   targets: one([target, array(target, 1)]),
   environment: one([object({ exact: stringMap }), object({ fields: { type: 'object', minProperties: 1, maxProperties: 256, propertyNames: text(1), additionalProperties: ref('textSelector') } })]),
   url: object({ schemes: array(enumeration(['http', 'https']), 1, true), hosts: array({ ...text(1), pattern: '^[^A-Z/@?#\\s]+$' }, 1, true),
-    ports: array({ type: 'integer', minimum: 1, maximum: 65535 }, 0, true), path: ref('textSelector') }, ['schemes', 'hosts']),
+    ports: array({ type: 'integer', minimum: 1, maximum: 65535 }, 0, true), path: ref('textSelector'), subdomains: { type: 'boolean' } }, ['schemes', 'hosts']),
   arguments: one([
     object({ kind: { const: 'any' } }),
     object({ kind: { const: 'exact' }, values: array(text()) }),
@@ -195,6 +195,7 @@ caps.push('interleaved-leading-v1');
 caps.push('field-negation-v1');
 caps.push('graphql-mutations-v1');
 caps.push('graphql-subtree-v1');
+caps.push('url-subdomains-v1');
 // An option that only chooses the folder a tool works in, such as `npm --prefix`.
 // A file value names the files the tool finds in that folder by default.
 defs.directoryOption = {
@@ -321,6 +322,7 @@ const feature = {
   'requirements-v1': has('requirements'),
   'possible-effects-v1': eitherPredicate(['possible_effects']),
   'fallback-rules-v1': has('fallback'),
+  'url-subdomains-v1': eitherPredicate(['url', 'subdomains']),
 };
 feature['location-v1'] = any([feature['location-v1'], eitherPredicate(['argument_paths']), eitherPredicate(['field_paths'])]);
 feature['access-paths-v1'].anyOf.push(...argumentPathSelections.flatMap(path => [

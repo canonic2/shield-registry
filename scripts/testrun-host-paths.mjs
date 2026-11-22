@@ -69,7 +69,8 @@ function toolRules(tool, fields) {
 const configuration = ['config_check','config_show','config_schema','project_list','project_show',
   'project_status','project_start','project_open','project_discover','project_init_preview'];
 const contextFields = tool => [
-  ...toolRules(tool, [['/context/storageState','read'], ['/context/recordHar/path','write']]),
+  ...toolRules(tool, [['/context/storageState','read'], ['/context/recordHar/path','write'],
+    ['/mediaFixtures/microphonePath','read'], ['/mediaFixtures/cameraPath','read']]),
   // Launch context options sit directly under /context, not under /options.
   ...arrayRules(`path-${tool}-context`, tool, '/context', {...certificates, array:'/clientCertificates'}),
 ];
@@ -130,6 +131,11 @@ const configurationFlags = ['--local','--all','--install','--launch','--replace'
 
 export function hostPathCliRules(executable) {
   const shared = {flags:configurationFlags, values:configurationValues};
+  const mediaOptions = {'--microphone-fixture':read,'--camera-fixture':read};
+  const browserConnect = {
+    values:['--engine','--mode','--context','--proxy',...Object.keys(mediaOptions)],
+    options:mediaOptions,
+  };
   return [
     {id:'cli-json-host-path', conditions:{domain:'argv', executable:structuredClone(executable),
       arguments:{kind:'risk_tokens', prefix:[], any_of:structuredClone(jsonHostPathPatterns)}},
@@ -138,6 +144,9 @@ export function hostPathCliRules(executable) {
       {flags:['--replace'], values:['--artifact-ref','--play-protect'], operands:read}),
     cliRule(executable, 'cli-browser-fixture-register-path', ['browser','fixture-register'],
       {values:['--mime-type','--provenance','--cleared-by','--clearance-method'], operands:read}),
+    cliRule(executable, 'cli-connect-media-fixtures', ['connect'], browserConnect),
+    cliRule(executable, 'cli-browser-connect-media-fixtures', ['browser','connect'],
+      {...browserConnect, flags:['--downloads','--touch']}),
     cliRule(executable, 'cli-diagnostics-export-path', ['diagnostics','export'],
       {values:['--path','--filters','--cursor','--limit'], options:{'--path':write}}),
     cliRule(executable, 'cli-config-paths', ['config'],

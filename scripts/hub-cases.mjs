@@ -201,6 +201,8 @@ const cli = [
   ['auth-setup-dry-run-token-as-value',['hub','mcp','auth','setup','slack','--agent-config','agent.yml','--name=--dry-run','--yes'],review],
   ['auth-logout',['hub','mcp','auth','logout','slack'],routine],
   ['auth-headers',['hub','mcp','auth','headers'],routine],
+  ['workspace-headers',['hub','mcp','workspace-headers'],routine],
+  ['workspace-launch',['hub','mcp','workspace-launch','opaque-definition'],execute],
   ['app-create',['hub','mcp','app','create','slack'],routine],
   ['app-create-override',['hub','mcp','app','create','slack','--claude-bin','/acme/bin/client'],execute],
   ['app-create-override-equals',['hub','mcp','app','--project','/acme','create','--agent','claude','slack','--claude-bin=/acme/bin/client','--no-browser'],execute],

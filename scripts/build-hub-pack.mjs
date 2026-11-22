@@ -15,6 +15,10 @@ Reviewed against the Hub 0.45.1 CLI and the 95 MCP tools listed by
 
 Requires Shield \`${engine}\`, including \`argument-paths-v1\`.
 
+The workspace MCP headers helper uses the routine decision and can start the
+same-user loopback passthrough. The workspace MCP stdio launcher uses the
+arbitrary-program decision because its launch data supplies an executable.
+
 Ordinary Hub use is allowed. Hub validates its own arguments, selection and
 configuration, and asks its user before the effects it confirms, so the pack
 does not match every option. It reviews only the forms an agent could use to

@@ -15,7 +15,7 @@ Current source builders are grouped by capability rather than a release diary:
 
 | Pack | Policy and fixture sources |
 | --- | --- |
-| Baseline | `scripts/build-baseline-base64.mjs`, independent `scripts/base64-cases.mjs` and `scripts/sed-addresses.mjs` prepare 0.16.0 with stream transformations, checked input/output files and sed regex addresses/ranges. They extend the published grep-effects release (`scripts/build-baseline-grep-effects.mjs`) and its earlier everyday-read sources. |
+| Baseline | `scripts/build-baseline-loopback.mjs` and independent `scripts/loopback-fetch-cases.mjs` prepare 0.17.0 with read-only curl/wget fetches from `localhost`, `*.localhost` and `127.0.0.1`. It extends published 0.16.0 from `scripts/build-baseline-base64.mjs` (independent `scripts/base64-cases.mjs` and `scripts/sed-addresses.mjs`), which in turn extends the grep-effects release (`scripts/build-baseline-grep-effects.mjs`) and its earlier everyday-read sources. |
 | Git | `scripts/build-git-allow-by-default.mjs 0.12.1` adds no-op editor settings such as `-c core.editor=true` to the shared leading forms, on top of 0.12.0's writable destination checks. Independent cases are in `scripts/git-output-cases.mjs` and the builder's `editorCases`. |
 | Node | `scripts/build-node-yarn-version.mjs` extends the everyday development release with in-project Yarn Node version queries. Expected decisions are in `scripts/node-yarn-version-cases.mjs`. |
 | Rust, AWS | `scripts/build-reviewed-profiles.mjs` and `scripts/build-reviewed-profile-cases.mjs` |
