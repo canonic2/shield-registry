@@ -9,6 +9,8 @@ const ask = {loose:'ask', recommended:'ask', strict:'ask'};
 const anyString = {text:{regex:'(?s).*'}};
 const present = {not:{exact:null}};
 const within = root => ({relative_to:'project', path:{within:{root}}});
+const explicitPath = root => ({absolute:true, path:{within:{root}}});
+const browserTools = new Set(['browser_send','act','browser_connect','connect']);
 const message = {read:'Name a host file inside the approved read roots.',
   write:'Name a host file inside the approved write roots.'};
 const reason = {read:'Testrun reads this host file.', write:'Testrun writes this host file.'};
@@ -34,15 +36,15 @@ const certificates = {array:'/options/clientCertificates', items:['/certPath','/
 const browserArrays = [
   {array:'/options/sourceFiles', items:[''], checked:4, operations:['trace_start']},  // at most 16
   {...certificates, operations:['context_create','http_context_create']},           // at most 16
-  {array:'/request/body/fields', items:['/path'], checked:8, operations:['http_fetch']},  // multipart, at most 128
-  {array:'/options/body/fields', items:['/path'], checked:8, operations:['http_fetch_request']},
 ];
+const multipartBodies = [['http_fetch','/request/body'], ['http_fetch_request','/options/body']];
 const slug = pointer => pointer.replace(/^\//,'').replaceAll('/','-').toLowerCase() || 'item';
 
 function pathRule(id, tool, pointer, access, fields = {}) {
+  const absolute = browserTools.has(tool) || tool === 'build_start' && pointer.startsWith('/inline/');
   return {id, conditions:{domain:'mcp', server:'testrun', tool, fields:{...fields, [pointer]:anyString}},
-    decision:allow, requirements:{field_paths:{[pointer]:within(access)}},
-    on_unmet:{decision:'ask', message:message[access]}, reason:reason[access]};
+    decision:allow, requirements:{field_paths:{[pointer]:(absolute ? explicitPath : within)(access)}},
+    on_unmet:{decision:'ask', message:absolute ? message[access].replace('a host file','an absolute host path') : message[access]}, reason:reason[access]};
 }
 function arrayRules(prefix, tool, base, {array, items, checked}, fields = {}) {
   const rules = [];
@@ -60,6 +62,13 @@ function browserRequestRules(tool, base, selector) {
     ...browserFields.map(([pointer, access, operations]) =>
       pathRule(`${prefix}-${slug(pointer)}-${access}`, tool, base + pointer, access, scope(operations))),
     ...browserArrays.flatMap(({operations, ...array}) => arrayRules(prefix, tool, base, array, scope(operations))),
+    ...multipartBodies.map(([operation, body]) => ({
+      id:`${prefix}-${operation}-multipart`, conditions:{domain:'mcp',server:'testrun',tool,
+        fields:{...scope([operation]),[`${base}${body}/kind`]:{exact:'multipart'}}},
+      decision:allow, requirements:{field_paths:{[`${base}${body}/fields`]:{...explicitPath('read'),each:'/path'}}},
+      on_unmet:{decision:'ask',message:'Name multipart files by absolute paths inside approved read roots.'},
+      reason:'Check every caller-named multipart file inside approved read roots.',
+    })),
   ];
 }
 function toolRules(tool, fields) {
@@ -70,7 +79,10 @@ const configuration = ['config_check','config_show','config_schema','project_lis
   'project_status','project_start','project_open','project_discover','project_init_preview'];
 const contextFields = tool => [
   ...toolRules(tool, [['/context/storageState','read'], ['/context/recordHar/path','write'],
-    ['/mediaFixtures/microphonePath','read'], ['/mediaFixtures/cameraPath','read']]),
+    ['/mediaFixtures/microphonePath','read'], ['/mediaFixtures/cameraPath','read'],
+    ['/attachment/credentialPath','read'], ['/attachment/caPath','read']]),
+  pathRule(`path-${tool}-borrowed-profile`, tool, '/profile/path', 'write',
+    {'/profile/kind':{exact:'borrowed'}}),
   // Launch context options sit directly under /context, not under /options.
   ...arrayRules(`path-${tool}-context`, tool, '/context', {...certificates, array:'/clientCertificates'}),
 ];
@@ -96,31 +108,38 @@ export function hostPathMcpRules() {
     ...['project_init','project_init_preview'].flatMap(tool =>
       arrayRules(`path-${tool}`, tool, '', {array:'/projects', items:['/path'], checked:8})),
     ...toolRules('build_start', [['/root','write'], ['/project','write'], ['/config','read'],
-      ['/inline/artifact/path','read'], ['/inline/xcode/project','read']]),
+      ['/inline/artifact/path','read'], ['/inline/artifact/glob','read'],
+      ['/inline/xcode/project','read'], ['/inline/xcode/workspace','read']]),
   ];
 }
 
 // JSON keys whose string values name host files. CLI JSON arguments are opaque
 // to Shield, so a path in them cannot be checked and asks; so does any \u
 // escape, which could spell one of these keys.
+const pathOperations = [...new Set(browserFields.flatMap(([pointer,,operations]) =>
+  pointer.endsWith('/path') ? operations : []))];
+const pathOwner = `(?:"(?:operation|action)"\\s*:\\s*"(?:${pathOperations.join('|')})"|"kind"\\s*:\\s*"(?:import|native_trace|file_path)"|"(?:artifact|recordHar)"\\s*:\\s*\\{)`;
+const namedPath = '"path"\\s*:\\s*"';
 export const jsonHostPathPatterns = [
-  {regex:'(?s).*"(path|filePath|resourcesDir|storageState|certPath|keyPath|pfxPath|reportDirectory|endpointFile|configFile|toolPath|project)"\\s*:\\s*".*'},
+  {regex:'(?s).*"(filePath|resourcesDir|storageState|certPath|keyPath|pfxPath|reportDirectory|endpointFile|configFile|toolPath|project)"\\s*:\\s*".*'},
+  {regex:`(?s).*(?:${pathOwner}.*${namedPath}|${namedPath}.*${pathOwner}).*`},
+  {regex:'(?s).*(?:"artifact"\\s*:\\s*\\{.*"glob"\\s*:\\s*"|"xcode"\\s*:\\s*\\{.*"workspace"\\s*:\\s*").*'},
   {regex:'(?s).*"sourceFiles"\\s*:\\s*\\[\\s*".*'},
   {regex:'(?s).*\\\\u.*'},
 ];
 
 const leading = {flags:['--json'], values:['--target'], interleaved:true};
-function cliRule(executable, id, prefix, {flags = [], values = [], options = {}, operands, leadingValues = [], require_any, forbid}) {
+function cliRule(executable, id, prefix, {flags = [], values = [], options = {}, operands, leadingValues = [], require_any, forbid, unmetMessage}) {
   const grammar = {kind:'options', prefix, leading:{...leading, values:[...leading.values, ...leadingValues]},
     flags:['--json', ...flags], values:['--target', ...values], operands:true, unknown_options:'skip'};
-  const access = Object.values(options)[0] ?? operands;
+  const access = Object.values(options).includes('write') ? 'write' : Object.values(options)[0] ?? operands;
   const selected = {...(Object.keys(options).length ? {options:Object.fromEntries(Object.entries(options)
     .map(([option, root]) => [option, {path:{within:{root}}}]))} : {}),
     ...(operands ? {operands:{path:{within:{root:operands}}}} : {})};
   return {id, conditions:{domain:'argv', executable:structuredClone(executable),
     arguments:{...structuredClone(grammar), ...(require_any ? {require_any} : {}), ...(forbid ? {forbid} : {})}},
   decision:allow, requirements:{argument_paths:{grammar, ...selected}},
-  on_unmet:{decision:'ask', message:message[Object.values(options).includes('write') ? 'write' : access]},
+  on_unmet:{decision:'ask', message:unmetMessage ?? message[access]},
   reason:'Testrun reads or writes the host files these arguments name; keep them inside the approved roots.'};
 }
 const read = 'read', write = 'write';
@@ -131,10 +150,13 @@ const configurationFlags = ['--local','--all','--install','--launch','--replace'
 
 export function hostPathCliRules(executable) {
   const shared = {flags:configurationFlags, values:configurationValues};
-  const mediaOptions = {'--microphone-fixture':read,'--camera-fixture':read};
+  const browserPaths = {'--microphone-fixture':read,'--camera-fixture':read,
+    '--borrowed-profile':write,'--attachment-credential':read,'--attachment-ca':read};
   const browserConnect = {
-    values:['--engine','--mode','--context','--proxy',...Object.keys(mediaOptions)],
-    options:mediaOptions,
+    flags:['--disposable-profile'],
+    values:['--engine','--mode','--context','--proxy','--channel','--profile','--attach','--adopt-context',...Object.keys(browserPaths)],
+    options:browserPaths,
+    unmetMessage:'Name host inputs inside approved read roots and borrowed profiles inside approved write roots.',
   };
   return [
     {id:'cli-json-host-path', conditions:{domain:'argv', executable:structuredClone(executable),
@@ -146,7 +168,7 @@ export function hostPathCliRules(executable) {
       {values:['--mime-type','--provenance','--cleared-by','--clearance-method'], operands:read}),
     cliRule(executable, 'cli-connect-media-fixtures', ['connect'], browserConnect),
     cliRule(executable, 'cli-browser-connect-media-fixtures', ['browser','connect'],
-      {...browserConnect, flags:['--downloads','--touch']}),
+      {...browserConnect, flags:[...browserConnect.flags,'--downloads','--touch']}),
     cliRule(executable, 'cli-diagnostics-export-path', ['diagnostics','export'],
       {values:['--path','--filters','--cursor','--limit'], options:{'--path':write}}),
     cliRule(executable, 'cli-config-paths', ['config'],
@@ -164,5 +186,5 @@ export function hostPathCliRules(executable) {
   ];
 }
 
-export const hostPathCapabilities = ['access-paths-v1','argument-paths-v1','field-negation-v1','field-paths-v1',
+export const hostPathCapabilities = ['access-paths-v1','argument-paths-v1','field-negation-v1','field-paths-v1','field-path-arrays-v1',
   'interleaved-leading-v1','location-v1','regex-v1','requirements-v1','unknown-options-v1'];

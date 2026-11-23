@@ -75,11 +75,12 @@ function withoutOption(rule,option) {
   return copy;
 }
 
-test('Gate current policy files inside the project keep ordinary MCP decisions', {skip:!process.env.SHIELD_BINARY}, () => {
+test('Gate MCP confirms changes within approved project and worktree paths', {skip:!process.env.SHIELD_BINARY}, () => {
   const dir=mkdtempSync(join(tmpdir(),'gate-current-config-'));
   try {
     // test-pack evaluates with its working directory as the project root.
     const inside=join(process.cwd(),'acme.yml'),protectedFile=join(process.cwd(),'.ssh','gate.yml');
+    const project=process.cwd(),path=join(project,'.gate','worktrees','feature');
     const binding={gate:{transport:{type:'stdio',command:'gate',args:['mcp','serve'],env:{}},agents:{codex:'gate'},packs:{'canonic/gate':'gate'}}};
     const rows=[];
     for (const [index,profile] of ['loose','recommended','strict'].entries()) {
@@ -87,7 +88,17 @@ test('Gate current policy files inside the project keep ordinary MCP decisions',
         ['status','status',{config:inside},['allow','allow','allow']],
         ['stage','add',{repo:'acme',paths:['packages/acme'],config:inside},['allow','allow','allow']],
         ['discard-preview','discard',{repo:'acme',all:true,dry_run:true,config:inside},['allow','allow','allow']],
-        ['discard','discard',{repo:'acme',all:true,config:inside},['ask','ask','deny']],
+        ['discard','discard',{repo:'acme',all:true,config:inside},['allow','allow','deny']],
+        ['discard-explicit-project','discard',{repo:'acme',all:true,project:process.cwd()},['allow','allow','deny']],
+        ['discard-legacy-preview-explicit-project','discard',{repo:'acme',all:true,dry_run:true,project:process.cwd()},['allow','allow','allow']],
+        ['discard-protected-project','discard',{repo:'acme',all:true,project:join(process.cwd(),'.ssh')},['ask','ask','deny']],
+        ['rename-project','rename',{repo:'acme',new_id:'private',project},['allow','allow','ask']],
+        ['rename-legacy-project-preview','rename',{repo:'acme',new_id:'private',project,dry_run:true},['ask','ask','ask']],
+        ['remote-set-url-project','remote_set_url',{repo:'acme',name:'origin',url:'https://example.com/acme.git',project},['allow','allow','deny']],
+        ['remove-dirty-project','worktree_remove',{project,path,discard_changes:true},['allow','allow','deny']],
+        ['remove-dirty-project-outside-path','worktree_remove',{project,path:'/outside/feature',discard_changes:true},['ask','ask','deny']],
+        ['remove-branch-project','worktree_remove',{project,path,remove_branch:true},['ask','ask','ask']],
+        ['remove-preview-project','worktree_remove_preview',{project,path},['allow','allow','allow']],
         ['protected','status',{config:protectedFile},['allow','allow','allow']],
       ]) rows.push({name:`${label}-${profile}`,profile,mcp:binding,
         input:{kind:'mcp',server:'gate',tool,arguments:arguments_,original_input:{}},expected:expected[index]});

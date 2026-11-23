@@ -44,11 +44,10 @@ node scripts/build-github-graphql-pack.mjs
 node scripts/build-github-graphql-cases.mjs
 ```
 
-These generate GitHub 0.9.0: the root-only query boundary and scoped REST reads,
-with a `repository` setting that lists several OWNER/REPO values. It requires
-`graphql-subtree-v1` and `variable-list-branches-v1`; use a compatible Shield
-development binary for validation. Published 0.8.1 and earlier artifacts remain immutable. A version argument
-reproduces the corresponding historical builder instead.
+These generate GitHub 0.10.0 with public repository search permissions. The pack
+requires `graphql-subtree-v1` and `variable-list-branches-v1`. Use a compatible
+Shield binary for validation. A version argument reproduces the corresponding
+published version.
 
 Expected decisions are independent of policy constructors. Do not copy evaluator
 output into fixtures. Compare the tool's actual CLI/MCP interfaces, side effects,

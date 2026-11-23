@@ -2,7 +2,7 @@ import {writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {usableGithubCases} from './build-github-usable-cases.mjs';
-import {destination, currentDestination, nextDestination, destination070, destination071, destination080, destination081, destination090} from './build-github-graphql-pack.mjs';
+import {destination, currentDestination, nextDestination, destination070, destination071, destination080, destination081, destination090, destination0100} from './build-github-graphql-pack.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 
 export const reviewQuery = `query { repository(owner:"acme", name:"web") { pullRequest(number:12) {
@@ -467,10 +467,50 @@ export function githubCases090() {
   ]) cases.push({name: `scoped-${name}-${profile}`, profile, variables: {repository: ['acme/web']}, ...request, expected: expected[profile]});
   return cases;
 }
+export function githubCases0100() {
+  const cases = githubCases090();
+  const searches = [
+    ['public-flag', ['--visibility=public'], 'allow'],
+    ['public-separated-flag', ['release notes', '--visibility', 'public', '-L10'], 'allow'],
+    ['public-ordinary-phrase', ['search and filter', '--visibility=public'], 'allow'],
+    ['public-query-options', ['topic:example', 'language:TypeScript', '--visibility=public',
+      '--sort', 'stars', '--order', 'desc', '--limit', '30', '--json', 'fullName,description,url'], 'allow'],
+    ['public-combined-query', ['topic:example language:TypeScript archived:false',
+      '--visibility=public', '--archived=false', '--topic', 'docs,tools', '--json', 'fullName', '-q.fullName'], 'allow'],
+    ['public-repeated', ['--visibility', 'public', '--visibility=public', '--', '-topic:legacy'], 'allow'],
+    ['all-results', ['topic:example'], 'ask'],
+    ['private-results', ['--visibility=private', 'docs'], 'ask'],
+    ['internal-results', ['--visibility=internal', 'docs'], 'ask'],
+    ['mixed-visibility-list', ['--visibility=public,private', 'docs'], 'ask'],
+    ['mixed-repeated-visibility', ['--visibility=public', '--visibility', 'private', 'docs'], 'ask'],
+    ['raw-visibility-qualifier', ['--visibility=public', 'is:private'], 'ask'],
+    ['embedded-visibility-qualifier', ['--visibility=public', 'docs OR IS:internal'], 'ask'],
+    ['negated-public-qualifier', ['--visibility=public', '-is:public'], 'ask'],
+    ['visibility-in-filter', ['--visibility=public', '--topic', 'docs is:private'], 'ask'],
+    ['flag-after-separator', ['--', '--visibility=public', 'docs'], 'ask'],
+    ['flag-as-output-value', ['--json', '--visibility=public', 'docs'], 'ask'],
+    ['missing-visibility-value', ['docs', '--visibility'], 'ask'],
+    ['unknown-option', ['--visibility=public', '--unknown', 'docs'], 'ask'],
+    ['expression-reading-environment', ['--visibility=public', '--json', 'name', '-qenv'], 'ask'],
+  ];
+  for (const profile of ['loose', 'recommended', 'strict']) {
+    for (const variables of [undefined, {repository: forkRepositories}]) {
+      const scope = variables ? 'scoped' : 'unscoped';
+      const binding = variables ? {variables} : {};
+      for (const [name, args, expected] of searches)
+        cases.push({name: `${scope}-repository-search-${name}-${profile}`, profile, ...binding,
+          argv: ['gh', 'search', 'repos', ...args], expected});
+      cases.push({name: `${scope}-code-search-${profile}`, profile, ...binding,
+        argv: ['gh', 'search', 'code', 'release'], expected: variables ? 'deny' : 'ask'});
+    }
+  }
+  return cases;
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   // Default: the current candidate. A version argument reproduces a published release.
-  const releases = {'0.4.0': [destination, graphqlGithubCases], '0.5.0': [currentDestination, currentGithubCases], '0.6.0': [nextDestination, nextGithubCases], '0.7.0': [destination070, githubCases070], '0.7.1':[destination071,githubCases071], '0.8.0':[destination080,githubCases080], '0.8.1':[destination081,githubCases081]};
-  const [output, build] = releases[process.argv[2]] ?? [destination090, githubCases090];
+  const releases = {'0.4.0': [destination, graphqlGithubCases], '0.5.0': [currentDestination, currentGithubCases], '0.6.0': [nextDestination, nextGithubCases], '0.7.0': [destination070, githubCases070], '0.7.1':[destination071,githubCases071], '0.8.0':[destination080,githubCases080], '0.8.1':[destination081,githubCases081], '0.9.0':[destination090,githubCases090]};
+  const [output, build] = releases[process.argv[2]] ?? [destination0100, githubCases0100];
   // Larger releases continue in cases-2.json, ... at Shield's per-file limit.
   for (const [name, document] of splitCaseFiles({schema_version:1,cases:build()}))
     await writeFile(new URL(name,output),JSON.stringify(document,null,2)+'\n');

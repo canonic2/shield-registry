@@ -8,6 +8,7 @@ const routine = ['allow','allow','ask'];
 const change = ['allow','ask','ask'];
 const review = ['ask','ask','ask'];
 const destroy = ['ask','ask','deny'];
+const confirmedChange = ['allow','allow','deny'];
 
 export async function currentToolCases(name) {
   const previous = new URL(`../packs/canonic/${name}/0.2.1/cases.json`,import.meta.url);
@@ -83,8 +84,8 @@ export async function currentToolCases(name) {
       ['remote_remove',{repo:'acme',name:'origin'}],
     ]) {
       mcp.push(
-        [tool,tool,args,destroy],
-        [`${tool}-invalid`,tool,{repo:42,name:null,dry_run:true},destroy],
+        [tool,tool,args,confirmedChange],
+        [`${tool}-invalid`,tool,{repo:42,name:null,dry_run:true},confirmedChange],
         [`${tool}-outside`,tool,{...args,project:'/outside/other'},destroy],
         [`${tool}-preview`,`${tool}_preview`,args,allow],
         [`${tool}-preview-invalid`,`${tool}_preview`,{name:42,confirm:'untrusted'},allow],
@@ -96,7 +97,7 @@ export async function currentToolCases(name) {
     const localSetUrl = ['gate','remote','set-url','-r','acme','origin',localUrl];
     const localRemote = {repo:'acme',name:'origin',url:localUrl};
     mcp.push(
-      ['remote-set-url-local','remote_set_url',localRemote,destroy],
+      ['remote-set-url-local','remote_set_url',localRemote,confirmedChange],
       ['remote-set-url-local-preview','remote_set_url_preview',localRemote,allow],
     );
     cli.push(
@@ -206,13 +207,26 @@ export async function currentToolCases(name) {
       ['push-destination-lease','push',{repo:'acme',remote:'origin',branch:'review',destination_branch:'main',force_with_lease:'0123456789abcdef0123456789abcdef01234567'},['allow','allow','deny']],
       ['push-destination-lease-outside','push',{repo:'acme',remote:'origin',branch:'review',destination_branch:'main',force_with_lease:'0123456789abcdef0123456789abcdef01234567',project:'/outside/other'},destroy],
       ['remote-add','remote_add',{repo:'acme',name:'origin',url:'https://example.com/acme.git'},change],
-      ['rename','rename',{repo:'acme',new_id:'private'},change],
+      ['rename','rename',{repo:'acme',new_id:'private'},routine],
       ['rename-project-outside','rename',{repo:'acme',new_id:'private',project:'/outside/other'},review],
-      ['discard','discard',{repo:'acme',all:true},destroy],
-      ['discard-untracked','discard',{repo:'acme',all:true,untracked:true},destroy],
+      ['discard','discard',{repo:'acme',all:true},confirmedChange],
+      ['discard-paths','discard',{repo:'acme',paths:['src/main.rs']},confirmedChange],
+      ['discard-untracked','discard',{repo:'acme',all:true,untracked:true},confirmedChange],
+      ['discard-resume','discard',{resume:'acme'},confirmedChange],
+      ['discard-abandon','discard',{resume:'acme',abandon:true},confirmedChange],
+      ['discard-outside','discard',{repo:'acme',all:true,project:'/outside/other'},destroy],
+      ['discard-invalid-project','discard',{repo:'acme',all:true,project:42},destroy],
+      ['discard-invalid-selection','discard',{repo:'acme',all:true,paths:['src']},confirmedChange],
       ['discard-preview','discard',{repo:'acme',all:true,untracked:true,dry_run:true},allow],
       ['discard-preview-outside','discard',{repo:'acme',all:true,dry_run:true,project:'/outside/other'},destroy],
-      ['worktree-discard','worktree_remove',{path:'.gate/worktrees/feature',discard_changes:true},destroy],
+      ['worktree-discard','worktree_remove',{path:'.gate/worktrees/feature',discard_changes:true},confirmedChange],
+      ['worktree-discard-outside','worktree_remove',{path:'/outside/feature',discard_changes:true},destroy],
+      ['worktree-discard-protected','worktree_remove',{path:'.git/worktrees/feature',discard_changes:true},destroy],
+      ['worktree-discard-branch','worktree_remove',{path:'.gate/worktrees/feature',discard_changes:true,remove_branch:true},destroy],
+      ['worktree-remove-branch','worktree_remove',{path:'.gate/worktrees/feature',remove_branch:true},review],
+      ['worktree-remove-preview-branch','worktree_remove_preview',{path:'.gate/worktrees/feature',remove_branch:true},review],
+      ['worktree-remove-preview-outside-destination','worktree_remove_preview',{path:'/outside/feature'},review],
+      ['worktree-remove-preview-protected-destination','worktree_remove_preview',{path:'.git/worktrees/feature'},review],
       ['worktree-add','worktree_add',{path:'.gate/worktrees/feature',branch:'feature'},allow],
       ['worktree-add-name','worktree_add',{path:'.gate/worktrees/fix.1',branch:'feature',name:'fix.1'},allow],
       ['worktree-add-escape','worktree_add',{path:'.gate/worktrees/../../../feature',branch:'feature'},review],
@@ -234,7 +248,7 @@ export async function currentToolCases(name) {
       ['config-outside-sync','sync',{config:'/outside/gate.yml'},allow],
       ['unknown-project-outside','future_tool',{project:'/outside/other'},review],
       ['unknown-project-relative','future_tool',{project:'acme'},review],
-      ['config-outside-discard','discard',{repo:'acme',all:true,config:'/outside/gate.yml'},destroy],
+      ['config-outside-discard','discard',{repo:'acme',all:true,config:'/outside/gate.yml'},confirmedChange],
       ['config-outside-discard-preview','discard',{repo:'acme',all:true,dry_run:true,config:'/outside/gate.yml'},allow],
       ['config-outside-retained','worktree_repair',{path:'.gate/worktrees/feature',config:'/outside/gate.yml'},allow],
       ['config-null','status',{config:null},allow],

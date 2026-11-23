@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "registry_id": "canonic-shield-main",
-  "sequence": 62,
+  "sequence": 63,
   "expires_at": "2027-02-03T00:00:00Z",
   "packs": [
     {
@@ -30,9 +30,9 @@
     },
     {
       "id": "canonic/gate",
-      "version": "0.2.8",
-      "path": "packs/canonic/gate/0.2.8/pack.yml",
-      "sha256": "572ee3333b234caa7eb6b855ae4441fb9fd89a2a218947ddfb38a8821fa1130e"
+      "version": "0.2.9",
+      "path": "packs/canonic/gate/0.2.9/pack.yml",
+      "sha256": "35ca009d0fb3f45e0402a26d0df207b664345f9f6efaf6259a82ecaab34137e3"
     },
     {
       "id": "canonic/git",
@@ -42,15 +42,15 @@
     },
     {
       "id": "canonic/github",
-      "version": "0.9.0",
-      "path": "packs/canonic/github/0.9.0/pack.yml",
-      "sha256": "5ebcb7bd6eb4bf2c2cde04ee87f7752d229ef534584f169d5b1e75dfd4041339"
+      "version": "0.10.0",
+      "path": "packs/canonic/github/0.10.0/pack.yml",
+      "sha256": "926314295fbf0301524cecfcab6b078c3d1788c8cd53549538fd25022db4c935"
     },
     {
       "id": "canonic/hub",
-      "version": "0.1.7",
-      "path": "packs/canonic/hub/0.1.7/pack.yml",
-      "sha256": "b80cbb3a8a76ff6886a332eae7deeb8aeb9608ba8c02be3a837eafa8ca0b5667"
+      "version": "0.1.8",
+      "path": "packs/canonic/hub/0.1.8/pack.yml",
+      "sha256": "df41558c4e605e51de8c735d742c08f771d04a50643ff57aff11e810ef6781df"
     },
     {
       "id": "canonic/node",
@@ -66,9 +66,9 @@
     },
     {
       "id": "canonic/testrun",
-      "version": "0.2.12",
-      "path": "packs/canonic/testrun/0.2.12/pack.yml",
-      "sha256": "6da72ff70b8aab3a3ed378bd200bc31cb29aa3f9ce0dc26eb9f9727ed63e82d7"
+      "version": "0.2.13",
+      "path": "packs/canonic/testrun/0.2.13/pack.yml",
+      "sha256": "e2c4cfd10255ba98371518960e8df279d055cf69f6d8171c5218015d6f2c4186"
     },
     {
       "id": "canonic/workbench",
@@ -154,10 +154,10 @@
       "last": "0.1.0"
     },
     "canonic/gate": {
-      "path": "metadata/46dc549c755323274e9f0a27e4da68a332c7df5fabf3d5d2f61551e45aa1cf4f.json",
-      "sha256": "46dc549c755323274e9f0a27e4da68a332c7df5fabf3d5d2f61551e45aa1cf4f",
+      "path": "metadata/c1c71d75f25c4838df9ece11108c0e5f05b0c73a14de2cfbac1d8970292951da.json",
+      "sha256": "c1c71d75f25c4838df9ece11108c0e5f05b0c73a14de2cfbac1d8970292951da",
       "first": "0.1.0",
-      "last": "0.2.8"
+      "last": "0.2.9"
     },
     "canonic/git": {
       "path": "metadata/07d786811deb91450378d1d7936d17c142bc0ec96a8e2546bf40fb5d5e2fb836.json",
@@ -166,16 +166,16 @@
       "last": "0.12.1"
     },
     "canonic/github": {
-      "path": "metadata/cf61b13182d5a6c73cb6f3e14a623b2f6dc7af9a44add71c5c4f38076d141fb8.json",
-      "sha256": "cf61b13182d5a6c73cb6f3e14a623b2f6dc7af9a44add71c5c4f38076d141fb8",
+      "path": "metadata/fe5e4cffdbe6fdc50ad62b5e7b3499ae8d087c8f890dd79d7383599806c94bb4.json",
+      "sha256": "fe5e4cffdbe6fdc50ad62b5e7b3499ae8d087c8f890dd79d7383599806c94bb4",
       "first": "0.1.0",
-      "last": "0.9.0"
+      "last": "0.10.0"
     },
     "canonic/hub": {
-      "path": "metadata/d0bb29c21664d03d113f8b2fd88d27d810383fe94e5a671bed9a05b73903864c.json",
-      "sha256": "d0bb29c21664d03d113f8b2fd88d27d810383fe94e5a671bed9a05b73903864c",
+      "path": "metadata/9c758f62f0bb0d186ce93e441b0689d32bd1bf6e198484dd00799c8efd06ddbf.json",
+      "sha256": "9c758f62f0bb0d186ce93e441b0689d32bd1bf6e198484dd00799c8efd06ddbf",
       "first": "0.1.0",
-      "last": "0.1.7"
+      "last": "0.1.8"
     },
     "canonic/node": {
       "path": "metadata/0432b522a1368a13a20a3c1610bd91bde1a4308b257a50e704e1fc53c6e318b1.json",
@@ -190,10 +190,10 @@
       "last": "0.2.0"
     },
     "canonic/testrun": {
-      "path": "metadata/ced81dcf13ed02493935e4f4f529c09ca6d9d3a33a5c0b7561621f1382798975.json",
-      "sha256": "ced81dcf13ed02493935e4f4f529c09ca6d9d3a33a5c0b7561621f1382798975",
+      "path": "metadata/ad9e3be21d7542813a8ee78d4be5d32f18251c8d83b66e19532dc13c5f26aa01.json",
+      "sha256": "ad9e3be21d7542813a8ee78d4be5d32f18251c8d83b66e19532dc13c5f26aa01",
       "first": "0.1.0",
-      "last": "0.2.12"
+      "last": "0.2.13"
     },
     "canonic/workbench": {
       "path": "metadata/7f2f4f121b1d2bbfc452f7c9a64de1607ee0afa16882a6e1d8f26858feb2a9b6.json",

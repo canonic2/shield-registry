@@ -416,6 +416,54 @@ export function githubPack090() {
     rule.reason = 'With the repository setting, a listed GraphQL mutation names its target by node ID, which cannot be verified as inside one of {{repository}}. Confirm the target before approving.';
   return pack;
 }
+export const destination0100 = new URL('../packs/canonic/github/0.10.0/', import.meta.url);
+
+// gh appends the visibility flag's is:public to the keywords. The search
+// service can OR repeated is: qualifiers, so the flag alone is insufficient.
+const publicSearchTerm = {not: {regex: '(?s:.*(?:(?i:\\b(?:is|visibility)\\s*[:：])|["()\\\\\\p{Cc}\\p{Cf}]).*)|(?:.*\\s)?(?:OR|AND|NOT)(?:\\s.*)?'}};
+const repositorySearch = ['search', 'repos'];
+const publicRepositorySearch = {
+  kind: 'options', prefix: repositorySearch, flags: ['--help', '--web', '-w'],
+  optional_values: ['--archived'],
+  values: [
+    {name: '--visibility', match: 'public'},
+    ...['--created', '--followers', '--forks', '--good-first-issues', '--help-wanted-issues',
+      '--include-forks', '--language', '--license', '--match', '--number-topics', '--owner',
+      '--size', '--stars', '--topic', '--updated'].map(name => ({name, match: publicSearchTerm})),
+    '--json', '--limit', '-L', '--order', '--sort',
+    ...['--jq', '-q', '--template', '-t'].map(name => ({name, match: quietExpression})),
+  ],
+  operands: {match: publicSearchTerm}, require_all: ['--visibility'],
+  short_attached: true, short_clusters: true,
+};
+
+export function githubPack0100() {
+  const pack = githubPack090();
+  pack.version = '0.10.0';
+  pack.description += ' Public repository searches allow; other repository searches require review.';
+  pack.variables.repository.description = pack.variables.repository.description.replace(
+    'Requests must name one listed repository.',
+    'Repository-scoped requests must name one listed repository. Public repository searches allow and other repository searches require review.');
+  const scope = pack.preconditions.find(gate => gate.id === 'cli-scope');
+  const {executable} = scope.conditions;
+  const api = scope.requires_any.findIndex(({arguments: args}) =>
+    args?.kind === 'prefix' && sameWords(args.values, ['api']));
+  scope.requires_any[api] = {arguments: {kind: 'prefix', values: [{one_of: ['api', 'search']}]}};
+  const prefix = values => ({domain: 'argv', executable, arguments: {kind: 'prefix', values}});
+  pack.preconditions.push(
+    {id: 'cli-search-scope', when: scope.when, conditions: prefix(['search']),
+      requires_any: [{arguments: {kind: 'prefix', values: repositorySearch}}],
+      on_unmet: {decision: 'deny', message: 'With the repository setting, only gh search repos is supported for global search.'}},
+    {id: 'cli-public-repository-search', conditions: prefix(repositorySearch),
+      requires_any: [{arguments: publicRepositorySearch}],
+      on_unmet: {decision: 'ask', message: 'Review repository searches whose public-only scope or options cannot be verified. For public discovery, use gh search repos --visibility=public with ordinary search terms and avoid adding visibility qualifiers to the query.'}},
+  );
+  const index = pack.rules.findIndex(rule => rule.id === 'cli-unlisted');
+  pack.rules.splice(index, 0, {id: 'repository-search-public', conditions: prefix(repositorySearch),
+    decision: 'allow', reason: 'Search public repositories with reviewed query and output arguments.'});
+  return pack;
+}
+
 const writePack = async (pack, output) => {
   await mkdir(output, {recursive: true});
   await writeFile(new URL('pack.yml', output), JSON.stringify(pack, null, 2) + '\n');
@@ -430,7 +478,8 @@ export const buildGithubPack071 = () => writePack(githubPack071(), destination07
 export const buildGithubPack080 = () => writePack(githubPack080(), destination080);
 export const buildGithubPack081 = () => writePack(githubPack081(), destination081);
 export const buildGithubPack090 = () => writePack(githubPack090(), destination090);
+export const buildGithubPack0100 = () => writePack(githubPack0100(), destination0100);
 // Default: the current candidate. A version argument reproduces a published release.
-const builds = {'0.4.0': buildGraphqlGithubPack, '0.5.0': buildCurrentGithubPack, '0.6.0': buildNextGithubPack, '0.7.0': buildGithubPack070, '0.7.1': buildGithubPack071, '0.8.0': buildGithubPack080, '0.8.1': buildGithubPack081};
+const builds = {'0.4.0': buildGraphqlGithubPack, '0.5.0': buildCurrentGithubPack, '0.6.0': buildNextGithubPack, '0.7.0': buildGithubPack070, '0.7.1': buildGithubPack071, '0.8.0': buildGithubPack080, '0.8.1': buildGithubPack081, '0.9.0': buildGithubPack090};
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href)
-  await (builds[process.argv[2]] ?? buildGithubPack090)();
+  await (builds[process.argv[2]] ?? buildGithubPack0100)();

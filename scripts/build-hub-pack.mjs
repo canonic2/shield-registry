@@ -10,10 +10,11 @@ export const directory = new URL(`../packs/canonic/hub/${version}/`, import.meta
 export function guide() {
   return `# Hub permissions ${version}
 
-Reviewed against Hub 0.50.1 and the 99 MCP tools listed by
+Reviewed against Hub 0.52.0 and the 101 MCP tools listed by
 \`hub mcp serve --check\`. The \`canonic/box\` pack covers the \`box\` executable.
 
-Requires Shield \`${engine}\`, including \`argument-paths-v1\`.
+Requires Shield \`${engine}\` with \`argument-paths-v1\`, \`field-paths-v1\`
+and \`preconditions-v1\`.
 
 Task summaries use the inspection decision. They read committed task content
 and can ask the existing local manager for live runtime state.
@@ -23,6 +24,14 @@ same-user loopback passthrough. The optional \`--port\` must match the user's
 Hub configuration and keeps the routine decision. The workspace MCP stdio
 launcher uses the arbitrary-program decision because its launch data supplies
 an executable.
+
+On macOS, starting a supported local CLI agent in a managed terminal retains
+the agent-start execution decision, including launches with a prompt for the
+operator to enter. Reading bounded output owned by the calling MCP connection is
+inspection, allowed in all profiles. The CLI attachment asks from any working
+directory because it takes keyboard control, including native login and
+approval prompts. The same decision covers \`--resume-capture\`, which makes
+future output visible to the originating MCP connection after a private attachment.
 
 Hub Proxy reads can list projects, gateway state and redacted deliveries from
 \`https://app.canonic.sh\` through CLI or MCP. Selecting a different controller
@@ -42,6 +51,13 @@ engine and exact container ownership; restart accepts no arbitrary command.
 Compose pause/resume have the same routine decision and can affect a shared
 generation's other owners. Live member logs and bounded container stats are
 inspection, allowed in all profiles; selectors cannot select arbitrary containers.
+Checked Compose stop keeps the routine stop decision. \`doctor --execution\`
+and MCP \`doctor\` with \`execution\` also use the routine decision because the
+incoming recipe supplies the executable lookup for Docker probes. Plain
+\`doctor\` keeps its inspection decision. An explicit configuration file for
+either replacement check must be inside approved read roots and outside
+protected paths. For MCP, use an absolute configuration path so Shield can
+verify the file selected for the workspace.
 Container \`process exec\` uses \`execution\`, \`target\` and \`service\`, with
 literal inner argv visible in the request. It retains arbitrary execution's
 Allow/Ask/Ask decisions; this pack does not evaluate that inner program through
@@ -76,8 +92,11 @@ Plugin inspection reports provider capabilities without reading credentials.
 | --- | --- | --- | --- |
 | Inspection: status, workspaces, the task, agents, processes, operations, manager blockers, plugin bindings, logs, URLs, configuration, plugin state, documentation | Allow | Allow | Allow |
 | Separately named read-only \`*_preview\` tools, which cannot apply or execute effects | Allow | Allow | Allow |
-| Everything else Hub covers: task edits, workspaces, configured \`process run\`, process stop, setup, plugins, manager, agent stop, MCP logins and apps | Allow | Allow | Ask |
-| Arbitrary programs and other agents: \`process exec\`, \`shell\`, retained \`process shell\`, \`workspace create --shell\`, plugin workflows and launch, \`agent start\` and \`agent message\` | Allow | Ask | Ask |
+| Routine operations: task edits, workspaces, configured \`process run\`, process stop, execution-specific \`doctor\`, setup, plugins, manager, agent stop, MCP logins and apps | Allow | Allow | Ask |
+| A replacement recipe outside approved read roots, in a protected location, or given as a relative MCP configuration path | Ask | Ask | Ask |
+| Arbitrary programs and other agents: \`process exec\`, \`shell\`, retained \`process shell\`, \`workspace create --shell\`, CLI plugin workflows and launch, \`agent start\` and \`agent message\` | Allow | Ask | Ask |
+| \`plugin_workflow_run\` and \`plugin_workflow_resume\` through Hub's program and argument confirmation | Allow | Allow | Ask |
+| \`agent attach\` and \`agent attach --resume-capture\` | Ask | Ask | Ask |
 | App creation with an explicit \`--claude-bin\` | Allow | Ask | Ask |
 | \`shell --secrets PROFILE\` and \`config secrets-sync TARGET FILE\` | Ask | Ask | Ask |
 | MCP auth setup with \`--yes\` and without \`--dry-run\` | Ask | Ask | Ask |
@@ -85,15 +104,17 @@ Plugin inspection reports provider capabilities without reading credentials.
 | Hosted proxy access with another controller or private trust root, login changes, connector enrollment and endpoint or route changes | Ask | Ask | Ask |
 | The raw \`hub -- COMMAND\` shortcut and \`workspace create NAME -- COMMAND\` | Ask | Ask | Ask |
 | Unknown MCP tools and unrecognized command lines, including \`hub -w WORKSPACE -- COMMAND\` | Allow | Ask | Ask |
-| Self-confirmed or irreversible deletion: \`--confirm DIGEST\`, \`--discard-changes\`, \`--forget\`, \`data-reset --confirm\`, and \`discard_changes\` or \`forget\` in \`workspace_remove\` | Ask | Ask | Deny |
+| CLI deletion with \`--confirm DIGEST\`, \`--discard-changes\`, \`--forget\` or \`data-reset --confirm\` | Ask | Ask | Deny |
+| \`workspace_remove\` with \`discard_changes\` or \`forget\`, through Hub's inventory confirmation | Allow | Allow | Deny |
 | A named input file in version control, Shield state, credentials or agent settings, or outside the approved roots | Ask | Ask | Ask |
 | A \`task export --output\` file outside the writable roots or in a protected location | Ask | Ask | Ask |
 
-Arbitrary programs, workflows and agent prompts run outside the rules other
-packs apply to commands, so they are reviewed rather than trusted. Removing a
-workspace through MCP or an interactive terminal is confirmed by Hub's user;
-supplying the confirmation digest skips that, and discarding uncommitted files
-or the workspace record cannot be undone.
+The workflow run and resume tools show the program and arguments and require
+the user's acceptance. CLI program execution and agent prompts retain their
+own Shield review. For MCP workspace disposal, Hub shows the selected resources
+and binds the user's confirmation to that inventory, including discarded files
+or forgotten workspace history. Keeping every resource retires the registration
+without disposal. CLI confirmation digests skip Hub's interactive review.
 
 Input files are \`--goal-file\`, \`--description-file\`, \`--prompt-file\` and
 \`task import --file\`. Hub reads them into its task or a prompt; the checked
@@ -143,22 +164,24 @@ hooks. Use a plain shell for sessions that require no secret profile.
 \`process list\`, \`operation list\`, \`manager blocker list\` and
 \`plugin binding list\` (and their MCP names \`process_list\`, \`operation_list\`,
 \`manager_blocker_list\` and \`plugin_binding_list\`) inspect retained state
-without starting work. They are allowed in all profiles. Current collections,
-logs and bundled documentation use opaque \`cursor\` and \`limit\` arguments;
-Hub validates their types, bounds and selection. Missing required fields and
-malformed requests retain the operation's decision and are refused by Hub.
+without starting work. They are allowed in all profiles. Saved logs accept
+\`tail\`, and waiting \`operation_show\` remains inspection. A detached
+\`process_run\` with \`wait_ms\` keeps the configured-target decision. Current
+collections, logs and bundled documentation use opaque \`cursor\` and \`limit\`
+arguments. Hub validates their types, bounds and selection.
 Bundled \`docs_*\` tools read embedded pages rather than arbitrary host files.
 Agent Kit publication through setup retains its configuration-change decision;
 neither template arguments nor pagination authorize separate execution.
 
-Retirement ledger, verified 2026-11-15 against checked-out and installed Hub
-0.39.0. This is local-build evidence, not a published feature-release count.
+The retirement ledger records local-build evidence from Hub 0.39.0 and
+0.52.0. Local installations do not count as published feature releases.
 
 | Retained form | Replacement | First verified absence | Release evidence and removal |
 | --- | --- | --- | --- |
 | CLI \`process shell\` | CLI \`shell\` | Local Hub 0.39.0 | No qualifying published or owner-designated shipped release evidence; removal deferred |
 | Documentation \`offset\`, \`start_line\`/\`end_line\` and CLI \`--start-line\` | Opaque \`cursor\` and \`limit\` | Local Hub 0.39.0 | No qualifying release evidence; removal deferred |
 | Applying MCP tools with \`dry_run\` arguments | Separately named \`*_preview\` tools | Local Hub 0.39.0 | No qualifying release evidence; removal deferred |
+| Disposal, retry and wait options on \`workspace_remove_preview\` | Review default cleanup with \`workspace_remove_preview\`; request a selected cleanup with \`workspace_remove\` for exact review and confirmation | Local Hub 0.52.0 | No qualifying release evidence; the older read-only preview remains allowed in all profiles |
 
 Exact permissions and independent fixtures for these forms remain. Remove no
 coverage until three subsequent published tool feature releases establish

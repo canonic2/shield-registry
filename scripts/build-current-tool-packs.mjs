@@ -11,7 +11,7 @@ import {splitCaseFiles} from './fixture-files.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 import {trustedTestrunPack,trustedTestrunGuide} from './testrun-trusted-policy.mjs';
 
-export const currentToolVersions = {box:'0.2.8', gate:'0.2.8', testrun:'0.2.12'};
+export const currentToolVersions = {box:'0.2.8', gate:'0.2.9', testrun:'0.2.13'};
 export const currentDirectory = (name, version = currentToolVersions[name]) =>
   new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -213,19 +213,41 @@ function updateGate(pack) {
   });
   separatePreview(pack,'discard');
   const template = pack.rules.find(rule => rule.id === 'mcp-status-project');
-  for (const name of ['rename','discard']) {
+  const remoteTools = gateRemoteChanges.map(([,tool]) => tool);
+  const confirmedChange = profiles('allow', 'allow', 'deny');
+  for (const [name, decision, outside] of [
+    ['rename', routine, review],
+    ...remoteTools.map(tool => [tool, confirmedChange, destroy]),
+  ]) {
+    const base = pack.rules.find(rule => rule.id === `mcp-${name}`);
+    base.decision = decision;
     const rule = pack.rules.find(rule => rule.id === `mcp-${name}-project`);
+    rule.decision = decision;
     rule.requirements = structuredClone(template.requirements);
     rule.requirements.field_paths['/project'].path.within.root = 'write';
-    rule.on_unmet = {decision:rule.decision, message:'Review explicit project paths outside approved roots.'};
+    rule.on_unmet = {decision:outside, message:'Review explicit project paths outside approved roots.'};
   }
-  // A project-qualified preview allows only when both the path and explicit
-  // dry-run are proved. Other forms retain the destructive profile decision.
-  const projectDiscard = pack.rules.find(rule => rule.id === 'mcp-discard-project');
-  projectDiscard.decision = allow;
-  projectDiscard.requirements.fields = {'/dry_run':{exact:true}};
-  projectDiscard.on_unmet.decision = destroy;
-  mcpRule(pack,'mcp-worktree_remove-discard','worktree_remove',destroy,{'/discard_changes':{exact:true}});
+  const discard = pack.rules.find(rule => rule.id === 'mcp-discard');
+  discard.decision = confirmedChange;
+  discard.reason = 'Gate obtains user confirmation of the exact discard plan before applying it.';
+  pack.rules = pack.rules.filter(rule => rule.id !== 'mcp-discard-project');
+  const discardProject = structuredClone(template.requirements);
+  discardProject.field_paths['/project'].path.within.root = 'write';
+  mcpRule(pack,'mcp-rename-dry-run','rename',change,{'/dry_run':{exact:true}});
+  mcpRule(pack,'mcp-rename-project-dry-run','rename',review,{
+    '/dry_run':{exact:true}, '/project':{not:{exact:null}},
+  });
+  const discardChanges = {'/discard_changes':{exact:true}};
+  const removeBranch = {'/remove_branch':{exact:true}};
+  mcpRule(pack,'mcp-worktree_remove-discard','worktree_remove',confirmedChange,discardChanges);
+  mcpRule(pack,'mcp-worktree_remove-discard-dry-run','worktree_remove',destroy,{
+    ...discardChanges, '/dry_run':{exact:true},
+  });
+  // This pack also matches older Gate binaries. Keep host approval where an
+  // older removal or preview can perform branch cleanup without its own form.
+  mcpRule(pack,'mcp-worktree_remove-branch','worktree_remove',review,removeBranch);
+  mcpRule(pack,'mcp-worktree_remove-discard-and-branch','worktree_remove',destroy,{...discardChanges,...removeBranch});
+  mcpRule(pack,'mcp-worktree_remove_preview-branch','worktree_remove_preview',review,removeBranch);
   const removal = pack.rules.find(rule => rule.id === 'worktree-remove-confirm');
   const risky = structuredClone(removal);
   risky.id = 'worktree-remove-discard';
@@ -246,7 +268,34 @@ function updateGate(pack) {
   // their documented retirement windows have elapsed.
   declarePolicyFile(pack);
   allowEverydayGate(pack);
+  pack.preconditions.push({id:'mcp-discard-project-write',
+    conditions:{domain:'mcp',server:'gate',tool:'discard',fields:{'/project':{not:{exact:null}}}},
+    requires_any:[discardProject],
+    on_unmet:{decision:destroy,message:'Select a project inside approved writable roots.'},
+    reason:'An explicit discard project needs writable scope.'});
+  gateRemovalPathChecks(pack);
   pack.description = 'Gate repository workflows allowed by default inside the project, with explicit remote, data-loss, ownership and policy-acceptance boundaries.';
+}
+
+function gateRemovalPathChecks(pack) {
+  const paths = pack.rules.find(rule => rule.id === 'mcp-worktree_remove-project').requirements.field_paths;
+  for (const [tool, access, fields, decision] of [
+    ['worktree_remove','write',{'/discard_changes':{exact:true}},destroy],
+    ['worktree_remove_preview','read',{'/path':{not:{exact:null}}},review],
+  ]) {
+    const explicit = structuredClone(paths);
+    explicit['/project'].path.within.root = access;
+    explicit['/path'].path.within.root = access;
+    const implicit = {...explicit['/path']};
+    delete implicit.absolute;
+    const gate = {id:`mcp-${tool}-destination`, reason:'Review worktree destinations outside approved roots.',
+      conditions:{domain:'mcp',server:'gate',tool,fields},
+      requires_any:[{field_paths:{'/path':implicit}}],
+      on_unmet:{decision,message:'Select a worktree inside approved roots.'}};
+    pack.preconditions.push(gate, {...gate, id:`${gate.id}-explicit-project`,
+      conditions:{...gate.conditions, fields:{...fields,'/project':{not:{exact:null}}}},
+      requires_any:[{field_paths:explicit}]});
+  }
 }
 
 // Gate's global `--config PATH` (MCP `config`) names the policy file Gate reads
@@ -275,7 +324,7 @@ function declarePolicyFile(pack) {
 // - Loose allows `commit --amend`, and Recommended allows removing a clean
 //   worktree with `--confirm`, as its MCP tool already does.
 //
-// Discard, forced branch deletion, force-push, session deletion, discarding
+// CLI discard, forced branch deletion, force-push, session deletion, discarding
 // worktree removal, staging ignored files, remote binding, policy acceptance
 // and migration keep their decisions. Strict still asks for anything unlisted.
 // Path checks skip undeclared options. `--force` is declared because the
@@ -639,12 +688,12 @@ export async function buildCurrentToolPacks(names = Object.keys(currentToolVersi
 
 Requires Shield \`>=0.20.0, <1.0.0\`.
 
-The separately named read-only \`*_preview\` tools are Allow in Loose,
-Recommended and Strict. They cannot apply changes or execute workflows, and
-reject a caller-supplied dry-run argument. Current applying MCP tools also reject
-that argument; use the preview identity for inspection. Rules for older binaries
-retain their reviewed decisions. Approved-root and stdio
-connection boundaries remain enforced; unknown tool names keep their fallback.
+The separately named \`*_preview\` tools are Allow in Loose, Recommended and
+Strict within their approved roots, subject to the worktree branch-cleanup
+compatibility rule below. Current previews and applying tools reject a
+caller-supplied dry-run argument; use the preview identity for inspection.
+Approved-root and stdio connection boundaries still apply. Unknown tool names
+keep their fallback.
 
 ${name === 'gate' ? 'Bundled CLI `docs list|search|read` and MCP `docs_list|docs_search|docs_read`\nare Allow in every profile with opaque `cursor` and `limit`. Gate validates\nqueries, page names and paging arguments without acquiring host-file access.\nThe former MCP `offset` and `start_line` forms retain their permissions and\nindependent fixtures. Their first verified absence is this 2026-11-15 source\ncheckout (0.26.1); Gate has no published feature release starting retirement.\nRemoval remains deferred until three subsequent published feature releases.\n' : ''}
 
@@ -656,6 +705,7 @@ ${name === 'gate' ? '\nGate status supports `--entries-only` and MCP `entries_on
 
 ${name === 'gate' ? gatePushDestinationGuide() : ''}
 ${name === 'gate' ? gateRemoteGuide() : ''}
+${name === 'gate' ? gateConfirmationGuide() : ''}
 Regenerate with \`node scripts/build-current-tool-packs.mjs ${name}\` and validate
 with \`npm test -- --shield /absolute/path/to/shield scripts/current-tool-packs.test.mjs\`.
 `);
@@ -668,14 +718,12 @@ function gateCurrentGuide() {
 compatibility names. The MCP \`dry_run\` argument on \`discard\`, \`rename\`,
 \`sync\`, \`migrate\`, \`branch_remove\`, \`session_remove\` and \`worktree_remove\`
 is first verified absent in 0.27.0 on 2026-11-15. Use each tool’s
-\`*_preview\` identity instead. The old argument forms retain their exact
-decisions, including Strict Deny for forced branch deletion, session deletion
-and removal with discarded changes. Independent fixtures cover every retained
-form across profiles. Gate has no published feature release starting this
-window; earliest removal is deferred until three subsequent published feature
-releases are verified. No safety exception is applied. Malformed preview
-arguments remain Allow because Gate rejects them before dispatch; they cannot
-change a preview into an applying call.
+\`*_preview\` identity instead. The retained argument forms keep their decisions
+except where the worktree branch-cleanup rule requires approval. Strict still
+denies the retained forms for forced branch deletion, session deletion and
+removal with discarded changes. Independent fixtures cover every retained form
+across profiles. Gate has no published feature release starting this window.
+Retirement requires three subsequent published feature releases.
 
 The CLI \`worktree status --runtime\` reports readiness and repository entry
 bindings. It keeps the same read-only decisions and project boundary as
@@ -701,12 +749,37 @@ function gateRemoteGuide() {
   return `Gate 0.33.0 exposes \`remote set-url\`, \`remote rename\`, and
 \`remote remove\` (alias \`rm\`). CLI reviews and the three dedicated MCP
 preview tools are Allow in all profiles inside approved project roots.
-CLI \`--confirm\` and the applying MCP tools are Ask in Loose and Recommended
-and Deny in Strict. Gate still verifies the reviewed digest or asks the host
-for confirmation. These commands only edit local repository metadata.
+The applying MCP tools are Allow in Loose and Recommended within approved
+writable roots, with Gate confirming the exact change. CLI \`--confirm\` keeps
+Ask in those profiles. Strict denies applying through either interface.
+These commands only edit local repository metadata.
 \`remote set-url\` records the destination for subsequent Git transport.
 Reviewing or applying the URL change leaves the destination untouched.
 
+`;
+}
+
+function gateConfirmationGuide() {
+  return `The applying MCP tool \`discard\` is Allow in Loose and Recommended inside
+the approved project. Gate obtains the user's confirmation of the exact plan
+before it restores files or deletes opted-in untracked files. This lets a
+Shield-managed host resolve the generic tool approval without a second prompt.
+Strict denies applying discard. An explicit project outside approved writable
+roots still requires review in Loose and Recommended and is denied in Strict.
+CLI discard remains Ask/Ask/Deny. \`discard_preview\` and the retained legacy
+\`dry_run: true\` form keep their existing decisions.
+
+Repository \`rename\` uses Gate's confirmation in Loose and Recommended,
+including with an explicit approved project. Strict keeps the additional host
+review for this cross-worktree operation.
+
+Dirty \`worktree_remove\` without branch cleanup uses Gate's confirmation in
+Loose and Recommended when the destination is within approved writable roots.
+Strict denies dirty removal. The preview checks approved read roots.
+MCP removal or preview with \`remove_branch: true\` still needs host approval
+or is denied under the profile. The pack matches older Gate binaries whose
+completed-removal review could attempt branch cleanup. Gate releases with the
+fix require confirmation for branch cleanup even after removal completes.
 `;
 }
 

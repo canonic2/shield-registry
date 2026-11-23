@@ -1,8 +1,9 @@
-// Independent reviewed contract for Testrun 0.9.0: every operation is allowed
+// Independent reviewed contract for Testrun 0.14.0: every operation is allowed
 // unless it names a host file outside the approved roots, or one Shield cannot
 // check. Keep these expectations separate from the policy's rule constructors.
 // Fixtures run with the registry checkout as project, read and write root:
-// relative paths without `..` are inside; absolute and escaping paths are not.
+// relative paths for browser files and inline build files need review because
+// Shield cannot observe the directory used to resolve them.
 export const trustedExecutables=['testrun','/usr/bin/testrun','/usr/local/bin/testrun','/opt/homebrew/bin/testrun'];
 export function binding(server='testrun') {
   return {[server]:{transport:{type:'defaults',pack:'canonic/testrun',integration:'testrun'},
@@ -15,6 +16,7 @@ const inside='acme-fixture.json';
 const nested='fixtures/acme/state.json';
 const outside='/outside/acme.json';
 const escape='../outside/acme.json';
+const endpoint='wss://browser.example.com/devtools/browser/fixture';
 
 // [tool, arguments, expected for every profile]
 export const requests=[
@@ -97,16 +99,16 @@ const snapshot={action:'page_snapshot',page};
 function browserHostFileCases() {
   const rows=[];
   for(const [label,operation,build] of browserFieldRequests) {
-    for(const [where,path,expected] of locations)
-      rows.push([`send-${label}-${where}`,'browser_send',{targetId:'browser:acme',request:{operation,...build(path)}},expected]);
-    for(const [where,path,expected] of [locations[0],locations[2]]) {
+    for(const [where,path] of locations)
+      rows.push([`send-${label}-${where}`,'browser_send',{targetId:'browser:acme',request:{operation,...build(path)}},'ask']);
+    for(const [where,path] of [locations[0],locations[2]]) {
       const entry={operation,...build(path)};
-      rows.push([`batch-first-${label}-${where}`,'browser_send',{targetId:'browser:acme',request:{operation:'batch',requests:[entry,{operation:'page_snapshot',page}]}},expected]);
+      rows.push([`batch-first-${label}-${where}`,'browser_send',{targetId:'browser:acme',request:{operation:'batch',requests:[entry,{operation:'page_snapshot',page}]}},'ask']);
       rows.push([`batch-last-${label}-${where}`,'browser_send',{targetId:'browser:acme',request:{operation:'batch',
-        requests:[...Array.from({length:7},()=>({operation:'page_snapshot',page})),entry]}},expected]);
+        requests:[...Array.from({length:7},()=>({operation:'page_snapshot',page})),entry]}},'ask']);
       const action={action:operation,...build(path)};
-      rows.push([`act-first-${label}-${where}`,'act',{targetId:'browser:acme',actions:[action,snapshot]},expected]);
-      rows.push([`act-last-${label}-${where}`,'act',{targetId:'browser:acme',actions:[...Array.from({length:7},()=>snapshot),action]},expected]);
+      rows.push([`act-first-${label}-${where}`,'act',{targetId:'browser:acme',actions:[action,snapshot]},'ask']);
+      rows.push([`act-last-${label}-${where}`,'act',{targetId:'browser:acme',actions:[...Array.from({length:7},()=>snapshot),action]},'ask']);
     }
   }
   return rows;
@@ -117,6 +119,17 @@ function browserFormCases() {
   const send=request=>({targetId:'browser:acme',request});
   const state={cookies:[{name:'session',value:'acme',domain:'example.com',path:'/',expires:-1,httpOnly:true,secure:true,sameSite:'Lax'}],origins:[{origin:'https://example.com',localStorage:[{name:'theme',value:'dark'}]}]};
   return [
+    ...['connect','browser_connect'].flatMap(tool => [
+      ['borrowed-relative',{profile:{kind:'borrowed',path:'fixtures/profile'}},'ask'],
+      ['borrowed-outside',{profile:{kind:'borrowed',path:'/outside/profile'}},'ask'],
+      ['borrowed-empty',{profile:{kind:'borrowed',path:''}},'ask'],
+      ['retained-channel',{channel:'msedge',profile:{kind:'retained',name:'acme-qa'}},'allow'],
+      ['disposable',{profile:{kind:'disposable'}},'allow'],
+      ['attachment-relative',{attachment:{endpoint,credentialPath:inside,caPath:'fixtures/ca.pem'}},'ask'],
+      ['attachment-credential-outside',{attachment:{endpoint,credentialPath:outside,caPath:'fixtures/ca.pem'}},'ask'],
+      ['attachment-ca-outside',{attachment:{endpoint,credentialPath:inside,caPath:escape}},'ask'],
+      ['attachment-ca-empty',{attachment:{endpoint,caPath:''}},'ask'],
+    ].map(([label,selection,decision])=>[`${tool}-${label}`,tool,{engine:'chrome',...selection},decision])),
     ['inline-context-state','browser_send',send({operation:'context_create',options:{storageState:state}}),'allow'],
     ['inline-http-state','browser_send',send({operation:'http_context_create',options:{storageState:state}}),'allow'],
     ['null-http-state','browser_send',send({operation:'http_context_create',options:{storageState:null}}),'allow'],
@@ -124,7 +137,7 @@ function browserFormCases() {
     ['inline-connect-state','browser_connect',{engine:'chrome',mode:'headless',context:{storageState:state}},'allow'],
     ['inline-shared-connect-state','connect',{engine:'firefox',context:{storageState:state}},'allow'],
     ...['connect','browser_connect'].flatMap(tool => [
-      ['both-inside',{microphonePath:'fixtures/acme.wav',cameraPath:'fixtures/acme.y4m'},'allow'],
+      ['both-relative',{microphonePath:'fixtures/acme.wav',cameraPath:'fixtures/acme.y4m'},'ask'],
       ['microphone-outside',{microphonePath:'/outside/acme.wav',cameraPath:'fixtures/acme.y4m'},'ask'],
       ['camera-outside',{microphonePath:'fixtures/acme.wav',cameraPath:'../outside/acme.y4m'},'ask'],
       ['empty-path',{microphonePath:''},'ask'],
@@ -136,11 +149,11 @@ function browserFormCases() {
     ['inline-certificates','browser_send',send({operation:'context_create',options:{clientCertificates:Array.from({length:2},()=>({origin:'https://example.com',cert:'QUNNRQ==',key:'QUNNRQ=='}))}}),'allow'],
     ['certificate-overflow','browser_send',send({operation:'context_create',options:{clientCertificates:Array.from({length:3},()=>({origin:'https://example.com',cert:'QUNNRQ=='}))}}),'ask'],
     ['connect-certificate-overflow','browser_connect',{engine:'chrome',context:{clientCertificates:Array.from({length:3},()=>({origin:'https://example.com',cert:'QUNNRQ=='}))}},'ask'],
-    ['trace-sources-four','browser_send',send({operation:'trace_start',context:page,options:{sources:true,sourceFiles:Array.from({length:4},(_,i)=>`src/acme-${i}.js`)}}),'allow'],
+    ['trace-sources-four','browser_send',send({operation:'trace_start',context:page,options:{sources:true,sourceFiles:Array.from({length:4},(_,i)=>`src/acme-${i}.js`)}}),'ask'],
     ['trace-sources-overflow','browser_send',send({operation:'trace_start',context:page,options:{sources:true,sourceFiles:Array.from({length:5},(_,i)=>`src/acme-${i}.js`)}}),'ask'],
     ['multipart-text-eight','browser_send',send({operation:'http_fetch',httpContext:page,request:{url:'https://example.com',method:'POST',body:{kind:'multipart',fields:Array.from({length:8},(_,i)=>({kind:'text',name:`n${i}`,value:'acme'}))}}}),'allow'],
-    ['multipart-overflow','browser_send',send({operation:'http_fetch',httpContext:page,request:{url:'https://example.com',method:'POST',body:{kind:'multipart',fields:Array.from({length:9},(_,i)=>({kind:'text',name:`n${i}`,value:'acme'}))}}}),'ask'],
-    ['multipart-overflow-act','act',{targetId:'browser:acme',actions:[{action:'http_fetch',httpContext:page,request:{url:'https://example.com',method:'POST',body:{kind:'multipart',fields:Array.from({length:9},(_,i)=>({kind:'text',name:`n${i}`,value:'acme'}))}}}]},'ask'],
+    ['multipart-text-nine','browser_send',send({operation:'http_fetch',httpContext:page,request:{url:'https://example.com',method:'POST',body:{kind:'multipart',fields:Array.from({length:9},(_,i)=>({kind:'text',name:`n${i}`,value:'acme'}))}}}),'allow'],
+    ['multipart-text-nine-act','act',{targetId:'browser:acme',actions:[{action:'http_fetch',httpContext:page,request:{url:'https://example.com',method:'POST',body:{kind:'multipart',fields:Array.from({length:9},(_,i)=>({kind:'text',name:`n${i}`,value:'acme'}))}}}]},'allow'],
     // Same field names that are not host files in these operations.
     ['cookie-filter-path','browser_send',send({operation:'context_cookies_clear',context:page,options:{name:'session',path:'/'}}),'allow'],
     ['directory-entry-path','browser_send',send({operation:'directory_register',name:'uploads',entries:[{path:'/outside/upload.png',fixture:page}]}),'allow'],
@@ -167,22 +180,22 @@ function storageOperationCases() {
     ['cache-read-entry',{operation:'context_cache_storage_read',context:page,origin:'https://example.com',cacheName:'v1',url:'https://example.com/app.js',cursor:'opaque',limit:10}],
     ['cache-delete',{operation:'context_cache_storage_delete',context:page,origin:'https://example.com',cacheName:'v1'}],
     ['cache-delete-entry',{operation:'context_cache_storage_delete',context:page,origin:'https://example.com',cacheName:'v1',url:'https://example.com/app.js'}],
-    ['snapshot-register-inside',{operation:'storage_register',path:inside}],
+    ['snapshot-register-inside',{operation:'storage_register',path:inside},'ask'],
     ['snapshot-export',{operation:'storage_export',context:page}],
     ['snapshot-export-options',{operation:'storage_export',context:page,options:{indexedDB:false,opfs:false}}],
-    ['snapshot-export-file',{operation:'storage_export',context:page,options:{path:nested}}],
+    ['snapshot-export-file',{operation:'storage_export',context:page,options:{path:nested}},'ask'],
     ['snapshot-apply-replace',{operation:'storage_apply',context:page,snapshot:page,mode:'replace'}],
     ['snapshot-apply-merge',{operation:'storage_apply',context:page,snapshot:page,mode:'merge'}],
     // Retained form for Testrun 0.8.0 and earlier: boolean replace instead of mode.
     ['snapshot-apply-retired-replace',{operation:'storage_apply',context:page,snapshot:page,replace:true}],
     ['snapshot-apply-retired-merge',{operation:'storage_apply',context:page,snapshot:page,replace:false}],
     ['snapshot-forget',{operation:'storage_forget',snapshot:page}],
-    ['context-state-file',{operation:'context_create',options:{storageState:inside}}],
-    ['http-context-state-file',{operation:'http_context_create',options:{storageState:nested}}],
+    ['context-state-file',{operation:'context_create',options:{storageState:inside}},'ask'],
+    ['http-context-state-file',{operation:'http_context_create',options:{storageState:nested}},'ask'],
   ];
   return [
-    ...rows.flatMap(([label,request])=>['chrome','firefox'].map(engine=>[`storage-${label}-${engine}`,'browser_send',send(request,engine),'allow'])),
-    ...rows.map(([label,{operation,...request}])=>[`storage-${label}-act`,'act',{targetId:'browser:chrome',actions:[{action:operation,...request}]},'allow']),
+    ...rows.flatMap(([label,request,decision='allow'])=>['chrome','firefox'].map(engine=>[`storage-${label}-${engine}`,'browser_send',send(request,engine),decision])),
+    ...rows.map(([label,{operation,...request},decision='allow'])=>[`storage-${label}-act`,'act',{targetId:'browser:chrome',actions:[{action:operation,...request}]},decision]),
     ['storage-batch','browser_send',send({operation:'batch',requests:rows.slice(0,8).map(([,request])=>request)}),'allow'],
     ['storage-register-outside','browser_send',send({operation:'storage_register',path:'/outside/state.json'}),'ask'],
     ['storage-export-outside','browser_send',send({operation:'storage_export',context:page,options:{path:'/outside/state.json'}}),'ask'],
@@ -190,16 +203,16 @@ function storageOperationCases() {
     ['storage-apply-retired-with-export','browser_send',send({operation:'batch',requests:[{operation:'storage_apply',context:page,snapshot:page,replace:true},{operation:'storage_export',context:page,options:{path:escape}}]}),'ask'],
     ['context-state-outside','browser_send',send({operation:'context_create',options:{storageState:'/outside/state.json'}}),'ask'],
     ['http-context-state-outside','browser_send',send({operation:'http_context_create',options:{storageState:escape}}),'ask'],
-    ['connect-state-file','browser_connect',{engine:'chrome',mode:'headless',context:{storageState:inside}},'allow'],
+    ['connect-state-file','browser_connect',{engine:'chrome',mode:'headless',context:{storageState:inside}},'ask'],
     ['connect-state-outside','browser_connect',{engine:'chrome',mode:'headless',context:{storageState:'/outside/state.json'}},'ask'],
     ['connect-state-empty','browser_connect',{engine:'chrome',context:{storageState:''}},'ask'],
-    ['shared-connect-state-file','connect',{engine:'webkit',context:{storageState:nested}},'allow'],
+    ['shared-connect-state-file','connect',{engine:'webkit',context:{storageState:nested}},'ask'],
     ['shared-connect-state-outside','connect',{engine:'webkit',context:{storageState:escape}},'ask'],
     ['connect-record-har-outside','browser_connect',{engine:'firefox',context:{recordHar:{path:'/outside/acme.har'}}},'ask'],
-    ['connect-record-har-inside','connect',{engine:'firefox',context:{recordHar:{path:'acme.har'}}},'allow'],
+    ['connect-record-har-inside','connect',{engine:'firefox',context:{recordHar:{path:'acme.har'}}},'ask'],
     ['connect-certificate-outside','browser_connect',{engine:'chrome',context:{clientCertificates:[{origin:'https://example.com',certPath:'/outside/acme.pem',keyPath:'acme-key.pem'}]}},'ask'],
     ['shared-connect-certificate-last-outside','connect',{engine:'chrome',context:{clientCertificates:[{origin:'https://example.com',cert:'QUNNRQ=='},{origin:'https://example.com',pfxPath:escape}]}},'ask'],
-    ['connect-certificate-inside','connect',{engine:'chrome',context:{clientCertificates:[{origin:'https://example.com',pfxPath:'certs/acme.p12',passphrase:'acme'}]}},'allow'],
+    ['connect-certificate-inside','connect',{engine:'chrome',context:{clientCertificates:[{origin:'https://example.com',pfxPath:'certs/acme.p12',passphrase:'acme'}]}},'ask'],
   ];
 }
 
@@ -228,7 +241,8 @@ function toolHostFileCases() {
     ['discover-overflow','project_discover',{root:'.',paths:Array.from({length:9},(_,i)=>`apps/a${i}`)},'ask'],
     ['init-overflow','project_init',{root:'.',planDigest:'1'.repeat(64),projects:Array.from({length:9},(_,i)=>({path:`apps/a${i}`}))},'ask'],
     ['init-preview-overflow','project_init_preview',{root:'.',projects:Array.from({length:9},(_,i)=>({path:`apps/a${i}`}))},'ask'],
-    ['build-inline-glob','build_start',{project:'.',inline:{builder:'custom',artifact:{glob:'/outside/*.apk'}}},'allow'],
+    ['build-inline-glob','build_start',{project:'.',inline:{builder:'custom',artifact:{glob:'/outside/*.apk'}}},'ask'],
+    ['build-inline-workspace','build_start',{project:'.',inline:{builder:'xcode',xcode:{workspace:'/outside/Acme.xcworkspace'}}},'ask'],
     ['docs-path','docs_read',{path:'/outside/private.txt'},'allow'],
   ];
   for(const [where,path,expected] of locations) {
@@ -247,8 +261,8 @@ function toolHostFileCases() {
       [`project-init-path-${where}`,'project_init',{root:'.',planDigest:'1'.repeat(64),projects:[{path:'web'},{path}]},expected],
       [`project-init-preview-last-${where}`,'project_init_preview',{root:'.',projects:[...Array.from({length:7},(_,i)=>({path:`apps/a${i}`})),{path}]},expected],
       [`project-discover-path-${where}`,'project_discover',{root:'.',paths:[path]},expected],
-      [`build-artifact-${where}`,'build_start',{project:'.',inline:{builder:'custom',artifact:{path}}},expected],
-      [`build-xcode-project-${where}`,'build_start',{project:'.',inline:{builder:'xcode',xcode:{project:path,scheme:'Acme'}}},expected]);
+      [`build-artifact-${where}`,'build_start',{project:'.',inline:{builder:'custom',artifact:{path}}},'ask'],
+      [`build-xcode-project-${where}`,'build_start',{project:'.',inline:{builder:'xcode',xcode:{project:path,scheme:'Acme'}}},'ask']);
   }
   return rows;
 }
@@ -263,6 +277,13 @@ function cliHostFileCases() {
     ['send-json-spaced-path',['browser','send','{"operation": "trace_stop", "filePath" : "trace.json"}'],'ask'],
     ['send-json-escape',['browser','send','{"operation":"storage_register","p\\u0061th":"acme.json"}'],'ask'],
     ['send-json-storage',['browser','send',JSON.stringify({operation:'context_cookies_read',context:page,limit:10})],'allow'],
+    ['send-json-virtual-directory',['browser','send',JSON.stringify({operation:'directory_register',name:'uploads',entries:[{path:'uploads/acme.png',fixture:page}]})],'allow'],
+    ['send-json-multipart-file',['browser','send',JSON.stringify({operation:'http_fetch',httpContext:page,
+      request:{url:'https://example.com/upload',method:'POST',body:{kind:'multipart',fields:[{kind:'file_path',name:'upload',path:outside}]}}})],'ask'],
+    ['send-json-path-before-operation',['browser','send',JSON.stringify({path:inside,operation:'storage_register'})],'ask'],
+    ['inline-glob',['build','start','--inline',JSON.stringify({builder:'custom',artifact:{glob:'/outside/*.apk'}})],'ask'],
+    ['inline-workspace',['build','start','--inline',JSON.stringify({builder:'xcode',
+      xcode:{build_settings:{ACME:'yes'},workspace:'/outside/Acme.xcworkspace'}})],'ask'],
     ['send-json-inline-state',['browser','send',JSON.stringify({operation:'context_create',options:{storageState:{cookies:[],origins:[]}}})],'allow'],
     ['send-json-sources',['browser','send',JSON.stringify({operation:'trace_start',context:page,options:{sources:true,sourceFiles:['src/acme.js']}})],'ask'],
     ['connect-context-state',['connect','--engine','chrome','--context',JSON.stringify({storageState:inside})],'ask'],
@@ -274,6 +295,17 @@ function cliHostFileCases() {
       ['camera-outside',['--microphone-fixture=fixtures/acme.wav','--camera-fixture','../outside/acme.y4m'],'ask'],
       ['empty-path',['--microphone-fixture='],'ask'],
     ].map(([label,options,decision])=>[`${command.join('-')}-media-${label}`,
+      ['--json',...command,'--engine=chrome','--mode','headed',...options],decision])),
+    ...[['connect'],['browser','connect']].flatMap(command => [
+      ['borrowed-inside',['--channel','chrome','--borrowed-profile','fixtures/profile'],'allow'],
+      ['borrowed-outside',['--channel=msedge','--borrowed-profile=/outside/profile'],'ask'],
+      ['retained',['--channel','msedge','--profile','acme-qa'],'allow'],
+      ['disposable',['--disposable-profile'],'allow'],
+      ['attachment-inside',['--attach',endpoint,'--attachment-credential',inside,'--attachment-ca=fixtures/ca.pem'],'allow'],
+      ['attachment-credential-outside',[`--attach=${endpoint}`,'--attachment-ca','fixtures/ca.pem',`--attachment-credential=${outside}`],'ask'],
+      ['attachment-ca-outside',['--attach',endpoint,'--attachment-credential',inside,'--attachment-ca',escape],'ask'],
+      ['attachment-ca-empty',['--attach',endpoint,'--attachment-ca='],'ask'],
+    ].map(([label,options,decision])=>[`${command.join('-')}-${label}`,
       ['--json',...command,'--engine=chrome','--mode','headed',...options],decision])),
     ['diagnostics-source-path',['diagnostics','start',investigation,'--submission-id','acme','--source',JSON.stringify({kind:'import',path:inside,format:'bytes'})],'ask'],
     ['diagnostics-source-android',['diagnostics','start',investigation,'--submission-id','acme','--source',JSON.stringify({kind:'android',targetId:'android:ACME',appId:'com.example.acme',userId:0})],'allow'],
@@ -335,7 +367,8 @@ function mcpAsks(tool,args) {
     const host=hostKeys.has(key) && (!browser || hostFileOperations.has(operation))
       || ['root','config','project'].includes(key) && parent===args && configurationTools.has(tool)
       || key==='project' && parent?.kind==='box_logs';
-    if(host && escapes(value)) asks=true;
+    if(host && (escapes(value) || browser || ['connect','browser_connect'].includes(tool)
+      || tool==='build_start' && parent!==args && ['path','project'].includes(key))) asks=true;
   };
   visit(args,undefined,undefined,undefined);
   return asks;

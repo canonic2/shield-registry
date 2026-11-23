@@ -56,16 +56,18 @@ function passed(result) {
   return report;
 }
 
-test('Testrun retains authenticated 0.2.11 policy and companion bytes',async()=>{
-  const directory=currentDirectory('testrun','0.2.11');
+test('Testrun retains authenticated 0.2.11 and 0.2.12 policy and companion bytes',async()=>{
   const catalog=await checkPublication(new URL('../public',import.meta.url).pathname,
     readFileSync(new URL('../keys/main.pub',import.meta.url),'utf8').trim());
-  const published=catalog.releases.find(row=>row.id==='canonic/testrun' && row.version==='0.2.11');
-  assert.ok(published);
-  assert.equal(digest(readFileSync(new URL('pack.yml',directory))),published.sha256);
-  for(const file of ['pack.yml',...await caseFileNames(directory),'commands.json','README.md','LICENSE'])
-    assert.deepEqual(readFileSync(new URL(file,directory)),
-      readFileSync(new URL(`../public/packs/canonic/testrun/0.2.11/${file}`,import.meta.url)),file);
+  for(const version of ['0.2.11','0.2.12']) {
+    const directory=currentDirectory('testrun',version);
+    const published=catalog.releases.find(row=>row.id==='canonic/testrun' && row.version===version);
+    assert.ok(published);
+    assert.equal(digest(readFileSync(new URL('pack.yml',directory))),published.sha256);
+    for(const file of ['pack.yml',...await caseFileNames(directory),'commands.json','README.md','LICENSE'])
+      assert.deepEqual(readFileSync(new URL(file,directory)),
+        readFileSync(new URL(`../public/packs/canonic/testrun/${version}/${file}`,import.meta.url)),file);
+  }
 });
 
 // Independent Testrun 0.10.0 expectations. Clock inputs name no host files;
@@ -94,7 +96,7 @@ test('native Chrome clocks stay allowed without weakening mixed-batch host-file 
     }
     mcp('missing-input','browser_send',{request:{operation:'context_clock',context}});
     mcp('malformed-input','browser_send',{request:{operation:'context_clock',context,action:{kind:'run_for',durationMs:'invalid'}}});
-    for(const [label,path,expected] of [['inside','reports/state.json','allow'],['outside','/outside/state.json','ask']]) {
+    for(const [label,path,expected] of [['inside',join(process.cwd(),'reports/state.json'),'allow'],['outside','/outside/state.json','ask']]) {
       const clock={operation:'context_clock',context,action:{kind:'resume'}};
       const exportState={operation:'storage_export',context,options:{path}};
       mcp(`mixed-send-${label}`,'browser_send',{request:{operation:'batch',requests:[clock,exportState]}},expected);
@@ -139,7 +141,7 @@ test('passkeys and broker sign-in stay allowed while credential exports keep hos
       cases.push({name:`credentials-cli-${index}-${profile}`,profile,
         argv:['testrun','--target','browser:acme','browser','send',JSON.stringify(request)],expected:'allow'});
     }
-    for(const [label,path,expected] of [['inside','reports/passkeys.json','allow'],['outside','/outside/passkeys.json','ask']]) {
+    for(const [label,path,expected] of [['inside',join(process.cwd(),'reports/passkeys.json'),'allow'],['outside','/outside/passkeys.json','ask']]) {
       const exported={operation:'storage_export',context,options:{credentials:true,path}};
       mcp(`export-${label}`,'browser_send',{request:exported},expected);
       mcp(`export-batch-${label}`,'browser_send',{request:{operation:'batch',requests:[requests[1],exported]}},expected);
@@ -155,6 +157,42 @@ test('production Shield allows Testrun operations and asks for host files outsid
   let total=report.cases.length;
   for(let index=0;index<all.length;index+=1024) total+=passed(evaluate(all.slice(index,index+1024))).cases.length;
   t.diagnostic(`Evaluated ${total} independent operation, host-file and unrelated-command decisions.`);
+});
+
+test('Testrun checks the last multipart field in direct, batch and act calls',
+  {skip:!process.env.SHIELD_BINARY},t=>{
+  const httpContext={connectionId:'11111111-1111-4111-8111-111111111111',
+    generation:'22222222-2222-4222-8222-222222222222',id:'33333333-3333-4333-8333-333333333333'};
+  const cases=[];
+  for(const profile of ['loose','recommended','strict']) {
+    const mcp=(name,tool,args,expected)=>cases.push({name:`${name}-${profile}`,profile,mcp:binding(),
+      input:{kind:'mcp',server:'testrun',tool,arguments:{targetId:'browser:acme',...args},original_input:{}},expected});
+    const text=Array.from({length:128},(_,index)=>({kind:'text',name:`field-${index}`,value:'Acme'}));
+    for(const [label,path,expected] of [
+      ['text',null,'allow'],['inside',join(process.cwd(),'upload.txt'),'allow'],
+      ['relative','upload.txt','ask'],['outside','/outside/upload.txt','ask'],
+    ]) {
+      const body={kind:'multipart',fields:path ? [...text.slice(1),{kind:'file_path',name:'upload',path}] : text};
+      for(const [operation,params] of [
+        ['http_fetch',{httpContext,request:{url:'https://example.com/upload',method:'POST',body}}],
+        ['http_fetch_request',{httpContext,sourceRequestId:'browser-request:acme',options:{body}}],
+      ]) {
+        const request={operation,...params};
+        mcp(`${operation}-${label}-direct`,'browser_send',{request},expected);
+        mcp(`${operation}-${label}-batch`,'browser_send',{request:{operation:'batch',requests:[request]}},expected);
+        mcp(`${operation}-${label}-act`,'act',{actions:[{action:operation,...params}]},expected);
+        if(label==='text') mcp(`${operation}-mixed`,'browser_send',{request:{operation:'batch',requests:[
+          request,{operation:'storage_register',path:'/outside/state.json'},
+        ]}},'ask');
+      }
+    }
+    mcp('inline-glob','build_start',{project:'.',inline:{builder:'custom',platform:'android',target_kind:'device',
+      custom:{command:['make','test-app']},artifact:{glob:join(process.cwd(),'build/*.apk')}}},'allow');
+    mcp('inline-workspace','build_start',{project:'.',inline:{builder:'xcode',platform:'ios',target_kind:'simulator',
+      xcode:{workspace:join(process.cwd(),'Acme.xcworkspace'),scheme:'Acme',configuration:'Debug'}}},'allow');
+  }
+  const report=passed(evaluate(cases));
+  t.diagnostic(`Evaluated ${report.cases.length} multipart and inline build decisions.`);
 });
 
 test('Testrun retains signed 0.2.10 bytes and its independent decisions',{skip:!process.env.SHIELD_BINARY},async()=>{

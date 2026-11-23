@@ -10,7 +10,7 @@ export function trustedTestrunPack(previous) {
   return {
     schema_version:1,kind:'pack',id:'canonic/testrun',version:previous.version,
     description:'Allow every Testrun CLI command and verified MCP tool, including future operations, with caller-named host files kept inside approved roots.',
-    license:previous.license,maintainers:previous.maintainers,engines:previous.engines,
+    license:previous.license,maintainers:previous.maintainers,engines:{shield:'>=0.52.0, <1.0.0'},
     capabilities:[...new Set(['argument-rules-v1','fallback-rules-v1','mcp-integrations-v1','negated-selectors-v1','structured-rules-v1',
       ...hostPathCapabilities])].sort(),
     mcp_integrations:structuredClone(previous.mcp_integrations),
@@ -28,7 +28,11 @@ export function trustedTestrunPack(previous) {
 }
 
 export function trustedTestrunGuide() {
-  return `Testrun CLI commands and MCP tools are **Allow** in Loose, Recommended and
+  return `Multipart file validation requires Shield's \`field-path-arrays-v1\`
+capability. Shield builds without it can use the published
+[Testrun 0.2.12 pack](../0.2.12/README.md).
+
+Testrun CLI commands and MCP tools are **Allow** in Loose, Recommended and
 Strict, including future commands and tools, except where a call names a host
 file. A host file inside the approved roots keeps the call Allow. A file outside
 them, an empty or unresolvable path, or a path Shield cannot check asks in every
@@ -38,18 +42,20 @@ installation, diagnostics, cleanup and MCP setup.
 
 ## Host files
 
-Reads must stay inside approved read roots; writes inside approved write roots.
-Relative MCP paths are checked against the enrolled project.
+Reads must stay inside approved read roots and writes inside approved write roots.
+Use absolute paths for caller-named browser files and inline build file selectors
+over MCP so Shield can check the same location Testrun uses. Shield evaluates
+other relative MCP paths against the enrolled project.
 
 | Interface | Reads | Writes |
 | --- | --- | --- |
 | \`browser_send\` request, each batch entry and each browser \`act\` action | \`path\` (\`storage_register\`, \`har_register\`, \`heap_import\`, \`page_add_script_tag\`, \`page_add_style_tag\`), \`response.path\` (\`callback_resolve\`), \`options.storageState\` given as a path, \`options.sourceFiles[]\`, \`options.clientCertificates[].certPath/keyPath/pfxPath\`, multipart \`file_path\` field paths | \`options.path\` (\`storage_export\`, \`http_context_storage_state\`), \`path\` and \`resourcesDir\` (\`har_capture_start\`), \`filePath\` and \`options.filePath\` (traces), \`options.recordHar.path\` |
-| \`browser_connect\`, browser \`connect\` | \`context.storageState\` given as a path, \`context.clientCertificates[]\` files, \`mediaFixtures.microphonePath\` and \`mediaFixtures.cameraPath\` | \`context.recordHar.path\` |
-| CLI \`connect\` and \`browser connect\` | \`--microphone-fixture\` and \`--camera-fixture\` | |
+| \`browser_connect\`, browser \`connect\` | \`context.storageState\` given as a path, \`context.clientCertificates[]\` files, \`mediaFixtures.microphonePath\`, \`mediaFixtures.cameraPath\`, \`attachment.credentialPath\` and \`attachment.caPath\` | \`context.recordHar.path\`, \`profile.path\` when \`profile.kind\` is \`borrowed\` |
+| CLI \`connect\` and \`browser connect\` | \`--microphone-fixture\`, \`--camera-fixture\`, \`--attachment-credential\` and \`--attachment-ca\` | \`--borrowed-profile\` |
 | \`app_install\`, CLI \`app install\` | \`path\` | |
 | \`diagnostics_start\` source | \`path\`, \`reportDirectory\`, \`endpointFile\`, \`project\`, \`configFile\`, \`toolPath\` | |
 | \`diagnostics_export\`, CLI \`diagnostics export --path\` | | \`path\` |
-| Configuration, project and build tools and CLI options | \`root\`, \`project\`, \`config\`, project discovery \`paths[]\` and \`projects[].path\`, build \`config\`, \`inline.artifact.path\`, \`inline.xcode.project\` | \`config_init\` and \`project_init\` \`root\`/\`config\`, build \`root\`/\`project\`, CLI \`init\` without \`--dry-run\` |
+| Configuration, project and build tools and CLI options | \`root\`, \`project\`, \`config\`, project discovery \`paths[]\` and \`projects[].path\`, build \`config\`, \`inline.artifact.path\`, \`inline.artifact.glob\`, \`inline.xcode.project\`, \`inline.xcode.workspace\` | \`config_init\` and \`project_init\` \`root\`/\`config\`, build \`root\`/\`project\`, CLI \`init\` without \`--dry-run\` |
 | CLI \`browser fixture-register\` | file operand | |
 
 Inline \`storageState\` objects, cookie and WebStorage operations
@@ -60,13 +66,13 @@ browser state and stay Allow; Cache Storage reads can return secret-bearing
 response bodies. \`storage_apply\` accepts both \`mode\` and the retired boolean
 \`replace\`.
 
-Arrays are checked entry by entry up to a bound: 4 trace source files, 2 client
-certificates, 8 multipart fields, 8 discovery paths and 8 initialized projects.
-A longer array asks, because Shield has no wildcard JSON Pointer to check the
-rest. JSON passed to CLI commands such as \`browser send\`, \`act\`,
-\`connect --context\`, \`build start --inline\` and \`diagnostics start --source\`
-is opaque to Shield: when it names one of the host-file keys above, or contains
-a \`\\u\` escape, the command asks. Use the MCP tools for checked paths.
+Shield checks all 128 multipart fields supported by Testrun, with text parts
+requiring no path check. Separate limits apply to trace source files (4), client
+certificates (2), discovery paths (8), and initialized projects (8). Longer
+arrays ask. For JSON passed to CLI commands such as \`browser send\`, \`act\`,
+\`connect --context\`, \`build start --inline\` and \`diagnostics start --source\`,
+host-file keys and \`\\u\` escapes can trigger approval. A \`path\` in a virtual
+\`directory_register\` entry is allowed. Use the MCP tools for checked paths.
 
 ## Trust scope
 
@@ -93,13 +99,14 @@ Testrun executable selectors.
 
 ## Coverage and compatibility
 
-Reviewed 2026-11-18 against Testrun 0.9.0's CLI, 76 current MCP tools, three
-retained documentation aliases and the installed catalog. The rules also cover
-older argument forms, including the retired \`storage_apply\` \`replace\`
-boolean, and future names; no form is retired.
-Historical versions and their independent fixtures retain their published bytes.
-Version 0.2.12 covers Chrome launch media fixtures in Testrun 0.12.0 source.
-Both selected inputs must pass the usual read-root check.
+Reviewed 2026-11-22 against Testrun 0.14.0 source and its read-only MCP catalog.
+The 76 current tool names, three retained documentation aliases and reviewed
+stdio integration are covered. Borrowed profiles use the write-root check
+because the browser can update them. Attachment credentials and CAs use the
+read-root check. Named retained profiles, installed channel selection, and
+extension, WebMCP and PWA operations using owned references remain Allow across
+the three profiles. Compatibility cases cover the older \`storage_apply\`
+\`replace\` boolean and retired documentation names.
 
 Policy is owned by \`scripts/testrun-host-paths.mjs\` and
 \`scripts/testrun-trusted-policy.mjs\`; independent expectations by

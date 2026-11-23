@@ -1,4 +1,4 @@
-// Independent expected decisions for canonic/hub, reviewed against Hub 0.50.1.
+// Independent expected decisions for canonic/hub, reviewed against Hub 0.52.0.
 // Keep these explicit rather than importing the policy's inventory or deriving
 // expectations from its decisions.
 const profiles = ['loose','recommended','strict'];
@@ -11,6 +11,7 @@ const destroy = ['ask','ask','deny'];
 const id = '11111111111111111111111111111111';
 const prepare = {operation:id,generation:'22222222222222222222222222222222',request_id:'33333333333333333333333333333333'};
 const mutation = {if_revision:3,request_id:id};
+const confirmedDisposal = ['allow','allow','deny'];
 
 // Every current MCP tool with an ordinary request.
 export const tools = [
@@ -64,6 +65,7 @@ export const tools = [
   ['agent_show',{agent:'a1'},allow],
   ['agent_message',{agent:'a1',prompt:'Continue'},execute],
   ['agent_stop',{agent:'a1'},routine],
+  ['agent_terminal_read',{execution:id,cursor:'opaque',limit:4096},allow],
   ['plugin_list',{},allow],
   ['plugin_show',{plugin:'speckit'},allow],
   ['plugin_enable',{plugin:'speckit'},routine],
@@ -74,8 +76,8 @@ export const tools = [
   ['plugin_binding_list',{workspace:'feature',limit:10},allow],
   ['plugin_context_show',{plugin:'speckit'},allow],
   ['plugin_prepare',{plugin:'speckit',command:['codex']},allow],
-  ['plugin_workflow_run',{plugin:'speckit',workflow:'review',request_id:id},execute],
-  ['plugin_workflow_resume',{operation:'o1',request_id:id},execute],
+  ['plugin_workflow_run',{plugin:'speckit',workflow:'review',request_id:id},routine],
+  ['plugin_workflow_resume',{operation:'o1',request_id:id},routine],
   ['plugin_workflow_list',{},allow],
   ['plugin_workflow_show',{operation:'o1'},allow],
   ['plugin_workflow_reconcile',{operation:'o1'},routine],
@@ -105,6 +107,13 @@ tools.push(...docs);
 
 const mcp = [
   ...tools.map(([tool,arguments_,expected]) => [`tool-${tool}`,tool,arguments_,expected]),
+  ['doctor-compose-replacement','doctor',{execution:id},routine],
+  ['doctor-compose-malformed','doctor',{execution:[]},allow],
+  ['doctor-compose-outside-config','doctor',{execution:id,config:'/outside/hub.yml'},review],
+  ['doctor-compose-relative-config','doctor',{execution:id,config:'hub.yml'},review],
+  ['checked-compose-stop','process_stop',{execution:id,check_replacement:true},routine],
+  ['checked-compose-stop-missing-execution','process_stop',{workspace:'feature',check_replacement:true},routine],
+  ['checked-compose-stop-outside-config','process_stop',{execution:id,check_replacement:true,config:'/outside/hub.yml'},review],
   ['secret-provider-plugin','plugin_show',{plugin:'1password'},allow],
   ['secret-provider-plugin-keychain','plugin_show',{plugin:'keychain'},allow],
   ['secret-provider-plugin-vault','plugin_show',{plugin:'vault'},allow],
@@ -143,14 +152,22 @@ const mcp = [
   ['create-malformed-source','workspace_create',{name:'optimization',source:7,no_fetch:'yes'},routine],
   ['prepare-malformed','workspace_prepare',{workspace:'feature',generation:'not-a-generation'},routine],
   ['run-detach','process_run',{targets:['web'],detach:true,wait_ms:0},routine],
+  ['run-detach-wait','process_run',{targets:['web'],detach:true,wait_ms:30000},routine],
+  ['run-detach-malformed-wait','process_run',{targets:['web'],detach:true,wait_ms:'soon'},routine],
+  ['operation-wait','operation_show',{id,wait_ms:1000},allow],
+  ['operation-malformed-wait','operation_show',{id,wait_ms:-1},allow],
   ['stop-self','process_stop',{workspace:'feature',allow_self_stop:true},routine],
   ['plugin-preview','plugin_workflow_run',{plugin:'speckit',workflow:'review',request_id:id,dry_run:true},execute],
-  // MCP removal is confirmed by the host user; only irreversible options are reviewed.
+  ['plugin-resume-legacy-preview','plugin_workflow_resume',{operation:'o1',request_id:id,dry_run:true},execute],
+  // Hub owns the form for disposal. Strict still denies the irreversible choices.
   ['remove-preview','workspace_remove',{workspace:'feature',dry_run:true},routine],
+  ['remove-preview-legacy-selection','workspace_remove_preview',
+    {workspace:'feature',keep:['data'],discard_changes:true,forget:true,request_id:id,no_wait:true,allow_self_stop:true},allow],
   ['remove-keep','workspace_remove',{workspace:'feature',keep:['data']},routine],
   ['remove-self','workspace_remove',{workspace:'feature',allow_self_stop:true},routine],
-  ['remove-discard','workspace_remove',{workspace:'feature',discard_changes:true},destroy],
-  ['remove-forget','workspace_remove',{workspace:'feature',forget:true},destroy],
+  ['remove-discard','workspace_remove',{workspace:'feature',discard_changes:true},confirmedDisposal],
+  ['remove-forget','workspace_remove',{workspace:'feature',forget:true},confirmedDisposal],
+  ['remove-discard-and-forget','workspace_remove',{workspace:'feature',discard_changes:true,forget:true},confirmedDisposal],
   ['remove-discard-malformed','workspace_remove',{workspace:'feature',discard_changes:'true'},routine],
   ['exec-borrowed','process_exec',{command:['curl','http://127.0.0.1:4780'],execution:'e1'},execute],
   ['exec-container','process_exec',{execution:'e1',target:'stack',service:'api',command:['yarn','workspace','@acme/api','build']},execute],
@@ -162,7 +179,14 @@ const mcp = [
   ['resume-malformed','process_resume',{execution:7,target:[],service:null,wait_ready:'yes'},routine],
   ['stats-malformed','process_stats',{execution:[],target:null},allow],
   ['logs-container','process_logs',{execution:'e1',target:'stack',service:'api',since:'5m',tail:100,stream:'stderr',cursor:'opaque-cursor',limit:1},allow],
+  ['logs-saved-tail','process_logs',{operation:id,tail:12,stream:'stderr'},allow],
+  ['logs-saved-tail-malformed','process_logs',{operation:id,tail:'recent'},allow],
   ['agent-start-silent','agent_start',{kind:'claude',host:'unix:///outside/control.sock'},execute],
+  ['agent-start-local','agent_start',{kind:'gemini',prompt:'Review this workspace'},execute],
+  ['agent-start-local-manual-prompt','agent_start',{kind:'amp',prompt:'Review this workspace'},execute],
+  ['agent-terminal-read-defaults','agent_terminal_read',{execution:id},allow],
+  ['agent-terminal-read-missing-execution','agent_terminal_read',{limit:4096},allow],
+  ['agent-terminal-read-malformed','agent_terminal_read',{execution:[],cursor:0,limit:8193},allow],
   // Unknown names may be newer operations; Box names are unknown to Hub.
   ...['future_tool','proxy_future','process_shell','plugin_launch','workspace_cleanup','recover','conversation_message','box_docs_read']
     .map(tool => [`unknown-${tool}`,tool,{},execute]),
@@ -175,6 +199,13 @@ const cli = [
   ['command-help',['hub','process','exec','--help'],allow],
   ['status',['hub','--json','status'],allow],
   ['doctor',['hub','doctor'],allow],
+  ['doctor-compose-replacement',['hub','doctor','--execution',id],routine],
+  ['doctor-compose-config-inside',['hub','--config','hub.yml','doctor',`--execution=${id}`],routine],
+  ['doctor-compose-config-outside',['hub','--config=/outside/hub.yml','doctor','--execution',id],review],
+  ['doctor-compose-config-protected',['hub','doctor','--execution',id,'--config','.git/config'],review],
+  ['checked-compose-stop',['hub','process','stop','--execution',id,'--check-replacement'],routine],
+  ['checked-compose-stop-config-inside',['hub','process','--config=hub.yml','stop','--check-replacement','--execution',id],routine],
+  ['checked-compose-stop-config-outside',['hub','process','stop','--check-replacement','--execution',id,'--config=/outside/hub.yml'],review],
   ['workspace-list',['hub','workspace','list','--removed','--label','acme'],allow],
   ['workspace-show',['hub','workspace','--json','show','--workspace','acme#feature'],allow],
   ['process-list',['hub','process','list','-w','feature','--cursor','opaque-cursor','--limit','1'],allow],
@@ -192,6 +223,8 @@ const cli = [
   ['task-export-inside',['hub','task','export','--format','markdown','--output','exports/task.md','--overwrite'],allow],
   ['agent-list',['hub','agent','list','--refresh'],allow],
   ['logs-follow',['hub','process','logs','--operation','o1','--follow'],allow],
+  ['logs-saved-tail',['hub','process','logs','--service','web','--tail','12'],allow],
+  ['logs-saved-tail-malformed',['hub','process','logs','--operation','o1','--tail','recent'],allow],
   ['config-plan',['hub','config','plan','web','--set-env','NODE_ENV=test'],allow],
   ['docs-read',['hub','docs','read','workspaces.md','--start-line','1'],allow],
   ['docs-read-cursor',['hub','docs','read','workspaces.md','--cursor','opaque-cursor','--limit','20'],allow],
@@ -319,6 +352,11 @@ const cli = [
   ['plugin-launch',['hub','plugin','launch','speckit','--','codex'],execute],
   ['workflow-run',['hub','plugin','workflow','run','speckit','review','--request-id',id],execute],
   ['agent-start',['hub','agent','start','codex','--prompt','Review Acme'],execute],
+  ['agent-attach',['hub','agent','attach',id],review],
+  ['agent-attach-resume-capture',['hub','agent','attach',id,'--resume-capture'],review],
+  ['agent-attach-selected-project',['hub','agent','--project=/outside/acme','attach',id,'--resume-capture'],review],
+  ['agent-attach-missing-execution',['hub','agent','attach','--resume-capture'],review],
+  ['agent-attach-help',['hub','agent','attach','--help'],allow],
   ['agent-start-file',['hub','agent','start','codex','--prompt-file','notes/prompt.md'],execute],
   ['agent-message',['hub','agent','message','a1','--prompt','Continue'],execute],
   // Named files in credential or agent-settings locations, or outside the approved roots.

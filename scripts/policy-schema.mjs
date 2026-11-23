@@ -51,7 +51,7 @@ const predicates = {
   mcp: { arguments: jsonObject, fields, connection: fields,
     field_paths: {type: 'object', minProperties: 1, maxProperties: 256,
       propertyNames: fields.propertyNames,
-      additionalProperties: object({path: ref('pathPredicate'), recursive: {type: 'boolean'}, absolute: {type: 'boolean'}, relative_to: {enum:['cwd','project']}}, ['path'])} },
+      additionalProperties: object({path: ref('pathPredicate'), recursive: {type: 'boolean'}, absolute: {type: 'boolean'}, relative_to: {enum:['cwd','project']}, each: fields.propertyNames}, ['path'])} },
 };
 predicates.argv.argument_paths = ref('argumentPaths');
 predicates.argv.graphql = ref('graphql');
@@ -188,6 +188,7 @@ defs.graphql = {...object({carrier:{const:'gh-api'},operation:enumeration(['quer
 const caps = ['structured-rules-v1', 'argument-rules-v1', 'graphql-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1', 'fallback-rules-v1', 'invocation-groups-v1', 'command-sets-v1', 'mcp-integrations-v1', 'mcp-connection-facts-v1', 'mcp-command-fields-v1', 'mcp-effective-fields-v1'];
 caps.push('argument-paths-v1');
 caps.push('field-paths-v1');
+caps.push('field-path-arrays-v1');
 caps.push('prefix-leading-v1');
 caps.push('directory-options-v1');
 caps.push('unknown-options-v1', 'option-abbreviations-v1', 'negated-selectors-v1');
@@ -297,6 +298,7 @@ const feature = {
   'prefix-leading-v1': eitherPredicate(['arguments'], {allOf: [at(['kind'], {const: 'prefix'}), has('leading')]}),
   'argument-paths-v1': eitherPredicate(['argument_paths']),
   'field-paths-v1': eitherPredicate(['field_paths']),
+  'field-path-arrays-v1': eitherPredicate(['field_paths', '@', 'each']),
   'invocation-groups-v1': has('invocation'),
   'command-sets-v1': has('command_set'),
   'access-paths-v1': any([
