@@ -139,7 +139,7 @@ test('production Shield reproduces every independent Hub decision', {skip:!proce
   t.diagnostic(`Evaluated all ${total} independent hub cases.`);
 });
 
-test('an absolute replacement recipe in the approved project keeps its ordinary decision', () => {
+test('an absolute replacement recipe in the approved project keeps its ordinary decision', {skip:!process.env.SHIELD_BINARY}, () => {
   const owner = mkdtempSync(join(tmpdir(), 'hub-replacement-recipe-'));
   try {
     const path = join(owner, 'cases.json');
