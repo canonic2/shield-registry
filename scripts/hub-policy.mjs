@@ -1,4 +1,4 @@
-// Reviewed Hub CLI and MCP surface of Hub 0.49.0: src/interface/cli.rs, the
+// Reviewed Hub CLI and MCP surface of Hub 0.50.1: src/interface/cli.rs, the
 // task, agent, plugin and integration argument types, and the 99 tools of
 // src/interface/mcp/catalog.rs (`hub mcp serve --check`). Hub succeeds Box;
 // canonic/box keeps covering the box executable.
@@ -13,7 +13,7 @@
 import {toolPack} from './tool-pack.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 
-export const version = '0.1.6';
+export const version = '0.1.7';
 export const engine = '>=0.20.0, <1.0.0';
 
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -184,7 +184,10 @@ export function hubPack() {
   for (const row of pack.rules) {
     // User-scope auth setup can write from any directory. The confirmation
     // rule only asks, so the current directory cannot weaken it.
-    if (row.id === 'mcp-auth-setup-confirm') delete row.conditions.cwd;
+    // An explicit project can select a checkout from another directory.
+    // The hook worker accepts a host launch request independently of cwd.
+    if (['mcp-auth-setup-confirm', 'shell-secret-profile', 'config-secrets-sync', 'hook-child'].includes(row.id))
+      delete row.conditions.cwd;
     if (row.conditions.domain === 'argv' && (row.id === 'proxy' || row.id.startsWith('proxy-'))) {
       // Controller operations also work outside Hub projects. Keep the review
       // rule in force there, and allow only parsed reads using default trust.

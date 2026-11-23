@@ -55,7 +55,7 @@ pending candidates. Older artifacts remain available for pinned installations.
 | [canonic/gate](packs/canonic/gate/0.2.8/README.md) | 0.2.8 | Repository and worktree workflows, read-only previews, and reviewed changes to bound remotes |
 | [canonic/git](packs/canonic/git/0.12.1/README.md) | 0.12.1 | Everyday local commands, network reads and rebase, with Git patch output checked against writable roots and no-op editor settings accepted |
 | [canonic/github](packs/canonic/github/0.9.0/README.md) | 0.9.0 | GitHub CLI/MCP, an optional list of repositories with GraphQL query roots matching one of them and unrestricted nested reads, reviewed mutations, everyday read options, scoped REST reads with or without an explicit `--hostname github.com`, and approval for scoped REST requests with bodies |
-| [canonic/hub](packs/canonic/hub/0.1.6/README.md) | 0.1.6 | Workspaces, tasks, processes, agents, configuration, workspace MCP helpers and Hub Proxy inspection, with review for shells that load credentials and hosted proxy changes |
+| [canonic/hub](packs/canonic/hub/0.1.7/README.md) | 0.1.7 | Workspaces, tasks, processes, agents, configuration, workspace MCP helpers and Hub Proxy inspection, with review for credential and direct hook commands |
 | [canonic/node](packs/canonic/node/0.5.1/README.md) | 0.5.1 | Everyday project scripts, Node files, package-manager listings and in-project Node version queries through Yarn |
 | [canonic/rust](packs/canonic/rust/0.2.0/README.md) | 0.2.0 | Cargo, Rust tools, dependencies and explicit argument paths |
 | [canonic/testrun](packs/canonic/testrun/0.2.12/README.md) | 0.2.12 | Every Testrun CLI command and verified MCP tool allowed in all profiles, including browser storage, batched actions, builds and diagnostics, with caller-named host files such as camera and microphone fixtures checked against approved roots |
@@ -74,8 +74,9 @@ output in Loose and Recommended on Shield 0.44.0 and later, and takes the same
 decision after a leading `-c core.editor=true` or similar no-op editor setting.
 Gate 0.2.8 allows remote-change previews in every profile, asks before applying
 remote changes in Loose and Recommended, and denies applying them in Strict.
-Hub 0.1.6 allows read-only Hub Proxy inspection at the default Canonic controller
-and asks before shells load credentials, connectors enroll, or hosted routes change.
+Hub 0.1.7 asks in every profile before shells load credentials, secret files sync,
+or the private hook worker runs directly, regardless of the working directory.
+Read-only Hub Proxy inspection is allowed at the default Canonic controller.
 Testrun 0.2.12 checks browser camera and microphone fixture paths against approved
 read roots.
 Node 0.5.1 allows

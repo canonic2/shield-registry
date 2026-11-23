@@ -13,7 +13,7 @@ import {schema} from './policy-schema.mjs';
 import {checkPublication, digest} from './registry-release.mjs';
 
 // The current interface, independently of the policy: `hub mcp serve --check`
-// of Hub 0.49.0 in catalog order (including preview identities).
+// of Hub 0.50.1 in catalog order (including preview identities).
 const catalog = ['init','config_check','config_plan','config_schema','setup','workspace_create','workspace_attach',
   'workspace_list','workspace_show','workspace_remove','workspace_prepare','workspace_data_reset','task_show','task_update',
   'task_history','task_export','task_import','task_step_list','task_step_next','task_step_add','task_step_update',
@@ -55,6 +55,13 @@ test('Hub sources reproduce with schema-valid policy and fixtures', async () => 
   const proxyReview = pack.rules.find(rule => rule.id === 'proxy');
   assert.equal(Object.hasOwn(proxyReview.conditions, 'cwd'), false,
     'hosted proxy operations require review even outside a Hub project');
+  for (const id of ['shell-secret-profile', 'config-secrets-sync', 'hook-child']) {
+    const rule = pack.rules.find(row => row.id === id);
+    assert.equal(Object.hasOwn(rule.conditions, 'cwd'), false, id);
+    assert.deepEqual(rule.decision, {loose:'ask', recommended:'ask', strict:'ask'}, id);
+  }
+  assert.deepEqual(pack.rules.find(row => row.id === 'shell').conditions.cwd,
+    {within:{root:'write'}}, 'ordinary shell policy retains its working-directory scope');
   assert.deepEqual(pack.mcp_integrations.hub.fields['/args'], {exact: ['mcp','serve']});
 });
 
@@ -116,21 +123,23 @@ test('Hub retains signed release bytes and published decisions with reviewed exc
   } finally { rmSync(owner, {recursive:true, force:true}); }
 });
 
-test('Hub 0.1.5 retains signed companion assets and independent decisions', {skip:!process.env.SHIELD_BINARY}, async () => {
-  const previous = new URL('../packs/canonic/hub/0.1.5/', import.meta.url);
-  const signed = new URL('../public/packs/canonic/hub/0.1.5/', import.meta.url);
+test('Hub retains signed 0.1.5 and 0.1.6 assets and independent decisions', {skip:!process.env.SHIELD_BINARY}, async () => {
   const catalog = await checkPublication(new URL('../public', import.meta.url).pathname,
     readFileSync(new URL('../keys/main.pub', import.meta.url), 'utf8').trim());
-  const published = catalog.releases.find(row => row.id === 'canonic/hub' && row.version === '0.1.5');
-  assert.ok(published, 'authenticated published predecessor');
-  assert.equal(digest(readFileSync(new URL('pack.yml', previous))), published.sha256);
-  const fixtures = await caseFileNames(previous);
-  for (const file of ['pack.yml', ...fixtures, 'commands.json', 'README.md', 'LICENSE'])
-    assert.deepEqual(readFileSync(new URL(file, previous)), readFileSync(new URL(file, signed)), file);
-  for (const file of fixtures) {
-    const result = evaluate(new URL(file, previous).pathname);
-    assert.equal(result.status, 0, result.stdout + result.stderr);
-    assert.equal(JSON.parse(result.stdout).passed, true);
+  for (const version of ['0.1.5', '0.1.6']) {
+    const previous = new URL(`../packs/canonic/hub/${version}/`, import.meta.url);
+    const signed = new URL(`../public/packs/canonic/hub/${version}/`, import.meta.url);
+    const published = catalog.releases.find(row => row.id === 'canonic/hub' && row.version === version);
+    assert.ok(published, `authenticated published predecessor ${version}`);
+    assert.equal(digest(readFileSync(new URL('pack.yml', previous))), published.sha256);
+    const fixtures = await caseFileNames(previous);
+    for (const file of ['pack.yml', ...fixtures, 'commands.json', 'README.md', 'LICENSE'])
+      assert.deepEqual(readFileSync(new URL(file, previous)), readFileSync(new URL(file, signed)), `${version}/${file}`);
+    for (const file of fixtures) {
+      const result = evaluate(new URL(file, previous).pathname);
+      assert.equal(result.status, 0, result.stdout + result.stderr);
+      assert.equal(JSON.parse(result.stdout).passed, true);
+    }
   }
 });
 

@@ -10,10 +10,13 @@ export const directory = new URL(`../packs/canonic/hub/${version}/`, import.meta
 export function guide() {
   return `# Hub permissions ${version}
 
-Reviewed against Hub 0.49.0 and the 99 MCP tools listed by
+Reviewed against Hub 0.50.1 and the 99 MCP tools listed by
 \`hub mcp serve --check\`. The \`canonic/box\` pack covers the \`box\` executable.
 
 Requires Shield \`${engine}\`, including \`argument-paths-v1\`.
+
+Task summaries use the inspection decision. They read committed task content
+and can ask the existing local manager for live runtime state.
 
 The workspace MCP headers helper uses the routine decision and can start the
 same-user loopback passthrough. The optional \`--port\` must match the user's
@@ -61,9 +64,13 @@ their reviewed decisions for older installed binaries.
 
 Workspace and configured target commands can dispatch project lifecycle hooks.
 Command hooks require approval in an ignored, untracked local Hub configuration.
+Hub checks current approval before resuming a saved checkout command.
 Removal previews list the exact approved hook commands alongside the confirmed
 inventory. The configured lifecycle commands retain their routine decisions.
-Invoking the private hook worker directly asks in every profile.
+Invoking the private hook worker directly asks in every profile from any cwd.
+The same review applies to shells that load secrets and secret file sync,
+including when \`--project\` selects a workspace from another directory.
+Plugin inspection reports provider capabilities without reading credentials.
 
 | Operation | Loose | Recommended | Strict |
 | --- | --- | --- | --- |
@@ -122,6 +129,14 @@ them. The raw \`--\` forms are matched by risk tokens, which Shield never lets
 allow, so they ask even in Loose; \`process exec\` and \`process shell\` are the
 equivalent commands with the Loose allowance. The current terminal command is
 \`hub shell\`, with the same decisions as retained \`hub process shell\`.
+
+### Credential and hook review from any directory
+
+Pack 0.1.6 scoped its secret shell, secret sync and private hook worker rules
+to approved working directories. Calls from elsewhere could reach the
+unlisted Loose allowance. These operations now ask in all profiles from any
+directory. Use ordinary workspace lifecycle commands for approved project
+hooks. Use a plain shell for sessions that require no secret profile.
 
 ## Pagination and compatibility
 

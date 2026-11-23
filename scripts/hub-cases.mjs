@@ -1,4 +1,4 @@
-// Independent expected decisions for canonic/hub, reviewed against Hub 0.49.0.
+// Independent expected decisions for canonic/hub, reviewed against Hub 0.50.1.
 // Keep these explicit rather than importing the policy's inventory or deriving
 // expectations from its decisions.
 const profiles = ['loose','recommended','strict'];
@@ -106,6 +106,8 @@ tools.push(...docs);
 const mcp = [
   ...tools.map(([tool,arguments_,expected]) => [`tool-${tool}`,tool,arguments_,expected]),
   ['secret-provider-plugin','plugin_show',{plugin:'1password'},allow],
+  ['secret-provider-plugin-keychain','plugin_show',{plugin:'keychain'},allow],
+  ['secret-provider-plugin-vault','plugin_show',{plugin:'vault'},allow],
   // Continuations are opaque and validated by Hub, not permission selectors.
   ...['workspace_list','process_list','operation_list','manager_blocker_list','agent_list',
     'plugin_list','plugin_binding_list','plugin_workflow_list','task_show','task_step_list',
@@ -293,8 +295,13 @@ const cli = [
   ['current-shell',['hub','shell','-w','feature'],execute],
   ['secret-shell',['hub','shell','-w','feature','--secrets','billing'],review],
   ['secret-shell-attached',['hub','shell','--secrets=billing'],review],
+  ['secret-shell-selected-project',['hub','--project','/outside/acme','shell','--workspace=feature','--execution','e1','--secrets=billing','--','make','check'],review],
+  ['secret-shell-argument-after-separator',['hub','shell','--','make','--secrets','fixture'],execute],
   ['secret-sync',['hub','config','secrets-sync','billing','APP_ENV_FILE','-w','feature'],review],
+  ['secret-sync-selected-project',['hub','--project=/outside/acme','config','secrets-sync','-w','feature','billing','APP_ENV_FILE'],review],
+  ['secret-sync-missing-file',['hub','config','secrets-sync','billing'],review],
   ['private-hook-worker',['hub','--json','hook-child'],review],
+  ['private-hook-worker-selected-project',['hub','--project','/outside/acme','hook-child'],review],
   ['shell-command',['hub','shell','--execution','e1','--','node','scripts/check.mjs'],execute],
   ['shell-options',['hub','--config','/outside/hub.yml','shell','--shell','/bin/sh','--timeout-ms','1000'],execute],
   ['create-shell',['hub','workspace','create','feature','--shell'],execute],

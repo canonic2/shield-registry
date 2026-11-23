@@ -1,0 +1,975 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "mcp-plugin-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "plugin_workflow_run",
+        "arguments": {
+          "plugin": "speckit",
+          "workflow": "review",
+          "request_id": "11111111111111111111111111111111",
+          "dry_run": true
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-remove-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "workspace_remove",
+        "arguments": {
+          "workspace": "feature",
+          "dry_run": true
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-remove-keep-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "workspace_remove",
+        "arguments": {
+          "workspace": "feature",
+          "keep": [
+            "data"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-remove-self-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "workspace_remove",
+        "arguments": {
+          "workspace": "feature",
+          "allow_self_stop": true
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-remove-discard-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "workspace_remove",
+        "arguments": {
+          "workspace": "feature",
+          "discard_changes": true
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-remove-forget-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "workspace_remove",
+        "arguments": {
+          "workspace": "feature",
+          "forget": true
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-remove-discard-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "workspace_remove",
+        "arguments": {
+          "workspace": "feature",
+          "discard_changes": "true"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-exec-borrowed-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "process_exec",
+        "arguments": {
+          "command": [
+            "curl",
+            "http://127.0.0.1:4780"
+          ],
+          "execution": "e1"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-exec-container-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "process_exec",
+        "arguments": {
+          "execution": "e1",
+          "target": "stack",
+          "service": "api",
+          "command": [
+            "yarn",
+            "workspace",
+            "@acme/api",
+            "build"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-exec-container-destructive-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "process_exec",
+        "arguments": {
+          "execution": "e1",
+          "target": "stack",
+          "service": "api",
+          "command": [
+            "rm",
+            "-rf",
+            "/data"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-restart-missing-selectors-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "process_restart",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-restart-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "process_restart",
+        "arguments": {
+          "execution": 7,
+          "target": [],
+          "service": null,
+          "wait_ready": "yes"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-restart-with-options-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "process_restart",
+        "arguments": {
+          "execution": "e1",
+          "target": "stack",
+          "service": "api",
+          "wait_ready": true,
+          "timeout_ms": 300000,
+          "request_id": "11111111111111111111111111111111"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-pause-missing-selectors-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "process_pause",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-resume-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "process_resume",
+        "arguments": {
+          "execution": 7,
+          "target": [],
+          "service": null,
+          "wait_ready": "yes"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-stats-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "process_stats",
+        "arguments": {
+          "execution": [],
+          "target": null
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-logs-container-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "process_logs",
+        "arguments": {
+          "execution": "e1",
+          "target": "stack",
+          "service": "api",
+          "since": "5m",
+          "tail": 100,
+          "stream": "stderr",
+          "cursor": "opaque-cursor",
+          "limit": 1
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-agent-start-silent-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "agent_start",
+        "arguments": {
+          "kind": "claude",
+          "host": "unix:///outside/control.sock"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-future_tool-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "future_tool",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-proxy_future-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "proxy_future",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-process_shell-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "process_shell",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-plugin_launch-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "plugin_launch",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-workspace_cleanup-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "workspace_cleanup",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-recover-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "recover",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-conversation_message-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "conversation_message",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-box_docs_read-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "box_docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "transport-hub-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "stdio",
+            "command": "hub",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "task_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport--usr-local-bin-hub-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "stdio",
+            "command": "/usr/local/bin/hub",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "task_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport--opt-homebrew-bin-hub-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "stdio",
+            "command": "/opt/homebrew/bin/hub",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "task_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport--Users-acme-.local-bin-hub-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "stdio",
+            "command": "/Users/acme/.local/bin/hub",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "task_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "transport--home-acme-.local-bin-hub-strict",
+      "profile": "strict",
+      "mcp": {
+        "hub": {
+          "transport": {
+            "type": "stdio",
+            "command": "/home/acme/.local/bin/hub",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "hub"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "hub",
+        "tool": "task_show",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "alias-strict",
+      "profile": "strict",
+      "mcp": {
+        "workspaces": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/hub",
+            "integration": "hub"
+          },
+          "agents": {
+            "codex": "workspaces"
+          },
+          "packs": {
+            "canonic/hub": "hub"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "workspaces",
+        "tool": "process_exec",
+        "arguments": {
+          "command": [
+            "make"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}
