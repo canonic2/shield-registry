@@ -1,8 +1,10 @@
 {
-  "sequence": 63,
+  "sequence": 64,
   "catalog_version": 3,
   "expires_at": "2027-02-03T00:00:00Z",
   "packs": [
+    "packs/canonic/baseline/0.18.0/pack.yml",
+    "packs/canonic/ssh/0.1.0/pack.yml",
     "packs/canonic/git/0.1.0/pack.yml",
     "packs/canonic/git/0.2.0/pack.yml",
     "packs/canonic/git/0.3.0/pack.yml",
@@ -53,6 +55,7 @@
     "packs/canonic/git/0.8.0/pack.yml",
     "packs/canonic/node/0.4.0/pack.yml",
     "packs/canonic/rust/0.2.0/pack.yml",
+    "packs/canonic/rust/0.2.1/pack.yml",
     "packs/canonic/aws/0.2.0/pack.yml",
     "packs/canonic/github/0.3.0/pack.yml",
     "packs/canonic/github/0.4.0/pack.yml",
@@ -115,6 +118,7 @@
     "packs/canonic/hub/0.1.5/pack.yml",
     "packs/canonic/hub/0.1.6/pack.yml",
     "packs/canonic/node/0.5.1/pack.yml",
+    "packs/canonic/node/0.6.0/pack.yml",
     "packs/canonic/gate/0.2.8/pack.yml",
     "packs/canonic/gate/0.2.9/pack.yml",
     "packs/canonic/testrun/0.2.12/pack.yml",
@@ -123,9 +127,213 @@
     "packs/canonic/hub/0.1.7/pack.yml",
     "packs/canonic/hub/0.1.8/pack.yml",
     "packs/canonic/hub/0.1.9/pack.yml",
-    "packs/canonic/github/0.10.0/pack.yml"
+    "packs/canonic/github/0.10.0/pack.yml",
+    "packs/canonic/doppler/0.1.0/pack.yml",
+    "packs/canonic/supabase/0.1.0/pack.yml",
+    "packs/canonic/terraform/0.1.0/pack.yml",
+    "packs/canonic/opentofu/0.1.0/pack.yml",
+    "packs/canonic/python/0.1.0/pack.yml",
+    "packs/canonic/1password/0.1.0/pack.yml",
+    "packs/canonic/aws-cdk-sam/0.1.0/pack.yml",
+    "packs/canonic/postgresql/0.1.0/pack.yml",
+    "packs/canonic/opensearch-elasticsearch/0.1.0/pack.yml",
+    "packs/canonic/prisma/0.1.0/pack.yml",
+    "packs/canonic/sqlite/0.1.0/pack.yml",
+    "packs/canonic/php/0.1.0/pack.yml",
+    "packs/canonic/go/0.1.0/pack.yml",
+    "packs/canonic/bun/0.1.0/pack.yml",
+    "packs/canonic/java/0.1.0/pack.yml",
+    "packs/canonic/android/0.1.0/pack.yml",
+    "packs/canonic/apple/0.1.0/pack.yml",
+    "packs/canonic/ansible/0.1.0/pack.yml",
+    "packs/canonic/cloudflare/0.1.0/pack.yml"
   ],
   "commands": {
+    "canonic/cloudflare": [
+      "wrangler",
+      "cloudflared"
+    ],
+    "canonic/ssh": [
+      "ssh",
+      "scp",
+      "sftp",
+      "rsync",
+      "ssh-keygen",
+      "ssh-add"
+    ],
+    "canonic/ansible": [
+      "ansible",
+      "ansible-playbook",
+      "ansible-inventory",
+      "ansible-galaxy",
+      "ansible-vault",
+      "ansible-config",
+      "ansible-doc",
+      "ansible-console",
+      "ansible-pull"
+    ],
+    "canonic/apple": [
+      "xcrun",
+      "xcodebuild",
+      "simctl",
+      "devicectl",
+      "swift",
+      "swiftc",
+      "swift-format",
+      "swiftlint",
+      "pod",
+      "xctrace",
+      "codesign",
+      "security",
+      "notarytool",
+      "stapler",
+      "xcresulttool",
+      "dsymutil"
+    ],
+    "canonic/android": [
+      "adb",
+      "emulator",
+      "sdkmanager",
+      "avdmanager",
+      "bundletool",
+      "apksigner",
+      "zipalign"
+    ],
+    "canonic/java": [
+      "java",
+      "javac",
+      "jar",
+      "javadoc",
+      "jlink",
+      "jpackage",
+      "jshell",
+      "jcmd",
+      "jfr",
+      "keytool",
+      "jarsigner",
+      "mvn",
+      "mvnw",
+      "mvnd",
+      "gradle",
+      "gradlew"
+    ],
+    "canonic/bun": [
+      "bun",
+      "bunx"
+    ],
+    "canonic/go": [
+      "go",
+      "gofmt",
+      "gofumpt",
+      "goimports",
+      "golangci-lint",
+      "govulncheck",
+      "staticcheck",
+      "gotestsum",
+      "ginkgo",
+      "gocov",
+      "gocov-xml",
+      "gocover-cobertura",
+      "go-junit-report"
+    ],
+    "canonic/php": [
+      "php",
+      "composer",
+      "phpunit",
+      "pest",
+      "paratest",
+      "phpstan",
+      "psalm",
+      "phpcs",
+      "phpcbf",
+      "php-cs-fixer",
+      "pint",
+      "rector",
+      "phpmd",
+      "artisan",
+      "laravel",
+      "sail"
+    ],
+    "canonic/sqlite": [
+      "sqlite3",
+      "sqldiff",
+      "sqlite3_analyzer",
+      "sqlite3_rsync"
+    ],
+    "canonic/prisma": [
+      "prisma",
+      "prisma7",
+      "npx",
+      "npm",
+      "pnpm",
+      "yarn",
+      "bunx",
+      "bun"
+    ],
+    "canonic/opensearch-elasticsearch": [
+      "elastic",
+      "opensearch-cli",
+      "elasticsearch",
+      "opensearch",
+      "elasticsearch-keystore",
+      "elasticsearch-plugin",
+      "elasticsearch-node",
+      "elasticsearch-users",
+      "elasticsearch-shard",
+      "elasticsearch-reset-password",
+      "opensearch-keystore",
+      "opensearch-plugin",
+      "elasticsearch-sql-cli"
+    ],
+    "canonic/postgresql": [
+      "psql",
+      "pg_dump",
+      "pg_dumpall",
+      "pg_restore",
+      "pg_isready",
+      "createdb",
+      "dropdb",
+      "createuser",
+      "dropuser",
+      "vacuumdb",
+      "reindexdb",
+      "clusterdb",
+      "pg_amcheck",
+      "pg_basebackup",
+      "pg_config",
+      "pgbench"
+    ],
+    "canonic/aws-cdk-sam": [
+      "cdk",
+      "sam"
+    ],
+    "canonic/1password": [
+      "op"
+    ],
+    "canonic/python": [
+      "python",
+      "pip",
+      "pytest",
+      "uv",
+      "pipx",
+      "poetry",
+      "pipenv",
+      "virtualenv",
+      "ruff",
+      "pyright",
+      "mypy",
+      "tox",
+      "nox",
+      "coverage",
+      "bandit",
+      "pip-audit"
+    ],
+    "canonic/terraform": [
+      "terraform"
+    ],
+    "canonic/opentofu": [
+      "tofu"
+    ],
     "canonic/github": [
       "gh"
     ],
@@ -157,11 +365,23 @@
       "pnx",
       "yarn",
       "yarnpkg",
-      "corepack"
+      "corepack",
+      "tsc",
+      "eslint",
+      "biome",
+      "prettier",
+      "vitest",
+      "turbo"
     ],
     "canonic/docker": [
       "docker",
       "docker-compose"
+    ],
+    "canonic/doppler": [
+      "doppler"
+    ],
+    "canonic/supabase": [
+      "supabase"
     ],
     "canonic/rust": [
       "cargo",

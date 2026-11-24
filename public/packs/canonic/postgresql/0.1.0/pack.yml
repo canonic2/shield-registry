@@ -1,0 +1,1795 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/postgresql",
+  "version": "0.1.0",
+  "description": "PostgreSQL client, backup, restore and administration permissions with review for SQL, connections, exports and lifecycle changes.",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.53.0, <1.0.0"
+  },
+  "capabilities": [
+    "structured-rules-v1",
+    "argument-rules-v1",
+    "regex-v1",
+    "fallback-rules-v1"
+  ],
+  "rules": [
+    {
+      "id": "psql-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "psql",
+            "/usr/bin/psql",
+            "/usr/local/bin/psql",
+            "/opt/homebrew/bin/psql"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "psql-info-V",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "psql",
+            "/usr/bin/psql",
+            "/usr/local/bin/psql",
+            "/opt/homebrew/bin/psql"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "psql-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "psql",
+            "/usr/bin/psql",
+            "/usr/local/bin/psql",
+            "/opt/homebrew/bin/psql"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "psql-info-question",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "psql",
+            "/usr/bin/psql",
+            "/usr/local/bin/psql",
+            "/opt/homebrew/bin/psql"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-?"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "psql-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "psql",
+            "/usr/bin/psql",
+            "/usr/local/bin/psql",
+            "/opt/homebrew/bin/psql"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL, client meta-commands, connection identity, credentials, files and database changes.",
+      "fallback": true
+    },
+    {
+      "id": "pg_dump-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_dump",
+            "/usr/bin/pg_dump",
+            "/usr/local/bin/pg_dump",
+            "/opt/homebrew/bin/pg_dump"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_dump-info-V",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_dump",
+            "/usr/bin/pg_dump",
+            "/usr/local/bin/pg_dump",
+            "/opt/homebrew/bin/pg_dump"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_dump-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_dump",
+            "/usr/bin/pg_dump",
+            "/usr/local/bin/pg_dump",
+            "/opt/homebrew/bin/pg_dump"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_dump-info-question",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_dump",
+            "/usr/bin/pg_dump",
+            "/usr/local/bin/pg_dump",
+            "/opt/homebrew/bin/pg_dump"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-?"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_dump-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_dump",
+            "/usr/bin/pg_dump",
+            "/usr/local/bin/pg_dump",
+            "/opt/homebrew/bin/pg_dump"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL, client meta-commands, connection identity, credentials, files and database changes.",
+      "fallback": true
+    },
+    {
+      "id": "pg_dumpall-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_dumpall",
+            "/usr/bin/pg_dumpall",
+            "/usr/local/bin/pg_dumpall",
+            "/opt/homebrew/bin/pg_dumpall"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_dumpall-info-V",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_dumpall",
+            "/usr/bin/pg_dumpall",
+            "/usr/local/bin/pg_dumpall",
+            "/opt/homebrew/bin/pg_dumpall"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_dumpall-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_dumpall",
+            "/usr/bin/pg_dumpall",
+            "/usr/local/bin/pg_dumpall",
+            "/opt/homebrew/bin/pg_dumpall"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_dumpall-info-question",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_dumpall",
+            "/usr/bin/pg_dumpall",
+            "/usr/local/bin/pg_dumpall",
+            "/opt/homebrew/bin/pg_dumpall"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-?"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_dumpall-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_dumpall",
+            "/usr/bin/pg_dumpall",
+            "/usr/local/bin/pg_dumpall",
+            "/opt/homebrew/bin/pg_dumpall"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL, client meta-commands, connection identity, credentials, files and database changes.",
+      "fallback": true
+    },
+    {
+      "id": "pg_restore-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_restore",
+            "/usr/bin/pg_restore",
+            "/usr/local/bin/pg_restore",
+            "/opt/homebrew/bin/pg_restore"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_restore-info-V",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_restore",
+            "/usr/bin/pg_restore",
+            "/usr/local/bin/pg_restore",
+            "/opt/homebrew/bin/pg_restore"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_restore-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_restore",
+            "/usr/bin/pg_restore",
+            "/usr/local/bin/pg_restore",
+            "/opt/homebrew/bin/pg_restore"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_restore-info-question",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_restore",
+            "/usr/bin/pg_restore",
+            "/usr/local/bin/pg_restore",
+            "/opt/homebrew/bin/pg_restore"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-?"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_restore-clean",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_restore",
+            "/usr/bin/pg_restore",
+            "/usr/local/bin/pg_restore",
+            "/opt/homebrew/bin/pg_restore"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [],
+          "any_of": [
+            "--clean",
+            {
+              "regex": "--clean=.*"
+            },
+            {
+              "regex": "-[A-Za-z]*c[A-Za-z]*"
+            }
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review dropping existing database objects before restoring."
+    },
+    {
+      "id": "pg_restore-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_restore",
+            "/usr/bin/pg_restore",
+            "/usr/local/bin/pg_restore",
+            "/opt/homebrew/bin/pg_restore"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL, client meta-commands, connection identity, credentials, files and database changes.",
+      "fallback": true
+    },
+    {
+      "id": "pg_isready-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_isready",
+            "/usr/bin/pg_isready",
+            "/usr/local/bin/pg_isready",
+            "/opt/homebrew/bin/pg_isready"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_isready-info-V",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_isready",
+            "/usr/bin/pg_isready",
+            "/usr/local/bin/pg_isready",
+            "/opt/homebrew/bin/pg_isready"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_isready-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_isready",
+            "/usr/bin/pg_isready",
+            "/usr/local/bin/pg_isready",
+            "/opt/homebrew/bin/pg_isready"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_isready-info-question",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_isready",
+            "/usr/bin/pg_isready",
+            "/usr/local/bin/pg_isready",
+            "/opt/homebrew/bin/pg_isready"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-?"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_isready-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_isready",
+            "/usr/bin/pg_isready",
+            "/usr/local/bin/pg_isready",
+            "/opt/homebrew/bin/pg_isready"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the resolved connection target and libpq settings before probing server readiness.",
+      "fallback": true
+    },
+    {
+      "id": "createdb-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "createdb",
+            "/usr/bin/createdb",
+            "/usr/local/bin/createdb",
+            "/opt/homebrew/bin/createdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "createdb-info-V",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "createdb",
+            "/usr/bin/createdb",
+            "/usr/local/bin/createdb",
+            "/opt/homebrew/bin/createdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "createdb-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "createdb",
+            "/usr/bin/createdb",
+            "/usr/local/bin/createdb",
+            "/opt/homebrew/bin/createdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "createdb-info-question",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "createdb",
+            "/usr/bin/createdb",
+            "/usr/local/bin/createdb",
+            "/opt/homebrew/bin/createdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-?"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "createdb-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "createdb",
+            "/usr/bin/createdb",
+            "/usr/local/bin/createdb",
+            "/opt/homebrew/bin/createdb"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL, client meta-commands, connection identity, credentials, files and database changes.",
+      "fallback": true
+    },
+    {
+      "id": "dropdb-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "dropdb",
+            "/usr/bin/dropdb",
+            "/usr/local/bin/dropdb",
+            "/opt/homebrew/bin/dropdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "dropdb-info-V",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "dropdb",
+            "/usr/bin/dropdb",
+            "/usr/local/bin/dropdb",
+            "/opt/homebrew/bin/dropdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "dropdb-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "dropdb",
+            "/usr/bin/dropdb",
+            "/usr/local/bin/dropdb",
+            "/opt/homebrew/bin/dropdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "dropdb-info-question",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "dropdb",
+            "/usr/bin/dropdb",
+            "/usr/local/bin/dropdb",
+            "/opt/homebrew/bin/dropdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-?"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "dropdb-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "dropdb",
+            "/usr/bin/dropdb",
+            "/usr/local/bin/dropdb",
+            "/opt/homebrew/bin/dropdb"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review SQL, client meta-commands, connection identity, credentials, files and database changes.",
+      "fallback": true
+    },
+    {
+      "id": "createuser-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "createuser",
+            "/usr/bin/createuser",
+            "/usr/local/bin/createuser",
+            "/opt/homebrew/bin/createuser"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "createuser-info-V",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "createuser",
+            "/usr/bin/createuser",
+            "/usr/local/bin/createuser",
+            "/opt/homebrew/bin/createuser"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "createuser-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "createuser",
+            "/usr/bin/createuser",
+            "/usr/local/bin/createuser",
+            "/opt/homebrew/bin/createuser"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "createuser-info-question",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "createuser",
+            "/usr/bin/createuser",
+            "/usr/local/bin/createuser",
+            "/opt/homebrew/bin/createuser"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-?"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "createuser-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "createuser",
+            "/usr/bin/createuser",
+            "/usr/local/bin/createuser",
+            "/opt/homebrew/bin/createuser"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL, client meta-commands, connection identity, credentials, files and database changes.",
+      "fallback": true
+    },
+    {
+      "id": "dropuser-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "dropuser",
+            "/usr/bin/dropuser",
+            "/usr/local/bin/dropuser",
+            "/opt/homebrew/bin/dropuser"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "dropuser-info-V",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "dropuser",
+            "/usr/bin/dropuser",
+            "/usr/local/bin/dropuser",
+            "/opt/homebrew/bin/dropuser"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "dropuser-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "dropuser",
+            "/usr/bin/dropuser",
+            "/usr/local/bin/dropuser",
+            "/opt/homebrew/bin/dropuser"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "dropuser-info-question",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "dropuser",
+            "/usr/bin/dropuser",
+            "/usr/local/bin/dropuser",
+            "/opt/homebrew/bin/dropuser"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-?"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "dropuser-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "dropuser",
+            "/usr/bin/dropuser",
+            "/usr/local/bin/dropuser",
+            "/opt/homebrew/bin/dropuser"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review SQL, client meta-commands, connection identity, credentials, files and database changes.",
+      "fallback": true
+    },
+    {
+      "id": "vacuumdb-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "vacuumdb",
+            "/usr/bin/vacuumdb",
+            "/usr/local/bin/vacuumdb",
+            "/opt/homebrew/bin/vacuumdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "vacuumdb-info-V",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "vacuumdb",
+            "/usr/bin/vacuumdb",
+            "/usr/local/bin/vacuumdb",
+            "/opt/homebrew/bin/vacuumdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "vacuumdb-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "vacuumdb",
+            "/usr/bin/vacuumdb",
+            "/usr/local/bin/vacuumdb",
+            "/opt/homebrew/bin/vacuumdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "vacuumdb-info-question",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "vacuumdb",
+            "/usr/bin/vacuumdb",
+            "/usr/local/bin/vacuumdb",
+            "/opt/homebrew/bin/vacuumdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-?"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "vacuumdb-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "vacuumdb",
+            "/usr/bin/vacuumdb",
+            "/usr/local/bin/vacuumdb",
+            "/opt/homebrew/bin/vacuumdb"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL, client meta-commands, connection identity, credentials, files and database changes.",
+      "fallback": true
+    },
+    {
+      "id": "reindexdb-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "reindexdb",
+            "/usr/bin/reindexdb",
+            "/usr/local/bin/reindexdb",
+            "/opt/homebrew/bin/reindexdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "reindexdb-info-V",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "reindexdb",
+            "/usr/bin/reindexdb",
+            "/usr/local/bin/reindexdb",
+            "/opt/homebrew/bin/reindexdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "reindexdb-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "reindexdb",
+            "/usr/bin/reindexdb",
+            "/usr/local/bin/reindexdb",
+            "/opt/homebrew/bin/reindexdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "reindexdb-info-question",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "reindexdb",
+            "/usr/bin/reindexdb",
+            "/usr/local/bin/reindexdb",
+            "/opt/homebrew/bin/reindexdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-?"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "reindexdb-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "reindexdb",
+            "/usr/bin/reindexdb",
+            "/usr/local/bin/reindexdb",
+            "/opt/homebrew/bin/reindexdb"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL, client meta-commands, connection identity, credentials, files and database changes.",
+      "fallback": true
+    },
+    {
+      "id": "clusterdb-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "clusterdb",
+            "/usr/bin/clusterdb",
+            "/usr/local/bin/clusterdb",
+            "/opt/homebrew/bin/clusterdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "clusterdb-info-V",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "clusterdb",
+            "/usr/bin/clusterdb",
+            "/usr/local/bin/clusterdb",
+            "/opt/homebrew/bin/clusterdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "clusterdb-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "clusterdb",
+            "/usr/bin/clusterdb",
+            "/usr/local/bin/clusterdb",
+            "/opt/homebrew/bin/clusterdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "clusterdb-info-question",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "clusterdb",
+            "/usr/bin/clusterdb",
+            "/usr/local/bin/clusterdb",
+            "/opt/homebrew/bin/clusterdb"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-?"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "clusterdb-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "clusterdb",
+            "/usr/bin/clusterdb",
+            "/usr/local/bin/clusterdb",
+            "/opt/homebrew/bin/clusterdb"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL, client meta-commands, connection identity, credentials, files and database changes.",
+      "fallback": true
+    },
+    {
+      "id": "pg_amcheck-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_amcheck",
+            "/usr/bin/pg_amcheck",
+            "/usr/local/bin/pg_amcheck",
+            "/opt/homebrew/bin/pg_amcheck"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_amcheck-info-V",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_amcheck",
+            "/usr/bin/pg_amcheck",
+            "/usr/local/bin/pg_amcheck",
+            "/opt/homebrew/bin/pg_amcheck"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_amcheck-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_amcheck",
+            "/usr/bin/pg_amcheck",
+            "/usr/local/bin/pg_amcheck",
+            "/opt/homebrew/bin/pg_amcheck"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_amcheck-info-question",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_amcheck",
+            "/usr/bin/pg_amcheck",
+            "/usr/local/bin/pg_amcheck",
+            "/opt/homebrew/bin/pg_amcheck"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-?"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_amcheck-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_amcheck",
+            "/usr/bin/pg_amcheck",
+            "/usr/local/bin/pg_amcheck",
+            "/opt/homebrew/bin/pg_amcheck"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL, client meta-commands, connection identity, credentials, files and database changes.",
+      "fallback": true
+    },
+    {
+      "id": "pg_basebackup-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_basebackup",
+            "/usr/bin/pg_basebackup",
+            "/usr/local/bin/pg_basebackup",
+            "/opt/homebrew/bin/pg_basebackup"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_basebackup-info-V",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_basebackup",
+            "/usr/bin/pg_basebackup",
+            "/usr/local/bin/pg_basebackup",
+            "/opt/homebrew/bin/pg_basebackup"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_basebackup-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_basebackup",
+            "/usr/bin/pg_basebackup",
+            "/usr/local/bin/pg_basebackup",
+            "/opt/homebrew/bin/pg_basebackup"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_basebackup-info-question",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_basebackup",
+            "/usr/bin/pg_basebackup",
+            "/usr/local/bin/pg_basebackup",
+            "/opt/homebrew/bin/pg_basebackup"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-?"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_basebackup-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_basebackup",
+            "/usr/bin/pg_basebackup",
+            "/usr/local/bin/pg_basebackup",
+            "/opt/homebrew/bin/pg_basebackup"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL, client meta-commands, connection identity, credentials, files and database changes.",
+      "fallback": true
+    },
+    {
+      "id": "pg_config-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_config",
+            "/usr/bin/pg_config",
+            "/usr/local/bin/pg_config",
+            "/opt/homebrew/bin/pg_config"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_config-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_config",
+            "/usr/bin/pg_config",
+            "/usr/local/bin/pg_config",
+            "/opt/homebrew/bin/pg_config"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pg_config-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pg_config",
+            "/usr/bin/pg_config",
+            "/usr/local/bin/pg_config",
+            "/opt/homebrew/bin/pg_config"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": "allow",
+      "reason": "Print installation configuration; pg_config has no database, file-output or execution mode.",
+      "fallback": true
+    },
+    {
+      "id": "pgbench-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pgbench",
+            "/usr/bin/pgbench",
+            "/usr/local/bin/pgbench",
+            "/opt/homebrew/bin/pgbench"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pgbench-info-V",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pgbench",
+            "/usr/bin/pgbench",
+            "/usr/local/bin/pgbench",
+            "/opt/homebrew/bin/pgbench"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pgbench-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pgbench",
+            "/usr/bin/pgbench",
+            "/usr/local/bin/pgbench",
+            "/opt/homebrew/bin/pgbench"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pgbench-info-question",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pgbench",
+            "/usr/bin/pgbench",
+            "/usr/local/bin/pgbench",
+            "/opt/homebrew/bin/pgbench"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-?"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print version or built-in help from the trusted installation."
+    },
+    {
+      "id": "pgbench-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pgbench",
+            "/usr/bin/pgbench",
+            "/usr/local/bin/pgbench",
+            "/opt/homebrew/bin/pgbench"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL, client meta-commands, connection identity, credentials, files and database changes.",
+      "fallback": true
+    }
+  ]
+}

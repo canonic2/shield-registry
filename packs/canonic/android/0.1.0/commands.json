@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "commands": [
+    {
+      "name": "adb",
+      "rule_ids": [
+        "adb-help",
+        "adb-version",
+        "adb-operation"
+      ]
+    },
+    {
+      "name": "emulator",
+      "rule_ids": [
+        "emulator-operation"
+      ]
+    },
+    {
+      "name": "sdkmanager",
+      "rule_ids": [
+        "sdkmanager-operation"
+      ]
+    },
+    {
+      "name": "avdmanager",
+      "rule_ids": [
+        "avdmanager-operation"
+      ]
+    },
+    {
+      "name": "bundletool",
+      "rule_ids": [
+        "bundletool-operation"
+      ]
+    },
+    {
+      "name": "apksigner",
+      "rule_ids": [
+        "apksigner-operation"
+      ]
+    },
+    {
+      "name": "zipalign",
+      "rule_ids": [
+        "zipalign-operation"
+      ]
+    }
+  ]
+}

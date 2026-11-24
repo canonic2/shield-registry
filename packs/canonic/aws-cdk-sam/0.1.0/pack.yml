@@ -1,0 +1,4688 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/aws-cdk-sam",
+  "version": "0.1.0",
+  "description": "AWS CDK and SAM CLI permissions for reviewed application execution, local workflows, packaging and infrastructure changes.",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.53.0, <1.0.0"
+  },
+  "capabilities": [
+    "structured-rules-v1",
+    "argument-rules-v1",
+    "prefix-leading-v1",
+    "interleaved-leading-v1",
+    "fallback-rules-v1"
+  ],
+  "rules": [
+    {
+      "id": "cdk-info---version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help or the installed version."
+    },
+    {
+      "id": "cdk-info---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help or the installed version."
+    },
+    {
+      "id": "cdk-info--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help or the installed version."
+    },
+    {
+      "id": "cdk-acknowledge",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "acknowledge"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-acknowledge",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "acknowledge",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-ack",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "ack"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-ack",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "ack",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-bootstrap",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "bootstrap"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-bootstrap",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "bootstrap",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-context",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "context"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-context",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "context",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-deploy",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "deploy"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-deploy",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "deploy",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-destroy",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "destroy"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review resource deletion, detachment or asset garbage collection."
+    },
+    {
+      "id": "cdk-help-destroy",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "destroy",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-diff",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "diff"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-diff",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "diff",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-docs",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "docs"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-docs",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "docs",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-doc",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "doc"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-doc",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "doc",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-doctor",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "doctor"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-doctor",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "doctor",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-drift",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "drift"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-drift",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "drift",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-flags",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "flags"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-flags",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "flags",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-import",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "import"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-import",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "import",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-init",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "init"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-init",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "init",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "list"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "list",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-ls",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "ls"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-ls",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "ls",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-metadata",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "metadata"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-metadata",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "metadata",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-migrate",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "migrate"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-migrate",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "migrate",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-notices",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "notices"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-notices",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "notices",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-orphan",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "orphan"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review resource deletion, detachment or asset garbage collection."
+    },
+    {
+      "id": "cdk-help-orphan",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "orphan",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-publish-assets",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "publish-assets"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-publish-assets",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "publish-assets",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-refactor",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "refactor"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-refactor",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "refactor",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-synthesize",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "synthesize"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-synthesize",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "synthesize",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-synth",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "synth"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-synth",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "synth",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-watch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "watch"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-watch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "watch",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-rollback",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "rollback"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "cdk-help-rollback",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "rollback",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-gc",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "gc"
+          ],
+          "leading": {
+            "flags": [
+              "--verbose",
+              "-v",
+              "-i",
+              "-j",
+              "--no-asset-metadata",
+              "--no-ci",
+              "--no-debug",
+              "--no-ec2creds",
+              "--no-ignore-errors",
+              "--no-json",
+              "--no-lookups",
+              "--no-no-color",
+              "--no-notices",
+              "--no-path-metadata",
+              "--no-staging",
+              "--no-strict",
+              "--no-trace",
+              "--no-version-reporting"
+            ],
+            "optional_values": [
+              "--asset-metadata",
+              "--ci",
+              "--debug",
+              "--ec2creds",
+              "--ignore-errors",
+              "--json",
+              "--lookups",
+              "--no-color",
+              "--notices",
+              "--path-metadata",
+              "--staging",
+              "--strict",
+              "--trace",
+              "--version-reporting"
+            ],
+            "values": [
+              "--app",
+              "-a",
+              "--build",
+              "--ca-bundle-path",
+              "--context",
+              "-c",
+              "--output",
+              "-o",
+              "--plugin",
+              "-p",
+              "--profile",
+              "--proxy",
+              "--role-arn",
+              "-r"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review resource deletion, detachment or asset garbage collection."
+    },
+    {
+      "id": "cdk-help-gc",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "gc",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "cdk-unclassified",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "cdk",
+            "/usr/bin/cdk",
+            "/usr/local/bin/cdk",
+            "/opt/homebrew/bin/cdk"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review unclassified syntax, wrappers and configuration effects. Strict refuses execution.",
+      "fallback": true
+    },
+    {
+      "id": "sam-info---version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help or the installed version."
+    },
+    {
+      "id": "sam-info---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help or the installed version."
+    },
+    {
+      "id": "sam-info--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help or the installed version."
+    },
+    {
+      "id": "sam-build",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "build"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-build",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "build",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review resource deletion, detachment or asset garbage collection."
+    },
+    {
+      "id": "sam-help-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "delete",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-deploy",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "deploy"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-deploy",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "deploy",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-init",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "init"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-init",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "init",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "list"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "list",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-list-endpoints",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "list",
+            "endpoints"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-list-endpoints",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "list",
+            "endpoints",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-list-resources",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "list",
+            "resources"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-list-resources",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "list",
+            "resources",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-list-stack-outputs",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "list",
+            "stack-outputs"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-list-stack-outputs",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "list",
+            "stack-outputs",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-local-callback",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "local",
+            "callback"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-local-callback",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "local",
+            "callback",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-local-execution",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "local",
+            "execution"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-local-execution",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "local",
+            "execution",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-local-generate-event",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "local",
+            "generate-event"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-local-generate-event",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "local",
+            "generate-event",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-local-invoke",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "local",
+            "invoke"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-local-invoke",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "local",
+            "invoke",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-local-start-api",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "local",
+            "start-api"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-local-start-api",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "local",
+            "start-api",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-local-start-lambda",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "local",
+            "start-lambda"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-local-start-lambda",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "local",
+            "start-lambda",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-docs",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "docs"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-docs",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "docs",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-logs",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "logs"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-logs",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "logs",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-package",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "package"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-package",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "package",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-pipeline-bootstrap",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "pipeline",
+            "bootstrap"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-pipeline-bootstrap",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "pipeline",
+            "bootstrap",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-pipeline-init",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "pipeline",
+            "init"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-pipeline-init",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "pipeline",
+            "init",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-publish",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "publish"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-publish",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "publish",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-remote-callback",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "remote",
+            "callback"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-remote-callback",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "remote",
+            "callback",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-remote-execution",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "remote",
+            "execution"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-remote-execution",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "remote",
+            "execution",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-remote-invoke",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "remote",
+            "invoke"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-remote-invoke",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "remote",
+            "invoke",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-remote-test-event",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "remote",
+            "test-event"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-remote-test-event",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "remote",
+            "test-event",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-sync",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "sync"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-sync",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "sync",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-traces",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "traces"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-traces",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "traces",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-validate",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "validate"
+          ],
+          "leading": {
+            "flags": [
+              "--debug",
+              "--beta-features",
+              "--no-beta-features"
+            ],
+            "values": [
+              "--profile",
+              "--region"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review application or builder execution, implicit files, credentials, remote reads and cloud mutations."
+    },
+    {
+      "id": "sam-help-validate",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "validate",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in command help without invoking the operation."
+    },
+    {
+      "id": "sam-unclassified",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sam",
+            "/usr/bin/sam",
+            "/usr/local/bin/sam",
+            "/opt/homebrew/bin/sam"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review unclassified syntax, wrappers and configuration effects. Strict refuses execution.",
+      "fallback": true
+    }
+  ]
+}

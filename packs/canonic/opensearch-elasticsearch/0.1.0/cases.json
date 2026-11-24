@@ -1,0 +1,3065 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "cli-os-version-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch-cli",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-elastic-version-loose",
+      "profile": "loose",
+      "argv": [
+        "elastic",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-os-help-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch-cli",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-elastic-help-loose",
+      "profile": "loose",
+      "argv": [
+        "elastic",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-os-health-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "get",
+        "--path",
+        "_cluster/health",
+        "--profile",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-leading-profile-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch-cli",
+        "-p",
+        "example",
+        "curl",
+        "get",
+        "-P",
+        "_cat/indices"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-interleaved-profile-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "--profile=example",
+        "delete",
+        "--path=example-index"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-search-body-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "get",
+        "--path",
+        "example/_search",
+        "--data=@query.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-bulk-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "post",
+        "--path=_bulk",
+        "--data=@bulk.ndjson"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-security-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "put",
+        "--path=_plugins/_security/api/internalusers/example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-snapshot-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "post",
+        "--path=_snapshot/example/backup/_restore"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-profile-create-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch-cli",
+        "profile",
+        "create",
+        "--name=example",
+        "--endpoint=https://search.example.org"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-ad-create-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch-cli",
+        "ad",
+        "create",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-ad-start-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch-cli",
+        "ad",
+        "start",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-ad-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch-cli",
+        "ad",
+        "delete",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-knn-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch-cli",
+        "knn",
+        "warmup",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-search-loose",
+      "profile": "loose",
+      "argv": [
+        "elastic",
+        "stack",
+        "es",
+        "search",
+        "--index=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-alias-search-loose",
+      "profile": "loose",
+      "argv": [
+        "elastic",
+        "es",
+        "search",
+        "--input-file=./query.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-long-alias-loose",
+      "profile": "loose",
+      "argv": [
+        "elastic",
+        "elasticsearch",
+        "bulk",
+        "--input-file=./bulk.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-leading-context-loose",
+      "profile": "loose",
+      "argv": [
+        "elastic",
+        "--use-context=example",
+        "es",
+        "search"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-interleaved-config-loose",
+      "profile": "loose",
+      "argv": [
+        "elastic",
+        "stack",
+        "--config-file",
+        "/outside/config.yml",
+        "es",
+        "delete",
+        "--index=example",
+        "--id=1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-script-loose",
+      "profile": "loose",
+      "argv": [
+        "elastic",
+        "es",
+        "scripts-painless-execute",
+        "--input-file=./script.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-index-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "elastic",
+        "es",
+        "indices",
+        "delete",
+        "--index=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-snapshot-loose",
+      "profile": "loose",
+      "argv": [
+        "elastic",
+        "es",
+        "snapshot",
+        "restore",
+        "--repository=example",
+        "--snapshot=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-security-loose",
+      "profile": "loose",
+      "argv": [
+        "elastic",
+        "es",
+        "security",
+        "create-api-key",
+        "--name=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-config-loose",
+      "profile": "loose",
+      "argv": [
+        "elastic",
+        "config",
+        "show"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-node-loose",
+      "profile": "loose",
+      "argv": [
+        "elasticsearch-node",
+        "unsafe-bootstrap"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-shard-loose",
+      "profile": "loose",
+      "argv": [
+        "elasticsearch-shard",
+        "remove-corrupted-data"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-users-loose",
+      "profile": "loose",
+      "argv": [
+        "elasticsearch-users",
+        "useradd",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-keystore-loose",
+      "profile": "loose",
+      "argv": [
+        "elasticsearch-keystore",
+        "show",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-keystore-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch-keystore",
+        "add",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-plugin-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch-plugin",
+        "install",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-server-loose",
+      "profile": "loose",
+      "argv": [
+        "elasticsearch",
+        "-Epath.data=/outside/data"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-server-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch",
+        "-Epath.data=/outside/data"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-native-help-loose",
+      "profile": "loose",
+      "argv": [
+        "elasticsearch-keystore",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-os-future-loose",
+      "profile": "loose",
+      "argv": [
+        "opensearch-cli",
+        "future",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-elastic-future-loose",
+      "profile": "loose",
+      "argv": [
+        "elastic",
+        "future",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-npm-launch-loose",
+      "profile": "loose",
+      "argv": [
+        "npx",
+        "-y",
+        "@elastic/cli@0.7.0",
+        "es",
+        "search"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "http-health-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "http-cat-indices-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://127.0.0.1:9200/_cat/indices?v=true",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "http-https-health-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "https://localhost:9200/_cluster/health",
+        "method": "HEAD",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "http-search-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example/_search",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-document-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example/_doc/1",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-cluster-settings-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/settings",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-security-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_security/api_key",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-os-security-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_plugins/_security/api/internalusers",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-legacy-security-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_opendistro/_security/api/internalusers",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-snapshot-read-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_snapshot/example",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-search-post-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example/_search",
+        "method": "POST",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-index-document-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example/_doc/1",
+        "method": "PUT",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-bulk-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_bulk",
+        "method": "POST",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-delete-query-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example/_delete_by_query",
+        "method": "POST",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-delete-index-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example",
+        "method": "DELETE",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-snapshot-restore-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_snapshot/example/backup/_restore",
+        "method": "POST",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-snapshot-delete-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_snapshot/example/backup",
+        "method": "DELETE",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-settings-write-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/settings",
+        "method": "PUT",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-remote-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "https://search.example.org:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-wrong-port-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9201/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-lookalike-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost.example.org:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-subdomain-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://search.localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-encoded-path-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster%2fhealth",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-traversal-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health/../../example/_search",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-unknown-method-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "OPTIONS",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-no-opt-in-0-loose",
+      "profile": "loose",
+      "variables": {},
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-no-opt-in-1-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": false
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "redirect-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "follow"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "missing-redirect-evidence-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "shell-health-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "curl -fsS http://localhost:9200/_cluster/health",
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "shell-query-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "curl -s http://localhost:9200/example/_search",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "shell-write-loose",
+      "profile": "loose",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "curl -X DELETE http://localhost:9200/example",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unclassified-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "mcp",
+        "server": "search",
+        "tool": "search",
+        "arguments": {
+          "query": "example"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch-cli",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-elastic-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elastic",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-os-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch-cli",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-elastic-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elastic",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-os-health-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "get",
+        "--path",
+        "_cluster/health",
+        "--profile",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-leading-profile-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch-cli",
+        "-p",
+        "example",
+        "curl",
+        "get",
+        "-P",
+        "_cat/indices"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-interleaved-profile-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "--profile=example",
+        "delete",
+        "--path=example-index"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-search-body-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "get",
+        "--path",
+        "example/_search",
+        "--data=@query.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-bulk-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "post",
+        "--path=_bulk",
+        "--data=@bulk.ndjson"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-security-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "put",
+        "--path=_plugins/_security/api/internalusers/example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-snapshot-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "post",
+        "--path=_snapshot/example/backup/_restore"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-profile-create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch-cli",
+        "profile",
+        "create",
+        "--name=example",
+        "--endpoint=https://search.example.org"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-ad-create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch-cli",
+        "ad",
+        "create",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-ad-start-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch-cli",
+        "ad",
+        "start",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-ad-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch-cli",
+        "ad",
+        "delete",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-knn-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch-cli",
+        "knn",
+        "warmup",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-search-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elastic",
+        "stack",
+        "es",
+        "search",
+        "--index=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-alias-search-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elastic",
+        "es",
+        "search",
+        "--input-file=./query.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-long-alias-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elastic",
+        "elasticsearch",
+        "bulk",
+        "--input-file=./bulk.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-leading-context-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elastic",
+        "--use-context=example",
+        "es",
+        "search"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-interleaved-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elastic",
+        "stack",
+        "--config-file",
+        "/outside/config.yml",
+        "es",
+        "delete",
+        "--index=example",
+        "--id=1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elastic",
+        "es",
+        "scripts-painless-execute",
+        "--input-file=./script.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-index-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elastic",
+        "es",
+        "indices",
+        "delete",
+        "--index=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-snapshot-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elastic",
+        "es",
+        "snapshot",
+        "restore",
+        "--repository=example",
+        "--snapshot=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-security-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elastic",
+        "es",
+        "security",
+        "create-api-key",
+        "--name=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elastic",
+        "config",
+        "show"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-node-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elasticsearch-node",
+        "unsafe-bootstrap"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-shard-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elasticsearch-shard",
+        "remove-corrupted-data"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-users-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elasticsearch-users",
+        "useradd",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-keystore-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elasticsearch-keystore",
+        "show",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-keystore-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch-keystore",
+        "add",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-plugin-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch-plugin",
+        "install",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-es-server-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elasticsearch",
+        "-Epath.data=/outside/data"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-server-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch",
+        "-Epath.data=/outside/data"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-native-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elasticsearch-keystore",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-os-future-recommended",
+      "profile": "recommended",
+      "argv": [
+        "opensearch-cli",
+        "future",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-elastic-future-recommended",
+      "profile": "recommended",
+      "argv": [
+        "elastic",
+        "future",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-npm-launch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npx",
+        "-y",
+        "@elastic/cli@0.7.0",
+        "es",
+        "search"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "http-health-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "http-cat-indices-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://127.0.0.1:9200/_cat/indices?v=true",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "http-https-health-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "https://localhost:9200/_cluster/health",
+        "method": "HEAD",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "http-search-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example/_search",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-document-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example/_doc/1",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-cluster-settings-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/settings",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-security-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_security/api_key",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-os-security-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_plugins/_security/api/internalusers",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-legacy-security-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_opendistro/_security/api/internalusers",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-snapshot-read-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_snapshot/example",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-search-post-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example/_search",
+        "method": "POST",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-index-document-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example/_doc/1",
+        "method": "PUT",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-bulk-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_bulk",
+        "method": "POST",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-delete-query-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example/_delete_by_query",
+        "method": "POST",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-delete-index-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example",
+        "method": "DELETE",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-snapshot-restore-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_snapshot/example/backup/_restore",
+        "method": "POST",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-snapshot-delete-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_snapshot/example/backup",
+        "method": "DELETE",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-settings-write-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/settings",
+        "method": "PUT",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-remote-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "https://search.example.org:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-wrong-port-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9201/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-lookalike-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost.example.org:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-subdomain-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://search.localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-encoded-path-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster%2fhealth",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-traversal-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health/../../example/_search",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-unknown-method-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "OPTIONS",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-no-opt-in-0-recommended",
+      "profile": "recommended",
+      "variables": {},
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-no-opt-in-1-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": false
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "redirect-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "follow"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "missing-redirect-evidence-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "shell-health-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "curl -fsS http://localhost:9200/_cluster/health",
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "shell-query-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "curl -s http://localhost:9200/example/_search",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "shell-write-recommended",
+      "profile": "recommended",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "curl -X DELETE http://localhost:9200/example",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unclassified-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "mcp",
+        "server": "search",
+        "tool": "search",
+        "arguments": {
+          "query": "example"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "cli-os-version-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch-cli",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-elastic-version-strict",
+      "profile": "strict",
+      "argv": [
+        "elastic",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-os-help-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch-cli",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-elastic-help-strict",
+      "profile": "strict",
+      "argv": [
+        "elastic",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-os-health-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "get",
+        "--path",
+        "_cluster/health",
+        "--profile",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-os-leading-profile-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch-cli",
+        "-p",
+        "example",
+        "curl",
+        "get",
+        "-P",
+        "_cat/indices"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-os-interleaved-profile-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "--profile=example",
+        "delete",
+        "--path=example-index"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-os-search-body-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "get",
+        "--path",
+        "example/_search",
+        "--data=@query.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-os-bulk-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "post",
+        "--path=_bulk",
+        "--data=@bulk.ndjson"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-os-security-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "put",
+        "--path=_plugins/_security/api/internalusers/example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-os-snapshot-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch-cli",
+        "curl",
+        "post",
+        "--path=_snapshot/example/backup/_restore"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-os-profile-create-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch-cli",
+        "profile",
+        "create",
+        "--name=example",
+        "--endpoint=https://search.example.org"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-os-ad-create-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch-cli",
+        "ad",
+        "create",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-os-ad-start-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch-cli",
+        "ad",
+        "start",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-os-ad-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch-cli",
+        "ad",
+        "delete",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-os-knn-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch-cli",
+        "knn",
+        "warmup",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-es-search-strict",
+      "profile": "strict",
+      "argv": [
+        "elastic",
+        "stack",
+        "es",
+        "search",
+        "--index=example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-es-alias-search-strict",
+      "profile": "strict",
+      "argv": [
+        "elastic",
+        "es",
+        "search",
+        "--input-file=./query.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-es-long-alias-strict",
+      "profile": "strict",
+      "argv": [
+        "elastic",
+        "elasticsearch",
+        "bulk",
+        "--input-file=./bulk.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-es-leading-context-strict",
+      "profile": "strict",
+      "argv": [
+        "elastic",
+        "--use-context=example",
+        "es",
+        "search"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-es-interleaved-config-strict",
+      "profile": "strict",
+      "argv": [
+        "elastic",
+        "stack",
+        "--config-file",
+        "/outside/config.yml",
+        "es",
+        "delete",
+        "--index=example",
+        "--id=1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-es-script-strict",
+      "profile": "strict",
+      "argv": [
+        "elastic",
+        "es",
+        "scripts-painless-execute",
+        "--input-file=./script.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-es-index-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "elastic",
+        "es",
+        "indices",
+        "delete",
+        "--index=example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-es-snapshot-strict",
+      "profile": "strict",
+      "argv": [
+        "elastic",
+        "es",
+        "snapshot",
+        "restore",
+        "--repository=example",
+        "--snapshot=example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-es-security-strict",
+      "profile": "strict",
+      "argv": [
+        "elastic",
+        "es",
+        "security",
+        "create-api-key",
+        "--name=example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-es-config-strict",
+      "profile": "strict",
+      "argv": [
+        "elastic",
+        "config",
+        "show"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-es-node-strict",
+      "profile": "strict",
+      "argv": [
+        "elasticsearch-node",
+        "unsafe-bootstrap"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-es-shard-strict",
+      "profile": "strict",
+      "argv": [
+        "elasticsearch-shard",
+        "remove-corrupted-data"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-es-users-strict",
+      "profile": "strict",
+      "argv": [
+        "elasticsearch-users",
+        "useradd",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-es-keystore-strict",
+      "profile": "strict",
+      "argv": [
+        "elasticsearch-keystore",
+        "show",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-os-keystore-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch-keystore",
+        "add",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-os-plugin-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch-plugin",
+        "install",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-es-server-strict",
+      "profile": "strict",
+      "argv": [
+        "elasticsearch",
+        "-Epath.data=/outside/data"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-os-server-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch",
+        "-Epath.data=/outside/data"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-native-help-strict",
+      "profile": "strict",
+      "argv": [
+        "elasticsearch-keystore",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-os-future-strict",
+      "profile": "strict",
+      "argv": [
+        "opensearch-cli",
+        "future",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-elastic-future-strict",
+      "profile": "strict",
+      "argv": [
+        "elastic",
+        "future",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-npm-launch-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "-y",
+        "@elastic/cli@0.7.0",
+        "es",
+        "search"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "http-health-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-cat-indices-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://127.0.0.1:9200/_cat/indices?v=true",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-https-health-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "https://localhost:9200/_cluster/health",
+        "method": "HEAD",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-search-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example/_search",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-document-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example/_doc/1",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-cluster-settings-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/settings",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-security-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_security/api_key",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "http-os-security-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_plugins/_security/api/internalusers",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "http-legacy-security-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_opendistro/_security/api/internalusers",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "http-snapshot-read-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_snapshot/example",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "http-search-post-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example/_search",
+        "method": "POST",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "http-index-document-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example/_doc/1",
+        "method": "PUT",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "http-bulk-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_bulk",
+        "method": "POST",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "http-delete-query-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example/_delete_by_query",
+        "method": "POST",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "http-delete-index-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/example",
+        "method": "DELETE",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "http-snapshot-restore-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_snapshot/example/backup/_restore",
+        "method": "POST",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "http-snapshot-delete-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_snapshot/example/backup",
+        "method": "DELETE",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "http-settings-write-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/settings",
+        "method": "PUT",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "http-remote-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "https://search.example.org:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-wrong-port-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9201/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-lookalike-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost.example.org:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-subdomain-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://search.localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-encoded-path-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster%2fhealth",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-traversal-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health/../../example/_search",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-unknown-method-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "OPTIONS",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-no-opt-in-0-strict",
+      "profile": "strict",
+      "variables": {},
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "http-no-opt-in-1-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": false
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "none"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "redirect-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {
+          "redirects": "follow"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "missing-redirect-evidence-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "web",
+        "action": "fetch",
+        "url": "http://localhost:9200/_cluster/health",
+        "method": "GET",
+        "query": null,
+        "conditions": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "shell-health-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "curl -fsS http://localhost:9200/_cluster/health",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "shell-query-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "curl -s http://localhost:9200/example/_search",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "shell-write-strict",
+      "profile": "strict",
+      "variables": {
+        "local_http": true
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "curl -X DELETE http://localhost:9200/example",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unclassified-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "mcp",
+        "server": "search",
+        "tool": "search",
+        "arguments": {
+          "query": "example"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 # Hub permissions 0.1.9
 
-Reviewed against Hub 0.52.1 with proxy MCP parity and the 113 MCP tools listed by
+Reviewed against the local Hub 0.53.0 release build with proxy MCP parity
+and the 113 MCP tools listed by
 `hub mcp serve --check`. The `canonic/box` pack covers the `box` executable.
 
 Requires Shield `>=0.20.0, <1.0.0` with `argument-paths-v1`, `field-paths-v1`
@@ -33,6 +34,15 @@ binary follows the project's ordinary Shield policy.
 Endpoint creation, rename, pause, resume and deletion, route creation and deletion,
 connector revocation, logout and connection-owned connector start/stop are reviewed
 through MCP in all profiles. The login tool returns a terminal handoff for the user.
+
+Project onboarding keeps initialization, registration and agent publication
+separate. CLI/MCP initialization, workspace attachment and setup retain their
+routine decisions; the separately named MCP setup preview is inspection.
+Runtime-configuration readiness and structured follow-up calls are report data,
+not additional effects or permission grants. Each follow-up selects its project
+again. Configuration checks and workspace lists remain inspection. Publication
+can write agent launch entries and hooks but starts no application services;
+neither saved files nor a successful report proves live Shield enforcement.
 
 Ordinary Hub use is allowed. Hub validates its own arguments, selection and
 configuration, and asks its user before the effects it confirms, so the pack

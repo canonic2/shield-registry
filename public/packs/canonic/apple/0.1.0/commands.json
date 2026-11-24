@@ -1,0 +1,529 @@
+{
+  "schema_version": 1,
+  "commands": [
+    {
+      "name": "xcrun",
+      "rule_ids": [
+        "xcrun-xcodebuild-info-0",
+        "xcrun-xcodebuild-info-0-run-short",
+        "xcrun-xcodebuild-info-0-run-long",
+        "xcrun-xcodebuild-info-1",
+        "xcrun-xcodebuild-info-1-run-short",
+        "xcrun-xcodebuild-info-1-run-long",
+        "xcrun-xcodebuild-info-2",
+        "xcrun-xcodebuild-info-2-run-short",
+        "xcrun-xcodebuild-info-2-run-long",
+        "xcrun-xcodebuild-info-3",
+        "xcrun-xcodebuild-info-3-run-short",
+        "xcrun-xcodebuild-info-3-run-long",
+        "xcrun-xcodebuild-info-4",
+        "xcrun-xcodebuild-info-4-run-short",
+        "xcrun-xcodebuild-info-4-run-long",
+        "xcrun-xcode-select-info-0",
+        "xcrun-xcode-select-info-0-run-short",
+        "xcrun-xcode-select-info-0-run-long",
+        "xcrun-xcode-select-info-1",
+        "xcrun-xcode-select-info-1-run-short",
+        "xcrun-xcode-select-info-1-run-long",
+        "xcrun-xcode-select-info-2",
+        "xcrun-xcode-select-info-2-run-short",
+        "xcrun-xcode-select-info-2-run-long",
+        "xcrun-xcode-select-info-3",
+        "xcrun-xcode-select-info-3-run-short",
+        "xcrun-xcode-select-info-3-run-long",
+        "xcrun-xcode-select-info-4",
+        "xcrun-xcode-select-info-4-run-short",
+        "xcrun-xcode-select-info-4-run-long",
+        "xcrun-simctl-op-delete",
+        "xcrun-simctl-op-erase",
+        "xcrun-simctl-op-uninstall",
+        "xcrun-simctl-op-install_app_data",
+        "xcrun-simctl-op-runtime-delete",
+        "xcrun-simctl-op-runtime-dyld_shared_cache-remove",
+        "xcrun-simctl-info-0",
+        "xcrun-simctl-info-0-run-short",
+        "xcrun-simctl-info-0-run-long",
+        "xcrun-simctl-help-topic",
+        "xcrun-devicectl-op-device-uninstall-app",
+        "xcrun-devicectl-op-manage-ddis-clean",
+        "xcrun-devicectl-op-manage-unpair",
+        "xcrun-devicectl-info-0",
+        "xcrun-devicectl-info-0-run-short",
+        "xcrun-devicectl-info-0-run-long",
+        "xcrun-devicectl-info-1",
+        "xcrun-devicectl-info-1-run-short",
+        "xcrun-devicectl-info-1-run-long",
+        "xcrun-devicectl-info-2",
+        "xcrun-devicectl-info-2-run-short",
+        "xcrun-devicectl-info-2-run-long",
+        "xcrun-devicectl-info-3",
+        "xcrun-devicectl-info-3-run-short",
+        "xcrun-devicectl-info-3-run-long",
+        "xcrun-devicectl-help-topic",
+        "xcrun-xctrace-info-0",
+        "xcrun-xctrace-info-0-run-short",
+        "xcrun-xctrace-info-0-run-long",
+        "xcrun-xctrace-info-1",
+        "xcrun-xctrace-info-1-run-short",
+        "xcrun-xctrace-info-1-run-long",
+        "xcrun-xctrace-help-topic",
+        "xcrun-swift-info-0",
+        "xcrun-swift-info-0-run-short",
+        "xcrun-swift-info-0-run-long",
+        "xcrun-swift-info-1",
+        "xcrun-swift-info-1-run-short",
+        "xcrun-swift-info-1-run-long",
+        "xcrun-swift-info-2",
+        "xcrun-swift-info-2-run-short",
+        "xcrun-swift-info-2-run-long",
+        "xcrun-swift-info-3",
+        "xcrun-swift-info-3-run-short",
+        "xcrun-swift-info-3-run-long",
+        "xcrun-swift-info-4",
+        "xcrun-swift-info-4-run-short",
+        "xcrun-swift-info-4-run-long",
+        "xcrun-swift-info-5",
+        "xcrun-swift-info-5-run-short",
+        "xcrun-swift-info-5-run-long",
+        "xcrun-swift-info-6",
+        "xcrun-swift-info-6-run-short",
+        "xcrun-swift-info-6-run-long",
+        "xcrun-swift-info-7",
+        "xcrun-swift-info-7-run-short",
+        "xcrun-swift-info-7-run-long",
+        "xcrun-swift-info-8",
+        "xcrun-swift-info-8-run-short",
+        "xcrun-swift-info-8-run-long",
+        "xcrun-swiftc-info-0",
+        "xcrun-swiftc-info-0-run-short",
+        "xcrun-swiftc-info-0-run-long",
+        "xcrun-swiftc-info-1",
+        "xcrun-swiftc-info-1-run-short",
+        "xcrun-swiftc-info-1-run-long",
+        "xcrun-swiftc-info-2",
+        "xcrun-swiftc-info-2-run-short",
+        "xcrun-swiftc-info-2-run-long",
+        "xcrun-swiftc-info-3",
+        "xcrun-swiftc-info-3-run-short",
+        "xcrun-swiftc-info-3-run-long",
+        "xcrun-swift-format-info-0",
+        "xcrun-swift-format-info-0-run-short",
+        "xcrun-swift-format-info-0-run-long",
+        "xcrun-swift-format-info-1",
+        "xcrun-swift-format-info-1-run-short",
+        "xcrun-swift-format-info-1-run-long",
+        "xcrun-swift-format-info-2",
+        "xcrun-swift-format-info-2-run-short",
+        "xcrun-swift-format-info-2-run-long",
+        "xcrun-swift-format-info-3",
+        "xcrun-swift-format-info-3-run-short",
+        "xcrun-swift-format-info-3-run-long",
+        "xcrun-swift-format-info-4",
+        "xcrun-swift-format-info-4-run-short",
+        "xcrun-swift-format-info-4-run-long",
+        "xcrun-swiftlint-info-0",
+        "xcrun-swiftlint-info-0-run-short",
+        "xcrun-swiftlint-info-0-run-long",
+        "xcrun-swiftlint-info-1",
+        "xcrun-swiftlint-info-1-run-short",
+        "xcrun-swiftlint-info-1-run-long",
+        "xcrun-swiftlint-info-2",
+        "xcrun-swiftlint-info-2-run-short",
+        "xcrun-swiftlint-info-2-run-long",
+        "xcrun-swiftlint-info-3",
+        "xcrun-swiftlint-info-3-run-short",
+        "xcrun-swiftlint-info-3-run-long",
+        "xcrun-security-op-delete-keychain",
+        "xcrun-security-op-delete-generic-password",
+        "xcrun-security-op-delete-internet-password",
+        "xcrun-security-op-delete-certificate",
+        "xcrun-security-op-remove-trusted-cert",
+        "xcrun-notarytool-info-0",
+        "xcrun-notarytool-info-0-run-short",
+        "xcrun-notarytool-info-0-run-long",
+        "xcrun-notarytool-info-1",
+        "xcrun-notarytool-info-1-run-short",
+        "xcrun-notarytool-info-1-run-long",
+        "xcrun-notarytool-info-2",
+        "xcrun-notarytool-info-2-run-short",
+        "xcrun-notarytool-info-2-run-long",
+        "xcrun-notarytool-info-3",
+        "xcrun-notarytool-info-3-run-short",
+        "xcrun-notarytool-info-3-run-long",
+        "xcrun-notarytool-help-topic",
+        "xcrun-xcresulttool-info-0",
+        "xcrun-xcresulttool-info-0-run-short",
+        "xcrun-xcresulttool-info-0-run-long",
+        "xcrun-xcresulttool-info-1",
+        "xcrun-xcresulttool-info-1-run-short",
+        "xcrun-xcresulttool-info-1-run-long",
+        "xcrun-xcresulttool-info-2",
+        "xcrun-xcresulttool-info-2-run-short",
+        "xcrun-xcresulttool-info-2-run-long",
+        "xcrun-xcresulttool-info-3",
+        "xcrun-xcresulttool-info-3-run-short",
+        "xcrun-xcresulttool-info-3-run-long",
+        "xcrun-xcresulttool-help-topic",
+        "xcrun-dsymutil-info-0",
+        "xcrun-dsymutil-info-0-run-short",
+        "xcrun-dsymutil-info-0-run-long",
+        "xcrun-dsymutil-info-1",
+        "xcrun-dsymutil-info-1-run-short",
+        "xcrun-dsymutil-info-1-run-long",
+        "xcrun-dwarfdump-info-0",
+        "xcrun-dwarfdump-info-0-run-short",
+        "xcrun-dwarfdump-info-0-run-long",
+        "xcrun-dwarfdump-info-1",
+        "xcrun-dwarfdump-info-1-run-short",
+        "xcrun-dwarfdump-info-1-run-long",
+        "xcrun-simctl-inspect-list",
+        "xcrun-simctl-inspect-runtime-list",
+        "xcrun-simctl-inspect-runtime-match-list",
+        "xcrun-devicectl-inspect-list-devices",
+        "xcrun-devicectl-inspect-list-preferredDDI",
+        "xcrun-swift-format-paths-default",
+        "xcrun-swift-format-paths-format",
+        "xcrun-swift-format-paths-lint",
+        "xcrun-swift-alias-swift-format-info-0",
+        "xcrun-swift-alias-swift-format-info-0-run-short",
+        "xcrun-swift-alias-swift-format-info-0-run-long",
+        "xcrun-swift-alias-swift-format-info-1",
+        "xcrun-swift-alias-swift-format-info-1-run-short",
+        "xcrun-swift-alias-swift-format-info-1-run-long",
+        "xcrun-swift-alias-swift-format-info-2",
+        "xcrun-swift-alias-swift-format-info-2-run-short",
+        "xcrun-swift-alias-swift-format-info-2-run-long",
+        "xcrun-swift-alias-swift-format-info-3",
+        "xcrun-swift-alias-swift-format-info-3-run-short",
+        "xcrun-swift-alias-swift-format-info-3-run-long",
+        "xcrun-swift-alias-swift-format-info-4",
+        "xcrun-swift-alias-swift-format-info-4-run-short",
+        "xcrun-swift-alias-swift-format-info-4-run-long",
+        "xcrun-swift-alias-swift-format-paths-default",
+        "xcrun-swift-alias-swift-format-paths-format",
+        "xcrun-swift-alias-swift-format-paths-lint",
+        "xcrun-review",
+        "xcrun-info-0",
+        "xcrun-info-1",
+        "xcrun-info-2",
+        "xcrun-info-3",
+        "xcrun-info-4",
+        "xcrun-info-5",
+        "xcrun-info-6",
+        "xcrun-info-7",
+        "xcrun-info-8",
+        "xcrun-find-f-xcodebuild",
+        "xcrun-find-find-xcodebuild",
+        "xcrun-find-f-xcode-select",
+        "xcrun-find-find-xcode-select",
+        "xcrun-find-f-simctl",
+        "xcrun-find-find-simctl",
+        "xcrun-find-f-devicectl",
+        "xcrun-find-find-devicectl",
+        "xcrun-find-f-xctrace",
+        "xcrun-find-find-xctrace",
+        "xcrun-find-f-swift",
+        "xcrun-find-find-swift",
+        "xcrun-find-f-swiftc",
+        "xcrun-find-find-swiftc",
+        "xcrun-find-f-swift-format",
+        "xcrun-find-find-swift-format",
+        "xcrun-find-f-swiftlint",
+        "xcrun-find-find-swiftlint",
+        "xcrun-find-f-pod",
+        "xcrun-find-find-pod",
+        "xcrun-find-f-codesign",
+        "xcrun-find-find-codesign",
+        "xcrun-find-f-security",
+        "xcrun-find-find-security",
+        "xcrun-find-f-notarytool",
+        "xcrun-find-find-notarytool",
+        "xcrun-find-f-altool",
+        "xcrun-find-find-altool",
+        "xcrun-find-f-stapler",
+        "xcrun-find-find-stapler",
+        "xcrun-find-f-pkgbuild",
+        "xcrun-find-find-pkgbuild",
+        "xcrun-find-f-productbuild",
+        "xcrun-find-find-productbuild",
+        "xcrun-find-f-productsign",
+        "xcrun-find-find-productsign",
+        "xcrun-find-f-pkgutil",
+        "xcrun-find-find-pkgutil",
+        "xcrun-find-f-xcresulttool",
+        "xcrun-find-find-xcresulttool",
+        "xcrun-find-f-xccov",
+        "xcrun-find-find-xccov",
+        "xcrun-find-f-dsymutil",
+        "xcrun-find-find-dsymutil",
+        "xcrun-find-f-dwarfdump",
+        "xcrun-find-find-dwarfdump",
+        "xcrun-find-f-atos",
+        "xcrun-find-find-atos",
+        "xcrun-find-f-symbols",
+        "xcrun-find-find-symbols",
+        "xcrun-find-f-agvtool",
+        "xcrun-find-find-agvtool",
+        "xcrun-find-f-ibtool",
+        "xcrun-find-find-ibtool",
+        "xcrun-find-f-actool",
+        "xcrun-find-find-actool"
+      ]
+    },
+    {
+      "name": "xcodebuild",
+      "rule_ids": [
+        "xcodebuild-review",
+        "xcodebuild-info-0",
+        "xcodebuild-info-1",
+        "xcodebuild-info-2",
+        "xcodebuild-info-3",
+        "xcodebuild-info-4"
+      ]
+    },
+    {
+      "name": "xcode-select",
+      "rule_ids": [
+        "xcode-select-review",
+        "xcode-select-info-0",
+        "xcode-select-info-1",
+        "xcode-select-info-2",
+        "xcode-select-info-3",
+        "xcode-select-info-4"
+      ]
+    },
+    {
+      "name": "simctl",
+      "rule_ids": [
+        "simctl-review",
+        "simctl-op-delete",
+        "simctl-op-erase",
+        "simctl-op-uninstall",
+        "simctl-op-install_app_data",
+        "simctl-op-runtime-delete",
+        "simctl-op-runtime-dyld_shared_cache-remove",
+        "simctl-info-0",
+        "simctl-help-topic",
+        "simctl-inspect-list",
+        "simctl-inspect-runtime-list",
+        "simctl-inspect-runtime-match-list"
+      ]
+    },
+    {
+      "name": "devicectl",
+      "rule_ids": [
+        "devicectl-review",
+        "devicectl-op-device-uninstall-app",
+        "devicectl-op-manage-ddis-clean",
+        "devicectl-op-manage-unpair",
+        "devicectl-info-0",
+        "devicectl-info-1",
+        "devicectl-info-2",
+        "devicectl-info-3",
+        "devicectl-help-topic",
+        "devicectl-inspect-list-devices",
+        "devicectl-inspect-list-preferredDDI"
+      ]
+    },
+    {
+      "name": "xctrace",
+      "rule_ids": [
+        "xctrace-review",
+        "xctrace-info-0",
+        "xctrace-info-1",
+        "xctrace-help-topic"
+      ]
+    },
+    {
+      "name": "swift",
+      "rule_ids": [
+        "swift-review",
+        "swift-info-0",
+        "swift-info-1",
+        "swift-info-2",
+        "swift-info-3",
+        "swift-info-4",
+        "swift-info-5",
+        "swift-info-6",
+        "swift-info-7",
+        "swift-info-8",
+        "swift-alias-swift-format-review",
+        "swift-alias-swift-format-info-0",
+        "swift-alias-swift-format-info-1",
+        "swift-alias-swift-format-info-2",
+        "swift-alias-swift-format-info-3",
+        "swift-alias-swift-format-info-4",
+        "swift-alias-swift-format-paths-default",
+        "swift-alias-swift-format-paths-format",
+        "swift-alias-swift-format-paths-lint"
+      ]
+    },
+    {
+      "name": "swiftc",
+      "rule_ids": [
+        "swiftc-review",
+        "swiftc-info-0",
+        "swiftc-info-1",
+        "swiftc-info-2",
+        "swiftc-info-3"
+      ]
+    },
+    {
+      "name": "swift-format",
+      "rule_ids": [
+        "swift-format-review",
+        "swift-format-info-0",
+        "swift-format-info-1",
+        "swift-format-info-2",
+        "swift-format-info-3",
+        "swift-format-info-4",
+        "swift-format-paths-default",
+        "swift-format-paths-format",
+        "swift-format-paths-lint"
+      ]
+    },
+    {
+      "name": "swiftlint",
+      "rule_ids": [
+        "swiftlint-review",
+        "swiftlint-info-0",
+        "swiftlint-info-1",
+        "swiftlint-info-2",
+        "swiftlint-info-3"
+      ]
+    },
+    {
+      "name": "pod",
+      "rule_ids": [
+        "pod-review"
+      ]
+    },
+    {
+      "name": "codesign",
+      "rule_ids": [
+        "codesign-review"
+      ]
+    },
+    {
+      "name": "security",
+      "rule_ids": [
+        "security-review",
+        "security-op-delete-keychain",
+        "security-op-delete-generic-password",
+        "security-op-delete-internet-password",
+        "security-op-delete-certificate",
+        "security-op-remove-trusted-cert"
+      ]
+    },
+    {
+      "name": "notarytool",
+      "rule_ids": [
+        "notarytool-review",
+        "notarytool-info-0",
+        "notarytool-info-1",
+        "notarytool-info-2",
+        "notarytool-info-3",
+        "notarytool-help-topic"
+      ]
+    },
+    {
+      "name": "altool",
+      "rule_ids": [
+        "altool-review"
+      ]
+    },
+    {
+      "name": "stapler",
+      "rule_ids": [
+        "stapler-review"
+      ]
+    },
+    {
+      "name": "pkgbuild",
+      "rule_ids": [
+        "pkgbuild-review"
+      ]
+    },
+    {
+      "name": "productbuild",
+      "rule_ids": [
+        "productbuild-review"
+      ]
+    },
+    {
+      "name": "productsign",
+      "rule_ids": [
+        "productsign-review"
+      ]
+    },
+    {
+      "name": "pkgutil",
+      "rule_ids": [
+        "pkgutil-review"
+      ]
+    },
+    {
+      "name": "xcresulttool",
+      "rule_ids": [
+        "xcresulttool-review",
+        "xcresulttool-info-0",
+        "xcresulttool-info-1",
+        "xcresulttool-info-2",
+        "xcresulttool-info-3",
+        "xcresulttool-help-topic"
+      ]
+    },
+    {
+      "name": "xccov",
+      "rule_ids": [
+        "xccov-review"
+      ]
+    },
+    {
+      "name": "dsymutil",
+      "rule_ids": [
+        "dsymutil-review",
+        "dsymutil-info-0",
+        "dsymutil-info-1"
+      ]
+    },
+    {
+      "name": "dwarfdump",
+      "rule_ids": [
+        "dwarfdump-review",
+        "dwarfdump-info-0",
+        "dwarfdump-info-1"
+      ]
+    },
+    {
+      "name": "atos",
+      "rule_ids": [
+        "atos-review"
+      ]
+    },
+    {
+      "name": "symbols",
+      "rule_ids": [
+        "symbols-review"
+      ]
+    },
+    {
+      "name": "agvtool",
+      "rule_ids": [
+        "agvtool-review"
+      ]
+    },
+    {
+      "name": "ibtool",
+      "rule_ids": [
+        "ibtool-review"
+      ]
+    },
+    {
+      "name": "actool",
+      "rule_ids": [
+        "actool-review"
+      ]
+    }
+  ]
+}

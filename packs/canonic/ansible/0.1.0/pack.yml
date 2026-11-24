@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/ansible",
+  "version": "0.1.0",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.53.0, <1.0.0"
+  },
+  "description": "Ansible automation permissions covering core CLIs, inventories, playbooks, Galaxy, Vault, configuration, documentation, consoles and pull execution with reviewed host, plugin, credential and file authority.",
+  "capabilities": [
+    "argument-rules-v1",
+    "regex-v1",
+    "structured-rules-v1"
+  ],
+  "rules": [
+    {
+      "id": "ansible-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?ansible(?:\\.exe|\\.cmd|\\.bat)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review inventory and hosts, module or shell execution, connection plugins, credentials, privilege escalation and local or remote changes."
+    },
+    {
+      "id": "ansible-playbook-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?ansible-playbook(?:\\.exe|\\.cmd|\\.bat)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review playbooks, inventory scripts, lookups, plugins, password helpers and host authority. Check, syntax and listing modes do not prove execution is harmless."
+    },
+    {
+      "id": "ansible-inventory-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?ansible-inventory(?:\\.exe|\\.cmd|\\.bat)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Inventory inspection may execute scripts and plugins, contact external sources, read secrets, flush caches or write exports."
+    },
+    {
+      "id": "ansible-galaxy-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?ansible-galaxy(?:\\.exe|\\.cmd|\\.bat)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review roles and collections, dependency sources, download/install destinations, local builds, signing helpers, authentication and publication."
+    },
+    {
+      "id": "ansible-vault-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?ansible-vault(?:\\.exe|\\.cmd|\\.bat)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review secret inputs, plaintext output, password files or executable helpers, editor execution, encryption and in-place rekey/decrypt changes."
+    },
+    {
+      "id": "ansible-config-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?ansible-config(?:\\.exe|\\.cmd|\\.bat)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review configuration and plugin loading, exposed values and startup writes under configured Ansible home and temporary paths."
+    },
+    {
+      "id": "ansible-doc-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?ansible-doc(?:\\.exe|\\.cmd|\\.bat)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review plugin and collection paths, documentation loading, pager execution and configured Ansible startup paths."
+    },
+    {
+      "id": "ansible-console-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?ansible-console(?:\\.exe|\\.cmd|\\.bat)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "An interactive console executes tasks against its selected inventory and can change hosts and privilege escalation during the session."
+    },
+    {
+      "id": "ansible-pull-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?ansible-pull(?:\\.exe|\\.cmd|\\.bat)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review repository identity, checkout destination, downloaded playbook execution, connection credentials, cleanup and privilege escalation."
+    }
+  ]
+}

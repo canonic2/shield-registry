@@ -1,0 +1,346 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/sqlite",
+  "version": "0.1.0",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.53.0, <1.0.0"
+  },
+  "description": "SQLite shell, database comparison, analysis and synchronization with review for SQL, dot-commands, files, extensions, backups, exports and replication.",
+  "capabilities": [
+    "argument-rules-v1",
+    "structured-rules-v1"
+  ],
+  "rules": [
+    {
+      "id": "sqlite3-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sqlite3",
+            "/usr/bin/sqlite3",
+            "/usr/local/bin/sqlite3",
+            "/opt/homebrew/bin/sqlite3",
+            "sqlite3.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print installed version or built-in usage without opening a database."
+    },
+    {
+      "id": "sqlite3-info-long-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sqlite3",
+            "/usr/bin/sqlite3",
+            "/usr/local/bin/sqlite3",
+            "/opt/homebrew/bin/sqlite3",
+            "sqlite3.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print installed version or built-in usage without opening a database."
+    },
+    {
+      "id": "sqlite3-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sqlite3",
+            "/usr/bin/sqlite3",
+            "/usr/local/bin/sqlite3",
+            "/opt/homebrew/bin/sqlite3",
+            "sqlite3.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print installed version or built-in usage without opening a database."
+    },
+    {
+      "id": "sqlite3-info-long-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sqlite3",
+            "/usr/bin/sqlite3",
+            "/usr/local/bin/sqlite3",
+            "/opt/homebrew/bin/sqlite3",
+            "sqlite3.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print installed version or built-in usage without opening a database."
+    },
+    {
+      "id": "sqlite3-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sqlite3",
+            "/usr/bin/sqlite3",
+            "/usr/local/bin/sqlite3",
+            "/opt/homebrew/bin/sqlite3",
+            "sqlite3.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review database paths, startup files, stdin, SQL, dot-commands, extensions and file or process effects."
+    },
+    {
+      "id": "sqldiff-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sqldiff",
+            "/usr/bin/sqldiff",
+            "/usr/local/bin/sqldiff",
+            "/opt/homebrew/bin/sqldiff",
+            "sqldiff.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print installed version or built-in usage without opening a database."
+    },
+    {
+      "id": "sqldiff-info-long-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sqldiff",
+            "/usr/bin/sqldiff",
+            "/usr/local/bin/sqldiff",
+            "/opt/homebrew/bin/sqldiff",
+            "sqldiff.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print installed version or built-in usage without opening a database."
+    },
+    {
+      "id": "sqldiff-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sqldiff",
+            "/usr/bin/sqldiff",
+            "/usr/local/bin/sqldiff",
+            "/opt/homebrew/bin/sqldiff",
+            "sqldiff.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review database contents, local files, extension loading and generated SQL or reports."
+    },
+    {
+      "id": "sqlite3_analyzer-info-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sqlite3_analyzer",
+            "/usr/bin/sqlite3_analyzer",
+            "/usr/local/bin/sqlite3_analyzer",
+            "/opt/homebrew/bin/sqlite3_analyzer",
+            "sqlite3_analyzer.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print installed version or built-in usage without opening a database."
+    },
+    {
+      "id": "sqlite3_analyzer-info-long-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sqlite3_analyzer",
+            "/usr/bin/sqlite3_analyzer",
+            "/usr/local/bin/sqlite3_analyzer",
+            "/opt/homebrew/bin/sqlite3_analyzer",
+            "sqlite3_analyzer.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print installed version or built-in usage without opening a database."
+    },
+    {
+      "id": "sqlite3_analyzer-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sqlite3_analyzer",
+            "/usr/bin/sqlite3_analyzer",
+            "/usr/local/bin/sqlite3_analyzer",
+            "/opt/homebrew/bin/sqlite3_analyzer",
+            "sqlite3_analyzer.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review database contents, local files, extension loading and generated SQL or reports."
+    },
+    {
+      "id": "sqlite3_rsync-info-long-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sqlite3_rsync",
+            "/usr/bin/sqlite3_rsync",
+            "/usr/local/bin/sqlite3_rsync",
+            "/opt/homebrew/bin/sqlite3_rsync",
+            "sqlite3_rsync.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print installed version or built-in usage without opening a database."
+    },
+    {
+      "id": "sqlite3_rsync-info-long-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sqlite3_rsync",
+            "/usr/bin/sqlite3_rsync",
+            "/usr/local/bin/sqlite3_rsync",
+            "/opt/homebrew/bin/sqlite3_rsync",
+            "sqlite3_rsync.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print installed version or built-in usage without opening a database."
+    },
+    {
+      "id": "sqlite3_rsync-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sqlite3_rsync",
+            "/usr/bin/sqlite3_rsync",
+            "/usr/local/bin/sqlite3_rsync",
+            "/opt/homebrew/bin/sqlite3_rsync",
+            "sqlite3_rsync.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review source and replica databases, SSH execution, remote paths and replica overwrites."
+    }
+  ]
+}

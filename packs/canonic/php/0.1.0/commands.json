@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "commands": [
+    {
+      "name": "php",
+      "rule_ids": [
+        "php-review",
+        "php-isolated-v",
+        "php-isolated-version",
+        "php-isolated-h",
+        "php-isolated-help",
+        "php-isolated-m",
+        "php-isolated-modules",
+        "php-isolated-lint-n",
+        "php-isolated-lint-nophpini",
+        "php-destructive-artisan"
+      ]
+    },
+    {
+      "name": "composer",
+      "rule_ids": [
+        "composer-review"
+      ]
+    },
+    {
+      "name": "phpunit",
+      "rule_ids": [
+        "phpunit-review"
+      ]
+    },
+    {
+      "name": "pest",
+      "rule_ids": [
+        "pest-review"
+      ]
+    },
+    {
+      "name": "paratest",
+      "rule_ids": [
+        "paratest-review"
+      ]
+    },
+    {
+      "name": "phpstan",
+      "rule_ids": [
+        "phpstan-review"
+      ]
+    },
+    {
+      "name": "psalm",
+      "rule_ids": [
+        "psalm-review"
+      ]
+    },
+    {
+      "name": "phpcs",
+      "rule_ids": [
+        "phpcs-review"
+      ]
+    },
+    {
+      "name": "phpcbf",
+      "rule_ids": [
+        "phpcbf-review"
+      ]
+    },
+    {
+      "name": "php-cs-fixer",
+      "rule_ids": [
+        "php-cs-fixer-review"
+      ]
+    },
+    {
+      "name": "pint",
+      "rule_ids": [
+        "pint-review"
+      ]
+    },
+    {
+      "name": "rector",
+      "rule_ids": [
+        "rector-review"
+      ]
+    },
+    {
+      "name": "phan",
+      "rule_ids": [
+        "phan-review"
+      ]
+    },
+    {
+      "name": "phpmd",
+      "rule_ids": [
+        "phpmd-review"
+      ]
+    },
+    {
+      "name": "infection",
+      "rule_ids": [
+        "infection-review"
+      ]
+    },
+    {
+      "name": "artisan",
+      "rule_ids": [
+        "artisan-review",
+        "artisan-destructive-artisan"
+      ]
+    },
+    {
+      "name": "laravel",
+      "rule_ids": [
+        "laravel-review"
+      ]
+    },
+    {
+      "name": "sail",
+      "rule_ids": [
+        "sail-review",
+        "sail-destructive-artisan"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "commands": [
+    {
+      "name": "go",
+      "rule_ids": [
+        "go-bug",
+        "go-build",
+        "go-clean",
+        "go-doc",
+        "go-env",
+        "go-fix",
+        "go-fmt",
+        "go-generate",
+        "go-get",
+        "go-help",
+        "go-install",
+        "go-list",
+        "go-mod-download",
+        "go-mod-edit",
+        "go-mod-graph",
+        "go-mod-init",
+        "go-mod-tidy",
+        "go-mod-vendor",
+        "go-mod-verify",
+        "go-mod-why",
+        "go-run",
+        "go-telemetry",
+        "go-test",
+        "go-tool",
+        "go-tool-cover",
+        "go-tool-covdata",
+        "go-tool-test2json",
+        "go-tool-pprof",
+        "go-tool-trace",
+        "go-version",
+        "go-vet",
+        "go-work-edit",
+        "go-work-init",
+        "go-work-sync",
+        "go-work-use",
+        "go-work-vendor",
+        "go-unclassified",
+        "go-info-env-GOTOOLCHAIN",
+        "go-info-env-GOMOD",
+        "go-info-env-GOWORK"
+      ]
+    },
+    {
+      "name": "gofmt",
+      "rule_ids": [
+        "gofmt-unclassified",
+        "gofmt-info-h",
+        "gofmt-info-help",
+        "gofmt-paths",
+        "gofmt-profile-review"
+      ]
+    },
+    {
+      "name": "gofumpt",
+      "rule_ids": [
+        "gofumpt-unclassified",
+        "gofumpt-info-h",
+        "gofumpt-info-help",
+        "gofumpt-info-version-flag"
+      ]
+    },
+    {
+      "name": "goimports",
+      "rule_ids": [
+        "goimports-unclassified",
+        "goimports-info-h",
+        "goimports-info-help"
+      ]
+    },
+    {
+      "name": "golangci-lint",
+      "rule_ids": [
+        "golangci-lint-run",
+        "golangci-lint-fmt",
+        "golangci-lint-migrate",
+        "golangci-lint-formatters",
+        "golangci-lint-linters",
+        "golangci-lint-cache-clean",
+        "golangci-lint-cache-status",
+        "golangci-lint-config-path",
+        "golangci-lint-config-verify",
+        "golangci-lint-custom",
+        "golangci-lint-version",
+        "golangci-lint-completion",
+        "golangci-lint-help",
+        "golangci-lint-unclassified",
+        "golangci-lint-info-h",
+        "golangci-lint-info-help",
+        "golangci-lint-info-version-flag",
+        "golangci-lint-info-version-command"
+      ]
+    },
+    {
+      "name": "govulncheck",
+      "rule_ids": [
+        "govulncheck-unclassified",
+        "govulncheck-info-h",
+        "govulncheck-info-help",
+        "govulncheck-info-version-flag"
+      ]
+    },
+    {
+      "name": "staticcheck",
+      "rule_ids": [
+        "staticcheck-unclassified",
+        "staticcheck-info-h",
+        "staticcheck-info-help",
+        "staticcheck-info-version-flag",
+        "staticcheck-info-list-checks",
+        "staticcheck-explain"
+      ]
+    },
+    {
+      "name": "gotestsum",
+      "rule_ids": [
+        "gotestsum-tool-slowest",
+        "gotestsum-tool-ci-matrix",
+        "gotestsum-unclassified",
+        "gotestsum-info-h",
+        "gotestsum-info-help",
+        "gotestsum-info-version-flag"
+      ]
+    },
+    {
+      "name": "ginkgo",
+      "rule_ids": [
+        "ginkgo-watch",
+        "ginkgo-build",
+        "ginkgo-bootstrap",
+        "ginkgo-generate",
+        "ginkgo-labels",
+        "ginkgo-outline",
+        "ginkgo-unfocus",
+        "ginkgo-version",
+        "ginkgo-completion",
+        "ginkgo-convert",
+        "ginkgo-blur",
+        "ginkgo-nodot",
+        "ginkgo-unclassified",
+        "ginkgo-info-h",
+        "ginkgo-info-help",
+        "ginkgo-info-version-command"
+      ]
+    },
+    {
+      "name": "gocov",
+      "rule_ids": [
+        "gocov-test",
+        "gocov-convert",
+        "gocov-report",
+        "gocov-annotate",
+        "gocov-unclassified"
+      ]
+    },
+    {
+      "name": "gocov-xml",
+      "rule_ids": [
+        "gocov-xml-unclassified"
+      ]
+    },
+    {
+      "name": "gocover-cobertura",
+      "rule_ids": [
+        "gocover-cobertura-unclassified"
+      ]
+    },
+    {
+      "name": "go-junit-report",
+      "rule_ids": [
+        "go-junit-report-unclassified",
+        "go-junit-report-info-h",
+        "go-junit-report-info-help",
+        "go-junit-report-info-version-flag",
+        "junit-stream",
+        "junit-file-review"
+      ]
+    }
+  ]
+}

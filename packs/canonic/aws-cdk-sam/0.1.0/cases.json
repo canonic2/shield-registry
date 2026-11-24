@@ -1,0 +1,2633 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "cdk-0-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-1-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cdk-2-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-3-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cdk-4-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-5-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-6-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "docs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-7-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "--info"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-8-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "synth",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-9-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "local",
+        "invoke",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cdk-10-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "acknowledge",
+        "12345"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-11-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "ack",
+        "12345"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-12-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "bootstrap",
+        "aws://123456789012/us-east-1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-13-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "context",
+        "--clear"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-14-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "deploy",
+        "--require-approval",
+        "never"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-15-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "destroy",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-16-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "diff",
+        "--no-change-set"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-17-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "docs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-18-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "doc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-19-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "doctor"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-20-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "drift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-21-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "flags"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-22-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "import"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-23-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "init",
+        "app",
+        "--language",
+        "typescript"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-24-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-25-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "ls"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-26-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "metadata",
+        "Example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-27-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "migrate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-28-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "notices"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-29-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "orphan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-30-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "publish-assets"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-31-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "refactor"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-32-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "synthesize"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-33-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "synth",
+        "--app",
+        "node app.js"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-34-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "watch",
+        "--hotswap"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-35-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "rollback"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-36-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "gc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-37-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "--app",
+        "node app.js",
+        "destroy",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-38-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "--profile=example",
+        "--context",
+        "key=value",
+        "destroy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-39-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "--debug=false",
+        "destroy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-40-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "--output",
+        "/outside/assembly",
+        "synth"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-41-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "--plugin",
+        "/outside/plugin",
+        "deploy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-42-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "--app",
+        "cdk.out",
+        "deploy",
+        "--no-execute"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-43-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "build",
+        "--use-container"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-44-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "delete",
+        "--no-prompts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-45-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "deploy",
+        "--no-execute-changeset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-46-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "init",
+        "--location",
+        "https://example.com/template"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-47-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-48-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "list",
+        "endpoints"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-49-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "list",
+        "resources"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-50-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "list",
+        "stack-outputs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-51-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "local",
+        "callback"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-52-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "local",
+        "execution"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-53-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "local",
+        "generate-event",
+        "s3",
+        "put"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-54-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "local",
+        "invoke",
+        "--event",
+        "/outside/event.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-55-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "local",
+        "start-api",
+        "--host",
+        "0.0.0.0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-56-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "local",
+        "start-lambda"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-57-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "logs",
+        "--tail"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-58-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "package",
+        "--resolve-s3"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-59-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "pipeline",
+        "bootstrap"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-60-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "pipeline",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-61-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-62-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "remote",
+        "callback"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-63-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "remote",
+        "execution"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-64-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "remote",
+        "invoke"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-65-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "remote",
+        "test-event",
+        "delete"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-66-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "sync",
+        "--watch"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-67-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "traces"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-68-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "validate",
+        "--lint",
+        "--template",
+        "/outside/template.yaml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-69-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "--debug",
+        "delete",
+        "--no-prompts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-70-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "--profile",
+        "example",
+        "delete"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-71-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "local",
+        "--debug",
+        "invoke"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-72-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "destroy",
+        "--help=false"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-73-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "--help=false",
+        "destroy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-74-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "deploy",
+        "--template-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-75-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "--app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-76-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-77-loose",
+      "profile": "loose",
+      "argv": [
+        "sam",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-78-loose",
+      "profile": "loose",
+      "argv": [
+        "cdk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-79-loose",
+      "profile": "loose",
+      "argv": [
+        "sam"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/cdk",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/sam",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cdk-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/cdk",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/sam",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shell-0-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "cdk --app \"node app.js\" destroy --force",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-1-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "sam --debug delete --no-prompts",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-2-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "cdk synth --app \"node app.js\"",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-3-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "sam package --resolve-s3",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "cdk-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cdk-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cdk-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-5-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-6-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "docs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-7-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "--info"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-8-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "synth",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-9-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "local",
+        "invoke",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cdk-10-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "acknowledge",
+        "12345"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-11-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "ack",
+        "12345"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-12-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "bootstrap",
+        "aws://123456789012/us-east-1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-13-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "context",
+        "--clear"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-14-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "deploy",
+        "--require-approval",
+        "never"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-15-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "destroy",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-16-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "diff",
+        "--no-change-set"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-17-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "docs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-18-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "doc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-19-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "doctor"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-20-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "drift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-21-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "flags"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-22-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "import"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-23-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "init",
+        "app",
+        "--language",
+        "typescript"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-24-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-25-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "ls"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-26-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "metadata",
+        "Example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-27-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "migrate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-28-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "notices"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-29-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "orphan"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-30-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "publish-assets"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-31-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "refactor"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-32-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "synthesize"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-33-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "synth",
+        "--app",
+        "node app.js"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-34-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "watch",
+        "--hotswap"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-35-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "rollback"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-36-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "gc"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-37-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "--app",
+        "node app.js",
+        "destroy",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-38-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "--profile=example",
+        "--context",
+        "key=value",
+        "destroy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-39-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "--debug=false",
+        "destroy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-40-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "--output",
+        "/outside/assembly",
+        "synth"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-41-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "--plugin",
+        "/outside/plugin",
+        "deploy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-42-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "--app",
+        "cdk.out",
+        "deploy",
+        "--no-execute"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-43-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "build",
+        "--use-container"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-44-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "delete",
+        "--no-prompts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-45-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "deploy",
+        "--no-execute-changeset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-46-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "init",
+        "--location",
+        "https://example.com/template"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-47-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-48-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "list",
+        "endpoints"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-49-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "list",
+        "resources"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-50-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "list",
+        "stack-outputs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-51-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "local",
+        "callback"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-52-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "local",
+        "execution"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-53-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "local",
+        "generate-event",
+        "s3",
+        "put"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-54-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "local",
+        "invoke",
+        "--event",
+        "/outside/event.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-55-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "local",
+        "start-api",
+        "--host",
+        "0.0.0.0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-56-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "local",
+        "start-lambda"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-57-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "logs",
+        "--tail"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-58-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "package",
+        "--resolve-s3"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-59-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "pipeline",
+        "bootstrap"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-60-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "pipeline",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-61-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-62-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "remote",
+        "callback"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-63-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "remote",
+        "execution"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-64-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "remote",
+        "invoke"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-65-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "remote",
+        "test-event",
+        "delete"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-66-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "sync",
+        "--watch"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-67-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "traces"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-68-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "validate",
+        "--lint",
+        "--template",
+        "/outside/template.yaml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-69-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "--debug",
+        "delete",
+        "--no-prompts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-70-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "--profile",
+        "example",
+        "delete"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-71-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "local",
+        "--debug",
+        "invoke"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-72-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "destroy",
+        "--help=false"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-73-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "--help=false",
+        "destroy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-74-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "deploy",
+        "--template-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-75-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "--app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-76-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-77-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-78-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cdk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-79-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sam"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cdk-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/cdk",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/sam",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cdk-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/cdk",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/sam",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shell-0-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "input": {
+        "kind": "shell",
+        "source": "cdk --app \"node app.js\" destroy --force",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-1-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "input": {
+        "kind": "shell",
+        "source": "sam --debug delete --no-prompts",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-2-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "cdk synth --app \"node app.js\"",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-3-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "sam package --resolve-s3",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "cdk-0-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-1-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cdk-2-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-3-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cdk-4-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-5-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-6-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "docs"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-7-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "--info"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-8-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "synth",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-9-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "local",
+        "invoke",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cdk-10-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "acknowledge",
+        "12345"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-11-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "ack",
+        "12345"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-12-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "bootstrap",
+        "aws://123456789012/us-east-1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-13-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "context",
+        "--clear"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-14-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "deploy",
+        "--require-approval",
+        "never"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-15-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "destroy",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-16-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "diff",
+        "--no-change-set"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-17-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "docs"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-18-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "doc"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-19-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "doctor"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-20-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "drift"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-21-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "flags"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-22-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "import"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-23-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "init",
+        "app",
+        "--language",
+        "typescript"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-24-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-25-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "ls"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-26-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "metadata",
+        "Example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-27-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "migrate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-28-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "notices"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-29-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "orphan"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-30-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "publish-assets"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-31-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "refactor"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-32-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "synthesize"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-33-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "synth",
+        "--app",
+        "node app.js"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-34-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "watch",
+        "--hotswap"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-35-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "rollback"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-36-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "gc"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-37-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "--app",
+        "node app.js",
+        "destroy",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-38-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "--profile=example",
+        "--context",
+        "key=value",
+        "destroy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-39-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "--debug=false",
+        "destroy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-40-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "--output",
+        "/outside/assembly",
+        "synth"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-41-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "--plugin",
+        "/outside/plugin",
+        "deploy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-42-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "--app",
+        "cdk.out",
+        "deploy",
+        "--no-execute"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-43-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "build",
+        "--use-container"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-44-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "delete",
+        "--no-prompts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-45-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "deploy",
+        "--no-execute-changeset"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-46-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "init",
+        "--location",
+        "https://example.com/template"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-47-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-48-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "list",
+        "endpoints"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-49-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "list",
+        "resources"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-50-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "list",
+        "stack-outputs"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-51-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "local",
+        "callback"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-52-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "local",
+        "execution"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-53-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "local",
+        "generate-event",
+        "s3",
+        "put"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-54-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "local",
+        "invoke",
+        "--event",
+        "/outside/event.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-55-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "local",
+        "start-api",
+        "--host",
+        "0.0.0.0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-56-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "local",
+        "start-lambda"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-57-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "logs",
+        "--tail"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-58-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "package",
+        "--resolve-s3"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-59-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "pipeline",
+        "bootstrap"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-60-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "pipeline",
+        "init"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-61-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "publish"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-62-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "remote",
+        "callback"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-63-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "remote",
+        "execution"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-64-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "remote",
+        "invoke"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-65-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "remote",
+        "test-event",
+        "delete"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-66-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "sync",
+        "--watch"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-67-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "traces"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-68-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "validate",
+        "--lint",
+        "--template",
+        "/outside/template.yaml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-69-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "--debug",
+        "delete",
+        "--no-prompts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-70-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "--profile",
+        "example",
+        "delete"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-71-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "local",
+        "--debug",
+        "invoke"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-72-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "destroy",
+        "--help=false"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-73-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "--help=false",
+        "destroy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-74-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "deploy",
+        "--template-file"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-75-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "--app"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-76-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk",
+        "future-command"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-77-strict",
+      "profile": "strict",
+      "argv": [
+        "sam",
+        "future-command"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-78-strict",
+      "profile": "strict",
+      "argv": [
+        "cdk"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sam-79-strict",
+      "profile": "strict",
+      "argv": [
+        "sam"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cdk-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/cdk",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sam-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/sam",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cdk-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/cdk",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sam-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/sam",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shell-0-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "input": {
+        "kind": "shell",
+        "source": "cdk --app \"node app.js\" destroy --force",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-1-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "input": {
+        "kind": "shell",
+        "source": "sam --debug delete --no-prompts",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-2-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "input": {
+        "kind": "shell",
+        "source": "cdk synth --app \"node app.js\"",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-3-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "input": {
+        "kind": "shell",
+        "source": "sam package --resolve-s3",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    }
+  ]
+}

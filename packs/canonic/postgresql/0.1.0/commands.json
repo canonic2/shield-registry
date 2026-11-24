@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "commands": [
+    {
+      "name": "psql",
+      "rule_ids": [
+        "psql-info-version",
+        "psql-info-V",
+        "psql-info-help",
+        "psql-info-question",
+        "psql-operation"
+      ]
+    },
+    {
+      "name": "pg_dump",
+      "rule_ids": [
+        "pg_dump-info-version",
+        "pg_dump-info-V",
+        "pg_dump-info-help",
+        "pg_dump-info-question",
+        "pg_dump-operation"
+      ]
+    },
+    {
+      "name": "pg_dumpall",
+      "rule_ids": [
+        "pg_dumpall-info-version",
+        "pg_dumpall-info-V",
+        "pg_dumpall-info-help",
+        "pg_dumpall-info-question",
+        "pg_dumpall-operation"
+      ]
+    },
+    {
+      "name": "pg_restore",
+      "rule_ids": [
+        "pg_restore-info-version",
+        "pg_restore-info-V",
+        "pg_restore-info-help",
+        "pg_restore-info-question",
+        "pg_restore-clean",
+        "pg_restore-operation"
+      ]
+    },
+    {
+      "name": "pg_isready",
+      "rule_ids": [
+        "pg_isready-info-version",
+        "pg_isready-info-V",
+        "pg_isready-info-help",
+        "pg_isready-info-question",
+        "pg_isready-operation"
+      ]
+    },
+    {
+      "name": "createdb",
+      "rule_ids": [
+        "createdb-info-version",
+        "createdb-info-V",
+        "createdb-info-help",
+        "createdb-info-question",
+        "createdb-operation"
+      ]
+    },
+    {
+      "name": "dropdb",
+      "rule_ids": [
+        "dropdb-info-version",
+        "dropdb-info-V",
+        "dropdb-info-help",
+        "dropdb-info-question",
+        "dropdb-operation"
+      ]
+    },
+    {
+      "name": "createuser",
+      "rule_ids": [
+        "createuser-info-version",
+        "createuser-info-V",
+        "createuser-info-help",
+        "createuser-info-question",
+        "createuser-operation"
+      ]
+    },
+    {
+      "name": "dropuser",
+      "rule_ids": [
+        "dropuser-info-version",
+        "dropuser-info-V",
+        "dropuser-info-help",
+        "dropuser-info-question",
+        "dropuser-operation"
+      ]
+    },
+    {
+      "name": "vacuumdb",
+      "rule_ids": [
+        "vacuumdb-info-version",
+        "vacuumdb-info-V",
+        "vacuumdb-info-help",
+        "vacuumdb-info-question",
+        "vacuumdb-operation"
+      ]
+    },
+    {
+      "name": "reindexdb",
+      "rule_ids": [
+        "reindexdb-info-version",
+        "reindexdb-info-V",
+        "reindexdb-info-help",
+        "reindexdb-info-question",
+        "reindexdb-operation"
+      ]
+    },
+    {
+      "name": "clusterdb",
+      "rule_ids": [
+        "clusterdb-info-version",
+        "clusterdb-info-V",
+        "clusterdb-info-help",
+        "clusterdb-info-question",
+        "clusterdb-operation"
+      ]
+    },
+    {
+      "name": "pg_amcheck",
+      "rule_ids": [
+        "pg_amcheck-info-version",
+        "pg_amcheck-info-V",
+        "pg_amcheck-info-help",
+        "pg_amcheck-info-question",
+        "pg_amcheck-operation"
+      ]
+    },
+    {
+      "name": "pg_basebackup",
+      "rule_ids": [
+        "pg_basebackup-info-version",
+        "pg_basebackup-info-V",
+        "pg_basebackup-info-help",
+        "pg_basebackup-info-question",
+        "pg_basebackup-operation"
+      ]
+    },
+    {
+      "name": "pg_config",
+      "rule_ids": [
+        "pg_config-info-version",
+        "pg_config-info-help",
+        "pg_config-operation"
+      ]
+    },
+    {
+      "name": "pgbench",
+      "rule_ids": [
+        "pgbench-info-version",
+        "pgbench-info-V",
+        "pgbench-info-help",
+        "pgbench-info-question",
+        "pgbench-operation"
+      ]
+    }
+  ]
+}

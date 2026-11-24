@@ -1,0 +1,3524 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "empty-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-long-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-json-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "version",
+        "-json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-flag-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-long-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-operand-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "version",
+        "/outside/state"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-file-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        "main.tf"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-dir-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        "modules"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-check-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-check",
+        "-diff"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-booleans-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-list=false",
+        "-write=false",
+        "main.tf"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-recursive-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-recursive-implicit-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-recursive-false-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive=false",
+        "main.tf"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-recursive-numeric-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive=1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-recursive-capital-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive=True"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-recursive-short-bool-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive=t"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-multiple-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        "main.tf",
+        "modules"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-new-display-option-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-future-display",
+        "main.tf"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-stdin-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        "/outside/main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-parent-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        "../main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-mixed-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        "main.tf",
+        "/outside/main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-protected-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        ".shield/config.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-git-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        ".git/config.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-agent-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        ".codex/config.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-separator-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "fmt",
+        "--",
+        "/outside/main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-chdir-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "fmt",
+        "main.tf"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-chdir-operand-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "fmt",
+        "/outside/main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-chdir-protected-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir=.codex",
+        "fmt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-chdir-escape-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "fmt",
+        "../main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-chdir-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir=/outside",
+        "fmt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-chdir-split-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir",
+        "modules",
+        "fmt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "init-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "init-backend-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "init",
+        "-backend-config=/outside/backend.hcl"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "init-migrate-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "init",
+        "-migrate-state",
+        "-force-copy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "get-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "get",
+        "-update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "validate-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "validate",
+        "-json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-out-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "plan",
+        "-out=/outside/plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-var-file-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "plan",
+        "-var-file=/outside/prod.tfvars"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-destroy-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "plan",
+        "-destroy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-no-refresh-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "plan",
+        "-refresh=false",
+        "-lock=false"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-invoke-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "plan",
+        "-invoke=action.example.test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "console-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "console"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "graph-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "graph",
+        "-plan=/outside/plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "output-json-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "output",
+        "-json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "output-raw-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "output",
+        "-raw",
+        "password"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "show-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "show",
+        "-json",
+        "/outside/state"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "providers-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "providers"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "providers-schema-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "providers",
+        "schema",
+        "-json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "providers-lock-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "providers",
+        "lock",
+        "-fs-mirror=/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "providers-mirror-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "providers",
+        "mirror",
+        "/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "metadata-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "metadata",
+        "functions",
+        "-json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-list-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "state",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-show-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "state",
+        "show",
+        "aws_instance.web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-pull-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "state",
+        "pull"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "workspace-list-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "workspace",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "workspace-show-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "workspace",
+        "show"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "workspace-select-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "workspace",
+        "select",
+        "-or-create",
+        "prod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "workspace-new-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "workspace",
+        "new",
+        "-state=/outside/state",
+        "prod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apply-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "apply"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apply-auto-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "apply",
+        "-auto-approve"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apply-plan-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "apply",
+        "saved.plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apply-destroy-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "apply",
+        "-destroy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "destroy-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "destroy",
+        "-auto-approve"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "test-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "test-filter-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "test",
+        "-filter=tests/main.tftest.hcl"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "import-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "import",
+        "aws_instance.web",
+        "i-example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "refresh-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "refresh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "taint-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "taint",
+        "aws_instance.web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "untaint-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "untaint",
+        "aws_instance.web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unlock-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "force-unlock",
+        "-force",
+        "example-lock"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-mv-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "state",
+        "mv",
+        "aws_instance.old",
+        "aws_instance.web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-rm-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "state",
+        "rm",
+        "aws_instance.web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-push-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "state",
+        "push",
+        "-force",
+        "/outside/state"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-replace-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "state",
+        "replace-provider",
+        "example/old",
+        "example/new"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "state",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "workspace-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "workspace",
+        "delete",
+        "-force",
+        "prod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "login-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "login",
+        "app.terraform.io"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "logout-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "logout"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "autocomplete-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-install-autocomplete"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "uninstall-autocomplete-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-uninstall-autocomplete"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "missing-chdir-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "repeated-chdir-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir=modules",
+        "-chdir=/outside",
+        "fmt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "mutation-help-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "destroy",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "test-help-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "test",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "state-help-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "state",
+        "rm",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-plus-execution-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "apply",
+        "-help",
+        "saved.plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "global-help-mutation-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-help",
+        "apply"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "modules-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "modules",
+        "-json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stacks-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "stacks",
+        "deployment",
+        "apply"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-1-apply-saved.plan-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "apply",
+        "saved.plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-1-destroy-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "destroy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-1-test-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-1-state-rm-aws_instance.web-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "state",
+        "rm",
+        "aws_instance.web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-1-workspace-delete-prod-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "workspace",
+        "delete",
+        "prod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-1-login-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "login"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-2-apply-saved.plan-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "apply",
+        "saved.plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-2-destroy-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "destroy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-2-test-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-2-state-rm-aws_instance.web-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "state",
+        "rm",
+        "aws_instance.web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-2-workspace-delete-prod-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "workspace",
+        "delete",
+        "prod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-2-login-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "login"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "installed--usr-bin--loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/terraform",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "installed--usr-local-bin--loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/local/bin/terraform",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "installed--opt-homebrew-bin--loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/terraform",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unmatched-terraform-evil-loose",
+      "profile": "loose",
+      "argv": [
+        "terraform-evil",
+        "version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unmatched--outside-bin-terraform-loose",
+      "profile": "loose",
+      "argv": [
+        "/outside/bin/terraform",
+        "version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unmatched-tofu-loose",
+      "profile": "loose",
+      "argv": [
+        "tofu",
+        "version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unbound-mcp-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "input": {
+        "kind": "mcp",
+        "server": "terraform",
+        "tool": "apply",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "empty-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-long-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-json-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "version",
+        "-json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-flag-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-long-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-operand-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "version",
+        "/outside/state"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        "main.tf"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-dir-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        "modules"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-check-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-check",
+        "-diff"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-booleans-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-list=false",
+        "-write=false",
+        "main.tf"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-recursive-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-recursive-implicit-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-recursive-false-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive=false",
+        "main.tf"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-recursive-numeric-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive=1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-recursive-capital-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive=True"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-recursive-short-bool-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive=t"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-multiple-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        "main.tf",
+        "modules"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-new-display-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-future-display",
+        "main.tf"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-stdin-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        "/outside/main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-parent-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        "../main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-mixed-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        "main.tf",
+        "/outside/main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-protected-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        ".shield/config.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-git-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        ".git/config.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-agent-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        ".codex/config.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-separator-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "fmt",
+        "--",
+        "/outside/main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-chdir-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "fmt",
+        "main.tf"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fmt-chdir-operand-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "fmt",
+        "/outside/main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-chdir-protected-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir=.codex",
+        "fmt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-chdir-escape-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "fmt",
+        "../main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-chdir-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir=/outside",
+        "fmt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-chdir-split-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir",
+        "modules",
+        "fmt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "init-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "init-backend-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "init",
+        "-backend-config=/outside/backend.hcl"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "init-migrate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "init",
+        "-migrate-state",
+        "-force-copy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "get-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "get",
+        "-update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "validate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "validate",
+        "-json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-out-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "plan",
+        "-out=/outside/plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-var-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "plan",
+        "-var-file=/outside/prod.tfvars"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-destroy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "plan",
+        "-destroy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-no-refresh-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "plan",
+        "-refresh=false",
+        "-lock=false"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-invoke-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "plan",
+        "-invoke=action.example.test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "console-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "console"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "graph-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "graph",
+        "-plan=/outside/plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "output-json-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "output",
+        "-json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "output-raw-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "output",
+        "-raw",
+        "password"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "show-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "show",
+        "-json",
+        "/outside/state"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "providers-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "providers"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "providers-schema-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "providers",
+        "schema",
+        "-json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "providers-lock-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "providers",
+        "lock",
+        "-fs-mirror=/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "providers-mirror-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "providers",
+        "mirror",
+        "/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "metadata-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "metadata",
+        "functions",
+        "-json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "state",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-show-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "state",
+        "show",
+        "aws_instance.web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-pull-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "state",
+        "pull"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "workspace-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "workspace",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "workspace-show-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "workspace",
+        "show"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "workspace-select-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "workspace",
+        "select",
+        "-or-create",
+        "prod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "workspace-new-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "workspace",
+        "new",
+        "-state=/outside/state",
+        "prod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apply-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "apply"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apply-auto-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "apply",
+        "-auto-approve"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apply-plan-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "apply",
+        "saved.plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apply-destroy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "apply",
+        "-destroy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "destroy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "destroy",
+        "-auto-approve"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "test-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "test-filter-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "test",
+        "-filter=tests/main.tftest.hcl"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "import-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "import",
+        "aws_instance.web",
+        "i-example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "refresh-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "refresh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "taint-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "taint",
+        "aws_instance.web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "untaint-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "untaint",
+        "aws_instance.web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unlock-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "force-unlock",
+        "-force",
+        "example-lock"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-mv-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "state",
+        "mv",
+        "aws_instance.old",
+        "aws_instance.web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-rm-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "state",
+        "rm",
+        "aws_instance.web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-push-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "state",
+        "push",
+        "-force",
+        "/outside/state"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-replace-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "state",
+        "replace-provider",
+        "example/old",
+        "example/new"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "state",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "workspace-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "workspace",
+        "delete",
+        "-force",
+        "prod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "login-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "login",
+        "app.terraform.io"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "logout-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "logout"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "autocomplete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-install-autocomplete"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "uninstall-autocomplete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-uninstall-autocomplete"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "missing-chdir-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "repeated-chdir-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir=modules",
+        "-chdir=/outside",
+        "fmt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "mutation-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "destroy",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "test-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "test",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "state-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "state",
+        "rm",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-plus-execution-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "apply",
+        "-help",
+        "saved.plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "global-help-mutation-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-help",
+        "apply"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "modules-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "modules",
+        "-json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stacks-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "stacks",
+        "deployment",
+        "apply"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-1-apply-saved.plan-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "apply",
+        "saved.plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-1-destroy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "destroy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-1-test-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-1-state-rm-aws_instance.web-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "state",
+        "rm",
+        "aws_instance.web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-1-workspace-delete-prod-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "workspace",
+        "delete",
+        "prod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-1-login-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "login"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-2-apply-saved.plan-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "apply",
+        "saved.plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-2-destroy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "destroy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-2-test-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-2-state-rm-aws_instance.web-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "state",
+        "rm",
+        "aws_instance.web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-2-workspace-delete-prod-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "workspace",
+        "delete",
+        "prod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-2-login-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "login"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "installed--usr-bin--recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/terraform",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "installed--usr-local-bin--recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/terraform",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "installed--opt-homebrew-bin--recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/terraform",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unmatched-terraform-evil-recommended",
+      "profile": "recommended",
+      "argv": [
+        "terraform-evil",
+        "version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unmatched--outside-bin-terraform-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/outside/bin/terraform",
+        "version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unmatched-tofu-recommended",
+      "profile": "recommended",
+      "argv": [
+        "tofu",
+        "version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unbound-mcp-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "input": {
+        "kind": "mcp",
+        "server": "terraform",
+        "tool": "apply",
+        "arguments": {},
+        "original_input": {}
+      }
+    },
+    {
+      "name": "empty-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-long-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-json-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "version",
+        "-json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-flag-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-long-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-operand-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "version",
+        "/outside/state"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-file-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        "main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-dir-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        "modules"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-check-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-check",
+        "-diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-booleans-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-list=false",
+        "-write=false",
+        "main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-recursive-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-recursive-implicit-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-recursive-false-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive=false",
+        "main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-recursive-numeric-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive=1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-recursive-capital-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive=True"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-recursive-short-bool-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-recursive=t"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-multiple-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        "main.tf",
+        "modules"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-new-display-option-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-future-display",
+        "main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-stdin-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        "-"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        "/outside/main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-parent-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        "../main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-mixed-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        "main.tf",
+        "/outside/main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-protected-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        ".shield/config.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-git-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        ".git/config.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-agent-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        ".codex/config.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-separator-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "fmt",
+        "--",
+        "/outside/main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-chdir-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "fmt",
+        "main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-chdir-operand-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "fmt",
+        "/outside/main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-chdir-protected-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir=.codex",
+        "fmt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-chdir-escape-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "fmt",
+        "../main.tf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-chdir-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir=/outside",
+        "fmt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fmt-chdir-split-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir",
+        "modules",
+        "fmt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "init-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "init-backend-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "init",
+        "-backend-config=/outside/backend.hcl"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "init-migrate-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "init",
+        "-migrate-state",
+        "-force-copy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "get-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "get",
+        "-update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "validate-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "validate",
+        "-json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-out-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "plan",
+        "-out=/outside/plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-var-file-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "plan",
+        "-var-file=/outside/prod.tfvars"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-destroy-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "plan",
+        "-destroy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-no-refresh-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "plan",
+        "-refresh=false",
+        "-lock=false"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plan-invoke-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "plan",
+        "-invoke=action.example.test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "console-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "console"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "graph-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "graph",
+        "-plan=/outside/plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "output-json-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "output",
+        "-json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "output-raw-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "output",
+        "-raw",
+        "password"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "show-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "show",
+        "-json",
+        "/outside/state"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "providers-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "providers"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "providers-schema-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "providers",
+        "schema",
+        "-json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "providers-lock-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "providers",
+        "lock",
+        "-fs-mirror=/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "providers-mirror-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "providers",
+        "mirror",
+        "/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "metadata-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "metadata",
+        "functions",
+        "-json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-list-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "state",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-show-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "state",
+        "show",
+        "aws_instance.web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "state-pull-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "state",
+        "pull"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "workspace-list-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "workspace",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "workspace-show-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "workspace",
+        "show"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "workspace-select-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "workspace",
+        "select",
+        "-or-create",
+        "prod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "workspace-new-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "workspace",
+        "new",
+        "-state=/outside/state",
+        "prod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apply-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "apply"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apply-auto-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "apply",
+        "-auto-approve"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apply-plan-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "apply",
+        "saved.plan"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apply-destroy-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "apply",
+        "-destroy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "destroy-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "destroy",
+        "-auto-approve"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "test-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "test-filter-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "test",
+        "-filter=tests/main.tftest.hcl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "import-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "import",
+        "aws_instance.web",
+        "i-example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "refresh-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "refresh"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "taint-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "taint",
+        "aws_instance.web"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "untaint-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "untaint",
+        "aws_instance.web"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unlock-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "force-unlock",
+        "-force",
+        "example-lock"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "state-mv-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "state",
+        "mv",
+        "aws_instance.old",
+        "aws_instance.web"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "state-rm-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "state",
+        "rm",
+        "aws_instance.web"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "state-push-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "state",
+        "push",
+        "-force",
+        "/outside/state"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "state-replace-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "state",
+        "replace-provider",
+        "example/old",
+        "example/new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "state-unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "state",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "workspace-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "workspace",
+        "delete",
+        "-force",
+        "prod"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "login-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "login",
+        "app.terraform.io"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "logout-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "logout"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "autocomplete-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-install-autocomplete"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "uninstall-autocomplete-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-uninstall-autocomplete"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "missing-chdir-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "repeated-chdir-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir=modules",
+        "-chdir=/outside",
+        "fmt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "mutation-help-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "destroy",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "test-help-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "test",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "state-help-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "state",
+        "rm",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-plus-execution-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "apply",
+        "-help",
+        "saved.plan"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "global-help-mutation-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-help",
+        "apply"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "modules-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "modules",
+        "-json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stacks-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "stacks",
+        "deployment",
+        "apply"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "chdir-1-apply-saved.plan-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "apply",
+        "saved.plan"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "chdir-1-destroy-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "destroy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "chdir-1-test-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "chdir-1-state-rm-aws_instance.web-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "state",
+        "rm",
+        "aws_instance.web"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "chdir-1-workspace-delete-prod-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "workspace",
+        "delete",
+        "prod"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "chdir-1-login-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir=.",
+        "login"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "chdir-2-apply-saved.plan-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "apply",
+        "saved.plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-2-destroy-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "destroy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-2-test-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-2-state-rm-aws_instance.web-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "state",
+        "rm",
+        "aws_instance.web"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-2-workspace-delete-prod-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "workspace",
+        "delete",
+        "prod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "chdir-2-login-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform",
+        "-chdir",
+        ".",
+        "login"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "installed--usr-bin--strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/terraform",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "installed--usr-local-bin--strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/terraform",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "installed--opt-homebrew-bin--strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/terraform",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unmatched-terraform-evil-strict",
+      "profile": "strict",
+      "argv": [
+        "terraform-evil",
+        "version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unmatched--outside-bin-terraform-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/terraform",
+        "version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unmatched-tofu-strict",
+      "profile": "strict",
+      "argv": [
+        "tofu",
+        "version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unbound-mcp-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "input": {
+        "kind": "mcp",
+        "server": "terraform",
+        "tool": "apply",
+        "arguments": {},
+        "original_input": {}
+      }
+    }
+  ]
+}

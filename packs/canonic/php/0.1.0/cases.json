@@ -1,0 +1,6002 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "request-0-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-1-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-2-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-3-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-4-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-m"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-5-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "--modules"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-6-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        "example.php"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-7-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-l",
+        "-n",
+        "example.php"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-8-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "--no-php-ini",
+        "--syntax-check",
+        "example.php",
+        "other.php"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-9-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-q",
+        "-l",
+        "--",
+        "example.php"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-10-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        "/outside/example.php"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-11-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        ".git/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-12-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        ".env"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-13-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        "example.php",
+        "/outside/example.php"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-14-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-l"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-15-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        "-"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-16-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-l",
+        "example.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-17-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-d",
+        "extension=/outside/extension.so",
+        "-l",
+        "example.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-18-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-c",
+        "/outside/php.ini",
+        "-l",
+        "example.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-19-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-r",
+        "echo 1;",
+        "-l",
+        "example.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-20-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-f",
+        "example.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-21-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-r",
+        "echo 1;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-22-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-R",
+        "echo $argn;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-23-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-B",
+        "echo 1;",
+        "-F",
+        "script.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-24-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-S",
+        "0.0.0.0:8000",
+        "-t",
+        "/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-25-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-v"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-26-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-27-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-i"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-28-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-i"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-29-loose",
+      "profile": "loose",
+      "argv": [
+        "php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-30-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "script.php",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-31-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "composer.phar",
+        "install",
+        "--no-plugins",
+        "--no-scripts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-32-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "--no-plugins",
+        "--no-scripts",
+        "install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-33-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "--working-dir=/outside",
+        "update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-34-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "global",
+        "require",
+        "example/package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-35-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "config",
+        "--global",
+        "--auth",
+        "github-oauth.github.com",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-36-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "exec",
+        "--",
+        "php",
+        "-r",
+        "echo 1;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-37-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-38-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "vendor/bin/phpunit",
+        "--list-tests"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-39-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "./artisan",
+        "tinker",
+        "--execute=echo 1;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-40-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-f",
+        "artisan",
+        "--env=production",
+        "migrate:fresh",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-41-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "--file=artisan",
+        "db:wipe",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-42-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "--help",
+        "migrate:fresh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-43-loose",
+      "profile": "loose",
+      "argv": [
+        "artisan",
+        "migrate:fresh",
+        "--pretend"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-44-loose",
+      "profile": "loose",
+      "argv": [
+        "sail",
+        "artisan",
+        "migrate:fresh",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-45-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        "--future-option",
+        "example.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-46-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "script.php",
+        "-n",
+        "-l"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-47-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "-n",
+        "script.php",
+        "-l"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-48-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-49-loose",
+      "profile": "loose",
+      "argv": [
+        "artisan",
+        "future:command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-0-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-1-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-2-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "i"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-3-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-4-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "u"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-5-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "upgrade"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-6-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "require"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-7-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "remove"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-8-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "reinstall"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-9-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "bump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-10-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "check-platform-reqs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-11-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "global"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-12-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "search"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-13-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "show"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-14-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "info"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-15-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "outdated"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-16-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "browse"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-17-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "home"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-18-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "suggests"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-19-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "fund"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-20-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "depends"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-21-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "why"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-22-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "prohibits"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-23-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "why-not"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-24-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "validate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-25-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-26-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "diagnose"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-27-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "archive"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-28-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "create-project"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-29-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "dump-autoload"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-30-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "dumpautoload"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-31-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "clear-cache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-32-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "clearcache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-33-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-34-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "exec"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-35-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "run-script"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-36-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-37-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "licenses"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-38-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "audit"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-39-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "self-update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-40-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "selfupdate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-41-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "completion"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-42-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-43-loose",
+      "profile": "loose",
+      "argv": [
+        "composer",
+        "help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-0-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-1-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-2-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "about"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-3-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-4-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "serve"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-5-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "tinker"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-6-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "route:list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-7-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "route:cache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-8-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "route:clear"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-9-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "config:show"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-10-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "config:cache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-11-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "config:clear"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-12-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "cache:clear"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-13-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "cache:forget"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-14-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "optimize"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-15-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "optimize:clear"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-16-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "view:cache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-17-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "view:clear"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-18-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "event:list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-19-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "event:cache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-20-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "event:clear"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-21-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "make:model"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-22-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "make:migration"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-23-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "make:controller"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-24-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "make:test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-25-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-26-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-27-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-28-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-29-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "db:show"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-30-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "db:table"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-31-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "db:seed"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-32-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "schema:dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-33-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "env:encrypt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-34-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:work"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-35-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:listen"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-36-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:restart"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-37-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:retry"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-38-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "schedule:list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-39-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "schedule:run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-40-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "schedule:work"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-41-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "schedule:clear-cache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-42-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "storage:link"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-43-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "storage:unlink"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-44-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "vendor:publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-45-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "package:discover"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-46-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "down"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-47-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "up"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-48-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "horizon"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-49-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "horizon:terminate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "php-artisan-delete-0-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:fresh",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-delete-0-loose",
+      "profile": "loose",
+      "argv": [
+        "./artisan",
+        "migrate:fresh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "php-artisan-delete-1-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:refresh",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-delete-1-loose",
+      "profile": "loose",
+      "argv": [
+        "./artisan",
+        "migrate:refresh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "php-artisan-delete-2-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:reset",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-delete-2-loose",
+      "profile": "loose",
+      "argv": [
+        "./artisan",
+        "migrate:reset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "php-artisan-delete-3-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:rollback",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-delete-3-loose",
+      "profile": "loose",
+      "argv": [
+        "./artisan",
+        "migrate:rollback"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "php-artisan-delete-4-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "db:wipe",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-delete-4-loose",
+      "profile": "loose",
+      "argv": [
+        "./artisan",
+        "db:wipe"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "php-artisan-delete-5-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "key:generate",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-delete-5-loose",
+      "profile": "loose",
+      "argv": [
+        "./artisan",
+        "key:generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "php-artisan-delete-6-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "env:decrypt",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-delete-6-loose",
+      "profile": "loose",
+      "argv": [
+        "./artisan",
+        "env:decrypt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "php-artisan-delete-7-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:clear",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-delete-7-loose",
+      "profile": "loose",
+      "argv": [
+        "./artisan",
+        "queue:clear"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "php-artisan-delete-8-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:flush",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-delete-8-loose",
+      "profile": "loose",
+      "argv": [
+        "./artisan",
+        "queue:flush"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "php-artisan-delete-9-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:forget",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-delete-9-loose",
+      "profile": "loose",
+      "argv": [
+        "./artisan",
+        "queue:forget"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "php-artisan-delete-10-loose",
+      "profile": "loose",
+      "argv": [
+        "php",
+        "artisan",
+        "horizon:clear",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-delete-10-loose",
+      "profile": "loose",
+      "argv": [
+        "./artisan",
+        "horizon:clear"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-0-loose",
+      "profile": "loose",
+      "argv": [
+        "phpunit",
+        "--bootstrap",
+        "/outside/bootstrap.php",
+        "--coverage-html",
+        "/outside/report"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-0-loose",
+      "profile": "loose",
+      "argv": [
+        "./vendor/bin/phpunit",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-1-loose",
+      "profile": "loose",
+      "argv": [
+        "pest",
+        "--parallel",
+        "--coverage"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-1-loose",
+      "profile": "loose",
+      "argv": [
+        "./vendor/bin/pest",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-2-loose",
+      "profile": "loose",
+      "argv": [
+        "paratest",
+        "--processes=4"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-2-loose",
+      "profile": "loose",
+      "argv": [
+        "./vendor/bin/paratest",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-3-loose",
+      "profile": "loose",
+      "argv": [
+        "phpstan",
+        "analyse",
+        "--configuration=/outside/phpstan.neon"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-3-loose",
+      "profile": "loose",
+      "argv": [
+        "./vendor/bin/phpstan",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-4-loose",
+      "profile": "loose",
+      "argv": [
+        "psalm",
+        "--alter",
+        "--issues=all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-4-loose",
+      "profile": "loose",
+      "argv": [
+        "./vendor/bin/psalm",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-5-loose",
+      "profile": "loose",
+      "argv": [
+        "phpcs",
+        "--standard=/outside/ruleset.xml",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-5-loose",
+      "profile": "loose",
+      "argv": [
+        "./vendor/bin/phpcs",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-6-loose",
+      "profile": "loose",
+      "argv": [
+        "phpcbf",
+        "--standard=PSR12",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-6-loose",
+      "profile": "loose",
+      "argv": [
+        "./vendor/bin/phpcbf",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-7-loose",
+      "profile": "loose",
+      "argv": [
+        "php-cs-fixer",
+        "fix",
+        "--dry-run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-7-loose",
+      "profile": "loose",
+      "argv": [
+        "./vendor/bin/php-cs-fixer",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-8-loose",
+      "profile": "loose",
+      "argv": [
+        "pint",
+        "--test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-8-loose",
+      "profile": "loose",
+      "argv": [
+        "./vendor/bin/pint",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-9-loose",
+      "profile": "loose",
+      "argv": [
+        "rector",
+        "process",
+        "--dry-run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-9-loose",
+      "profile": "loose",
+      "argv": [
+        "./vendor/bin/rector",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-10-loose",
+      "profile": "loose",
+      "argv": [
+        "phan",
+        "--config-file",
+        "/outside/config.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-10-loose",
+      "profile": "loose",
+      "argv": [
+        "./vendor/bin/phan",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-11-loose",
+      "profile": "loose",
+      "argv": [
+        "phpmd",
+        "src",
+        "xml",
+        "/outside/rules.xml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-11-loose",
+      "profile": "loose",
+      "argv": [
+        "./vendor/bin/phpmd",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-12-loose",
+      "profile": "loose",
+      "argv": [
+        "infection",
+        "--threads=4"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-12-loose",
+      "profile": "loose",
+      "argv": [
+        "./vendor/bin/infection",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-13-loose",
+      "profile": "loose",
+      "argv": [
+        "laravel",
+        "new",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-13-loose",
+      "profile": "loose",
+      "argv": [
+        "./vendor/bin/laravel",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-14-loose",
+      "profile": "loose",
+      "argv": [
+        "sail",
+        "up",
+        "-d"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-14-loose",
+      "profile": "loose",
+      "argv": [
+        "./vendor/bin/sail",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "absolute-php-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/php",
+        "-n",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unknown-php-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/php",
+        "-n",
+        "-v"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shell-0-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "input": {
+        "kind": "shell",
+        "source": "php -n -l example.php",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-1-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "php artisan migrate:fresh --force",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-2-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "composer install --no-plugins --no-scripts",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "request-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-m"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-5-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "--modules"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-6-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        "example.php"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-7-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-l",
+        "-n",
+        "example.php"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-8-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "--no-php-ini",
+        "--syntax-check",
+        "example.php",
+        "other.php"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-9-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-q",
+        "-l",
+        "--",
+        "example.php"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-10-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        "/outside/example.php"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-11-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        ".git/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-12-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        ".env"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-13-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        "example.php",
+        "/outside/example.php"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-14-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-l"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-15-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        "-"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-16-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-l",
+        "example.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-17-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-d",
+        "extension=/outside/extension.so",
+        "-l",
+        "example.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-18-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-c",
+        "/outside/php.ini",
+        "-l",
+        "example.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-19-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-r",
+        "echo 1;",
+        "-l",
+        "example.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-20-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-f",
+        "example.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-21-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-r",
+        "echo 1;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-22-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-R",
+        "echo $argn;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-23-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-B",
+        "echo 1;",
+        "-F",
+        "script.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-24-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-S",
+        "0.0.0.0:8000",
+        "-t",
+        "/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-25-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-v"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-26-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-27-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-i"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-28-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-i"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-29-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-30-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "script.php",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-31-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "composer.phar",
+        "install",
+        "--no-plugins",
+        "--no-scripts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-32-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "--no-plugins",
+        "--no-scripts",
+        "install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-33-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "--working-dir=/outside",
+        "update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-34-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "global",
+        "require",
+        "example/package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-35-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "config",
+        "--global",
+        "--auth",
+        "github-oauth.github.com",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-36-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "exec",
+        "--",
+        "php",
+        "-r",
+        "echo 1;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-37-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-38-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "vendor/bin/phpunit",
+        "--list-tests"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-39-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "./artisan",
+        "tinker",
+        "--execute=echo 1;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-40-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-f",
+        "artisan",
+        "--env=production",
+        "migrate:fresh",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-41-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "--file=artisan",
+        "db:wipe",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-42-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "--help",
+        "migrate:fresh"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-43-recommended",
+      "profile": "recommended",
+      "argv": [
+        "artisan",
+        "migrate:fresh",
+        "--pretend"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-44-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sail",
+        "artisan",
+        "migrate:fresh",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-45-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        "--future-option",
+        "example.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-46-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "script.php",
+        "-n",
+        "-l"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-47-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "-n",
+        "script.php",
+        "-l"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-48-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-49-recommended",
+      "profile": "recommended",
+      "argv": [
+        "artisan",
+        "future:command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "i"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "u"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-5-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "upgrade"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-6-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "require"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-7-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "remove"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-8-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "reinstall"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-9-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "bump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-10-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "check-platform-reqs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-11-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "global"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-12-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "search"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-13-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "show"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-14-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "info"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-15-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "outdated"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-16-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "browse"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-17-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "home"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-18-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "suggests"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-19-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "fund"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-20-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "depends"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-21-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "why"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-22-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "prohibits"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-23-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "why-not"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-24-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "validate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-25-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-26-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "diagnose"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-27-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "archive"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-28-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "create-project"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-29-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "dump-autoload"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-30-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "dumpautoload"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-31-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "clear-cache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-32-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "clearcache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-33-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-34-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "exec"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-35-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "run-script"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-36-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-37-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "licenses"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-38-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "audit"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-39-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "self-update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-40-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "selfupdate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-41-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "completion"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-42-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "composer-43-recommended",
+      "profile": "recommended",
+      "argv": [
+        "composer",
+        "help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "about"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "serve"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-5-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "tinker"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-6-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "route:list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-7-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "route:cache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-8-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "route:clear"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-9-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "config:show"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-10-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "config:cache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-11-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "config:clear"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-12-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "cache:clear"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-13-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "cache:forget"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-14-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "optimize"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-15-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "optimize:clear"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-16-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "view:cache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-17-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "view:clear"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-18-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "event:list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-19-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "event:cache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-20-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "event:clear"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-21-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "make:model"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-22-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "make:migration"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-23-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "make:controller"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-24-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "make:test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-25-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-26-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-27-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-28-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-29-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "db:show"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-30-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "db:table"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-31-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "db:seed"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-32-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "schema:dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-33-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "env:encrypt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-34-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:work"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-35-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:listen"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-36-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:restart"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-37-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:retry"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-38-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "schedule:list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-39-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "schedule:run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-40-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "schedule:work"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-41-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "schedule:clear-cache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-42-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "storage:link"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-43-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "storage:unlink"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-44-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "vendor:publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-45-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "package:discover"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-46-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "down"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-47-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "up"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-48-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "horizon"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "artisan-49-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "horizon:terminate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "php-artisan-delete-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:fresh",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./artisan",
+        "migrate:fresh"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:refresh",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./artisan",
+        "migrate:refresh"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./artisan",
+        "migrate:reset"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:rollback",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./artisan",
+        "migrate:rollback"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "db:wipe",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./artisan",
+        "db:wipe"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-5-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "key:generate",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-5-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./artisan",
+        "key:generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-6-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "env:decrypt",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-6-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./artisan",
+        "env:decrypt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-7-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:clear",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-7-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./artisan",
+        "queue:clear"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-8-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:flush",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-8-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./artisan",
+        "queue:flush"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-9-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:forget",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-9-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./artisan",
+        "queue:forget"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-10-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php",
+        "artisan",
+        "horizon:clear",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-10-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./artisan",
+        "horizon:clear"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tool-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "phpunit",
+        "--bootstrap",
+        "/outside/bootstrap.php",
+        "--coverage-html",
+        "/outside/report"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./vendor/bin/phpunit",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pest",
+        "--parallel",
+        "--coverage"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./vendor/bin/pest",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "paratest",
+        "--processes=4"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./vendor/bin/paratest",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "phpstan",
+        "analyse",
+        "--configuration=/outside/phpstan.neon"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./vendor/bin/phpstan",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psalm",
+        "--alter",
+        "--issues=all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./vendor/bin/psalm",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-5-recommended",
+      "profile": "recommended",
+      "argv": [
+        "phpcs",
+        "--standard=/outside/ruleset.xml",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-5-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./vendor/bin/phpcs",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-6-recommended",
+      "profile": "recommended",
+      "argv": [
+        "phpcbf",
+        "--standard=PSR12",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-6-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./vendor/bin/phpcbf",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-7-recommended",
+      "profile": "recommended",
+      "argv": [
+        "php-cs-fixer",
+        "fix",
+        "--dry-run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-7-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./vendor/bin/php-cs-fixer",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-8-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pint",
+        "--test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-8-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./vendor/bin/pint",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-9-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rector",
+        "process",
+        "--dry-run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-9-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./vendor/bin/rector",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-10-recommended",
+      "profile": "recommended",
+      "argv": [
+        "phan",
+        "--config-file",
+        "/outside/config.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-10-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./vendor/bin/phan",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-11-recommended",
+      "profile": "recommended",
+      "argv": [
+        "phpmd",
+        "src",
+        "xml",
+        "/outside/rules.xml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-11-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./vendor/bin/phpmd",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-12-recommended",
+      "profile": "recommended",
+      "argv": [
+        "infection",
+        "--threads=4"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-12-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./vendor/bin/infection",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-13-recommended",
+      "profile": "recommended",
+      "argv": [
+        "laravel",
+        "new",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-13-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./vendor/bin/laravel",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tool-14-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sail",
+        "up",
+        "-d"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-14-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./vendor/bin/sail",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "absolute-php-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/php",
+        "-n",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unknown-php-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/php",
+        "-n",
+        "-v"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shell-0-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "input": {
+        "kind": "shell",
+        "source": "php -n -l example.php",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-1-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "input": {
+        "kind": "shell",
+        "source": "php artisan migrate:fresh --force",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-2-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "composer install --no-plugins --no-scripts",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "request-0-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-1-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-2-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-3-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-4-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-m"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-5-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "--modules"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "request-6-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        "example.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-7-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-l",
+        "-n",
+        "example.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-8-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "--no-php-ini",
+        "--syntax-check",
+        "example.php",
+        "other.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-9-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-q",
+        "-l",
+        "--",
+        "example.php"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "request-10-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        "/outside/example.php"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-11-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        ".git/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-12-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        ".env"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-13-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        "example.php",
+        "/outside/example.php"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-14-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-l"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-15-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        "-"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-16-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-l",
+        "example.php"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-17-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-d",
+        "extension=/outside/extension.so",
+        "-l",
+        "example.php"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-18-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-c",
+        "/outside/php.ini",
+        "-l",
+        "example.php"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-19-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-r",
+        "echo 1;",
+        "-l",
+        "example.php"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-20-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-f",
+        "example.php"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-21-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-r",
+        "echo 1;"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-22-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-R",
+        "echo $argn;"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-23-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-B",
+        "echo 1;",
+        "-F",
+        "script.php"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-24-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-S",
+        "0.0.0.0:8000",
+        "-t",
+        "/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-25-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-v"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-26-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-27-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-i"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-28-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-i"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-29-strict",
+      "profile": "strict",
+      "argv": [
+        "php"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-30-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "script.php",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-31-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "composer.phar",
+        "install",
+        "--no-plugins",
+        "--no-scripts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-32-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "--no-plugins",
+        "--no-scripts",
+        "install"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-33-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "--working-dir=/outside",
+        "update"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-34-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "global",
+        "require",
+        "example/package"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-35-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "config",
+        "--global",
+        "--auth",
+        "github-oauth.github.com",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-36-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "exec",
+        "--",
+        "php",
+        "-r",
+        "echo 1;"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-37-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "publish"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-38-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "vendor/bin/phpunit",
+        "--list-tests"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-39-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "./artisan",
+        "tinker",
+        "--execute=echo 1;"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-40-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-f",
+        "artisan",
+        "--env=production",
+        "migrate:fresh",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-41-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "--file=artisan",
+        "db:wipe",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-42-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "--help",
+        "migrate:fresh"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-43-strict",
+      "profile": "strict",
+      "argv": [
+        "artisan",
+        "migrate:fresh",
+        "--pretend"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-44-strict",
+      "profile": "strict",
+      "argv": [
+        "sail",
+        "artisan",
+        "migrate:fresh",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-45-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "-l",
+        "--future-option",
+        "example.php"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-46-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "script.php",
+        "-n",
+        "-l"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-47-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "-n",
+        "script.php",
+        "-l"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-48-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "future-command"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "request-49-strict",
+      "profile": "strict",
+      "argv": [
+        "artisan",
+        "future:command"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-0-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "init"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-1-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "install"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-2-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "i"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-3-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "update"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-4-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "u"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-5-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "upgrade"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-6-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "require"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-7-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "remove"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-8-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "reinstall"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-9-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "bump"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-10-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "check-platform-reqs"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-11-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "global"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-12-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "search"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-13-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "show"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-14-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "info"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-15-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "outdated"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-16-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "browse"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-17-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "home"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-18-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "suggests"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-19-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "fund"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-20-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "depends"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-21-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "why"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-22-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "prohibits"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-23-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "why-not"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-24-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "validate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-25-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "status"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-26-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "diagnose"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-27-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "archive"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-28-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "create-project"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-29-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "dump-autoload"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-30-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "dumpautoload"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-31-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "clear-cache"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-32-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "clearcache"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-33-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-34-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "exec"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-35-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "run-script"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-36-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-37-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "licenses"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-38-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "audit"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-39-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "self-update"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-40-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "selfupdate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-41-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "completion"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-42-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "composer-43-strict",
+      "profile": "strict",
+      "argv": [
+        "composer",
+        "help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-0-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-1-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-2-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "about"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-3-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-4-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "serve"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-5-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "tinker"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-6-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "route:list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-7-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "route:cache"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-8-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "route:clear"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-9-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "config:show"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-10-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "config:cache"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-11-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "config:clear"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-12-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "cache:clear"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-13-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "cache:forget"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-14-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "optimize"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-15-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "optimize:clear"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-16-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "view:cache"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-17-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "view:clear"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-18-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "event:list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-19-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "event:cache"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-20-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "event:clear"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-21-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "make:model"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-22-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "make:migration"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-23-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "make:controller"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-24-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "make:test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-25-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-26-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:status"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-27-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:install"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-28-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-29-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "db:show"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-30-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "db:table"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-31-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "db:seed"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-32-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "schema:dump"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-33-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "env:encrypt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-34-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:work"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-35-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:listen"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-36-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:restart"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-37-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:retry"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-38-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "schedule:list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-39-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "schedule:run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-40-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "schedule:work"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-41-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "schedule:clear-cache"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-42-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "storage:link"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-43-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "storage:unlink"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-44-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "vendor:publish"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-45-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "package:discover"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-46-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "down"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-47-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "up"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-48-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "horizon"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-49-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "horizon:terminate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-0-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:fresh",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-0-strict",
+      "profile": "strict",
+      "argv": [
+        "./artisan",
+        "migrate:fresh"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-1-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:refresh",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-1-strict",
+      "profile": "strict",
+      "argv": [
+        "./artisan",
+        "migrate:refresh"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-2-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-2-strict",
+      "profile": "strict",
+      "argv": [
+        "./artisan",
+        "migrate:reset"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-3-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "migrate:rollback",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-3-strict",
+      "profile": "strict",
+      "argv": [
+        "./artisan",
+        "migrate:rollback"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-4-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "db:wipe",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-4-strict",
+      "profile": "strict",
+      "argv": [
+        "./artisan",
+        "db:wipe"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-5-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "key:generate",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-5-strict",
+      "profile": "strict",
+      "argv": [
+        "./artisan",
+        "key:generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-6-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "env:decrypt",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-6-strict",
+      "profile": "strict",
+      "argv": [
+        "./artisan",
+        "env:decrypt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-7-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:clear",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-7-strict",
+      "profile": "strict",
+      "argv": [
+        "./artisan",
+        "queue:clear"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-8-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:flush",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-8-strict",
+      "profile": "strict",
+      "argv": [
+        "./artisan",
+        "queue:flush"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-9-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "queue:forget",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-9-strict",
+      "profile": "strict",
+      "argv": [
+        "./artisan",
+        "queue:forget"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "php-artisan-delete-10-strict",
+      "profile": "strict",
+      "argv": [
+        "php",
+        "artisan",
+        "horizon:clear",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "artisan-delete-10-strict",
+      "profile": "strict",
+      "argv": [
+        "./artisan",
+        "horizon:clear"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tool-0-strict",
+      "profile": "strict",
+      "argv": [
+        "phpunit",
+        "--bootstrap",
+        "/outside/bootstrap.php",
+        "--coverage-html",
+        "/outside/report"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vendor-0-strict",
+      "profile": "strict",
+      "argv": [
+        "./vendor/bin/phpunit",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tool-1-strict",
+      "profile": "strict",
+      "argv": [
+        "pest",
+        "--parallel",
+        "--coverage"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vendor-1-strict",
+      "profile": "strict",
+      "argv": [
+        "./vendor/bin/pest",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tool-2-strict",
+      "profile": "strict",
+      "argv": [
+        "paratest",
+        "--processes=4"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vendor-2-strict",
+      "profile": "strict",
+      "argv": [
+        "./vendor/bin/paratest",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tool-3-strict",
+      "profile": "strict",
+      "argv": [
+        "phpstan",
+        "analyse",
+        "--configuration=/outside/phpstan.neon"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vendor-3-strict",
+      "profile": "strict",
+      "argv": [
+        "./vendor/bin/phpstan",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tool-4-strict",
+      "profile": "strict",
+      "argv": [
+        "psalm",
+        "--alter",
+        "--issues=all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vendor-4-strict",
+      "profile": "strict",
+      "argv": [
+        "./vendor/bin/psalm",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tool-5-strict",
+      "profile": "strict",
+      "argv": [
+        "phpcs",
+        "--standard=/outside/ruleset.xml",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vendor-5-strict",
+      "profile": "strict",
+      "argv": [
+        "./vendor/bin/phpcs",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tool-6-strict",
+      "profile": "strict",
+      "argv": [
+        "phpcbf",
+        "--standard=PSR12",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vendor-6-strict",
+      "profile": "strict",
+      "argv": [
+        "./vendor/bin/phpcbf",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tool-7-strict",
+      "profile": "strict",
+      "argv": [
+        "php-cs-fixer",
+        "fix",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vendor-7-strict",
+      "profile": "strict",
+      "argv": [
+        "./vendor/bin/php-cs-fixer",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tool-8-strict",
+      "profile": "strict",
+      "argv": [
+        "pint",
+        "--test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vendor-8-strict",
+      "profile": "strict",
+      "argv": [
+        "./vendor/bin/pint",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tool-9-strict",
+      "profile": "strict",
+      "argv": [
+        "rector",
+        "process",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vendor-9-strict",
+      "profile": "strict",
+      "argv": [
+        "./vendor/bin/rector",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tool-10-strict",
+      "profile": "strict",
+      "argv": [
+        "phan",
+        "--config-file",
+        "/outside/config.php"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vendor-10-strict",
+      "profile": "strict",
+      "argv": [
+        "./vendor/bin/phan",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tool-11-strict",
+      "profile": "strict",
+      "argv": [
+        "phpmd",
+        "src",
+        "xml",
+        "/outside/rules.xml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vendor-11-strict",
+      "profile": "strict",
+      "argv": [
+        "./vendor/bin/phpmd",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tool-12-strict",
+      "profile": "strict",
+      "argv": [
+        "infection",
+        "--threads=4"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vendor-12-strict",
+      "profile": "strict",
+      "argv": [
+        "./vendor/bin/infection",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tool-13-strict",
+      "profile": "strict",
+      "argv": [
+        "laravel",
+        "new",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vendor-13-strict",
+      "profile": "strict",
+      "argv": [
+        "./vendor/bin/laravel",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tool-14-strict",
+      "profile": "strict",
+      "argv": [
+        "sail",
+        "up",
+        "-d"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vendor-14-strict",
+      "profile": "strict",
+      "argv": [
+        "./vendor/bin/sail",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-php-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/php",
+        "-n",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unknown-php-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/php",
+        "-n",
+        "-v"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shell-0-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "php -n -l example.php",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-1-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "input": {
+        "kind": "shell",
+        "source": "php artisan migrate:fresh --force",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-2-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "input": {
+        "kind": "shell",
+        "source": "composer install --no-plugins --no-scripts",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    }
+  ]
+}

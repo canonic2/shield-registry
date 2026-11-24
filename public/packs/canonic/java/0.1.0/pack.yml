@@ -1,0 +1,1615 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/java",
+  "version": "0.1.0",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.53.0, <1.0.0"
+  },
+  "description": "Java/JVM, Maven and Gradle permissions with exact JDK help/version queries and review for execution, compilation, build plugins, archives, diagnostics, signing and publication.",
+  "capabilities": [
+    "argument-rules-v1",
+    "regex-v1",
+    "structured-rules-v1"
+  ],
+  "rules": [
+    {
+      "id": "java-info-0",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "java",
+            "/usr/bin/java",
+            "/usr/local/bin/java",
+            "/opt/homebrew/bin/java",
+            "java.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "java-info-1",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "java",
+            "/usr/bin/java",
+            "/usr/local/bin/java",
+            "/opt/homebrew/bin/java",
+            "java.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "java-info-2",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "java",
+            "/usr/bin/java",
+            "/usr/local/bin/java",
+            "/opt/homebrew/bin/java",
+            "java.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "java-info-3",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "java",
+            "/usr/bin/java",
+            "/usr/local/bin/java",
+            "/opt/homebrew/bin/java",
+            "java.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "java-info-4",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "java",
+            "/usr/bin/java",
+            "/usr/local/bin/java",
+            "/opt/homebrew/bin/java",
+            "java.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-?"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "java-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "java",
+            "/usr/bin/java",
+            "/usr/local/bin/java",
+            "/opt/homebrew/bin/java",
+            "java.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "javaw-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "javaw",
+            "/usr/bin/javaw",
+            "/usr/local/bin/javaw",
+            "/opt/homebrew/bin/javaw",
+            "javaw.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "javac-info-0",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "javac",
+            "/usr/bin/javac",
+            "/usr/local/bin/javac",
+            "/opt/homebrew/bin/javac",
+            "javac.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "javac-info-1",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "javac",
+            "/usr/bin/javac",
+            "/usr/local/bin/javac",
+            "/opt/homebrew/bin/javac",
+            "javac.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "javac-info-2",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "javac",
+            "/usr/bin/javac",
+            "/usr/local/bin/javac",
+            "/opt/homebrew/bin/javac",
+            "javac.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "javac-info-3",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "javac",
+            "/usr/bin/javac",
+            "/usr/local/bin/javac",
+            "/opt/homebrew/bin/javac",
+            "javac.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "javac-info-4",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "javac",
+            "/usr/bin/javac",
+            "/usr/local/bin/javac",
+            "/opt/homebrew/bin/javac",
+            "javac.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-?"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "javac-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "javac",
+            "/usr/bin/javac",
+            "/usr/local/bin/javac",
+            "/opt/homebrew/bin/javac",
+            "javac.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jar-info-0",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jar",
+            "/usr/bin/jar",
+            "/usr/local/bin/jar",
+            "/opt/homebrew/bin/jar",
+            "jar.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "jar-info-1",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jar",
+            "/usr/bin/jar",
+            "/usr/local/bin/jar",
+            "/opt/homebrew/bin/jar",
+            "jar.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "jar-info-2",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jar",
+            "/usr/bin/jar",
+            "/usr/local/bin/jar",
+            "/opt/homebrew/bin/jar",
+            "jar.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help-extra"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "jar-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jar",
+            "/usr/bin/jar",
+            "/usr/local/bin/jar",
+            "/opt/homebrew/bin/jar",
+            "jar.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "javadoc-info-0",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "javadoc",
+            "/usr/bin/javadoc",
+            "/usr/local/bin/javadoc",
+            "/opt/homebrew/bin/javadoc",
+            "javadoc.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "javadoc-info-1",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "javadoc",
+            "/usr/bin/javadoc",
+            "/usr/local/bin/javadoc",
+            "/opt/homebrew/bin/javadoc",
+            "javadoc.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "javadoc-info-2",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "javadoc",
+            "/usr/bin/javadoc",
+            "/usr/local/bin/javadoc",
+            "/opt/homebrew/bin/javadoc",
+            "javadoc.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "javadoc-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "javadoc",
+            "/usr/bin/javadoc",
+            "/usr/local/bin/javadoc",
+            "/opt/homebrew/bin/javadoc",
+            "javadoc.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "javap-info-0",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "javap",
+            "/usr/bin/javap",
+            "/usr/local/bin/javap",
+            "/opt/homebrew/bin/javap",
+            "javap.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "javap-info-1",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "javap",
+            "/usr/bin/javap",
+            "/usr/local/bin/javap",
+            "/opt/homebrew/bin/javap",
+            "javap.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "javap-info-2",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "javap",
+            "/usr/bin/javap",
+            "/usr/local/bin/javap",
+            "/opt/homebrew/bin/javap",
+            "javap.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "javap-info-3",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "javap",
+            "/usr/bin/javap",
+            "/usr/local/bin/javap",
+            "/opt/homebrew/bin/javap",
+            "javap.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "javap-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "javap",
+            "/usr/bin/javap",
+            "/usr/local/bin/javap",
+            "/opt/homebrew/bin/javap",
+            "javap.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jdeps-info-0",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jdeps",
+            "/usr/bin/jdeps",
+            "/usr/local/bin/jdeps",
+            "/opt/homebrew/bin/jdeps",
+            "jdeps.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "jdeps-info-1",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jdeps",
+            "/usr/bin/jdeps",
+            "/usr/local/bin/jdeps",
+            "/opt/homebrew/bin/jdeps",
+            "jdeps.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "jdeps-info-2",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jdeps",
+            "/usr/bin/jdeps",
+            "/usr/local/bin/jdeps",
+            "/opt/homebrew/bin/jdeps",
+            "jdeps.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "jdeps-info-3",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jdeps",
+            "/usr/bin/jdeps",
+            "/usr/local/bin/jdeps",
+            "/opt/homebrew/bin/jdeps",
+            "jdeps.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "jdeps-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jdeps",
+            "/usr/bin/jdeps",
+            "/usr/local/bin/jdeps",
+            "/opt/homebrew/bin/jdeps",
+            "jdeps.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jdeprscan-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jdeprscan",
+            "/usr/bin/jdeprscan",
+            "/usr/local/bin/jdeprscan",
+            "/opt/homebrew/bin/jdeprscan",
+            "jdeprscan.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jnativescan-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jnativescan",
+            "/usr/bin/jnativescan",
+            "/usr/local/bin/jnativescan",
+            "/opt/homebrew/bin/jnativescan",
+            "jnativescan.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jlink-info-0",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jlink",
+            "/usr/bin/jlink",
+            "/usr/local/bin/jlink",
+            "/opt/homebrew/bin/jlink",
+            "jlink.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "jlink-info-1",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jlink",
+            "/usr/bin/jlink",
+            "/usr/local/bin/jlink",
+            "/opt/homebrew/bin/jlink",
+            "jlink.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "jlink-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jlink",
+            "/usr/bin/jlink",
+            "/usr/local/bin/jlink",
+            "/opt/homebrew/bin/jlink",
+            "jlink.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jpackage-info-0",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jpackage",
+            "/usr/bin/jpackage",
+            "/usr/local/bin/jpackage",
+            "/opt/homebrew/bin/jpackage",
+            "jpackage.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "jpackage-info-1",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jpackage",
+            "/usr/bin/jpackage",
+            "/usr/local/bin/jpackage",
+            "/opt/homebrew/bin/jpackage",
+            "jpackage.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "jpackage-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jpackage",
+            "/usr/bin/jpackage",
+            "/usr/local/bin/jpackage",
+            "/opt/homebrew/bin/jpackage",
+            "jpackage.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jmod-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jmod",
+            "/usr/bin/jmod",
+            "/usr/local/bin/jmod",
+            "/opt/homebrew/bin/jmod",
+            "jmod.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jimage-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jimage",
+            "/usr/bin/jimage",
+            "/usr/local/bin/jimage",
+            "/opt/homebrew/bin/jimage",
+            "jimage.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jshell-info-0",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jshell",
+            "/usr/bin/jshell",
+            "/usr/local/bin/jshell",
+            "/opt/homebrew/bin/jshell",
+            "jshell.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "jshell-info-1",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jshell",
+            "/usr/bin/jshell",
+            "/usr/local/bin/jshell",
+            "/opt/homebrew/bin/jshell",
+            "jshell.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "jshell-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jshell",
+            "/usr/bin/jshell",
+            "/usr/local/bin/jshell",
+            "/opt/homebrew/bin/jshell",
+            "jshell.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jrunscript-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jrunscript",
+            "/usr/bin/jrunscript",
+            "/usr/local/bin/jrunscript",
+            "/opt/homebrew/bin/jrunscript",
+            "jrunscript.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jcmd-info-0",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jcmd",
+            "/usr/bin/jcmd",
+            "/usr/local/bin/jcmd",
+            "/opt/homebrew/bin/jcmd",
+            "jcmd.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "jcmd-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jcmd",
+            "/usr/bin/jcmd",
+            "/usr/local/bin/jcmd",
+            "/opt/homebrew/bin/jcmd",
+            "jcmd.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jconsole-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jconsole",
+            "/usr/bin/jconsole",
+            "/usr/local/bin/jconsole",
+            "/opt/homebrew/bin/jconsole",
+            "jconsole.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jdb-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jdb",
+            "/usr/bin/jdb",
+            "/usr/local/bin/jdb",
+            "/opt/homebrew/bin/jdb",
+            "jdb.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jfr-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jfr",
+            "/usr/bin/jfr",
+            "/usr/local/bin/jfr",
+            "/opt/homebrew/bin/jfr",
+            "jfr.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jhsdb-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jhsdb",
+            "/usr/bin/jhsdb",
+            "/usr/local/bin/jhsdb",
+            "/opt/homebrew/bin/jhsdb",
+            "jhsdb.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jinfo-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jinfo",
+            "/usr/bin/jinfo",
+            "/usr/local/bin/jinfo",
+            "/opt/homebrew/bin/jinfo",
+            "jinfo.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jmap-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jmap",
+            "/usr/bin/jmap",
+            "/usr/local/bin/jmap",
+            "/opt/homebrew/bin/jmap",
+            "jmap.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jps-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jps",
+            "/usr/bin/jps",
+            "/usr/local/bin/jps",
+            "/opt/homebrew/bin/jps",
+            "jps.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jstack-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jstack",
+            "/usr/bin/jstack",
+            "/usr/local/bin/jstack",
+            "/opt/homebrew/bin/jstack",
+            "jstack.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jstat-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jstat",
+            "/usr/bin/jstat",
+            "/usr/local/bin/jstat",
+            "/opt/homebrew/bin/jstat",
+            "jstat.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jstatd-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jstatd",
+            "/usr/bin/jstatd",
+            "/usr/local/bin/jstatd",
+            "/opt/homebrew/bin/jstatd",
+            "jstatd.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jwebserver-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jwebserver",
+            "/usr/bin/jwebserver",
+            "/usr/local/bin/jwebserver",
+            "/opt/homebrew/bin/jwebserver",
+            "jwebserver.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "keytool-info-0",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "keytool",
+            "/usr/bin/keytool",
+            "/usr/local/bin/keytool",
+            "/opt/homebrew/bin/keytool",
+            "keytool.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in JDK help or installed version from the trusted toolchain."
+    },
+    {
+      "id": "keytool-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "keytool",
+            "/usr/bin/keytool",
+            "/usr/local/bin/keytool",
+            "/opt/homebrew/bin/keytool",
+            "keytool.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "jarsigner-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "jarsigner",
+            "/usr/bin/jarsigner",
+            "/usr/local/bin/jarsigner",
+            "/opt/homebrew/bin/jarsigner",
+            "jarsigner.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "serialver-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "serialver",
+            "/usr/bin/serialver",
+            "/usr/local/bin/serialver",
+            "/opt/homebrew/bin/serialver",
+            "serialver.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "rmiregistry-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "rmiregistry",
+            "/usr/bin/rmiregistry",
+            "/usr/local/bin/rmiregistry",
+            "/opt/homebrew/bin/rmiregistry",
+            "rmiregistry.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review JVM execution, processors, agents, files, outputs, archive extraction, diagnostics, listeners and signing."
+    },
+    {
+      "id": "mvn-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "mvn",
+            "/usr/bin/mvn",
+            "/usr/local/bin/mvn",
+            "/opt/homebrew/bin/mvn",
+            "mvn.exe",
+            "mvn.cmd",
+            "mvn.bat"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review launcher scripts, wrapper downloads, build configuration, init scripts, extensions, plugins, daemons, repositories, credentials and project changes."
+    },
+    {
+      "id": "mvnw-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?mvnw(?:\\.cmd|\\.bat)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review launcher scripts, wrapper downloads, build configuration, init scripts, extensions, plugins, daemons, repositories, credentials and project changes."
+    },
+    {
+      "id": "mvnd-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "mvnd",
+            "/usr/bin/mvnd",
+            "/usr/local/bin/mvnd",
+            "/opt/homebrew/bin/mvnd",
+            "mvnd.exe",
+            "mvnd.cmd",
+            "mvnd.bat"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review launcher scripts, wrapper downloads, build configuration, init scripts, extensions, plugins, daemons, repositories, credentials and project changes."
+    },
+    {
+      "id": "gradle-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gradle",
+            "/usr/bin/gradle",
+            "/usr/local/bin/gradle",
+            "/opt/homebrew/bin/gradle",
+            "gradle.exe",
+            "gradle.cmd",
+            "gradle.bat"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review launcher scripts, wrapper downloads, build configuration, init scripts, extensions, plugins, daemons, repositories, credentials and project changes."
+    },
+    {
+      "id": "gradlew-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?gradlew(?:\\.cmd|\\.bat)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review launcher scripts, wrapper downloads, build configuration, init scripts, extensions, plugins, daemons, repositories, credentials and project changes."
+    }
+  ]
+}

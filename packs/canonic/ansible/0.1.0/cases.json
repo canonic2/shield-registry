@@ -1,0 +1,4109 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "adhoc-ping-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "all",
+        "-i",
+        "./inventory.ini",
+        "-m",
+        "ansible.builtin.ping"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-shell-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "web",
+        "-m",
+        "shell",
+        "-a",
+        "id"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-command-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "web",
+        "-m",
+        "command",
+        "-a",
+        "uptime"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-local-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "localhost",
+        "-c",
+        "local",
+        "-m",
+        "command",
+        "-a",
+        "id"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-copy-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "web",
+        "-m",
+        "copy",
+        "-a",
+        "src=/outside/input dest=/etc/example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "all",
+        "-m",
+        "file",
+        "-a",
+        "path=/srv/example state=absent"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-become-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "all",
+        "-b",
+        "--become-user=root",
+        "-m",
+        "command",
+        "-a",
+        "id"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-check-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "all",
+        "-C",
+        "-D",
+        "-m",
+        "shell",
+        "-a",
+        "id"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-host-list-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "all",
+        "--list-hosts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-inline-inventory-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "all",
+        "-i",
+        "host.example,",
+        "-m",
+        "ping"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-ssh-command-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "all",
+        "--ssh-common-args=-o ProxyCommand=./proxy",
+        "-m",
+        "ping"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-key-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "all",
+        "--private-key=/outside/key",
+        "-m",
+        "ping"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-password-helper-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "all",
+        "--connection-password-file",
+        "./password-client",
+        "-m",
+        "ping"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-module-path-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "all",
+        "-M",
+        "/outside/modules",
+        "-m",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-run-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "-i",
+        "./inventory.ini",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-check-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "--check",
+        "--diff",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-check-after-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "./site.yml",
+        "-CD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-syntax-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "--syntax-check",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-list-tasks-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "--list-tasks",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-list-tags-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "--list-tags",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-list-hosts-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "--list-hosts",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-limit-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "./site.yml",
+        "--limit",
+        "web[0]",
+        "--tags=deploy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "/outside/site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-extra-vars-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "-e",
+        "@/outside/vars.yml",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-lookup-vars-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "-e",
+        "value={{ lookup(\"pipe\", \"id\") }}",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-vault-helper-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "--vault-id",
+        "example@./vault-client",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-vault-file-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "--vault-password-file=/outside/password",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-become-helper-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "-b",
+        "--become-password-file",
+        "./password-client",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-flush-cache-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "--flush-cache",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-step-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "--step",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inventory-list-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-inventory",
+        "-i",
+        "./inventory.ini",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inventory-script-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-inventory",
+        "-i",
+        "./inventory.py",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inventory-plugin-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-inventory",
+        "-i",
+        "./cloud.yml",
+        "--graph",
+        "--vars"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inventory-host-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-inventory",
+        "--host",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inventory-export-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-inventory",
+        "--list",
+        "--export",
+        "--output=/outside/inventory.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inventory-clear-cache-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-inventory",
+        "--flush-cache",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inventory-playbook-dir-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-inventory",
+        "--playbook-dir=/outside/project",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inventory-extra-vars-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-inventory",
+        "--graph",
+        "-e",
+        "@/outside/secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-role-install-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "install",
+        "example.role"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-requirements-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "install",
+        "-r",
+        "./requirements.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-collection-install-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "install",
+        "-r",
+        "./requirements.yml",
+        "-p",
+        "/outside/collections"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-collection-download-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "download",
+        "example.collection",
+        "--download-path",
+        "/outside/downloads"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-list-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-verify-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "verify",
+        "example.collection"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-collection-init-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "init",
+        "example.collection",
+        "--init-path=/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-collection-build-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "build",
+        "./collection",
+        "--output-path=/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-collection-publish-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "publish",
+        "./collection.tar.gz",
+        "--server=https://galaxy.example",
+        "--token=example-token"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-role-remove-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "remove",
+        "example.role"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-role-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "delete",
+        "example",
+        "role"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-role-import-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "import",
+        "example",
+        "role"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-role-init-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "init",
+        "example",
+        "--init-path=/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-role-search-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "search",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-role-info-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "info",
+        "example.role"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-role-setup-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "setup",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-view-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-vault",
+        "view",
+        "./secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-decrypt-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-vault",
+        "decrypt",
+        "./secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-output-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-vault",
+        "decrypt",
+        "--output=/outside/plaintext.yml",
+        "./secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-create-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-vault",
+        "create",
+        "./secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-edit-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-vault",
+        "edit",
+        "./secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-encrypt-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-vault",
+        "encrypt",
+        "./vars.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-encrypt-string-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-vault",
+        "encrypt_string",
+        "--stdin-name",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-rekey-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-vault",
+        "rekey",
+        "--new-vault-password-file=/outside/password",
+        "./secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-password-script-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-vault",
+        "view",
+        "--vault-password-file",
+        "./password-client",
+        "./secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-id-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-vault",
+        "view",
+        "--vault-id=example@prompt",
+        "./secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-list-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-config",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-dump-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-config",
+        "dump",
+        "--only-changed"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-view-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-config",
+        "view",
+        "-c",
+        "/outside/ansible.cfg"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-init-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-config",
+        "init",
+        "--disabled",
+        "-t",
+        "all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-validate-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-config",
+        "validate",
+        "-c",
+        "./ansible.cfg"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "doc-module-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-doc",
+        "ansible.builtin.copy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "doc-list-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-doc",
+        "-l"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "doc-custom-path-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-doc",
+        "-M",
+        "/outside/plugins",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "doc-metadata-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-doc",
+        "--metadata-dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "console-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-console",
+        "all",
+        "-i",
+        "./inventory.ini"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "console-check-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-console",
+        "-C",
+        "-b",
+        "all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pull-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-pull",
+        "-U",
+        "https://example.com/automation.git",
+        "./local.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pull-check-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-pull",
+        "--check",
+        "-U",
+        "https://example.com/automation.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pull-destination-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-pull",
+        "-U",
+        "https://example.com/automation.git",
+        "-d",
+        "/outside/checkout"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pull-cleanup-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-pull",
+        "-U",
+        "https://example.com/automation.git",
+        "--purge",
+        "--clean"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pull-host-key-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-pull",
+        "-U",
+        "ssh://git@repo.example/automation",
+        "--accept-host-key"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pull-verify-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-pull",
+        "-U",
+        "https://example.com/automation.git",
+        "--verify-commit"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "venv-executable-loose",
+      "profile": "loose",
+      "argv": [
+        "./.venv/bin/ansible-playbook",
+        "--syntax-check",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "absolute-executable-loose",
+      "profile": "loose",
+      "argv": [
+        "/outside/bin/ansible-inventory",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "windows-shim-loose",
+      "profile": "loose",
+      "argv": [
+        "C:\\example\\ansible-playbook.cmd",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-boundary-0-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-boundary-1-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-boundary-2-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-boundary-3-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-boundary-4-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-playbook-boundary-0-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-playbook-boundary-1-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-playbook-boundary-2-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-playbook-boundary-3-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-playbook-boundary-4-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-playbook",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-inventory-boundary-0-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-inventory"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-inventory-boundary-1-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-inventory",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-inventory-boundary-2-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-inventory",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-inventory-boundary-3-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-inventory",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-inventory-boundary-4-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-inventory",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-galaxy-boundary-0-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-galaxy-boundary-1-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-galaxy-boundary-2-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-galaxy-boundary-3-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-galaxy-boundary-4-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-galaxy",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-vault-boundary-0-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-vault"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-vault-boundary-1-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-vault",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-vault-boundary-2-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-vault",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-vault-boundary-3-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-vault",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-vault-boundary-4-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-vault",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-config-boundary-0-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-config-boundary-1-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-config",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-config-boundary-2-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-config",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-config-boundary-3-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-config",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-config-boundary-4-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-config",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-doc-boundary-0-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-doc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-doc-boundary-1-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-doc",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-doc-boundary-2-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-doc",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-doc-boundary-3-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-doc",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-doc-boundary-4-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-doc",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-console-boundary-0-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-console"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-console-boundary-1-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-console",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-console-boundary-2-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-console",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-console-boundary-3-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-console",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-console-boundary-4-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-console",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-pull-boundary-0-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-pull"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-pull-boundary-1-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-pull",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-pull-boundary-2-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-pull",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-pull-boundary-3-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-pull",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-pull-boundary-4-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-pull",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-stdin-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "printf example | ansible-vault encrypt_string --stdin-name example",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-cli-loose",
+      "profile": "loose",
+      "argv": [
+        "ansible-unknown",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "mcp",
+        "server": "ansible",
+        "tool": "run",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-ping-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "all",
+        "-i",
+        "./inventory.ini",
+        "-m",
+        "ansible.builtin.ping"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-shell-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "web",
+        "-m",
+        "shell",
+        "-a",
+        "id"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-command-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "web",
+        "-m",
+        "command",
+        "-a",
+        "uptime"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-local-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "localhost",
+        "-c",
+        "local",
+        "-m",
+        "command",
+        "-a",
+        "id"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-copy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "web",
+        "-m",
+        "copy",
+        "-a",
+        "src=/outside/input dest=/etc/example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "all",
+        "-m",
+        "file",
+        "-a",
+        "path=/srv/example state=absent"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-become-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "all",
+        "-b",
+        "--become-user=root",
+        "-m",
+        "command",
+        "-a",
+        "id"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-check-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "all",
+        "-C",
+        "-D",
+        "-m",
+        "shell",
+        "-a",
+        "id"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-host-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "all",
+        "--list-hosts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-inline-inventory-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "all",
+        "-i",
+        "host.example,",
+        "-m",
+        "ping"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-ssh-command-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "all",
+        "--ssh-common-args=-o ProxyCommand=./proxy",
+        "-m",
+        "ping"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-key-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "all",
+        "--private-key=/outside/key",
+        "-m",
+        "ping"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-password-helper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "all",
+        "--connection-password-file",
+        "./password-client",
+        "-m",
+        "ping"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-module-path-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "all",
+        "-M",
+        "/outside/modules",
+        "-m",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-run-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "-i",
+        "./inventory.ini",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-check-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "--check",
+        "--diff",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-check-after-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "./site.yml",
+        "-CD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-syntax-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "--syntax-check",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-list-tasks-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "--list-tasks",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-list-tags-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "--list-tags",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-list-hosts-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "--list-hosts",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-limit-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "./site.yml",
+        "--limit",
+        "web[0]",
+        "--tags=deploy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "/outside/site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-extra-vars-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "-e",
+        "@/outside/vars.yml",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-lookup-vars-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "-e",
+        "value={{ lookup(\"pipe\", \"id\") }}",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-vault-helper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "--vault-id",
+        "example@./vault-client",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-vault-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "--vault-password-file=/outside/password",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-become-helper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "-b",
+        "--become-password-file",
+        "./password-client",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-flush-cache-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "--flush-cache",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "playbook-step-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "--step",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inventory-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-inventory",
+        "-i",
+        "./inventory.ini",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inventory-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-inventory",
+        "-i",
+        "./inventory.py",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inventory-plugin-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-inventory",
+        "-i",
+        "./cloud.yml",
+        "--graph",
+        "--vars"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inventory-host-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-inventory",
+        "--host",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inventory-export-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-inventory",
+        "--list",
+        "--export",
+        "--output=/outside/inventory.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inventory-clear-cache-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-inventory",
+        "--flush-cache",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inventory-playbook-dir-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-inventory",
+        "--playbook-dir=/outside/project",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inventory-extra-vars-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-inventory",
+        "--graph",
+        "-e",
+        "@/outside/secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-role-install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "install",
+        "example.role"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-requirements-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "install",
+        "-r",
+        "./requirements.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-collection-install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "install",
+        "-r",
+        "./requirements.yml",
+        "-p",
+        "/outside/collections"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-collection-download-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "download",
+        "example.collection",
+        "--download-path",
+        "/outside/downloads"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-verify-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "verify",
+        "example.collection"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-collection-init-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "init",
+        "example.collection",
+        "--init-path=/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-collection-build-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "build",
+        "./collection",
+        "--output-path=/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-collection-publish-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "publish",
+        "./collection.tar.gz",
+        "--server=https://galaxy.example",
+        "--token=example-token"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-role-remove-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "remove",
+        "example.role"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-role-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "delete",
+        "example",
+        "role"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-role-import-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "import",
+        "example",
+        "role"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-role-init-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "init",
+        "example",
+        "--init-path=/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-role-search-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "search",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-role-info-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "info",
+        "example.role"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "galaxy-role-setup-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "setup",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-view-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-vault",
+        "view",
+        "./secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-decrypt-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-vault",
+        "decrypt",
+        "./secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-vault",
+        "decrypt",
+        "--output=/outside/plaintext.yml",
+        "./secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-vault",
+        "create",
+        "./secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-edit-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-vault",
+        "edit",
+        "./secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-encrypt-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-vault",
+        "encrypt",
+        "./vars.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-encrypt-string-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-vault",
+        "encrypt_string",
+        "--stdin-name",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-rekey-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-vault",
+        "rekey",
+        "--new-vault-password-file=/outside/password",
+        "./secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-password-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-vault",
+        "view",
+        "--vault-password-file",
+        "./password-client",
+        "./secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-id-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-vault",
+        "view",
+        "--vault-id=example@prompt",
+        "./secrets.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-config",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-dump-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-config",
+        "dump",
+        "--only-changed"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-view-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-config",
+        "view",
+        "-c",
+        "/outside/ansible.cfg"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-init-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-config",
+        "init",
+        "--disabled",
+        "-t",
+        "all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-validate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-config",
+        "validate",
+        "-c",
+        "./ansible.cfg"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "doc-module-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-doc",
+        "ansible.builtin.copy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "doc-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-doc",
+        "-l"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "doc-custom-path-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-doc",
+        "-M",
+        "/outside/plugins",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "doc-metadata-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-doc",
+        "--metadata-dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "console-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-console",
+        "all",
+        "-i",
+        "./inventory.ini"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "console-check-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-console",
+        "-C",
+        "-b",
+        "all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pull-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-pull",
+        "-U",
+        "https://example.com/automation.git",
+        "./local.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pull-check-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-pull",
+        "--check",
+        "-U",
+        "https://example.com/automation.git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pull-destination-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-pull",
+        "-U",
+        "https://example.com/automation.git",
+        "-d",
+        "/outside/checkout"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pull-cleanup-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-pull",
+        "-U",
+        "https://example.com/automation.git",
+        "--purge",
+        "--clean"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pull-host-key-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-pull",
+        "-U",
+        "ssh://git@repo.example/automation",
+        "--accept-host-key"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pull-verify-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-pull",
+        "-U",
+        "https://example.com/automation.git",
+        "--verify-commit"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "venv-executable-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./.venv/bin/ansible-playbook",
+        "--syntax-check",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "absolute-executable-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/outside/bin/ansible-inventory",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "windows-shim-recommended",
+      "profile": "recommended",
+      "argv": [
+        "C:\\example\\ansible-playbook.cmd",
+        "./site.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-boundary-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-boundary-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-boundary-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-boundary-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-boundary-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-playbook-boundary-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-playbook-boundary-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-playbook-boundary-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-playbook-boundary-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-playbook-boundary-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-playbook",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-inventory-boundary-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-inventory"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-inventory-boundary-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-inventory",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-inventory-boundary-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-inventory",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-inventory-boundary-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-inventory",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-inventory-boundary-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-inventory",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-galaxy-boundary-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-galaxy-boundary-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-galaxy-boundary-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-galaxy-boundary-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-galaxy-boundary-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-galaxy",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-vault-boundary-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-vault"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-vault-boundary-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-vault",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-vault-boundary-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-vault",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-vault-boundary-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-vault",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-vault-boundary-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-vault",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-config-boundary-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-config-boundary-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-config",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-config-boundary-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-config",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-config-boundary-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-config",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-config-boundary-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-config",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-doc-boundary-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-doc"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-doc-boundary-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-doc",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-doc-boundary-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-doc",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-doc-boundary-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-doc",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-doc-boundary-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-doc",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-console-boundary-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-console"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-console-boundary-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-console",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-console-boundary-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-console",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-console-boundary-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-console",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-console-boundary-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-console",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-pull-boundary-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-pull"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-pull-boundary-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-pull",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-pull-boundary-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-pull",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-pull-boundary-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-pull",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ansible-pull-boundary-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-pull",
+        "--vault-password-file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-stdin-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "printf example | ansible-vault encrypt_string --stdin-name example",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-cli-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ansible-unknown",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "mcp",
+        "server": "ansible",
+        "tool": "run",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "adhoc-ping-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "all",
+        "-i",
+        "./inventory.ini",
+        "-m",
+        "ansible.builtin.ping"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adhoc-shell-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "web",
+        "-m",
+        "shell",
+        "-a",
+        "id"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adhoc-command-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "web",
+        "-m",
+        "command",
+        "-a",
+        "uptime"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adhoc-local-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "localhost",
+        "-c",
+        "local",
+        "-m",
+        "command",
+        "-a",
+        "id"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adhoc-copy-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "web",
+        "-m",
+        "copy",
+        "-a",
+        "src=/outside/input dest=/etc/example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adhoc-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "all",
+        "-m",
+        "file",
+        "-a",
+        "path=/srv/example state=absent"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adhoc-become-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "all",
+        "-b",
+        "--become-user=root",
+        "-m",
+        "command",
+        "-a",
+        "id"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adhoc-check-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "all",
+        "-C",
+        "-D",
+        "-m",
+        "shell",
+        "-a",
+        "id"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adhoc-host-list-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "all",
+        "--list-hosts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adhoc-inline-inventory-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "all",
+        "-i",
+        "host.example,",
+        "-m",
+        "ping"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adhoc-ssh-command-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "all",
+        "--ssh-common-args=-o ProxyCommand=./proxy",
+        "-m",
+        "ping"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adhoc-key-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "all",
+        "--private-key=/outside/key",
+        "-m",
+        "ping"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adhoc-password-helper-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "all",
+        "--connection-password-file",
+        "./password-client",
+        "-m",
+        "ping"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adhoc-module-path-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "all",
+        "-M",
+        "/outside/modules",
+        "-m",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "playbook-run-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "-i",
+        "./inventory.ini",
+        "./site.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "playbook-check-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "--check",
+        "--diff",
+        "./site.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "playbook-check-after-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "./site.yml",
+        "-CD"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "playbook-syntax-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "--syntax-check",
+        "./site.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "playbook-list-tasks-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "--list-tasks",
+        "./site.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "playbook-list-tags-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "--list-tags",
+        "./site.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "playbook-list-hosts-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "--list-hosts",
+        "./site.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "playbook-limit-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "./site.yml",
+        "--limit",
+        "web[0]",
+        "--tags=deploy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "playbook-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "/outside/site.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "playbook-extra-vars-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "-e",
+        "@/outside/vars.yml",
+        "./site.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "playbook-lookup-vars-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "-e",
+        "value={{ lookup(\"pipe\", \"id\") }}",
+        "./site.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "playbook-vault-helper-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "--vault-id",
+        "example@./vault-client",
+        "./site.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "playbook-vault-file-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "--vault-password-file=/outside/password",
+        "./site.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "playbook-become-helper-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "-b",
+        "--become-password-file",
+        "./password-client",
+        "./site.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "playbook-flush-cache-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "--flush-cache",
+        "./site.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "playbook-step-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "--step",
+        "./site.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "inventory-list-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-inventory",
+        "-i",
+        "./inventory.ini",
+        "--list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "inventory-script-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-inventory",
+        "-i",
+        "./inventory.py",
+        "--list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "inventory-plugin-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-inventory",
+        "-i",
+        "./cloud.yml",
+        "--graph",
+        "--vars"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "inventory-host-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-inventory",
+        "--host",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "inventory-export-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-inventory",
+        "--list",
+        "--export",
+        "--output=/outside/inventory.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "inventory-clear-cache-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-inventory",
+        "--flush-cache",
+        "--list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "inventory-playbook-dir-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-inventory",
+        "--playbook-dir=/outside/project",
+        "--list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "inventory-extra-vars-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-inventory",
+        "--graph",
+        "-e",
+        "@/outside/secrets.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "galaxy-role-install-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "install",
+        "example.role"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "galaxy-requirements-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "install",
+        "-r",
+        "./requirements.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "galaxy-collection-install-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "install",
+        "-r",
+        "./requirements.yml",
+        "-p",
+        "/outside/collections"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "galaxy-collection-download-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "download",
+        "example.collection",
+        "--download-path",
+        "/outside/downloads"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "galaxy-list-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "galaxy-verify-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "verify",
+        "example.collection"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "galaxy-collection-init-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "init",
+        "example.collection",
+        "--init-path=/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "galaxy-collection-build-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "build",
+        "./collection",
+        "--output-path=/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "galaxy-collection-publish-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "collection",
+        "publish",
+        "./collection.tar.gz",
+        "--server=https://galaxy.example",
+        "--token=example-token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "galaxy-role-remove-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "remove",
+        "example.role"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "galaxy-role-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "delete",
+        "example",
+        "role"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "galaxy-role-import-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "import",
+        "example",
+        "role"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "galaxy-role-init-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "init",
+        "example",
+        "--init-path=/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "galaxy-role-search-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "search",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "galaxy-role-info-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "info",
+        "example.role"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "galaxy-role-setup-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "role",
+        "setup",
+        "--list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vault-view-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-vault",
+        "view",
+        "./secrets.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vault-decrypt-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-vault",
+        "decrypt",
+        "./secrets.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vault-output-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-vault",
+        "decrypt",
+        "--output=/outside/plaintext.yml",
+        "./secrets.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vault-create-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-vault",
+        "create",
+        "./secrets.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vault-edit-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-vault",
+        "edit",
+        "./secrets.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vault-encrypt-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-vault",
+        "encrypt",
+        "./vars.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vault-encrypt-string-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-vault",
+        "encrypt_string",
+        "--stdin-name",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vault-rekey-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-vault",
+        "rekey",
+        "--new-vault-password-file=/outside/password",
+        "./secrets.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vault-password-script-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-vault",
+        "view",
+        "--vault-password-file",
+        "./password-client",
+        "./secrets.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vault-id-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-vault",
+        "view",
+        "--vault-id=example@prompt",
+        "./secrets.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "config-list-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-config",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "config-dump-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-config",
+        "dump",
+        "--only-changed"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "config-view-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-config",
+        "view",
+        "-c",
+        "/outside/ansible.cfg"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "config-init-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-config",
+        "init",
+        "--disabled",
+        "-t",
+        "all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "config-validate-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-config",
+        "validate",
+        "-c",
+        "./ansible.cfg"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "doc-module-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-doc",
+        "ansible.builtin.copy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "doc-list-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-doc",
+        "-l"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "doc-custom-path-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-doc",
+        "-M",
+        "/outside/plugins",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "doc-metadata-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-doc",
+        "--metadata-dump"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "console-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-console",
+        "all",
+        "-i",
+        "./inventory.ini"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "console-check-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-console",
+        "-C",
+        "-b",
+        "all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pull-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-pull",
+        "-U",
+        "https://example.com/automation.git",
+        "./local.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pull-check-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-pull",
+        "--check",
+        "-U",
+        "https://example.com/automation.git"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pull-destination-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-pull",
+        "-U",
+        "https://example.com/automation.git",
+        "-d",
+        "/outside/checkout"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pull-cleanup-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-pull",
+        "-U",
+        "https://example.com/automation.git",
+        "--purge",
+        "--clean"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pull-host-key-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-pull",
+        "-U",
+        "ssh://git@repo.example/automation",
+        "--accept-host-key"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pull-verify-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-pull",
+        "-U",
+        "https://example.com/automation.git",
+        "--verify-commit"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "venv-executable-strict",
+      "profile": "strict",
+      "argv": [
+        "./.venv/bin/ansible-playbook",
+        "--syntax-check",
+        "./site.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-executable-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/ansible-inventory",
+        "--list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "windows-shim-strict",
+      "profile": "strict",
+      "argv": [
+        "C:\\example\\ansible-playbook.cmd",
+        "./site.yml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-boundary-0-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-boundary-1-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-boundary-2-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-boundary-3-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-boundary-4-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible",
+        "--vault-password-file"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-playbook-boundary-0-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-playbook-boundary-1-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-playbook-boundary-2-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-playbook-boundary-3-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-playbook-boundary-4-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-playbook",
+        "--vault-password-file"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-inventory-boundary-0-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-inventory"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-inventory-boundary-1-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-inventory",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-inventory-boundary-2-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-inventory",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-inventory-boundary-3-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-inventory",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-inventory-boundary-4-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-inventory",
+        "--vault-password-file"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-galaxy-boundary-0-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-galaxy-boundary-1-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-galaxy-boundary-2-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-galaxy-boundary-3-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-galaxy-boundary-4-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-galaxy",
+        "--vault-password-file"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-vault-boundary-0-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-vault"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-vault-boundary-1-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-vault",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-vault-boundary-2-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-vault",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-vault-boundary-3-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-vault",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-vault-boundary-4-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-vault",
+        "--vault-password-file"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-config-boundary-0-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-config-boundary-1-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-config",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-config-boundary-2-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-config",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-config-boundary-3-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-config",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-config-boundary-4-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-config",
+        "--vault-password-file"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-doc-boundary-0-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-doc"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-doc-boundary-1-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-doc",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-doc-boundary-2-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-doc",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-doc-boundary-3-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-doc",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-doc-boundary-4-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-doc",
+        "--vault-password-file"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-console-boundary-0-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-console"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-console-boundary-1-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-console",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-console-boundary-2-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-console",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-console-boundary-3-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-console",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-console-boundary-4-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-console",
+        "--vault-password-file"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-pull-boundary-0-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-pull"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-pull-boundary-1-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-pull",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-pull-boundary-2-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-pull",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-pull-boundary-3-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-pull",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ansible-pull-boundary-4-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-pull",
+        "--vault-password-file"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vault-stdin-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "printf example | ansible-vault encrypt_string --stdin-name example",
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "unknown-cli-strict",
+      "profile": "strict",
+      "argv": [
+        "ansible-unknown",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "mcp",
+        "server": "ansible",
+        "tool": "run",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

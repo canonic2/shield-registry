@@ -1,0 +1,4298 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "psql-0-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "-X",
+        "-c",
+        "SELECT 1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-1-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "-cSELECT 1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-2-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "--command=SELECT pg_read_file('/etc/passwd')"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-3-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "-c",
+        "DROP DATABASE example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-4-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "-c",
+        "\\! echo example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-5-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "-c",
+        "\\copy example TO PROGRAM 'cat'"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-6-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "-f",
+        "/outside/query.sql"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-7-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "--file=-",
+        "--single-transaction"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-8-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "-o",
+        "/outside/export.txt",
+        "-c",
+        "SELECT 1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-9-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "--csv",
+        "-c",
+        "SELECT side_effect()"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-10-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "-h",
+        "localhost"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-11-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "postgresql://example.com/example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-12-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "service=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-13-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "--help",
+        "-c",
+        "DELETE FROM example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-14-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "--version",
+        "-f",
+        "script.sql"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-15-loose",
+      "profile": "loose",
+      "argv": [
+        "psql"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_dump-16-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_dump",
+        "--schema-only",
+        "--file=/outside/schema.sql",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_dump-17-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_dump",
+        "-Fc",
+        "-f",
+        "backup.dump",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_dump-18-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_dump",
+        "-Fd",
+        "-f",
+        "/outside/dump",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_dump-19-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_dump",
+        "--dbname",
+        "host=example.com dbname=example sslmode=verify-full"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_dumpall-20-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_dumpall",
+        "--globals-only",
+        "--file",
+        "/outside/roles.sql"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_restore-21-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_restore",
+        "--list",
+        "/outside/backup.dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_restore-22-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_restore",
+        "--file",
+        "/outside/restore.sql",
+        "backup.dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_restore-23-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_restore",
+        "-d",
+        "example",
+        "backup.dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_restore-24-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_restore",
+        "--clean",
+        "--if-exists",
+        "-d",
+        "example",
+        "backup.dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_restore-25-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_restore",
+        "-cv",
+        "-dexample",
+        "backup.dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_restore-26-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_restore",
+        "--dbname=example",
+        "--clean",
+        "--create",
+        "backup.dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_restore-27-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_restore",
+        "-c",
+        "--list",
+        "backup.dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_isready-28-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_isready"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_isready-29-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_isready",
+        "-h",
+        "localhost",
+        "-p",
+        "5432"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_isready-30-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_isready",
+        "--dbname=host=example.com dbname=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_isready-31-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_isready",
+        "-h",
+        "/outside/socket",
+        "-t",
+        "1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_isready-32-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_isready",
+        "-h"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "createdb-33-loose",
+      "profile": "loose",
+      "argv": [
+        "createdb",
+        "--owner",
+        "example",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dropdb-34-loose",
+      "profile": "loose",
+      "argv": [
+        "dropdb",
+        "--if-exists",
+        "--force",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dropdb-35-loose",
+      "profile": "loose",
+      "argv": [
+        "dropdb",
+        "--host=example.com",
+        "--",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "createuser-36-loose",
+      "profile": "loose",
+      "argv": [
+        "createuser",
+        "--superuser",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "createuser-37-loose",
+      "profile": "loose",
+      "argv": [
+        "createuser",
+        "--pwprompt",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dropuser-38-loose",
+      "profile": "loose",
+      "argv": [
+        "dropuser",
+        "--if-exists",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vacuumdb-39-loose",
+      "profile": "loose",
+      "argv": [
+        "vacuumdb",
+        "--full",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "reindexdb-40-loose",
+      "profile": "loose",
+      "argv": [
+        "reindexdb",
+        "--system",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "clusterdb-41-loose",
+      "profile": "loose",
+      "argv": [
+        "clusterdb",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_amcheck-42-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_amcheck",
+        "--all",
+        "--install-missing"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_basebackup-43-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_basebackup",
+        "-D",
+        "/outside/backup",
+        "--write-recovery-conf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pgbench-44-loose",
+      "profile": "loose",
+      "argv": [
+        "pgbench",
+        "--initialize",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pgbench-45-loose",
+      "profile": "loose",
+      "argv": [
+        "pgbench",
+        "--select-only",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pgbench-46-loose",
+      "profile": "loose",
+      "argv": [
+        "pgbench",
+        "-f",
+        "/outside/workload.sql",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_config-47-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_config"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_config-48-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_config",
+        "--bindir",
+        "--libdir",
+        "--pgxs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_config-49-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_config",
+        "--configure",
+        "--cc",
+        "--cflags"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-50-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dropdb-51-loose",
+      "profile": "loose",
+      "argv": [
+        "dropdb",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-info-0-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-info-1-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-info-2-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-info-3-loose",
+      "profile": "loose",
+      "argv": [
+        "psql",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dump-info-0-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_dump",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dump-info-1-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_dump",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dump-info-2-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_dump",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dump-info-3-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_dump",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dumpall-info-0-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_dumpall",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dumpall-info-1-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_dumpall",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dumpall-info-2-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_dumpall",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dumpall-info-3-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_dumpall",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_restore-info-0-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_restore",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_restore-info-1-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_restore",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_restore-info-2-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_restore",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_restore-info-3-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_restore",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_isready-info-0-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_isready",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_isready-info-1-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_isready",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_isready-info-2-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_isready",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_isready-info-3-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_isready",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createdb-info-0-loose",
+      "profile": "loose",
+      "argv": [
+        "createdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createdb-info-1-loose",
+      "profile": "loose",
+      "argv": [
+        "createdb",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createdb-info-2-loose",
+      "profile": "loose",
+      "argv": [
+        "createdb",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createdb-info-3-loose",
+      "profile": "loose",
+      "argv": [
+        "createdb",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropdb-info-0-loose",
+      "profile": "loose",
+      "argv": [
+        "dropdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropdb-info-1-loose",
+      "profile": "loose",
+      "argv": [
+        "dropdb",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropdb-info-2-loose",
+      "profile": "loose",
+      "argv": [
+        "dropdb",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropdb-info-3-loose",
+      "profile": "loose",
+      "argv": [
+        "dropdb",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createuser-info-0-loose",
+      "profile": "loose",
+      "argv": [
+        "createuser",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createuser-info-1-loose",
+      "profile": "loose",
+      "argv": [
+        "createuser",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createuser-info-2-loose",
+      "profile": "loose",
+      "argv": [
+        "createuser",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createuser-info-3-loose",
+      "profile": "loose",
+      "argv": [
+        "createuser",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropuser-info-0-loose",
+      "profile": "loose",
+      "argv": [
+        "dropuser",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropuser-info-1-loose",
+      "profile": "loose",
+      "argv": [
+        "dropuser",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropuser-info-2-loose",
+      "profile": "loose",
+      "argv": [
+        "dropuser",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropuser-info-3-loose",
+      "profile": "loose",
+      "argv": [
+        "dropuser",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vacuumdb-info-0-loose",
+      "profile": "loose",
+      "argv": [
+        "vacuumdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vacuumdb-info-1-loose",
+      "profile": "loose",
+      "argv": [
+        "vacuumdb",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vacuumdb-info-2-loose",
+      "profile": "loose",
+      "argv": [
+        "vacuumdb",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vacuumdb-info-3-loose",
+      "profile": "loose",
+      "argv": [
+        "vacuumdb",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "reindexdb-info-0-loose",
+      "profile": "loose",
+      "argv": [
+        "reindexdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "reindexdb-info-1-loose",
+      "profile": "loose",
+      "argv": [
+        "reindexdb",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "reindexdb-info-2-loose",
+      "profile": "loose",
+      "argv": [
+        "reindexdb",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "reindexdb-info-3-loose",
+      "profile": "loose",
+      "argv": [
+        "reindexdb",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "clusterdb-info-0-loose",
+      "profile": "loose",
+      "argv": [
+        "clusterdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "clusterdb-info-1-loose",
+      "profile": "loose",
+      "argv": [
+        "clusterdb",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "clusterdb-info-2-loose",
+      "profile": "loose",
+      "argv": [
+        "clusterdb",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "clusterdb-info-3-loose",
+      "profile": "loose",
+      "argv": [
+        "clusterdb",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_amcheck-info-0-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_amcheck",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_amcheck-info-1-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_amcheck",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_amcheck-info-2-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_amcheck",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_amcheck-info-3-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_amcheck",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_basebackup-info-0-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_basebackup",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_basebackup-info-1-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_basebackup",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_basebackup-info-2-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_basebackup",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_basebackup-info-3-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_basebackup",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_config-info-0-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_config",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_config-info-1-loose",
+      "profile": "loose",
+      "argv": [
+        "pg_config",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgbench-info-0-loose",
+      "profile": "loose",
+      "argv": [
+        "pgbench",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgbench-info-1-loose",
+      "profile": "loose",
+      "argv": [
+        "pgbench",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgbench-info-2-loose",
+      "profile": "loose",
+      "argv": [
+        "pgbench",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgbench-info-3-loose",
+      "profile": "loose",
+      "argv": [
+        "pgbench",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/psql",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dump-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/pg_dump",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dumpall-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/pg_dumpall",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_restore-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/pg_restore",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_isready-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/pg_isready",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createdb-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/createdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropdb-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/dropdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createuser-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/createuser",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropuser-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/dropuser",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vacuumdb-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/vacuumdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "reindexdb-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/reindexdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "clusterdb-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/clusterdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_amcheck-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/pg_amcheck",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_basebackup-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/pg_basebackup",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_config-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/pg_config",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgbench-absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/pgbench",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/psql",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_dump-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/pg_dump",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_dumpall-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/pg_dumpall",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_restore-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/pg_restore",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_isready-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/pg_isready",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "createdb-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/createdb",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dropdb-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/dropdb",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "createuser-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/createuser",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dropuser-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/dropuser",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vacuumdb-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/vacuumdb",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "reindexdb-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/reindexdb",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "clusterdb-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/clusterdb",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_amcheck-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/pg_amcheck",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_basebackup-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/pg_basebackup",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_config-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/pg_config",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pgbench-foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/pgbench",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shell-0-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "psql -X -c \"SELECT 1\"",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-1-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "pg_restore --clean -d example backup.dump",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-2-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "dropdb --if-exists example",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-3-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "pg_isready -h localhost -p 5432",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "psql-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "-X",
+        "-c",
+        "SELECT 1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "-cSELECT 1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "--command=SELECT pg_read_file('/etc/passwd')"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "-c",
+        "DROP DATABASE example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "-c",
+        "\\! echo example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-5-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "-c",
+        "\\copy example TO PROGRAM 'cat'"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-6-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "-f",
+        "/outside/query.sql"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-7-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "--file=-",
+        "--single-transaction"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-8-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "-o",
+        "/outside/export.txt",
+        "-c",
+        "SELECT 1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-9-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "--csv",
+        "-c",
+        "SELECT side_effect()"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-10-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "-h",
+        "localhost"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-11-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "postgresql://example.com/example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-12-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "service=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-13-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "--help",
+        "-c",
+        "DELETE FROM example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-14-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "--version",
+        "-f",
+        "script.sql"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "psql-15-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_dump-16-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_dump",
+        "--schema-only",
+        "--file=/outside/schema.sql",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_dump-17-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_dump",
+        "-Fc",
+        "-f",
+        "backup.dump",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_dump-18-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_dump",
+        "-Fd",
+        "-f",
+        "/outside/dump",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_dump-19-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_dump",
+        "--dbname",
+        "host=example.com dbname=example sslmode=verify-full"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_dumpall-20-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_dumpall",
+        "--globals-only",
+        "--file",
+        "/outside/roles.sql"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_restore-21-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_restore",
+        "--list",
+        "/outside/backup.dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_restore-22-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_restore",
+        "--file",
+        "/outside/restore.sql",
+        "backup.dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_restore-23-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_restore",
+        "-d",
+        "example",
+        "backup.dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_restore-24-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_restore",
+        "--clean",
+        "--if-exists",
+        "-d",
+        "example",
+        "backup.dump"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_restore-25-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_restore",
+        "-cv",
+        "-dexample",
+        "backup.dump"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_restore-26-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_restore",
+        "--dbname=example",
+        "--clean",
+        "--create",
+        "backup.dump"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_restore-27-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_restore",
+        "-c",
+        "--list",
+        "backup.dump"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_isready-28-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_isready"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_isready-29-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_isready",
+        "-h",
+        "localhost",
+        "-p",
+        "5432"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_isready-30-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_isready",
+        "--dbname=host=example.com dbname=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_isready-31-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_isready",
+        "-h",
+        "/outside/socket",
+        "-t",
+        "1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_isready-32-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_isready",
+        "-h"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "createdb-33-recommended",
+      "profile": "recommended",
+      "argv": [
+        "createdb",
+        "--owner",
+        "example",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dropdb-34-recommended",
+      "profile": "recommended",
+      "argv": [
+        "dropdb",
+        "--if-exists",
+        "--force",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "dropdb-35-recommended",
+      "profile": "recommended",
+      "argv": [
+        "dropdb",
+        "--host=example.com",
+        "--",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "createuser-36-recommended",
+      "profile": "recommended",
+      "argv": [
+        "createuser",
+        "--superuser",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "createuser-37-recommended",
+      "profile": "recommended",
+      "argv": [
+        "createuser",
+        "--pwprompt",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dropuser-38-recommended",
+      "profile": "recommended",
+      "argv": [
+        "dropuser",
+        "--if-exists",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vacuumdb-39-recommended",
+      "profile": "recommended",
+      "argv": [
+        "vacuumdb",
+        "--full",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "reindexdb-40-recommended",
+      "profile": "recommended",
+      "argv": [
+        "reindexdb",
+        "--system",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "clusterdb-41-recommended",
+      "profile": "recommended",
+      "argv": [
+        "clusterdb",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_amcheck-42-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_amcheck",
+        "--all",
+        "--install-missing"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_basebackup-43-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_basebackup",
+        "-D",
+        "/outside/backup",
+        "--write-recovery-conf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pgbench-44-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pgbench",
+        "--initialize",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pgbench-45-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pgbench",
+        "--select-only",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pgbench-46-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pgbench",
+        "-f",
+        "/outside/workload.sql",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_config-47-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_config"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_config-48-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_config",
+        "--bindir",
+        "--libdir",
+        "--pgxs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_config-49-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_config",
+        "--configure",
+        "--cc",
+        "--cflags"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-50-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dropdb-51-recommended",
+      "profile": "recommended",
+      "argv": [
+        "dropdb",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "psql-info-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-info-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-info-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-info-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "psql",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dump-info-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_dump",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dump-info-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_dump",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dump-info-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_dump",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dump-info-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_dump",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dumpall-info-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_dumpall",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dumpall-info-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_dumpall",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dumpall-info-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_dumpall",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dumpall-info-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_dumpall",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_restore-info-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_restore",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_restore-info-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_restore",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_restore-info-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_restore",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_restore-info-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_restore",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_isready-info-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_isready",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_isready-info-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_isready",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_isready-info-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_isready",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_isready-info-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_isready",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createdb-info-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "createdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createdb-info-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "createdb",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createdb-info-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "createdb",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createdb-info-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "createdb",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropdb-info-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "dropdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropdb-info-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "dropdb",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropdb-info-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "dropdb",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropdb-info-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "dropdb",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createuser-info-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "createuser",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createuser-info-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "createuser",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createuser-info-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "createuser",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createuser-info-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "createuser",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropuser-info-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "dropuser",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropuser-info-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "dropuser",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropuser-info-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "dropuser",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropuser-info-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "dropuser",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vacuumdb-info-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "vacuumdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vacuumdb-info-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "vacuumdb",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vacuumdb-info-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "vacuumdb",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vacuumdb-info-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "vacuumdb",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "reindexdb-info-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "reindexdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "reindexdb-info-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "reindexdb",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "reindexdb-info-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "reindexdb",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "reindexdb-info-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "reindexdb",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "clusterdb-info-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "clusterdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "clusterdb-info-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "clusterdb",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "clusterdb-info-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "clusterdb",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "clusterdb-info-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "clusterdb",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_amcheck-info-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_amcheck",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_amcheck-info-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_amcheck",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_amcheck-info-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_amcheck",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_amcheck-info-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_amcheck",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_basebackup-info-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_basebackup",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_basebackup-info-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_basebackup",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_basebackup-info-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_basebackup",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_basebackup-info-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_basebackup",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_config-info-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_config",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_config-info-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pg_config",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgbench-info-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pgbench",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgbench-info-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pgbench",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgbench-info-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pgbench",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgbench-info-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pgbench",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/psql",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dump-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/pg_dump",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dumpall-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/pg_dumpall",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_restore-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/pg_restore",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_isready-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/pg_isready",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createdb-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/createdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropdb-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/dropdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createuser-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/createuser",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropuser-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/dropuser",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vacuumdb-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/vacuumdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "reindexdb-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/reindexdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "clusterdb-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/clusterdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_amcheck-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/pg_amcheck",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_basebackup-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/pg_basebackup",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_config-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/pg_config",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgbench-absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/pgbench",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/psql",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_dump-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/pg_dump",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_dumpall-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/pg_dumpall",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_restore-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/pg_restore",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_isready-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/pg_isready",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "createdb-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/createdb",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dropdb-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/dropdb",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "createuser-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/createuser",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dropuser-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/dropuser",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vacuumdb-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/vacuumdb",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "reindexdb-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/reindexdb",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "clusterdb-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/clusterdb",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_amcheck-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/pg_amcheck",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_basebackup-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/pg_basebackup",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_config-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/pg_config",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pgbench-foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/pgbench",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shell-0-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "psql -X -c \"SELECT 1\"",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-1-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "input": {
+        "kind": "shell",
+        "source": "pg_restore --clean -d example backup.dump",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-2-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "input": {
+        "kind": "shell",
+        "source": "dropdb --if-exists example",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-3-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "pg_isready -h localhost -p 5432",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "psql-0-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "-X",
+        "-c",
+        "SELECT 1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "psql-1-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "-cSELECT 1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "psql-2-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "--command=SELECT pg_read_file('/etc/passwd')"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "psql-3-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "-c",
+        "DROP DATABASE example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "psql-4-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "-c",
+        "\\! echo example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "psql-5-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "-c",
+        "\\copy example TO PROGRAM 'cat'"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "psql-6-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "-f",
+        "/outside/query.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "psql-7-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "--file=-",
+        "--single-transaction"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "psql-8-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "-o",
+        "/outside/export.txt",
+        "-c",
+        "SELECT 1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "psql-9-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "--csv",
+        "-c",
+        "SELECT side_effect()"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "psql-10-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "-h",
+        "localhost"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "psql-11-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "postgresql://example.com/example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "psql-12-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "service=example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "psql-13-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "--help",
+        "-c",
+        "DELETE FROM example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "psql-14-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "--version",
+        "-f",
+        "script.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "psql-15-strict",
+      "profile": "strict",
+      "argv": [
+        "psql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_dump-16-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_dump",
+        "--schema-only",
+        "--file=/outside/schema.sql",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_dump-17-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_dump",
+        "-Fc",
+        "-f",
+        "backup.dump",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_dump-18-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_dump",
+        "-Fd",
+        "-f",
+        "/outside/dump",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_dump-19-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_dump",
+        "--dbname",
+        "host=example.com dbname=example sslmode=verify-full"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_dumpall-20-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_dumpall",
+        "--globals-only",
+        "--file",
+        "/outside/roles.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_restore-21-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_restore",
+        "--list",
+        "/outside/backup.dump"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_restore-22-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_restore",
+        "--file",
+        "/outside/restore.sql",
+        "backup.dump"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_restore-23-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_restore",
+        "-d",
+        "example",
+        "backup.dump"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_restore-24-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_restore",
+        "--clean",
+        "--if-exists",
+        "-d",
+        "example",
+        "backup.dump"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_restore-25-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_restore",
+        "-cv",
+        "-dexample",
+        "backup.dump"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_restore-26-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_restore",
+        "--dbname=example",
+        "--clean",
+        "--create",
+        "backup.dump"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_restore-27-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_restore",
+        "-c",
+        "--list",
+        "backup.dump"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_isready-28-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_isready"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_isready-29-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_isready",
+        "-h",
+        "localhost",
+        "-p",
+        "5432"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_isready-30-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_isready",
+        "--dbname=host=example.com dbname=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_isready-31-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_isready",
+        "-h",
+        "/outside/socket",
+        "-t",
+        "1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_isready-32-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_isready",
+        "-h"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "createdb-33-strict",
+      "profile": "strict",
+      "argv": [
+        "createdb",
+        "--owner",
+        "example",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "dropdb-34-strict",
+      "profile": "strict",
+      "argv": [
+        "dropdb",
+        "--if-exists",
+        "--force",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "dropdb-35-strict",
+      "profile": "strict",
+      "argv": [
+        "dropdb",
+        "--host=example.com",
+        "--",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "createuser-36-strict",
+      "profile": "strict",
+      "argv": [
+        "createuser",
+        "--superuser",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "createuser-37-strict",
+      "profile": "strict",
+      "argv": [
+        "createuser",
+        "--pwprompt",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "dropuser-38-strict",
+      "profile": "strict",
+      "argv": [
+        "dropuser",
+        "--if-exists",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vacuumdb-39-strict",
+      "profile": "strict",
+      "argv": [
+        "vacuumdb",
+        "--full",
+        "--all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "reindexdb-40-strict",
+      "profile": "strict",
+      "argv": [
+        "reindexdb",
+        "--system",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "clusterdb-41-strict",
+      "profile": "strict",
+      "argv": [
+        "clusterdb",
+        "--all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_amcheck-42-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_amcheck",
+        "--all",
+        "--install-missing"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_basebackup-43-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_basebackup",
+        "-D",
+        "/outside/backup",
+        "--write-recovery-conf"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pgbench-44-strict",
+      "profile": "strict",
+      "argv": [
+        "pgbench",
+        "--initialize",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pgbench-45-strict",
+      "profile": "strict",
+      "argv": [
+        "pgbench",
+        "--select-only",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pgbench-46-strict",
+      "profile": "strict",
+      "argv": [
+        "pgbench",
+        "-f",
+        "/outside/workload.sql",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pg_config-47-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_config"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_config-48-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_config",
+        "--bindir",
+        "--libdir",
+        "--pgxs"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_config-49-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_config",
+        "--configure",
+        "--cc",
+        "--cflags"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-50-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "dropdb-51-strict",
+      "profile": "strict",
+      "argv": [
+        "dropdb",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "psql-info-0-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-info-1-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-info-2-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-info-3-strict",
+      "profile": "strict",
+      "argv": [
+        "psql",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dump-info-0-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_dump",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dump-info-1-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_dump",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dump-info-2-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_dump",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dump-info-3-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_dump",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dumpall-info-0-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_dumpall",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dumpall-info-1-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_dumpall",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dumpall-info-2-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_dumpall",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dumpall-info-3-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_dumpall",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_restore-info-0-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_restore",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_restore-info-1-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_restore",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_restore-info-2-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_restore",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_restore-info-3-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_restore",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_isready-info-0-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_isready",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_isready-info-1-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_isready",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_isready-info-2-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_isready",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_isready-info-3-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_isready",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createdb-info-0-strict",
+      "profile": "strict",
+      "argv": [
+        "createdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createdb-info-1-strict",
+      "profile": "strict",
+      "argv": [
+        "createdb",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createdb-info-2-strict",
+      "profile": "strict",
+      "argv": [
+        "createdb",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createdb-info-3-strict",
+      "profile": "strict",
+      "argv": [
+        "createdb",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropdb-info-0-strict",
+      "profile": "strict",
+      "argv": [
+        "dropdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropdb-info-1-strict",
+      "profile": "strict",
+      "argv": [
+        "dropdb",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropdb-info-2-strict",
+      "profile": "strict",
+      "argv": [
+        "dropdb",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropdb-info-3-strict",
+      "profile": "strict",
+      "argv": [
+        "dropdb",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createuser-info-0-strict",
+      "profile": "strict",
+      "argv": [
+        "createuser",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createuser-info-1-strict",
+      "profile": "strict",
+      "argv": [
+        "createuser",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createuser-info-2-strict",
+      "profile": "strict",
+      "argv": [
+        "createuser",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createuser-info-3-strict",
+      "profile": "strict",
+      "argv": [
+        "createuser",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropuser-info-0-strict",
+      "profile": "strict",
+      "argv": [
+        "dropuser",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropuser-info-1-strict",
+      "profile": "strict",
+      "argv": [
+        "dropuser",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropuser-info-2-strict",
+      "profile": "strict",
+      "argv": [
+        "dropuser",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropuser-info-3-strict",
+      "profile": "strict",
+      "argv": [
+        "dropuser",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vacuumdb-info-0-strict",
+      "profile": "strict",
+      "argv": [
+        "vacuumdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vacuumdb-info-1-strict",
+      "profile": "strict",
+      "argv": [
+        "vacuumdb",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vacuumdb-info-2-strict",
+      "profile": "strict",
+      "argv": [
+        "vacuumdb",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vacuumdb-info-3-strict",
+      "profile": "strict",
+      "argv": [
+        "vacuumdb",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "reindexdb-info-0-strict",
+      "profile": "strict",
+      "argv": [
+        "reindexdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "reindexdb-info-1-strict",
+      "profile": "strict",
+      "argv": [
+        "reindexdb",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "reindexdb-info-2-strict",
+      "profile": "strict",
+      "argv": [
+        "reindexdb",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "reindexdb-info-3-strict",
+      "profile": "strict",
+      "argv": [
+        "reindexdb",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "clusterdb-info-0-strict",
+      "profile": "strict",
+      "argv": [
+        "clusterdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "clusterdb-info-1-strict",
+      "profile": "strict",
+      "argv": [
+        "clusterdb",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "clusterdb-info-2-strict",
+      "profile": "strict",
+      "argv": [
+        "clusterdb",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "clusterdb-info-3-strict",
+      "profile": "strict",
+      "argv": [
+        "clusterdb",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_amcheck-info-0-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_amcheck",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_amcheck-info-1-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_amcheck",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_amcheck-info-2-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_amcheck",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_amcheck-info-3-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_amcheck",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_basebackup-info-0-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_basebackup",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_basebackup-info-1-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_basebackup",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_basebackup-info-2-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_basebackup",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_basebackup-info-3-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_basebackup",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_config-info-0-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_config",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_config-info-1-strict",
+      "profile": "strict",
+      "argv": [
+        "pg_config",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgbench-info-0-strict",
+      "profile": "strict",
+      "argv": [
+        "pgbench",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgbench-info-1-strict",
+      "profile": "strict",
+      "argv": [
+        "pgbench",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgbench-info-2-strict",
+      "profile": "strict",
+      "argv": [
+        "pgbench",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgbench-info-3-strict",
+      "profile": "strict",
+      "argv": [
+        "pgbench",
+        "-?"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/psql",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dump-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/pg_dump",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_dumpall-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/pg_dumpall",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_restore-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/pg_restore",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_isready-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/pg_isready",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createdb-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/createdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropdb-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/dropdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "createuser-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/createuser",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "dropuser-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/dropuser",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vacuumdb-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/vacuumdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "reindexdb-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/reindexdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "clusterdb-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/clusterdb",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_amcheck-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/pg_amcheck",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_basebackup-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/pg_basebackup",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pg_config-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/pg_config",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pgbench-absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/pgbench",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "psql-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/psql",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_dump-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/pg_dump",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_dumpall-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/pg_dumpall",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_restore-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/pg_restore",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_isready-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/pg_isready",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "createdb-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/createdb",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dropdb-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/dropdb",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "createuser-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/createuser",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dropuser-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/dropuser",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vacuumdb-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/vacuumdb",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "reindexdb-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/reindexdb",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "clusterdb-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/clusterdb",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_amcheck-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/pg_amcheck",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_basebackup-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/pg_basebackup",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pg_config-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/pg_config",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pgbench-foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/pgbench",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shell-0-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "input": {
+        "kind": "shell",
+        "source": "psql -X -c \"SELECT 1\"",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-1-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "input": {
+        "kind": "shell",
+        "source": "pg_restore --clean -d example backup.dump",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-2-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "input": {
+        "kind": "shell",
+        "source": "dropdb --if-exists example",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-3-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "pg_isready -h localhost -p 5432",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    }
+  ]
+}

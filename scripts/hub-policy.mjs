@@ -1,4 +1,4 @@
-// Reviewed Hub CLI and MCP surface of Hub 0.52.0: src/interface/cli.rs, the
+// Reviewed Hub CLI and MCP surface of Hub 0.53.0: src/interface/cli.rs, the
 // task, agent, plugin and integration argument types, and the tools of
 // src/interface/mcp/catalog.rs (`hub mcp serve --check`). Hub succeeds Box;
 // canonic/box keeps covering the box executable.

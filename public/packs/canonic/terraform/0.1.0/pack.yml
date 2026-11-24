@@ -1,0 +1,4199 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/terraform",
+  "version": "0.1.0",
+  "description": "Terraform CLI formatting with checked paths, and reviewed provider, state and infrastructure operations.",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.53.0, <1.0.0"
+  },
+  "capabilities": [
+    "access-paths-v1",
+    "argument-paths-v1",
+    "argument-rules-v1",
+    "location-v1",
+    "directory-options-v1",
+    "fallback-rules-v1",
+    "negated-selectors-v1",
+    "regex-v1",
+    "requirements-v1",
+    "structured-rules-v1",
+    "unknown-options-v1"
+  ],
+  "directory_options": [
+    {
+      "executable": {
+        "one_of": [
+          "terraform",
+          "/usr/bin/terraform",
+          "/usr/local/bin/terraform",
+          "/opt/homebrew/bin/terraform"
+        ]
+      },
+      "option": "-chdir",
+      "forms": [
+        "equals"
+      ],
+      "paths": "follow"
+    }
+  ],
+  "rules": [
+    {
+      "id": "help-empty",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": []
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help--version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help---version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help--v",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-v"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "sequence",
+          "prefix": [
+            "version"
+          ],
+          "rest": {
+            "kind": "each",
+            "match": {
+              "regex": "^-[^\\s]+$"
+            }
+          }
+        }
+      },
+      "decision": "allow",
+      "reason": "Print the installed CLI version."
+    },
+    {
+      "id": "fmt",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "fmt"
+          ],
+          "flags": [],
+          "values": [],
+          "operands": true,
+          "unknown_options": "skip"
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          },
+          "exclude": [
+            {
+              "root": "project",
+              "path": ".git"
+            },
+            {
+              "root": "project",
+              "path": ".shield"
+            },
+            {
+              "root": "project",
+              "path": ".aws"
+            },
+            {
+              "root": "project",
+              "path": ".ssh"
+            },
+            {
+              "root": "project",
+              "path": ".env"
+            },
+            {
+              "root": "project",
+              "path": ".mcp.json"
+            },
+            {
+              "root": "project",
+              "path": ".codex"
+            },
+            {
+              "root": "project",
+              "path": ".claude"
+            },
+            {
+              "root": "project",
+              "path": ".terraform.d"
+            }
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Format configuration files inside approved writable folders.",
+      "requirements": {
+        "argument_paths": {
+          "grammar": {
+            "kind": "options",
+            "prefix": [
+              "fmt"
+            ],
+            "flags": [],
+            "values": [],
+            "operands": true,
+            "unknown_options": "skip"
+          },
+          "operands": {
+            "path": {
+              "within": {
+                "root": "write"
+              },
+              "exclude": [
+                {
+                  "root": "project",
+                  "path": ".git"
+                },
+                {
+                  "root": "project",
+                  "path": ".shield"
+                },
+                {
+                  "root": "project",
+                  "path": ".aws"
+                },
+                {
+                  "root": "project",
+                  "path": ".ssh"
+                },
+                {
+                  "root": "project",
+                  "path": ".env"
+                },
+                {
+                  "root": "project",
+                  "path": ".mcp.json"
+                },
+                {
+                  "root": "project",
+                  "path": ".codex"
+                },
+                {
+                  "root": "project",
+                  "path": ".claude"
+                },
+                {
+                  "root": "project",
+                  "path": ".terraform.d"
+                }
+              ]
+            },
+            "recursive": true
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": "ask",
+        "message": "Review formatting paths outside approved folders, protected paths, stdin or unparseable arguments."
+      }
+    },
+    {
+      "id": "init",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "init"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "get",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "get"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "validate",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "validate"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "plan",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "plan"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "console",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "console"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "graph",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "graph"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "output",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "output"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "show",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "show"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "providers",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "providers"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "providers-schema",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "providers",
+            "schema"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "providers-lock",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "providers",
+            "lock"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "providers-mirror",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "providers",
+            "mirror"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "metadata-functions",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "metadata",
+            "functions"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "state-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "state",
+            "list"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "state-show",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "state",
+            "show"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "state-pull",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "state",
+            "pull"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "workspace-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "workspace",
+            "list"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "workspace-show",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "workspace",
+            "show"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "workspace-select",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "workspace",
+            "select"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "workspace-new",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "workspace",
+            "new"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "apply",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "apply"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "destroy",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "destroy"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "test",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "test"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "import",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "import"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "refresh",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "refresh"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "taint",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "taint"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "untaint",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "untaint"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "force-unlock",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "force-unlock"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "state-mv",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "state",
+            "mv"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "state-rm",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "state",
+            "rm"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "state-push",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "state",
+            "push"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "state-replace-provider",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "state",
+            "replace-provider"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "workspace-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "workspace",
+            "delete"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "login",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "login"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "logout",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "logout"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "state-unclassified",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "state",
+            {
+              "not": {
+                "one_of": [
+                  "list",
+                  "show",
+                  "pull"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review unclassified state operations as state mutations."
+    },
+    {
+      "id": "fmt-recursive-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [
+            "fmt"
+          ],
+          "any_of": [
+            {
+              "regex": "^-recursive(?:=(?:1|t|T|true|TRUE|True))?$"
+            }
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review recursive formatting, including its implicit root and traversal."
+    },
+    {
+      "id": "modules",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "modules"
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "stacks",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "stacks"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review provider execution, backend access, sensitive state, credentials or infrastructure changes."
+    },
+    {
+      "id": "help-version--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "version",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-version---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "version",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-version--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "version",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-fmt--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "fmt",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-fmt---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "fmt",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-fmt--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "fmt",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-init--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "init",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-init---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "init",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-init--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "init",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-get--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "get",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-get---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "get",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-get--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "get",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-validate--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "validate",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-validate---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "validate",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-validate--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "validate",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-plan--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "plan",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-plan---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "plan",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-plan--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "plan",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-console--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "console",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-console---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "console",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-console--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "console",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-graph--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "graph",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-graph---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "graph",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-graph--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "graph",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-output--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "output",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-output---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "output",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-output--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "output",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-show--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "show",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-show---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "show",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-show--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "show",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-providers--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "providers",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-providers---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "providers",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-providers--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "providers",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-providers-schema--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "providers",
+            "schema",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-providers-schema---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "providers",
+            "schema",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-providers-schema--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "providers",
+            "schema",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-providers-lock--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "providers",
+            "lock",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-providers-lock---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "providers",
+            "lock",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-providers-lock--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "providers",
+            "lock",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-providers-mirror--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "providers",
+            "mirror",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-providers-mirror---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "providers",
+            "mirror",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-providers-mirror--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "providers",
+            "mirror",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-metadata-functions--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "metadata",
+            "functions",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-metadata-functions---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "metadata",
+            "functions",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-metadata-functions--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "metadata",
+            "functions",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-list--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "list",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-list---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "list",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-list--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "list",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-show--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "show",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-show---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "show",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-show--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "show",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-pull--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "pull",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-pull---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "pull",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-pull--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "pull",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-workspace-list--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "workspace",
+            "list",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-workspace-list---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "workspace",
+            "list",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-workspace-list--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "workspace",
+            "list",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-workspace-show--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "workspace",
+            "show",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-workspace-show---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "workspace",
+            "show",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-workspace-show--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "workspace",
+            "show",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-workspace-select--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "workspace",
+            "select",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-workspace-select---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "workspace",
+            "select",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-workspace-select--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "workspace",
+            "select",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-workspace-new--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "workspace",
+            "new",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-workspace-new---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "workspace",
+            "new",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-workspace-new--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "workspace",
+            "new",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-apply--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "apply",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-apply---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "apply",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-apply--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "apply",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-destroy--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "destroy",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-destroy---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "destroy",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-destroy--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "destroy",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-test--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "test",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-test---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "test",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-test--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "test",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-import--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "import",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-import---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "import",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-import--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "import",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-refresh--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "refresh",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-refresh---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "refresh",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-refresh--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "refresh",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-taint--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "taint",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-taint---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "taint",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-taint--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "taint",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-untaint--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "untaint",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-untaint---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "untaint",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-untaint--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "untaint",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-force-unlock--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "force-unlock",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-force-unlock---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "force-unlock",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-force-unlock--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "force-unlock",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-mv--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "mv",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-mv---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "mv",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-mv--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "mv",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-rm--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "rm",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-rm---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "rm",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-rm--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "rm",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-push--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "push",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-push---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "push",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-push--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "push",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-replace-provider--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "replace-provider",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-replace-provider---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "replace-provider",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-state-replace-provider--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "state",
+            "replace-provider",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-workspace-delete--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "workspace",
+            "delete",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-workspace-delete---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "workspace",
+            "delete",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-workspace-delete--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "workspace",
+            "delete",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-login--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "login",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-login---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "login",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-login--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "login",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-logout--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "logout",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-logout---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "logout",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-logout--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "logout",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-modules--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "modules",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-modules---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "modules",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-modules--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "modules",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-stacks--help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "stacks",
+            "-help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-stacks---help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "stacks",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "help-stacks--h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "stacks",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help without running the operation."
+    },
+    {
+      "id": "install-autocomplete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-install-autocomplete"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review changes to shell startup files."
+    },
+    {
+      "id": "uninstall-autocomplete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-uninstall-autocomplete"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review changes to shell startup files."
+    },
+    {
+      "id": "review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "terraform",
+            "/usr/bin/terraform",
+            "/usr/local/bin/terraform",
+            "/opt/homebrew/bin/terraform"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": "ask",
+      "reason": "Review unclassified commands, directory selection and requests outside approved folders.",
+      "fallback": true
+    }
+  ]
+}

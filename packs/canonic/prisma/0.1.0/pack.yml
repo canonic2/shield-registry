@@ -1,0 +1,6999 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/prisma",
+  "version": "0.1.0",
+  "description": "Prisma ORM and package-runner permissions with review for executable configuration, generation, migrations and destructive database operations.",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.53.0, <1.0.0"
+  },
+  "capabilities": [
+    "structured-rules-v1",
+    "argument-rules-v1",
+    "prefix-leading-v1",
+    "interleaved-leading-v1",
+    "regex-v1",
+    "fallback-rules-v1",
+    "unknown-options-v1"
+  ],
+  "rules": [
+    {
+      "id": "route-0-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma",
+            "/usr/bin/prisma",
+            "/usr/local/bin/prisma",
+            "/opt/homebrew/bin/prisma"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review executable Prisma configuration, generators, package acquisition, local files, listeners, credentials and database effects.",
+      "fallback": true
+    },
+    {
+      "id": "route-0-migrate-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma",
+            "/usr/bin/prisma",
+            "/usr/local/bin/prisma",
+            "/opt/homebrew/bin/prisma"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "migrate",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-0-db-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma",
+            "/usr/bin/prisma",
+            "/usr/local/bin/prisma",
+            "/opt/homebrew/bin/prisma"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "db",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-0-postgres-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma",
+            "/usr/bin/prisma",
+            "/usr/local/bin/prisma",
+            "/opt/homebrew/bin/prisma"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "postgres",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-0-project-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma",
+            "/usr/bin/prisma",
+            "/usr/local/bin/prisma",
+            "/opt/homebrew/bin/prisma"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "project",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-0-branch-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma",
+            "/usr/bin/prisma",
+            "/usr/local/bin/prisma",
+            "/opt/homebrew/bin/prisma"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "branch",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-0-bucket-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma",
+            "/usr/bin/prisma",
+            "/usr/local/bin/prisma",
+            "/opt/homebrew/bin/prisma"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "bucket",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-0-service-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma",
+            "/usr/bin/prisma",
+            "/usr/local/bin/prisma",
+            "/opt/homebrew/bin/prisma"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "service",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-0-destructive-switch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma",
+            "/usr/bin/prisma",
+            "/usr/local/bin/prisma",
+            "/opt/homebrew/bin/prisma"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          },
+          "flags": [],
+          "values": [],
+          "optional_values": [
+            "--force-reset",
+            "--accept-data-loss"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--force-reset",
+            "--accept-data-loss"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review explicit consent to data loss or forced database reset."
+    },
+    {
+      "id": "route-1-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma7",
+            "/usr/bin/prisma7",
+            "/usr/local/bin/prisma7",
+            "/opt/homebrew/bin/prisma7"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review executable Prisma configuration, generators, package acquisition, local files, listeners, credentials and database effects.",
+      "fallback": true
+    },
+    {
+      "id": "route-1-migrate-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma7",
+            "/usr/bin/prisma7",
+            "/usr/local/bin/prisma7",
+            "/opt/homebrew/bin/prisma7"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "migrate",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-1-db-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma7",
+            "/usr/bin/prisma7",
+            "/usr/local/bin/prisma7",
+            "/opt/homebrew/bin/prisma7"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "db",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-1-postgres-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma7",
+            "/usr/bin/prisma7",
+            "/usr/local/bin/prisma7",
+            "/opt/homebrew/bin/prisma7"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "postgres",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-1-project-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma7",
+            "/usr/bin/prisma7",
+            "/usr/local/bin/prisma7",
+            "/opt/homebrew/bin/prisma7"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "project",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-1-branch-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma7",
+            "/usr/bin/prisma7",
+            "/usr/local/bin/prisma7",
+            "/opt/homebrew/bin/prisma7"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "branch",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-1-bucket-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma7",
+            "/usr/bin/prisma7",
+            "/usr/local/bin/prisma7",
+            "/opt/homebrew/bin/prisma7"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "bucket",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-1-service-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma7",
+            "/usr/bin/prisma7",
+            "/usr/local/bin/prisma7",
+            "/opt/homebrew/bin/prisma7"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "service",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-1-destructive-switch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "prisma7",
+            "/usr/bin/prisma7",
+            "/usr/local/bin/prisma7",
+            "/opt/homebrew/bin/prisma7"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          },
+          "flags": [],
+          "values": [],
+          "optional_values": [
+            "--force-reset",
+            "--accept-data-loss"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--force-reset",
+            "--accept-data-loss"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review explicit consent to data loss or forced database reset."
+    },
+    {
+      "id": "route-2-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npx",
+            "/usr/bin/npx",
+            "/usr/local/bin/npx",
+            "/opt/homebrew/bin/npx"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review executable Prisma configuration, generators, package acquisition, local files, listeners, credentials and database effects.",
+      "fallback": true
+    },
+    {
+      "id": "route-2-migrate-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npx",
+            "/usr/bin/npx",
+            "/usr/local/bin/npx",
+            "/opt/homebrew/bin/npx"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "migrate",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-2-db-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npx",
+            "/usr/bin/npx",
+            "/usr/local/bin/npx",
+            "/opt/homebrew/bin/npx"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "db",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-2-postgres-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npx",
+            "/usr/bin/npx",
+            "/usr/local/bin/npx",
+            "/opt/homebrew/bin/npx"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "postgres",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-2-project-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npx",
+            "/usr/bin/npx",
+            "/usr/local/bin/npx",
+            "/opt/homebrew/bin/npx"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "project",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-2-branch-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npx",
+            "/usr/bin/npx",
+            "/usr/local/bin/npx",
+            "/opt/homebrew/bin/npx"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "branch",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-2-bucket-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npx",
+            "/usr/bin/npx",
+            "/usr/local/bin/npx",
+            "/opt/homebrew/bin/npx"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "bucket",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-2-service-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npx",
+            "/usr/bin/npx",
+            "/usr/local/bin/npx",
+            "/opt/homebrew/bin/npx"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "service",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-2-destructive-switch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npx",
+            "/usr/bin/npx",
+            "/usr/local/bin/npx",
+            "/opt/homebrew/bin/npx"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          },
+          "flags": [],
+          "values": [],
+          "optional_values": [
+            "--force-reset",
+            "--accept-data-loss"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--force-reset",
+            "--accept-data-loss"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review explicit consent to data loss or forced database reset."
+    },
+    {
+      "id": "route-3-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review executable Prisma configuration, generators, package acquisition, local files, listeners, credentials and database effects.",
+      "fallback": true
+    },
+    {
+      "id": "route-3-migrate-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "migrate",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-3-db-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "db",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-3-postgres-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "postgres",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-3-project-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "project",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-3-branch-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "branch",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-3-bucket-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "bucket",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-3-service-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "service",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-3-destructive-switch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          },
+          "flags": [],
+          "values": [],
+          "optional_values": [
+            "--force-reset",
+            "--accept-data-loss"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--force-reset",
+            "--accept-data-loss"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review explicit consent to data loss or forced database reset."
+    },
+    {
+      "id": "route-4-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            "--",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review executable Prisma configuration, generators, package acquisition, local files, listeners, credentials and database effects.",
+      "fallback": true
+    },
+    {
+      "id": "route-4-migrate-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            "--",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "migrate",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-4-db-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            "--",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "db",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-4-postgres-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            "--",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "postgres",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-4-project-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            "--",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "project",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-4-branch-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            "--",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "branch",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-4-bucket-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            "--",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "bucket",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-4-service-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            "--",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "service",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-4-destructive-switch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "npm",
+            "/usr/bin/npm",
+            "/usr/local/bin/npm",
+            "/opt/homebrew/bin/npm"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "exec",
+            "--",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          },
+          "flags": [],
+          "values": [],
+          "optional_values": [
+            "--force-reset",
+            "--accept-data-loss"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--force-reset",
+            "--accept-data-loss"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review explicit consent to data loss or forced database reset."
+    },
+    {
+      "id": "route-5-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review executable Prisma configuration, generators, package acquisition, local files, listeners, credentials and database effects.",
+      "fallback": true
+    },
+    {
+      "id": "route-5-migrate-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "migrate",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-5-db-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "db",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-5-postgres-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "postgres",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-5-project-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "project",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-5-branch-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "branch",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-5-bucket-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "bucket",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-5-service-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "service",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-5-destructive-switch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          },
+          "flags": [],
+          "values": [],
+          "optional_values": [
+            "--force-reset",
+            "--accept-data-loss"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--force-reset",
+            "--accept-data-loss"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review explicit consent to data loss or forced database reset."
+    },
+    {
+      "id": "route-6-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review executable Prisma configuration, generators, package acquisition, local files, listeners, credentials and database effects.",
+      "fallback": true
+    },
+    {
+      "id": "route-6-migrate-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "migrate",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-6-db-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "db",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-6-postgres-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "postgres",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-6-project-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "project",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-6-branch-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "branch",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-6-bucket-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "bucket",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-6-service-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "service",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-6-destructive-switch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          },
+          "flags": [],
+          "values": [],
+          "optional_values": [
+            "--force-reset",
+            "--accept-data-loss"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--force-reset",
+            "--accept-data-loss"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review explicit consent to data loss or forced database reset."
+    },
+    {
+      "id": "route-7-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review executable Prisma configuration, generators, package acquisition, local files, listeners, credentials and database effects.",
+      "fallback": true
+    },
+    {
+      "id": "route-7-migrate-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "migrate",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-7-db-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "db",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-7-postgres-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "postgres",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-7-project-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "project",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-7-branch-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "branch",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-7-bucket-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "bucket",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-7-service-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "service",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-7-destructive-switch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pnpm",
+            "/usr/bin/pnpm",
+            "/usr/local/bin/pnpm",
+            "/opt/homebrew/bin/pnpm"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          },
+          "flags": [],
+          "values": [],
+          "optional_values": [
+            "--force-reset",
+            "--accept-data-loss"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--force-reset",
+            "--accept-data-loss"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review explicit consent to data loss or forced database reset."
+    },
+    {
+      "id": "route-8-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review executable Prisma configuration, generators, package acquisition, local files, listeners, credentials and database effects.",
+      "fallback": true
+    },
+    {
+      "id": "route-8-migrate-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "migrate",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-8-db-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "db",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-8-postgres-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "postgres",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-8-project-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "project",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-8-branch-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "branch",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-8-bucket-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "bucket",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-8-service-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "service",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-8-destructive-switch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          },
+          "flags": [],
+          "values": [],
+          "optional_values": [
+            "--force-reset",
+            "--accept-data-loss"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--force-reset",
+            "--accept-data-loss"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review explicit consent to data loss or forced database reset."
+    },
+    {
+      "id": "route-9-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review executable Prisma configuration, generators, package acquisition, local files, listeners, credentials and database effects.",
+      "fallback": true
+    },
+    {
+      "id": "route-9-migrate-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "migrate",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-9-db-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "db",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-9-postgres-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "postgres",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-9-project-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "project",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-9-branch-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "branch",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-9-bucket-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "bucket",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-9-service-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "service",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-9-destructive-switch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "exec",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          },
+          "flags": [],
+          "values": [],
+          "optional_values": [
+            "--force-reset",
+            "--accept-data-loss"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--force-reset",
+            "--accept-data-loss"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review explicit consent to data loss or forced database reset."
+    },
+    {
+      "id": "route-10-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review executable Prisma configuration, generators, package acquisition, local files, listeners, credentials and database effects.",
+      "fallback": true
+    },
+    {
+      "id": "route-10-migrate-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "migrate",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-10-db-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "db",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-10-postgres-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "postgres",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-10-project-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "project",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-10-branch-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "branch",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-10-bucket-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "bucket",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-10-service-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "service",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-10-destructive-switch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "yarn",
+            "/usr/bin/yarn",
+            "/usr/local/bin/yarn",
+            "/opt/homebrew/bin/yarn"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "dlx",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          },
+          "flags": [],
+          "values": [],
+          "optional_values": [
+            "--force-reset",
+            "--accept-data-loss"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--force-reset",
+            "--accept-data-loss"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review explicit consent to data loss or forced database reset."
+    },
+    {
+      "id": "route-11-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bunx",
+            "/usr/bin/bunx",
+            "/usr/local/bin/bunx",
+            "/opt/homebrew/bin/bunx"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review executable Prisma configuration, generators, package acquisition, local files, listeners, credentials and database effects.",
+      "fallback": true
+    },
+    {
+      "id": "route-11-migrate-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bunx",
+            "/usr/bin/bunx",
+            "/usr/local/bin/bunx",
+            "/opt/homebrew/bin/bunx"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "migrate",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-11-db-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bunx",
+            "/usr/bin/bunx",
+            "/usr/local/bin/bunx",
+            "/opt/homebrew/bin/bunx"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "db",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-11-postgres-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bunx",
+            "/usr/bin/bunx",
+            "/usr/local/bin/bunx",
+            "/opt/homebrew/bin/bunx"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "postgres",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-11-project-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bunx",
+            "/usr/bin/bunx",
+            "/usr/local/bin/bunx",
+            "/opt/homebrew/bin/bunx"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "project",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-11-branch-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bunx",
+            "/usr/bin/bunx",
+            "/usr/local/bin/bunx",
+            "/opt/homebrew/bin/bunx"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "branch",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-11-bucket-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bunx",
+            "/usr/bin/bunx",
+            "/usr/local/bin/bunx",
+            "/opt/homebrew/bin/bunx"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "bucket",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-11-service-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bunx",
+            "/usr/bin/bunx",
+            "/usr/local/bin/bunx",
+            "/opt/homebrew/bin/bunx"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "service",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-11-destructive-switch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bunx",
+            "/usr/bin/bunx",
+            "/usr/local/bin/bunx",
+            "/opt/homebrew/bin/bunx"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          },
+          "flags": [],
+          "values": [],
+          "optional_values": [
+            "--force-reset",
+            "--accept-data-loss"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--force-reset",
+            "--accept-data-loss"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review explicit consent to data loss or forced database reset."
+    },
+    {
+      "id": "route-12-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "x",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review executable Prisma configuration, generators, package acquisition, local files, listeners, credentials and database effects.",
+      "fallback": true
+    },
+    {
+      "id": "route-12-migrate-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "x",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "migrate",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-12-db-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "x",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "db",
+            "reset"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-12-postgres-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "x",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "postgres",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-12-project-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "x",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "project",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-12-branch-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "x",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "branch",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-12-bucket-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "x",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "bucket",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-12-service-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "x",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            },
+            "service",
+            "delete"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review database resets and remote resource deletion."
+    },
+    {
+      "id": "route-12-destructive-switch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "x",
+            {
+              "regex": "(?:prisma|prisma7|@prisma/prisma7)(?:@[A-Za-z0-9][A-Za-z0-9._~^+*-]*)?"
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h",
+              "--version",
+              "-v",
+              "--json",
+              "--experimental",
+              "--preview-feature",
+              "--early-access",
+              "--yes",
+              "-y",
+              "--no-install",
+              "--offline",
+              "--silent"
+            ],
+            "values": [
+              "--schema",
+              "--config",
+              "--url",
+              "--telemetry-information",
+              "--cwd",
+              "--dir",
+              "-C",
+              "--prefix",
+              "--cache"
+            ],
+            "interleaved": true
+          },
+          "flags": [],
+          "values": [],
+          "optional_values": [
+            "--force-reset",
+            "--accept-data-loss"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--force-reset",
+            "--accept-data-loss"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review explicit consent to data loss or forced database reset."
+    }
+  ]
+}

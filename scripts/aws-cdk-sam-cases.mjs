@@ -1,0 +1,66 @@
+// Independent reviewed requests and expected decisions. No policy imports.
+const review = ['ask', 'ask', 'deny'];
+const destructive = ['ask', 'deny', 'deny'];
+const allow = ['allow', 'allow', 'allow'];
+const rows = [
+  ['cdk', ['--version'], allow], ['sam', ['--version'], allow],
+  ['cdk', ['--help'], allow], ['sam', ['--help'], allow],
+  ['cdk', ['-h'], allow], ['sam', ['-h'], allow],
+  ['sam', ['docs'], review], ['sam', ['--info'], review],
+  ['cdk', ['synth', '--help'], allow], ['sam', ['local', 'invoke', '--help'], allow],
+  ['cdk', ['acknowledge', '12345'], review], ['cdk', ['ack', '12345'], review],
+  ['cdk', ['bootstrap', 'aws://123456789012/us-east-1'], review],
+  ['cdk', ['context', '--clear'], review], ['cdk', ['deploy', '--require-approval', 'never'], review],
+  ['cdk', ['destroy', '--force'], destructive], ['cdk', ['diff', '--no-change-set'], review],
+  ['cdk', ['docs'], review], ['cdk', ['doc'], review], ['cdk', ['doctor'], review],
+  ['cdk', ['drift'], review], ['cdk', ['flags'], review], ['cdk', ['import'], review],
+  ['cdk', ['init', 'app', '--language', 'typescript'], review],
+  ['cdk', ['list'], review], ['cdk', ['ls'], review], ['cdk', ['metadata', 'Example'], review],
+  ['cdk', ['migrate'], review], ['cdk', ['notices'], review], ['cdk', ['orphan'], destructive],
+  ['cdk', ['publish-assets'], review], ['cdk', ['refactor'], review],
+  ['cdk', ['synthesize'], review], ['cdk', ['synth', '--app', 'node app.js'], review],
+  ['cdk', ['watch', '--hotswap'], review], ['cdk', ['rollback'], review], ['cdk', ['gc'], destructive],
+  ['cdk', ['--app', 'node app.js', 'destroy', '--force'], destructive],
+  ['cdk', ['--profile=example', '--context', 'key=value', 'destroy'], destructive],
+  ['cdk', ['--debug=false', 'destroy'], destructive],
+  ['cdk', ['--output', '/outside/assembly', 'synth'], review],
+  ['cdk', ['--plugin', '/outside/plugin', 'deploy'], review],
+  ['cdk', ['--app', 'cdk.out', 'deploy', '--no-execute'], review],
+  ['sam', ['build', '--use-container'], review], ['sam', ['delete', '--no-prompts'], destructive],
+  ['sam', ['deploy', '--no-execute-changeset'], review], ['sam', ['init', '--location', 'https://example.com/template'], review],
+  ['sam', ['list'], review], ['sam', ['list', 'endpoints'], review], ['sam', ['list', 'resources'], review],
+  ['sam', ['list', 'stack-outputs'], review], ['sam', ['local', 'callback'], review],
+  ['sam', ['local', 'execution'], review], ['sam', ['local', 'generate-event', 's3', 'put'], review],
+  ['sam', ['local', 'invoke', '--event', '/outside/event.json'], review],
+  ['sam', ['local', 'start-api', '--host', '0.0.0.0'], review], ['sam', ['local', 'start-lambda'], review],
+  ['sam', ['logs', '--tail'], review], ['sam', ['package', '--resolve-s3'], review],
+  ['sam', ['pipeline', 'bootstrap'], review], ['sam', ['pipeline', 'init'], review],
+  ['sam', ['publish'], review], ['sam', ['remote', 'callback'], review], ['sam', ['remote', 'execution'], review],
+  ['sam', ['remote', 'invoke'], review], ['sam', ['remote', 'test-event', 'delete'], review],
+  ['sam', ['sync', '--watch'], review], ['sam', ['traces'], review],
+  ['sam', ['validate', '--lint', '--template', '/outside/template.yaml'], review],
+  ['sam', ['--debug', 'delete', '--no-prompts'], destructive],
+  ['sam', ['--profile', 'example', 'delete'], destructive],
+  ['sam', ['local', '--debug', 'invoke'], review],
+  ['cdk', ['destroy', '--help=false'], destructive],
+  ['cdk', ['--help=false', 'destroy'], review],
+  ['sam', ['deploy', '--template-file'], review], ['cdk', ['--app'], review],
+  ['cdk', ['future-command'], review], ['sam', ['future-command'], review],
+  ['cdk', [], review], ['sam', [], review],
+];
+
+export function awsCdkSamCases() {
+  return {schema_version: 1, cases: ['loose', 'recommended', 'strict'].flatMap((profile, index) => [
+    ...rows.map(([command, args, expected], n) => ({name: `${command}-${n}-${profile}`, profile,
+      argv: [command, ...args], expected: expected[index]})),
+    ...['cdk', 'sam'].map(command => ({name: `${command}-absolute-${profile}`, profile,
+      argv: [`/opt/homebrew/bin/${command}`, '--version'], expected: 'allow'})),
+    ...['cdk', 'sam'].map(command => ({name: `${command}-foreign-${profile}`, profile,
+      argv: [`/tmp/untrusted/${command}`, '--version'], expected: 'ask'})),
+    ...[['cdk --app "node app.js" destroy --force', destructive], ['sam --debug delete --no-prompts', destructive],
+      ['cdk synth --app "node app.js"', review], ['sam package --resolve-s3', review]].map(([source, expected], n) => ({
+      name: `shell-${n}-${profile}`, profile, expected: expected[index],
+      input: {kind: 'shell', source, dialect: 'bash', dialect_version: null, original_input: {}},
+    })),
+  ])};
+}

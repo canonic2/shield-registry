@@ -1,0 +1,1982 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/opensearch-elasticsearch",
+  "version": "0.1.0",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.53.0, <1.0.0"
+  },
+  "description": "OpenSearch and Elasticsearch clients and administration, with optional local HTTP metadata inspection and review for data, scripts, mutations, security and snapshots.",
+  "capabilities": [
+    "argument-rules-v1",
+    "interleaved-leading-v1",
+    "negated-selectors-v1",
+    "prefix-leading-v1",
+    "regex-v1",
+    "requirements-v1",
+    "structured-rules-v1",
+    "variables-v1"
+  ],
+  "variables": {
+    "local_http": {
+      "type": "boolean",
+      "default": false,
+      "description": "Apply search-service HTTP policy to localhost and 127.0.0.1 on port 9200. Enable only when these addresses serve your search cluster.",
+      "setup": {
+        "question": "Apply HTTP permissions to your local search cluster on port 9200?"
+      }
+    }
+  },
+  "rules": [
+    {
+      "id": "opensearch-cli-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "opensearch-cli",
+            "opensearch-cli.exe",
+            "/usr/bin/opensearch-cli",
+            "/usr/local/bin/opensearch-cli",
+            "/opt/homebrew/bin/opensearch-cli"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "opensearch-cli-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "opensearch-cli",
+            "opensearch-cli.exe",
+            "/usr/bin/opensearch-cli",
+            "/usr/local/bin/opensearch-cli",
+            "/opt/homebrew/bin/opensearch-cli"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elastic-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elastic",
+            "elastic.exe",
+            "/usr/bin/elastic",
+            "/usr/local/bin/elastic",
+            "/opt/homebrew/bin/elastic"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elastic-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elastic",
+            "elastic.exe",
+            "/usr/bin/elastic",
+            "/usr/local/bin/elastic",
+            "/opt/homebrew/bin/elastic"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch",
+            "elasticsearch.exe",
+            "/usr/bin/elasticsearch",
+            "/usr/local/bin/elasticsearch",
+            "/opt/homebrew/bin/elasticsearch"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch",
+            "elasticsearch.exe",
+            "/usr/bin/elasticsearch",
+            "/usr/local/bin/elasticsearch",
+            "/opt/homebrew/bin/elasticsearch"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "opensearch-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "opensearch",
+            "opensearch.exe",
+            "/usr/bin/opensearch",
+            "/usr/local/bin/opensearch",
+            "/opt/homebrew/bin/opensearch"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "opensearch-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "opensearch",
+            "opensearch.exe",
+            "/usr/bin/opensearch",
+            "/usr/local/bin/opensearch",
+            "/opt/homebrew/bin/opensearch"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-certgen-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-certgen",
+            "elasticsearch-certgen.exe",
+            "/usr/bin/elasticsearch-certgen",
+            "/usr/local/bin/elasticsearch-certgen",
+            "/opt/homebrew/bin/elasticsearch-certgen"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-certgen-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-certgen",
+            "elasticsearch-certgen.exe",
+            "/usr/bin/elasticsearch-certgen",
+            "/usr/local/bin/elasticsearch-certgen",
+            "/opt/homebrew/bin/elasticsearch-certgen"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-certutil-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-certutil",
+            "elasticsearch-certutil.exe",
+            "/usr/bin/elasticsearch-certutil",
+            "/usr/local/bin/elasticsearch-certutil",
+            "/opt/homebrew/bin/elasticsearch-certutil"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-certutil-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-certutil",
+            "elasticsearch-certutil.exe",
+            "/usr/bin/elasticsearch-certutil",
+            "/usr/local/bin/elasticsearch-certutil",
+            "/opt/homebrew/bin/elasticsearch-certutil"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-create-enrollment-token-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-create-enrollment-token",
+            "elasticsearch-create-enrollment-token.exe",
+            "/usr/bin/elasticsearch-create-enrollment-token",
+            "/usr/local/bin/elasticsearch-create-enrollment-token",
+            "/opt/homebrew/bin/elasticsearch-create-enrollment-token"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-create-enrollment-token-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-create-enrollment-token",
+            "elasticsearch-create-enrollment-token.exe",
+            "/usr/bin/elasticsearch-create-enrollment-token",
+            "/usr/local/bin/elasticsearch-create-enrollment-token",
+            "/opt/homebrew/bin/elasticsearch-create-enrollment-token"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-croneval-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-croneval",
+            "elasticsearch-croneval.exe",
+            "/usr/bin/elasticsearch-croneval",
+            "/usr/local/bin/elasticsearch-croneval",
+            "/opt/homebrew/bin/elasticsearch-croneval"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-croneval-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-croneval",
+            "elasticsearch-croneval.exe",
+            "/usr/bin/elasticsearch-croneval",
+            "/usr/local/bin/elasticsearch-croneval",
+            "/opt/homebrew/bin/elasticsearch-croneval"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-keystore-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-keystore",
+            "elasticsearch-keystore.exe",
+            "/usr/bin/elasticsearch-keystore",
+            "/usr/local/bin/elasticsearch-keystore",
+            "/opt/homebrew/bin/elasticsearch-keystore"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-keystore-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-keystore",
+            "elasticsearch-keystore.exe",
+            "/usr/bin/elasticsearch-keystore",
+            "/usr/local/bin/elasticsearch-keystore",
+            "/opt/homebrew/bin/elasticsearch-keystore"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-node-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-node",
+            "elasticsearch-node.exe",
+            "/usr/bin/elasticsearch-node",
+            "/usr/local/bin/elasticsearch-node",
+            "/opt/homebrew/bin/elasticsearch-node"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-node-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-node",
+            "elasticsearch-node.exe",
+            "/usr/bin/elasticsearch-node",
+            "/usr/local/bin/elasticsearch-node",
+            "/opt/homebrew/bin/elasticsearch-node"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-plugin-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-plugin",
+            "elasticsearch-plugin.exe",
+            "/usr/bin/elasticsearch-plugin",
+            "/usr/local/bin/elasticsearch-plugin",
+            "/opt/homebrew/bin/elasticsearch-plugin"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-plugin-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-plugin",
+            "elasticsearch-plugin.exe",
+            "/usr/bin/elasticsearch-plugin",
+            "/usr/local/bin/elasticsearch-plugin",
+            "/opt/homebrew/bin/elasticsearch-plugin"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-reconfigure-node-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-reconfigure-node",
+            "elasticsearch-reconfigure-node.exe",
+            "/usr/bin/elasticsearch-reconfigure-node",
+            "/usr/local/bin/elasticsearch-reconfigure-node",
+            "/opt/homebrew/bin/elasticsearch-reconfigure-node"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-reconfigure-node-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-reconfigure-node",
+            "elasticsearch-reconfigure-node.exe",
+            "/usr/bin/elasticsearch-reconfigure-node",
+            "/usr/local/bin/elasticsearch-reconfigure-node",
+            "/opt/homebrew/bin/elasticsearch-reconfigure-node"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-reset-password-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-reset-password",
+            "elasticsearch-reset-password.exe",
+            "/usr/bin/elasticsearch-reset-password",
+            "/usr/local/bin/elasticsearch-reset-password",
+            "/opt/homebrew/bin/elasticsearch-reset-password"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-reset-password-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-reset-password",
+            "elasticsearch-reset-password.exe",
+            "/usr/bin/elasticsearch-reset-password",
+            "/usr/local/bin/elasticsearch-reset-password",
+            "/opt/homebrew/bin/elasticsearch-reset-password"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-saml-metadata-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-saml-metadata",
+            "elasticsearch-saml-metadata.exe",
+            "/usr/bin/elasticsearch-saml-metadata",
+            "/usr/local/bin/elasticsearch-saml-metadata",
+            "/opt/homebrew/bin/elasticsearch-saml-metadata"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-saml-metadata-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-saml-metadata",
+            "elasticsearch-saml-metadata.exe",
+            "/usr/bin/elasticsearch-saml-metadata",
+            "/usr/local/bin/elasticsearch-saml-metadata",
+            "/opt/homebrew/bin/elasticsearch-saml-metadata"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-setup-passwords-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-setup-passwords",
+            "elasticsearch-setup-passwords.exe",
+            "/usr/bin/elasticsearch-setup-passwords",
+            "/usr/local/bin/elasticsearch-setup-passwords",
+            "/opt/homebrew/bin/elasticsearch-setup-passwords"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-setup-passwords-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-setup-passwords",
+            "elasticsearch-setup-passwords.exe",
+            "/usr/bin/elasticsearch-setup-passwords",
+            "/usr/local/bin/elasticsearch-setup-passwords",
+            "/opt/homebrew/bin/elasticsearch-setup-passwords"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-shard-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-shard",
+            "elasticsearch-shard.exe",
+            "/usr/bin/elasticsearch-shard",
+            "/usr/local/bin/elasticsearch-shard",
+            "/opt/homebrew/bin/elasticsearch-shard"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-shard-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-shard",
+            "elasticsearch-shard.exe",
+            "/usr/bin/elasticsearch-shard",
+            "/usr/local/bin/elasticsearch-shard",
+            "/opt/homebrew/bin/elasticsearch-shard"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-syskeygen-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-syskeygen",
+            "elasticsearch-syskeygen.exe",
+            "/usr/bin/elasticsearch-syskeygen",
+            "/usr/local/bin/elasticsearch-syskeygen",
+            "/opt/homebrew/bin/elasticsearch-syskeygen"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-syskeygen-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-syskeygen",
+            "elasticsearch-syskeygen.exe",
+            "/usr/bin/elasticsearch-syskeygen",
+            "/usr/local/bin/elasticsearch-syskeygen",
+            "/opt/homebrew/bin/elasticsearch-syskeygen"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-users-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-users",
+            "elasticsearch-users.exe",
+            "/usr/bin/elasticsearch-users",
+            "/usr/local/bin/elasticsearch-users",
+            "/opt/homebrew/bin/elasticsearch-users"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-users-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-users",
+            "elasticsearch-users.exe",
+            "/usr/bin/elasticsearch-users",
+            "/usr/local/bin/elasticsearch-users",
+            "/opt/homebrew/bin/elasticsearch-users"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-sql-cli-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-sql-cli",
+            "elasticsearch-sql-cli.exe",
+            "/usr/bin/elasticsearch-sql-cli",
+            "/usr/local/bin/elasticsearch-sql-cli",
+            "/opt/homebrew/bin/elasticsearch-sql-cli"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-sql-cli-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-sql-cli",
+            "elasticsearch-sql-cli.exe",
+            "/usr/bin/elasticsearch-sql-cli",
+            "/usr/local/bin/elasticsearch-sql-cli",
+            "/opt/homebrew/bin/elasticsearch-sql-cli"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "opensearch-keystore-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "opensearch-keystore",
+            "opensearch-keystore.exe",
+            "/usr/bin/opensearch-keystore",
+            "/usr/local/bin/opensearch-keystore",
+            "/opt/homebrew/bin/opensearch-keystore"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "opensearch-keystore-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "opensearch-keystore",
+            "opensearch-keystore.exe",
+            "/usr/bin/opensearch-keystore",
+            "/usr/local/bin/opensearch-keystore",
+            "/opt/homebrew/bin/opensearch-keystore"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "opensearch-plugin-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "opensearch-plugin",
+            "opensearch-plugin.exe",
+            "/usr/bin/opensearch-plugin",
+            "/usr/local/bin/opensearch-plugin",
+            "/opt/homebrew/bin/opensearch-plugin"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "opensearch-plugin-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "opensearch-plugin",
+            "opensearch-plugin.exe",
+            "/usr/bin/opensearch-plugin",
+            "/usr/local/bin/opensearch-plugin",
+            "/opt/homebrew/bin/opensearch-plugin"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "opensearch-node-help-0",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "opensearch-node",
+            "opensearch-node.exe",
+            "/usr/bin/opensearch-node",
+            "/usr/local/bin/opensearch-node",
+            "/opt/homebrew/bin/opensearch-node"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "opensearch-node-help-1",
+      "decision": "allow",
+      "reason": "Print built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "opensearch-node",
+            "opensearch-node.exe",
+            "/usr/bin/opensearch-node",
+            "/usr/local/bin/opensearch-node",
+            "/opt/homebrew/bin/opensearch-node"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "opensearch-cli-version",
+      "decision": "allow",
+      "reason": "Print the installed CLI version.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "opensearch-cli",
+            "opensearch-cli.exe",
+            "/usr/bin/opensearch-cli",
+            "/usr/local/bin/opensearch-cli",
+            "/opt/homebrew/bin/opensearch-cli"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      }
+    },
+    {
+      "id": "elastic-version",
+      "decision": "allow",
+      "reason": "Print the installed CLI version.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elastic",
+            "elastic.exe",
+            "/usr/bin/elastic",
+            "/usr/local/bin/elastic",
+            "/opt/homebrew/bin/elastic"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "version"
+          ]
+        }
+      }
+    },
+    {
+      "id": "opensearch-cli-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review cluster requests, data, detector changes, profile credentials and files.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "opensearch-cli",
+            "opensearch-cli.exe",
+            "/usr/bin/opensearch-cli",
+            "/usr/local/bin/opensearch-cli",
+            "/opt/homebrew/bin/opensearch-cli"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "one_of": [
+                "curl",
+                "ad",
+                "knn",
+                "profile"
+              ]
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "values": [
+              "--config",
+              "-c",
+              "--profile",
+              "-p"
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "elastic-es-0",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review Elasticsearch queries, bulk requests, scripts, snapshots, settings, security and data changes.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elastic",
+            "elastic.exe",
+            "/usr/bin/elastic",
+            "/usr/local/bin/elastic",
+            "/opt/homebrew/bin/elastic"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "stack",
+            "es"
+          ],
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--config-file",
+              "--use-context",
+              "--command-profile",
+              "--output-fields",
+              "--output-template"
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "elastic-es-1",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review Elasticsearch queries, bulk requests, scripts, snapshots, settings, security and data changes.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elastic",
+            "elastic.exe",
+            "/usr/bin/elastic",
+            "/usr/local/bin/elastic",
+            "/opt/homebrew/bin/elastic"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "es"
+          ],
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--config-file",
+              "--use-context",
+              "--command-profile",
+              "--output-fields",
+              "--output-template"
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "elastic-es-2",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review Elasticsearch queries, bulk requests, scripts, snapshots, settings, security and data changes.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elastic",
+            "elastic.exe",
+            "/usr/bin/elastic",
+            "/usr/local/bin/elastic",
+            "/opt/homebrew/bin/elastic"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "elasticsearch"
+          ],
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--config-file",
+              "--use-context",
+              "--command-profile",
+              "--output-fields",
+              "--output-template"
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "elastic-config",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review connection configuration and credentials.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elastic",
+            "elastic.exe",
+            "/usr/bin/elastic",
+            "/usr/local/bin/elastic",
+            "/opt/homebrew/bin/elastic"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "config"
+          ],
+          "leading": {
+            "flags": [
+              "--json"
+            ],
+            "values": [
+              "--config-file",
+              "--use-context",
+              "--command-profile",
+              "--output-fields",
+              "--output-template"
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch",
+            "elasticsearch.exe",
+            "/usr/bin/elasticsearch",
+            "/usr/local/bin/elasticsearch",
+            "/opt/homebrew/bin/elasticsearch"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "opensearch-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "opensearch",
+            "opensearch.exe",
+            "/usr/bin/opensearch",
+            "/usr/local/bin/opensearch",
+            "/opt/homebrew/bin/opensearch"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-certgen-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-certgen",
+            "elasticsearch-certgen.exe",
+            "/usr/bin/elasticsearch-certgen",
+            "/usr/local/bin/elasticsearch-certgen",
+            "/opt/homebrew/bin/elasticsearch-certgen"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-certutil-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-certutil",
+            "elasticsearch-certutil.exe",
+            "/usr/bin/elasticsearch-certutil",
+            "/usr/local/bin/elasticsearch-certutil",
+            "/opt/homebrew/bin/elasticsearch-certutil"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-create-enrollment-token-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-create-enrollment-token",
+            "elasticsearch-create-enrollment-token.exe",
+            "/usr/bin/elasticsearch-create-enrollment-token",
+            "/usr/local/bin/elasticsearch-create-enrollment-token",
+            "/opt/homebrew/bin/elasticsearch-create-enrollment-token"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-croneval-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-croneval",
+            "elasticsearch-croneval.exe",
+            "/usr/bin/elasticsearch-croneval",
+            "/usr/local/bin/elasticsearch-croneval",
+            "/opt/homebrew/bin/elasticsearch-croneval"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-keystore-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-keystore",
+            "elasticsearch-keystore.exe",
+            "/usr/bin/elasticsearch-keystore",
+            "/usr/local/bin/elasticsearch-keystore",
+            "/opt/homebrew/bin/elasticsearch-keystore"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-node-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-node",
+            "elasticsearch-node.exe",
+            "/usr/bin/elasticsearch-node",
+            "/usr/local/bin/elasticsearch-node",
+            "/opt/homebrew/bin/elasticsearch-node"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-plugin-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-plugin",
+            "elasticsearch-plugin.exe",
+            "/usr/bin/elasticsearch-plugin",
+            "/usr/local/bin/elasticsearch-plugin",
+            "/opt/homebrew/bin/elasticsearch-plugin"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-reconfigure-node-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-reconfigure-node",
+            "elasticsearch-reconfigure-node.exe",
+            "/usr/bin/elasticsearch-reconfigure-node",
+            "/usr/local/bin/elasticsearch-reconfigure-node",
+            "/opt/homebrew/bin/elasticsearch-reconfigure-node"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-reset-password-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-reset-password",
+            "elasticsearch-reset-password.exe",
+            "/usr/bin/elasticsearch-reset-password",
+            "/usr/local/bin/elasticsearch-reset-password",
+            "/opt/homebrew/bin/elasticsearch-reset-password"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-saml-metadata-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-saml-metadata",
+            "elasticsearch-saml-metadata.exe",
+            "/usr/bin/elasticsearch-saml-metadata",
+            "/usr/local/bin/elasticsearch-saml-metadata",
+            "/opt/homebrew/bin/elasticsearch-saml-metadata"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-setup-passwords-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-setup-passwords",
+            "elasticsearch-setup-passwords.exe",
+            "/usr/bin/elasticsearch-setup-passwords",
+            "/usr/local/bin/elasticsearch-setup-passwords",
+            "/opt/homebrew/bin/elasticsearch-setup-passwords"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-shard-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-shard",
+            "elasticsearch-shard.exe",
+            "/usr/bin/elasticsearch-shard",
+            "/usr/local/bin/elasticsearch-shard",
+            "/opt/homebrew/bin/elasticsearch-shard"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-syskeygen-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-syskeygen",
+            "elasticsearch-syskeygen.exe",
+            "/usr/bin/elasticsearch-syskeygen",
+            "/usr/local/bin/elasticsearch-syskeygen",
+            "/opt/homebrew/bin/elasticsearch-syskeygen"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-users-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-users",
+            "elasticsearch-users.exe",
+            "/usr/bin/elasticsearch-users",
+            "/usr/local/bin/elasticsearch-users",
+            "/opt/homebrew/bin/elasticsearch-users"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-sql-cli-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elasticsearch-sql-cli",
+            "elasticsearch-sql-cli.exe",
+            "/usr/bin/elasticsearch-sql-cli",
+            "/usr/local/bin/elasticsearch-sql-cli",
+            "/opt/homebrew/bin/elasticsearch-sql-cli"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "opensearch-keystore-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "opensearch-keystore",
+            "opensearch-keystore.exe",
+            "/usr/bin/opensearch-keystore",
+            "/usr/local/bin/opensearch-keystore",
+            "/opt/homebrew/bin/opensearch-keystore"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "opensearch-plugin-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "opensearch-plugin",
+            "opensearch-plugin.exe",
+            "/usr/bin/opensearch-plugin",
+            "/usr/local/bin/opensearch-plugin",
+            "/opt/homebrew/bin/opensearch-plugin"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "opensearch-node-operations",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review server execution, plugins, local files, node repair, credentials and administrative operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "opensearch-node",
+            "opensearch-node.exe",
+            "/usr/bin/opensearch-node",
+            "/usr/local/bin/opensearch-node",
+            "/opt/homebrew/bin/opensearch-node"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "elastic-unlisted",
+      "decision": "ask",
+      "reason": "Review unclassified client commands and wrappers.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "elastic",
+            "elastic.exe",
+            "/usr/bin/elastic",
+            "/usr/local/bin/elastic",
+            "/opt/homebrew/bin/elastic"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "opensearch-cli-unlisted",
+      "decision": "ask",
+      "reason": "Review unclassified client commands and wrappers.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "opensearch-cli",
+            "opensearch-cli.exe",
+            "/usr/bin/opensearch-cli",
+            "/usr/local/bin/opensearch-cli",
+            "/opt/homebrew/bin/opensearch-cli"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "local-http-metadata",
+      "when": [
+        {
+          "var": "local_http",
+          "equals": true
+        }
+      ],
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect metadata from the explicitly selected local search service without following redirects.",
+      "conditions": {
+        "domain": "web",
+        "action": "fetch",
+        "url": {
+          "schemes": [
+            "http",
+            "https"
+          ],
+          "hosts": [
+            "localhost",
+            "127.0.0.1"
+          ],
+          "ports": [
+            9200
+          ],
+          "path": {
+            "regex": "^/(?:_cluster/health|_cat/(?:health|indices|nodes|shards|count|aliases|plugins))/?$"
+          }
+        },
+        "method": {
+          "one_of": [
+            "GET",
+            "HEAD"
+          ]
+        }
+      },
+      "requirements": {
+        "request_fields": {
+          "/redirects": {
+            "exact": "none"
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": "ask",
+        "message": "Establish that this metadata request cannot follow redirects."
+      }
+    },
+    {
+      "id": "local-http-security",
+      "when": [
+        {
+          "var": "local_http",
+          "equals": true
+        }
+      ],
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review security configuration, credentials, snapshot repositories and snapshot access.",
+      "conditions": {
+        "domain": "web",
+        "action": "fetch",
+        "url": {
+          "schemes": [
+            "http",
+            "https"
+          ],
+          "hosts": [
+            "localhost",
+            "127.0.0.1"
+          ],
+          "ports": [
+            9200
+          ],
+          "path": {
+            "regex": "^/(?:_security|_snapshot|_plugins/_security|_opendistro/_security)(?:/.*)?$"
+          }
+        }
+      }
+    },
+    {
+      "id": "local-http-mutations",
+      "when": [
+        {
+          "var": "local_http",
+          "equals": true
+        }
+      ],
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review mutations and request bodies, including searches submitted with POST.",
+      "conditions": {
+        "domain": "web",
+        "action": "fetch",
+        "url": {
+          "schemes": [
+            "http",
+            "https"
+          ],
+          "hosts": [
+            "localhost",
+            "127.0.0.1"
+          ],
+          "ports": [
+            9200
+          ]
+        },
+        "method": {
+          "one_of": [
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE"
+          ]
+        }
+      }
+    },
+    {
+      "id": "local-http-other",
+      "when": [
+        {
+          "var": "local_http",
+          "equals": true
+        }
+      ],
+      "decision": "ask",
+      "reason": "Review document content, queries, scripts, redirects and unclassified search-service requests.",
+      "conditions": {
+        "domain": "web",
+        "action": "fetch",
+        "url": {
+          "schemes": [
+            "http",
+            "https"
+          ],
+          "hosts": [
+            "localhost",
+            "127.0.0.1"
+          ],
+          "ports": [
+            9200
+          ],
+          "path": {
+            "not": {
+              "regex": "^/(?:_cluster/health|_cat/(?:health|indices|nodes|shards|count|aliases|plugins))/?$"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

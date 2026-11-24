@@ -1,0 +1,9137 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "go-0-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "bug"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-1-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "build",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-2-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "clean",
+        "-cache",
+        "-testcache",
+        "-modcache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-3-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "doc",
+        "net/http"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-4-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "env"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-5-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "fix",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-6-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "fmt",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-7-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "generate",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-8-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "get",
+        "example.com/acme@v1.0.0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-9-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-10-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "help",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-11-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "install",
+        "example.com/acme@v1.0.0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-12-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "list",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-13-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "mod",
+        "download"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-14-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "mod",
+        "edit",
+        "-replace=example.com/old=../new"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-15-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "mod",
+        "graph"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-16-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "mod",
+        "init",
+        "example.com/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-17-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "mod",
+        "tidy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-18-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "mod",
+        "vendor"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-19-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "mod",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-20-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "mod",
+        "why",
+        "example.com/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-21-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "run",
+        "./cmd/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-22-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "telemetry",
+        "on"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-23-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "test",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-24-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "tool",
+        "compile",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-25-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "tool",
+        "cover",
+        "-func=coverage.out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-26-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "tool",
+        "covdata",
+        "percent",
+        "-i=coverage"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-27-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "tool",
+        "test2json",
+        "./test.binary"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-28-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "tool",
+        "pprof",
+        "cpu.pprof"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-29-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "tool",
+        "trace",
+        "trace.out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-30-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-31-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "vet",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-32-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "work",
+        "edit",
+        "-go=1.27"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-33-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "work",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-34-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "work",
+        "sync"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-35-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "work",
+        "use",
+        "./module"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-36-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "work",
+        "vendor"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-37-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "env",
+        "GOTOOLCHAIN"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-38-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-39-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "env",
+        "GOWORK"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-40-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "env",
+        "GOMOD",
+        "GOWORK"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-41-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "env",
+        "-json",
+        "GOMOD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-42-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "env",
+        "GOPROXY"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-43-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "env",
+        "-w",
+        "GOTOOLCHAIN=auto"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-44-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "env",
+        "-u",
+        "GOPROXY"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-45-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "env",
+        "-changed"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-46-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "version",
+        "-m",
+        "/outside/binary"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-47-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "version",
+        "-w",
+        "binary"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-48-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "test",
+        "-run=^$",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-49-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "test",
+        "-c",
+        "-o",
+        "/outside/test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-50-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "test",
+        "-coverprofile=/outside/coverage.out",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-51-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "test",
+        "-cpuprofile",
+        "/outside/cpu",
+        "-memprofile=/outside/mem",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-52-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "test",
+        "-outputdir",
+        "/outside",
+        "-args",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-53-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "test",
+        "-exec=/outside/runner",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-54-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "build",
+        "-toolexec=/outside/runner",
+        "-o=/outside/acme",
+        "./cmd/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-55-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "build",
+        "-overlay=/outside/overlay.json",
+        "-modfile=/outside/go.mod",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-56-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "build",
+        "-buildmode=plugin",
+        "-pkgdir=/outside/cache",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-57-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "generate",
+        "-n",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-58-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "run",
+        "example.com/acme@latest",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-59-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "run",
+        "./script.go",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-60-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "tool",
+        "example",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-61-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "tool",
+        "-n",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-62-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "tool",
+        "cover",
+        "-html=coverage.out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-63-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "tool",
+        "covdata",
+        "merge",
+        "-i=one,two",
+        "-o=/outside/coverage"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-64-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "mod",
+        "download",
+        "-json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-65-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "mod",
+        "tidy",
+        "-diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-66-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "get",
+        "-tool",
+        "example.com/tool@latest"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-67-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "telemetry",
+        "off"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-68-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "help",
+        "testflag"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-69-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "build",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-70-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-71-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-72-loose",
+      "profile": "loose",
+      "argv": [
+        "go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-73-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-74-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-75-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C="
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-76-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "-C",
+        ".",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-77-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-78-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C=.",
+        "env",
+        "GOWORK"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-79-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C",
+        "/outside",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-80-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C=.",
+        "env",
+        "-w",
+        "GOPROXY=https://packages.example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-81-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "build",
+        "-o"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-82-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "test",
+        "-exec"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-83-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "mod",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-84-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "build",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-85-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "test",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-86-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "generate",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-87-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "install",
+        "example.com/tool@latest"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-88-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "mod",
+        "tidy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-89-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "tool",
+        "cover",
+        "-html=coverage.out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-90-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "env",
+        "-w",
+        "GOTOOLCHAIN=auto"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-91-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C=.",
+        "build",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-92-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C=.",
+        "test",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-93-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C=.",
+        "generate",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-94-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C=.",
+        "install",
+        "example.com/tool@latest"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-95-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C=.",
+        "mod",
+        "tidy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-96-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C=.",
+        "tool",
+        "cover",
+        "-html=coverage.out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-97-loose",
+      "profile": "loose",
+      "argv": [
+        "go",
+        "-C=.",
+        "env",
+        "-w",
+        "GOTOOLCHAIN=auto"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-98-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-99-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-100-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-101-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-l",
+        "-d",
+        "src"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-102-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-w=false",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-103-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "--w=false",
+        "--d",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-104-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-r",
+        "a[b:len(a)] -> a[b:]",
+        "-w",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-105-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-r=a[b:len(a)] -> a[b:]",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-106-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-future-display",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-107-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "main.go",
+        "other.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-108-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-w",
+        "/outside/main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-109-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-w",
+        "../main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-110-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-w",
+        ".shield/policy.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-111-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-w",
+        ".git/main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-112-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-w",
+        ".codex/config.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-113-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-w",
+        "src",
+        "/outside/main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-114-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-w",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-115-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-w",
+        "--",
+        "/outside/main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-116-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-117-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-r"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-118-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-cpuprofile",
+        "cpu.pprof",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-119-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-cpuprofile=/outside/cpu.pprof",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-120-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "--cpuprofile=/outside/cpu.pprof",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-121-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-cpuprofile=/outside/cpu\nprofile",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-122-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-w",
+        "main.go",
+        "-cpuprofile=/outside/cpu"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-123-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-124-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-125-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "run",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-126-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "fmt",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-127-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "migrate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-128-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "formatters"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-129-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "linters"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-130-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "cache",
+        "clean"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-131-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "cache",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-132-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "config",
+        "path"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-133-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "config",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-134-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "custom",
+        "--destination",
+        "/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-135-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "completion",
+        "zsh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-136-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "help",
+        "linters"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-137-loose",
+      "profile": "loose",
+      "argv": [
+        "gotestsum",
+        "tool",
+        "slowest",
+        "--jsonfile",
+        "tests.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-138-loose",
+      "profile": "loose",
+      "argv": [
+        "gotestsum",
+        "tool",
+        "ci-matrix",
+        "--input",
+        "timing.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-139-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo",
+        "watch"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-140-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-141-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo",
+        "bootstrap"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-142-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo",
+        "generate",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-143-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo",
+        "labels"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-144-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo",
+        "outline",
+        "suite_test.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-145-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo",
+        "unfocus"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-146-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo",
+        "completion"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-147-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo",
+        "convert"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-148-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo",
+        "blur"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-149-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo",
+        "nodot"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-150-loose",
+      "profile": "loose",
+      "argv": [
+        "gocov",
+        "test",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-151-loose",
+      "profile": "loose",
+      "argv": [
+        "gocov",
+        "convert",
+        "coverage.out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-152-loose",
+      "profile": "loose",
+      "argv": [
+        "gocov",
+        "report",
+        "coverage.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-153-loose",
+      "profile": "loose",
+      "argv": [
+        "gocov",
+        "annotate",
+        "coverage.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-154-loose",
+      "profile": "loose",
+      "argv": [
+        "gofumpt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-155-loose",
+      "profile": "loose",
+      "argv": [
+        "gofumpt",
+        "-lang=go1.27",
+        "-modpath=example.com/acme",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-156-loose",
+      "profile": "loose",
+      "argv": [
+        "gofumpt",
+        "-cpuprofile=/outside/profile",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-157-loose",
+      "profile": "loose",
+      "argv": [
+        "goimports",
+        "-w",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-158-loose",
+      "profile": "loose",
+      "argv": [
+        "goimports",
+        "-srcdir",
+        "/outside",
+        "-local",
+        "example.com/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-159-loose",
+      "profile": "loose",
+      "argv": [
+        "goimports",
+        "-cpuprofile=/outside/cpu",
+        "-memprofile=/outside/mem",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-160-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "run",
+        "--fix",
+        "--config=/outside/lint.yml",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-161-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "run",
+        "--output.json.path=/outside/report",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-162-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "fmt",
+        "--diff",
+        "--enable",
+        "gofumpt",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-163-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-164-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-165-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "version",
+        "--json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-166-loose",
+      "profile": "loose",
+      "argv": [
+        "govulncheck",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-167-loose",
+      "profile": "loose",
+      "argv": [
+        "govulncheck",
+        "-mode=binary",
+        "/outside/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-168-loose",
+      "profile": "loose",
+      "argv": [
+        "govulncheck",
+        "-mode=extract",
+        "/outside/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-169-loose",
+      "profile": "loose",
+      "argv": [
+        "govulncheck",
+        "-mode=convert",
+        "-format=sarif"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-170-loose",
+      "profile": "loose",
+      "argv": [
+        "govulncheck",
+        "-mode=query",
+        "-json",
+        "example.com/acme@v1.0.0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-171-loose",
+      "profile": "loose",
+      "argv": [
+        "govulncheck",
+        "-db=https://audit.example.com",
+        "-C",
+        "/outside",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-172-loose",
+      "profile": "loose",
+      "argv": [
+        "govulncheck",
+        "-scan=module",
+        "-test",
+        "-tags=integration"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-173-loose",
+      "profile": "loose",
+      "argv": [
+        "govulncheck",
+        "-version",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-174-loose",
+      "profile": "loose",
+      "argv": [
+        "staticcheck",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-175-loose",
+      "profile": "loose",
+      "argv": [
+        "staticcheck",
+        "-checks=all",
+        "-f",
+        "json",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-176-loose",
+      "profile": "loose",
+      "argv": [
+        "staticcheck",
+        "-list-checks"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-177-loose",
+      "profile": "loose",
+      "argv": [
+        "staticcheck",
+        "-explain",
+        "SA1000"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-178-loose",
+      "profile": "loose",
+      "argv": [
+        "staticcheck",
+        "-explain",
+        "/outside/config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-179-loose",
+      "profile": "loose",
+      "argv": [
+        "staticcheck",
+        "@args.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-180-loose",
+      "profile": "loose",
+      "argv": [
+        "staticcheck",
+        "-list-checks",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-181-loose",
+      "profile": "loose",
+      "argv": [
+        "gotestsum"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-182-loose",
+      "profile": "loose",
+      "argv": [
+        "gotestsum",
+        "--",
+        "-race",
+        "-coverprofile=/outside/cover",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-183-loose",
+      "profile": "loose",
+      "argv": [
+        "gotestsum",
+        "--raw-command",
+        "--",
+        "./scripts/test.sh",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-184-loose",
+      "profile": "loose",
+      "argv": [
+        "gotestsum",
+        "--watch",
+        "--post-run-command",
+        "/outside/hook"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-185-loose",
+      "profile": "loose",
+      "argv": [
+        "gotestsum",
+        "--junitfile",
+        "/outside/junit.xml",
+        "--jsonfile",
+        "/outside/tests.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-186-loose",
+      "profile": "loose",
+      "argv": [
+        "gotestsum",
+        "tool",
+        "slowest",
+        "--skip-stmt",
+        "src/main_test.go",
+        "--jsonfile",
+        "tests.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-187-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-188-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo",
+        "-r",
+        "--dry-run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-189-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-190-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo",
+        "--cover",
+        "--coverprofile=/outside/coverage",
+        "--json-report=/outside/report",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-191-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo",
+        "--after-run-hook=/outside/hook",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-192-loose",
+      "profile": "loose",
+      "argv": [
+        "gocov-xml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-193-loose",
+      "profile": "loose",
+      "argv": [
+        "gocover-cobertura"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-194-loose",
+      "profile": "loose",
+      "argv": [
+        "gocover-cobertura",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-195-loose",
+      "profile": "loose",
+      "argv": [
+        "gocover-cobertura",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-196-loose",
+      "profile": "loose",
+      "argv": [
+        "gocov-xml",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-197-loose",
+      "profile": "loose",
+      "argv": [
+        "gocov",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-198-loose",
+      "profile": "loose",
+      "argv": [
+        "go-junit-report"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-199-loose",
+      "profile": "loose",
+      "argv": [
+        "go-junit-report",
+        "-parser=gojson"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-200-loose",
+      "profile": "loose",
+      "argv": [
+        "go-junit-report",
+        "-p",
+        "suite=acme",
+        "-set-exit-code",
+        "-no-xml-header"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-201-loose",
+      "profile": "loose",
+      "argv": [
+        "go-junit-report",
+        "-package-name",
+        "acme",
+        "-subtest-mode=exclude-parents"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-202-loose",
+      "profile": "loose",
+      "argv": [
+        "go-junit-report",
+        "-in",
+        "tests.log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-203-loose",
+      "profile": "loose",
+      "argv": [
+        "go-junit-report",
+        "-in=/outside/log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-204-loose",
+      "profile": "loose",
+      "argv": [
+        "go-junit-report",
+        "--in=/outside/log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-205-loose",
+      "profile": "loose",
+      "argv": [
+        "go-junit-report",
+        "-out",
+        "junit.xml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-206-loose",
+      "profile": "loose",
+      "argv": [
+        "go-junit-report",
+        "--out=/outside/report.xml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-207-loose",
+      "profile": "loose",
+      "argv": [
+        "go-junit-report",
+        "--out=/outside/report\n.xml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-208-loose",
+      "profile": "loose",
+      "argv": [
+        "go-junit-report",
+        "-in",
+        "tests.log",
+        "-out",
+        ".git/report.xml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-209-loose",
+      "profile": "loose",
+      "argv": [
+        "go-junit-report",
+        "-p"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-210-loose",
+      "profile": "loose",
+      "argv": [
+        "go-junit-report",
+        "-out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-211-loose",
+      "profile": "loose",
+      "argv": [
+        "gofumpt",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-212-loose",
+      "profile": "loose",
+      "argv": [
+        "govulncheck",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-213-loose",
+      "profile": "loose",
+      "argv": [
+        "staticcheck",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-214-loose",
+      "profile": "loose",
+      "argv": [
+        "go-junit-report",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-215-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-216-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-217-loose",
+      "profile": "loose",
+      "argv": [
+        "gofumpt",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-218-loose",
+      "profile": "loose",
+      "argv": [
+        "gofumpt",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-219-loose",
+      "profile": "loose",
+      "argv": [
+        "goimports",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-220-loose",
+      "profile": "loose",
+      "argv": [
+        "goimports",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-221-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-222-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-223-loose",
+      "profile": "loose",
+      "argv": [
+        "govulncheck",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-224-loose",
+      "profile": "loose",
+      "argv": [
+        "govulncheck",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-225-loose",
+      "profile": "loose",
+      "argv": [
+        "staticcheck",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-226-loose",
+      "profile": "loose",
+      "argv": [
+        "staticcheck",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-227-loose",
+      "profile": "loose",
+      "argv": [
+        "gotestsum",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-228-loose",
+      "profile": "loose",
+      "argv": [
+        "gotestsum",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-229-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-230-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-231-loose",
+      "profile": "loose",
+      "argv": [
+        "go-junit-report",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-232-loose",
+      "profile": "loose",
+      "argv": [
+        "go-junit-report",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-233-loose",
+      "profile": "loose",
+      "argv": [
+        "gotestsum",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-234-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-235-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/local/bin/go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-236-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-237-loose",
+      "profile": "loose",
+      "argv": [
+        "go-unrelated",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-238-loose",
+      "profile": "loose",
+      "argv": [
+        "/outside/bin/go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-239-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/gofmt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-240-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/local/bin/gofmt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-241-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/gofmt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-242-loose",
+      "profile": "loose",
+      "argv": [
+        "gofmt-unrelated",
+        "-w",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-243-loose",
+      "profile": "loose",
+      "argv": [
+        "/outside/bin/gofmt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-244-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/gofumpt",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-245-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/local/bin/gofumpt",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-246-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/gofumpt",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-247-loose",
+      "profile": "loose",
+      "argv": [
+        "gofumpt-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-248-loose",
+      "profile": "loose",
+      "argv": [
+        "/outside/bin/gofumpt",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-249-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/goimports",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-250-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/local/bin/goimports",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-251-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/goimports",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-252-loose",
+      "profile": "loose",
+      "argv": [
+        "goimports-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-253-loose",
+      "profile": "loose",
+      "argv": [
+        "/outside/bin/goimports",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-254-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/golangci-lint",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-255-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/local/bin/golangci-lint",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-256-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/golangci-lint",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-257-loose",
+      "profile": "loose",
+      "argv": [
+        "golangci-lint-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-258-loose",
+      "profile": "loose",
+      "argv": [
+        "/outside/bin/golangci-lint",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-259-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/govulncheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-260-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/local/bin/govulncheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-261-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/govulncheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-262-loose",
+      "profile": "loose",
+      "argv": [
+        "govulncheck-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-263-loose",
+      "profile": "loose",
+      "argv": [
+        "/outside/bin/govulncheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-264-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/staticcheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-265-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/local/bin/staticcheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-266-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/staticcheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-267-loose",
+      "profile": "loose",
+      "argv": [
+        "staticcheck-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-268-loose",
+      "profile": "loose",
+      "argv": [
+        "/outside/bin/staticcheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-269-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/gotestsum",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-270-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/local/bin/gotestsum",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-271-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/gotestsum",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-272-loose",
+      "profile": "loose",
+      "argv": [
+        "gotestsum-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-273-loose",
+      "profile": "loose",
+      "argv": [
+        "/outside/bin/gotestsum",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-274-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/ginkgo",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-275-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/local/bin/ginkgo",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-276-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/ginkgo",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-277-loose",
+      "profile": "loose",
+      "argv": [
+        "ginkgo-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-278-loose",
+      "profile": "loose",
+      "argv": [
+        "/outside/bin/ginkgo",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-279-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/gocov",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-280-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/local/bin/gocov",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-281-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/gocov",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-282-loose",
+      "profile": "loose",
+      "argv": [
+        "gocov-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-283-loose",
+      "profile": "loose",
+      "argv": [
+        "/outside/bin/gocov",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-284-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/gocov-xml",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-285-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/local/bin/gocov-xml",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-286-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/gocov-xml",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-287-loose",
+      "profile": "loose",
+      "argv": [
+        "gocov-xml-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-288-loose",
+      "profile": "loose",
+      "argv": [
+        "/outside/bin/gocov-xml",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-289-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/gocover-cobertura",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-290-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/local/bin/gocover-cobertura",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-291-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/gocover-cobertura",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-292-loose",
+      "profile": "loose",
+      "argv": [
+        "gocover-cobertura-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-293-loose",
+      "profile": "loose",
+      "argv": [
+        "/outside/bin/gocover-cobertura",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-294-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/go-junit-report"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-295-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/local/bin/go-junit-report"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-296-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/go-junit-report"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-297-loose",
+      "profile": "loose",
+      "argv": [
+        "go-junit-report-unrelated"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-298-loose",
+      "profile": "loose",
+      "argv": [
+        "/outside/bin/go-junit-report"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-299-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/local/go/bin/go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-300-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/lib/go/bin/go",
+        "-C",
+        ".",
+        "test",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-301-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/lib/golang/bin/gofmt",
+        "-w",
+        "src"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-302-loose",
+      "profile": "loose",
+      "argv": [
+        "go1.27.4",
+        "test",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-303-loose",
+      "profile": "loose",
+      "argv": [
+        ".local/bin/govulncheck",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "bug"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "build",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "clean",
+        "-cache",
+        "-testcache",
+        "-modcache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "doc",
+        "net/http"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "env"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-5-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "fix",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-6-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "fmt",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-7-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "generate",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-8-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "get",
+        "example.com/acme@v1.0.0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-9-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-10-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "help",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-11-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "install",
+        "example.com/acme@v1.0.0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-12-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "list",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-13-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "mod",
+        "download"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-14-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "mod",
+        "edit",
+        "-replace=example.com/old=../new"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-15-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "mod",
+        "graph"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-16-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "mod",
+        "init",
+        "example.com/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-17-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "mod",
+        "tidy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-18-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "mod",
+        "vendor"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-19-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "mod",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-20-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "mod",
+        "why",
+        "example.com/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-21-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "run",
+        "./cmd/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-22-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "telemetry",
+        "on"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-23-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "test",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-24-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "tool",
+        "compile",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-25-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "tool",
+        "cover",
+        "-func=coverage.out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-26-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "tool",
+        "covdata",
+        "percent",
+        "-i=coverage"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-27-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "tool",
+        "test2json",
+        "./test.binary"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-28-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "tool",
+        "pprof",
+        "cpu.pprof"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-29-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "tool",
+        "trace",
+        "trace.out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-30-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-31-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "vet",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-32-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "work",
+        "edit",
+        "-go=1.27"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-33-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "work",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-34-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "work",
+        "sync"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-35-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "work",
+        "use",
+        "./module"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-36-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "work",
+        "vendor"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-37-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "env",
+        "GOTOOLCHAIN"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-38-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-39-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "env",
+        "GOWORK"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-40-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "env",
+        "GOMOD",
+        "GOWORK"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-41-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "env",
+        "-json",
+        "GOMOD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-42-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "env",
+        "GOPROXY"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-43-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "env",
+        "-w",
+        "GOTOOLCHAIN=auto"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-44-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "env",
+        "-u",
+        "GOPROXY"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-45-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "env",
+        "-changed"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-46-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "version",
+        "-m",
+        "/outside/binary"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-47-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "version",
+        "-w",
+        "binary"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-48-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "test",
+        "-run=^$",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-49-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "test",
+        "-c",
+        "-o",
+        "/outside/test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-50-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "test",
+        "-coverprofile=/outside/coverage.out",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-51-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "test",
+        "-cpuprofile",
+        "/outside/cpu",
+        "-memprofile=/outside/mem",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-52-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "test",
+        "-outputdir",
+        "/outside",
+        "-args",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-53-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "test",
+        "-exec=/outside/runner",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-54-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "build",
+        "-toolexec=/outside/runner",
+        "-o=/outside/acme",
+        "./cmd/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-55-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "build",
+        "-overlay=/outside/overlay.json",
+        "-modfile=/outside/go.mod",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-56-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "build",
+        "-buildmode=plugin",
+        "-pkgdir=/outside/cache",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-57-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "generate",
+        "-n",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-58-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "run",
+        "example.com/acme@latest",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-59-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "run",
+        "./script.go",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-60-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "tool",
+        "example",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-61-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "tool",
+        "-n",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-62-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "tool",
+        "cover",
+        "-html=coverage.out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-63-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "tool",
+        "covdata",
+        "merge",
+        "-i=one,two",
+        "-o=/outside/coverage"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-64-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "mod",
+        "download",
+        "-json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-65-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "mod",
+        "tidy",
+        "-diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-66-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "get",
+        "-tool",
+        "example.com/tool@latest"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-67-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "telemetry",
+        "off"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-68-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "help",
+        "testflag"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-69-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "build",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-70-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-71-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-72-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-73-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-74-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-75-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C="
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-76-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "-C",
+        ".",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-77-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-78-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C=.",
+        "env",
+        "GOWORK"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-79-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C",
+        "/outside",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-80-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C=.",
+        "env",
+        "-w",
+        "GOPROXY=https://packages.example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-81-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "build",
+        "-o"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-82-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "test",
+        "-exec"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-83-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "mod",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-84-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "build",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-85-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "test",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-86-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "generate",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-87-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "install",
+        "example.com/tool@latest"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-88-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "mod",
+        "tidy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-89-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "tool",
+        "cover",
+        "-html=coverage.out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-90-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "env",
+        "-w",
+        "GOTOOLCHAIN=auto"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-91-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C=.",
+        "build",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-92-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C=.",
+        "test",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-93-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C=.",
+        "generate",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-94-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C=.",
+        "install",
+        "example.com/tool@latest"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-95-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C=.",
+        "mod",
+        "tidy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-96-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C=.",
+        "tool",
+        "cover",
+        "-html=coverage.out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-97-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go",
+        "-C=.",
+        "env",
+        "-w",
+        "GOTOOLCHAIN=auto"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-98-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-99-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-100-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-101-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-l",
+        "-d",
+        "src"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-102-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-w=false",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-103-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "--w=false",
+        "--d",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-104-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-r",
+        "a[b:len(a)] -> a[b:]",
+        "-w",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-105-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-r=a[b:len(a)] -> a[b:]",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-106-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-future-display",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-107-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "main.go",
+        "other.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-108-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-w",
+        "/outside/main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-109-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-w",
+        "../main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-110-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-w",
+        ".shield/policy.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-111-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-w",
+        ".git/main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-112-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-w",
+        ".codex/config.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-113-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-w",
+        "src",
+        "/outside/main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-114-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-w",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-115-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-w",
+        "--",
+        "/outside/main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-116-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-117-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-r"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-118-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-cpuprofile",
+        "cpu.pprof",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-119-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-cpuprofile=/outside/cpu.pprof",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-120-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "--cpuprofile=/outside/cpu.pprof",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-121-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-cpuprofile=/outside/cpu\nprofile",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-122-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-w",
+        "main.go",
+        "-cpuprofile=/outside/cpu"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-123-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-124-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-125-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "run",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-126-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "fmt",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-127-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "migrate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-128-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "formatters"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-129-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "linters"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-130-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "cache",
+        "clean"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-131-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "cache",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-132-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "config",
+        "path"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-133-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "config",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-134-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "custom",
+        "--destination",
+        "/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-135-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "completion",
+        "zsh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-136-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "help",
+        "linters"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-137-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gotestsum",
+        "tool",
+        "slowest",
+        "--jsonfile",
+        "tests.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-138-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gotestsum",
+        "tool",
+        "ci-matrix",
+        "--input",
+        "timing.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-139-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo",
+        "watch"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-140-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-141-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo",
+        "bootstrap"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-142-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo",
+        "generate",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-143-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo",
+        "labels"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-144-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo",
+        "outline",
+        "suite_test.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-145-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo",
+        "unfocus"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-146-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo",
+        "completion"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-147-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo",
+        "convert"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-148-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo",
+        "blur"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-149-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo",
+        "nodot"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-150-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gocov",
+        "test",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-151-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gocov",
+        "convert",
+        "coverage.out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-152-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gocov",
+        "report",
+        "coverage.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-153-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gocov",
+        "annotate",
+        "coverage.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-154-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofumpt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-155-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofumpt",
+        "-lang=go1.27",
+        "-modpath=example.com/acme",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-156-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofumpt",
+        "-cpuprofile=/outside/profile",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-157-recommended",
+      "profile": "recommended",
+      "argv": [
+        "goimports",
+        "-w",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-158-recommended",
+      "profile": "recommended",
+      "argv": [
+        "goimports",
+        "-srcdir",
+        "/outside",
+        "-local",
+        "example.com/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-159-recommended",
+      "profile": "recommended",
+      "argv": [
+        "goimports",
+        "-cpuprofile=/outside/cpu",
+        "-memprofile=/outside/mem",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-160-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "run",
+        "--fix",
+        "--config=/outside/lint.yml",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-161-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "run",
+        "--output.json.path=/outside/report",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-162-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "fmt",
+        "--diff",
+        "--enable",
+        "gofumpt",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-163-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-164-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-165-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "version",
+        "--json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-166-recommended",
+      "profile": "recommended",
+      "argv": [
+        "govulncheck",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-167-recommended",
+      "profile": "recommended",
+      "argv": [
+        "govulncheck",
+        "-mode=binary",
+        "/outside/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-168-recommended",
+      "profile": "recommended",
+      "argv": [
+        "govulncheck",
+        "-mode=extract",
+        "/outside/acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-169-recommended",
+      "profile": "recommended",
+      "argv": [
+        "govulncheck",
+        "-mode=convert",
+        "-format=sarif"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-170-recommended",
+      "profile": "recommended",
+      "argv": [
+        "govulncheck",
+        "-mode=query",
+        "-json",
+        "example.com/acme@v1.0.0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-171-recommended",
+      "profile": "recommended",
+      "argv": [
+        "govulncheck",
+        "-db=https://audit.example.com",
+        "-C",
+        "/outside",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-172-recommended",
+      "profile": "recommended",
+      "argv": [
+        "govulncheck",
+        "-scan=module",
+        "-test",
+        "-tags=integration"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-173-recommended",
+      "profile": "recommended",
+      "argv": [
+        "govulncheck",
+        "-version",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-174-recommended",
+      "profile": "recommended",
+      "argv": [
+        "staticcheck",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-175-recommended",
+      "profile": "recommended",
+      "argv": [
+        "staticcheck",
+        "-checks=all",
+        "-f",
+        "json",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-176-recommended",
+      "profile": "recommended",
+      "argv": [
+        "staticcheck",
+        "-list-checks"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-177-recommended",
+      "profile": "recommended",
+      "argv": [
+        "staticcheck",
+        "-explain",
+        "SA1000"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-178-recommended",
+      "profile": "recommended",
+      "argv": [
+        "staticcheck",
+        "-explain",
+        "/outside/config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-179-recommended",
+      "profile": "recommended",
+      "argv": [
+        "staticcheck",
+        "@args.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-180-recommended",
+      "profile": "recommended",
+      "argv": [
+        "staticcheck",
+        "-list-checks",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-181-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gotestsum"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-182-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gotestsum",
+        "--",
+        "-race",
+        "-coverprofile=/outside/cover",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-183-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gotestsum",
+        "--raw-command",
+        "--",
+        "./scripts/test.sh",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-184-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gotestsum",
+        "--watch",
+        "--post-run-command",
+        "/outside/hook"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-185-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gotestsum",
+        "--junitfile",
+        "/outside/junit.xml",
+        "--jsonfile",
+        "/outside/tests.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-186-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gotestsum",
+        "tool",
+        "slowest",
+        "--skip-stmt",
+        "src/main_test.go",
+        "--jsonfile",
+        "tests.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-187-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-188-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo",
+        "-r",
+        "--dry-run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-189-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-190-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo",
+        "--cover",
+        "--coverprofile=/outside/coverage",
+        "--json-report=/outside/report",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-191-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo",
+        "--after-run-hook=/outside/hook",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-192-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gocov-xml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-193-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gocover-cobertura"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-194-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gocover-cobertura",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-195-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gocover-cobertura",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-196-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gocov-xml",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-197-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gocov",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-198-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-junit-report"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-199-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-junit-report",
+        "-parser=gojson"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-200-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-junit-report",
+        "-p",
+        "suite=acme",
+        "-set-exit-code",
+        "-no-xml-header"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-201-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-junit-report",
+        "-package-name",
+        "acme",
+        "-subtest-mode=exclude-parents"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-202-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-junit-report",
+        "-in",
+        "tests.log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-203-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-junit-report",
+        "-in=/outside/log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-204-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-junit-report",
+        "--in=/outside/log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-205-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-junit-report",
+        "-out",
+        "junit.xml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-206-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-junit-report",
+        "--out=/outside/report.xml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-207-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-junit-report",
+        "--out=/outside/report\n.xml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-208-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-junit-report",
+        "-in",
+        "tests.log",
+        "-out",
+        ".git/report.xml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-209-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-junit-report",
+        "-p"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-210-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-junit-report",
+        "-out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-211-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofumpt",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-212-recommended",
+      "profile": "recommended",
+      "argv": [
+        "govulncheck",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-213-recommended",
+      "profile": "recommended",
+      "argv": [
+        "staticcheck",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-214-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-junit-report",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-215-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-216-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-217-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofumpt",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-218-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofumpt",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-219-recommended",
+      "profile": "recommended",
+      "argv": [
+        "goimports",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-220-recommended",
+      "profile": "recommended",
+      "argv": [
+        "goimports",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-221-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-222-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-223-recommended",
+      "profile": "recommended",
+      "argv": [
+        "govulncheck",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-224-recommended",
+      "profile": "recommended",
+      "argv": [
+        "govulncheck",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-225-recommended",
+      "profile": "recommended",
+      "argv": [
+        "staticcheck",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-226-recommended",
+      "profile": "recommended",
+      "argv": [
+        "staticcheck",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-227-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gotestsum",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-228-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gotestsum",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-229-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-230-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-231-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-junit-report",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-232-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-junit-report",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-233-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gotestsum",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-234-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-235-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-236-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-237-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-unrelated",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-238-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/outside/bin/go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-239-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/gofmt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-240-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/gofmt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-241-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/gofmt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-242-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofmt-unrelated",
+        "-w",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-243-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/outside/bin/gofmt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-244-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/gofumpt",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-245-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/gofumpt",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-246-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/gofumpt",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-247-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gofumpt-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-248-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/outside/bin/gofumpt",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-249-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/goimports",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-250-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/goimports",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-251-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/goimports",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-252-recommended",
+      "profile": "recommended",
+      "argv": [
+        "goimports-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-253-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/outside/bin/goimports",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-254-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/golangci-lint",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-255-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/golangci-lint",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-256-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/golangci-lint",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-257-recommended",
+      "profile": "recommended",
+      "argv": [
+        "golangci-lint-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-258-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/outside/bin/golangci-lint",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-259-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/govulncheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-260-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/govulncheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-261-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/govulncheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-262-recommended",
+      "profile": "recommended",
+      "argv": [
+        "govulncheck-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-263-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/outside/bin/govulncheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-264-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/staticcheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-265-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/staticcheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-266-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/staticcheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-267-recommended",
+      "profile": "recommended",
+      "argv": [
+        "staticcheck-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-268-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/outside/bin/staticcheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-269-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/gotestsum",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-270-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/gotestsum",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-271-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/gotestsum",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-272-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gotestsum-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-273-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/outside/bin/gotestsum",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-274-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/ginkgo",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-275-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/ginkgo",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-276-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/ginkgo",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-277-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ginkgo-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-278-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/outside/bin/ginkgo",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-279-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/gocov",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-280-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/gocov",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-281-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/gocov",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-282-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gocov-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-283-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/outside/bin/gocov",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-284-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/gocov-xml",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-285-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/gocov-xml",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-286-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/gocov-xml",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-287-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gocov-xml-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-288-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/outside/bin/gocov-xml",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-289-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/gocover-cobertura",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-290-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/gocover-cobertura",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-291-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/gocover-cobertura",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-292-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gocover-cobertura-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-293-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/outside/bin/gocover-cobertura",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-294-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/go-junit-report"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-295-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/bin/go-junit-report"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-296-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/go-junit-report"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-297-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go-junit-report-unrelated"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-298-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/outside/bin/go-junit-report"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-299-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/local/go/bin/go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-300-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/lib/go/bin/go",
+        "-C",
+        ".",
+        "test",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-301-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/lib/golang/bin/gofmt",
+        "-w",
+        "src"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-302-recommended",
+      "profile": "recommended",
+      "argv": [
+        "go1.27.4",
+        "test",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-303-recommended",
+      "profile": "recommended",
+      "argv": [
+        ".local/bin/govulncheck",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-0-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "bug"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-1-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "build",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-2-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "clean",
+        "-cache",
+        "-testcache",
+        "-modcache"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-3-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "doc",
+        "net/http"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-4-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "env"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-5-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "fix",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-6-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "fmt",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-7-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "generate",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-8-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "get",
+        "example.com/acme@v1.0.0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-9-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-10-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "help",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-11-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "install",
+        "example.com/acme@v1.0.0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-12-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "list",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-13-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "mod",
+        "download"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-14-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "mod",
+        "edit",
+        "-replace=example.com/old=../new"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-15-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "mod",
+        "graph"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-16-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "mod",
+        "init",
+        "example.com/acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-17-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "mod",
+        "tidy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-18-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "mod",
+        "vendor"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-19-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "mod",
+        "verify"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-20-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "mod",
+        "why",
+        "example.com/acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-21-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "run",
+        "./cmd/acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-22-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "telemetry",
+        "on"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-23-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "test",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-24-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "tool",
+        "compile",
+        "main.go"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-25-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "tool",
+        "cover",
+        "-func=coverage.out"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-26-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "tool",
+        "covdata",
+        "percent",
+        "-i=coverage"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-27-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "tool",
+        "test2json",
+        "./test.binary"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-28-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "tool",
+        "pprof",
+        "cpu.pprof"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-29-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "tool",
+        "trace",
+        "trace.out"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-30-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-31-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "vet",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-32-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "work",
+        "edit",
+        "-go=1.27"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-33-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "work",
+        "init"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-34-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "work",
+        "sync"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-35-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "work",
+        "use",
+        "./module"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-36-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "work",
+        "vendor"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-37-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "env",
+        "GOTOOLCHAIN"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-38-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-39-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "env",
+        "GOWORK"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-40-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "env",
+        "GOMOD",
+        "GOWORK"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-41-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "env",
+        "-json",
+        "GOMOD"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-42-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "env",
+        "GOPROXY"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-43-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "env",
+        "-w",
+        "GOTOOLCHAIN=auto"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-44-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "env",
+        "-u",
+        "GOPROXY"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-45-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "env",
+        "-changed"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-46-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "version",
+        "-m",
+        "/outside/binary"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-47-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "version",
+        "-w",
+        "binary"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-48-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "test",
+        "-run=^$",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-49-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "test",
+        "-c",
+        "-o",
+        "/outside/test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-50-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "test",
+        "-coverprofile=/outside/coverage.out",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-51-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "test",
+        "-cpuprofile",
+        "/outside/cpu",
+        "-memprofile=/outside/mem",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-52-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "test",
+        "-outputdir",
+        "/outside",
+        "-args",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-53-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "test",
+        "-exec=/outside/runner",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-54-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "build",
+        "-toolexec=/outside/runner",
+        "-o=/outside/acme",
+        "./cmd/acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-55-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "build",
+        "-overlay=/outside/overlay.json",
+        "-modfile=/outside/go.mod",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-56-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "build",
+        "-buildmode=plugin",
+        "-pkgdir=/outside/cache",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-57-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "generate",
+        "-n",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-58-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "run",
+        "example.com/acme@latest",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-59-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "run",
+        "./script.go",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-60-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "tool",
+        "example",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-61-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "tool",
+        "-n",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-62-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "tool",
+        "cover",
+        "-html=coverage.out"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-63-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "tool",
+        "covdata",
+        "merge",
+        "-i=one,two",
+        "-o=/outside/coverage"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-64-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "mod",
+        "download",
+        "-json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-65-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "mod",
+        "tidy",
+        "-diff"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-66-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "get",
+        "-tool",
+        "example.com/tool@latest"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-67-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "telemetry",
+        "off"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-68-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "help",
+        "testflag"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-69-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "build",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-70-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-71-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-72-strict",
+      "profile": "strict",
+      "argv": [
+        "go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-73-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-74-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-75-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C="
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-76-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "-C",
+        ".",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-77-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-78-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C=.",
+        "env",
+        "GOWORK"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-79-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C",
+        "/outside",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-80-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C=.",
+        "env",
+        "-w",
+        "GOPROXY=https://packages.example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-81-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "build",
+        "-o"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-82-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "test",
+        "-exec"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-83-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "mod",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-84-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "build",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-85-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "test",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-86-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "generate",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-87-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "install",
+        "example.com/tool@latest"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-88-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "mod",
+        "tidy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-89-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "tool",
+        "cover",
+        "-html=coverage.out"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-90-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C",
+        ".",
+        "env",
+        "-w",
+        "GOTOOLCHAIN=auto"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-91-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C=.",
+        "build",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-92-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C=.",
+        "test",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-93-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C=.",
+        "generate",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-94-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C=.",
+        "install",
+        "example.com/tool@latest"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-95-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C=.",
+        "mod",
+        "tidy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-96-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C=.",
+        "tool",
+        "cover",
+        "-html=coverage.out"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-97-strict",
+      "profile": "strict",
+      "argv": [
+        "go",
+        "-C=.",
+        "env",
+        "-w",
+        "GOTOOLCHAIN=auto"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-98-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-99-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-100-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-101-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-l",
+        "-d",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-102-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-w=false",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-103-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "--w=false",
+        "--d",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-104-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-r",
+        "a[b:len(a)] -> a[b:]",
+        "-w",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-105-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-r=a[b:len(a)] -> a[b:]",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-106-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-future-display",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-107-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "main.go",
+        "other.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-108-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-w",
+        "/outside/main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-109-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-w",
+        "../main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-110-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-w",
+        ".shield/policy.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-111-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-w",
+        ".git/main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-112-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-w",
+        ".codex/config.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-113-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-w",
+        "src",
+        "/outside/main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-114-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-w",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-115-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-w",
+        "--",
+        "/outside/main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-116-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-117-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-r"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-118-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-cpuprofile",
+        "cpu.pprof",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-119-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-cpuprofile=/outside/cpu.pprof",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-120-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "--cpuprofile=/outside/cpu.pprof",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-121-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-cpuprofile=/outside/cpu\nprofile",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-122-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-w",
+        "main.go",
+        "-cpuprofile=/outside/cpu"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-123-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-124-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-125-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "run",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-126-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "fmt",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-127-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "migrate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-128-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "formatters"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-129-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "linters"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-130-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "cache",
+        "clean"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-131-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "cache",
+        "status"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-132-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "config",
+        "path"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-133-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "config",
+        "verify"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-134-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "custom",
+        "--destination",
+        "/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-135-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "completion",
+        "zsh"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-136-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "help",
+        "linters"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-137-strict",
+      "profile": "strict",
+      "argv": [
+        "gotestsum",
+        "tool",
+        "slowest",
+        "--jsonfile",
+        "tests.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-138-strict",
+      "profile": "strict",
+      "argv": [
+        "gotestsum",
+        "tool",
+        "ci-matrix",
+        "--input",
+        "timing.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-139-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo",
+        "watch"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-140-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-141-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo",
+        "bootstrap"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-142-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo",
+        "generate",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-143-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo",
+        "labels"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-144-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo",
+        "outline",
+        "suite_test.go"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-145-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo",
+        "unfocus"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-146-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo",
+        "completion"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-147-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo",
+        "convert"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-148-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo",
+        "blur"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-149-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo",
+        "nodot"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-150-strict",
+      "profile": "strict",
+      "argv": [
+        "gocov",
+        "test",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-151-strict",
+      "profile": "strict",
+      "argv": [
+        "gocov",
+        "convert",
+        "coverage.out"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-152-strict",
+      "profile": "strict",
+      "argv": [
+        "gocov",
+        "report",
+        "coverage.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-153-strict",
+      "profile": "strict",
+      "argv": [
+        "gocov",
+        "annotate",
+        "coverage.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-154-strict",
+      "profile": "strict",
+      "argv": [
+        "gofumpt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-155-strict",
+      "profile": "strict",
+      "argv": [
+        "gofumpt",
+        "-lang=go1.27",
+        "-modpath=example.com/acme",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-156-strict",
+      "profile": "strict",
+      "argv": [
+        "gofumpt",
+        "-cpuprofile=/outside/profile",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-157-strict",
+      "profile": "strict",
+      "argv": [
+        "goimports",
+        "-w",
+        "main.go"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-158-strict",
+      "profile": "strict",
+      "argv": [
+        "goimports",
+        "-srcdir",
+        "/outside",
+        "-local",
+        "example.com/acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-159-strict",
+      "profile": "strict",
+      "argv": [
+        "goimports",
+        "-cpuprofile=/outside/cpu",
+        "-memprofile=/outside/mem",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-160-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "run",
+        "--fix",
+        "--config=/outside/lint.yml",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-161-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "run",
+        "--output.json.path=/outside/report",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-162-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "fmt",
+        "--diff",
+        "--enable",
+        "gofumpt",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-163-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-164-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-165-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "version",
+        "--json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-166-strict",
+      "profile": "strict",
+      "argv": [
+        "govulncheck",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-167-strict",
+      "profile": "strict",
+      "argv": [
+        "govulncheck",
+        "-mode=binary",
+        "/outside/acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-168-strict",
+      "profile": "strict",
+      "argv": [
+        "govulncheck",
+        "-mode=extract",
+        "/outside/acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-169-strict",
+      "profile": "strict",
+      "argv": [
+        "govulncheck",
+        "-mode=convert",
+        "-format=sarif"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-170-strict",
+      "profile": "strict",
+      "argv": [
+        "govulncheck",
+        "-mode=query",
+        "-json",
+        "example.com/acme@v1.0.0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-171-strict",
+      "profile": "strict",
+      "argv": [
+        "govulncheck",
+        "-db=https://audit.example.com",
+        "-C",
+        "/outside",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-172-strict",
+      "profile": "strict",
+      "argv": [
+        "govulncheck",
+        "-scan=module",
+        "-test",
+        "-tags=integration"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-173-strict",
+      "profile": "strict",
+      "argv": [
+        "govulncheck",
+        "-version",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-174-strict",
+      "profile": "strict",
+      "argv": [
+        "staticcheck",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-175-strict",
+      "profile": "strict",
+      "argv": [
+        "staticcheck",
+        "-checks=all",
+        "-f",
+        "json",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-176-strict",
+      "profile": "strict",
+      "argv": [
+        "staticcheck",
+        "-list-checks"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-177-strict",
+      "profile": "strict",
+      "argv": [
+        "staticcheck",
+        "-explain",
+        "SA1000"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-178-strict",
+      "profile": "strict",
+      "argv": [
+        "staticcheck",
+        "-explain",
+        "/outside/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-179-strict",
+      "profile": "strict",
+      "argv": [
+        "staticcheck",
+        "@args.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-180-strict",
+      "profile": "strict",
+      "argv": [
+        "staticcheck",
+        "-list-checks",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-181-strict",
+      "profile": "strict",
+      "argv": [
+        "gotestsum"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-182-strict",
+      "profile": "strict",
+      "argv": [
+        "gotestsum",
+        "--",
+        "-race",
+        "-coverprofile=/outside/cover",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-183-strict",
+      "profile": "strict",
+      "argv": [
+        "gotestsum",
+        "--raw-command",
+        "--",
+        "./scripts/test.sh",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-184-strict",
+      "profile": "strict",
+      "argv": [
+        "gotestsum",
+        "--watch",
+        "--post-run-command",
+        "/outside/hook"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-185-strict",
+      "profile": "strict",
+      "argv": [
+        "gotestsum",
+        "--junitfile",
+        "/outside/junit.xml",
+        "--jsonfile",
+        "/outside/tests.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-186-strict",
+      "profile": "strict",
+      "argv": [
+        "gotestsum",
+        "tool",
+        "slowest",
+        "--skip-stmt",
+        "src/main_test.go",
+        "--jsonfile",
+        "tests.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-187-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-188-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo",
+        "-r",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-189-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-190-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo",
+        "--cover",
+        "--coverprofile=/outside/coverage",
+        "--json-report=/outside/report",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-191-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo",
+        "--after-run-hook=/outside/hook",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-192-strict",
+      "profile": "strict",
+      "argv": [
+        "gocov-xml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-193-strict",
+      "profile": "strict",
+      "argv": [
+        "gocover-cobertura"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-194-strict",
+      "profile": "strict",
+      "argv": [
+        "gocover-cobertura",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-195-strict",
+      "profile": "strict",
+      "argv": [
+        "gocover-cobertura",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-196-strict",
+      "profile": "strict",
+      "argv": [
+        "gocov-xml",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-197-strict",
+      "profile": "strict",
+      "argv": [
+        "gocov",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-198-strict",
+      "profile": "strict",
+      "argv": [
+        "go-junit-report"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-199-strict",
+      "profile": "strict",
+      "argv": [
+        "go-junit-report",
+        "-parser=gojson"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-200-strict",
+      "profile": "strict",
+      "argv": [
+        "go-junit-report",
+        "-p",
+        "suite=acme",
+        "-set-exit-code",
+        "-no-xml-header"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-201-strict",
+      "profile": "strict",
+      "argv": [
+        "go-junit-report",
+        "-package-name",
+        "acme",
+        "-subtest-mode=exclude-parents"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-202-strict",
+      "profile": "strict",
+      "argv": [
+        "go-junit-report",
+        "-in",
+        "tests.log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-203-strict",
+      "profile": "strict",
+      "argv": [
+        "go-junit-report",
+        "-in=/outside/log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-204-strict",
+      "profile": "strict",
+      "argv": [
+        "go-junit-report",
+        "--in=/outside/log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-205-strict",
+      "profile": "strict",
+      "argv": [
+        "go-junit-report",
+        "-out",
+        "junit.xml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-206-strict",
+      "profile": "strict",
+      "argv": [
+        "go-junit-report",
+        "--out=/outside/report.xml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-207-strict",
+      "profile": "strict",
+      "argv": [
+        "go-junit-report",
+        "--out=/outside/report\n.xml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-208-strict",
+      "profile": "strict",
+      "argv": [
+        "go-junit-report",
+        "-in",
+        "tests.log",
+        "-out",
+        ".git/report.xml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-209-strict",
+      "profile": "strict",
+      "argv": [
+        "go-junit-report",
+        "-p"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-210-strict",
+      "profile": "strict",
+      "argv": [
+        "go-junit-report",
+        "-out"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-211-strict",
+      "profile": "strict",
+      "argv": [
+        "gofumpt",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-212-strict",
+      "profile": "strict",
+      "argv": [
+        "govulncheck",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-213-strict",
+      "profile": "strict",
+      "argv": [
+        "staticcheck",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-214-strict",
+      "profile": "strict",
+      "argv": [
+        "go-junit-report",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-215-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-216-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-217-strict",
+      "profile": "strict",
+      "argv": [
+        "gofumpt",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-218-strict",
+      "profile": "strict",
+      "argv": [
+        "gofumpt",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-219-strict",
+      "profile": "strict",
+      "argv": [
+        "goimports",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-220-strict",
+      "profile": "strict",
+      "argv": [
+        "goimports",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-221-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-222-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-223-strict",
+      "profile": "strict",
+      "argv": [
+        "govulncheck",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-224-strict",
+      "profile": "strict",
+      "argv": [
+        "govulncheck",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-225-strict",
+      "profile": "strict",
+      "argv": [
+        "staticcheck",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-226-strict",
+      "profile": "strict",
+      "argv": [
+        "staticcheck",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-227-strict",
+      "profile": "strict",
+      "argv": [
+        "gotestsum",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-228-strict",
+      "profile": "strict",
+      "argv": [
+        "gotestsum",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-229-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-230-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-231-strict",
+      "profile": "strict",
+      "argv": [
+        "go-junit-report",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-232-strict",
+      "profile": "strict",
+      "argv": [
+        "go-junit-report",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-233-strict",
+      "profile": "strict",
+      "argv": [
+        "gotestsum",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-234-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-235-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-236-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-237-strict",
+      "profile": "strict",
+      "argv": [
+        "go-unrelated",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-238-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-239-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/gofmt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-240-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/gofmt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-241-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/gofmt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-242-strict",
+      "profile": "strict",
+      "argv": [
+        "gofmt-unrelated",
+        "-w",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-243-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/gofmt",
+        "-w",
+        "main.go"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-244-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/gofumpt",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-245-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/gofumpt",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-246-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/gofumpt",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-247-strict",
+      "profile": "strict",
+      "argv": [
+        "gofumpt-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-248-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/gofumpt",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-249-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/goimports",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-250-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/goimports",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-251-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/goimports",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-252-strict",
+      "profile": "strict",
+      "argv": [
+        "goimports-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-253-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/goimports",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-254-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/golangci-lint",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-255-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/golangci-lint",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-256-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/golangci-lint",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-257-strict",
+      "profile": "strict",
+      "argv": [
+        "golangci-lint-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-258-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/golangci-lint",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-259-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/govulncheck",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-260-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/govulncheck",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-261-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/govulncheck",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-262-strict",
+      "profile": "strict",
+      "argv": [
+        "govulncheck-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-263-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/govulncheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-264-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/staticcheck",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-265-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/staticcheck",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-266-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/staticcheck",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-267-strict",
+      "profile": "strict",
+      "argv": [
+        "staticcheck-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-268-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/staticcheck",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-269-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/gotestsum",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-270-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/gotestsum",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-271-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/gotestsum",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-272-strict",
+      "profile": "strict",
+      "argv": [
+        "gotestsum-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-273-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/gotestsum",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-274-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/ginkgo",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-275-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/ginkgo",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-276-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/ginkgo",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-277-strict",
+      "profile": "strict",
+      "argv": [
+        "ginkgo-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-278-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/ginkgo",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-279-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/gocov",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-280-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/gocov",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-281-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/gocov",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-282-strict",
+      "profile": "strict",
+      "argv": [
+        "gocov-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-283-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/gocov",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-284-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/gocov-xml",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-285-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/gocov-xml",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-286-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/gocov-xml",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-287-strict",
+      "profile": "strict",
+      "argv": [
+        "gocov-xml-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-288-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/gocov-xml",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-289-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/gocover-cobertura",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-290-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/gocover-cobertura",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-291-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/gocover-cobertura",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-292-strict",
+      "profile": "strict",
+      "argv": [
+        "gocover-cobertura-unrelated",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-293-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/gocover-cobertura",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-294-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/go-junit-report"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-295-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/go-junit-report"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-296-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/go-junit-report"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-297-strict",
+      "profile": "strict",
+      "argv": [
+        "go-junit-report-unrelated"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-298-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/go-junit-report"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-299-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/go/bin/go",
+        "env",
+        "GOMOD"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "go-300-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/lib/go/bin/go",
+        "-C",
+        ".",
+        "test",
+        "./..."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "go-301-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/lib/golang/bin/gofmt",
+        "-w",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-302-strict",
+      "profile": "strict",
+      "argv": [
+        "go1.27.4",
+        "test",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "go-303-strict",
+      "profile": "strict",
+      "argv": [
+        ".local/bin/govulncheck",
+        "./..."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unmatched-go-mcp-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "mcp",
+        "server": "go",
+        "tool": "run",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unmatched-go-mcp-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "mcp",
+        "server": "go",
+        "tool": "run",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unmatched-go-mcp-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "mcp",
+        "server": "go",
+        "tool": "run",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

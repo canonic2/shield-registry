@@ -1,0 +1,3998 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "operation-0-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-1-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "bootstrap"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-2-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "dev"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-3-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-4-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "validate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-5-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "format"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-6-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "studio"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-7-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-8-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "debug"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-9-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "complete"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-10-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "db",
+        "pull"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-11-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "db",
+        "push"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-12-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "db",
+        "seed"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-13-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "db",
+        "execute"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-14-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migrate",
+        "dev"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-15-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migrate",
+        "deploy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-16-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migrate",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-17-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migrate",
+        "diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-18-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migrate",
+        "resolve"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-19-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "orm",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-20-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "contract",
+        "emit"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-21-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "contract",
+        "infer"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-22-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "contract",
+        "format"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-23-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "db",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-24-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "db",
+        "update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-25-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "db",
+        "migrate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-26-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "db",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-27-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "db",
+        "sign"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-28-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migration",
+        "plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-29-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migration",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-30-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migration",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-31-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migration",
+        "log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-32-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migration",
+        "graph"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-33-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migration",
+        "ref"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-34-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "auth"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-35-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "project"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-36-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "branch"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-37-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "postgres"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-38-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "bucket"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-39-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "service"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-40-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-41-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "deploy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-42-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "platform"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-43-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "mcp"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-44-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "lsp"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-0-generate-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-0-reset-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-0-data-loss-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-1-generate-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma7",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-1-reset-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma7",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-1-data-loss-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma7",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-2-generate-loose",
+      "profile": "loose",
+      "argv": [
+        "npx",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-2-reset-loose",
+      "profile": "loose",
+      "argv": [
+        "npx",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-2-data-loss-loose",
+      "profile": "loose",
+      "argv": [
+        "npx",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-3-generate-loose",
+      "profile": "loose",
+      "argv": [
+        "npx",
+        "-y",
+        "prisma@7.10.1",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-3-reset-loose",
+      "profile": "loose",
+      "argv": [
+        "npx",
+        "-y",
+        "prisma@7.10.1",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-3-data-loss-loose",
+      "profile": "loose",
+      "argv": [
+        "npx",
+        "-y",
+        "prisma@7.10.1",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-4-generate-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-4-reset-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-4-data-loss-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-5-generate-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "exec",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-5-reset-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "exec",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-5-data-loss-loose",
+      "profile": "loose",
+      "argv": [
+        "npm",
+        "exec",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-6-generate-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-6-reset-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-6-data-loss-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-7-generate-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "exec",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-7-reset-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "exec",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-7-data-loss-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "exec",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-8-generate-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "prisma@latest",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-8-reset-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "prisma@latest",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-8-data-loss-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "prisma@latest",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-9-generate-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-9-reset-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-9-data-loss-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-10-generate-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "exec",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-10-reset-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "exec",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-10-data-loss-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "exec",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-11-generate-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "dlx",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-11-reset-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "dlx",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-11-data-loss-loose",
+      "profile": "loose",
+      "argv": [
+        "yarn",
+        "dlx",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-12-generate-loose",
+      "profile": "loose",
+      "argv": [
+        "bunx",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-12-reset-loose",
+      "profile": "loose",
+      "argv": [
+        "bunx",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-12-data-loss-loose",
+      "profile": "loose",
+      "argv": [
+        "bunx",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-13-generate-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "x",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-13-reset-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "x",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-13-data-loss-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "x",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-0-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migrate",
+        "dev",
+        "--create-only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-1-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "db",
+        "execute",
+        "--stdin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-2-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "db",
+        "execute",
+        "--file=/outside/query.sql"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-3-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "db",
+        "execute",
+        "--url",
+        "postgresql://example.com/example",
+        "--schema",
+        "/outside/schema.prisma",
+        "--stdin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-4-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migrate",
+        "dev",
+        "--skip-seed",
+        "--skip-generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-5-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migrate",
+        "diff",
+        "--from-url",
+        "postgresql://example.com/example",
+        "--to-schema-datamodel",
+        "schema.prisma",
+        "--script",
+        "--output",
+        "/outside/change.sql"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-6-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "format",
+        "--schema",
+        "/outside/schema.prisma"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-7-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migrate",
+        "resolve",
+        "--rolled-back",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-8-loose",
+      "profile": "loose",
+      "argv": [
+        "npx",
+        "prisma-evil",
+        "migrate",
+        "reset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-9-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "generate",
+        "--generator",
+        "custom",
+        "--schema",
+        "/outside/schema.prisma"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-10-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "studio",
+        "--browser",
+        "none"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-11-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "--config",
+        "/outside/config.ts",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-12-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migrate",
+        "--schema=/outside/schema.prisma",
+        "reset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-13-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-14-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "db",
+        "push",
+        "--force-reset=true"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-15-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "db",
+        "push",
+        "--force-reset=false"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-16-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-17-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-18-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "-v"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-19-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "migrate",
+        "reset",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-20-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "--config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-21-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-22-loose",
+      "profile": "loose",
+      "argv": [
+        "pnpm",
+        "--dir",
+        "/outside",
+        "exec",
+        "prisma",
+        "migrate",
+        "reset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-23-loose",
+      "profile": "loose",
+      "argv": [
+        "npx",
+        "--no-install",
+        "prisma7",
+        "migrate",
+        "reset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-24-loose",
+      "profile": "loose",
+      "argv": [
+        "npx",
+        "@prisma/prisma7@7",
+        "migrate",
+        "reset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-25-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "db",
+        "reset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-26-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "postgres",
+        "delete",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-27-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "project",
+        "delete",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-28-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "branch",
+        "delete",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-29-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "bucket",
+        "delete",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-30-loose",
+      "profile": "loose",
+      "argv": [
+        "prisma",
+        "service",
+        "delete",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/prisma",
+        "migrate",
+        "reset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "foreign-loose",
+      "profile": "loose",
+      "argv": [
+        "/tmp/untrusted/prisma",
+        "migrate",
+        "reset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "other-package-loose",
+      "profile": "loose",
+      "argv": [
+        "npx",
+        "other-package",
+        "migrate",
+        "reset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shell-0-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "npx -y prisma migrate reset --force",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-1-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "prisma format --schema /outside/schema.prisma",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "operation-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "bootstrap"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "dev"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "validate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-5-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "format"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-6-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "studio"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-7-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-8-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "debug"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-9-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "complete"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-10-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "db",
+        "pull"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-11-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "db",
+        "push"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-12-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "db",
+        "seed"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-13-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "db",
+        "execute"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-14-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migrate",
+        "dev"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-15-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migrate",
+        "deploy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-16-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migrate",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-17-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migrate",
+        "diff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-18-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migrate",
+        "resolve"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-19-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "orm",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-20-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "contract",
+        "emit"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-21-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "contract",
+        "infer"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-22-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "contract",
+        "format"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-23-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "db",
+        "init"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-24-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "db",
+        "update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-25-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "db",
+        "migrate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-26-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "db",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-27-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "db",
+        "sign"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-28-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migration",
+        "plan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-29-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migration",
+        "status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-30-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migration",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-31-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migration",
+        "log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-32-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migration",
+        "graph"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-33-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migration",
+        "ref"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-34-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "auth"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-35-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "project"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-36-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "branch"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-37-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "postgres"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-38-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "bucket"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-39-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "service"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-40-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "git"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-41-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "deploy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-42-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "platform"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-43-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "mcp"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "operation-44-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "lsp"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-0-generate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-0-reset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-0-data-loss-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-1-generate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma7",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-1-reset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma7",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-1-data-loss-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma7",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-2-generate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npx",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-2-reset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npx",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-2-data-loss-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npx",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-3-generate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npx",
+        "-y",
+        "prisma@7.10.1",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-3-reset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npx",
+        "-y",
+        "prisma@7.10.1",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-3-data-loss-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npx",
+        "-y",
+        "prisma@7.10.1",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-4-generate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-4-reset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-4-data-loss-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-5-generate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "exec",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-5-reset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "exec",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-5-data-loss-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npm",
+        "exec",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-6-generate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-6-reset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-6-data-loss-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-7-generate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "exec",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-7-reset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "exec",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-7-data-loss-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "exec",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-8-generate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "prisma@latest",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-8-reset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "prisma@latest",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-8-data-loss-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "prisma@latest",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-9-generate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-9-reset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-9-data-loss-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-10-generate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "exec",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-10-reset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "exec",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-10-data-loss-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "exec",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-11-generate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "dlx",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-11-reset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "dlx",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-11-data-loss-recommended",
+      "profile": "recommended",
+      "argv": [
+        "yarn",
+        "dlx",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-12-generate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bunx",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-12-reset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bunx",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-12-data-loss-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bunx",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-13-generate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "x",
+        "prisma",
+        "generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "route-13-reset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "x",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-13-data-loss-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "x",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-0-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migrate",
+        "dev",
+        "--create-only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-1-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "db",
+        "execute",
+        "--stdin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-2-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "db",
+        "execute",
+        "--file=/outside/query.sql"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-3-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "db",
+        "execute",
+        "--url",
+        "postgresql://example.com/example",
+        "--schema",
+        "/outside/schema.prisma",
+        "--stdin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-4-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migrate",
+        "dev",
+        "--skip-seed",
+        "--skip-generate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-5-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migrate",
+        "diff",
+        "--from-url",
+        "postgresql://example.com/example",
+        "--to-schema-datamodel",
+        "schema.prisma",
+        "--script",
+        "--output",
+        "/outside/change.sql"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-6-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "format",
+        "--schema",
+        "/outside/schema.prisma"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-7-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migrate",
+        "resolve",
+        "--rolled-back",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-8-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npx",
+        "prisma-evil",
+        "migrate",
+        "reset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-9-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "generate",
+        "--generator",
+        "custom",
+        "--schema",
+        "/outside/schema.prisma"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-10-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "studio",
+        "--browser",
+        "none"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-11-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "--config",
+        "/outside/config.ts",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-12-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migrate",
+        "--schema=/outside/schema.prisma",
+        "reset"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-13-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-14-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "db",
+        "push",
+        "--force-reset=true"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-15-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "db",
+        "push",
+        "--force-reset=false"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-16-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-17-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-18-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "-v"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-19-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "migrate",
+        "reset",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-20-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "--config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-21-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-22-recommended",
+      "profile": "recommended",
+      "argv": [
+        "pnpm",
+        "--dir",
+        "/outside",
+        "exec",
+        "prisma",
+        "migrate",
+        "reset"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-23-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npx",
+        "--no-install",
+        "prisma7",
+        "migrate",
+        "reset"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-24-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npx",
+        "@prisma/prisma7@7",
+        "migrate",
+        "reset"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-25-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "db",
+        "reset"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-26-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "postgres",
+        "delete",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-27-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "project",
+        "delete",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-28-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "branch",
+        "delete",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-29-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "bucket",
+        "delete",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-30-recommended",
+      "profile": "recommended",
+      "argv": [
+        "prisma",
+        "service",
+        "delete",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/prisma",
+        "migrate",
+        "reset"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "foreign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/tmp/untrusted/prisma",
+        "migrate",
+        "reset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "other-package-recommended",
+      "profile": "recommended",
+      "argv": [
+        "npx",
+        "other-package",
+        "migrate",
+        "reset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shell-0-recommended",
+      "profile": "recommended",
+      "expected": "deny",
+      "input": {
+        "kind": "shell",
+        "source": "npx -y prisma migrate reset --force",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-1-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "input": {
+        "kind": "shell",
+        "source": "prisma format --schema /outside/schema.prisma",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "operation-0-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "init"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-1-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "bootstrap"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-2-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-3-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-4-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "validate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-5-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "format"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-6-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "studio"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-7-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-8-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "debug"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-9-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "complete"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-10-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "db",
+        "pull"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-11-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "db",
+        "push"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-12-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "db",
+        "seed"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-13-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "db",
+        "execute"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-14-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migrate",
+        "dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-15-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migrate",
+        "deploy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-16-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migrate",
+        "status"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-17-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migrate",
+        "diff"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-18-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migrate",
+        "resolve"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-19-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "orm",
+        "init"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-20-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "contract",
+        "emit"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-21-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "contract",
+        "infer"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-22-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "contract",
+        "format"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-23-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "db",
+        "init"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-24-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "db",
+        "update"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-25-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "db",
+        "migrate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-26-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "db",
+        "verify"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-27-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "db",
+        "sign"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-28-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migration",
+        "plan"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-29-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migration",
+        "status"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-30-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migration",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-31-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migration",
+        "log"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-32-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migration",
+        "graph"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-33-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migration",
+        "ref"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-34-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "auth"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-35-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "project"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-36-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "branch"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-37-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "postgres"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-38-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "bucket"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-39-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "service"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-40-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "git"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-41-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "deploy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-42-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "platform"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-43-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "mcp"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "operation-44-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "lsp"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-0-generate-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-0-reset-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-0-data-loss-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-1-generate-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma7",
+        "generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-1-reset-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma7",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-1-data-loss-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma7",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-2-generate-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "prisma",
+        "generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-2-reset-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-2-data-loss-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-3-generate-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "-y",
+        "prisma@7.10.1",
+        "generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-3-reset-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "-y",
+        "prisma@7.10.1",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-3-data-loss-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "-y",
+        "prisma@7.10.1",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-4-generate-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "prisma",
+        "generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-4-reset-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-4-data-loss-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-5-generate-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "prisma",
+        "generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-5-reset-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-5-data-loss-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-6-generate-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "prisma",
+        "generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-6-reset-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-6-data-loss-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-7-generate-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "prisma",
+        "generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-7-reset-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-7-data-loss-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-8-generate-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "prisma@latest",
+        "generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-8-reset-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "prisma@latest",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-8-data-loss-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "prisma@latest",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-9-generate-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "prisma",
+        "generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-9-reset-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-9-data-loss-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-10-generate-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "prisma",
+        "generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-10-reset-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-10-data-loss-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-11-generate-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "prisma",
+        "generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-11-reset-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-11-data-loss-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-12-generate-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "prisma",
+        "generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-12-reset-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-12-data-loss-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-13-generate-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "prisma",
+        "generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-13-reset-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "prisma",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "route-13-data-loss-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-0-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migrate",
+        "dev",
+        "--create-only"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-1-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "db",
+        "execute",
+        "--stdin"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-2-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "db",
+        "execute",
+        "--file=/outside/query.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-3-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "db",
+        "execute",
+        "--url",
+        "postgresql://example.com/example",
+        "--schema",
+        "/outside/schema.prisma",
+        "--stdin"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-4-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migrate",
+        "dev",
+        "--skip-seed",
+        "--skip-generate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-5-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migrate",
+        "diff",
+        "--from-url",
+        "postgresql://example.com/example",
+        "--to-schema-datamodel",
+        "schema.prisma",
+        "--script",
+        "--output",
+        "/outside/change.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-6-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "format",
+        "--schema",
+        "/outside/schema.prisma"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-7-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migrate",
+        "resolve",
+        "--rolled-back",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-8-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "prisma-evil",
+        "migrate",
+        "reset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-9-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "generate",
+        "--generator",
+        "custom",
+        "--schema",
+        "/outside/schema.prisma"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-10-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "studio",
+        "--browser",
+        "none"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-11-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "--config",
+        "/outside/config.ts",
+        "migrate",
+        "reset",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-12-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migrate",
+        "--schema=/outside/schema.prisma",
+        "reset"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-13-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "db",
+        "push",
+        "--accept-data-loss"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-14-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "db",
+        "push",
+        "--force-reset=true"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-15-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "db",
+        "push",
+        "--force-reset=false"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-16-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-17-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-18-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "-v"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-19-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "migrate",
+        "reset",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-20-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "--config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-21-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "future-command"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-22-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "--dir",
+        "/outside",
+        "exec",
+        "prisma",
+        "migrate",
+        "reset"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-23-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "--no-install",
+        "prisma7",
+        "migrate",
+        "reset"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-24-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "@prisma/prisma7@7",
+        "migrate",
+        "reset"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-25-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "db",
+        "reset"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-26-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "postgres",
+        "delete",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-27-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "project",
+        "delete",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-28-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "branch",
+        "delete",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-29-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "bucket",
+        "delete",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-30-strict",
+      "profile": "strict",
+      "argv": [
+        "prisma",
+        "service",
+        "delete",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/prisma",
+        "migrate",
+        "reset"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "foreign-strict",
+      "profile": "strict",
+      "argv": [
+        "/tmp/untrusted/prisma",
+        "migrate",
+        "reset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "other-package-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "other-package",
+        "migrate",
+        "reset"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shell-0-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "input": {
+        "kind": "shell",
+        "source": "npx -y prisma migrate reset --force",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shell-1-strict",
+      "profile": "strict",
+      "expected": "deny",
+      "input": {
+        "kind": "shell",
+        "source": "prisma format --schema /outside/schema.prisma",
+        "dialect": "bash",
+        "dialect_version": null,
+        "original_input": {}
+      }
+    }
+  ]
+}

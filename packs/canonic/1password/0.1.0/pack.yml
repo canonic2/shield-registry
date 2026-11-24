@@ -1,0 +1,2464 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/1password",
+  "version": "0.1.0",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "description": "1Password CLI metadata inspection with review for secret retrieval, injection, subprocesses, sharing, credentials and administrative changes.",
+  "engines": {
+    "shield": ">=0.53.0, <1.0.0"
+  },
+  "capabilities": [
+    "argument-rules-v1",
+    "interleaved-leading-v1",
+    "prefix-leading-v1",
+    "regex-v1",
+    "structured-rules-v1",
+    "unknown-options-v1"
+  ],
+  "rules": [
+    {
+      "id": "info-0",
+      "decision": "allow",
+      "reason": "Print the installed version or built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      }
+    },
+    {
+      "id": "info-1",
+      "decision": "allow",
+      "reason": "Print the installed version or built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-v"
+          ]
+        }
+      }
+    },
+    {
+      "id": "info-2",
+      "decision": "allow",
+      "reason": "Print the installed version or built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "info-3",
+      "decision": "allow",
+      "reason": "Print the installed version or built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "help",
+      "decision": "allow",
+      "reason": "Print built-in command help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "sequence",
+          "prefix": [
+            "help"
+          ],
+          "rest": {
+            "kind": "each",
+            "match": {
+              "regex": "^[a-z][a-z-]*$"
+            },
+            "max": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "command-help",
+      "decision": "allow",
+      "reason": "Print help for a command family.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "sequence",
+          "prefix": [
+            {
+              "one_of": [
+                "account",
+                "connect",
+                "document",
+                "environment",
+                "events-api",
+                "group",
+                "item",
+                "plugin",
+                "provisioning",
+                "service-account",
+                "user",
+                "vault",
+                "completion",
+                "inject",
+                "read",
+                "run",
+                "signin",
+                "signout",
+                "update",
+                "whoami"
+              ]
+            }
+          ],
+          "rest": {
+            "kind": "each",
+            "match": {
+              "one_of": [
+                "--help",
+                "-h"
+              ]
+            },
+            "min": 1,
+            "max": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "whoami",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "whoami"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--out-file",
+            "-o"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "account-list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "account",
+            {
+              "one_of": [
+                "list",
+                "ls"
+              ]
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--out-file",
+            "-o"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "account-get",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "account",
+            "get"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--out-file",
+            "-o"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "vault-list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "vault",
+            {
+              "one_of": [
+                "list",
+                "ls"
+              ]
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--group",
+            "--user",
+            "--permission",
+            "--out-file",
+            "-o"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "vault-get",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "vault",
+            "get"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--out-file",
+            "-o"
+          ],
+          "operands": {
+            "match": {
+              "regex": "^.+$"
+            },
+            "min": 1,
+            "max": 1
+          },
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "item-list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "item",
+            {
+              "one_of": [
+                "list",
+                "ls"
+              ]
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h",
+            "--favorite",
+            "--include-archive",
+            "--long"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--categories",
+            "--tags",
+            "--vault",
+            "--out-file",
+            "-o"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "document-list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "document",
+            {
+              "one_of": [
+                "list",
+                "ls"
+              ]
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h",
+            "--include-archive"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--vault",
+            "--out-file",
+            "-o"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "template-list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "item",
+            "template",
+            {
+              "one_of": [
+                "list",
+                "ls"
+              ]
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--out-file",
+            "-o"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "template-get",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "item",
+            "template",
+            "get"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h",
+            "--force",
+            "-f"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--file-mode",
+            "--out-file",
+            "-o"
+          ],
+          "operands": {
+            "match": {
+              "regex": "^.+$"
+            },
+            "min": 1,
+            "max": 1
+          },
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "user-list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "user",
+            {
+              "one_of": [
+                "list",
+                "ls"
+              ]
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--group",
+            "--vault",
+            "--out-file",
+            "-o"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "user-get",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "user",
+            "get"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h",
+            "--me",
+            "--fingerprint",
+            "--public-key"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--out-file",
+            "-o"
+          ],
+          "operands": {
+            "match": {
+              "regex": "^.+$"
+            },
+            "max": 1
+          },
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "group-list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "group",
+            {
+              "one_of": [
+                "list",
+                "ls"
+              ]
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--user",
+            "--vault",
+            "--out-file",
+            "-o"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "group-get",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "group",
+            "get"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--out-file",
+            "-o"
+          ],
+          "operands": {
+            "match": {
+              "regex": "^.+$"
+            },
+            "min": 1,
+            "max": 1
+          },
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "group-user-list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "group",
+            "user",
+            {
+              "one_of": [
+                "list",
+                "ls"
+              ]
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--out-file",
+            "-o"
+          ],
+          "operands": {
+            "match": {
+              "regex": "^.+$"
+            },
+            "min": 1,
+            "max": 1
+          },
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "vault-user-list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "vault",
+            "user",
+            {
+              "one_of": [
+                "list",
+                "ls"
+              ]
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--out-file",
+            "-o"
+          ],
+          "operands": {
+            "match": {
+              "regex": "^.+$"
+            },
+            "min": 1,
+            "max": 1
+          },
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "vault-group-list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "vault",
+            "group",
+            {
+              "one_of": [
+                "list",
+                "ls"
+              ]
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--out-file",
+            "-o"
+          ],
+          "operands": {
+            "match": {
+              "regex": "^.+$"
+            },
+            "min": 1,
+            "max": 1
+          },
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "service-account-ratelimit",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "service-account",
+            {
+              "one_of": [
+                "ratelimit",
+                "ratelimits"
+              ]
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--out-file",
+            "-o"
+          ],
+          "operands": {
+            "match": {
+              "regex": "^.+$"
+            },
+            "max": 1
+          },
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "plugin-list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect 1Password metadata using the selected account.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "plugin",
+            {
+              "one_of": [
+                "list",
+                "ls"
+              ]
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--help",
+            "-h"
+          ],
+          "optional_values": [
+            "--cache",
+            "--debug",
+            "--iso-timestamps",
+            "--no-color"
+          ],
+          "values": [
+            "--account",
+            "--config",
+            "--encoding",
+            "--format",
+            {
+              "name": "--session"
+            },
+            "--out-file",
+            "-o"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "forbid": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "sensitive-secrets-and-execution",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review secret retrieval, injection, command execution, authentication and CLI updates.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "one_of": [
+                "read",
+                "inject",
+                "run",
+                "signin",
+                "signout",
+                "update"
+              ]
+            }
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "sensitive-item",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review item values, changes and sharing.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "item"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "sensitive-document",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review document contents, downloads and changes.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "document"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "sensitive-environment",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review environment secrets, including unconcealed values in listings.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "environment"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "sensitive-account",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review local account configuration and credentials.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "account"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "sensitive-vault",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review vault lifecycle and access changes.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "vault"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "sensitive-user",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review user lifecycle, recovery and account changes.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "user"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "sensitive-group",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review groups and membership changes.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "group"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "sensitive-service-account",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review service-account creation and token issuance.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "service-account"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "sensitive-connect",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review Connect server configuration, credential files and access tokens.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "connect"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "sensitive-events-api",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review Events API integration and token creation.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "events-api"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "sensitive-plugin",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review shell plugin setup, credential imports and injected subprocesses.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "plugin"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "sensitive-provisioning",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review external provisioning and group synchronization.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "provisioning"
+          ],
+          "leading": {
+            "flags": [
+              "--help",
+              "-h"
+            ],
+            "optional_values": [
+              "--cache",
+              "--debug",
+              "--iso-timestamps",
+              "--no-color"
+            ],
+            "values": [
+              "--account",
+              "--config",
+              "--encoding",
+              "--format",
+              {
+                "name": "--session"
+              }
+            ],
+            "interleaved": true
+          }
+        }
+      }
+    },
+    {
+      "id": "connection-and-output-overrides",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review configuration files, session credentials, diagnostics and explicit output paths.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [],
+          "any_of": [
+            "--config",
+            "--debug",
+            "--out-file",
+            "-o",
+            "--session"
+          ]
+        }
+      }
+    },
+    {
+      "id": "unlisted",
+      "decision": "ask",
+      "reason": "Review unclassified 1Password commands.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "op",
+            "op.exe",
+            "/usr/bin/op",
+            "/usr/local/bin/op",
+            "/opt/homebrew/bin/op"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    }
+  ]
+}

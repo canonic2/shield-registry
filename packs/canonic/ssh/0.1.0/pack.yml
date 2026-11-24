@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/ssh",
+  "version": "0.1.0",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.53.0, <1.0.0"
+  },
+  "description": "SSH, SCP, SFTP, rsync and SSH key tools with bounded metadata allowances and reviewed remote authority, transfers, execution, forwarding, credentials and file changes.",
+  "capabilities": [
+    "argument-rules-v1",
+    "regex-v1",
+    "structured-rules-v1"
+  ],
+  "rules": [
+    {
+      "id": "ssh-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?ssh(?:\\.exe)?$"
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-V"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata without a connection, transfer, key operation or user configuration evaluation."
+    },
+    {
+      "id": "ssh-query",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?ssh(?:\\.exe)?$"
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "-Q"
+          ],
+          "flags": [],
+          "values": [],
+          "operands": {
+            "match": {
+              "regex": "^[A-Za-z][A-Za-z0-9-]*$"
+            },
+            "min": 1,
+            "max": 1
+          }
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata without a connection, transfer, key operation or user configuration evaluation."
+    },
+    {
+      "id": "rsync-info-0",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?rsync(?:\\.exe)?$"
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata without a connection, transfer, key operation or user configuration evaluation."
+    },
+    {
+      "id": "rsync-info-1",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?rsync(?:\\.exe)?$"
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata without a connection, transfer, key operation or user configuration evaluation."
+    },
+    {
+      "id": "ssh-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?ssh(?:\\.exe)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review effective host identity, configuration execution, local/remote commands, proxies, forwarding, control sockets, credentials and output files."
+    },
+    {
+      "id": "scp-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?scp(?:\\.exe)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review source and destination authority, local/remote paths, recursive or overwrite effects, symlinks, SSH configuration and transport/helper execution."
+    },
+    {
+      "id": "sftp-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?sftp(?:\\.exe)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review connection identity, SSH configuration, batch/stdin commands, local shell escapes, file transfers, deletion and output destinations."
+    },
+    {
+      "id": "rsync-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?rsync(?:\\.exe)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review paths, symlinks, deletion, overwrites, daemon or remote-shell connections, helpers, filters and output files. Dry runs can execute helpers and contact hosts."
+    },
+    {
+      "id": "ssh-keygen-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?ssh-keygen(?:\\.exe)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review keys, passphrases, providers, certificate/signature authority, output paths and known-host changes; inspection can read protected credentials."
+    },
+    {
+      "id": "ssh-add-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?ssh-add(?:\\.exe)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review authentication agent identity, keys, providers, signing tests, destination constraints, lock/unlock and identity removal."
+    }
+  ]
+}

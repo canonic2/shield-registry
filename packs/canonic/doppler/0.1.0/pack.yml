@@ -1,0 +1,2514 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/doppler",
+  "version": "0.1.0",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "description": "Doppler CLI and MCP metadata and secret-name inspection, with review for secret values, credential operations, injected commands and mutations.",
+  "engines": {
+    "shield": ">=0.53.0, <1.0.0"
+  },
+  "capabilities": [
+    "argument-rules-v1",
+    "interleaved-leading-v1",
+    "location-v1",
+    "mcp-integrations-v1",
+    "negated-selectors-v1",
+    "prefix-leading-v1",
+    "regex-v1",
+    "requirements-v1",
+    "structured-rules-v1"
+  ],
+  "mcp_integrations": {
+    "doppler": {
+      "transport": "stdio",
+      "fields": {
+        "/command": {
+          "text": {
+            "one_of": [
+              "npx",
+              "npx.cmd",
+              "/usr/bin/npx",
+              "/usr/local/bin/npx",
+              "/opt/homebrew/bin/npx"
+            ]
+          }
+        },
+        "/args/0": {
+          "exact": "-y"
+        },
+        "/args/1": {
+          "exact": "@dopplerhq/mcp-server@1.0.5"
+        },
+        "/env/DOPPLER_BASE_URL": {
+          "exact": "https://api.doppler.com"
+        }
+      }
+    }
+  },
+  "rules": [
+    {
+      "id": "cli-info-0",
+      "decision": "allow",
+      "reason": "Print CLI help or the installed version.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cli-info-1",
+      "decision": "allow",
+      "reason": "Print CLI help or the installed version.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cli-info-2",
+      "decision": "allow",
+      "reason": "Print CLI help or the installed version.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cli-info-3",
+      "decision": "allow",
+      "reason": "Print CLI help or the installed version.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-v"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cli-command-help",
+      "decision": "allow",
+      "reason": "Print help for a Doppler command.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "sequence",
+          "prefix": [
+            {
+              "one_of": [
+                "activity",
+                "changelog",
+                "completion",
+                "configs",
+                "configure",
+                "environments",
+                "feedback",
+                "flags",
+                "help",
+                "import",
+                "login",
+                "logout",
+                "me",
+                "mfa",
+                "oidc",
+                "open",
+                "projects",
+                "run",
+                "secrets",
+                "settings",
+                "setup",
+                "tags",
+                "tui",
+                "update",
+                "whoami",
+                "enclave"
+              ]
+            }
+          ],
+          "rest": {
+            "kind": "each",
+            "match": {
+              "one_of": [
+                "--help",
+                "-h"
+              ]
+            },
+            "min": 1,
+            "max": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-help",
+      "decision": "allow",
+      "reason": "Print help for a Doppler command path.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "sequence",
+          "prefix": [
+            "help"
+          ],
+          "rest": {
+            "kind": "each",
+            "match": {
+              "regex": "^[a-z][a-z-]*$"
+            },
+            "max": 4
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-identity",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read Doppler metadata in the project.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            {
+              "one_of": [
+                "me",
+                "whoami"
+              ]
+            }
+          ],
+          "leading": {
+            "interleaved": true,
+            "flags": [
+              "--json",
+              "--silent",
+              "--debug",
+              "--print-config",
+              "--no-read-env",
+              "--no-check-version",
+              "--no-timeout",
+              "--no-verify-tls",
+              "--enable-dns-resolver",
+              "--no-dns-resolver",
+              "-h",
+              "--help"
+            ],
+            "values": [
+              "--attempts",
+              "--timeout",
+              "--api-host",
+              "--dashboard-host",
+              "--config-dir",
+              "--configuration",
+              "--scope",
+              "--dns-resolver-address",
+              "--dns-resolver-proto",
+              "--dns-resolver-timeout",
+              "-t",
+              {
+                "name": "--token"
+              }
+            ]
+          },
+          "flags": [
+            "--json",
+            "--silent",
+            "--debug",
+            "--print-config",
+            "--no-read-env",
+            "--no-check-version",
+            "--no-timeout",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "-h",
+            "--help"
+          ],
+          "values": [
+            "--attempts",
+            "--timeout",
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "-t",
+            {
+              "name": "--token"
+            }
+          ],
+          "operands": false,
+          "forbid": [
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "-t",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "--print-config",
+            "--debug",
+            "--token"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "project"
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-projects",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read Doppler metadata in the project.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "projects"
+          ],
+          "leading": {
+            "interleaved": true,
+            "flags": [
+              "--json",
+              "--silent",
+              "--debug",
+              "--print-config",
+              "--no-read-env",
+              "--no-check-version",
+              "--no-timeout",
+              "--no-verify-tls",
+              "--enable-dns-resolver",
+              "--no-dns-resolver",
+              "-h",
+              "--help"
+            ],
+            "values": [
+              "--attempts",
+              "--timeout",
+              "--api-host",
+              "--dashboard-host",
+              "--config-dir",
+              "--configuration",
+              "--scope",
+              "--dns-resolver-address",
+              "--dns-resolver-proto",
+              "--dns-resolver-timeout",
+              "-t",
+              {
+                "name": "--token"
+              }
+            ]
+          },
+          "flags": [
+            "--json",
+            "--silent",
+            "--debug",
+            "--print-config",
+            "--no-read-env",
+            "--no-check-version",
+            "--no-timeout",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "-h",
+            "--help"
+          ],
+          "values": [
+            "--attempts",
+            "--timeout",
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "-t",
+            {
+              "name": "--token"
+            },
+            "--number",
+            "-n",
+            "--page"
+          ],
+          "operands": false,
+          "forbid": [
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "-t",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "--print-config",
+            "--debug",
+            "--token"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "project"
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-project-get",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read Doppler metadata in the project.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "projects",
+            "get"
+          ],
+          "leading": {
+            "interleaved": true,
+            "flags": [
+              "--json",
+              "--silent",
+              "--debug",
+              "--print-config",
+              "--no-read-env",
+              "--no-check-version",
+              "--no-timeout",
+              "--no-verify-tls",
+              "--enable-dns-resolver",
+              "--no-dns-resolver",
+              "-h",
+              "--help"
+            ],
+            "values": [
+              "--attempts",
+              "--timeout",
+              "--api-host",
+              "--dashboard-host",
+              "--config-dir",
+              "--configuration",
+              "--scope",
+              "--dns-resolver-address",
+              "--dns-resolver-proto",
+              "--dns-resolver-timeout",
+              "-t",
+              {
+                "name": "--token"
+              }
+            ]
+          },
+          "flags": [
+            "--json",
+            "--silent",
+            "--debug",
+            "--print-config",
+            "--no-read-env",
+            "--no-check-version",
+            "--no-timeout",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "-h",
+            "--help"
+          ],
+          "values": [
+            "--attempts",
+            "--timeout",
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "-t",
+            {
+              "name": "--token"
+            },
+            "--project",
+            "-p"
+          ],
+          "operands": {
+            "match": {
+              "regex": "^\\S+$"
+            },
+            "max": 1
+          },
+          "forbid": [
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "-t",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "--print-config",
+            "--debug",
+            "--token"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "project"
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-configs",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read Doppler metadata in the project.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "configs"
+          ],
+          "leading": {
+            "interleaved": true,
+            "flags": [
+              "--json",
+              "--silent",
+              "--debug",
+              "--print-config",
+              "--no-read-env",
+              "--no-check-version",
+              "--no-timeout",
+              "--no-verify-tls",
+              "--enable-dns-resolver",
+              "--no-dns-resolver",
+              "-h",
+              "--help"
+            ],
+            "values": [
+              "--attempts",
+              "--timeout",
+              "--api-host",
+              "--dashboard-host",
+              "--config-dir",
+              "--configuration",
+              "--scope",
+              "--dns-resolver-address",
+              "--dns-resolver-proto",
+              "--dns-resolver-timeout",
+              "-t",
+              {
+                "name": "--token"
+              }
+            ]
+          },
+          "flags": [
+            "--json",
+            "--silent",
+            "--debug",
+            "--print-config",
+            "--no-read-env",
+            "--no-check-version",
+            "--no-timeout",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "-h",
+            "--help"
+          ],
+          "values": [
+            "--attempts",
+            "--timeout",
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "-t",
+            {
+              "name": "--token"
+            },
+            "--project",
+            "-p",
+            "--environment",
+            "-e",
+            "--number",
+            "-n",
+            "--page"
+          ],
+          "operands": false,
+          "forbid": [
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "-t",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "--print-config",
+            "--debug",
+            "--token"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "project"
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-config-get",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read Doppler metadata in the project.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "configs",
+            "get"
+          ],
+          "leading": {
+            "interleaved": true,
+            "flags": [
+              "--json",
+              "--silent",
+              "--debug",
+              "--print-config",
+              "--no-read-env",
+              "--no-check-version",
+              "--no-timeout",
+              "--no-verify-tls",
+              "--enable-dns-resolver",
+              "--no-dns-resolver",
+              "-h",
+              "--help"
+            ],
+            "values": [
+              "--attempts",
+              "--timeout",
+              "--api-host",
+              "--dashboard-host",
+              "--config-dir",
+              "--configuration",
+              "--scope",
+              "--dns-resolver-address",
+              "--dns-resolver-proto",
+              "--dns-resolver-timeout",
+              "-t",
+              {
+                "name": "--token"
+              }
+            ]
+          },
+          "flags": [
+            "--json",
+            "--silent",
+            "--debug",
+            "--print-config",
+            "--no-read-env",
+            "--no-check-version",
+            "--no-timeout",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "-h",
+            "--help"
+          ],
+          "values": [
+            "--attempts",
+            "--timeout",
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "-t",
+            {
+              "name": "--token"
+            },
+            "--project",
+            "-p",
+            "--config",
+            "-c"
+          ],
+          "operands": {
+            "match": {
+              "regex": "^\\S+$"
+            },
+            "max": 1
+          },
+          "forbid": [
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "-t",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "--print-config",
+            "--debug",
+            "--token"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "project"
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-environments",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read Doppler metadata in the project.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "environments"
+          ],
+          "leading": {
+            "interleaved": true,
+            "flags": [
+              "--json",
+              "--silent",
+              "--debug",
+              "--print-config",
+              "--no-read-env",
+              "--no-check-version",
+              "--no-timeout",
+              "--no-verify-tls",
+              "--enable-dns-resolver",
+              "--no-dns-resolver",
+              "-h",
+              "--help"
+            ],
+            "values": [
+              "--attempts",
+              "--timeout",
+              "--api-host",
+              "--dashboard-host",
+              "--config-dir",
+              "--configuration",
+              "--scope",
+              "--dns-resolver-address",
+              "--dns-resolver-proto",
+              "--dns-resolver-timeout",
+              "-t",
+              {
+                "name": "--token"
+              }
+            ]
+          },
+          "flags": [
+            "--json",
+            "--silent",
+            "--debug",
+            "--print-config",
+            "--no-read-env",
+            "--no-check-version",
+            "--no-timeout",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "-h",
+            "--help"
+          ],
+          "values": [
+            "--attempts",
+            "--timeout",
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "-t",
+            {
+              "name": "--token"
+            },
+            "--project",
+            "-p",
+            "--number",
+            "-n",
+            "--page"
+          ],
+          "operands": false,
+          "forbid": [
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "-t",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "--print-config",
+            "--debug",
+            "--token"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "project"
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-environment-get",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read Doppler metadata in the project.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "environments",
+            "get"
+          ],
+          "leading": {
+            "interleaved": true,
+            "flags": [
+              "--json",
+              "--silent",
+              "--debug",
+              "--print-config",
+              "--no-read-env",
+              "--no-check-version",
+              "--no-timeout",
+              "--no-verify-tls",
+              "--enable-dns-resolver",
+              "--no-dns-resolver",
+              "-h",
+              "--help"
+            ],
+            "values": [
+              "--attempts",
+              "--timeout",
+              "--api-host",
+              "--dashboard-host",
+              "--config-dir",
+              "--configuration",
+              "--scope",
+              "--dns-resolver-address",
+              "--dns-resolver-proto",
+              "--dns-resolver-timeout",
+              "-t",
+              {
+                "name": "--token"
+              }
+            ]
+          },
+          "flags": [
+            "--json",
+            "--silent",
+            "--debug",
+            "--print-config",
+            "--no-read-env",
+            "--no-check-version",
+            "--no-timeout",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "-h",
+            "--help"
+          ],
+          "values": [
+            "--attempts",
+            "--timeout",
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "-t",
+            {
+              "name": "--token"
+            },
+            "--project",
+            "-p"
+          ],
+          "operands": {
+            "match": {
+              "regex": "^\\S+$"
+            },
+            "min": 1,
+            "max": 1
+          },
+          "forbid": [
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "-t",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "--print-config",
+            "--debug",
+            "--token"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "project"
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-tags",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read Doppler metadata in the project.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "tags"
+          ],
+          "leading": {
+            "interleaved": true,
+            "flags": [
+              "--json",
+              "--silent",
+              "--debug",
+              "--print-config",
+              "--no-read-env",
+              "--no-check-version",
+              "--no-timeout",
+              "--no-verify-tls",
+              "--enable-dns-resolver",
+              "--no-dns-resolver",
+              "-h",
+              "--help"
+            ],
+            "values": [
+              "--attempts",
+              "--timeout",
+              "--api-host",
+              "--dashboard-host",
+              "--config-dir",
+              "--configuration",
+              "--scope",
+              "--dns-resolver-address",
+              "--dns-resolver-proto",
+              "--dns-resolver-timeout",
+              "-t",
+              {
+                "name": "--token"
+              }
+            ]
+          },
+          "flags": [
+            "--json",
+            "--silent",
+            "--debug",
+            "--print-config",
+            "--no-read-env",
+            "--no-check-version",
+            "--no-timeout",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "-h",
+            "--help"
+          ],
+          "values": [
+            "--attempts",
+            "--timeout",
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "-t",
+            {
+              "name": "--token"
+            }
+          ],
+          "operands": false,
+          "forbid": [
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "-t",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "--print-config",
+            "--debug",
+            "--token"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "project"
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-secret-names",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect secret names without requesting their values.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "secrets"
+          ],
+          "leading": {
+            "interleaved": true,
+            "flags": [
+              "--json",
+              "--silent",
+              "--debug",
+              "--print-config",
+              "--no-read-env",
+              "--no-check-version",
+              "--no-timeout",
+              "--no-verify-tls",
+              "--enable-dns-resolver",
+              "--no-dns-resolver",
+              "-h",
+              "--help"
+            ],
+            "values": [
+              "--attempts",
+              "--timeout",
+              "--api-host",
+              "--dashboard-host",
+              "--config-dir",
+              "--configuration",
+              "--scope",
+              "--dns-resolver-address",
+              "--dns-resolver-proto",
+              "--dns-resolver-timeout",
+              "-t",
+              {
+                "name": "--token"
+              }
+            ]
+          },
+          "flags": [
+            "--json",
+            "--silent",
+            "--debug",
+            "--print-config",
+            "--no-read-env",
+            "--no-check-version",
+            "--no-timeout",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "-h",
+            "--help",
+            "--raw",
+            "--type",
+            "--visibility",
+            "--only-names"
+          ],
+          "values": [
+            "--attempts",
+            "--timeout",
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "-t",
+            {
+              "name": "--token"
+            },
+            "--project",
+            "-p",
+            "--config",
+            "-c"
+          ],
+          "operands": false,
+          "forbid": [
+            "--api-host",
+            "--dashboard-host",
+            "--config-dir",
+            "--configuration",
+            "--scope",
+            "-t",
+            "--no-verify-tls",
+            "--enable-dns-resolver",
+            "--no-dns-resolver",
+            "--dns-resolver-address",
+            "--dns-resolver-proto",
+            "--dns-resolver-timeout",
+            "--print-config",
+            "--debug",
+            "--token"
+          ],
+          "require_all": [
+            "--only-names"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "project"
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-secrets",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review secret values, downloads, templates and secret changes.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "secrets"
+          ],
+          "leading": {
+            "interleaved": true,
+            "flags": [
+              "--json",
+              "--silent",
+              "--debug",
+              "--print-config",
+              "--no-read-env",
+              "--no-check-version",
+              "--no-timeout",
+              "--no-verify-tls",
+              "--enable-dns-resolver",
+              "--no-dns-resolver",
+              "-h",
+              "--help"
+            ],
+            "values": [
+              "--attempts",
+              "--timeout",
+              "--api-host",
+              "--dashboard-host",
+              "--config-dir",
+              "--configuration",
+              "--scope",
+              "--dns-resolver-address",
+              "--dns-resolver-proto",
+              "--dns-resolver-timeout",
+              "-t",
+              {
+                "name": "--token"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-credentials-and-execution",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review credential access, configuration changes, secret injection and execution.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "one_of": [
+                "configure",
+                "flags",
+                "login",
+                "logout",
+                "oidc",
+                "mfa",
+                "run",
+                "setup",
+                "tui",
+                "enclave",
+                "import",
+                "update"
+              ]
+            }
+          ],
+          "leading": {
+            "interleaved": true,
+            "flags": [
+              "--json",
+              "--silent",
+              "--debug",
+              "--print-config",
+              "--no-read-env",
+              "--no-check-version",
+              "--no-timeout",
+              "--no-verify-tls",
+              "--enable-dns-resolver",
+              "--no-dns-resolver",
+              "-h",
+              "--help"
+            ],
+            "values": [
+              "--attempts",
+              "--timeout",
+              "--api-host",
+              "--dashboard-host",
+              "--config-dir",
+              "--configuration",
+              "--scope",
+              "--dns-resolver-address",
+              "--dns-resolver-proto",
+              "--dns-resolver-timeout",
+              "-t",
+              {
+                "name": "--token"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-project-changes",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review project changes.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "projects",
+            {
+              "one_of": [
+                "create",
+                "update",
+                "delete"
+              ]
+            }
+          ],
+          "leading": {
+            "interleaved": true,
+            "flags": [
+              "--json",
+              "--silent",
+              "--debug",
+              "--print-config",
+              "--no-read-env",
+              "--no-check-version",
+              "--no-timeout",
+              "--no-verify-tls",
+              "--enable-dns-resolver",
+              "--no-dns-resolver",
+              "-h",
+              "--help"
+            ],
+            "values": [
+              "--attempts",
+              "--timeout",
+              "--api-host",
+              "--dashboard-host",
+              "--config-dir",
+              "--configuration",
+              "--scope",
+              "--dns-resolver-address",
+              "--dns-resolver-proto",
+              "--dns-resolver-timeout",
+              "-t",
+              {
+                "name": "--token"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-config-changes",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review config changes and service-token operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "configs",
+            {
+              "one_of": [
+                "create",
+                "update",
+                "delete",
+                "clone",
+                "lock",
+                "unlock",
+                "tokens"
+              ]
+            }
+          ],
+          "leading": {
+            "interleaved": true,
+            "flags": [
+              "--json",
+              "--silent",
+              "--debug",
+              "--print-config",
+              "--no-read-env",
+              "--no-check-version",
+              "--no-timeout",
+              "--no-verify-tls",
+              "--enable-dns-resolver",
+              "--no-dns-resolver",
+              "-h",
+              "--help"
+            ],
+            "values": [
+              "--attempts",
+              "--timeout",
+              "--api-host",
+              "--dashboard-host",
+              "--config-dir",
+              "--configuration",
+              "--scope",
+              "--dns-resolver-address",
+              "--dns-resolver-proto",
+              "--dns-resolver-timeout",
+              "-t",
+              {
+                "name": "--token"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-config-rollback",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review rollback of a config change.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "configs",
+            "logs",
+            "rollback"
+          ],
+          "leading": {
+            "interleaved": true,
+            "flags": [
+              "--json",
+              "--silent",
+              "--debug",
+              "--print-config",
+              "--no-read-env",
+              "--no-check-version",
+              "--no-timeout",
+              "--no-verify-tls",
+              "--enable-dns-resolver",
+              "--no-dns-resolver",
+              "-h",
+              "--help"
+            ],
+            "values": [
+              "--attempts",
+              "--timeout",
+              "--api-host",
+              "--dashboard-host",
+              "--config-dir",
+              "--configuration",
+              "--scope",
+              "--dns-resolver-address",
+              "--dns-resolver-proto",
+              "--dns-resolver-timeout",
+              "-t",
+              {
+                "name": "--token"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-environment-changes",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review environment changes.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "environments",
+            {
+              "one_of": [
+                "create",
+                "delete",
+                "rename"
+              ]
+            }
+          ],
+          "leading": {
+            "interleaved": true,
+            "flags": [
+              "--json",
+              "--silent",
+              "--debug",
+              "--print-config",
+              "--no-read-env",
+              "--no-check-version",
+              "--no-timeout",
+              "--no-verify-tls",
+              "--enable-dns-resolver",
+              "--no-dns-resolver",
+              "-h",
+              "--help"
+            ],
+            "values": [
+              "--attempts",
+              "--timeout",
+              "--api-host",
+              "--dashboard-host",
+              "--config-dir",
+              "--configuration",
+              "--scope",
+              "--dns-resolver-address",
+              "--dns-resolver-proto",
+              "--dns-resolver-timeout",
+              "-t",
+              {
+                "name": "--token"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-tag-changes",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review tag changes.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "tags",
+            {
+              "one_of": [
+                "create",
+                "update",
+                "delete"
+              ]
+            }
+          ],
+          "leading": {
+            "interleaved": true,
+            "flags": [
+              "--json",
+              "--silent",
+              "--debug",
+              "--print-config",
+              "--no-read-env",
+              "--no-check-version",
+              "--no-timeout",
+              "--no-verify-tls",
+              "--enable-dns-resolver",
+              "--no-dns-resolver",
+              "-h",
+              "--help"
+            ],
+            "values": [
+              "--attempts",
+              "--timeout",
+              "--api-host",
+              "--dashboard-host",
+              "--config-dir",
+              "--configuration",
+              "--scope",
+              "--dns-resolver-address",
+              "--dns-resolver-proto",
+              "--dns-resolver-timeout",
+              "-t",
+              {
+                "name": "--token"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-settings-change",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review workplace settings changes.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "settings",
+            "update"
+          ],
+          "leading": {
+            "interleaved": true,
+            "flags": [
+              "--json",
+              "--silent",
+              "--debug",
+              "--print-config",
+              "--no-read-env",
+              "--no-check-version",
+              "--no-timeout",
+              "--no-verify-tls",
+              "--enable-dns-resolver",
+              "--no-dns-resolver",
+              "-h",
+              "--help"
+            ],
+            "values": [
+              "--attempts",
+              "--timeout",
+              "--api-host",
+              "--dashboard-host",
+              "--config-dir",
+              "--configuration",
+              "--scope",
+              "--dns-resolver-address",
+              "--dns-resolver-proto",
+              "--dns-resolver-timeout",
+              "-t",
+              {
+                "name": "--token"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-env-doppler-api-host",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review observed environment overrides of Doppler connection or credential settings.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        },
+        "environment": {
+          "fields": {
+            "DOPPLER_API_HOST": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-env-doppler-dashboard-host",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review observed environment overrides of Doppler connection or credential settings.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        },
+        "environment": {
+          "fields": {
+            "DOPPLER_DASHBOARD_HOST": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-env-doppler-config-dir",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review observed environment overrides of Doppler connection or credential settings.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        },
+        "environment": {
+          "fields": {
+            "DOPPLER_CONFIG_DIR": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-env-doppler-verify-tls",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review observed environment overrides of Doppler connection or credential settings.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        },
+        "environment": {
+          "fields": {
+            "DOPPLER_VERIFY_TLS": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-env-doppler-enable-dns-resolver",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review observed environment overrides of Doppler connection or credential settings.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        },
+        "environment": {
+          "fields": {
+            "DOPPLER_ENABLE_DNS_RESOLVER": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "cli-unlisted",
+      "decision": "ask",
+      "reason": "Review unclassified commands or connection and credential overrides.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "doppler",
+            "doppler.exe",
+            "/usr/bin/doppler",
+            "/usr/local/bin/doppler",
+            "/opt/homebrew/bin/doppler"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      }
+    },
+    {
+      "id": "mcp-projects_list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect Doppler metadata or secret names.",
+      "conditions": {
+        "domain": "mcp",
+        "server": "doppler",
+        "tool": "projects_list"
+      }
+    },
+    {
+      "id": "mcp-projects_get",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect Doppler metadata or secret names.",
+      "conditions": {
+        "domain": "mcp",
+        "server": "doppler",
+        "tool": "projects_get"
+      },
+      "requirements": {
+        "fields": {
+          "/project": {
+            "text": {
+              "regex": "^\\S+$"
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": "ask",
+        "message": "Supply the required Doppler identifiers."
+      }
+    },
+    {
+      "id": "mcp-environments_list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect Doppler metadata or secret names.",
+      "conditions": {
+        "domain": "mcp",
+        "server": "doppler",
+        "tool": "environments_list"
+      },
+      "requirements": {
+        "fields": {
+          "/project": {
+            "text": {
+              "regex": "^\\S+$"
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": "ask",
+        "message": "Supply the required Doppler identifiers."
+      }
+    },
+    {
+      "id": "mcp-environments_get",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect Doppler metadata or secret names.",
+      "conditions": {
+        "domain": "mcp",
+        "server": "doppler",
+        "tool": "environments_get"
+      },
+      "requirements": {
+        "fields": {
+          "/project": {
+            "text": {
+              "regex": "^\\S+$"
+            }
+          },
+          "/environment": {
+            "text": {
+              "regex": "^\\S+$"
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": "ask",
+        "message": "Supply the required Doppler identifiers."
+      }
+    },
+    {
+      "id": "mcp-configs_list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect Doppler metadata or secret names.",
+      "conditions": {
+        "domain": "mcp",
+        "server": "doppler",
+        "tool": "configs_list"
+      },
+      "requirements": {
+        "fields": {
+          "/project": {
+            "text": {
+              "regex": "^\\S+$"
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": "ask",
+        "message": "Supply the required Doppler identifiers."
+      }
+    },
+    {
+      "id": "mcp-configs_get",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect Doppler metadata or secret names.",
+      "conditions": {
+        "domain": "mcp",
+        "server": "doppler",
+        "tool": "configs_get"
+      },
+      "requirements": {
+        "fields": {
+          "/project": {
+            "text": {
+              "regex": "^\\S+$"
+            }
+          },
+          "/config": {
+            "text": {
+              "regex": "^\\S+$"
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": "ask",
+        "message": "Supply the required Doppler identifiers."
+      }
+    },
+    {
+      "id": "mcp-secrets_names",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect Doppler metadata or secret names.",
+      "conditions": {
+        "domain": "mcp",
+        "server": "doppler",
+        "tool": "secrets_names"
+      },
+      "requirements": {
+        "fields": {
+          "/project": {
+            "text": {
+              "regex": "^\\S+$"
+            }
+          },
+          "/config": {
+            "text": {
+              "regex": "^\\S+$"
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": "ask",
+        "message": "Supply the required Doppler identifiers."
+      }
+    },
+    {
+      "id": "mcp-protected",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review secret values, credentials and Doppler API mutations.",
+      "conditions": {
+        "domain": "mcp",
+        "server": "doppler",
+        "tool": {
+          "one_of": [
+            "secrets_list",
+            "secrets_get",
+            "secrets_download",
+            "service_tokens_list",
+            "service_account_tokens_list",
+            "service_account_tokens_get",
+            "workplace_update",
+            "users_update",
+            "workplace_roles_create",
+            "workplace_roles_update",
+            "workplace_roles_delete",
+            "projects_create",
+            "projects_update",
+            "projects_delete",
+            "project_roles_create",
+            "project_roles_update",
+            "project_roles_delete",
+            "project_members_add",
+            "project_members_update",
+            "project_members_delete",
+            "environments_create",
+            "environments_delete",
+            "environments_rename",
+            "configs_create",
+            "configs_update",
+            "configs_delete",
+            "configs_clone",
+            "configs_lock",
+            "configs_unlock",
+            "configs_inheritable",
+            "configs_inherits",
+            "config_logs_rollback",
+            "configs_add_trusted_ip",
+            "configs_delete_trusted_ip",
+            "secrets_update",
+            "secrets_delete",
+            "secrets_update_note",
+            "integrations_create",
+            "integrations_update",
+            "integrations_delete",
+            "syncs_create",
+            "syncs_delete",
+            "dynamic_secrets_issue_lease",
+            "dynamic_secrets_revoke_lease",
+            "service_tokens_create",
+            "service_tokens_delete",
+            "groups_create",
+            "groups_update",
+            "groups_delete",
+            "groups_add_member",
+            "groups_delete_member",
+            "service_accounts_create",
+            "service_accounts_update",
+            "service_accounts_delete",
+            "service_account_tokens_create",
+            "service_account_tokens_delete",
+            "webhooks_add",
+            "webhooks_update",
+            "webhooks_delete",
+            "webhooks_enable",
+            "webhooks_disable",
+            "change_request_policies_create",
+            "change_request_policies_update",
+            "change_request_policies_delete",
+            "auth_revoke",
+            "auth_oidc",
+            "workplace_service_account_identities_create",
+            "workplace_service_account_identity_update",
+            "workplace_service_account_identity_delete",
+            "workplace_change_requests_create",
+            "workplace_change_request_create",
+            "workplace_change_request_close",
+            "workplace_change_request_assignees_update",
+            "workplace_change_requests_unit_status",
+            "workplace_change_requests_unit_review",
+            "workplace_change_requests_unit_review_delete",
+            "workplace_change_requests_unit_apply",
+            "integration_members_create",
+            "workplace_integration_members_delete",
+            "integration_members_update"
+          ]
+        }
+      }
+    },
+    {
+      "id": "mcp-other-reads",
+      "decision": "ask",
+      "reason": "Review other Doppler API reads and access confirmation.",
+      "conditions": {
+        "domain": "mcp",
+        "server": "doppler",
+        "tool": {
+          "one_of": [
+            "workplace_get",
+            "users_list",
+            "users_get",
+            "workplace_roles_list",
+            "workplace_roles_get",
+            "workplace_roles_list_permissions",
+            "activity_logs_list",
+            "activity_logs_retrieve",
+            "project_roles_list",
+            "project_roles_get",
+            "project_roles_list_permissions",
+            "project_members_list",
+            "project_members_get",
+            "config_logs_list",
+            "config_logs_get",
+            "configs_list_trusted_ips",
+            "integrations_list",
+            "integrations_get",
+            "get_options",
+            "syncs_get",
+            "invites_list",
+            "groups_list",
+            "groups_get",
+            "retrieve_member",
+            "service_accounts_list",
+            "service_accounts_get",
+            "webhooks_list",
+            "webhooks_get",
+            "change_request_policies_list",
+            "change_request_policies_get",
+            "auth_me",
+            "audit_get_user",
+            "workplace_service_account_identities_list",
+            "workplace_service_account_identity_get",
+            "workplace_change_requests_list",
+            "workplace_change_request_get",
+            "workplace_change_requests_unit_get",
+            "integration_members_list",
+            "workplace_integration_members_member_get",
+            "workplace_integration_members_get",
+            "confirm_access"
+          ]
+        }
+      }
+    },
+    {
+      "id": "mcp-unlisted",
+      "decision": "ask",
+      "reason": "Review unlisted Doppler tools.",
+      "conditions": {
+        "domain": "mcp",
+        "server": "doppler",
+        "tool": {
+          "not": {
+            "one_of": [
+              "projects_list",
+              "projects_get",
+              "environments_list",
+              "environments_get",
+              "configs_list",
+              "configs_get",
+              "secrets_names",
+              "secrets_list",
+              "secrets_get",
+              "secrets_download",
+              "service_tokens_list",
+              "service_account_tokens_list",
+              "service_account_tokens_get",
+              "workplace_update",
+              "users_update",
+              "workplace_roles_create",
+              "workplace_roles_update",
+              "workplace_roles_delete",
+              "projects_create",
+              "projects_update",
+              "projects_delete",
+              "project_roles_create",
+              "project_roles_update",
+              "project_roles_delete",
+              "project_members_add",
+              "project_members_update",
+              "project_members_delete",
+              "environments_create",
+              "environments_delete",
+              "environments_rename",
+              "configs_create",
+              "configs_update",
+              "configs_delete",
+              "configs_clone",
+              "configs_lock",
+              "configs_unlock",
+              "configs_inheritable",
+              "configs_inherits",
+              "config_logs_rollback",
+              "configs_add_trusted_ip",
+              "configs_delete_trusted_ip",
+              "secrets_update",
+              "secrets_delete",
+              "secrets_update_note",
+              "integrations_create",
+              "integrations_update",
+              "integrations_delete",
+              "syncs_create",
+              "syncs_delete",
+              "dynamic_secrets_issue_lease",
+              "dynamic_secrets_revoke_lease",
+              "service_tokens_create",
+              "service_tokens_delete",
+              "groups_create",
+              "groups_update",
+              "groups_delete",
+              "groups_add_member",
+              "groups_delete_member",
+              "service_accounts_create",
+              "service_accounts_update",
+              "service_accounts_delete",
+              "service_account_tokens_create",
+              "service_account_tokens_delete",
+              "webhooks_add",
+              "webhooks_update",
+              "webhooks_delete",
+              "webhooks_enable",
+              "webhooks_disable",
+              "change_request_policies_create",
+              "change_request_policies_update",
+              "change_request_policies_delete",
+              "auth_revoke",
+              "auth_oidc",
+              "workplace_service_account_identities_create",
+              "workplace_service_account_identity_update",
+              "workplace_service_account_identity_delete",
+              "workplace_change_requests_create",
+              "workplace_change_request_create",
+              "workplace_change_request_close",
+              "workplace_change_request_assignees_update",
+              "workplace_change_requests_unit_status",
+              "workplace_change_requests_unit_review",
+              "workplace_change_requests_unit_review_delete",
+              "workplace_change_requests_unit_apply",
+              "integration_members_create",
+              "workplace_integration_members_delete",
+              "integration_members_update",
+              "workplace_get",
+              "users_list",
+              "users_get",
+              "workplace_roles_list",
+              "workplace_roles_get",
+              "workplace_roles_list_permissions",
+              "activity_logs_list",
+              "activity_logs_retrieve",
+              "project_roles_list",
+              "project_roles_get",
+              "project_roles_list_permissions",
+              "project_members_list",
+              "project_members_get",
+              "config_logs_list",
+              "config_logs_get",
+              "configs_list_trusted_ips",
+              "integrations_list",
+              "integrations_get",
+              "get_options",
+              "syncs_get",
+              "invites_list",
+              "groups_list",
+              "groups_get",
+              "retrieve_member",
+              "service_accounts_list",
+              "service_accounts_get",
+              "webhooks_list",
+              "webhooks_get",
+              "change_request_policies_list",
+              "change_request_policies_get",
+              "auth_me",
+              "audit_get_user",
+              "workplace_service_account_identities_list",
+              "workplace_service_account_identity_get",
+              "workplace_change_requests_list",
+              "workplace_change_request_get",
+              "workplace_change_requests_unit_get",
+              "integration_members_list",
+              "workplace_integration_members_member_get",
+              "workplace_integration_members_get",
+              "confirm_access"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,4064 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "java-version-loose",
+      "profile": "loose",
+      "argv": [
+        "java",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "java-legacy-version-loose",
+      "profile": "loose",
+      "argv": [
+        "java",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "java-help-loose",
+      "profile": "loose",
+      "argv": [
+        "java",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "javac-version-loose",
+      "profile": "loose",
+      "argv": [
+        "javac",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "javac-help-loose",
+      "profile": "loose",
+      "argv": [
+        "javac",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jar-help-loose",
+      "profile": "loose",
+      "argv": [
+        "jar",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jlink-version-loose",
+      "profile": "loose",
+      "argv": [
+        "jlink",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jpackage-help-loose",
+      "profile": "loose",
+      "argv": [
+        "jpackage",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jshell-help-loose",
+      "profile": "loose",
+      "argv": [
+        "jshell",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jcmd-usage-loose",
+      "profile": "loose",
+      "argv": [
+        "jcmd",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "keytool-help-loose",
+      "profile": "loose",
+      "argv": [
+        "keytool",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "launch-class-loose",
+      "profile": "loose",
+      "argv": [
+        "java",
+        "-cp",
+        "./classes",
+        "example.Main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "launch-jar-loose",
+      "profile": "loose",
+      "argv": [
+        "java",
+        "-jar",
+        "./example.jar"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "launch-source-loose",
+      "profile": "loose",
+      "argv": [
+        "java",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "launch-module-loose",
+      "profile": "loose",
+      "argv": [
+        "java",
+        "--module-path=./mods",
+        "--module=example/example.Main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "java-agent-loose",
+      "profile": "loose",
+      "argv": [
+        "java",
+        "-javaagent:./agent.jar",
+        "example.Main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "native-agent-loose",
+      "profile": "loose",
+      "argv": [
+        "java",
+        "-agentpath:/outside/agent.so",
+        "example.Main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "version-with-agent-loose",
+      "profile": "loose",
+      "argv": [
+        "java",
+        "-javaagent:./agent.jar",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "version-with-extra-loose",
+      "profile": "loose",
+      "argv": [
+        "java",
+        "--version",
+        "-Xlog:gc:file=/outside/gc.log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "java-argfile-loose",
+      "profile": "loose",
+      "argv": [
+        "java",
+        "@./runtime.args"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "debug-listener-loose",
+      "profile": "loose",
+      "argv": [
+        "java",
+        "-agentlib:jdwp=transport=dt_socket,server=y,address=*:5005",
+        "example.Main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "heap-dump-loose",
+      "profile": "loose",
+      "argv": [
+        "java",
+        "-XX:HeapDumpPath=/outside/heap.hprof",
+        "example.Main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "compile-loose",
+      "profile": "loose",
+      "argv": [
+        "javac",
+        "-d",
+        "./classes",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "compile-no-processor-loose",
+      "profile": "loose",
+      "argv": [
+        "javac",
+        "-proc:none",
+        "-d",
+        "./classes",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "processor-loose",
+      "profile": "loose",
+      "argv": [
+        "javac",
+        "-processor",
+        "example.Processor",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "javac-plugin-loose",
+      "profile": "loose",
+      "argv": [
+        "javac",
+        "-Xplugin:example",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "javac-argfile-loose",
+      "profile": "loose",
+      "argv": [
+        "javac",
+        "@./compiler.args"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "javac-jvm-agent-loose",
+      "profile": "loose",
+      "argv": [
+        "javac",
+        "-J-javaagent:./agent.jar",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "compile-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "javac",
+        "-d",
+        "/outside/classes",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "archive-create-loose",
+      "profile": "loose",
+      "argv": [
+        "jar",
+        "cf",
+        "./example.jar",
+        "-C",
+        "./classes",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "archive-list-loose",
+      "profile": "loose",
+      "argv": [
+        "jar",
+        "tf",
+        "./example.jar"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "archive-extract-loose",
+      "profile": "loose",
+      "argv": [
+        "jar",
+        "xf",
+        "./example.jar"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "archive-update-loose",
+      "profile": "loose",
+      "argv": [
+        "jar",
+        "--update",
+        "--file=./example.jar",
+        "./Example.class"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "archive-argfile-loose",
+      "profile": "loose",
+      "argv": [
+        "jar",
+        "@./archive.args"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "javadoc-loose",
+      "profile": "loose",
+      "argv": [
+        "javadoc",
+        "-d",
+        "./docs",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "doclet-loose",
+      "profile": "loose",
+      "argv": [
+        "javadoc",
+        "-doclet",
+        "example.Doclet",
+        "-docletpath",
+        "./example.jar",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "disassemble-loose",
+      "profile": "loose",
+      "argv": [
+        "javap",
+        "-classpath",
+        "./classes",
+        "-c",
+        "example.Main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dependencies-loose",
+      "profile": "loose",
+      "argv": [
+        "jdeps",
+        "./example.jar"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "deprecations-loose",
+      "profile": "loose",
+      "argv": [
+        "jdeprscan",
+        "./example.jar"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "native-scan-loose",
+      "profile": "loose",
+      "argv": [
+        "jnativescan",
+        "./example.jar"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "runtime-image-loose",
+      "profile": "loose",
+      "argv": [
+        "jlink",
+        "--module-path=./mods",
+        "--add-modules=example",
+        "--output=/outside/runtime"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "package-loose",
+      "profile": "loose",
+      "argv": [
+        "jpackage",
+        "--input",
+        "./dist",
+        "--main-jar",
+        "example.jar",
+        "--dest",
+        "./packages"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jmod-loose",
+      "profile": "loose",
+      "argv": [
+        "jmod",
+        "extract",
+        "./example.jmod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jimage-loose",
+      "profile": "loose",
+      "argv": [
+        "jimage",
+        "extract",
+        "./modules"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jshell-loose",
+      "profile": "loose",
+      "argv": [
+        "jshell"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jshell-startup-loose",
+      "profile": "loose",
+      "argv": [
+        "jshell",
+        "--startup",
+        "./startup.jsh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "script-shell-loose",
+      "profile": "loose",
+      "argv": [
+        "jrunscript",
+        "-e",
+        "print(1)"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "process-list-loose",
+      "profile": "loose",
+      "argv": [
+        "jps",
+        "-l"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "diagnostic-loose",
+      "profile": "loose",
+      "argv": [
+        "jcmd",
+        "1234",
+        "VM.system_properties"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "all-processes-loose",
+      "profile": "loose",
+      "argv": [
+        "jcmd",
+        "0",
+        "GC.run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "diagnostic-file-loose",
+      "profile": "loose",
+      "argv": [
+        "jcmd",
+        "1234",
+        "-f",
+        "./commands.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "diagnostic-dump-loose",
+      "profile": "loose",
+      "argv": [
+        "jcmd",
+        "1234",
+        "GC.heap_dump",
+        "/outside/heap.hprof"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "thread-dump-loose",
+      "profile": "loose",
+      "argv": [
+        "jstack",
+        "1234"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "map-loose",
+      "profile": "loose",
+      "argv": [
+        "jmap",
+        "-dump:format=b,file=./heap.hprof",
+        "1234"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vm-options-loose",
+      "profile": "loose",
+      "argv": [
+        "jinfo",
+        "-flag",
+        "+HeapDumpOnOutOfMemoryError",
+        "1234"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "statistics-loose",
+      "profile": "loose",
+      "argv": [
+        "jstat",
+        "-gc",
+        "1234"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stat-daemon-loose",
+      "profile": "loose",
+      "argv": [
+        "jstatd",
+        "-p",
+        "1099"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "debugger-loose",
+      "profile": "loose",
+      "argv": [
+        "jdb",
+        "-attach",
+        "localhost:5005"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "core-debugger-loose",
+      "profile": "loose",
+      "argv": [
+        "jhsdb",
+        "jmap",
+        "--pid",
+        "1234"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "console-loose",
+      "profile": "loose",
+      "argv": [
+        "jconsole",
+        "1234"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "flight-recorder-loose",
+      "profile": "loose",
+      "argv": [
+        "jfr",
+        "print",
+        "./recording.jfr"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "flight-output-loose",
+      "profile": "loose",
+      "argv": [
+        "jfr",
+        "assemble",
+        "./recordings",
+        "/outside/recording.jfr"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "webserver-loose",
+      "profile": "loose",
+      "argv": [
+        "jwebserver",
+        "-b",
+        "0.0.0.0",
+        "-d",
+        "./public"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "registry-loose",
+      "profile": "loose",
+      "argv": [
+        "rmiregistry",
+        "1099"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "serial-loose",
+      "profile": "loose",
+      "argv": [
+        "serialver",
+        "-classpath",
+        "./classes",
+        "example.Main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "key-list-loose",
+      "profile": "loose",
+      "argv": [
+        "keytool",
+        "-list",
+        "-keystore",
+        "./example.jks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "key-import-loose",
+      "profile": "loose",
+      "argv": [
+        "keytool",
+        "-importcert",
+        "-file",
+        "./example.pem",
+        "-keystore",
+        "./example.jks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "key-provider-loose",
+      "profile": "loose",
+      "argv": [
+        "keytool",
+        "-providerclass",
+        "example.Provider",
+        "-list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sign-loose",
+      "profile": "loose",
+      "argv": [
+        "jarsigner",
+        "-keystore",
+        "./example.jks",
+        "./example.jar",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "verify-signature-loose",
+      "profile": "loose",
+      "argv": [
+        "jarsigner",
+        "-verify",
+        "./example.jar"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-version-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-help-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-validate-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn",
+        "validate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-compile-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn",
+        "-B",
+        "compile"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-test-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-package-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn",
+        "-DskipTests",
+        "package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-install-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn",
+        "install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-deploy-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn",
+        "deploy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-clean-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn",
+        "clean"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-offline-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn",
+        "-o",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-settings-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn",
+        "-s",
+        "/outside/settings.xml",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-repo-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn",
+        "-Dmaven.repo.local=/outside/repo",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-project-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn",
+        "-f",
+        "./other/pom.xml",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-extension-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn",
+        "-Dmaven.ext.class.path=./extension.jar",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-plugin-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn",
+        "org.example:plugin:1.0:run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-exec-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn",
+        "exec:exec",
+        "-Dexec.executable=sh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-help-goal-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn",
+        "help:effective-settings"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-wrapper-loose",
+      "profile": "loose",
+      "argv": [
+        "./mvnw",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nested-wrapper-loose",
+      "profile": "loose",
+      "argv": [
+        "./apps/example/mvnw",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "absolute-wrapper-loose",
+      "profile": "loose",
+      "argv": [
+        "/outside/project/mvnw",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "windows-wrapper-loose",
+      "profile": "loose",
+      "argv": [
+        "C:\\example\\mvnw.cmd",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "windows-maven-loose",
+      "profile": "loose",
+      "argv": [
+        "mvn.cmd",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-daemon-loose",
+      "profile": "loose",
+      "argv": [
+        "mvnd",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-daemon-stop-loose",
+      "profile": "loose",
+      "argv": [
+        "mvnd",
+        "--stop"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "absolute-java-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/java",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "windows-javac-loose",
+      "profile": "loose",
+      "argv": [
+        "javac.exe",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-java-option-loose",
+      "profile": "loose",
+      "argv": [
+        "java",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-version-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-help-flag-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-help-task-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-tasks-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "tasks",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-projects-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "projects"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-properties-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "properties"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-dependencies-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "dependencies"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-dependency-insight-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "dependencyInsight",
+        "--dependency",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-build-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-test-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "test",
+        "--tests",
+        "example.ExampleTest"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-clean-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "clean"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-run-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-dry-run-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "--dry-run",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-offline-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "--offline",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-no-daemon-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "--no-daemon",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-continuous-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "--continuous",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-init-script-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "-I",
+        "/outside/init.gradle",
+        "tasks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-init-script-long-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "tasks",
+        "--init-script=./init.gradle.kts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-project-dir-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "-p",
+        "/outside/project",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-user-home-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "--gradle-user-home=/outside/cache",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-jvm-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "-Dorg.gradle.jvmargs=-javaagent:./agent.jar",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-java-home-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "-Dorg.gradle.java.home=/outside/jdk",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-publish-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-local-publish-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "publishToMavenLocal"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-scan-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "build",
+        "--scan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-refresh-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "--refresh-dependencies",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-cache-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "--build-cache",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-status-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "--status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-stop-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "--stop"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-init-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "init",
+        "--type=java-application"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-wrapper-generation-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "wrapper",
+        "--gradle-version=9.9.2"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-wrapper-loose",
+      "profile": "loose",
+      "argv": [
+        "./gradlew",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-wrapper-version-loose",
+      "profile": "loose",
+      "argv": [
+        "./gradlew",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-nested-wrapper-loose",
+      "profile": "loose",
+      "argv": [
+        "./apps/example/gradlew",
+        ":app:build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-absolute-wrapper-loose",
+      "profile": "loose",
+      "argv": [
+        "/outside/project/gradlew",
+        "tasks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-windows-wrapper-loose",
+      "profile": "loose",
+      "argv": [
+        "C:\\example\\gradlew.bat",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-windows-launcher-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle.bat",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-unknown-task-loose",
+      "profile": "loose",
+      "argv": [
+        "gradle",
+        "customTask"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jshell-stdin-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "printf 'System.exit(0);' | jshell",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unclassified-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "mcp",
+        "server": "java",
+        "tool": "run",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "java-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "java",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "java-legacy-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "java",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "java-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "java",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "javac-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "javac",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "javac-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "javac",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jar-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jar",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jlink-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jlink",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jpackage-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jpackage",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jshell-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jshell",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jcmd-usage-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jcmd",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "keytool-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "keytool",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "launch-class-recommended",
+      "profile": "recommended",
+      "argv": [
+        "java",
+        "-cp",
+        "./classes",
+        "example.Main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "launch-jar-recommended",
+      "profile": "recommended",
+      "argv": [
+        "java",
+        "-jar",
+        "./example.jar"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "launch-source-recommended",
+      "profile": "recommended",
+      "argv": [
+        "java",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "launch-module-recommended",
+      "profile": "recommended",
+      "argv": [
+        "java",
+        "--module-path=./mods",
+        "--module=example/example.Main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "java-agent-recommended",
+      "profile": "recommended",
+      "argv": [
+        "java",
+        "-javaagent:./agent.jar",
+        "example.Main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "native-agent-recommended",
+      "profile": "recommended",
+      "argv": [
+        "java",
+        "-agentpath:/outside/agent.so",
+        "example.Main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "version-with-agent-recommended",
+      "profile": "recommended",
+      "argv": [
+        "java",
+        "-javaagent:./agent.jar",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "version-with-extra-recommended",
+      "profile": "recommended",
+      "argv": [
+        "java",
+        "--version",
+        "-Xlog:gc:file=/outside/gc.log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "java-argfile-recommended",
+      "profile": "recommended",
+      "argv": [
+        "java",
+        "@./runtime.args"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "debug-listener-recommended",
+      "profile": "recommended",
+      "argv": [
+        "java",
+        "-agentlib:jdwp=transport=dt_socket,server=y,address=*:5005",
+        "example.Main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "heap-dump-recommended",
+      "profile": "recommended",
+      "argv": [
+        "java",
+        "-XX:HeapDumpPath=/outside/heap.hprof",
+        "example.Main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "compile-recommended",
+      "profile": "recommended",
+      "argv": [
+        "javac",
+        "-d",
+        "./classes",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "compile-no-processor-recommended",
+      "profile": "recommended",
+      "argv": [
+        "javac",
+        "-proc:none",
+        "-d",
+        "./classes",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "processor-recommended",
+      "profile": "recommended",
+      "argv": [
+        "javac",
+        "-processor",
+        "example.Processor",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "javac-plugin-recommended",
+      "profile": "recommended",
+      "argv": [
+        "javac",
+        "-Xplugin:example",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "javac-argfile-recommended",
+      "profile": "recommended",
+      "argv": [
+        "javac",
+        "@./compiler.args"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "javac-jvm-agent-recommended",
+      "profile": "recommended",
+      "argv": [
+        "javac",
+        "-J-javaagent:./agent.jar",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "compile-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "javac",
+        "-d",
+        "/outside/classes",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "archive-create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jar",
+        "cf",
+        "./example.jar",
+        "-C",
+        "./classes",
+        "."
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "archive-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jar",
+        "tf",
+        "./example.jar"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "archive-extract-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jar",
+        "xf",
+        "./example.jar"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "archive-update-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jar",
+        "--update",
+        "--file=./example.jar",
+        "./Example.class"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "archive-argfile-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jar",
+        "@./archive.args"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "javadoc-recommended",
+      "profile": "recommended",
+      "argv": [
+        "javadoc",
+        "-d",
+        "./docs",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "doclet-recommended",
+      "profile": "recommended",
+      "argv": [
+        "javadoc",
+        "-doclet",
+        "example.Doclet",
+        "-docletpath",
+        "./example.jar",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "disassemble-recommended",
+      "profile": "recommended",
+      "argv": [
+        "javap",
+        "-classpath",
+        "./classes",
+        "-c",
+        "example.Main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dependencies-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jdeps",
+        "./example.jar"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "deprecations-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jdeprscan",
+        "./example.jar"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "native-scan-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jnativescan",
+        "./example.jar"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "runtime-image-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jlink",
+        "--module-path=./mods",
+        "--add-modules=example",
+        "--output=/outside/runtime"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "package-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jpackage",
+        "--input",
+        "./dist",
+        "--main-jar",
+        "example.jar",
+        "--dest",
+        "./packages"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jmod-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jmod",
+        "extract",
+        "./example.jmod"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jimage-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jimage",
+        "extract",
+        "./modules"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jshell-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jshell"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jshell-startup-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jshell",
+        "--startup",
+        "./startup.jsh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "script-shell-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jrunscript",
+        "-e",
+        "print(1)"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "process-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jps",
+        "-l"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "diagnostic-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jcmd",
+        "1234",
+        "VM.system_properties"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "all-processes-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jcmd",
+        "0",
+        "GC.run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "diagnostic-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jcmd",
+        "1234",
+        "-f",
+        "./commands.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "diagnostic-dump-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jcmd",
+        "1234",
+        "GC.heap_dump",
+        "/outside/heap.hprof"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "thread-dump-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jstack",
+        "1234"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "map-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jmap",
+        "-dump:format=b,file=./heap.hprof",
+        "1234"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vm-options-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jinfo",
+        "-flag",
+        "+HeapDumpOnOutOfMemoryError",
+        "1234"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "statistics-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jstat",
+        "-gc",
+        "1234"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stat-daemon-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jstatd",
+        "-p",
+        "1099"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "debugger-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jdb",
+        "-attach",
+        "localhost:5005"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "core-debugger-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jhsdb",
+        "jmap",
+        "--pid",
+        "1234"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "console-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jconsole",
+        "1234"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "flight-recorder-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jfr",
+        "print",
+        "./recording.jfr"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "flight-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jfr",
+        "assemble",
+        "./recordings",
+        "/outside/recording.jfr"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "webserver-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jwebserver",
+        "-b",
+        "0.0.0.0",
+        "-d",
+        "./public"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "registry-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rmiregistry",
+        "1099"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "serial-recommended",
+      "profile": "recommended",
+      "argv": [
+        "serialver",
+        "-classpath",
+        "./classes",
+        "example.Main"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "key-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "keytool",
+        "-list",
+        "-keystore",
+        "./example.jks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "key-import-recommended",
+      "profile": "recommended",
+      "argv": [
+        "keytool",
+        "-importcert",
+        "-file",
+        "./example.pem",
+        "-keystore",
+        "./example.jks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "key-provider-recommended",
+      "profile": "recommended",
+      "argv": [
+        "keytool",
+        "-providerclass",
+        "example.Provider",
+        "-list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jarsigner",
+        "-keystore",
+        "./example.jks",
+        "./example.jar",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "verify-signature-recommended",
+      "profile": "recommended",
+      "argv": [
+        "jarsigner",
+        "-verify",
+        "./example.jar"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-validate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn",
+        "validate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-compile-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn",
+        "-B",
+        "compile"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-test-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-package-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn",
+        "-DskipTests",
+        "package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn",
+        "install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-deploy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn",
+        "deploy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-clean-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn",
+        "clean"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-offline-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn",
+        "-o",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-settings-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn",
+        "-s",
+        "/outside/settings.xml",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-repo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn",
+        "-Dmaven.repo.local=/outside/repo",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-project-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn",
+        "-f",
+        "./other/pom.xml",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-extension-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn",
+        "-Dmaven.ext.class.path=./extension.jar",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-plugin-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn",
+        "org.example:plugin:1.0:run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-exec-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn",
+        "exec:exec",
+        "-Dexec.executable=sh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-help-goal-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn",
+        "help:effective-settings"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-wrapper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./mvnw",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nested-wrapper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./apps/example/mvnw",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "absolute-wrapper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/outside/project/mvnw",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "windows-wrapper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "C:\\example\\mvnw.cmd",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "windows-maven-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvn.cmd",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-daemon-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvnd",
+        "verify"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "maven-daemon-stop-recommended",
+      "profile": "recommended",
+      "argv": [
+        "mvnd",
+        "--stop"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "absolute-java-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/java",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "windows-javac-recommended",
+      "profile": "recommended",
+      "argv": [
+        "javac.exe",
+        "./Example.java"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-java-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "java",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-help-flag-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-help-task-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-tasks-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "tasks",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-projects-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "projects"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-properties-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "properties"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-dependencies-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "dependencies"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-dependency-insight-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "dependencyInsight",
+        "--dependency",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-build-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-test-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "test",
+        "--tests",
+        "example.ExampleTest"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-clean-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "clean"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-run-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-dry-run-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "--dry-run",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-offline-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "--offline",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-no-daemon-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "--no-daemon",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-continuous-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "--continuous",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-init-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "-I",
+        "/outside/init.gradle",
+        "tasks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-init-script-long-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "tasks",
+        "--init-script=./init.gradle.kts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-project-dir-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "-p",
+        "/outside/project",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-user-home-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "--gradle-user-home=/outside/cache",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-jvm-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "-Dorg.gradle.jvmargs=-javaagent:./agent.jar",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-java-home-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "-Dorg.gradle.java.home=/outside/jdk",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-publish-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-local-publish-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "publishToMavenLocal"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-scan-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "build",
+        "--scan"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-refresh-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "--refresh-dependencies",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-cache-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "--build-cache",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-status-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "--status"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-stop-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "--stop"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-init-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "init",
+        "--type=java-application"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-wrapper-generation-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "wrapper",
+        "--gradle-version=9.9.2"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-wrapper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./gradlew",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-wrapper-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./gradlew",
+        "--version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-nested-wrapper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./apps/example/gradlew",
+        ":app:build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-absolute-wrapper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/outside/project/gradlew",
+        "tasks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-windows-wrapper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "C:\\example\\gradlew.bat",
+        "build"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-windows-launcher-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle.bat",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "gradle-unknown-task-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gradle",
+        "customTask"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jshell-stdin-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "printf 'System.exit(0);' | jshell",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unclassified-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "mcp",
+        "server": "java",
+        "tool": "run",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "java-version-strict",
+      "profile": "strict",
+      "argv": [
+        "java",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "java-legacy-version-strict",
+      "profile": "strict",
+      "argv": [
+        "java",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "java-help-strict",
+      "profile": "strict",
+      "argv": [
+        "java",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "javac-version-strict",
+      "profile": "strict",
+      "argv": [
+        "javac",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "javac-help-strict",
+      "profile": "strict",
+      "argv": [
+        "javac",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jar-help-strict",
+      "profile": "strict",
+      "argv": [
+        "jar",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jlink-version-strict",
+      "profile": "strict",
+      "argv": [
+        "jlink",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jpackage-help-strict",
+      "profile": "strict",
+      "argv": [
+        "jpackage",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jshell-help-strict",
+      "profile": "strict",
+      "argv": [
+        "jshell",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "jcmd-usage-strict",
+      "profile": "strict",
+      "argv": [
+        "jcmd",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "keytool-help-strict",
+      "profile": "strict",
+      "argv": [
+        "keytool",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "launch-class-strict",
+      "profile": "strict",
+      "argv": [
+        "java",
+        "-cp",
+        "./classes",
+        "example.Main"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "launch-jar-strict",
+      "profile": "strict",
+      "argv": [
+        "java",
+        "-jar",
+        "./example.jar"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "launch-source-strict",
+      "profile": "strict",
+      "argv": [
+        "java",
+        "./Example.java"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "launch-module-strict",
+      "profile": "strict",
+      "argv": [
+        "java",
+        "--module-path=./mods",
+        "--module=example/example.Main"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "java-agent-strict",
+      "profile": "strict",
+      "argv": [
+        "java",
+        "-javaagent:./agent.jar",
+        "example.Main"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "native-agent-strict",
+      "profile": "strict",
+      "argv": [
+        "java",
+        "-agentpath:/outside/agent.so",
+        "example.Main"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "version-with-agent-strict",
+      "profile": "strict",
+      "argv": [
+        "java",
+        "-javaagent:./agent.jar",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "version-with-extra-strict",
+      "profile": "strict",
+      "argv": [
+        "java",
+        "--version",
+        "-Xlog:gc:file=/outside/gc.log"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "java-argfile-strict",
+      "profile": "strict",
+      "argv": [
+        "java",
+        "@./runtime.args"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "debug-listener-strict",
+      "profile": "strict",
+      "argv": [
+        "java",
+        "-agentlib:jdwp=transport=dt_socket,server=y,address=*:5005",
+        "example.Main"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "heap-dump-strict",
+      "profile": "strict",
+      "argv": [
+        "java",
+        "-XX:HeapDumpPath=/outside/heap.hprof",
+        "example.Main"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "compile-strict",
+      "profile": "strict",
+      "argv": [
+        "javac",
+        "-d",
+        "./classes",
+        "./Example.java"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "compile-no-processor-strict",
+      "profile": "strict",
+      "argv": [
+        "javac",
+        "-proc:none",
+        "-d",
+        "./classes",
+        "./Example.java"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "processor-strict",
+      "profile": "strict",
+      "argv": [
+        "javac",
+        "-processor",
+        "example.Processor",
+        "./Example.java"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "javac-plugin-strict",
+      "profile": "strict",
+      "argv": [
+        "javac",
+        "-Xplugin:example",
+        "./Example.java"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "javac-argfile-strict",
+      "profile": "strict",
+      "argv": [
+        "javac",
+        "@./compiler.args"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "javac-jvm-agent-strict",
+      "profile": "strict",
+      "argv": [
+        "javac",
+        "-J-javaagent:./agent.jar",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "compile-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "javac",
+        "-d",
+        "/outside/classes",
+        "./Example.java"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "archive-create-strict",
+      "profile": "strict",
+      "argv": [
+        "jar",
+        "cf",
+        "./example.jar",
+        "-C",
+        "./classes",
+        "."
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "archive-list-strict",
+      "profile": "strict",
+      "argv": [
+        "jar",
+        "tf",
+        "./example.jar"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "archive-extract-strict",
+      "profile": "strict",
+      "argv": [
+        "jar",
+        "xf",
+        "./example.jar"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "archive-update-strict",
+      "profile": "strict",
+      "argv": [
+        "jar",
+        "--update",
+        "--file=./example.jar",
+        "./Example.class"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "archive-argfile-strict",
+      "profile": "strict",
+      "argv": [
+        "jar",
+        "@./archive.args"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "javadoc-strict",
+      "profile": "strict",
+      "argv": [
+        "javadoc",
+        "-d",
+        "./docs",
+        "./Example.java"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "doclet-strict",
+      "profile": "strict",
+      "argv": [
+        "javadoc",
+        "-doclet",
+        "example.Doclet",
+        "-docletpath",
+        "./example.jar",
+        "./Example.java"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "disassemble-strict",
+      "profile": "strict",
+      "argv": [
+        "javap",
+        "-classpath",
+        "./classes",
+        "-c",
+        "example.Main"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "dependencies-strict",
+      "profile": "strict",
+      "argv": [
+        "jdeps",
+        "./example.jar"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "deprecations-strict",
+      "profile": "strict",
+      "argv": [
+        "jdeprscan",
+        "./example.jar"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "native-scan-strict",
+      "profile": "strict",
+      "argv": [
+        "jnativescan",
+        "./example.jar"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "runtime-image-strict",
+      "profile": "strict",
+      "argv": [
+        "jlink",
+        "--module-path=./mods",
+        "--add-modules=example",
+        "--output=/outside/runtime"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "package-strict",
+      "profile": "strict",
+      "argv": [
+        "jpackage",
+        "--input",
+        "./dist",
+        "--main-jar",
+        "example.jar",
+        "--dest",
+        "./packages"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "jmod-strict",
+      "profile": "strict",
+      "argv": [
+        "jmod",
+        "extract",
+        "./example.jmod"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "jimage-strict",
+      "profile": "strict",
+      "argv": [
+        "jimage",
+        "extract",
+        "./modules"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "jshell-strict",
+      "profile": "strict",
+      "argv": [
+        "jshell"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "jshell-startup-strict",
+      "profile": "strict",
+      "argv": [
+        "jshell",
+        "--startup",
+        "./startup.jsh"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "script-shell-strict",
+      "profile": "strict",
+      "argv": [
+        "jrunscript",
+        "-e",
+        "print(1)"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "process-list-strict",
+      "profile": "strict",
+      "argv": [
+        "jps",
+        "-l"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "diagnostic-strict",
+      "profile": "strict",
+      "argv": [
+        "jcmd",
+        "1234",
+        "VM.system_properties"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "all-processes-strict",
+      "profile": "strict",
+      "argv": [
+        "jcmd",
+        "0",
+        "GC.run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "diagnostic-file-strict",
+      "profile": "strict",
+      "argv": [
+        "jcmd",
+        "1234",
+        "-f",
+        "./commands.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "diagnostic-dump-strict",
+      "profile": "strict",
+      "argv": [
+        "jcmd",
+        "1234",
+        "GC.heap_dump",
+        "/outside/heap.hprof"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "thread-dump-strict",
+      "profile": "strict",
+      "argv": [
+        "jstack",
+        "1234"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "map-strict",
+      "profile": "strict",
+      "argv": [
+        "jmap",
+        "-dump:format=b,file=./heap.hprof",
+        "1234"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vm-options-strict",
+      "profile": "strict",
+      "argv": [
+        "jinfo",
+        "-flag",
+        "+HeapDumpOnOutOfMemoryError",
+        "1234"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "statistics-strict",
+      "profile": "strict",
+      "argv": [
+        "jstat",
+        "-gc",
+        "1234"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "stat-daemon-strict",
+      "profile": "strict",
+      "argv": [
+        "jstatd",
+        "-p",
+        "1099"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "debugger-strict",
+      "profile": "strict",
+      "argv": [
+        "jdb",
+        "-attach",
+        "localhost:5005"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "core-debugger-strict",
+      "profile": "strict",
+      "argv": [
+        "jhsdb",
+        "jmap",
+        "--pid",
+        "1234"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "console-strict",
+      "profile": "strict",
+      "argv": [
+        "jconsole",
+        "1234"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "flight-recorder-strict",
+      "profile": "strict",
+      "argv": [
+        "jfr",
+        "print",
+        "./recording.jfr"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "flight-output-strict",
+      "profile": "strict",
+      "argv": [
+        "jfr",
+        "assemble",
+        "./recordings",
+        "/outside/recording.jfr"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "webserver-strict",
+      "profile": "strict",
+      "argv": [
+        "jwebserver",
+        "-b",
+        "0.0.0.0",
+        "-d",
+        "./public"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "registry-strict",
+      "profile": "strict",
+      "argv": [
+        "rmiregistry",
+        "1099"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "serial-strict",
+      "profile": "strict",
+      "argv": [
+        "serialver",
+        "-classpath",
+        "./classes",
+        "example.Main"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "key-list-strict",
+      "profile": "strict",
+      "argv": [
+        "keytool",
+        "-list",
+        "-keystore",
+        "./example.jks"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "key-import-strict",
+      "profile": "strict",
+      "argv": [
+        "keytool",
+        "-importcert",
+        "-file",
+        "./example.pem",
+        "-keystore",
+        "./example.jks"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "key-provider-strict",
+      "profile": "strict",
+      "argv": [
+        "keytool",
+        "-providerclass",
+        "example.Provider",
+        "-list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sign-strict",
+      "profile": "strict",
+      "argv": [
+        "jarsigner",
+        "-keystore",
+        "./example.jks",
+        "./example.jar",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "verify-signature-strict",
+      "profile": "strict",
+      "argv": [
+        "jarsigner",
+        "-verify",
+        "./example.jar"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-version-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-help-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-validate-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn",
+        "validate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-compile-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn",
+        "-B",
+        "compile"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-test-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-package-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn",
+        "-DskipTests",
+        "package"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-install-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn",
+        "install"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-deploy-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn",
+        "deploy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-clean-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn",
+        "clean"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-offline-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn",
+        "-o",
+        "verify"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-settings-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn",
+        "-s",
+        "/outside/settings.xml",
+        "verify"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-repo-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn",
+        "-Dmaven.repo.local=/outside/repo",
+        "verify"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-project-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn",
+        "-f",
+        "./other/pom.xml",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-extension-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn",
+        "-Dmaven.ext.class.path=./extension.jar",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-plugin-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn",
+        "org.example:plugin:1.0:run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-exec-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn",
+        "exec:exec",
+        "-Dexec.executable=sh"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-help-goal-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn",
+        "help:effective-settings"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-wrapper-strict",
+      "profile": "strict",
+      "argv": [
+        "./mvnw",
+        "verify"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "nested-wrapper-strict",
+      "profile": "strict",
+      "argv": [
+        "./apps/example/mvnw",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-wrapper-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/project/mvnw",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "windows-wrapper-strict",
+      "profile": "strict",
+      "argv": [
+        "C:\\example\\mvnw.cmd",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "windows-maven-strict",
+      "profile": "strict",
+      "argv": [
+        "mvn.cmd",
+        "verify"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-daemon-strict",
+      "profile": "strict",
+      "argv": [
+        "mvnd",
+        "verify"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "maven-daemon-stop-strict",
+      "profile": "strict",
+      "argv": [
+        "mvnd",
+        "--stop"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-java-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/java",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "windows-javac-strict",
+      "profile": "strict",
+      "argv": [
+        "javac.exe",
+        "./Example.java"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unknown-java-option-strict",
+      "profile": "strict",
+      "argv": [
+        "java",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-version-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-help-flag-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-help-task-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-tasks-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "tasks",
+        "--all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-projects-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "projects"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-properties-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "properties"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-dependencies-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "dependencies"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-dependency-insight-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "dependencyInsight",
+        "--dependency",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-build-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-test-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "test",
+        "--tests",
+        "example.ExampleTest"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-clean-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "clean"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-run-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-dry-run-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "--dry-run",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-offline-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "--offline",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-no-daemon-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "--no-daemon",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-continuous-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "--continuous",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-init-script-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "-I",
+        "/outside/init.gradle",
+        "tasks"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-init-script-long-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "tasks",
+        "--init-script=./init.gradle.kts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-project-dir-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "-p",
+        "/outside/project",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-user-home-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "--gradle-user-home=/outside/cache",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-jvm-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "-Dorg.gradle.jvmargs=-javaagent:./agent.jar",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-java-home-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "-Dorg.gradle.java.home=/outside/jdk",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-publish-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "publish"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-local-publish-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "publishToMavenLocal"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-scan-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "build",
+        "--scan"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-refresh-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "--refresh-dependencies",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-cache-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "--build-cache",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-status-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "--status"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-stop-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "--stop"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-init-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "init",
+        "--type=java-application"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-wrapper-generation-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "wrapper",
+        "--gradle-version=9.9.2"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-wrapper-strict",
+      "profile": "strict",
+      "argv": [
+        "./gradlew",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-wrapper-version-strict",
+      "profile": "strict",
+      "argv": [
+        "./gradlew",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-nested-wrapper-strict",
+      "profile": "strict",
+      "argv": [
+        "./apps/example/gradlew",
+        ":app:build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-absolute-wrapper-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/project/gradlew",
+        "tasks"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-windows-wrapper-strict",
+      "profile": "strict",
+      "argv": [
+        "C:\\example\\gradlew.bat",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-windows-launcher-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle.bat",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "gradle-unknown-task-strict",
+      "profile": "strict",
+      "argv": [
+        "gradle",
+        "customTask"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "jshell-stdin-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "printf 'System.exit(0);' | jshell",
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-unclassified-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "mcp",
+        "server": "java",
+        "tool": "run",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

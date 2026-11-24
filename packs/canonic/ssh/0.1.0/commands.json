@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "commands": [
+    {
+      "name": "ssh",
+      "rule_ids": [
+        "ssh-version",
+        "ssh-query",
+        "ssh-operation"
+      ]
+    },
+    {
+      "name": "scp",
+      "rule_ids": [
+        "scp-operation"
+      ]
+    },
+    {
+      "name": "sftp",
+      "rule_ids": [
+        "sftp-operation"
+      ]
+    },
+    {
+      "name": "rsync",
+      "rule_ids": [
+        "rsync-info-0",
+        "rsync-info-1",
+        "rsync-operation"
+      ]
+    },
+    {
+      "name": "ssh-keygen",
+      "rule_ids": [
+        "ssh-keygen-operation"
+      ]
+    },
+    {
+      "name": "ssh-add",
+      "rule_ids": [
+        "ssh-add-operation"
+      ]
+    }
+  ]
+}

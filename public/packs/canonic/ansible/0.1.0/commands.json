@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "commands": [
+    {
+      "name": "ansible",
+      "rule_ids": [
+        "ansible-operation"
+      ]
+    },
+    {
+      "name": "ansible-playbook",
+      "rule_ids": [
+        "ansible-playbook-operation"
+      ]
+    },
+    {
+      "name": "ansible-inventory",
+      "rule_ids": [
+        "ansible-inventory-operation"
+      ]
+    },
+    {
+      "name": "ansible-galaxy",
+      "rule_ids": [
+        "ansible-galaxy-operation"
+      ]
+    },
+    {
+      "name": "ansible-vault",
+      "rule_ids": [
+        "ansible-vault-operation"
+      ]
+    },
+    {
+      "name": "ansible-config",
+      "rule_ids": [
+        "ansible-config-operation"
+      ]
+    },
+    {
+      "name": "ansible-doc",
+      "rule_ids": [
+        "ansible-doc-operation"
+      ]
+    },
+    {
+      "name": "ansible-console",
+      "rule_ids": [
+        "ansible-console-operation"
+      ]
+    },
+    {
+      "name": "ansible-pull",
+      "rule_ids": [
+        "ansible-pull-operation"
+      ]
+    }
+  ]
+}

@@ -15,15 +15,35 @@ Current source builders are grouped by capability rather than a release diary:
 
 | Pack | Policy and fixture sources |
 | --- | --- |
+| Cloudflare | `scripts/cloudflare-policy.mjs`, factual `scripts/cloudflare-inventory.mjs` and independent `scripts/cloudflare-cases.mjs`; regenerate with `node scripts/build-cloudflare-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/cloudflare-pack.test.mjs`. |
+| SSH / remote transfer | `scripts/ssh-policy.mjs` and independent `scripts/ssh-cases.mjs`; regenerate with `node scripts/build-ssh-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/ssh-pack.test.mjs`. |
+| Ansible | `scripts/ansible-policy.mjs` and independent `scripts/ansible-cases.mjs`; regenerate with `node scripts/build-ansible-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/ansible-pack.test.mjs`. |
+| Apple development | `scripts/apple-policy.mjs` and independent `scripts/apple-cases.mjs` cover Xcode, devices/simulators, Swift tooling, CocoaPods and signing in one pack. Regenerate with `node scripts/build-apple-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/apple-pack.test.mjs`. |
+| Android development | `scripts/android-policy.mjs` and independent `scripts/android-cases.mjs`; regenerate with `node scripts/build-android-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/android-pack.test.mjs`. |
+| Go | `scripts/go-policy.mjs` and independent `scripts/go-cases.mjs`; regenerate with `node scripts/build-go-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/go-pack.test.mjs`. |
+| PHP / Composer / Laravel | `scripts/php-policy.mjs` and independent `scripts/php-cases.mjs`; regenerate with `node scripts/build-php-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/php-pack.test.mjs`. |
+| Prisma | `scripts/prisma-policy.mjs` and independent `scripts/prisma-cases.mjs`; regenerate with `node scripts/build-prisma-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/prisma-pack.test.mjs`. |
+| PostgreSQL | `scripts/postgresql-policy.mjs` and independent `scripts/postgresql-cases.mjs`; regenerate with `node scripts/build-postgresql-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/postgresql-pack.test.mjs`. |
+| AWS CDK / SAM | `scripts/aws-cdk-sam-policy.mjs` and independent `scripts/aws-cdk-sam-cases.mjs`; regenerate with `node scripts/build-aws-cdk-sam-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/aws-cdk-sam-pack.test.mjs`. |
+| Python | `scripts/python-policy.mjs` and `scripts/python-ecosystem-policy.mjs`, with independent `scripts/python-cases.mjs` and `scripts/python-ecosystem-cases.mjs`, cover the interpreter and ecosystem in one pack. Regenerate with `node scripts/build-python-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/python-pack.test.mjs`. |
 | Baseline | `scripts/build-baseline-loopback.mjs` and independent `scripts/loopback-fetch-cases.mjs` prepare 0.17.0 with read-only curl/wget fetches from `localhost`, `*.localhost` and `127.0.0.1`. It extends published 0.16.0 from `scripts/build-baseline-base64.mjs` (independent `scripts/base64-cases.mjs` and `scripts/sed-addresses.mjs`), which in turn extends the grep-effects release (`scripts/build-baseline-grep-effects.mjs`) and its earlier everyday-read sources. |
 | Git | `scripts/build-git-allow-by-default.mjs 0.12.1` adds no-op editor settings such as `-c core.editor=true` to the shared leading forms, on top of 0.12.0's writable destination checks. Independent cases are in `scripts/git-output-cases.mjs` and the builder's `editorCases`. |
-| Node | `scripts/build-node-yarn-version.mjs` extends the everyday development release with in-project Yarn Node version queries. Expected decisions are in `scripts/node-yarn-version-cases.mjs`. |
-| Rust, AWS | `scripts/build-reviewed-profiles.mjs` and `scripts/build-reviewed-profile-cases.mjs` |
+| Node | `scripts/build-node-ecosystem.mjs` extends frozen 0.5.1 into one JavaScript ecosystem pack. Policy and independent expectations are in `scripts/node-ecosystem-policy.mjs` and `scripts/node-ecosystem-cases.mjs`; Playwright/browser QA uses `scripts/node-playwright-policy.mjs` and `scripts/node-playwright-cases.mjs`. Validate the affected batch with `npm test -- --shield /absolute/path/to/shield scripts/node-playwright.test.mjs` and the combined candidate with `scripts/node-ecosystem.test.mjs`. Historical builders remain dependencies of their own releases. |
+| Rust | `scripts/build-rust-executables.mjs` prepares pending 0.2.1 from frozen 0.2.0 with reviewed local executable discovery. Validate with `scripts/rust-executables.test.mjs`; installed Claude/Codex acceptance lives in Shield's `adapters/sdk-tests/rust-executable-native.test.mjs`, selected with `SHIELD_TEST_RUST_PACK` pointing to the candidate. Historical builders remain unchanged. |
+| AWS | `scripts/build-reviewed-profiles.mjs` and `scripts/build-reviewed-profile-cases.mjs` |
 | Box, Gate, Testrun | `scripts/build-current-tool-packs.mjs` and `scripts/current-tool-cases.mjs` extend frozen sources; the builder accepts a tool selection. Testrun's allow-by-default policy is in `scripts/testrun-trusted-policy.mjs`, its host-file checks in `scripts/testrun-host-paths.mjs` and its independent fixtures in `scripts/testrun-trusted-cases.mjs`. |
 | Hub | `scripts/hub-policy.mjs` and independent `scripts/hub-cases.mjs`; regenerate with `node scripts/build-hub-pack.mjs`; select a source build in focused tests with `--hub /absolute/path/to/hub` |
 | GitHub | `scripts/build-github-graphql-pack.mjs` and `scripts/build-github-graphql-cases.mjs` |
 | Workbench | `scripts/workbench-policy.mjs` and independent `scripts/workbench-cases.mjs`; regenerate with `node scripts/build-workbench-pack.mjs` |
 | Docker | `scripts/docker-policy.mjs` and independent `scripts/docker-cases.mjs`; regenerate with `node scripts/build-docker-pack.mjs` |
+| Java / JVM, Maven and Gradle | `scripts/java-policy.mjs` and independent `scripts/java-cases.mjs`; regenerate with `node scripts/build-java-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/java-pack.test.mjs`. |
+| Bun | `scripts/bun-policy.mjs` and independent `scripts/bun-cases.mjs`; regenerate with `node scripts/build-bun-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/bun-pack.test.mjs`. |
+| SQLite | `scripts/sqlite-policy.mjs` and independent `scripts/sqlite-cases.mjs`; regenerate with `node scripts/build-sqlite-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/sqlite-pack.test.mjs`. |
+| OpenSearch / Elasticsearch | `scripts/search-policy.mjs` and independent `scripts/search-cases.mjs`; regenerate with `node scripts/build-search-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/search-pack.test.mjs`. |
+| Doppler | `scripts/doppler-policy.mjs`, the reviewed MCP inventory in `scripts/doppler-mcp.mjs` and independent `scripts/doppler-cases.mjs`; regenerate with `node scripts/build-doppler-pack.mjs` |
+| 1Password | `scripts/onepassword-policy.mjs` and independent `scripts/onepassword-cases.mjs`; regenerate with `node scripts/build-onepassword-pack.mjs` |
+| Supabase | `scripts/supabase-policy.mjs` and independent `scripts/supabase-cases.mjs`; regenerate with `node scripts/build-supabase-pack.mjs` |
+| Terraform, OpenTofu | `scripts/iac-policy.mjs` and independent `scripts/iac-cases.mjs`; regenerate both with `node scripts/build-iac-packs.mjs`, or pass `terraform` or `opentofu` to select one. Validate with `npm test -- --shield /absolute/path/to/shield scripts/iac-packs.test.mjs`. |
 
 Read each builder's imports and destination before running it. Shared builders
 may generate several packs. Historical builders remain dependencies and
@@ -97,6 +117,7 @@ For focused feedback, select the relevant test file:
 npm test -- --shield /absolute/path/to/shield scripts/current-tool-packs.test.mjs
 npm test -- --shield /absolute/path/to/shield scripts/testrun-current-pack.test.mjs
 npm test -- --shield /absolute/path/to/shield scripts/github-graphql-pack.test.mjs
+npm test -- --shield /absolute/path/to/shield scripts/supabase-pack.test.mjs
 npm test -- --shield /absolute/path/to/shield --workbench /absolute/path/to/workbench scripts/workbench-pack.test.mjs
 ```
 

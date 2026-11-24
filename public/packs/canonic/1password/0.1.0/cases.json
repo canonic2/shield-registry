@@ -1,0 +1,3062 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "version-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-short-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "help",
+        "item",
+        "get"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "run-help-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "run",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "identity-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "whoami",
+        "--format=json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "boolean-output-options-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "--cache=false",
+        "vault",
+        "list",
+        "--iso-timestamps=true",
+        "--no-color=false"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "boolean-options-between-words-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "--cache=false",
+        "list",
+        "--no-color"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "accounts-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "account",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "account-alias-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "account",
+        "ls",
+        "--no-color"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "account-get-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "--account=acme",
+        "account",
+        "get"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vaults-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "vault",
+        "list",
+        "--user",
+        "person@example.com"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vault-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "vault",
+        "--account",
+        "acme",
+        "get",
+        "Development"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vault-stdin-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "vault",
+        "get",
+        "-"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vault-missing-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "vault",
+        "get"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "items-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "list",
+        "--vault",
+        "Development",
+        "--tags=example",
+        "--format=json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "item-alias-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "ls",
+        "--long",
+        "--include-archive"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "item-categories-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "--account=acme",
+        "list",
+        "--categories",
+        "Login,Document",
+        "--favorite"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unknown-output-flag-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "list",
+        "--future-display-flag"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "documents-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "document",
+        "list",
+        "--vault=Development"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "document-alias-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "document",
+        "ls",
+        "--include-archive"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "templates-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "template",
+        "ls"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "template-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "template",
+        "get",
+        "Login"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "template-spaced-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "template",
+        "get",
+        "API Credential"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "users-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "user",
+        "list",
+        "--group=Engineering"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "user-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "user",
+        "get",
+        "person@example.com",
+        "--public-key"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "user-me-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "user",
+        "get",
+        "--me",
+        "--fingerprint"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "groups-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "group",
+        "list",
+        "--vault=Development"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "group-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "group",
+        "get",
+        "Engineering"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "members-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "group",
+        "user",
+        "ls",
+        "Engineering"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vault-users-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "vault",
+        "user",
+        "list",
+        "Development"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vault-groups-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "vault",
+        "group",
+        "list",
+        "Development"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rate-limit-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "service-account",
+        "ratelimits",
+        "example-service"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "plugins-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "plugin",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "read-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "read",
+        "op://Development/example/password"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "read-file-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "read",
+        "op://Development/example/password",
+        "-o",
+        "/outside/key"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-get-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "get",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-get-json-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "get",
+        "example",
+        "--format=json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-get-fields-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "--account=acme",
+        "get",
+        "example",
+        "--fields=username,password"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-otp-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "get",
+        "example",
+        "--otp"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-get-stdin-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "get",
+        "-"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-create-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "create",
+        "--category=Login",
+        "--generate-password"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-edit-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "edit",
+        "example",
+        "example-field=placeholder"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-move-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "move",
+        "example",
+        "--destination-vault=Development"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-share-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "share",
+        "example",
+        "--emails=person@example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "delete",
+        "example",
+        "--archive"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "document-get-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "document",
+        "get",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "document-create-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "document",
+        "create",
+        "./example.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "document-edit-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "document",
+        "edit",
+        "example",
+        "./example.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "document-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "document",
+        "delete",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "environment-secret-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "environment",
+        "secret",
+        "list",
+        "Staging"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "environment-reveal-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "environment",
+        "secret",
+        "ls",
+        "Staging",
+        "--reveal",
+        "--format=dotenv"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "run-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "run",
+        "--",
+        "npm",
+        "start"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "run-env-file-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "run",
+        "--env-file=./example.env",
+        "--",
+        "app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "run-no-masking-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "run",
+        "--environment=example",
+        "--no-masking",
+        "--",
+        "printenv"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inject-stdin-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "inject"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inject-file-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "inject",
+        "--in-file=./example.tpl"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "signin-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "signin",
+        "--raw"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "signout-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "signout",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "account-add-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "account",
+        "add",
+        "--address=example.1password.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "account-forget-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "account",
+        "forget",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-create-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "vault",
+        "create",
+        "Example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "vault",
+        "delete",
+        "Example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-grant-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "vault",
+        "user",
+        "grant",
+        "--vault=Development",
+        "--user=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "group-grant-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "group",
+        "user",
+        "grant",
+        "--group=Engineering",
+        "--user=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "user-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "user",
+        "delete",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "recovery-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "user",
+        "recovery",
+        "begin",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "service-account-create-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "service-account",
+        "create",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "connect-create-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "connect",
+        "server",
+        "create",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "connect-token-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "connect",
+        "token",
+        "create",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "events-api-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "events-api",
+        "create",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plugin-run-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "plugin",
+        "run",
+        "--",
+        "gh",
+        "repo",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plugin-import-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "plugin",
+        "credential",
+        "import"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "provisioning-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "provisioning",
+        "google",
+        "sync"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "update-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-leading-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "--config=/outside/config",
+        "item",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-interleaved-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "--config",
+        "/outside/config",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-repeated-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "list",
+        "--config=./local",
+        "--config=/outside/config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "session-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "--session=placeholder",
+        "vault",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "debug-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "vault",
+        "list",
+        "--debug"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "template-output-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "template",
+        "get",
+        "Login",
+        "--out-file=/outside/template.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "template-output-attached-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "template",
+        "get",
+        "Login",
+        "-o./template.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "missing-option-value-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "list",
+        "--vault"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-operand-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "item",
+        "list",
+        "--",
+        "get",
+        "example"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "future-command-loose",
+      "profile": "loose",
+      "argv": [
+        "op",
+        "future",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "absolute-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/op",
+        "item",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "windows-name-loose",
+      "profile": "loose",
+      "argv": [
+        "op.exe",
+        "vault",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "shell-injection-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "op run -- sh -c \"echo example\"",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "shell-connect-override-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "OP_CONNECT_HOST=https://example.org op item list",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unmatched-mcp-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "mcp",
+        "server": "1password",
+        "tool": "item_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-short-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "help",
+        "item",
+        "get"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "run-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "run",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "identity-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "whoami",
+        "--format=json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "boolean-output-options-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "--cache=false",
+        "vault",
+        "list",
+        "--iso-timestamps=true",
+        "--no-color=false"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "boolean-options-between-words-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "--cache=false",
+        "list",
+        "--no-color"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "accounts-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "account",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "account-alias-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "account",
+        "ls",
+        "--no-color"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "account-get-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "--account=acme",
+        "account",
+        "get"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vaults-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "vault",
+        "list",
+        "--user",
+        "person@example.com"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vault-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "vault",
+        "--account",
+        "acme",
+        "get",
+        "Development"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vault-stdin-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "vault",
+        "get",
+        "-"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vault-missing-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "vault",
+        "get"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "items-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "list",
+        "--vault",
+        "Development",
+        "--tags=example",
+        "--format=json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "item-alias-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "ls",
+        "--long",
+        "--include-archive"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "item-categories-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "--account=acme",
+        "list",
+        "--categories",
+        "Login,Document",
+        "--favorite"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unknown-output-flag-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "list",
+        "--future-display-flag"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "documents-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "document",
+        "list",
+        "--vault=Development"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "document-alias-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "document",
+        "ls",
+        "--include-archive"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "templates-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "template",
+        "ls"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "template-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "template",
+        "get",
+        "Login"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "template-spaced-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "template",
+        "get",
+        "API Credential"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "users-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "user",
+        "list",
+        "--group=Engineering"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "user-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "user",
+        "get",
+        "person@example.com",
+        "--public-key"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "user-me-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "user",
+        "get",
+        "--me",
+        "--fingerprint"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "groups-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "group",
+        "list",
+        "--vault=Development"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "group-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "group",
+        "get",
+        "Engineering"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "members-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "group",
+        "user",
+        "ls",
+        "Engineering"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vault-users-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "vault",
+        "user",
+        "list",
+        "Development"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vault-groups-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "vault",
+        "group",
+        "list",
+        "Development"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rate-limit-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "service-account",
+        "ratelimits",
+        "example-service"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "plugins-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "plugin",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "read-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "read",
+        "op://Development/example/password"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "read-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "read",
+        "op://Development/example/password",
+        "-o",
+        "/outside/key"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-get-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "get",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-get-json-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "get",
+        "example",
+        "--format=json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-get-fields-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "--account=acme",
+        "get",
+        "example",
+        "--fields=username,password"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-otp-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "get",
+        "example",
+        "--otp"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-get-stdin-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "get",
+        "-"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "create",
+        "--category=Login",
+        "--generate-password"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-edit-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "edit",
+        "example",
+        "example-field=placeholder"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-move-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "move",
+        "example",
+        "--destination-vault=Development"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-share-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "share",
+        "example",
+        "--emails=person@example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "delete",
+        "example",
+        "--archive"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "document-get-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "document",
+        "get",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "document-create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "document",
+        "create",
+        "./example.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "document-edit-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "document",
+        "edit",
+        "example",
+        "./example.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "document-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "document",
+        "delete",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "environment-secret-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "environment",
+        "secret",
+        "list",
+        "Staging"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "environment-reveal-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "environment",
+        "secret",
+        "ls",
+        "Staging",
+        "--reveal",
+        "--format=dotenv"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "run-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "run",
+        "--",
+        "npm",
+        "start"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "run-env-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "run",
+        "--env-file=./example.env",
+        "--",
+        "app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "run-no-masking-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "run",
+        "--environment=example",
+        "--no-masking",
+        "--",
+        "printenv"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inject-stdin-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "inject"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "inject-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "inject",
+        "--in-file=./example.tpl"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "signin-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "signin",
+        "--raw"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "signout-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "signout",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "account-add-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "account",
+        "add",
+        "--address=example.1password.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "account-forget-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "account",
+        "forget",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "vault",
+        "create",
+        "Example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "vault",
+        "delete",
+        "Example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-grant-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "vault",
+        "user",
+        "grant",
+        "--vault=Development",
+        "--user=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "group-grant-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "group",
+        "user",
+        "grant",
+        "--group=Engineering",
+        "--user=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "user-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "user",
+        "delete",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "recovery-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "user",
+        "recovery",
+        "begin",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "service-account-create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "service-account",
+        "create",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "connect-create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "connect",
+        "server",
+        "create",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "connect-token-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "connect",
+        "token",
+        "create",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "events-api-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "events-api",
+        "create",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plugin-run-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "plugin",
+        "run",
+        "--",
+        "gh",
+        "repo",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plugin-import-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "plugin",
+        "credential",
+        "import"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "provisioning-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "provisioning",
+        "google",
+        "sync"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "update-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-leading-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "--config=/outside/config",
+        "item",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-interleaved-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "--config",
+        "/outside/config",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-repeated-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "list",
+        "--config=./local",
+        "--config=/outside/config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "session-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "--session=placeholder",
+        "vault",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "debug-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "vault",
+        "list",
+        "--debug"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "template-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "template",
+        "get",
+        "Login",
+        "--out-file=/outside/template.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "template-output-attached-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "template",
+        "get",
+        "Login",
+        "-o./template.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "missing-option-value-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "list",
+        "--vault"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-operand-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "item",
+        "list",
+        "--",
+        "get",
+        "example"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "future-command-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op",
+        "future",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "absolute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/op",
+        "item",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "windows-name-recommended",
+      "profile": "recommended",
+      "argv": [
+        "op.exe",
+        "vault",
+        "list"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "shell-injection-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "op run -- sh -c \"echo example\"",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "shell-connect-override-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "OP_CONNECT_HOST=https://example.org op item list",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unmatched-mcp-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "mcp",
+        "server": "1password",
+        "tool": "item_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "version-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-short-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "help",
+        "item",
+        "get"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "run-help-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "run",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "identity-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "whoami",
+        "--format=json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "boolean-output-options-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "--cache=false",
+        "vault",
+        "list",
+        "--iso-timestamps=true",
+        "--no-color=false"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "boolean-options-between-words-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "--cache=false",
+        "list",
+        "--no-color"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "accounts-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "account",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "account-alias-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "account",
+        "ls",
+        "--no-color"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "account-get-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "--account=acme",
+        "account",
+        "get"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vaults-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "vault",
+        "list",
+        "--user",
+        "person@example.com"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "vault",
+        "--account",
+        "acme",
+        "get",
+        "Development"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-stdin-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "vault",
+        "get",
+        "-"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-missing-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "vault",
+        "get"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "items-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "list",
+        "--vault",
+        "Development",
+        "--tags=example",
+        "--format=json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-alias-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "ls",
+        "--long",
+        "--include-archive"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "item-categories-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "--account=acme",
+        "list",
+        "--categories",
+        "Login,Document",
+        "--favorite"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-output-flag-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "list",
+        "--future-display-flag"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "documents-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "document",
+        "list",
+        "--vault=Development"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "document-alias-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "document",
+        "ls",
+        "--include-archive"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "templates-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "template",
+        "ls"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "template-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "template",
+        "get",
+        "Login"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "template-spaced-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "template",
+        "get",
+        "API Credential"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "users-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "user",
+        "list",
+        "--group=Engineering"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "user-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "user",
+        "get",
+        "person@example.com",
+        "--public-key"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "user-me-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "user",
+        "get",
+        "--me",
+        "--fingerprint"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "groups-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "group",
+        "list",
+        "--vault=Development"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "group-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "group",
+        "get",
+        "Engineering"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "members-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "group",
+        "user",
+        "ls",
+        "Engineering"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-users-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "vault",
+        "user",
+        "list",
+        "Development"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vault-groups-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "vault",
+        "group",
+        "list",
+        "Development"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rate-limit-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "service-account",
+        "ratelimits",
+        "example-service"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "plugins-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "plugin",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "read-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "read",
+        "op://Development/example/password"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "read-file-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "read",
+        "op://Development/example/password",
+        "-o",
+        "/outside/key"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "item-get-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "get",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "item-get-json-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "get",
+        "example",
+        "--format=json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "item-get-fields-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "--account=acme",
+        "get",
+        "example",
+        "--fields=username,password"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "item-otp-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "get",
+        "example",
+        "--otp"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "item-get-stdin-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "get",
+        "-"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "item-create-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "create",
+        "--category=Login",
+        "--generate-password"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "item-edit-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "edit",
+        "example",
+        "example-field=placeholder"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "item-move-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "move",
+        "example",
+        "--destination-vault=Development"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "item-share-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "share",
+        "example",
+        "--emails=person@example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "item-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "delete",
+        "example",
+        "--archive"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "document-get-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "document",
+        "get",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "document-create-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "document",
+        "create",
+        "./example.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "document-edit-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "document",
+        "edit",
+        "example",
+        "./example.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "document-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "document",
+        "delete",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "environment-secret-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "environment",
+        "secret",
+        "list",
+        "Staging"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "environment-reveal-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "environment",
+        "secret",
+        "ls",
+        "Staging",
+        "--reveal",
+        "--format=dotenv"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "run-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "run",
+        "--",
+        "npm",
+        "start"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "run-env-file-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "run",
+        "--env-file=./example.env",
+        "--",
+        "app"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "run-no-masking-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "run",
+        "--environment=example",
+        "--no-masking",
+        "--",
+        "printenv"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "inject-stdin-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "inject"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "inject-file-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "inject",
+        "--in-file=./example.tpl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "signin-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "signin",
+        "--raw"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "signout-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "signout",
+        "--all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "account-add-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "account",
+        "add",
+        "--address=example.1password.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "account-forget-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "account",
+        "forget",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vault-create-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "vault",
+        "create",
+        "Example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vault-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "vault",
+        "delete",
+        "Example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vault-grant-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "vault",
+        "user",
+        "grant",
+        "--vault=Development",
+        "--user=example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "group-grant-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "group",
+        "user",
+        "grant",
+        "--group=Engineering",
+        "--user=example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "user-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "user",
+        "delete",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "recovery-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "user",
+        "recovery",
+        "begin",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "service-account-create-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "service-account",
+        "create",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "connect-create-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "connect",
+        "server",
+        "create",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "connect-token-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "connect",
+        "token",
+        "create",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "events-api-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "events-api",
+        "create",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "plugin-run-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "plugin",
+        "run",
+        "--",
+        "gh",
+        "repo",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "plugin-import-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "plugin",
+        "credential",
+        "import"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "provisioning-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "provisioning",
+        "google",
+        "sync"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "update-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "update"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "config-leading-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "--config=/outside/config",
+        "item",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "config-interleaved-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "--config",
+        "/outside/config",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "config-repeated-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "list",
+        "--config=./local",
+        "--config=/outside/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "session-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "--session=placeholder",
+        "vault",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "debug-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "vault",
+        "list",
+        "--debug"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "template-output-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "template",
+        "get",
+        "Login",
+        "--out-file=/outside/template.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "template-output-attached-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "template",
+        "get",
+        "Login",
+        "-o./template.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "missing-option-value-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "list",
+        "--vault"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-operand-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "item",
+        "list",
+        "--",
+        "get",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "future-command-strict",
+      "profile": "strict",
+      "argv": [
+        "op",
+        "future",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "absolute-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/op",
+        "item",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "windows-name-strict",
+      "profile": "strict",
+      "argv": [
+        "op.exe",
+        "vault",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shell-injection-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "op run -- sh -c \"echo example\"",
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "shell-connect-override-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "OP_CONNECT_HOST=https://example.org op item list",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unmatched-mcp-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "mcp",
+        "server": "1password",
+        "tool": "item_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

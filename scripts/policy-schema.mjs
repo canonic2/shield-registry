@@ -233,12 +233,14 @@ defs.variableDeclaration = one(['choice', 'string', 'list', 'boolean', 'path'].m
   const common = {type: {const: type}, description: text(1, 512), default: value, required: {type: 'boolean'},
     layer: enumeration(['project', 'local']), setup,
     suggest: array(object({file: text(1), value}), 0, false, 16)};
-  const specific = type === 'choice' ? {values: choices} : type === 'string' ? stringConstraints
+  const specific = type === 'choice' ? {values: choices} : type === 'string' ? {...stringConstraints,
+    discover: array(one([object({home: text(1, 1024)}), object({env: {...text(1, 64), pattern: '^[A-Z0-9_]+$'}, path: text(1, 1024)})]), 1, false, 16)}
     : type === 'path' ? {within: enumeration(['project', 'anywhere'])} : type === 'list' ? {
       items: one([object({type: {const: 'choice'}, values: choices}), object({type: {const: 'string'}, ...stringConstraints}, ['type'])]),
       min_items: {type: 'integer', minimum: 1, maximum: 256}, max_items: {type: 'integer', minimum: 1, maximum: 256},
     } : {};
   return {...object({...common, ...specific}, ['type', 'description', ...(type === 'choice' ? ['values'] : type === 'list' ? ['items'] : [])]), allOf: [
+    ...(type === 'string' ? [{if: has('discover'), then: {required: ['layer'], properties: {layer: {const: 'local'}}}}] : []),
     ...(['choice', 'boolean'].includes(type) ? [{not: any([at(['setup'], has('value')), at(['setup'], has('placeholder'))])}] : []),
     {if: {allOf: [at(['required'], {const: true}), {not: has('default')}]}, then: {not: any([at(['setup'], has('unset')), at(['setup'], has('ask_when'))])}},
   ]};
@@ -382,6 +384,7 @@ for (const [name, shape] of Object.entries({
   'mcp-effective-fields-v1': at(['mcp_integrations','@','effective_fields'], {minProperties:1}),
   'mcp-connection-facts-v1': any([at(['rules','*'],eitherPredicate(['connection'])),at(['preconditions','*','requires_any','*','connection'])]),
   'variables-v1': at(['variables'], {minProperties: 1}),
+  'executable-discovery-v1': at(['variables','@','discover'], {minItems: 1}),
   'preconditions-v1': at(['preconditions'], {minItems: 1}),
   'directory-options-v1': at(['directory_options'], {minItems: 1}),
 })) defs.documentCapabilities.allOf.push({if: shape, then: at(['capabilities'], {contains: {const: name}}), else: at(['capabilities'], {not: {contains: {const: name}}})});
@@ -391,7 +394,7 @@ defs.documentCapabilities.allOf.push({if: at(['capabilities'], {contains: {const
     ? [at([key, '*', field], {type: 'string', pattern: '\\{\\{'})]
     : [at([key, '*', field, 'message'], {type: 'string', pattern: '\\{\\{'}), at([key, '*', field, 'alternatives', '*'], {type: 'string', pattern: '\\{\\{'})])))});
 const document = pack => {
-  const allowedCaps = pack ? [...caps, 'variables-v1', 'variable-parts-v1', 'variable-prefixes-v1', 'variable-list-branches-v1', 'preconditions-v1', 'templates-v1'] : caps;
+  const allowedCaps = pack ? [...caps, 'variables-v1', 'executable-discovery-v1', 'variable-parts-v1', 'variable-prefixes-v1', 'variable-list-branches-v1', 'preconditions-v1', 'templates-v1'] : caps;
   const base = { schema_version: { const: 1 }, kind: { const: pack ? 'pack' : 'custom' },
     capabilities: { ...array(enumeration(allowedCaps), 1, true, allowedCaps.length), contains: { const: 'structured-rules-v1' } },
     rules: array(ref(pack ? 'packRule' : 'customRule'), 0, false, 500000),

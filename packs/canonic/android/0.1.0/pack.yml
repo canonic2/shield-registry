@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/android",
+  "version": "0.1.0",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.53.0, <1.0.0"
+  },
+  "description": "Android SDK, device, emulator, APK packaging and signing permissions with review for device access, host files, downloads, keys and execution.",
+  "capabilities": [
+    "argument-rules-v1",
+    "regex-v1",
+    "structured-rules-v1"
+  ],
+  "rules": [
+    {
+      "id": "adb-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?adb(?:\\.exe)?$"
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print native ADB built-in help or version without contacting the server."
+    },
+    {
+      "id": "adb-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?adb(?:\\.exe)?$"
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print native ADB built-in help or version without contacting the server."
+    },
+    {
+      "id": "adb-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?adb(?:\\.exe|\\.bat|\\.cmd)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review selected device and server, device data, remote shell execution, host files, app changes, debugging and network exposure."
+    },
+    {
+      "id": "emulator-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?emulator(?:\\.exe|\\.bat|\\.cmd)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review selected AVD, disk images, snapshots, data wiping, host paths, network interfaces and QEMU or helper execution."
+    },
+    {
+      "id": "sdkmanager-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?sdkmanager(?:\\.exe|\\.bat|\\.cmd)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SDK root, repositories, proxies, package downloads, installation, removal and license acceptance; JVM launch configuration also applies."
+    },
+    {
+      "id": "avdmanager-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?avdmanager(?:\\.exe|\\.bat|\\.cmd)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review AVD identity, configuration paths, system images, creation, replacement, movement and deletion; JVM launch configuration also applies."
+    },
+    {
+      "id": "bundletool-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?bundletool(?:\\.exe|\\.bat|\\.cmd)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review bundle/APK inputs, outputs, extraction, selected device, deployment and signing keys; launcher code and JVM options also apply."
+    },
+    {
+      "id": "apksigner-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?apksigner(?:\\.exe|\\.bat|\\.cmd)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review APK and certificate paths, signing keys, password sources, providers, output and in-place signing; JVM launch configuration also applies."
+    },
+    {
+      "id": "zipalign-operation",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "regex": "^(?:[^\\r\\n]*[/\\\\])?zipalign(?:\\.exe|\\.bat|\\.cmd)?$"
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review archive inputs and outputs, alignment verification, overwrites and destination paths."
+    }
+  ]
+}

@@ -1,0 +1,3162 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/go",
+  "version": "0.1.0",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "description": "Go toolchain, formatting, linting, vulnerability scans, test runners and coverage, with checked gofmt paths and review for execution, acquisition, configuration and generated files.",
+  "engines": {
+    "shield": ">=0.53.0, <1.0.0"
+  },
+  "capabilities": [
+    "structured-rules-v1",
+    "argument-rules-v1",
+    "argument-paths-v1",
+    "location-v1",
+    "access-paths-v1",
+    "requirements-v1",
+    "regex-v1",
+    "fallback-rules-v1",
+    "unknown-options-v1",
+    "directory-options-v1"
+  ],
+  "directory_options": [
+    {
+      "executable": {
+        "one_of": [
+          "go",
+          "/usr/bin/go",
+          "/usr/local/bin/go",
+          "/opt/homebrew/bin/go",
+          "/usr/local/go/bin/go",
+          "/usr/lib/go/bin/go",
+          "/usr/lib/golang/bin/go"
+        ]
+      },
+      "option": "-C",
+      "forms": [
+        "separate",
+        "equals"
+      ],
+      "paths": "follow"
+    }
+  ],
+  "rules": [
+    {
+      "id": "go-bug",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "bug"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-build",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "build"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-clean",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "clean"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-doc",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "doc"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-env",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "env"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-fix",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "fix"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-fmt",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "fmt"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-generate",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "generate"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-get",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "get"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-install",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "install"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "list"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-mod-download",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "mod",
+            "download"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-mod-edit",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "mod",
+            "edit"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-mod-graph",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "mod",
+            "graph"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-mod-init",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "mod",
+            "init"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-mod-tidy",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "mod",
+            "tidy"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-mod-vendor",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "mod",
+            "vendor"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-mod-verify",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "mod",
+            "verify"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-mod-why",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "mod",
+            "why"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-run",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "run"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-telemetry",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "telemetry"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-test",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "test"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-tool",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "tool"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-tool-cover",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "tool",
+            "cover"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-tool-covdata",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "tool",
+            "covdata"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-tool-test2json",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "tool",
+            "test2json"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-tool-pprof",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "tool",
+            "pprof"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-tool-trace",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "tool",
+            "trace"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-vet",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "vet"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-work-edit",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "work",
+            "edit"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-work-init",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "work",
+            "init"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-work-sync",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "work",
+            "sync"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-work-use",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "work",
+            "use"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-work-vendor",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "work",
+            "vendor"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs."
+    },
+    {
+      "id": "go-unclassified",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": "ask",
+      "reason": "Review toolchain selection/download, module and cache access, compiler/cgo execution, tests, generators, tools, persistent configuration or external programs.",
+      "fallback": true
+    },
+    {
+      "id": "gofmt-unclassified",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gofmt",
+            "/usr/bin/gofmt",
+            "/usr/local/bin/gofmt",
+            "/opt/homebrew/bin/gofmt",
+            "/usr/local/go/bin/gofmt",
+            "/usr/lib/go/bin/gofmt",
+            "/usr/lib/golang/bin/gofmt"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": "ask",
+      "reason": "Review formatting syntax, CPU profile output or paths that cannot be established.",
+      "fallback": true
+    },
+    {
+      "id": "gofumpt-unclassified",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gofumpt",
+            "/usr/bin/gofumpt",
+            "/usr/local/bin/gofumpt",
+            "/opt/homebrew/bin/gofumpt"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": "ask",
+      "reason": "Review source/module paths, formatting changes, profile output and options outside the modeled gofmt grammar.",
+      "fallback": true
+    },
+    {
+      "id": "goimports-unclassified",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "goimports",
+            "/usr/bin/goimports",
+            "/usr/local/bin/goimports",
+            "/opt/homebrew/bin/goimports"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Import discovery can invoke Go tools and inspect module/GOPATH trees; review source changes, toolchain/cache effects and profiles.",
+      "fallback": true
+    },
+    {
+      "id": "golangci-lint-run",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "run"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review package loading, custom linters/plugins, formatting, config migration, caches, outputs and custom binary builds."
+    },
+    {
+      "id": "golangci-lint-fmt",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "fmt"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review package loading, custom linters/plugins, formatting, config migration, caches, outputs and custom binary builds."
+    },
+    {
+      "id": "golangci-lint-migrate",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "migrate"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review package loading, custom linters/plugins, formatting, config migration, caches, outputs and custom binary builds."
+    },
+    {
+      "id": "golangci-lint-formatters",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "formatters"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review package loading, custom linters/plugins, formatting, config migration, caches, outputs and custom binary builds."
+    },
+    {
+      "id": "golangci-lint-linters",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "linters"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review package loading, custom linters/plugins, formatting, config migration, caches, outputs and custom binary builds."
+    },
+    {
+      "id": "golangci-lint-cache-clean",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "cache",
+            "clean"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review package loading, custom linters/plugins, formatting, config migration, caches, outputs and custom binary builds."
+    },
+    {
+      "id": "golangci-lint-cache-status",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "cache",
+            "status"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review package loading, custom linters/plugins, formatting, config migration, caches, outputs and custom binary builds."
+    },
+    {
+      "id": "golangci-lint-config-path",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "config",
+            "path"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review package loading, custom linters/plugins, formatting, config migration, caches, outputs and custom binary builds."
+    },
+    {
+      "id": "golangci-lint-config-verify",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "config",
+            "verify"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review package loading, custom linters/plugins, formatting, config migration, caches, outputs and custom binary builds."
+    },
+    {
+      "id": "golangci-lint-custom",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "custom"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review package loading, custom linters/plugins, formatting, config migration, caches, outputs and custom binary builds."
+    },
+    {
+      "id": "golangci-lint-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review package loading, custom linters/plugins, formatting, config migration, caches, outputs and custom binary builds."
+    },
+    {
+      "id": "golangci-lint-completion",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "completion"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review package loading, custom linters/plugins, formatting, config migration, caches, outputs and custom binary builds."
+    },
+    {
+      "id": "golangci-lint-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "help"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review package loading, custom linters/plugins, formatting, config migration, caches, outputs and custom binary builds."
+    },
+    {
+      "id": "golangci-lint-unclassified",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review package loading, custom linters/plugins, formatting, config migration, caches, outputs and custom binary builds.",
+      "fallback": true
+    },
+    {
+      "id": "govulncheck-unclassified",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "govulncheck",
+            "/usr/bin/govulncheck",
+            "/usr/local/bin/govulncheck",
+            "/opt/homebrew/bin/govulncheck"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review Go package loading, toolchain and vulnerability-database access, binary/source reads and output.",
+      "fallback": true
+    },
+    {
+      "id": "staticcheck-unclassified",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "staticcheck",
+            "/usr/bin/staticcheck",
+            "/usr/local/bin/staticcheck",
+            "/opt/homebrew/bin/staticcheck"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review Go package loading, compiler/cgo and cache effects, response files and source/configuration access.",
+      "fallback": true
+    },
+    {
+      "id": "gotestsum-tool-slowest",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gotestsum",
+            "/usr/bin/gotestsum",
+            "/usr/local/bin/gotestsum",
+            "/opt/homebrew/bin/gotestsum"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "tool",
+            "slowest"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review tests, raw child commands, rerun/watch hooks, source edits and JSON/JUnit report files."
+    },
+    {
+      "id": "gotestsum-tool-ci-matrix",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gotestsum",
+            "/usr/bin/gotestsum",
+            "/usr/local/bin/gotestsum",
+            "/opt/homebrew/bin/gotestsum"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "tool",
+            "ci-matrix"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review tests, raw child commands, rerun/watch hooks, source edits and JSON/JUnit report files."
+    },
+    {
+      "id": "gotestsum-unclassified",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gotestsum",
+            "/usr/bin/gotestsum",
+            "/usr/local/bin/gotestsum",
+            "/opt/homebrew/bin/gotestsum"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review tests, raw child commands, rerun/watch hooks, source edits and JSON/JUnit report files.",
+      "fallback": true
+    },
+    {
+      "id": "ginkgo-watch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ginkgo",
+            "/usr/bin/ginkgo",
+            "/usr/local/bin/ginkgo",
+            "/opt/homebrew/bin/ginkgo"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "watch"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review tests and hooks, Go builds, watch processes, suite generation, source edits and output files."
+    },
+    {
+      "id": "ginkgo-build",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ginkgo",
+            "/usr/bin/ginkgo",
+            "/usr/local/bin/ginkgo",
+            "/opt/homebrew/bin/ginkgo"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "build"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review tests and hooks, Go builds, watch processes, suite generation, source edits and output files."
+    },
+    {
+      "id": "ginkgo-bootstrap",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ginkgo",
+            "/usr/bin/ginkgo",
+            "/usr/local/bin/ginkgo",
+            "/opt/homebrew/bin/ginkgo"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "bootstrap"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review tests and hooks, Go builds, watch processes, suite generation, source edits and output files."
+    },
+    {
+      "id": "ginkgo-generate",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ginkgo",
+            "/usr/bin/ginkgo",
+            "/usr/local/bin/ginkgo",
+            "/opt/homebrew/bin/ginkgo"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "generate"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review tests and hooks, Go builds, watch processes, suite generation, source edits and output files."
+    },
+    {
+      "id": "ginkgo-labels",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ginkgo",
+            "/usr/bin/ginkgo",
+            "/usr/local/bin/ginkgo",
+            "/opt/homebrew/bin/ginkgo"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "labels"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review tests and hooks, Go builds, watch processes, suite generation, source edits and output files."
+    },
+    {
+      "id": "ginkgo-outline",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ginkgo",
+            "/usr/bin/ginkgo",
+            "/usr/local/bin/ginkgo",
+            "/opt/homebrew/bin/ginkgo"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "outline"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review tests and hooks, Go builds, watch processes, suite generation, source edits and output files."
+    },
+    {
+      "id": "ginkgo-unfocus",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ginkgo",
+            "/usr/bin/ginkgo",
+            "/usr/local/bin/ginkgo",
+            "/opt/homebrew/bin/ginkgo"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "unfocus"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review tests and hooks, Go builds, watch processes, suite generation, source edits and output files."
+    },
+    {
+      "id": "ginkgo-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ginkgo",
+            "/usr/bin/ginkgo",
+            "/usr/local/bin/ginkgo",
+            "/opt/homebrew/bin/ginkgo"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "version"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review tests and hooks, Go builds, watch processes, suite generation, source edits and output files."
+    },
+    {
+      "id": "ginkgo-completion",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ginkgo",
+            "/usr/bin/ginkgo",
+            "/usr/local/bin/ginkgo",
+            "/opt/homebrew/bin/ginkgo"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "completion"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review tests and hooks, Go builds, watch processes, suite generation, source edits and output files."
+    },
+    {
+      "id": "ginkgo-convert",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ginkgo",
+            "/usr/bin/ginkgo",
+            "/usr/local/bin/ginkgo",
+            "/opt/homebrew/bin/ginkgo"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "convert"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review tests and hooks, Go builds, watch processes, suite generation, source edits and output files."
+    },
+    {
+      "id": "ginkgo-blur",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ginkgo",
+            "/usr/bin/ginkgo",
+            "/usr/local/bin/ginkgo",
+            "/opt/homebrew/bin/ginkgo"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "blur"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review tests and hooks, Go builds, watch processes, suite generation, source edits and output files."
+    },
+    {
+      "id": "ginkgo-nodot",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ginkgo",
+            "/usr/bin/ginkgo",
+            "/usr/local/bin/ginkgo",
+            "/opt/homebrew/bin/ginkgo"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "nodot"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review tests and hooks, Go builds, watch processes, suite generation, source edits and output files."
+    },
+    {
+      "id": "ginkgo-unclassified",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ginkgo",
+            "/usr/bin/ginkgo",
+            "/usr/local/bin/ginkgo",
+            "/opt/homebrew/bin/ginkgo"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review tests and hooks, Go builds, watch processes, suite generation, source edits and output files.",
+      "fallback": true
+    },
+    {
+      "id": "gocov-test",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gocov",
+            "/usr/bin/gocov",
+            "/usr/local/bin/gocov",
+            "/opt/homebrew/bin/gocov"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "test"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review test execution, coverage profiles and source paths embedded in coverage data."
+    },
+    {
+      "id": "gocov-convert",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gocov",
+            "/usr/bin/gocov",
+            "/usr/local/bin/gocov",
+            "/opt/homebrew/bin/gocov"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "convert"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review test execution, coverage profiles and source paths embedded in coverage data."
+    },
+    {
+      "id": "gocov-report",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gocov",
+            "/usr/bin/gocov",
+            "/usr/local/bin/gocov",
+            "/opt/homebrew/bin/gocov"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "report"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review test execution, coverage profiles and source paths embedded in coverage data."
+    },
+    {
+      "id": "gocov-annotate",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gocov",
+            "/usr/bin/gocov",
+            "/usr/local/bin/gocov",
+            "/opt/homebrew/bin/gocov"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "annotate"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review test execution, coverage profiles and source paths embedded in coverage data."
+    },
+    {
+      "id": "gocov-unclassified",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gocov",
+            "/usr/bin/gocov",
+            "/usr/local/bin/gocov",
+            "/opt/homebrew/bin/gocov"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review test execution, coverage profiles and source paths embedded in coverage data.",
+      "fallback": true
+    },
+    {
+      "id": "gocov-xml-unclassified",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gocov-xml",
+            "/usr/bin/gocov-xml",
+            "/usr/local/bin/gocov-xml",
+            "/opt/homebrew/bin/gocov-xml"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review coverage data and any implicit source/module lookup performed by the selected converter.",
+      "fallback": true
+    },
+    {
+      "id": "gocover-cobertura-unclassified",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gocover-cobertura",
+            "/usr/bin/gocover-cobertura",
+            "/usr/local/bin/gocover-cobertura",
+            "/opt/homebrew/bin/gocover-cobertura"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Coverage profile paths drive additional source-file reads; standard input is not a file-access boundary.",
+      "fallback": true
+    },
+    {
+      "id": "go-junit-report-unclassified",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go-junit-report",
+            "/usr/bin/go-junit-report",
+            "/usr/local/bin/go-junit-report",
+            "/opt/homebrew/bin/go-junit-report"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": "ask",
+      "reason": "Review explicit input/output files or unclassified report-conversion syntax.",
+      "fallback": true
+    },
+    {
+      "id": "go-info-env-GOTOOLCHAIN",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "env",
+            "GOTOOLCHAIN"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "read"
+          }
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "go-info-env-GOMOD",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "env",
+            "GOMOD"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "read"
+          }
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "go-info-env-GOWORK",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go",
+            "/usr/bin/go",
+            "/usr/local/bin/go",
+            "/opt/homebrew/bin/go",
+            "/usr/local/go/bin/go",
+            "/usr/lib/go/bin/go",
+            "/usr/lib/golang/bin/go"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "env",
+            "GOWORK"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "read"
+          }
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "gofmt-info-h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gofmt",
+            "/usr/bin/gofmt",
+            "/usr/local/bin/gofmt",
+            "/opt/homebrew/bin/gofmt",
+            "/usr/local/go/bin/gofmt",
+            "/usr/lib/go/bin/gofmt",
+            "/usr/lib/golang/bin/gofmt"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "gofmt-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gofmt",
+            "/usr/bin/gofmt",
+            "/usr/local/bin/gofmt",
+            "/opt/homebrew/bin/gofmt",
+            "/usr/local/go/bin/gofmt",
+            "/usr/lib/go/bin/gofmt",
+            "/usr/lib/golang/bin/gofmt"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "gofumpt-info-h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gofumpt",
+            "/usr/bin/gofumpt",
+            "/usr/local/bin/gofumpt",
+            "/opt/homebrew/bin/gofumpt"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "gofumpt-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gofumpt",
+            "/usr/bin/gofumpt",
+            "/usr/local/bin/gofumpt",
+            "/opt/homebrew/bin/gofumpt"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "goimports-info-h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "goimports",
+            "/usr/bin/goimports",
+            "/usr/local/bin/goimports",
+            "/opt/homebrew/bin/goimports"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "goimports-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "goimports",
+            "/usr/bin/goimports",
+            "/usr/local/bin/goimports",
+            "/opt/homebrew/bin/goimports"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "golangci-lint-info-h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "golangci-lint-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "govulncheck-info-h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "govulncheck",
+            "/usr/bin/govulncheck",
+            "/usr/local/bin/govulncheck",
+            "/opt/homebrew/bin/govulncheck"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "govulncheck-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "govulncheck",
+            "/usr/bin/govulncheck",
+            "/usr/local/bin/govulncheck",
+            "/opt/homebrew/bin/govulncheck"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "staticcheck-info-h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "staticcheck",
+            "/usr/bin/staticcheck",
+            "/usr/local/bin/staticcheck",
+            "/opt/homebrew/bin/staticcheck"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "staticcheck-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "staticcheck",
+            "/usr/bin/staticcheck",
+            "/usr/local/bin/staticcheck",
+            "/opt/homebrew/bin/staticcheck"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "gotestsum-info-h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gotestsum",
+            "/usr/bin/gotestsum",
+            "/usr/local/bin/gotestsum",
+            "/opt/homebrew/bin/gotestsum"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "gotestsum-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gotestsum",
+            "/usr/bin/gotestsum",
+            "/usr/local/bin/gotestsum",
+            "/opt/homebrew/bin/gotestsum"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "ginkgo-info-h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ginkgo",
+            "/usr/bin/ginkgo",
+            "/usr/local/bin/ginkgo",
+            "/opt/homebrew/bin/ginkgo"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "ginkgo-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ginkgo",
+            "/usr/bin/ginkgo",
+            "/usr/local/bin/ginkgo",
+            "/opt/homebrew/bin/ginkgo"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "go-junit-report-info-h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go-junit-report",
+            "/usr/bin/go-junit-report",
+            "/usr/local/bin/go-junit-report",
+            "/opt/homebrew/bin/go-junit-report"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "go-junit-report-info-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go-junit-report",
+            "/usr/bin/go-junit-report",
+            "/usr/local/bin/go-junit-report",
+            "/opt/homebrew/bin/go-junit-report"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "gofumpt-info-version-flag",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gofumpt",
+            "/usr/bin/gofumpt",
+            "/usr/local/bin/gofumpt",
+            "/opt/homebrew/bin/gofumpt"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "govulncheck-info-version-flag",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "govulncheck",
+            "/usr/bin/govulncheck",
+            "/usr/local/bin/govulncheck",
+            "/opt/homebrew/bin/govulncheck"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "staticcheck-info-version-flag",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "staticcheck",
+            "/usr/bin/staticcheck",
+            "/usr/local/bin/staticcheck",
+            "/opt/homebrew/bin/staticcheck"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "go-junit-report-info-version-flag",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go-junit-report",
+            "/usr/bin/go-junit-report",
+            "/usr/local/bin/go-junit-report",
+            "/opt/homebrew/bin/go-junit-report"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "golangci-lint-info-version-flag",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "golangci-lint-info-version-command",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "golangci-lint",
+            "/usr/bin/golangci-lint",
+            "/usr/local/bin/golangci-lint",
+            "/opt/homebrew/bin/golangci-lint"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "gotestsum-info-version-flag",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gotestsum",
+            "/usr/bin/gotestsum",
+            "/usr/local/bin/gotestsum",
+            "/opt/homebrew/bin/gotestsum"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "ginkgo-info-version-command",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "ginkgo",
+            "/usr/bin/ginkgo",
+            "/usr/local/bin/ginkgo",
+            "/opt/homebrew/bin/ginkgo"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "staticcheck-info-list-checks",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "staticcheck",
+            "/usr/bin/staticcheck",
+            "/usr/local/bin/staticcheck",
+            "/opt/homebrew/bin/staticcheck"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-list-checks"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in metadata using the trusted installed executable."
+    },
+    {
+      "id": "staticcheck-explain",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "staticcheck",
+            "/usr/bin/staticcheck",
+            "/usr/local/bin/staticcheck",
+            "/opt/homebrew/bin/staticcheck"
+          ]
+        },
+        "arguments": {
+          "kind": "sequence",
+          "prefix": [
+            "-explain"
+          ],
+          "rest": {
+            "kind": "each",
+            "match": {
+              "regex": "[A-Z][A-Z0-9]+"
+            },
+            "min": 1,
+            "max": 1
+          }
+        }
+      },
+      "decision": "allow",
+      "reason": "Explain a built-in diagnostic."
+    },
+    {
+      "id": "gofmt-paths",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gofmt",
+            "/usr/bin/gofmt",
+            "/usr/local/bin/gofmt",
+            "/opt/homebrew/bin/gofmt",
+            "/usr/local/go/bin/gofmt",
+            "/usr/lib/go/bin/gofmt",
+            "/usr/lib/golang/bin/gofmt"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [],
+          "values": [
+            "-r"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "short_clusters": false
+        },
+        "cwd": {
+          "within": {
+            "root": "write"
+          },
+          "exclude": [
+            {
+              "root": "project",
+              "path": ".git"
+            },
+            {
+              "root": "project",
+              "path": ".shield"
+            },
+            {
+              "root": "project",
+              "path": ".ssh"
+            },
+            {
+              "root": "project",
+              "path": ".aws"
+            },
+            {
+              "root": "project",
+              "path": ".codex"
+            },
+            {
+              "root": "project",
+              "path": ".claude"
+            },
+            {
+              "root": "project",
+              "path": ".env"
+            },
+            {
+              "root": "project",
+              "path": ".mcp.json"
+            }
+          ]
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Format or rewrite Go files at approved writable paths.",
+      "requirements": {
+        "argument_paths": {
+          "grammar": {
+            "kind": "options",
+            "prefix": [],
+            "flags": [],
+            "values": [
+              "-r"
+            ],
+            "operands": true,
+            "unknown_options": "skip",
+            "short_clusters": false
+          },
+          "operands": {
+            "path": {
+              "within": {
+                "root": "write"
+              },
+              "exclude": [
+                {
+                  "root": "project",
+                  "path": ".git"
+                },
+                {
+                  "root": "project",
+                  "path": ".shield"
+                },
+                {
+                  "root": "project",
+                  "path": ".ssh"
+                },
+                {
+                  "root": "project",
+                  "path": ".aws"
+                },
+                {
+                  "root": "project",
+                  "path": ".codex"
+                },
+                {
+                  "root": "project",
+                  "path": ".claude"
+                },
+                {
+                  "root": "project",
+                  "path": ".env"
+                },
+                {
+                  "root": "project",
+                  "path": ".mcp.json"
+                }
+              ]
+            },
+            "recursive": true
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": "ask",
+        "message": "Review formatting paths outside writable roots, protected trees, stdin operands or unparseable arguments."
+      }
+    },
+    {
+      "id": "gofmt-profile-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "gofmt",
+            "/usr/bin/gofmt",
+            "/usr/local/bin/gofmt",
+            "/opt/homebrew/bin/gofmt",
+            "/usr/local/go/bin/gofmt",
+            "/usr/lib/go/bin/gofmt",
+            "/usr/lib/golang/bin/gofmt"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [],
+          "any_of": [
+            {
+              "regex": "(?s:^-{1,2}cpuprofile(?:=.*)?$)"
+            }
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the CPU profile file opened by gofmt."
+    },
+    {
+      "id": "junit-stream",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go-junit-report",
+            "/usr/bin/go-junit-report",
+            "/usr/local/bin/go-junit-report",
+            "/opt/homebrew/bin/go-junit-report"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [],
+          "values": [
+            "-p"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "short_clusters": false
+        }
+      },
+      "decision": "allow",
+      "reason": "Convert supplied test output to JUnit XML on standard output."
+    },
+    {
+      "id": "junit-file-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "go-junit-report",
+            "/usr/bin/go-junit-report",
+            "/usr/local/bin/go-junit-report",
+            "/opt/homebrew/bin/go-junit-report"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [],
+          "any_of": [
+            {
+              "regex": "(?s:^-{1,2}(?:in|out)(?:=.*)?$)"
+            }
+          ]
+        }
+      },
+      "decision": "ask",
+      "reason": "Review explicit test-log input or JUnit output files."
+    }
+  ]
+}

@@ -13,7 +13,7 @@ import {schema} from './policy-schema.mjs';
 import {checkPublication, digest} from './registry-release.mjs';
 
 // The current interface, independently of the policy: `hub mcp serve --check`
-// of Hub 0.52.0 in catalog order (including preview identities).
+// of Hub 0.53.0 in catalog order (including preview identities).
 const catalog = ['init','config_check','config_plan','config_schema','setup','workspace_create','workspace_attach',
   'workspace_list','workspace_show','workspace_remove','workspace_prepare','workspace_data_reset','task_show','task_update',
   'task_history','task_export','task_import','task_step_list','task_step_next','task_step_add','task_step_update',

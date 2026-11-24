@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "commands": [
+    {
+      "name": "op",
+      "rule_ids": [
+        "info-0",
+        "info-1",
+        "info-2",
+        "info-3",
+        "help",
+        "command-help",
+        "whoami",
+        "account-list",
+        "account-get",
+        "vault-list",
+        "vault-get",
+        "item-list",
+        "document-list",
+        "template-list",
+        "template-get",
+        "user-list",
+        "user-get",
+        "group-list",
+        "group-get",
+        "group-user-list",
+        "vault-user-list",
+        "vault-group-list",
+        "service-account-ratelimit",
+        "plugin-list",
+        "sensitive-secrets-and-execution",
+        "sensitive-item",
+        "sensitive-document",
+        "sensitive-environment",
+        "sensitive-account",
+        "sensitive-vault",
+        "sensitive-user",
+        "sensitive-group",
+        "sensitive-service-account",
+        "sensitive-connect",
+        "sensitive-events-api",
+        "sensitive-plugin",
+        "sensitive-provisioning",
+        "connection-and-output-overrides",
+        "unlisted"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "commands": [
+    {
+      "name": "bun",
+      "rule_ids": [
+        "bun-info-0",
+        "bun-info-1",
+        "bun-info-2",
+        "bun-info-3",
+        "bun-info-4",
+        "help-run",
+        "help-test",
+        "help-check",
+        "help-x",
+        "help-build",
+        "help-install",
+        "help-add",
+        "help-remove",
+        "help-publish",
+        "help-pm",
+        "help-init",
+        "help-create",
+        "help-upgrade",
+        "pm-list",
+        "list-alias",
+        "pm-bin",
+        "pm-hashes",
+        "pm-trust-inspection",
+        "effect-switches",
+        "package-and-project-changes",
+        "pm-changes",
+        "bun-options-environment",
+        "bun-review"
+      ]
+    },
+    {
+      "name": "bunx",
+      "rule_ids": [
+        "bunx-help",
+        "bunx-review"
+      ]
+    }
+  ]
+}

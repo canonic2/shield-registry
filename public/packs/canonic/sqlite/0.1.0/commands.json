@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "commands": [
+    {
+      "name": "sqlite3",
+      "rule_ids": [
+        "sqlite3-info-help",
+        "sqlite3-info-long-help",
+        "sqlite3-info-version",
+        "sqlite3-info-long-version",
+        "sqlite3-operation"
+      ]
+    },
+    {
+      "name": "sqldiff",
+      "rule_ids": [
+        "sqldiff-info-help",
+        "sqldiff-info-long-help",
+        "sqldiff-operation"
+      ]
+    },
+    {
+      "name": "sqlite3_analyzer",
+      "rule_ids": [
+        "sqlite3_analyzer-info-version",
+        "sqlite3_analyzer-info-long-version",
+        "sqlite3_analyzer-operation"
+      ]
+    },
+    {
+      "name": "sqlite3_rsync",
+      "rule_ids": [
+        "sqlite3_rsync-info-long-help",
+        "sqlite3_rsync-info-long-version",
+        "sqlite3_rsync-operation"
+      ]
+    }
+  ]
+}

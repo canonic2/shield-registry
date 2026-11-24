@@ -1,0 +1,3209 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "version-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "query-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-Q",
+        "cipher"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "query-help-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-Q",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "query-config-key-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-Q",
+        "HostKeyAlgorithms"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "query-future-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-Q",
+        "future-query"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "query-empty-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-Q"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "query-extra-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-Q",
+        "cipher",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "query-log-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-E",
+        "/outside/log",
+        "-Q",
+        "cipher"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "version-extra-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-V",
+        "-F",
+        "/outside/config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interactive-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "command-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "user@host.example",
+        "uptime"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "uri-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "ssh://user@host.example:2222",
+        "id"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-dump-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-G",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-file-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-F",
+        "./ssh_config",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "proxy-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-oProxyCommand=./proxy-helper",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "known-hosts-helper-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-oKnownHostsCommand=./host-helper",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "local-command-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-oPermitLocalCommand=yes",
+        "-oLocalCommand=id",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jump-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-J",
+        "jump.example",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "local-forward-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-N",
+        "-L",
+        "0.0.0.0:8080:internal.example:80",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "remote-forward-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-N",
+        "-R",
+        "8080:localhost:80",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dynamic-forward-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-N",
+        "-D",
+        "1080",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unix-forward-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-L",
+        "/outside/socket:/remote/socket",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stdio-forward-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-W",
+        "internal.example:22",
+        "jump.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tunnel-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-w",
+        "0:0",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-forward-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-A",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "x11-forward-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-Y",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "private-key-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-i",
+        "/outside/key",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "provider-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-I",
+        "./provider.so",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "control-exit-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-S",
+        "./control",
+        "-O",
+        "exit",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "control-check-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "-O",
+        "check",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-upload-loose",
+      "profile": "loose",
+      "argv": [
+        "scp",
+        "./a",
+        "host.example:/srv/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-download-loose",
+      "profile": "loose",
+      "argv": [
+        "scp",
+        "host.example:/srv/a",
+        "/outside/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-local-loose",
+      "profile": "loose",
+      "argv": [
+        "scp",
+        "./a",
+        "./b"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-recursive-loose",
+      "profile": "loose",
+      "argv": [
+        "scp",
+        "-r",
+        "./folder",
+        "host.example:/srv/folder"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-remote-remote-loose",
+      "profile": "loose",
+      "argv": [
+        "scp",
+        "-3",
+        "one.example:/srv/a",
+        "two.example:/srv/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-uri-loose",
+      "profile": "loose",
+      "argv": [
+        "scp",
+        "./a",
+        "scp://user@host.example:2222/srv/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-legacy-loose",
+      "profile": "loose",
+      "argv": [
+        "scp",
+        "-O",
+        "./a",
+        "host.example:/srv/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-helper-loose",
+      "profile": "loose",
+      "argv": [
+        "scp",
+        "-S",
+        "./ssh-helper",
+        "./a",
+        "host.example:/srv/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-server-loose",
+      "profile": "loose",
+      "argv": [
+        "scp",
+        "-D",
+        "./sftp-server",
+        "./a",
+        "./b"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sftp-interactive-loose",
+      "profile": "loose",
+      "argv": [
+        "sftp",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sftp-auto-download-loose",
+      "profile": "loose",
+      "argv": [
+        "sftp",
+        "host.example:/srv/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sftp-batch-loose",
+      "profile": "loose",
+      "argv": [
+        "sftp",
+        "-b",
+        "./commands.sftp",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sftp-stdin-loose",
+      "profile": "loose",
+      "argv": [
+        "sftp",
+        "-b",
+        "-",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sftp-server-loose",
+      "profile": "loose",
+      "argv": [
+        "sftp",
+        "-D",
+        "./sftp-server"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-version-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rsync-help-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rsync-info-extra-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "--help",
+        "--log-file=/outside/log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-local-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "-av",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-upload-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "-a",
+        "./source/",
+        "host.example:/srv/destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-download-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "-a",
+        "host.example:/srv/source/",
+        "./destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-daemon-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "host.example::module/file",
+        "./file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-uri-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "rsync://host.example/module/file",
+        "./file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-list-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "--list-only",
+        "host.example:/srv/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-dry-run-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "-an",
+        "--delete",
+        "./source/",
+        "host.example:/srv/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "-a",
+        "--delete",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-delete-excluded-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "--delete-excluded",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-remove-source-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "--remove-source-files",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-symlinks-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "-aL",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-inplace-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "--inplace",
+        "./a",
+        "/outside/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-shell-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "-e",
+        "./ssh-helper",
+        "./a",
+        "host.example:/srv/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-path-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "--rsync-path=./remote-helper",
+        "./a",
+        "host.example:/srv/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-filter-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "--filter=merge /outside/filter",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-files-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "--files-from=/outside/list",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-password-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "--password-file=/outside/password",
+        "./a",
+        "host.example::module/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-daemon-start-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "--daemon",
+        "--config=./rsyncd.conf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-default-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-keygen"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-create-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-keygen",
+        "-t",
+        "ed25519",
+        "-f",
+        "./example_key",
+        "-N",
+        ""
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-fingerprint-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-keygen",
+        "-l",
+        "-f",
+        "./example_key.pub"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-export-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-keygen",
+        "-y",
+        "-f",
+        "/outside/private_key"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-passphrase-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-keygen",
+        "-p",
+        "-f",
+        "./example_key"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-cert-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-keygen",
+        "-s",
+        "./ca_key",
+        "-I",
+        "example",
+        "./example_key.pub"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-sign-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-keygen",
+        "-Y",
+        "sign",
+        "-f",
+        "./example_key",
+        "-n",
+        "file",
+        "./artifact"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-verify-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-keygen",
+        "-Y",
+        "verify",
+        "-f",
+        "./allowed_signers",
+        "-I",
+        "example",
+        "-n",
+        "file",
+        "-s",
+        "./artifact.sig"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-revoke-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-keygen",
+        "-k",
+        "-f",
+        "./revoked.krl",
+        "./example_key.pub"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-find-host-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-keygen",
+        "-F",
+        "host.example",
+        "-f",
+        "./known_hosts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-remove-host-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-keygen",
+        "-R",
+        "host.example",
+        "-f",
+        "./known_hosts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-hash-host-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-keygen",
+        "-H",
+        "-f",
+        "./known_hosts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-provider-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-keygen",
+        "-D",
+        "./provider.so"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-resident-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-keygen",
+        "-K"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-default-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-add"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-list-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-add",
+        "-l"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-public-list-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-add",
+        "-L"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-add-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-add",
+        "./example_key"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-remove-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-add",
+        "-d",
+        "./example_key.pub"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-remove-all-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-add",
+        "-D"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-lock-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-add",
+        "-x"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-unlock-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-add",
+        "-X"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-provider-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-add",
+        "-s",
+        "./provider.so"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-test-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-add",
+        "-T",
+        "./example_key.pub"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-constrain-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-add",
+        "-h",
+        "host.example",
+        "-t",
+        "300",
+        "./example_key"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "absolute-version-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/ssh",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "windows-ssh-loose",
+      "profile": "loose",
+      "argv": [
+        "C:\\Windows\\System32\\OpenSSH\\ssh.exe",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ssh-unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "scp",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sftp-unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "sftp",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "rsync",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ssh-keygen-unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-keygen",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ssh-add-unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-add",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sftp-pipe-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "printf 'rm /srv/example' | sftp -b - host.example",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-cli-loose",
+      "profile": "loose",
+      "argv": [
+        "ssh-unknown",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "mcp",
+        "server": "ssh",
+        "tool": "connect",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "query-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-Q",
+        "cipher"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "query-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-Q",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "query-config-key-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-Q",
+        "HostKeyAlgorithms"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "query-future-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-Q",
+        "future-query"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "query-empty-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-Q"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "query-extra-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-Q",
+        "cipher",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "query-log-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-E",
+        "/outside/log",
+        "-Q",
+        "cipher"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "version-extra-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-V",
+        "-F",
+        "/outside/config"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interactive-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "command-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "user@host.example",
+        "uptime"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "uri-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "ssh://user@host.example:2222",
+        "id"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-dump-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-G",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "config-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-F",
+        "./ssh_config",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "proxy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-oProxyCommand=./proxy-helper",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "known-hosts-helper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-oKnownHostsCommand=./host-helper",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "local-command-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-oPermitLocalCommand=yes",
+        "-oLocalCommand=id",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "jump-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-J",
+        "jump.example",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "local-forward-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-N",
+        "-L",
+        "0.0.0.0:8080:internal.example:80",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "remote-forward-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-N",
+        "-R",
+        "8080:localhost:80",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dynamic-forward-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-N",
+        "-D",
+        "1080",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unix-forward-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-L",
+        "/outside/socket:/remote/socket",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stdio-forward-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-W",
+        "internal.example:22",
+        "jump.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tunnel-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-w",
+        "0:0",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-forward-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-A",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "x11-forward-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-Y",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "private-key-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-i",
+        "/outside/key",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "provider-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-I",
+        "./provider.so",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "control-exit-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-S",
+        "./control",
+        "-O",
+        "exit",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "control-check-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "-O",
+        "check",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-upload-recommended",
+      "profile": "recommended",
+      "argv": [
+        "scp",
+        "./a",
+        "host.example:/srv/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-download-recommended",
+      "profile": "recommended",
+      "argv": [
+        "scp",
+        "host.example:/srv/a",
+        "/outside/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-local-recommended",
+      "profile": "recommended",
+      "argv": [
+        "scp",
+        "./a",
+        "./b"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-recursive-recommended",
+      "profile": "recommended",
+      "argv": [
+        "scp",
+        "-r",
+        "./folder",
+        "host.example:/srv/folder"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-remote-remote-recommended",
+      "profile": "recommended",
+      "argv": [
+        "scp",
+        "-3",
+        "one.example:/srv/a",
+        "two.example:/srv/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-uri-recommended",
+      "profile": "recommended",
+      "argv": [
+        "scp",
+        "./a",
+        "scp://user@host.example:2222/srv/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-legacy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "scp",
+        "-O",
+        "./a",
+        "host.example:/srv/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-helper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "scp",
+        "-S",
+        "./ssh-helper",
+        "./a",
+        "host.example:/srv/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-server-recommended",
+      "profile": "recommended",
+      "argv": [
+        "scp",
+        "-D",
+        "./sftp-server",
+        "./a",
+        "./b"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sftp-interactive-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sftp",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sftp-auto-download-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sftp",
+        "host.example:/srv/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sftp-batch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sftp",
+        "-b",
+        "./commands.sftp",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sftp-stdin-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sftp",
+        "-b",
+        "-",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sftp-server-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sftp",
+        "-D",
+        "./sftp-server"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rsync-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rsync-info-extra-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "--help",
+        "--log-file=/outside/log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-local-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "-av",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-upload-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "-a",
+        "./source/",
+        "host.example:/srv/destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-download-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "-a",
+        "host.example:/srv/source/",
+        "./destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-daemon-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "host.example::module/file",
+        "./file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-uri-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "rsync://host.example/module/file",
+        "./file"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "--list-only",
+        "host.example:/srv/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-dry-run-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "-an",
+        "--delete",
+        "./source/",
+        "host.example:/srv/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "-a",
+        "--delete",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-delete-excluded-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "--delete-excluded",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-remove-source-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "--remove-source-files",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-symlinks-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "-aL",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-inplace-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "--inplace",
+        "./a",
+        "/outside/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-shell-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "-e",
+        "./ssh-helper",
+        "./a",
+        "host.example:/srv/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-path-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "--rsync-path=./remote-helper",
+        "./a",
+        "host.example:/srv/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-filter-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "--filter=merge /outside/filter",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-files-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "--files-from=/outside/list",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-password-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "--password-file=/outside/password",
+        "./a",
+        "host.example::module/a"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-daemon-start-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "--daemon",
+        "--config=./rsyncd.conf"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-default-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-keygen"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-keygen",
+        "-t",
+        "ed25519",
+        "-f",
+        "./example_key",
+        "-N",
+        ""
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-fingerprint-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-keygen",
+        "-l",
+        "-f",
+        "./example_key.pub"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-export-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-keygen",
+        "-y",
+        "-f",
+        "/outside/private_key"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-passphrase-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-keygen",
+        "-p",
+        "-f",
+        "./example_key"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-cert-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-keygen",
+        "-s",
+        "./ca_key",
+        "-I",
+        "example",
+        "./example_key.pub"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-sign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-keygen",
+        "-Y",
+        "sign",
+        "-f",
+        "./example_key",
+        "-n",
+        "file",
+        "./artifact"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-verify-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-keygen",
+        "-Y",
+        "verify",
+        "-f",
+        "./allowed_signers",
+        "-I",
+        "example",
+        "-n",
+        "file",
+        "-s",
+        "./artifact.sig"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-revoke-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-keygen",
+        "-k",
+        "-f",
+        "./revoked.krl",
+        "./example_key.pub"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-find-host-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-keygen",
+        "-F",
+        "host.example",
+        "-f",
+        "./known_hosts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-remove-host-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-keygen",
+        "-R",
+        "host.example",
+        "-f",
+        "./known_hosts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-hash-host-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-keygen",
+        "-H",
+        "-f",
+        "./known_hosts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-provider-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-keygen",
+        "-D",
+        "./provider.so"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "keygen-resident-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-keygen",
+        "-K"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-default-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-add"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-add",
+        "-l"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-public-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-add",
+        "-L"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-add-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-add",
+        "./example_key"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-remove-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-add",
+        "-d",
+        "./example_key.pub"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-remove-all-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-add",
+        "-D"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-lock-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-add",
+        "-x"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-unlock-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-add",
+        "-X"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-provider-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-add",
+        "-s",
+        "./provider.so"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-test-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-add",
+        "-T",
+        "./example_key.pub"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "agent-constrain-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-add",
+        "-h",
+        "host.example",
+        "-t",
+        "300",
+        "./example_key"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "absolute-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/ssh",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "windows-ssh-recommended",
+      "profile": "recommended",
+      "argv": [
+        "C:\\Windows\\System32\\OpenSSH\\ssh.exe",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ssh-unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scp-unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "scp",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sftp-unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sftp",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rsync",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ssh-keygen-unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-keygen",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ssh-add-unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-add",
+        "--future-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sftp-pipe-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "printf 'rm /srv/example' | sftp -b - host.example",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-cli-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ssh-unknown",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "mcp",
+        "server": "ssh",
+        "tool": "connect",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "version-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "query-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-Q",
+        "cipher"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "query-help-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-Q",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "query-config-key-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-Q",
+        "HostKeyAlgorithms"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "query-future-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-Q",
+        "future-query"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "query-empty-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-Q"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "query-extra-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-Q",
+        "cipher",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "query-log-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-E",
+        "/outside/log",
+        "-Q",
+        "cipher"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "version-extra-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-V",
+        "-F",
+        "/outside/config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "interactive-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "command-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "user@host.example",
+        "uptime"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "uri-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "ssh://user@host.example:2222",
+        "id"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "config-dump-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-G",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "config-file-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-F",
+        "./ssh_config",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "proxy-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-oProxyCommand=./proxy-helper",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "known-hosts-helper-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-oKnownHostsCommand=./host-helper",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "local-command-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-oPermitLocalCommand=yes",
+        "-oLocalCommand=id",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "jump-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-J",
+        "jump.example",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "local-forward-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-N",
+        "-L",
+        "0.0.0.0:8080:internal.example:80",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "remote-forward-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-N",
+        "-R",
+        "8080:localhost:80",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "dynamic-forward-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-N",
+        "-D",
+        "1080",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unix-forward-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-L",
+        "/outside/socket:/remote/socket",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "stdio-forward-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-W",
+        "internal.example:22",
+        "jump.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tunnel-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-w",
+        "0:0",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "agent-forward-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-A",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "x11-forward-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-Y",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "private-key-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-i",
+        "/outside/key",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "provider-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-I",
+        "./provider.so",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "control-exit-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-S",
+        "./control",
+        "-O",
+        "exit",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "control-check-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "-O",
+        "check",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scp-upload-strict",
+      "profile": "strict",
+      "argv": [
+        "scp",
+        "./a",
+        "host.example:/srv/a"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scp-download-strict",
+      "profile": "strict",
+      "argv": [
+        "scp",
+        "host.example:/srv/a",
+        "/outside/a"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scp-local-strict",
+      "profile": "strict",
+      "argv": [
+        "scp",
+        "./a",
+        "./b"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scp-recursive-strict",
+      "profile": "strict",
+      "argv": [
+        "scp",
+        "-r",
+        "./folder",
+        "host.example:/srv/folder"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scp-remote-remote-strict",
+      "profile": "strict",
+      "argv": [
+        "scp",
+        "-3",
+        "one.example:/srv/a",
+        "two.example:/srv/a"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scp-uri-strict",
+      "profile": "strict",
+      "argv": [
+        "scp",
+        "./a",
+        "scp://user@host.example:2222/srv/a"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scp-legacy-strict",
+      "profile": "strict",
+      "argv": [
+        "scp",
+        "-O",
+        "./a",
+        "host.example:/srv/a"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scp-helper-strict",
+      "profile": "strict",
+      "argv": [
+        "scp",
+        "-S",
+        "./ssh-helper",
+        "./a",
+        "host.example:/srv/a"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scp-server-strict",
+      "profile": "strict",
+      "argv": [
+        "scp",
+        "-D",
+        "./sftp-server",
+        "./a",
+        "./b"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sftp-interactive-strict",
+      "profile": "strict",
+      "argv": [
+        "sftp",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sftp-auto-download-strict",
+      "profile": "strict",
+      "argv": [
+        "sftp",
+        "host.example:/srv/a"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sftp-batch-strict",
+      "profile": "strict",
+      "argv": [
+        "sftp",
+        "-b",
+        "./commands.sftp",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sftp-stdin-strict",
+      "profile": "strict",
+      "argv": [
+        "sftp",
+        "-b",
+        "-",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sftp-server-strict",
+      "profile": "strict",
+      "argv": [
+        "sftp",
+        "-D",
+        "./sftp-server"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-version-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rsync-help-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rsync-info-extra-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "--help",
+        "--log-file=/outside/log"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-local-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "-av",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-upload-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "-a",
+        "./source/",
+        "host.example:/srv/destination/"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-download-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "-a",
+        "host.example:/srv/source/",
+        "./destination/"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-daemon-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "host.example::module/file",
+        "./file"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-uri-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "rsync://host.example/module/file",
+        "./file"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-list-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "--list-only",
+        "host.example:/srv/"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-dry-run-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "-an",
+        "--delete",
+        "./source/",
+        "host.example:/srv/"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "-a",
+        "--delete",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-delete-excluded-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "--delete-excluded",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-remove-source-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "--remove-source-files",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-symlinks-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "-aL",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-inplace-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "--inplace",
+        "./a",
+        "/outside/a"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-shell-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "-e",
+        "./ssh-helper",
+        "./a",
+        "host.example:/srv/a"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-path-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "--rsync-path=./remote-helper",
+        "./a",
+        "host.example:/srv/a"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-filter-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "--filter=merge /outside/filter",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-files-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "--files-from=/outside/list",
+        "./source/",
+        "./destination/"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-password-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "--password-file=/outside/password",
+        "./a",
+        "host.example::module/a"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-daemon-start-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "--daemon",
+        "--config=./rsyncd.conf"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keygen-default-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-keygen"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keygen-create-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-keygen",
+        "-t",
+        "ed25519",
+        "-f",
+        "./example_key",
+        "-N",
+        ""
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keygen-fingerprint-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-keygen",
+        "-l",
+        "-f",
+        "./example_key.pub"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keygen-export-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-keygen",
+        "-y",
+        "-f",
+        "/outside/private_key"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keygen-passphrase-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-keygen",
+        "-p",
+        "-f",
+        "./example_key"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keygen-cert-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-keygen",
+        "-s",
+        "./ca_key",
+        "-I",
+        "example",
+        "./example_key.pub"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keygen-sign-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-keygen",
+        "-Y",
+        "sign",
+        "-f",
+        "./example_key",
+        "-n",
+        "file",
+        "./artifact"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keygen-verify-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-keygen",
+        "-Y",
+        "verify",
+        "-f",
+        "./allowed_signers",
+        "-I",
+        "example",
+        "-n",
+        "file",
+        "-s",
+        "./artifact.sig"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keygen-revoke-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-keygen",
+        "-k",
+        "-f",
+        "./revoked.krl",
+        "./example_key.pub"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keygen-find-host-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-keygen",
+        "-F",
+        "host.example",
+        "-f",
+        "./known_hosts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keygen-remove-host-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-keygen",
+        "-R",
+        "host.example",
+        "-f",
+        "./known_hosts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keygen-hash-host-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-keygen",
+        "-H",
+        "-f",
+        "./known_hosts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keygen-provider-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-keygen",
+        "-D",
+        "./provider.so"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "keygen-resident-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-keygen",
+        "-K"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "agent-default-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-add"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "agent-list-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-add",
+        "-l"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "agent-public-list-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-add",
+        "-L"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "agent-add-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-add",
+        "./example_key"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "agent-remove-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-add",
+        "-d",
+        "./example_key.pub"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "agent-remove-all-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-add",
+        "-D"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "agent-lock-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-add",
+        "-x"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "agent-unlock-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-add",
+        "-X"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "agent-provider-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-add",
+        "-s",
+        "./provider.so"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "agent-test-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-add",
+        "-T",
+        "./example_key.pub"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "agent-constrain-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-add",
+        "-h",
+        "host.example",
+        "-t",
+        "300",
+        "./example_key"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-version-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/ssh",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "windows-ssh-strict",
+      "profile": "strict",
+      "argv": [
+        "C:\\Windows\\System32\\OpenSSH\\ssh.exe",
+        "host.example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ssh-unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "scp-unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "scp",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sftp-unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "sftp",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "rsync",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ssh-keygen-unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-keygen",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ssh-add-unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-add",
+        "--future-option"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sftp-pipe-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "printf 'rm /srv/example' | sftp -b - host.example",
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "unknown-cli-strict",
+      "profile": "strict",
+      "argv": [
+        "ssh-unknown",
+        "host.example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "mcp",
+        "server": "ssh",
+        "tool": "connect",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

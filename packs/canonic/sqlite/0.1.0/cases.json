@@ -1,0 +1,2384 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "version-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-long-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-long-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "interactive-memory-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interactive-file-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "memory-sql-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        ":memory:",
+        "SELECT 1;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "select-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "SELECT * FROM example;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "readonly-select-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "-readonly",
+        "./example.db",
+        "SELECT * FROM example;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "safe-readonly-select-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "-safe",
+        "-readonly",
+        "./example.db",
+        "SELECT * FROM example;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "schema-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".schema"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tables-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".tables"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dbinfo-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".dbinfo"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "integrity-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "PRAGMA integrity_check;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "write-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "CREATE TABLE example(value TEXT);"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "delete-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "DELETE FROM example;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "drop-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "DROP TABLE example;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stacked-statements-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "SELECT 1; DROP TABLE example;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "comment-before-write-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "/* example */ DELETE FROM example;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "explain-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "EXPLAIN SELECT readfile('/outside/example');"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "attach-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "ATTACH '/outside/other.db' AS other;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vacuum-output-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "VACUUM INTO '/outside/export.db';"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "readfile-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "-readonly",
+        "./example.db",
+        "SELECT readfile('/outside/example');"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "writefile-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "-readonly",
+        "./example.db",
+        "SELECT writefile('/outside/example', 'placeholder');"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "load-extension-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "SELECT load_extension('./example.so');"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dot-load-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".load ./example.so"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shell-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".shell echo example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "system-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".system echo example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "read-script-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".read ./example.sql"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "read-process-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".read |echo example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "init-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "-init",
+        "./example.sql",
+        "./example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cmd-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "-cmd",
+        ".load ./example.so",
+        "./example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "multiple-cmd-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "-cmd",
+        ".tables",
+        "-cmd",
+        ".shell echo example",
+        "./example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "output-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".output /outside/export.csv"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "once-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".once |cat"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "import-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".import ./example.csv example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dump-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "recover-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".recover"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "backup-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".backup ./backup.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "restore-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".restore ./backup.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "save-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".save /outside/copy.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "clone-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".clone ./copy.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "archive-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".archive --extract"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "safe-nonce-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "-safe",
+        "-nonce",
+        "example-nonce",
+        "./example.db",
+        ".nonce example-nonce\n.shell echo example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unsafe-testing-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "-unsafe-testing",
+        ":memory:",
+        ".testctrl assert 0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vfs-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "-vfs",
+        "example",
+        "./example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "uri-readonly-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "file:./example.db?mode=ro",
+        ".tables"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "uri-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "file:/outside/example.db?mode=rw",
+        ".tables"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "outside-db-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "/outside/example.db",
+        ".schema"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "protected-db-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        ".git/config",
+        "SELECT 1;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "output-format-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "-json",
+        "-header",
+        "./example.db",
+        "SELECT * FROM example;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "separator-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "-separator",
+        "|",
+        "./example.db",
+        ".dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-option-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "-future-option",
+        "./example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "separator-end-options-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "--",
+        "-example.db",
+        ".tables"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "version-plus-database-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "--version",
+        "/outside/example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "help-as-query-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sqldiff-help-loose",
+      "profile": "loose",
+      "argv": [
+        "sqldiff",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sqldiff-loose",
+      "profile": "loose",
+      "argv": [
+        "sqldiff",
+        "./before.db",
+        "./after.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sqldiff-summary-loose",
+      "profile": "loose",
+      "argv": [
+        "sqldiff",
+        "--summary",
+        "./before.db",
+        "./after.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sqldiff-schema-loose",
+      "profile": "loose",
+      "argv": [
+        "sqldiff",
+        "--schema",
+        "./before.db",
+        "./after.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sqldiff-extension-loose",
+      "profile": "loose",
+      "argv": [
+        "sqldiff",
+        "--lib",
+        "./example.so",
+        "./before.db",
+        "./after.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "analyzer-version-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3_analyzer",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "analyzer-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3_analyzer",
+        "./example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "analyzer-stats-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3_analyzer",
+        "--stats",
+        "./example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "analyzer-tcl-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3_analyzer",
+        "--tclsh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-version-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3_rsync",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rsync-help-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3_rsync",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rsync-local-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3_rsync",
+        "./example.db",
+        "./replica.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-remote-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3_rsync",
+        "./example.db",
+        "example.org:replica.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-reverse-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3_rsync",
+        "example.org:source.db",
+        "./replica.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-ssh-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3_rsync",
+        "--ssh",
+        "./example-ssh",
+        "./example.db",
+        "example.org:replica.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-remote-exe-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3_rsync",
+        "--exe",
+        "/example/sqlite3_rsync",
+        "./example.db",
+        "example.org:replica.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "absolute-executable-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/bin/sqlite3",
+        "./example.db",
+        ".schema"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "windows-executable-loose",
+      "profile": "loose",
+      "argv": [
+        "sqlite3.exe",
+        "./example.db",
+        ".tables"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stdin-script-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "printf 'SELECT 1;' | sqlite3 ./example.db",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "redirect-script-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "sqlite3 ./example.db < example.sql",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unclassified-mcp-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "mcp",
+        "server": "sqlite",
+        "tool": "query",
+        "arguments": {
+          "sql": "SELECT 1;"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-long-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-long-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "interactive-memory-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interactive-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "memory-sql-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        ":memory:",
+        "SELECT 1;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "select-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "SELECT * FROM example;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "readonly-select-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "-readonly",
+        "./example.db",
+        "SELECT * FROM example;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "safe-readonly-select-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "-safe",
+        "-readonly",
+        "./example.db",
+        "SELECT * FROM example;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "schema-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".schema"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "tables-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".tables"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dbinfo-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".dbinfo"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "integrity-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "PRAGMA integrity_check;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "write-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "CREATE TABLE example(value TEXT);"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "DELETE FROM example;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "drop-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "DROP TABLE example;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stacked-statements-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "SELECT 1; DROP TABLE example;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "comment-before-write-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "/* example */ DELETE FROM example;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "explain-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "EXPLAIN SELECT readfile('/outside/example');"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "attach-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "ATTACH '/outside/other.db' AS other;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vacuum-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "VACUUM INTO '/outside/export.db';"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "readfile-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "-readonly",
+        "./example.db",
+        "SELECT readfile('/outside/example');"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "writefile-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "-readonly",
+        "./example.db",
+        "SELECT writefile('/outside/example', 'placeholder');"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "load-extension-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "SELECT load_extension('./example.so');"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dot-load-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".load ./example.so"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shell-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".shell echo example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "system-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".system echo example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "read-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".read ./example.sql"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "read-process-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".read |echo example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "init-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "-init",
+        "./example.sql",
+        "./example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cmd-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "-cmd",
+        ".load ./example.so",
+        "./example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "multiple-cmd-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "-cmd",
+        ".tables",
+        "-cmd",
+        ".shell echo example",
+        "./example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".output /outside/export.csv"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "once-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".once |cat"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "import-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".import ./example.csv example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dump-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "recover-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".recover"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "backup-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".backup ./backup.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "restore-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".restore ./backup.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "save-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".save /outside/copy.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "clone-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".clone ./copy.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "archive-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".archive --extract"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "safe-nonce-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "-safe",
+        "-nonce",
+        "example-nonce",
+        "./example.db",
+        ".nonce example-nonce\n.shell echo example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unsafe-testing-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "-unsafe-testing",
+        ":memory:",
+        ".testctrl assert 0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vfs-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "-vfs",
+        "example",
+        "./example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "uri-readonly-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "file:./example.db?mode=ro",
+        ".tables"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "uri-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "file:/outside/example.db?mode=rw",
+        ".tables"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "outside-db-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "/outside/example.db",
+        ".schema"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "protected-db-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        ".git/config",
+        "SELECT 1;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "output-format-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "-json",
+        "-header",
+        "./example.db",
+        "SELECT * FROM example;"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "separator-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "-separator",
+        "|",
+        "./example.db",
+        ".dump"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "-future-option",
+        "./example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "separator-end-options-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "--",
+        "-example.db",
+        ".tables"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "version-plus-database-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "--version",
+        "/outside/example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "help-as-query-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sqldiff-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqldiff",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sqldiff-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqldiff",
+        "./before.db",
+        "./after.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sqldiff-summary-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqldiff",
+        "--summary",
+        "./before.db",
+        "./after.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sqldiff-schema-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqldiff",
+        "--schema",
+        "./before.db",
+        "./after.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sqldiff-extension-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqldiff",
+        "--lib",
+        "./example.so",
+        "./before.db",
+        "./after.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "analyzer-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3_analyzer",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "analyzer-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3_analyzer",
+        "./example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "analyzer-stats-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3_analyzer",
+        "--stats",
+        "./example.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "analyzer-tcl-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3_analyzer",
+        "--tclsh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3_rsync",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rsync-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3_rsync",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rsync-local-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3_rsync",
+        "./example.db",
+        "./replica.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-remote-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3_rsync",
+        "./example.db",
+        "example.org:replica.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-reverse-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3_rsync",
+        "example.org:source.db",
+        "./replica.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-ssh-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3_rsync",
+        "--ssh",
+        "./example-ssh",
+        "./example.db",
+        "example.org:replica.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rsync-remote-exe-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3_rsync",
+        "--exe",
+        "/example/sqlite3_rsync",
+        "./example.db",
+        "example.org:replica.db"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "absolute-executable-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/bin/sqlite3",
+        "./example.db",
+        ".schema"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "windows-executable-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sqlite3.exe",
+        "./example.db",
+        ".tables"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stdin-script-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "printf 'SELECT 1;' | sqlite3 ./example.db",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "redirect-script-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "sqlite3 ./example.db < example.sql",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unclassified-mcp-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "mcp",
+        "server": "sqlite",
+        "tool": "query",
+        "arguments": {
+          "sql": "SELECT 1;"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "version-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "version-long-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "-help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-long-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "interactive-memory-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "interactive-file-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "memory-sql-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        ":memory:",
+        "SELECT 1;"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "select-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "SELECT * FROM example;"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "readonly-select-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "-readonly",
+        "./example.db",
+        "SELECT * FROM example;"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "safe-readonly-select-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "-safe",
+        "-readonly",
+        "./example.db",
+        "SELECT * FROM example;"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "schema-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".schema"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "tables-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".tables"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "dbinfo-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".dbinfo"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "integrity-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "PRAGMA integrity_check;"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "write-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "CREATE TABLE example(value TEXT);"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "delete-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "DELETE FROM example;"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "drop-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "DROP TABLE example;"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "stacked-statements-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "SELECT 1; DROP TABLE example;"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "comment-before-write-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "/* example */ DELETE FROM example;"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "explain-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "EXPLAIN SELECT readfile('/outside/example');"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "attach-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "ATTACH '/outside/other.db' AS other;"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vacuum-output-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "VACUUM INTO '/outside/export.db';"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "readfile-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "-readonly",
+        "./example.db",
+        "SELECT readfile('/outside/example');"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "writefile-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "-readonly",
+        "./example.db",
+        "SELECT writefile('/outside/example', 'placeholder');"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "load-extension-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "SELECT load_extension('./example.so');"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "dot-load-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".load ./example.so"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "shell-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".shell echo example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "system-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".system echo example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "read-script-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".read ./example.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "read-process-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".read |echo example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "init-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "-init",
+        "./example.sql",
+        "./example.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cmd-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "-cmd",
+        ".load ./example.so",
+        "./example.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "multiple-cmd-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "-cmd",
+        ".tables",
+        "-cmd",
+        ".shell echo example",
+        "./example.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "output-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".output /outside/export.csv"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "once-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".once |cat"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "import-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".import ./example.csv example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "dump-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".dump"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "recover-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".recover"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "backup-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".backup ./backup.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "restore-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".restore ./backup.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "save-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".save /outside/copy.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "clone-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".clone ./copy.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "archive-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        ".archive --extract"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "safe-nonce-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "-safe",
+        "-nonce",
+        "example-nonce",
+        "./example.db",
+        ".nonce example-nonce\n.shell echo example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unsafe-testing-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "-unsafe-testing",
+        ":memory:",
+        ".testctrl assert 0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "vfs-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "-vfs",
+        "example",
+        "./example.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "uri-readonly-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "file:./example.db?mode=ro",
+        ".tables"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "uri-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "file:/outside/example.db?mode=rw",
+        ".tables"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-db-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "/outside/example.db",
+        ".schema"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "protected-db-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        ".git/config",
+        "SELECT 1;"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "output-format-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "-json",
+        "-header",
+        "./example.db",
+        "SELECT * FROM example;"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "separator-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "-separator",
+        "|",
+        "./example.db",
+        ".dump"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unknown-option-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "-future-option",
+        "./example.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "separator-end-options-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "--",
+        "-example.db",
+        ".tables"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "version-plus-database-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "--version",
+        "/outside/example.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "help-as-query-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3",
+        "./example.db",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sqldiff-help-strict",
+      "profile": "strict",
+      "argv": [
+        "sqldiff",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sqldiff-strict",
+      "profile": "strict",
+      "argv": [
+        "sqldiff",
+        "./before.db",
+        "./after.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sqldiff-summary-strict",
+      "profile": "strict",
+      "argv": [
+        "sqldiff",
+        "--summary",
+        "./before.db",
+        "./after.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sqldiff-schema-strict",
+      "profile": "strict",
+      "argv": [
+        "sqldiff",
+        "--schema",
+        "./before.db",
+        "./after.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sqldiff-extension-strict",
+      "profile": "strict",
+      "argv": [
+        "sqldiff",
+        "--lib",
+        "./example.so",
+        "./before.db",
+        "./after.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "analyzer-version-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3_analyzer",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "analyzer-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3_analyzer",
+        "./example.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "analyzer-stats-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3_analyzer",
+        "--stats",
+        "./example.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "analyzer-tcl-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3_analyzer",
+        "--tclsh"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-version-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3_rsync",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rsync-help-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3_rsync",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rsync-local-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3_rsync",
+        "./example.db",
+        "./replica.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-remote-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3_rsync",
+        "./example.db",
+        "example.org:replica.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-reverse-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3_rsync",
+        "example.org:source.db",
+        "./replica.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-ssh-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3_rsync",
+        "--ssh",
+        "./example-ssh",
+        "./example.db",
+        "example.org:replica.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rsync-remote-exe-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3_rsync",
+        "--exe",
+        "/example/sqlite3_rsync",
+        "./example.db",
+        "example.org:replica.db"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "absolute-executable-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/sqlite3",
+        "./example.db",
+        ".schema"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "windows-executable-strict",
+      "profile": "strict",
+      "argv": [
+        "sqlite3.exe",
+        "./example.db",
+        ".tables"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "stdin-script-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "printf 'SELECT 1;' | sqlite3 ./example.db",
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "redirect-script-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "sqlite3 ./example.db < example.sql",
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "unclassified-mcp-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "mcp",
+        "server": "sqlite",
+        "tool": "query",
+        "arguments": {
+          "sql": "SELECT 1;"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

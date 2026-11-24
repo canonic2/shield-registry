@@ -1,0 +1,1049 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/bun",
+  "version": "0.1.0",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.53.0, <1.0.0"
+  },
+  "description": "Bun runtime, package management, bundling and tests with local metadata inspection and reviewed execution, acquisition, global changes and publication.",
+  "capabilities": [
+    "argument-rules-v1",
+    "fallback-rules-v1",
+    "location-v1",
+    "negated-selectors-v1",
+    "structured-rules-v1",
+    "unknown-options-v1"
+  ],
+  "rules": [
+    {
+      "id": "bun-info-0",
+      "decision": "allow",
+      "reason": "Print the installed version, revision or built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      }
+    },
+    {
+      "id": "bun-info-1",
+      "decision": "allow",
+      "reason": "Print the installed version, revision or built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-v"
+          ]
+        }
+      }
+    },
+    {
+      "id": "bun-info-2",
+      "decision": "allow",
+      "reason": "Print the installed version, revision or built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--revision"
+          ]
+        }
+      }
+    },
+    {
+      "id": "bun-info-3",
+      "decision": "allow",
+      "reason": "Print the installed version, revision or built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "bun-info-4",
+      "decision": "allow",
+      "reason": "Print the installed version, revision or built-in help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-h"
+          ]
+        }
+      }
+    },
+    {
+      "id": "bunx-help",
+      "decision": "allow",
+      "reason": "Print package-runner help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bunx",
+            "/usr/bin/bunx",
+            "/usr/local/bin/bunx",
+            "/opt/homebrew/bin/bunx",
+            "bunx.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "help-run",
+      "decision": "allow",
+      "reason": "Print built-in subcommand help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "run",
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "help-test",
+      "decision": "allow",
+      "reason": "Print built-in subcommand help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "test",
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "help-check",
+      "decision": "allow",
+      "reason": "Print built-in subcommand help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "check",
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "help-x",
+      "decision": "allow",
+      "reason": "Print built-in subcommand help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "x",
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "help-build",
+      "decision": "allow",
+      "reason": "Print built-in subcommand help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "build",
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "help-install",
+      "decision": "allow",
+      "reason": "Print built-in subcommand help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "install",
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "help-add",
+      "decision": "allow",
+      "reason": "Print built-in subcommand help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "add",
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "help-remove",
+      "decision": "allow",
+      "reason": "Print built-in subcommand help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "remove",
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "help-publish",
+      "decision": "allow",
+      "reason": "Print built-in subcommand help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "publish",
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "help-pm",
+      "decision": "allow",
+      "reason": "Print built-in subcommand help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "pm",
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "help-init",
+      "decision": "allow",
+      "reason": "Print built-in subcommand help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "init",
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "help-create",
+      "decision": "allow",
+      "reason": "Print built-in subcommand help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "create",
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "help-upgrade",
+      "decision": "allow",
+      "reason": "Print built-in subcommand help.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "upgrade",
+            "--help"
+          ]
+        }
+      }
+    },
+    {
+      "id": "pm-list",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect local package metadata from an approved project directory.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "pm",
+            {
+              "one_of": [
+                "ls",
+                "list"
+              ]
+            }
+          ],
+          "flags": [],
+          "values": [],
+          "operands": true,
+          "unknown_options": "skip"
+        },
+        "cwd": {
+          "within": {
+            "root": "project"
+          },
+          "exclude": [
+            {
+              "root": "project",
+              "path": ".git"
+            },
+            {
+              "root": "project",
+              "path": ".shield"
+            },
+            {
+              "root": "project",
+              "path": ".ssh"
+            },
+            {
+              "root": "project",
+              "path": ".aws"
+            },
+            {
+              "root": "project",
+              "path": ".env"
+            },
+            {
+              "root": "project",
+              "path": ".codex"
+            },
+            {
+              "root": "project",
+              "path": ".claude"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "list-alias",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect local package metadata from an approved project directory.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "list"
+          ],
+          "flags": [],
+          "values": [],
+          "operands": true,
+          "unknown_options": "skip"
+        },
+        "cwd": {
+          "within": {
+            "root": "project"
+          },
+          "exclude": [
+            {
+              "root": "project",
+              "path": ".git"
+            },
+            {
+              "root": "project",
+              "path": ".shield"
+            },
+            {
+              "root": "project",
+              "path": ".ssh"
+            },
+            {
+              "root": "project",
+              "path": ".aws"
+            },
+            {
+              "root": "project",
+              "path": ".env"
+            },
+            {
+              "root": "project",
+              "path": ".codex"
+            },
+            {
+              "root": "project",
+              "path": ".claude"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "pm-bin",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect local package metadata from an approved project directory.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "pm",
+            "bin"
+          ],
+          "flags": [],
+          "values": [],
+          "operands": true,
+          "unknown_options": "skip"
+        },
+        "cwd": {
+          "within": {
+            "root": "project"
+          },
+          "exclude": [
+            {
+              "root": "project",
+              "path": ".git"
+            },
+            {
+              "root": "project",
+              "path": ".shield"
+            },
+            {
+              "root": "project",
+              "path": ".ssh"
+            },
+            {
+              "root": "project",
+              "path": ".aws"
+            },
+            {
+              "root": "project",
+              "path": ".env"
+            },
+            {
+              "root": "project",
+              "path": ".codex"
+            },
+            {
+              "root": "project",
+              "path": ".claude"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "pm-hashes",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect local package metadata from an approved project directory.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "pm",
+            {
+              "one_of": [
+                "hash",
+                "hash-print",
+                "hash-string"
+              ]
+            }
+          ],
+          "flags": [],
+          "values": [],
+          "operands": true,
+          "unknown_options": "skip"
+        },
+        "cwd": {
+          "within": {
+            "root": "project"
+          },
+          "exclude": [
+            {
+              "root": "project",
+              "path": ".git"
+            },
+            {
+              "root": "project",
+              "path": ".shield"
+            },
+            {
+              "root": "project",
+              "path": ".ssh"
+            },
+            {
+              "root": "project",
+              "path": ".aws"
+            },
+            {
+              "root": "project",
+              "path": ".env"
+            },
+            {
+              "root": "project",
+              "path": ".codex"
+            },
+            {
+              "root": "project",
+              "path": ".claude"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "pm-trust-inspection",
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Inspect local package metadata from an approved project directory.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "pm",
+            {
+              "one_of": [
+                "untrusted",
+                "default-trusted"
+              ]
+            }
+          ],
+          "flags": [],
+          "values": [],
+          "operands": true,
+          "unknown_options": "skip"
+        },
+        "cwd": {
+          "within": {
+            "root": "project"
+          },
+          "exclude": [
+            {
+              "root": "project",
+              "path": ".git"
+            },
+            {
+              "root": "project",
+              "path": ".shield"
+            },
+            {
+              "root": "project",
+              "path": ".ssh"
+            },
+            {
+              "root": "project",
+              "path": ".aws"
+            },
+            {
+              "root": "project",
+              "path": ".env"
+            },
+            {
+              "root": "project",
+              "path": ".codex"
+            },
+            {
+              "root": "project",
+              "path": ".claude"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "effect-switches",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review executable input, configuration, explicit files, registry selection, global scope and profiler or debugger effects.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [],
+          "any_of": [
+            "--eval",
+            "-e",
+            "--print",
+            "-p",
+            "--preload",
+            "-r",
+            "--require",
+            "--import",
+            "--cwd",
+            "--config",
+            "-c",
+            "--env-file",
+            "--cache-dir",
+            "--global",
+            "-g",
+            "--registry",
+            "--cafile",
+            "--ca",
+            "--fetch-preconnect",
+            "--redis-preconnect",
+            "--sql-preconnect",
+            "--redirect-warnings",
+            "--cpu-prof",
+            "--cpu-prof-dir",
+            "--heap-prof",
+            "--heap-prof-dir",
+            "--inspect",
+            "--inspect-brk",
+            "--inspect-wait",
+            "--trust"
+          ]
+        }
+      }
+    },
+    {
+      "id": "package-and-project-changes",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review package acquisition, lifecycle scripts, file changes, publication and runtime replacement.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            {
+              "one_of": [
+                "install",
+                "i",
+                "ci",
+                "add",
+                "a",
+                "remove",
+                "rm",
+                "update",
+                "dedupe",
+                "prune",
+                "link",
+                "unlink",
+                "publish",
+                "patch",
+                "init",
+                "create",
+                "c",
+                "upgrade"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "pm-changes",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review pack hooks, cache changes, trust grants, lockfiles, version tags and package metadata changes.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "pm",
+            {
+              "one_of": [
+                "pack",
+                "version",
+                "migrate",
+                "trust",
+                "cache",
+                "pkg"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "bun-options-environment",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review observed BUN_OPTIONS before relying on a metadata allowance.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        },
+        "environment": {
+          "fields": {
+            "BUN_OPTIONS": {
+              "not": {
+                "exact": ""
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bun-review",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review scripts, tests, inline code, REPL, downloads, bundler macros, outputs and unclassified operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bun",
+            "/usr/bin/bun",
+            "/usr/local/bin/bun",
+            "/opt/homebrew/bin/bun",
+            "bun.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "fallback": true
+    },
+    {
+      "id": "bunx-review",
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review scripts, tests, inline code, REPL, downloads, bundler macros, outputs and unclassified operations.",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "bunx",
+            "/usr/bin/bunx",
+            "/usr/local/bin/bunx",
+            "/opt/homebrew/bin/bunx",
+            "bunx.exe"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "fallback": true
+    }
+  ]
+}

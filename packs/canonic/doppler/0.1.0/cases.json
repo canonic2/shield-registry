@@ -1,0 +1,4766 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "cli-version-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-help-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "help",
+        "secrets",
+        "download"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-run-help-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "run",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-identity-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "whoami",
+        "--json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-projects-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "--json",
+        "projects",
+        "-n10",
+        "--page=2",
+        "--timeout=5s"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-project-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "projects",
+        "--silent",
+        "get",
+        "acme-app"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-configs-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "configs",
+        "--project=acme-app",
+        "-edev"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-config-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "configs",
+        "--json",
+        "get",
+        "-p",
+        "acme-app",
+        "-cdev"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-environments-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "environments",
+        "-p",
+        "acme-app"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-environment-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "environments",
+        "get",
+        "dev",
+        "-p",
+        "acme-app"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-environment-missing-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "environments",
+        "get",
+        "-p",
+        "acme-app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-tags-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "tags",
+        "--json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-secret-names-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "--silent",
+        "secrets",
+        "--only-names",
+        "-pacme-app",
+        "--config=dev",
+        "--json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-secret-names-remaining-operands-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--only-names",
+        "--",
+        "get",
+        "EXAMPLE_KEY"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-names-positional-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--",
+        "--only-names"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-names-as-value-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--project",
+        "--only-names"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-names-false-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--only-names=false",
+        "--json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-names-repeated-false-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--only-names",
+        "--only-names=false"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-names-before-get-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--only-names",
+        "get",
+        "EXAMPLE_KEY"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-names-missing-scope-value-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--only-names",
+        "-p"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-values-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-get-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "secrets",
+        "get",
+        "EXAMPLE_KEY",
+        "--plain"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-clipboard-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "secrets",
+        "get",
+        "EXAMPLE_KEY",
+        "--copy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-download-stdout-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "secrets",
+        "download",
+        "--no-file",
+        "--format=json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-download-path-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "secrets",
+        "download",
+        "/outside/example.env"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-substitute-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "secrets",
+        "substitute",
+        "./template.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-upload-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "secrets",
+        "upload",
+        "./example.env"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-write-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "secrets",
+        "set",
+        "EXAMPLE_KEY=placeholder"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-notes-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "secrets",
+        "notes",
+        "set",
+        "EXAMPLE_KEY",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "secrets",
+        "delete",
+        "EXAMPLE_KEY",
+        "--yes"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-run-child-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "run",
+        "--",
+        "npm",
+        "start"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-run-command-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "--silent",
+        "run",
+        "--command=echo example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-run-mount-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "run",
+        "--mount",
+        "./example.env",
+        "--",
+        "app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-legacy-secrets-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "enclave",
+        "secrets",
+        "get",
+        "EXAMPLE_KEY"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-login-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "login",
+        "--scope=./"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-oidc-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "oidc",
+        "login",
+        "--identity",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-local-config-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "configure",
+        "get",
+        "token",
+        "--plain"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-token-mint-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "configs",
+        "--json",
+        "tokens",
+        "create",
+        "example",
+        "--plain"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-config-rollback-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "configs",
+        "logs",
+        "--silent",
+        "rollback",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-project-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "--json",
+        "projects",
+        "--silent",
+        "delete",
+        "acme-app",
+        "--yes"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-tls-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "--no-verify-tls",
+        "projects"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-host-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "projects",
+        "--api-host=https://example.org"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-host-between-path-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "projects",
+        "--api-host",
+        "https://example.org",
+        "get",
+        "acme-app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-config-dir-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "projects",
+        "--config-dir",
+        "/outside/store"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-scope-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "--scope=../another-project",
+        "configs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-hidden-configuration-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "projects",
+        "--configuration=/outside/doppler.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-token-arg-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "projects",
+        "-tplaceholder"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-long-token-arg-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "projects",
+        "--token=placeholder"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-leading-token-arg-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "-t",
+        "placeholder",
+        "projects"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-debug-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "configs",
+        "--debug"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-dump-config-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "--print-config",
+        "projects"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-dns-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "--enable-dns-resolver",
+        "projects",
+        "--dns-resolver-address=192.0.2.5:53"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-unknown-option-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "projects",
+        "--future-flag"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-missing-option-value-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "projects",
+        "--page"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-future-command-loose",
+      "profile": "loose",
+      "argv": [
+        "doppler",
+        "future",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-installed-path-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/doppler",
+        "projects"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-shell-host-override-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "shell",
+        "source": "DOPPLER_API_HOST=https://example.org doppler projects",
+        "dialect": "posix",
+        "dialect_version": null,
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "cli-shell-secret-with-host-override-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "shell",
+        "source": "DOPPLER_API_HOST=https://example.org doppler secrets get EXAMPLE_KEY",
+        "dialect": "posix",
+        "dialect_version": null,
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "cli-shell-outside-project-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "shell",
+        "source": "cd / && doppler projects",
+        "dialect": "posix",
+        "dialect_version": null,
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-projects-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "projects_list",
+        "arguments": {
+          "page": 2
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-project-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "projects_get",
+        "arguments": {
+          "project": "acme-app"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-environments-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "environments_list",
+        "arguments": {
+          "project": "acme-app"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-environment-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "environments_get",
+        "arguments": {
+          "project": "acme-app",
+          "environment": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-configs-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "configs_list",
+        "arguments": {
+          "project": "acme-app",
+          "environment": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-config-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "configs_get",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-names-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_names",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "include_dynamic_secrets": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-project-missing-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "projects_get",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-environment-missing-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "environments_get",
+        "arguments": {
+          "project": "acme-app"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-config-wrong-type-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "configs_get",
+        "arguments": {
+          "project": "acme-app",
+          "config": [
+            "dev"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-names-config-missing-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_names",
+        "arguments": {
+          "project": "acme-app"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-names-project-missing-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_names",
+        "arguments": {
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-names-blank-config-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_names",
+        "arguments": {
+          "project": "acme-app",
+          "config": "  "
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-names-null-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_names",
+        "arguments": {
+          "project": null,
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-secret-list-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_list",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-secret-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_get",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "name": "EXAMPLE_KEY"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-download-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_download",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "format": "json"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-token-list-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "service_tokens_list",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-token-create-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "service_tokens_create",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "name": "example"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-lease-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "dynamic_secrets_issue_lease",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "name": "EXAMPLE_KEY"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-secret-write-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_update",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "secrets": {
+            "EXAMPLE_KEY": "placeholder"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-project-delete-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "projects_delete",
+        "arguments": {
+          "project": "acme-app"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-integration-delete-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "workplace_integration_members_delete",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-logs-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "config_logs_get",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "log": "example"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-confirm-access-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "confirm_access",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "future_metadata_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-scoped-alias-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler-dev": {
+          "transport": {
+            "type": "stdio",
+            "command": "/opt/homebrew/bin/npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5",
+              "--read-only",
+              "--project",
+              "acme-app",
+              "--config",
+              "dev"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler-dev"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler-dev",
+        "tool": "secrets_names",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-same-name-other-launch-loose",
+      "profile": "loose",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "projects_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "cli-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "help",
+        "secrets",
+        "download"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-run-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "run",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-identity-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "whoami",
+        "--json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-projects-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "--json",
+        "projects",
+        "-n10",
+        "--page=2",
+        "--timeout=5s"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-project-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "projects",
+        "--silent",
+        "get",
+        "acme-app"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-configs-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "configs",
+        "--project=acme-app",
+        "-edev"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "configs",
+        "--json",
+        "get",
+        "-p",
+        "acme-app",
+        "-cdev"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-environments-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "environments",
+        "-p",
+        "acme-app"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-environment-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "environments",
+        "get",
+        "dev",
+        "-p",
+        "acme-app"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-environment-missing-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "environments",
+        "get",
+        "-p",
+        "acme-app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-tags-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "tags",
+        "--json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-secret-names-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "--silent",
+        "secrets",
+        "--only-names",
+        "-pacme-app",
+        "--config=dev",
+        "--json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-secret-names-remaining-operands-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--only-names",
+        "--",
+        "get",
+        "EXAMPLE_KEY"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-names-positional-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--",
+        "--only-names"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-names-as-value-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--project",
+        "--only-names"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-names-false-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--only-names=false",
+        "--json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-names-repeated-false-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--only-names",
+        "--only-names=false"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-names-before-get-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--only-names",
+        "get",
+        "EXAMPLE_KEY"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-names-missing-scope-value-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--only-names",
+        "-p"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-values-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-get-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "secrets",
+        "get",
+        "EXAMPLE_KEY",
+        "--plain"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-clipboard-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "secrets",
+        "get",
+        "EXAMPLE_KEY",
+        "--copy"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-download-stdout-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "secrets",
+        "download",
+        "--no-file",
+        "--format=json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-download-path-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "secrets",
+        "download",
+        "/outside/example.env"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-substitute-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "secrets",
+        "substitute",
+        "./template.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-upload-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "secrets",
+        "upload",
+        "./example.env"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-write-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "secrets",
+        "set",
+        "EXAMPLE_KEY=placeholder"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-notes-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "secrets",
+        "notes",
+        "set",
+        "EXAMPLE_KEY",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "secrets",
+        "delete",
+        "EXAMPLE_KEY",
+        "--yes"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-run-child-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "run",
+        "--",
+        "npm",
+        "start"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-run-command-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "--silent",
+        "run",
+        "--command=echo example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-run-mount-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "run",
+        "--mount",
+        "./example.env",
+        "--",
+        "app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-legacy-secrets-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "enclave",
+        "secrets",
+        "get",
+        "EXAMPLE_KEY"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-login-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "login",
+        "--scope=./"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-oidc-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "oidc",
+        "login",
+        "--identity",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-local-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "configure",
+        "get",
+        "token",
+        "--plain"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-token-mint-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "configs",
+        "--json",
+        "tokens",
+        "create",
+        "example",
+        "--plain"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-config-rollback-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "configs",
+        "logs",
+        "--silent",
+        "rollback",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-project-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "--json",
+        "projects",
+        "--silent",
+        "delete",
+        "acme-app",
+        "--yes"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-tls-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "--no-verify-tls",
+        "projects"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-host-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "projects",
+        "--api-host=https://example.org"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-host-between-path-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "projects",
+        "--api-host",
+        "https://example.org",
+        "get",
+        "acme-app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-config-dir-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "projects",
+        "--config-dir",
+        "/outside/store"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-scope-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "--scope=../another-project",
+        "configs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-hidden-configuration-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "projects",
+        "--configuration=/outside/doppler.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-token-arg-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "projects",
+        "-tplaceholder"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-long-token-arg-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "projects",
+        "--token=placeholder"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-leading-token-arg-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "-t",
+        "placeholder",
+        "projects"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-debug-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "configs",
+        "--debug"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-dump-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "--print-config",
+        "projects"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-dns-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "--enable-dns-resolver",
+        "projects",
+        "--dns-resolver-address=192.0.2.5:53"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-unknown-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "projects",
+        "--future-flag"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-missing-option-value-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "projects",
+        "--page"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-future-command-recommended",
+      "profile": "recommended",
+      "argv": [
+        "doppler",
+        "future",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-installed-path-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/doppler",
+        "projects"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-shell-host-override-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "shell",
+        "source": "DOPPLER_API_HOST=https://example.org doppler projects",
+        "dialect": "posix",
+        "dialect_version": null,
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "cli-shell-secret-with-host-override-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "shell",
+        "source": "DOPPLER_API_HOST=https://example.org doppler secrets get EXAMPLE_KEY",
+        "dialect": "posix",
+        "dialect_version": null,
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "cli-shell-outside-project-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "shell",
+        "source": "cd / && doppler projects",
+        "dialect": "posix",
+        "dialect_version": null,
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-projects-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "projects_list",
+        "arguments": {
+          "page": 2
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-project-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "projects_get",
+        "arguments": {
+          "project": "acme-app"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-environments-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "environments_list",
+        "arguments": {
+          "project": "acme-app"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-environment-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "environments_get",
+        "arguments": {
+          "project": "acme-app",
+          "environment": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-configs-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "configs_list",
+        "arguments": {
+          "project": "acme-app",
+          "environment": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-config-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "configs_get",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-names-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_names",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "include_dynamic_secrets": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-project-missing-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "projects_get",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-environment-missing-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "environments_get",
+        "arguments": {
+          "project": "acme-app"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-config-wrong-type-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "configs_get",
+        "arguments": {
+          "project": "acme-app",
+          "config": [
+            "dev"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-names-config-missing-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_names",
+        "arguments": {
+          "project": "acme-app"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-names-project-missing-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_names",
+        "arguments": {
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-names-blank-config-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_names",
+        "arguments": {
+          "project": "acme-app",
+          "config": "  "
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-names-null-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_names",
+        "arguments": {
+          "project": null,
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-secret-list-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_list",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-secret-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_get",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "name": "EXAMPLE_KEY"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-download-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_download",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "format": "json"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-token-list-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "service_tokens_list",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-token-create-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "service_tokens_create",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "name": "example"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-lease-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "dynamic_secrets_issue_lease",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "name": "EXAMPLE_KEY"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-secret-write-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_update",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "secrets": {
+            "EXAMPLE_KEY": "placeholder"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-project-delete-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "projects_delete",
+        "arguments": {
+          "project": "acme-app"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-integration-delete-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "workplace_integration_members_delete",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-logs-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "config_logs_get",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "log": "example"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-confirm-access-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "confirm_access",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "future_metadata_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-scoped-alias-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler-dev": {
+          "transport": {
+            "type": "stdio",
+            "command": "/opt/homebrew/bin/npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5",
+              "--read-only",
+              "--project",
+              "acme-app",
+              "--config",
+              "dev"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler-dev"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler-dev",
+        "tool": "secrets_names",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "mcp-same-name-other-launch-recommended",
+      "profile": "recommended",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "projects_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "cli-version-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-help-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "help",
+        "secrets",
+        "download"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-run-help-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "run",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cli-identity-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "whoami",
+        "--json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-projects-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "--json",
+        "projects",
+        "-n10",
+        "--page=2",
+        "--timeout=5s"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-project-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "projects",
+        "--silent",
+        "get",
+        "acme-app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-configs-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "configs",
+        "--project=acme-app",
+        "-edev"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-config-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "configs",
+        "--json",
+        "get",
+        "-p",
+        "acme-app",
+        "-cdev"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-environments-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "environments",
+        "-p",
+        "acme-app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-environment-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "environments",
+        "get",
+        "dev",
+        "-p",
+        "acme-app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-environment-missing-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "environments",
+        "get",
+        "-p",
+        "acme-app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-tags-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "tags",
+        "--json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-names-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "--silent",
+        "secrets",
+        "--only-names",
+        "-pacme-app",
+        "--config=dev",
+        "--json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-secret-names-remaining-operands-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--only-names",
+        "--",
+        "get",
+        "EXAMPLE_KEY"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-secret-names-positional-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--",
+        "--only-names"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-secret-names-as-value-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--project",
+        "--only-names"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-secret-names-false-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--only-names=false",
+        "--json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-secret-names-repeated-false-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--only-names",
+        "--only-names=false"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-secret-names-before-get-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--only-names",
+        "get",
+        "EXAMPLE_KEY"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-secret-names-missing-scope-value-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--only-names",
+        "-p"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-secret-values-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "secrets",
+        "--json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-secret-get-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "secrets",
+        "get",
+        "EXAMPLE_KEY",
+        "--plain"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-secret-clipboard-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "secrets",
+        "get",
+        "EXAMPLE_KEY",
+        "--copy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-secret-download-stdout-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "secrets",
+        "download",
+        "--no-file",
+        "--format=json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-secret-download-path-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "secrets",
+        "download",
+        "/outside/example.env"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-secret-substitute-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "secrets",
+        "substitute",
+        "./template.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-secret-upload-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "secrets",
+        "upload",
+        "./example.env"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-secret-write-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "secrets",
+        "set",
+        "EXAMPLE_KEY=placeholder"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-secret-notes-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "secrets",
+        "notes",
+        "set",
+        "EXAMPLE_KEY",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-secret-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "secrets",
+        "delete",
+        "EXAMPLE_KEY",
+        "--yes"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-run-child-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "run",
+        "--",
+        "npm",
+        "start"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-run-command-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "--silent",
+        "run",
+        "--command=echo example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-run-mount-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "run",
+        "--mount",
+        "./example.env",
+        "--",
+        "app"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-legacy-secrets-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "enclave",
+        "secrets",
+        "get",
+        "EXAMPLE_KEY"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-login-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "login",
+        "--scope=./"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-oidc-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "oidc",
+        "login",
+        "--identity",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-local-config-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "configure",
+        "get",
+        "token",
+        "--plain"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-token-mint-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "configs",
+        "--json",
+        "tokens",
+        "create",
+        "example",
+        "--plain"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-config-rollback-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "configs",
+        "logs",
+        "--silent",
+        "rollback",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-project-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "--json",
+        "projects",
+        "--silent",
+        "delete",
+        "acme-app",
+        "--yes"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cli-tls-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "--no-verify-tls",
+        "projects"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-host-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "projects",
+        "--api-host=https://example.org"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-host-between-path-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "projects",
+        "--api-host",
+        "https://example.org",
+        "get",
+        "acme-app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-config-dir-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "projects",
+        "--config-dir",
+        "/outside/store"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-scope-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "--scope=../another-project",
+        "configs"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-hidden-configuration-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "projects",
+        "--configuration=/outside/doppler.yml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-token-arg-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "projects",
+        "-tplaceholder"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-long-token-arg-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "projects",
+        "--token=placeholder"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-leading-token-arg-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "-t",
+        "placeholder",
+        "projects"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-debug-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "configs",
+        "--debug"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-dump-config-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "--print-config",
+        "projects"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-dns-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "--enable-dns-resolver",
+        "projects",
+        "--dns-resolver-address=192.0.2.5:53"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-unknown-option-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "projects",
+        "--future-flag"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-missing-option-value-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "projects",
+        "--page"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-future-command-strict",
+      "profile": "strict",
+      "argv": [
+        "doppler",
+        "future",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-installed-path-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/doppler",
+        "projects"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cli-shell-host-override-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "shell",
+        "source": "DOPPLER_API_HOST=https://example.org doppler projects",
+        "dialect": "posix",
+        "dialect_version": null,
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "cli-shell-secret-with-host-override-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "shell",
+        "source": "DOPPLER_API_HOST=https://example.org doppler secrets get EXAMPLE_KEY",
+        "dialect": "posix",
+        "dialect_version": null,
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "cli-shell-outside-project-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "shell",
+        "source": "cd / && doppler projects",
+        "dialect": "posix",
+        "dialect_version": null,
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-projects-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "projects_list",
+        "arguments": {
+          "page": 2
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-project-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "projects_get",
+        "arguments": {
+          "project": "acme-app"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-environments-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "environments_list",
+        "arguments": {
+          "project": "acme-app"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-environment-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "environments_get",
+        "arguments": {
+          "project": "acme-app",
+          "environment": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-configs-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "configs_list",
+        "arguments": {
+          "project": "acme-app",
+          "environment": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-config-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "configs_get",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-names-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_names",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "include_dynamic_secrets": true
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-project-missing-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "projects_get",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-environment-missing-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "environments_get",
+        "arguments": {
+          "project": "acme-app"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-config-wrong-type-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "configs_get",
+        "arguments": {
+          "project": "acme-app",
+          "config": [
+            "dev"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-names-config-missing-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_names",
+        "arguments": {
+          "project": "acme-app"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-names-project-missing-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_names",
+        "arguments": {
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-names-blank-config-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_names",
+        "arguments": {
+          "project": "acme-app",
+          "config": "  "
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-names-null-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_names",
+        "arguments": {
+          "project": null,
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-secret-list-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_list",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-secret-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_get",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "name": "EXAMPLE_KEY"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-download-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_download",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "format": "json"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-token-list-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "service_tokens_list",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-token-create-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "service_tokens_create",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "name": "example"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-lease-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "dynamic_secrets_issue_lease",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "name": "EXAMPLE_KEY"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-secret-write-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "secrets_update",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "secrets": {
+            "EXAMPLE_KEY": "placeholder"
+          }
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-project-delete-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "projects_delete",
+        "arguments": {
+          "project": "acme-app"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-integration-delete-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "workplace_integration_members_delete",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "mcp-logs-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "config_logs_get",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev",
+          "log": "example"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-confirm-access-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "confirm_access",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "future_metadata_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-scoped-alias-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler-dev": {
+          "transport": {
+            "type": "stdio",
+            "command": "/opt/homebrew/bin/npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server@1.0.5",
+              "--read-only",
+              "--project",
+              "acme-app",
+              "--config",
+              "dev"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler-dev"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler-dev",
+        "tool": "secrets_names",
+        "arguments": {
+          "project": "acme-app",
+          "config": "dev"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-same-name-other-launch-strict",
+      "profile": "strict",
+      "mcp": {
+        "doppler": {
+          "transport": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+              "-y",
+              "@dopplerhq/mcp-server"
+            ],
+            "env": {
+              "DOPPLER_BASE_URL": "https://api.doppler.com"
+            }
+          },
+          "agents": {
+            "codex": "doppler"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "doppler",
+        "tool": "projects_list",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

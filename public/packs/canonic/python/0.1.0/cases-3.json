@@ -1,0 +1,2439 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "ecosystem-470-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "rule",
+        "F401"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-471-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "rule",
+        "--all",
+        "--output-format",
+        "json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-472-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "config",
+        "lint.select"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-473-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "linter",
+        "--output-format",
+        "json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-474-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "version",
+        "--output-format",
+        "json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-475-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "config",
+        "--config",
+        "/outside/ruff.toml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-476-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "rule",
+        "--config=cache-dir=\"/outside\"",
+        "F401"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-477-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "analyze",
+        "graph",
+        "src",
+        "--python",
+        "/outside/python"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-478-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "clean"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-479-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "server"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-480-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "generate-shell-completion",
+        "zsh"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-481-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-482-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "check",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-483-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "help",
+        "check"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-484-strict",
+      "profile": "strict",
+      "argv": [
+        "hatch",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-485-strict",
+      "profile": "strict",
+      "argv": [
+        "hatch",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-486-strict",
+      "profile": "strict",
+      "argv": [
+        "hatch",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-487-strict",
+      "profile": "strict",
+      "argv": [
+        "hatch",
+        "--version",
+        "script.py"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-488-strict",
+      "profile": "strict",
+      "argv": [
+        "hatch",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-489-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-490-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-491-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-492-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "--version",
+        "script.py"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-493-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-494-strict",
+      "profile": "strict",
+      "argv": [
+        "watchfiles",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-495-strict",
+      "profile": "strict",
+      "argv": [
+        "watchfiles",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-496-strict",
+      "profile": "strict",
+      "argv": [
+        "watchfiles",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-497-strict",
+      "profile": "strict",
+      "argv": [
+        "watchfiles",
+        "--version",
+        "script.py"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-498-strict",
+      "profile": "strict",
+      "argv": [
+        "watchfiles",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-499-strict",
+      "profile": "strict",
+      "argv": [
+        "pre-commit",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-500-strict",
+      "profile": "strict",
+      "argv": [
+        "pre-commit",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-501-strict",
+      "profile": "strict",
+      "argv": [
+        "pre-commit",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-502-strict",
+      "profile": "strict",
+      "argv": [
+        "pre-commit",
+        "--version",
+        "script.py"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-503-strict",
+      "profile": "strict",
+      "argv": [
+        "pre-commit",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-504-strict",
+      "profile": "strict",
+      "argv": [
+        "uv",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-505-strict",
+      "profile": "strict",
+      "argv": [
+        "uv",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-506-strict",
+      "profile": "strict",
+      "argv": [
+        "uv",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-507-strict",
+      "profile": "strict",
+      "argv": [
+        "uv",
+        "--version",
+        "script.py"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-508-strict",
+      "profile": "strict",
+      "argv": [
+        "uv",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-509-strict",
+      "profile": "strict",
+      "argv": [
+        "pipx",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-510-strict",
+      "profile": "strict",
+      "argv": [
+        "pipx",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-511-strict",
+      "profile": "strict",
+      "argv": [
+        "pipx",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-512-strict",
+      "profile": "strict",
+      "argv": [
+        "pipx",
+        "--version",
+        "script.py"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-513-strict",
+      "profile": "strict",
+      "argv": [
+        "pipx",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-514-strict",
+      "profile": "strict",
+      "argv": [
+        "poetry",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-515-strict",
+      "profile": "strict",
+      "argv": [
+        "poetry",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-516-strict",
+      "profile": "strict",
+      "argv": [
+        "poetry",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-517-strict",
+      "profile": "strict",
+      "argv": [
+        "poetry",
+        "--version",
+        "script.py"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-518-strict",
+      "profile": "strict",
+      "argv": [
+        "poetry",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-519-strict",
+      "profile": "strict",
+      "argv": [
+        "pipenv",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-520-strict",
+      "profile": "strict",
+      "argv": [
+        "pipenv",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-521-strict",
+      "profile": "strict",
+      "argv": [
+        "pipenv",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-522-strict",
+      "profile": "strict",
+      "argv": [
+        "pipenv",
+        "--version",
+        "script.py"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-523-strict",
+      "profile": "strict",
+      "argv": [
+        "pipenv",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-524-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-525-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-526-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-527-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "--version",
+        "script.py"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-528-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "future-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-529-strict",
+      "profile": "strict",
+      "argv": [
+        "pyright",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-530-strict",
+      "profile": "strict",
+      "argv": [
+        "pyright",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-531-strict",
+      "profile": "strict",
+      "argv": [
+        "pyright",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-532-strict",
+      "profile": "strict",
+      "argv": [
+        "pyright",
+        "--version",
+        "script.py"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-533-strict",
+      "profile": "strict",
+      "argv": [
+        "pyright",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-534-strict",
+      "profile": "strict",
+      "argv": [
+        "basedpyright",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-535-strict",
+      "profile": "strict",
+      "argv": [
+        "basedpyright",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-536-strict",
+      "profile": "strict",
+      "argv": [
+        "basedpyright",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-537-strict",
+      "profile": "strict",
+      "argv": [
+        "basedpyright",
+        "--version",
+        "script.py"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-538-strict",
+      "profile": "strict",
+      "argv": [
+        "basedpyright",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-539-strict",
+      "profile": "strict",
+      "argv": [
+        "mypy",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-540-strict",
+      "profile": "strict",
+      "argv": [
+        "mypy",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-541-strict",
+      "profile": "strict",
+      "argv": [
+        "mypy",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-542-strict",
+      "profile": "strict",
+      "argv": [
+        "mypy",
+        "--version",
+        "script.py"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-543-strict",
+      "profile": "strict",
+      "argv": [
+        "mypy",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-544-strict",
+      "profile": "strict",
+      "argv": [
+        "dmypy",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-545-strict",
+      "profile": "strict",
+      "argv": [
+        "dmypy",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-546-strict",
+      "profile": "strict",
+      "argv": [
+        "dmypy",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-547-strict",
+      "profile": "strict",
+      "argv": [
+        "dmypy",
+        "--version",
+        "script.py"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-548-strict",
+      "profile": "strict",
+      "argv": [
+        "dmypy",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-549-strict",
+      "profile": "strict",
+      "argv": [
+        "coverage",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-550-strict",
+      "profile": "strict",
+      "argv": [
+        "coverage",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-551-strict",
+      "profile": "strict",
+      "argv": [
+        "coverage",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-552-strict",
+      "profile": "strict",
+      "argv": [
+        "coverage",
+        "--version",
+        "script.py"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-553-strict",
+      "profile": "strict",
+      "argv": [
+        "coverage",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-554-strict",
+      "profile": "strict",
+      "argv": [
+        "coverage3",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-555-strict",
+      "profile": "strict",
+      "argv": [
+        "coverage3",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-556-strict",
+      "profile": "strict",
+      "argv": [
+        "coverage3",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-557-strict",
+      "profile": "strict",
+      "argv": [
+        "coverage3",
+        "--version",
+        "script.py"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-558-strict",
+      "profile": "strict",
+      "argv": [
+        "coverage3",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-559-strict",
+      "profile": "strict",
+      "argv": [
+        "pip-audit",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-560-strict",
+      "profile": "strict",
+      "argv": [
+        "pip-audit",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-561-strict",
+      "profile": "strict",
+      "argv": [
+        "pip-audit",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-562-strict",
+      "profile": "strict",
+      "argv": [
+        "pip-audit",
+        "--version",
+        "script.py"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-563-strict",
+      "profile": "strict",
+      "argv": [
+        "pip-audit",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-564-strict",
+      "profile": "strict",
+      "argv": [
+        "black",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-565-strict",
+      "profile": "strict",
+      "argv": [
+        "black",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-566-strict",
+      "profile": "strict",
+      "argv": [
+        "black",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-567-strict",
+      "profile": "strict",
+      "argv": [
+        "python",
+        "-m",
+        "hatch",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-568-strict",
+      "profile": "strict",
+      "argv": [
+        "python3",
+        "-m",
+        "hatch",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-569-strict",
+      "profile": "strict",
+      "argv": [
+        "python",
+        "-m",
+        "black",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-570-strict",
+      "profile": "strict",
+      "argv": [
+        "python3",
+        "-m",
+        "black",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-571-strict",
+      "profile": "strict",
+      "argv": [
+        "python",
+        "-m",
+        "ty",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-572-strict",
+      "profile": "strict",
+      "argv": [
+        "python3",
+        "-m",
+        "ty",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-573-strict",
+      "profile": "strict",
+      "argv": [
+        "python",
+        "-m",
+        "watchfiles",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-574-strict",
+      "profile": "strict",
+      "argv": [
+        "python3",
+        "-m",
+        "watchfiles",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-575-strict",
+      "profile": "strict",
+      "argv": [
+        "python",
+        "-m",
+        "pre_commit",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-576-strict",
+      "profile": "strict",
+      "argv": [
+        "python3",
+        "-m",
+        "pre_commit",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-577-strict",
+      "profile": "strict",
+      "argv": [
+        "hatch"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-578-strict",
+      "profile": "strict",
+      "argv": [
+        "hatch",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-579-strict",
+      "profile": "strict",
+      "argv": [
+        "ty"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-580-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-581-strict",
+      "profile": "strict",
+      "argv": [
+        "watchfiles"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-582-strict",
+      "profile": "strict",
+      "argv": [
+        "watchfiles",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-583-strict",
+      "profile": "strict",
+      "argv": [
+        "pre-commit"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-584-strict",
+      "profile": "strict",
+      "argv": [
+        "pre-commit",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-585-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "check",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-586-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "check",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-587-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "server",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-588-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "server",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-589-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "version",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-590-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "version",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-591-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "generate-shell-completion",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-592-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "generate-shell-completion",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-593-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "explain",
+        "rule",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-594-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "explain",
+        "rule",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-595-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "explain",
+        "help",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-596-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "explain",
+        "help",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-597-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "help",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-598-strict",
+      "profile": "strict",
+      "argv": [
+        "ty",
+        "help",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "ecosystem-599-strict",
+      "profile": "strict",
+      "argv": [
+        "uv"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-600-strict",
+      "profile": "strict",
+      "argv": [
+        "uv",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-601-strict",
+      "profile": "strict",
+      "argv": [
+        "uvx"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-602-strict",
+      "profile": "strict",
+      "argv": [
+        "uvx",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-603-strict",
+      "profile": "strict",
+      "argv": [
+        "pipx"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-604-strict",
+      "profile": "strict",
+      "argv": [
+        "pipx",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-605-strict",
+      "profile": "strict",
+      "argv": [
+        "poetry"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-606-strict",
+      "profile": "strict",
+      "argv": [
+        "poetry",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-607-strict",
+      "profile": "strict",
+      "argv": [
+        "pipenv"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-608-strict",
+      "profile": "strict",
+      "argv": [
+        "pipenv",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-609-strict",
+      "profile": "strict",
+      "argv": [
+        "virtualenv"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-610-strict",
+      "profile": "strict",
+      "argv": [
+        "virtualenv",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-611-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-612-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff",
+        "--unrecognized-operation"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-613-strict",
+      "profile": "strict",
+      "argv": [
+        "basedpyright"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-614-strict",
+      "profile": "strict",
+      "argv": [
+        "basedpyright",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-615-strict",
+      "profile": "strict",
+      "argv": [
+        "pyright"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-616-strict",
+      "profile": "strict",
+      "argv": [
+        "pyright",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-617-strict",
+      "profile": "strict",
+      "argv": [
+        "mypy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-618-strict",
+      "profile": "strict",
+      "argv": [
+        "mypy",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-619-strict",
+      "profile": "strict",
+      "argv": [
+        "dmypy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-620-strict",
+      "profile": "strict",
+      "argv": [
+        "dmypy",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-621-strict",
+      "profile": "strict",
+      "argv": [
+        "tox"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-622-strict",
+      "profile": "strict",
+      "argv": [
+        "tox",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-623-strict",
+      "profile": "strict",
+      "argv": [
+        "nox"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-624-strict",
+      "profile": "strict",
+      "argv": [
+        "nox",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-625-strict",
+      "profile": "strict",
+      "argv": [
+        "coverage"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-626-strict",
+      "profile": "strict",
+      "argv": [
+        "coverage",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-627-strict",
+      "profile": "strict",
+      "argv": [
+        "coverage3"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-628-strict",
+      "profile": "strict",
+      "argv": [
+        "coverage3",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-629-strict",
+      "profile": "strict",
+      "argv": [
+        "bandit"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-630-strict",
+      "profile": "strict",
+      "argv": [
+        "bandit",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-631-strict",
+      "profile": "strict",
+      "argv": [
+        "pip-audit"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-632-strict",
+      "profile": "strict",
+      "argv": [
+        "pip-audit",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-633-strict",
+      "profile": "strict",
+      "argv": [
+        "pyright-langserver"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-634-strict",
+      "profile": "strict",
+      "argv": [
+        "pyright-langserver",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-635-strict",
+      "profile": "strict",
+      "argv": [
+        "basedpyright-langserver"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-636-strict",
+      "profile": "strict",
+      "argv": [
+        "basedpyright-langserver",
+        "--unrecognized-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-637-strict",
+      "profile": "strict",
+      "argv": [
+        "pip-audit",
+        "-r"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-638-strict",
+      "profile": "strict",
+      "argv": [
+        "bandit",
+        "-o"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-639-strict",
+      "profile": "strict",
+      "argv": [
+        "pyright",
+        "--pythonpath"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-640-strict",
+      "profile": "strict",
+      "argv": [
+        "basedpyright",
+        "--baselinefile"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-641-strict",
+      "profile": "strict",
+      "argv": [
+        "mypy",
+        "--config-file"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-642-strict",
+      "profile": "strict",
+      "argv": [
+        "uv",
+        "run",
+        "--project"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-643-strict",
+      "profile": "strict",
+      "argv": [
+        "pipx",
+        "run",
+        "--spec"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-644-strict",
+      "profile": "strict",
+      "argv": [
+        "poetry",
+        "publish",
+        "--repository"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-645-strict",
+      "profile": "strict",
+      "argv": [
+        "virtualenv",
+        "--python"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-646-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/ruff",
+        "check",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-647-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/ruff",
+        "check",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-648-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/ruff",
+        "check",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-649-strict",
+      "profile": "strict",
+      "argv": [
+        "ruff-unrelated",
+        "check",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-650-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/ruff",
+        "check",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-651-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/uv",
+        "run",
+        "pytest"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-652-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/uv",
+        "run",
+        "pytest"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-653-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/uv",
+        "run",
+        "pytest"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-654-strict",
+      "profile": "strict",
+      "argv": [
+        "uv-unrelated",
+        "run",
+        "pytest"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-655-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/uv",
+        "run",
+        "pytest"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-656-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/poetry",
+        "publish"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-657-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/poetry",
+        "publish"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-658-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/poetry",
+        "publish"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-659-strict",
+      "profile": "strict",
+      "argv": [
+        "poetry-unrelated",
+        "publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-660-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/poetry",
+        "publish"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-661-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/pipx",
+        "run",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-662-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/pipx",
+        "run",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-663-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/pipx",
+        "run",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-664-strict",
+      "profile": "strict",
+      "argv": [
+        "pipx-unrelated",
+        "run",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-665-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/pipx",
+        "run",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-666-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/pyright",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-667-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/pyright",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-668-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/pyright",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-669-strict",
+      "profile": "strict",
+      "argv": [
+        "pyright-unrelated",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-670-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/pyright",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-671-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/mypy",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-672-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/mypy",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-673-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/mypy",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-674-strict",
+      "profile": "strict",
+      "argv": [
+        "mypy-unrelated",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-675-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/mypy",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-676-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/tox",
+        "run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-677-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/tox",
+        "run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-678-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/tox",
+        "run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-679-strict",
+      "profile": "strict",
+      "argv": [
+        "tox-unrelated",
+        "run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-680-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/tox",
+        "run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-681-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/nox",
+        "--list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-682-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/nox",
+        "--list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-683-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/nox",
+        "--list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-684-strict",
+      "profile": "strict",
+      "argv": [
+        "nox-unrelated",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-685-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/nox",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-686-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/coverage",
+        "erase"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-687-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/coverage",
+        "erase"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-688-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/coverage",
+        "erase"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-689-strict",
+      "profile": "strict",
+      "argv": [
+        "coverage-unrelated",
+        "erase"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-690-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/coverage",
+        "erase"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-691-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/bandit",
+        "-r",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-692-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/bandit",
+        "-r",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-693-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/bandit",
+        "-r",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-694-strict",
+      "profile": "strict",
+      "argv": [
+        "bandit-unrelated",
+        "-r",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-695-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/bandit",
+        "-r",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-696-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/pip-audit",
+        "--fix"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-697-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/pip-audit",
+        "--fix"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-698-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/pip-audit",
+        "--fix"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-699-strict",
+      "profile": "strict",
+      "argv": [
+        "pip-audit-unrelated",
+        "--fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-700-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/pip-audit",
+        "--fix"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-701-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/black",
+        "--check",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-702-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/black",
+        "--check",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-703-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/black",
+        "--check",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-704-strict",
+      "profile": "strict",
+      "argv": [
+        "black-unrelated",
+        "--check",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-705-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/black",
+        "--check",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-706-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/hatch",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-707-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/hatch",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-708-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/hatch",
+        "test"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-709-strict",
+      "profile": "strict",
+      "argv": [
+        "hatch-unrelated",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-710-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/hatch",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-711-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/ty",
+        "check",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-712-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/ty",
+        "check",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-713-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/ty",
+        "check",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-714-strict",
+      "profile": "strict",
+      "argv": [
+        "ty-unrelated",
+        "check",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-715-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/ty",
+        "check",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-716-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/watchfiles",
+        "python script.py",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-717-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/watchfiles",
+        "python script.py",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-718-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/watchfiles",
+        "python script.py",
+        "src"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-719-strict",
+      "profile": "strict",
+      "argv": [
+        "watchfiles-unrelated",
+        "python script.py",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-720-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/watchfiles",
+        "python script.py",
+        "src"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-721-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/pre-commit",
+        "run",
+        "--all-files"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-722-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/pre-commit",
+        "run",
+        "--all-files"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-723-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/pre-commit",
+        "run",
+        "--all-files"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ecosystem-724-strict",
+      "profile": "strict",
+      "argv": [
+        "pre-commit-unrelated",
+        "run",
+        "--all-files"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ecosystem-725-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/pre-commit",
+        "run",
+        "--all-files"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unmatched-python-mcp-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "mcp",
+        "server": "python",
+        "tool": "run",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unmatched-python-mcp-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "mcp",
+        "server": "python",
+        "tool": "run",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "unmatched-python-mcp-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "mcp",
+        "server": "python",
+        "tool": "run",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

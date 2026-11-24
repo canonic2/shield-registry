@@ -1,4 +1,4 @@
-// Independent expected decisions for canonic/hub, reviewed against Hub 0.52.0.
+// Independent expected decisions for canonic/hub, reviewed against Hub 0.53.0.
 // Keep these explicit rather than importing the policy's inventory or deriving
 // expectations from its decisions.
 const profiles = ['loose','recommended','strict'];
@@ -119,6 +119,18 @@ tools.push(...docs);
 
 const mcp = [
   ...tools.map(([tool,arguments_,expected]) => [`tool-${tool}`,tool,arguments_,expected]),
+  // Project onboarding calls select their project independently. Readiness
+  // reporting does not change publication, initialization or attachment effects.
+  ['onboarding-init-project','init',{project:'/outside/acme',provider:'git'},routine],
+  ['onboarding-init-local','init',{project:'/outside/acme',config:'/outside/acme/runtime.yml',local:true},routine],
+  ['onboarding-init-malformed','init',{project:7,provider:[],local:'yes'},routine],
+  ['onboarding-workspace-list','workspace_list',{project:'/outside/acme'},allow],
+  ['onboarding-workspace-attach','workspace_attach',{project:'/outside/acme',name:'main',path:'/outside/acme'},routine],
+  ['onboarding-config-check','config_check',{project:'/outside/acme',config:'/outside/acme/runtime.yml'},allow],
+  ['onboarding-setup','setup',{project:'/outside/acme',agents:['codex'],agent_config:'/outside/acme/.hub/config.yml'},routine],
+  ['onboarding-setup-preview','setup_preview',{project:'/outside/acme',agent_config:'/outside/acme/.hub/config.yml'},allow],
+  ['onboarding-setup-remove','setup',{project:'/outside/acme',remove:true},routine],
+  ['onboarding-setup-malformed','setup',{project:7,agents:[],remove:'yes'},routine],
   ['doctor-compose-replacement','doctor',{execution:id},routine],
   ['doctor-compose-malformed','doctor',{execution:[]},allow],
   ['doctor-compose-outside-config','doctor',{execution:id,config:'/outside/hub.yml'},review],
@@ -156,6 +168,12 @@ const mcp = [
   ['proxy-status-missing-project','proxy_status',{},allow],
   ['proxy-status-malformed-controller','proxy_status',{remote_project:'project-1',controller:7},allow],
   ['proxy-update-malformed','proxy_route_update',{remote_project:'project-1'},review],
+  ['proxy-endpoint-create-missing-path','proxy_endpoint_create',{remote_project:'project-1',name:'Events',method:'POST',request_id:'retry-1'},review],
+  ['proxy-route-delete-malformed-revision','proxy_route_delete',{remote_project:'project-1',route_id:'route-1',revision:'latest'},review],
+  ['proxy-revoke-missing-revision','proxy_connector_revoke',{remote_project:'project-1',connector_id:'grant-1'},review],
+  ['proxy-connect-malformed-services','proxy_connect',{remote_project:'project-1',workspace:'main',services:'web'},review],
+  ['proxy-connect-private-trust','proxy_connect',{remote_project:'project-1',workspace:'main',services:['web'],controller_ca:'/outside/controller.pem',edge_ca:'/outside/edge.pem'},review],
+  ['proxy-disconnect-missing-connection','proxy_disconnect',{},review],
   ['proxy-update-assignment','proxy_route_update',{remote_project:'project-1',route_id:'route-1',revision:3,connector:'grant-1'},review],
   ['config-file','process_run',{targets:['web'],config:'/outside/hub.yml',set_env:['NODE_ENV=test']},routine],
   ['setup-agent-config','setup',{agent_config:'/outside/.hub/config.yml',repair_hooks:true},routine],
@@ -272,11 +290,17 @@ const cli = [
   ['proxy-route-create',['hub','proxy','route','--remote-project','project-1','create','endpoint-1','--method','POST','--path','/webhook','--request-id','request-2'],review],
   ['proxy-route-update',['hub','proxy','route','--remote-project','project-1','update','route-1','--revision','2','--enabled','false'],review],
   ['proxy-route-delete',['hub','proxy','route','--remote-project','project-1','delete','route-1','--revision','3'],review],
+  ['proxy-revoke',['hub','proxy','revoke','grant-1','--remote-project','project-1','--revision','3'],review],
+  ['proxy-revoke-missing-revision',['hub','proxy','revoke','grant-1','--remote-project','project-1'],review],
   ['other-project',['hub','--project','/outside/other','status'],allow],
   ['other-config',['hub','--config','/outside/hub.yml','config','check'],allow],
   ['data-reset-inventory',['hub','workspace','data-reset','-w','feature'],allow],
   // Ordinary changes.
   ['init',['hub','init','--provider','gate'],routine],
+  ['onboarding-init-project',['hub','--project','/outside/acme','init','--provider','git'],routine],
+  ['onboarding-init-local',['hub','--project','/outside/acme','--config','/outside/acme/runtime.yml','init','--local'],routine],
+  ['onboarding-setup-project',['hub','--project','/outside/acme','setup','--agent-config','/outside/acme/.hub/config.yml','--agent','codex'],routine],
+  ['onboarding-setup-preview',['hub','--project','/outside/acme','setup','--dry-run','--json'],routine],
   ['setup',['hub','setup','--agent','claude','--agent','codex','--repair-hooks'],routine],
   ['setup-preview',['hub','setup','--dry-run','--json'],routine],
   ['mcp-setup',['hub','mcp','setup','--agent','codex','--reset-tool-permissions'],routine],

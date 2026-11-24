@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "commands": [
+    {
+      "name": "doppler",
+      "rule_ids": [
+        "cli-info-0",
+        "cli-info-1",
+        "cli-info-2",
+        "cli-info-3",
+        "cli-command-help",
+        "cli-help",
+        "cli-identity",
+        "cli-projects",
+        "cli-project-get",
+        "cli-configs",
+        "cli-config-get",
+        "cli-environments",
+        "cli-environment-get",
+        "cli-tags",
+        "cli-secret-names",
+        "cli-secrets",
+        "cli-credentials-and-execution",
+        "cli-project-changes",
+        "cli-config-changes",
+        "cli-config-rollback",
+        "cli-environment-changes",
+        "cli-tag-changes",
+        "cli-settings-change",
+        "cli-env-doppler-api-host",
+        "cli-env-doppler-dashboard-host",
+        "cli-env-doppler-config-dir",
+        "cli-env-doppler-verify-tls",
+        "cli-env-doppler-enable-dns-resolver",
+        "cli-unlisted"
+      ]
+    }
+  ]
+}

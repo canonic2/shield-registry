@@ -1,0 +1,2843 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "version-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "short-version-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "revision-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "--revision"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "runner-help-loose",
+      "profile": "loose",
+      "argv": [
+        "bunx",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "build-help-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "build",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "install-help-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "install",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "x-help-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "x",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "script-forwarded-help-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "run",
+        "lint",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "package-forwarded-help-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "x",
+        "example-package",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-ls-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "ls"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pm-list-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "list",
+        "--all",
+        "--trusted"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "list-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "list",
+        "--all"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "future-display-flag-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--future-display-option"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pm-bin-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "bin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pm-hash-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "hash"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pm-hash-string-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "hash-string"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pm-hash-print-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "hash-print"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pm-untrusted-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "untrusted"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pm-default-trusted-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "default-trusted"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "file-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "./example.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "script-shorthand-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "lint"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "run-script-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "run",
+        "lint"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "run-file-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "run",
+        "./example.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "eval-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "--eval",
+        "console.log(1)"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "print-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "-p",
+        "1+1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "repl-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "repl"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "exec-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "exec",
+        "echo example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "test-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "test",
+        "--watch"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "typecheck-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "check",
+        "--project=./tsconfig.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "install-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "install-alias-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "i",
+        "--frozen-lockfile"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ci-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "ci"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "install-no-scripts-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "install",
+        "--ignore-scripts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "install-dry-run-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "install",
+        "--dry-run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "add-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "add",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "add-alias-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "a",
+        "-d",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "global-add-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "add",
+        "--global",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "remove-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "rm",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "update-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dedupe-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "dedupe"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "prune-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "prune"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "link-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "link"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unlink-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "unlink"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "publish-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "publish",
+        "--dry-run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "patch-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "patch",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "patch-commit-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "patch",
+        "--commit",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "init-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "init",
+        "-y"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "create",
+        "example-template"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "upgrade-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "upgrade",
+        "--canary"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "audit-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "audit"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "outdated-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "outdated"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "info-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "info",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "why-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "why",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "package-download-loose",
+      "profile": "loose",
+      "argv": [
+        "bunx",
+        "example-package@1.0.0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "runner-no-install-loose",
+      "profile": "loose",
+      "argv": [
+        "bunx",
+        "--no-install",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "x-download-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "x",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "x-package-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "x",
+        "--package=example-package",
+        "example-bin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "build-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "build",
+        "./example.ts",
+        "--outdir=./dist"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "build-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "build",
+        "./example.ts",
+        "--outfile=/outside/example.js"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "compile-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "build",
+        "--compile",
+        "--target=bun-windows-x64",
+        "./example.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "build-macro-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "build",
+        "./example.ts",
+        "--no-macros=false"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-pack-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "pack"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-pack-dry-run-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "pack",
+        "--dry-run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-version-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "version",
+        "patch"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-trust-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "trust",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-cache-rm-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "cache",
+        "rm"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-cache-prune-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "cache",
+        "prune"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-migrate-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "migrate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-pkg-set-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "pkg",
+        "set",
+        "name=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-diff-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "diff",
+        "./example",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-global-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "-g"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-cwd-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--cwd=/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-config-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "-c",
+        "/outside/bunfig.toml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-env-file-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--env-file=/outside/example.env"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-cache-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--cache-dir=/outside/cache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-registry-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--registry=https://example.org"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-preload-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--preload=./example.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-eval-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "-econsole.log(1)"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-profile-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--cpu-prof"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-warning-output-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--redirect-warnings=/outside/log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-inspector-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--inspect=0.0.0.0:9229"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-preconnect-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--fetch-preconnect=https://example.org"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "leading-preload-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "--preload=./example.ts",
+        "pm",
+        "ls"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-version-options-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "--version",
+        "--preload=./example.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "bun",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "installed-bin-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/homebrew/bin/bun",
+        "pm",
+        "ls"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "windows-name-loose",
+      "profile": "loose",
+      "argv": [
+        "bun.exe",
+        "pm",
+        "ls"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-code-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "printf 'console.log(1)' | bun run -",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "outside-cwd-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "cd / && bun pm ls",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "inline-options-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "BUN_OPTIONS=--preload=./example.ts bun pm ls",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "mcp",
+        "server": "bun",
+        "tool": "run",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "short-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "revision-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "--revision"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "runner-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bunx",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "build-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "build",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "install-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "install",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "x-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "x",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "script-forwarded-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "run",
+        "lint",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "package-forwarded-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "x",
+        "example-package",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-ls-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "ls"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pm-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "list",
+        "--all",
+        "--trusted"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "list",
+        "--all"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "future-display-flag-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--future-display-option"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pm-bin-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "bin"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pm-hash-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "hash"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pm-hash-string-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "hash-string"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pm-hash-print-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "hash-print"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pm-untrusted-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "untrusted"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "pm-default-trusted-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "default-trusted"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "./example.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "script-shorthand-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "lint"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "run-script-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "run",
+        "lint"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "run-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "run",
+        "./example.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "eval-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "--eval",
+        "console.log(1)"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "print-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "-p",
+        "1+1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "repl-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "repl"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "exec-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "exec",
+        "echo example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "test-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "test",
+        "--watch"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "typecheck-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "check",
+        "--project=./tsconfig.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "install"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "install-alias-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "i",
+        "--frozen-lockfile"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "ci-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "ci"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "install-no-scripts-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "install",
+        "--ignore-scripts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "install-dry-run-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "install",
+        "--dry-run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "add-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "add",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "add-alias-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "a",
+        "-d",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "global-add-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "add",
+        "--global",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "remove-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "rm",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "update-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "dedupe-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "dedupe"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "prune-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "prune"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "link-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "link"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unlink-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "unlink"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "publish-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "publish",
+        "--dry-run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "patch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "patch",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "patch-commit-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "patch",
+        "--commit",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "init-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "init",
+        "-y"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "create",
+        "example-template"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "upgrade-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "upgrade",
+        "--canary"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "audit-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "audit"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "outdated-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "outdated"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "info-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "info",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "why-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "why",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "package-download-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bunx",
+        "example-package@1.0.0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "runner-no-install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bunx",
+        "--no-install",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "x-download-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "x",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "x-package-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "x",
+        "--package=example-package",
+        "example-bin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "build-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "build",
+        "./example.ts",
+        "--outdir=./dist"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "build-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "build",
+        "./example.ts",
+        "--outfile=/outside/example.js"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "compile-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "build",
+        "--compile",
+        "--target=bun-windows-x64",
+        "./example.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "build-macro-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "build",
+        "./example.ts",
+        "--no-macros=false"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-pack-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "pack"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-pack-dry-run-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "pack",
+        "--dry-run"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "version",
+        "patch"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-trust-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "trust",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-cache-rm-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "cache",
+        "rm"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-cache-prune-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "cache",
+        "prune"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-migrate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "migrate"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-pkg-set-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "pkg",
+        "set",
+        "name=example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-diff-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "diff",
+        "./example",
+        "example-package"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-global-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "-g"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-cwd-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--cwd=/outside"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "-c",
+        "/outside/bunfig.toml"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-env-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--env-file=/outside/example.env"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-cache-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--cache-dir=/outside/cache"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-registry-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--registry=https://example.org"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-preload-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--preload=./example.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-eval-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "-econsole.log(1)"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-profile-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--cpu-prof"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-warning-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--redirect-warnings=/outside/log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-inspector-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--inspect=0.0.0.0:9229"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-preconnect-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--fetch-preconnect=https://example.org"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "leading-preload-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "--preload=./example.ts",
+        "pm",
+        "ls"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "extra-version-options-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "--version",
+        "--preload=./example.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "installed-bin-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/homebrew/bin/bun",
+        "pm",
+        "ls"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "windows-name-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bun.exe",
+        "pm",
+        "ls"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "stdin-code-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "printf 'console.log(1)' | bun run -",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "outside-cwd-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "cd / && bun pm ls",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "inline-options-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "BUN_OPTIONS=--preload=./example.ts bun pm ls",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "mcp",
+        "server": "bun",
+        "tool": "run",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "version-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "short-version-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "revision-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "--revision"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "help-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "runner-help-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "build-help-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "build",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "install-help-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "install",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "x-help-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "script-forwarded-help-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "run",
+        "lint",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "package-forwarded-help-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "example-package",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pm-ls-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "ls"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-list-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "list",
+        "--all",
+        "--trusted"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "list-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "list",
+        "--all"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "future-display-flag-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--future-display-option"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-bin-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "bin"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-hash-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "hash"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-hash-string-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "hash-string"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-hash-print-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "hash-print"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-untrusted-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "untrusted"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "pm-default-trusted-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "default-trusted"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "file-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "./example.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "script-shorthand-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "lint"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "run-script-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "run",
+        "lint"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "run-file-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "run",
+        "./example.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "eval-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "--eval",
+        "console.log(1)"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "print-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "-p",
+        "1+1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "repl-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "repl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "exec-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "exec",
+        "echo example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "test-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "test",
+        "--watch"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "typecheck-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "check",
+        "--project=./tsconfig.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "install-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "install"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "install-alias-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "i",
+        "--frozen-lockfile"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "ci-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "ci"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "install-no-scripts-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "install",
+        "--ignore-scripts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "install-dry-run-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "install",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "add-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "add",
+        "example-package"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "add-alias-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "a",
+        "-d",
+        "example-package"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "global-add-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "add",
+        "--global",
+        "example-package"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "remove-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "rm",
+        "example-package"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "update-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "update"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "dedupe-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "dedupe"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "prune-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "prune"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "link-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "link"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unlink-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "unlink"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "publish-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "publish",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "patch-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "patch",
+        "example-package"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "patch-commit-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "patch",
+        "--commit",
+        "example-package"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "init-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "init",
+        "-y"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "create-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "create",
+        "example-template"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "upgrade-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "upgrade",
+        "--canary"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "audit-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "audit"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outdated-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "outdated"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "info-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "info",
+        "example-package"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "why-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "why",
+        "example-package"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "package-download-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "example-package@1.0.0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "runner-no-install-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "--no-install",
+        "example-package"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "x-download-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "example-package"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "x-package-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "--package=example-package",
+        "example-bin"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "build-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "build",
+        "./example.ts",
+        "--outdir=./dist"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "build-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "build",
+        "./example.ts",
+        "--outfile=/outside/example.js"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "compile-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "build",
+        "--compile",
+        "--target=bun-windows-x64",
+        "./example.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "build-macro-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "build",
+        "./example.ts",
+        "--no-macros=false"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pm-pack-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "pack"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pm-pack-dry-run-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "pack",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pm-version-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "version",
+        "patch"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pm-trust-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "trust",
+        "--all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pm-cache-rm-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "cache",
+        "rm"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pm-cache-prune-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "cache",
+        "prune"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pm-migrate-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "migrate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pm-pkg-set-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "pkg",
+        "set",
+        "name=example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "pm-diff-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "diff",
+        "./example",
+        "example-package"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "list-global-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "-g"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "list-cwd-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--cwd=/outside"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "list-config-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "-c",
+        "/outside/bunfig.toml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "list-env-file-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--env-file=/outside/example.env"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "list-cache-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--cache-dir=/outside/cache"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "list-registry-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--registry=https://example.org"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "list-preload-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--preload=./example.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "list-eval-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "-econsole.log(1)"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "list-profile-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--cpu-prof"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "list-warning-output-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--redirect-warnings=/outside/log"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "list-inspector-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--inspect=0.0.0.0:9229"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "list-preconnect-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "pm",
+        "ls",
+        "--fetch-preconnect=https://example.org"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "leading-preload-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "--preload=./example.ts",
+        "pm",
+        "ls"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "extra-version-options-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "--version",
+        "--preload=./example.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "future-command"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "installed-bin-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/bun",
+        "pm",
+        "ls"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "windows-name-strict",
+      "profile": "strict",
+      "argv": [
+        "bun.exe",
+        "pm",
+        "ls"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "stdin-code-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "printf 'console.log(1)' | bun run -",
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "outside-cwd-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "cd / && bun pm ls",
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "inline-options-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "BUN_OPTIONS=--preload=./example.ts bun pm ls",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unknown-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "mcp",
+        "server": "bun",
+        "tool": "run",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

@@ -1,0 +1,1427 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/php",
+  "version": "0.1.0",
+  "description": "PHP, Composer, testing and quality tools, and Laravel/Artisan workflows with isolated lint and reviewed project execution.",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.53.0, <1.0.0"
+  },
+  "capabilities": [
+    "structured-rules-v1",
+    "argument-rules-v1",
+    "argument-paths-v1",
+    "location-v1",
+    "access-paths-v1",
+    "requirements-v1",
+    "regex-v1",
+    "fallback-rules-v1"
+  ],
+  "rules": [
+    {
+      "id": "php-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "php",
+            "/usr/bin/php",
+            "/usr/local/bin/php",
+            "/opt/homebrew/bin/php"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "composer-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "composer",
+            "/usr/bin/composer",
+            "/usr/local/bin/composer",
+            "/opt/homebrew/bin/composer",
+            "vendor/bin/composer",
+            "./vendor/bin/composer"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "phpunit-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "phpunit",
+            "/usr/bin/phpunit",
+            "/usr/local/bin/phpunit",
+            "/opt/homebrew/bin/phpunit",
+            "vendor/bin/phpunit",
+            "./vendor/bin/phpunit"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "pest-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pest",
+            "/usr/bin/pest",
+            "/usr/local/bin/pest",
+            "/opt/homebrew/bin/pest",
+            "vendor/bin/pest",
+            "./vendor/bin/pest"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "paratest-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "paratest",
+            "/usr/bin/paratest",
+            "/usr/local/bin/paratest",
+            "/opt/homebrew/bin/paratest",
+            "vendor/bin/paratest",
+            "./vendor/bin/paratest"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "phpstan-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "phpstan",
+            "/usr/bin/phpstan",
+            "/usr/local/bin/phpstan",
+            "/opt/homebrew/bin/phpstan",
+            "vendor/bin/phpstan",
+            "./vendor/bin/phpstan"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "psalm-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "psalm",
+            "/usr/bin/psalm",
+            "/usr/local/bin/psalm",
+            "/opt/homebrew/bin/psalm",
+            "vendor/bin/psalm",
+            "./vendor/bin/psalm"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "phpcs-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "phpcs",
+            "/usr/bin/phpcs",
+            "/usr/local/bin/phpcs",
+            "/opt/homebrew/bin/phpcs",
+            "vendor/bin/phpcs",
+            "./vendor/bin/phpcs"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "phpcbf-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "phpcbf",
+            "/usr/bin/phpcbf",
+            "/usr/local/bin/phpcbf",
+            "/opt/homebrew/bin/phpcbf",
+            "vendor/bin/phpcbf",
+            "./vendor/bin/phpcbf"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "php-cs-fixer-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "php-cs-fixer",
+            "/usr/bin/php-cs-fixer",
+            "/usr/local/bin/php-cs-fixer",
+            "/opt/homebrew/bin/php-cs-fixer",
+            "vendor/bin/php-cs-fixer",
+            "./vendor/bin/php-cs-fixer"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "pint-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "pint",
+            "/usr/bin/pint",
+            "/usr/local/bin/pint",
+            "/opt/homebrew/bin/pint",
+            "vendor/bin/pint",
+            "./vendor/bin/pint"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "rector-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "rector",
+            "/usr/bin/rector",
+            "/usr/local/bin/rector",
+            "/opt/homebrew/bin/rector",
+            "vendor/bin/rector",
+            "./vendor/bin/rector"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "phan-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "phan",
+            "/usr/bin/phan",
+            "/usr/local/bin/phan",
+            "/opt/homebrew/bin/phan",
+            "vendor/bin/phan",
+            "./vendor/bin/phan"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "phpmd-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "phpmd",
+            "/usr/bin/phpmd",
+            "/usr/local/bin/phpmd",
+            "/opt/homebrew/bin/phpmd",
+            "vendor/bin/phpmd",
+            "./vendor/bin/phpmd"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "infection-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "infection",
+            "/usr/bin/infection",
+            "/usr/local/bin/infection",
+            "/opt/homebrew/bin/infection",
+            "vendor/bin/infection",
+            "./vendor/bin/infection"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "artisan-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "artisan",
+            "/usr/bin/artisan",
+            "/usr/local/bin/artisan",
+            "/opt/homebrew/bin/artisan",
+            "vendor/bin/artisan",
+            "./vendor/bin/artisan",
+            "./artisan"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "laravel-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "laravel",
+            "/usr/bin/laravel",
+            "/usr/local/bin/laravel",
+            "/opt/homebrew/bin/laravel",
+            "vendor/bin/laravel",
+            "./vendor/bin/laravel"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "sail-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sail",
+            "/usr/bin/sail",
+            "/usr/local/bin/sail",
+            "/opt/homebrew/bin/sail",
+            "vendor/bin/sail",
+            "./vendor/bin/sail"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review PHP startup configuration, project code, plugins, dependencies, files, credentials, network access and persistent processes.",
+      "fallback": true
+    },
+    {
+      "id": "php-isolated-v",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "php",
+            "/usr/bin/php",
+            "/usr/local/bin/php",
+            "/opt/homebrew/bin/php"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-n",
+            "-v"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print PHP version, help or compiled module metadata without loading php.ini."
+    },
+    {
+      "id": "php-isolated-version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "php",
+            "/usr/bin/php",
+            "/usr/local/bin/php",
+            "/opt/homebrew/bin/php"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-n",
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print PHP version, help or compiled module metadata without loading php.ini."
+    },
+    {
+      "id": "php-isolated-h",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "php",
+            "/usr/bin/php",
+            "/usr/local/bin/php",
+            "/opt/homebrew/bin/php"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-n",
+            "-h"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print PHP version, help or compiled module metadata without loading php.ini."
+    },
+    {
+      "id": "php-isolated-help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "php",
+            "/usr/bin/php",
+            "/usr/local/bin/php",
+            "/opt/homebrew/bin/php"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-n",
+            "--help"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print PHP version, help or compiled module metadata without loading php.ini."
+    },
+    {
+      "id": "php-isolated-m",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "php",
+            "/usr/bin/php",
+            "/usr/local/bin/php",
+            "/opt/homebrew/bin/php"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-n",
+            "-m"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print PHP version, help or compiled module metadata without loading php.ini."
+    },
+    {
+      "id": "php-isolated-modules",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "php",
+            "/usr/bin/php",
+            "/usr/local/bin/php",
+            "/opt/homebrew/bin/php"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-n",
+            "--modules"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print PHP version, help or compiled module metadata without loading php.ini."
+    },
+    {
+      "id": "php-isolated-lint-n",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "php",
+            "/usr/bin/php",
+            "/usr/local/bin/php",
+            "/opt/homebrew/bin/php"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-n",
+            "--no-php-ini",
+            "-l",
+            "--syntax-check",
+            "-e",
+            "--profile-info",
+            "-q",
+            "--no-header",
+            "-H",
+            "--hide-args",
+            "-a",
+            "--interactive",
+            "-h",
+            "--help",
+            "--usage",
+            "-i",
+            "--info",
+            "-m",
+            "--modules",
+            "-v",
+            "--version",
+            "-s",
+            "--syntax-highlight",
+            "--syntax-highlighting",
+            "-w",
+            "--strip",
+            "--ini"
+          ],
+          "values": [
+            "-c",
+            "--php-ini",
+            "-d",
+            "--define",
+            "-f",
+            "--file",
+            "-r",
+            "--run",
+            "-B",
+            "--process-begin",
+            "-R",
+            "--process-code",
+            "-F",
+            "--process-file",
+            "-E",
+            "--process-end",
+            "-S",
+            "--server",
+            "-t",
+            "--docroot",
+            "-z",
+            "--zend-extension",
+            "--rf",
+            "--rfunction",
+            "--rc",
+            "--rclass",
+            "--re",
+            "--rextension",
+            "--rz",
+            "--rzendextension",
+            "--ri",
+            "--rextinfo"
+          ],
+          "parse": "stop_at_operand",
+          "operands": {
+            "match": {
+              "regex": "[^-\\x00\\r\\n][^\\x00\\r\\n]*"
+            },
+            "min": 1,
+            "max": 32
+          },
+          "require_all": [
+            "-n"
+          ],
+          "require_any": [
+            "-l",
+            "--syntax-check"
+          ],
+          "forbid": [
+            "-a",
+            "--interactive",
+            "-h",
+            "--help",
+            "--usage",
+            "-i",
+            "--info",
+            "-m",
+            "--modules",
+            "-v",
+            "--version",
+            "-s",
+            "--syntax-highlight",
+            "--syntax-highlighting",
+            "-w",
+            "--strip",
+            "--ini",
+            "-c",
+            "--php-ini",
+            "-d",
+            "--define",
+            "-f",
+            "--file",
+            "-r",
+            "--run",
+            "-B",
+            "--process-begin",
+            "-R",
+            "--process-code",
+            "-F",
+            "--process-file",
+            "-E",
+            "--process-end",
+            "-S",
+            "--server",
+            "-t",
+            "--docroot",
+            "-z",
+            "--zend-extension",
+            "--rf",
+            "--rfunction",
+            "--rc",
+            "--rclass",
+            "--re",
+            "--rextension",
+            "--rz",
+            "--rzendextension",
+            "--ri",
+            "--rextinfo"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "read"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Parse PHP source for syntax errors without executing it or loading php.ini.",
+      "requirements": {
+        "argument_paths": {
+          "grammar": {
+            "kind": "options",
+            "prefix": [],
+            "flags": [
+              "-n",
+              "--no-php-ini",
+              "-l",
+              "--syntax-check",
+              "-e",
+              "--profile-info",
+              "-q",
+              "--no-header",
+              "-H",
+              "--hide-args",
+              "-a",
+              "--interactive",
+              "-h",
+              "--help",
+              "--usage",
+              "-i",
+              "--info",
+              "-m",
+              "--modules",
+              "-v",
+              "--version",
+              "-s",
+              "--syntax-highlight",
+              "--syntax-highlighting",
+              "-w",
+              "--strip",
+              "--ini"
+            ],
+            "values": [
+              "-c",
+              "--php-ini",
+              "-d",
+              "--define",
+              "-f",
+              "--file",
+              "-r",
+              "--run",
+              "-B",
+              "--process-begin",
+              "-R",
+              "--process-code",
+              "-F",
+              "--process-file",
+              "-E",
+              "--process-end",
+              "-S",
+              "--server",
+              "-t",
+              "--docroot",
+              "-z",
+              "--zend-extension",
+              "--rf",
+              "--rfunction",
+              "--rc",
+              "--rclass",
+              "--re",
+              "--rextension",
+              "--rz",
+              "--rzendextension",
+              "--ri",
+              "--rextinfo"
+            ],
+            "parse": "stop_at_operand",
+            "operands": {
+              "match": {
+                "regex": "[^-\\x00\\r\\n][^\\x00\\r\\n]*"
+              },
+              "min": 1,
+              "max": 32
+            },
+            "require_all": [
+              "-n"
+            ],
+            "require_any": [
+              "-l",
+              "--syntax-check"
+            ],
+            "forbid": [
+              "-a",
+              "--interactive",
+              "-h",
+              "--help",
+              "--usage",
+              "-i",
+              "--info",
+              "-m",
+              "--modules",
+              "-v",
+              "--version",
+              "-s",
+              "--syntax-highlight",
+              "--syntax-highlighting",
+              "-w",
+              "--strip",
+              "--ini",
+              "-c",
+              "--php-ini",
+              "-d",
+              "--define",
+              "-f",
+              "--file",
+              "-r",
+              "--run",
+              "-B",
+              "--process-begin",
+              "-R",
+              "--process-code",
+              "-F",
+              "--process-file",
+              "-E",
+              "--process-end",
+              "-S",
+              "--server",
+              "-t",
+              "--docroot",
+              "-z",
+              "--zend-extension",
+              "--rf",
+              "--rfunction",
+              "--rc",
+              "--rclass",
+              "--re",
+              "--rextension",
+              "--rz",
+              "--rzendextension",
+              "--ri",
+              "--rextinfo"
+            ]
+          },
+          "operands": {
+            "path": {
+              "within": {
+                "root": "read"
+              },
+              "exclude": [
+                {
+                  "root": "project",
+                  "path": ".git"
+                },
+                {
+                  "root": "project",
+                  "path": ".shield"
+                },
+                {
+                  "root": "project",
+                  "path": ".ssh"
+                },
+                {
+                  "root": "project",
+                  "path": ".aws"
+                },
+                {
+                  "root": "project",
+                  "path": ".env"
+                },
+                {
+                  "root": "project",
+                  "path": ".mcp.json"
+                },
+                {
+                  "root": "project",
+                  "path": ".codex"
+                },
+                {
+                  "root": "project",
+                  "path": ".claude"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": "deny",
+        "message": "Lint source files inside approved readable roots away from protected state."
+      }
+    },
+    {
+      "id": "php-isolated-lint-nophpini",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "php",
+            "/usr/bin/php",
+            "/usr/local/bin/php",
+            "/opt/homebrew/bin/php"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-n",
+            "--no-php-ini",
+            "-l",
+            "--syntax-check",
+            "-e",
+            "--profile-info",
+            "-q",
+            "--no-header",
+            "-H",
+            "--hide-args",
+            "-a",
+            "--interactive",
+            "-h",
+            "--help",
+            "--usage",
+            "-i",
+            "--info",
+            "-m",
+            "--modules",
+            "-v",
+            "--version",
+            "-s",
+            "--syntax-highlight",
+            "--syntax-highlighting",
+            "-w",
+            "--strip",
+            "--ini"
+          ],
+          "values": [
+            "-c",
+            "--php-ini",
+            "-d",
+            "--define",
+            "-f",
+            "--file",
+            "-r",
+            "--run",
+            "-B",
+            "--process-begin",
+            "-R",
+            "--process-code",
+            "-F",
+            "--process-file",
+            "-E",
+            "--process-end",
+            "-S",
+            "--server",
+            "-t",
+            "--docroot",
+            "-z",
+            "--zend-extension",
+            "--rf",
+            "--rfunction",
+            "--rc",
+            "--rclass",
+            "--re",
+            "--rextension",
+            "--rz",
+            "--rzendextension",
+            "--ri",
+            "--rextinfo"
+          ],
+          "parse": "stop_at_operand",
+          "operands": {
+            "match": {
+              "regex": "[^-\\x00\\r\\n][^\\x00\\r\\n]*"
+            },
+            "min": 1,
+            "max": 32
+          },
+          "require_all": [
+            "--no-php-ini"
+          ],
+          "require_any": [
+            "-l",
+            "--syntax-check"
+          ],
+          "forbid": [
+            "-a",
+            "--interactive",
+            "-h",
+            "--help",
+            "--usage",
+            "-i",
+            "--info",
+            "-m",
+            "--modules",
+            "-v",
+            "--version",
+            "-s",
+            "--syntax-highlight",
+            "--syntax-highlighting",
+            "-w",
+            "--strip",
+            "--ini",
+            "-c",
+            "--php-ini",
+            "-d",
+            "--define",
+            "-f",
+            "--file",
+            "-r",
+            "--run",
+            "-B",
+            "--process-begin",
+            "-R",
+            "--process-code",
+            "-F",
+            "--process-file",
+            "-E",
+            "--process-end",
+            "-S",
+            "--server",
+            "-t",
+            "--docroot",
+            "-z",
+            "--zend-extension",
+            "--rf",
+            "--rfunction",
+            "--rc",
+            "--rclass",
+            "--re",
+            "--rextension",
+            "--rz",
+            "--rzendextension",
+            "--ri",
+            "--rextinfo"
+          ]
+        },
+        "cwd": {
+          "within": {
+            "root": "read"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Parse PHP source for syntax errors without executing it or loading php.ini.",
+      "requirements": {
+        "argument_paths": {
+          "grammar": {
+            "kind": "options",
+            "prefix": [],
+            "flags": [
+              "-n",
+              "--no-php-ini",
+              "-l",
+              "--syntax-check",
+              "-e",
+              "--profile-info",
+              "-q",
+              "--no-header",
+              "-H",
+              "--hide-args",
+              "-a",
+              "--interactive",
+              "-h",
+              "--help",
+              "--usage",
+              "-i",
+              "--info",
+              "-m",
+              "--modules",
+              "-v",
+              "--version",
+              "-s",
+              "--syntax-highlight",
+              "--syntax-highlighting",
+              "-w",
+              "--strip",
+              "--ini"
+            ],
+            "values": [
+              "-c",
+              "--php-ini",
+              "-d",
+              "--define",
+              "-f",
+              "--file",
+              "-r",
+              "--run",
+              "-B",
+              "--process-begin",
+              "-R",
+              "--process-code",
+              "-F",
+              "--process-file",
+              "-E",
+              "--process-end",
+              "-S",
+              "--server",
+              "-t",
+              "--docroot",
+              "-z",
+              "--zend-extension",
+              "--rf",
+              "--rfunction",
+              "--rc",
+              "--rclass",
+              "--re",
+              "--rextension",
+              "--rz",
+              "--rzendextension",
+              "--ri",
+              "--rextinfo"
+            ],
+            "parse": "stop_at_operand",
+            "operands": {
+              "match": {
+                "regex": "[^-\\x00\\r\\n][^\\x00\\r\\n]*"
+              },
+              "min": 1,
+              "max": 32
+            },
+            "require_all": [
+              "--no-php-ini"
+            ],
+            "require_any": [
+              "-l",
+              "--syntax-check"
+            ],
+            "forbid": [
+              "-a",
+              "--interactive",
+              "-h",
+              "--help",
+              "--usage",
+              "-i",
+              "--info",
+              "-m",
+              "--modules",
+              "-v",
+              "--version",
+              "-s",
+              "--syntax-highlight",
+              "--syntax-highlighting",
+              "-w",
+              "--strip",
+              "--ini",
+              "-c",
+              "--php-ini",
+              "-d",
+              "--define",
+              "-f",
+              "--file",
+              "-r",
+              "--run",
+              "-B",
+              "--process-begin",
+              "-R",
+              "--process-code",
+              "-F",
+              "--process-file",
+              "-E",
+              "--process-end",
+              "-S",
+              "--server",
+              "-t",
+              "--docroot",
+              "-z",
+              "--zend-extension",
+              "--rf",
+              "--rfunction",
+              "--rc",
+              "--rclass",
+              "--re",
+              "--rextension",
+              "--rz",
+              "--rzendextension",
+              "--ri",
+              "--rextinfo"
+            ]
+          },
+          "operands": {
+            "path": {
+              "within": {
+                "root": "read"
+              },
+              "exclude": [
+                {
+                  "root": "project",
+                  "path": ".git"
+                },
+                {
+                  "root": "project",
+                  "path": ".shield"
+                },
+                {
+                  "root": "project",
+                  "path": ".ssh"
+                },
+                {
+                  "root": "project",
+                  "path": ".aws"
+                },
+                {
+                  "root": "project",
+                  "path": ".env"
+                },
+                {
+                  "root": "project",
+                  "path": ".mcp.json"
+                },
+                {
+                  "root": "project",
+                  "path": ".codex"
+                },
+                {
+                  "root": "project",
+                  "path": ".claude"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "on_unmet": {
+        "decision": "deny",
+        "message": "Lint source files inside approved readable roots away from protected state."
+      }
+    },
+    {
+      "id": "php-destructive-artisan",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "php",
+            "/usr/bin/php",
+            "/usr/local/bin/php",
+            "/opt/homebrew/bin/php"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [],
+          "any_of": [
+            "migrate:fresh",
+            "migrate:refresh",
+            "migrate:reset",
+            "migrate:rollback",
+            "db:wipe",
+            "key:generate",
+            "env:decrypt",
+            "queue:clear",
+            "queue:flush",
+            "queue:forget",
+            "horizon:clear"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review rollback/reset, database deletion, key rotation, decrypted secrets and queue deletion."
+    },
+    {
+      "id": "artisan-destructive-artisan",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "artisan",
+            "/usr/bin/artisan",
+            "/usr/local/bin/artisan",
+            "/opt/homebrew/bin/artisan",
+            "vendor/bin/artisan",
+            "./vendor/bin/artisan",
+            "./artisan"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [],
+          "any_of": [
+            "migrate:fresh",
+            "migrate:refresh",
+            "migrate:reset",
+            "migrate:rollback",
+            "db:wipe",
+            "key:generate",
+            "env:decrypt",
+            "queue:clear",
+            "queue:flush",
+            "queue:forget",
+            "horizon:clear"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review rollback/reset, database deletion, key rotation, decrypted secrets and queue deletion."
+    },
+    {
+      "id": "sail-destructive-artisan",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "sail",
+            "/usr/bin/sail",
+            "/usr/local/bin/sail",
+            "/opt/homebrew/bin/sail",
+            "vendor/bin/sail",
+            "./vendor/bin/sail"
+          ]
+        },
+        "arguments": {
+          "kind": "risk_tokens",
+          "prefix": [],
+          "any_of": [
+            "migrate:fresh",
+            "migrate:refresh",
+            "migrate:reset",
+            "migrate:rollback",
+            "db:wipe",
+            "key:generate",
+            "env:decrypt",
+            "queue:clear",
+            "queue:flush",
+            "queue:forget",
+            "horizon:clear"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review rollback/reset, database deletion, key rotation, decrypted secrets and queue deletion."
+    }
+  ]
+}

@@ -1,0 +1,7140 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "cloudflare-998-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "proxy-dns"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-999-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tail"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1000-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "service",
+        "install"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1001-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "service",
+        "uninstall"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1002-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "access",
+        "login"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1003-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "access",
+        "curl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1004-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "access",
+        "token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1005-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "access",
+        "tcp"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1006-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "access",
+        "rdp"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1007-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "access",
+        "ssh"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1008-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "access",
+        "smb"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1009-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "access",
+        "ssh-config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1010-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "access",
+        "ssh-gen"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1011-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "forward",
+        "login"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1012-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "forward",
+        "curl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1013-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "forward",
+        "token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1014-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "forward",
+        "tcp"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1015-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "forward",
+        "rdp"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1016-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "forward",
+        "ssh"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1017-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "forward",
+        "smb"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1018-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "forward",
+        "ssh-config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1019-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "forward",
+        "ssh-gen"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1020-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "login"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1021-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "create"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1022-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "route",
+        "dns"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1023-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "route",
+        "lb"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1024-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "route",
+        "ip",
+        "add"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1025-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "route",
+        "ip",
+        "show"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1026-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "route",
+        "ip",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1027-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "route",
+        "ip",
+        "delete"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1028-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "route",
+        "ip",
+        "get"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1029-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "vnet",
+        "add"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1030-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "vnet",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1031-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "vnet",
+        "delete"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1032-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "vnet",
+        "update"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1033-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1034-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1035-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "ready"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1036-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "info"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1037-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "delete"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1038-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "cleanup"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1039-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1040-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "diag"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1041-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "proxy-dns"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1042-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "ingress",
+        "validate"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1043-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "ingress",
+        "rule"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1044-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1045-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1046-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1047-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1048-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "deploy",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1049-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "dev",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1050-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "pages",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1051-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "kv",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1052-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "r2",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1053-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "d1",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1054-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "secret",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1055-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "secrets-store",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1056-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "tunnel",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1057-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "versions",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1058-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1059-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1060-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "-V"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1061-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1062-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1063-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1064-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1065-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1066-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1067-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1068-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "access",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1069-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "access",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1070-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "service",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1071-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "service",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1072-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "route",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1073-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "route",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1074-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "route",
+        "ip",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1075-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "route",
+        "ip",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1076-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "vnet",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1077-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "vnet",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1078-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "delete",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1079-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "delete",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1080-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "cleanup",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1081-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "cleanup",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1082-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "run",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1083-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "run",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cloudflare-1084-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "deploy",
+        "src/index.ts",
+        "--env",
+        "production"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1085-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "deploy",
+        "src/index.ts",
+        "--env",
+        "production"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1086-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "deploy",
+        "src/index.ts",
+        "--env",
+        "production"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1087-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "deploy",
+        "src/index.ts",
+        "--env",
+        "production"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1088-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "deploy",
+        "src/index.ts",
+        "--env",
+        "production"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1089-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "deploy",
+        "src/index.ts",
+        "--env",
+        "production"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1090-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "deploy",
+        "src/index.ts",
+        "--env",
+        "production"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1091-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "deploy",
+        "src/index.ts",
+        "--env",
+        "production"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1092-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "deploy",
+        "src/index.ts",
+        "--env",
+        "production"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1093-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "deploy",
+        "src/index.ts",
+        "--env",
+        "production"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1094-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "deploy",
+        "src/index.ts",
+        "--env",
+        "production"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1095-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "deploy",
+        "src/index.ts",
+        "--env",
+        "production"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1096-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "deploy",
+        "--dry-run",
+        "--outdir",
+        "/outside/build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1097-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "deploy",
+        "--dry-run",
+        "--outdir",
+        "/outside/build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1098-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "deploy",
+        "--dry-run",
+        "--outdir",
+        "/outside/build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1099-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "deploy",
+        "--dry-run",
+        "--outdir",
+        "/outside/build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1100-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "deploy",
+        "--dry-run",
+        "--outdir",
+        "/outside/build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1101-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "deploy",
+        "--dry-run",
+        "--outdir",
+        "/outside/build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1102-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "deploy",
+        "--dry-run",
+        "--outdir",
+        "/outside/build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1103-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "deploy",
+        "--dry-run",
+        "--outdir",
+        "/outside/build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1104-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "deploy",
+        "--dry-run",
+        "--outdir",
+        "/outside/build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1105-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "deploy",
+        "--dry-run",
+        "--outdir",
+        "/outside/build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1106-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "deploy",
+        "--dry-run",
+        "--outdir",
+        "/outside/build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1107-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "deploy",
+        "--dry-run",
+        "--outdir",
+        "/outside/build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1108-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "deploy",
+        "--temporary"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1109-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "deploy",
+        "--temporary"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1110-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "deploy",
+        "--temporary"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1111-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "deploy",
+        "--temporary"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1112-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "deploy",
+        "--temporary"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1113-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "deploy",
+        "--temporary"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1114-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "deploy",
+        "--temporary"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1115-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "deploy",
+        "--temporary"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1116-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "deploy",
+        "--temporary"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1117-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "deploy",
+        "--temporary"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1118-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "deploy",
+        "--temporary"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1119-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "deploy",
+        "--temporary"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1120-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "dev",
+        "--local",
+        "--ip",
+        "0.0.0.0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1121-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "dev",
+        "--local",
+        "--ip",
+        "0.0.0.0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1122-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "dev",
+        "--local",
+        "--ip",
+        "0.0.0.0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1123-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "dev",
+        "--local",
+        "--ip",
+        "0.0.0.0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1124-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "dev",
+        "--local",
+        "--ip",
+        "0.0.0.0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1125-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "dev",
+        "--local",
+        "--ip",
+        "0.0.0.0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1126-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "dev",
+        "--local",
+        "--ip",
+        "0.0.0.0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1127-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "dev",
+        "--local",
+        "--ip",
+        "0.0.0.0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1128-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "dev",
+        "--local",
+        "--ip",
+        "0.0.0.0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1129-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "dev",
+        "--local",
+        "--ip",
+        "0.0.0.0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1130-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "dev",
+        "--local",
+        "--ip",
+        "0.0.0.0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1131-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "dev",
+        "--local",
+        "--ip",
+        "0.0.0.0"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1132-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "dev",
+        "--remote",
+        "--tunnel",
+        "--tunnel-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1133-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "dev",
+        "--remote",
+        "--tunnel",
+        "--tunnel-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1134-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "dev",
+        "--remote",
+        "--tunnel",
+        "--tunnel-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1135-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "dev",
+        "--remote",
+        "--tunnel",
+        "--tunnel-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1136-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "dev",
+        "--remote",
+        "--tunnel",
+        "--tunnel-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1137-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "dev",
+        "--remote",
+        "--tunnel",
+        "--tunnel-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1138-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "dev",
+        "--remote",
+        "--tunnel",
+        "--tunnel-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1139-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "dev",
+        "--remote",
+        "--tunnel",
+        "--tunnel-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1140-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "dev",
+        "--remote",
+        "--tunnel",
+        "--tunnel-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1141-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "dev",
+        "--remote",
+        "--tunnel",
+        "--tunnel-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1142-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "dev",
+        "--remote",
+        "--tunnel",
+        "--tunnel-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1143-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "dev",
+        "--remote",
+        "--tunnel",
+        "--tunnel-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1144-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "pages",
+        "deploy",
+        "dist",
+        "--project-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1145-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "pages",
+        "deploy",
+        "dist",
+        "--project-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1146-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "pages",
+        "deploy",
+        "dist",
+        "--project-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1147-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "pages",
+        "deploy",
+        "dist",
+        "--project-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1148-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "pages",
+        "deploy",
+        "dist",
+        "--project-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1149-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "pages",
+        "deploy",
+        "dist",
+        "--project-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1150-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "pages",
+        "deploy",
+        "dist",
+        "--project-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1151-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "pages",
+        "deploy",
+        "dist",
+        "--project-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1152-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "pages",
+        "deploy",
+        "dist",
+        "--project-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1153-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "pages",
+        "deploy",
+        "dist",
+        "--project-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1154-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "pages",
+        "deploy",
+        "dist",
+        "--project-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1155-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "pages",
+        "deploy",
+        "dist",
+        "--project-name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1156-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "pages",
+        "dev",
+        "dist",
+        "--",
+        "node",
+        "server.js"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1157-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "pages",
+        "dev",
+        "dist",
+        "--",
+        "node",
+        "server.js"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1158-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "pages",
+        "dev",
+        "dist",
+        "--",
+        "node",
+        "server.js"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1159-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "pages",
+        "dev",
+        "dist",
+        "--",
+        "node",
+        "server.js"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1160-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "pages",
+        "dev",
+        "dist",
+        "--",
+        "node",
+        "server.js"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1161-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "pages",
+        "dev",
+        "dist",
+        "--",
+        "node",
+        "server.js"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1162-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "pages",
+        "dev",
+        "dist",
+        "--",
+        "node",
+        "server.js"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1163-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "pages",
+        "dev",
+        "dist",
+        "--",
+        "node",
+        "server.js"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1164-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "pages",
+        "dev",
+        "dist",
+        "--",
+        "node",
+        "server.js"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1165-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "pages",
+        "dev",
+        "dist",
+        "--",
+        "node",
+        "server.js"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1166-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "pages",
+        "dev",
+        "dist",
+        "--",
+        "node",
+        "server.js"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1167-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "pages",
+        "dev",
+        "dist",
+        "--",
+        "node",
+        "server.js"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1168-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "types",
+        "worker-configuration.d.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1169-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "types",
+        "worker-configuration.d.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1170-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "types",
+        "worker-configuration.d.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1171-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "types",
+        "worker-configuration.d.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1172-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "types",
+        "worker-configuration.d.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1173-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "types",
+        "worker-configuration.d.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1174-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "types",
+        "worker-configuration.d.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1175-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "types",
+        "worker-configuration.d.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1176-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "types",
+        "worker-configuration.d.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1177-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "types",
+        "worker-configuration.d.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1178-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "types",
+        "worker-configuration.d.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1179-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "types",
+        "worker-configuration.d.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1180-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "secret",
+        "put",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1181-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "secret",
+        "put",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1182-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "secret",
+        "put",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1183-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "secret",
+        "put",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1184-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "secret",
+        "put",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1185-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "secret",
+        "put",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1186-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "secret",
+        "put",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1187-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "secret",
+        "put",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1188-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "secret",
+        "put",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1189-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "secret",
+        "put",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1190-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "secret",
+        "put",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1191-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "secret",
+        "put",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1192-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "secret",
+        "bulk",
+        "/outside/secrets.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1193-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "secret",
+        "bulk",
+        "/outside/secrets.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1194-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "secret",
+        "bulk",
+        "/outside/secrets.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1195-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "secret",
+        "bulk",
+        "/outside/secrets.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1196-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "secret",
+        "bulk",
+        "/outside/secrets.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1197-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "secret",
+        "bulk",
+        "/outside/secrets.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1198-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "secret",
+        "bulk",
+        "/outside/secrets.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1199-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "secret",
+        "bulk",
+        "/outside/secrets.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1200-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "secret",
+        "bulk",
+        "/outside/secrets.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1201-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "secret",
+        "bulk",
+        "/outside/secrets.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1202-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "secret",
+        "bulk",
+        "/outside/secrets.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1203-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "secret",
+        "bulk",
+        "/outside/secrets.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1204-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "secret",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1205-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "secret",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1206-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "secret",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1207-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "secret",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1208-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "secret",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1209-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "secret",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1210-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "secret",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1211-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "secret",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1212-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "secret",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1213-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "secret",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1214-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "secret",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1215-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "secret",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1216-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "secrets-store",
+        "secret",
+        "get",
+        "ExampleStore",
+        "ExampleSecret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1217-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "secrets-store",
+        "secret",
+        "get",
+        "ExampleStore",
+        "ExampleSecret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1218-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "secrets-store",
+        "secret",
+        "get",
+        "ExampleStore",
+        "ExampleSecret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1219-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "secrets-store",
+        "secret",
+        "get",
+        "ExampleStore",
+        "ExampleSecret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1220-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "secrets-store",
+        "secret",
+        "get",
+        "ExampleStore",
+        "ExampleSecret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1221-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "secrets-store",
+        "secret",
+        "get",
+        "ExampleStore",
+        "ExampleSecret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1222-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "secrets-store",
+        "secret",
+        "get",
+        "ExampleStore",
+        "ExampleSecret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1223-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "secrets-store",
+        "secret",
+        "get",
+        "ExampleStore",
+        "ExampleSecret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1224-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "secrets-store",
+        "secret",
+        "get",
+        "ExampleStore",
+        "ExampleSecret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1225-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "secrets-store",
+        "secret",
+        "get",
+        "ExampleStore",
+        "ExampleSecret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1226-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "secrets-store",
+        "secret",
+        "get",
+        "ExampleStore",
+        "ExampleSecret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1227-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "secrets-store",
+        "secret",
+        "get",
+        "ExampleStore",
+        "ExampleSecret"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1228-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "kv",
+        "key",
+        "get",
+        "example-key",
+        "--namespace-id",
+        "ExampleNamespace"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1229-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "kv",
+        "key",
+        "get",
+        "example-key",
+        "--namespace-id",
+        "ExampleNamespace"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1230-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "kv",
+        "key",
+        "get",
+        "example-key",
+        "--namespace-id",
+        "ExampleNamespace"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1231-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "kv",
+        "key",
+        "get",
+        "example-key",
+        "--namespace-id",
+        "ExampleNamespace"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1232-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "kv",
+        "key",
+        "get",
+        "example-key",
+        "--namespace-id",
+        "ExampleNamespace"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1233-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "kv",
+        "key",
+        "get",
+        "example-key",
+        "--namespace-id",
+        "ExampleNamespace"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1234-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "kv",
+        "key",
+        "get",
+        "example-key",
+        "--namespace-id",
+        "ExampleNamespace"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1235-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "kv",
+        "key",
+        "get",
+        "example-key",
+        "--namespace-id",
+        "ExampleNamespace"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1236-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "kv",
+        "key",
+        "get",
+        "example-key",
+        "--namespace-id",
+        "ExampleNamespace"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1237-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "kv",
+        "key",
+        "get",
+        "example-key",
+        "--namespace-id",
+        "ExampleNamespace"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1238-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "kv",
+        "key",
+        "get",
+        "example-key",
+        "--namespace-id",
+        "ExampleNamespace"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1239-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "kv",
+        "key",
+        "get",
+        "example-key",
+        "--namespace-id",
+        "ExampleNamespace"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1240-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "kv",
+        "key",
+        "put",
+        "example-key",
+        "example-value",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1241-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "kv",
+        "key",
+        "put",
+        "example-key",
+        "example-value",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1242-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "kv",
+        "key",
+        "put",
+        "example-key",
+        "example-value",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1243-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "kv",
+        "key",
+        "put",
+        "example-key",
+        "example-value",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1244-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "kv",
+        "key",
+        "put",
+        "example-key",
+        "example-value",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1245-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "kv",
+        "key",
+        "put",
+        "example-key",
+        "example-value",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1246-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "kv",
+        "key",
+        "put",
+        "example-key",
+        "example-value",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1247-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "kv",
+        "key",
+        "put",
+        "example-key",
+        "example-value",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1248-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "kv",
+        "key",
+        "put",
+        "example-key",
+        "example-value",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1249-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "kv",
+        "key",
+        "put",
+        "example-key",
+        "example-value",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1250-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "kv",
+        "key",
+        "put",
+        "example-key",
+        "example-value",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1251-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "kv",
+        "key",
+        "put",
+        "example-key",
+        "example-value",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1252-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "r2",
+        "object",
+        "get",
+        "acme/file",
+        "--file",
+        "/outside/download"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1253-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "r2",
+        "object",
+        "get",
+        "acme/file",
+        "--file",
+        "/outside/download"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1254-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "r2",
+        "object",
+        "get",
+        "acme/file",
+        "--file",
+        "/outside/download"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1255-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "r2",
+        "object",
+        "get",
+        "acme/file",
+        "--file",
+        "/outside/download"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1256-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "r2",
+        "object",
+        "get",
+        "acme/file",
+        "--file",
+        "/outside/download"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1257-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "r2",
+        "object",
+        "get",
+        "acme/file",
+        "--file",
+        "/outside/download"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1258-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "r2",
+        "object",
+        "get",
+        "acme/file",
+        "--file",
+        "/outside/download"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1259-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "r2",
+        "object",
+        "get",
+        "acme/file",
+        "--file",
+        "/outside/download"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1260-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "r2",
+        "object",
+        "get",
+        "acme/file",
+        "--file",
+        "/outside/download"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1261-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "r2",
+        "object",
+        "get",
+        "acme/file",
+        "--file",
+        "/outside/download"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1262-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "r2",
+        "object",
+        "get",
+        "acme/file",
+        "--file",
+        "/outside/download"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1263-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "r2",
+        "object",
+        "get",
+        "acme/file",
+        "--file",
+        "/outside/download"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1264-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "r2",
+        "object",
+        "put",
+        "acme/file",
+        "--file",
+        "/outside/private.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1265-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "r2",
+        "object",
+        "put",
+        "acme/file",
+        "--file",
+        "/outside/private.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1266-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "r2",
+        "object",
+        "put",
+        "acme/file",
+        "--file",
+        "/outside/private.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1267-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "r2",
+        "object",
+        "put",
+        "acme/file",
+        "--file",
+        "/outside/private.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1268-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "r2",
+        "object",
+        "put",
+        "acme/file",
+        "--file",
+        "/outside/private.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1269-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "r2",
+        "object",
+        "put",
+        "acme/file",
+        "--file",
+        "/outside/private.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1270-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "r2",
+        "object",
+        "put",
+        "acme/file",
+        "--file",
+        "/outside/private.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1271-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "r2",
+        "object",
+        "put",
+        "acme/file",
+        "--file",
+        "/outside/private.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1272-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "r2",
+        "object",
+        "put",
+        "acme/file",
+        "--file",
+        "/outside/private.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1273-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "r2",
+        "object",
+        "put",
+        "acme/file",
+        "--file",
+        "/outside/private.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1274-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "r2",
+        "object",
+        "put",
+        "acme/file",
+        "--file",
+        "/outside/private.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1275-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "r2",
+        "object",
+        "put",
+        "acme/file",
+        "--file",
+        "/outside/private.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1276-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--local",
+        "--command",
+        "SELECT 1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1277-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--local",
+        "--command",
+        "SELECT 1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1278-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--local",
+        "--command",
+        "SELECT 1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1279-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--local",
+        "--command",
+        "SELECT 1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1280-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--local",
+        "--command",
+        "SELECT 1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1281-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--local",
+        "--command",
+        "SELECT 1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1282-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--local",
+        "--command",
+        "SELECT 1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1283-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--local",
+        "--command",
+        "SELECT 1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1284-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--local",
+        "--command",
+        "SELECT 1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1285-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--local",
+        "--command",
+        "SELECT 1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1286-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--local",
+        "--command",
+        "SELECT 1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1287-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--local",
+        "--command",
+        "SELECT 1"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1288-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--remote",
+        "--file",
+        "/outside/query.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1289-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--remote",
+        "--file",
+        "/outside/query.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1290-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--remote",
+        "--file",
+        "/outside/query.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1291-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--remote",
+        "--file",
+        "/outside/query.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1292-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--remote",
+        "--file",
+        "/outside/query.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1293-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--remote",
+        "--file",
+        "/outside/query.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1294-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--remote",
+        "--file",
+        "/outside/query.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1295-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--remote",
+        "--file",
+        "/outside/query.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1296-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--remote",
+        "--file",
+        "/outside/query.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1297-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--remote",
+        "--file",
+        "/outside/query.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1298-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--remote",
+        "--file",
+        "/outside/query.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1299-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "d1",
+        "execute",
+        "acme",
+        "--remote",
+        "--file",
+        "/outside/query.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1300-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "d1",
+        "export",
+        "acme",
+        "--remote",
+        "--output",
+        "/outside/data.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1301-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "d1",
+        "export",
+        "acme",
+        "--remote",
+        "--output",
+        "/outside/data.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1302-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "d1",
+        "export",
+        "acme",
+        "--remote",
+        "--output",
+        "/outside/data.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1303-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "d1",
+        "export",
+        "acme",
+        "--remote",
+        "--output",
+        "/outside/data.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1304-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "d1",
+        "export",
+        "acme",
+        "--remote",
+        "--output",
+        "/outside/data.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1305-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "d1",
+        "export",
+        "acme",
+        "--remote",
+        "--output",
+        "/outside/data.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1306-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "d1",
+        "export",
+        "acme",
+        "--remote",
+        "--output",
+        "/outside/data.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1307-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "d1",
+        "export",
+        "acme",
+        "--remote",
+        "--output",
+        "/outside/data.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1308-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "d1",
+        "export",
+        "acme",
+        "--remote",
+        "--output",
+        "/outside/data.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1309-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "d1",
+        "export",
+        "acme",
+        "--remote",
+        "--output",
+        "/outside/data.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1310-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "d1",
+        "export",
+        "acme",
+        "--remote",
+        "--output",
+        "/outside/data.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1311-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "d1",
+        "export",
+        "acme",
+        "--remote",
+        "--output",
+        "/outside/data.sql"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1312-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "d1",
+        "migrations",
+        "apply",
+        "acme",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1313-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "d1",
+        "migrations",
+        "apply",
+        "acme",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1314-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "d1",
+        "migrations",
+        "apply",
+        "acme",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1315-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "d1",
+        "migrations",
+        "apply",
+        "acme",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1316-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "d1",
+        "migrations",
+        "apply",
+        "acme",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1317-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "d1",
+        "migrations",
+        "apply",
+        "acme",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1318-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "d1",
+        "migrations",
+        "apply",
+        "acme",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1319-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "d1",
+        "migrations",
+        "apply",
+        "acme",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1320-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "d1",
+        "migrations",
+        "apply",
+        "acme",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1321-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "d1",
+        "migrations",
+        "apply",
+        "acme",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1322-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "d1",
+        "migrations",
+        "apply",
+        "acme",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1323-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "d1",
+        "migrations",
+        "apply",
+        "acme",
+        "--local"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1324-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "auth",
+        "token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1325-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "auth",
+        "token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1326-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "auth",
+        "token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1327-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "auth",
+        "token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1328-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "auth",
+        "token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1329-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "auth",
+        "token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1330-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "auth",
+        "token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1331-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "auth",
+        "token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1332-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "auth",
+        "token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1333-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "auth",
+        "token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1334-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "auth",
+        "token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1335-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "auth",
+        "token"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1336-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "whoami"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1337-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "whoami"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1338-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "whoami"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1339-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "whoami"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1340-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "whoami"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1341-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "whoami"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1342-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "whoami"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1343-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "whoami"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1344-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "whoami"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1345-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "whoami"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1346-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "whoami"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1347-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "whoami"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1348-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "tunnel",
+        "run",
+        "acme",
+        "--url",
+        "http://127.0.0.1:8787"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1349-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "tunnel",
+        "run",
+        "acme",
+        "--url",
+        "http://127.0.0.1:8787"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1350-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "tunnel",
+        "run",
+        "acme",
+        "--url",
+        "http://127.0.0.1:8787"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1351-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "tunnel",
+        "run",
+        "acme",
+        "--url",
+        "http://127.0.0.1:8787"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1352-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "tunnel",
+        "run",
+        "acme",
+        "--url",
+        "http://127.0.0.1:8787"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1353-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "tunnel",
+        "run",
+        "acme",
+        "--url",
+        "http://127.0.0.1:8787"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1354-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "tunnel",
+        "run",
+        "acme",
+        "--url",
+        "http://127.0.0.1:8787"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1355-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "tunnel",
+        "run",
+        "acme",
+        "--url",
+        "http://127.0.0.1:8787"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1356-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "tunnel",
+        "run",
+        "acme",
+        "--url",
+        "http://127.0.0.1:8787"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1357-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "tunnel",
+        "run",
+        "acme",
+        "--url",
+        "http://127.0.0.1:8787"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1358-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "tunnel",
+        "run",
+        "acme",
+        "--url",
+        "http://127.0.0.1:8787"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1359-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "tunnel",
+        "run",
+        "acme",
+        "--url",
+        "http://127.0.0.1:8787"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1360-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "delete",
+        "--name",
+        "acme",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1361-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "delete",
+        "--name",
+        "acme",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1362-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "delete",
+        "--name",
+        "acme",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1363-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "delete",
+        "--name",
+        "acme",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1364-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "delete",
+        "--name",
+        "acme",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1365-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "delete",
+        "--name",
+        "acme",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1366-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "delete",
+        "--name",
+        "acme",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1367-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "delete",
+        "--name",
+        "acme",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1368-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "delete",
+        "--name",
+        "acme",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1369-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "delete",
+        "--name",
+        "acme",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1370-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "delete",
+        "--name",
+        "acme",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1371-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "delete",
+        "--name",
+        "acme",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1372-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1373-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1374-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1375-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1376-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1377-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1378-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1379-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1380-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1381-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1382-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1383-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1384-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "kv",
+        "bulk",
+        "delete",
+        "keys.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1385-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "kv",
+        "bulk",
+        "delete",
+        "keys.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1386-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "kv",
+        "bulk",
+        "delete",
+        "keys.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1387-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "kv",
+        "bulk",
+        "delete",
+        "keys.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1388-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "kv",
+        "bulk",
+        "delete",
+        "keys.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1389-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "kv",
+        "bulk",
+        "delete",
+        "keys.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1390-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "kv",
+        "bulk",
+        "delete",
+        "keys.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1391-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "kv",
+        "bulk",
+        "delete",
+        "keys.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1392-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "kv",
+        "bulk",
+        "delete",
+        "keys.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1393-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "kv",
+        "bulk",
+        "delete",
+        "keys.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1394-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "kv",
+        "bulk",
+        "delete",
+        "keys.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1395-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "kv",
+        "bulk",
+        "delete",
+        "keys.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1396-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "secret",
+        "delete",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1397-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "secret",
+        "delete",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1398-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "secret",
+        "delete",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1399-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "secret",
+        "delete",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1400-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "secret",
+        "delete",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1401-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "secret",
+        "delete",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1402-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "secret",
+        "delete",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1403-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "secret",
+        "delete",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1404-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "secret",
+        "delete",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1405-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "secret",
+        "delete",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1406-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "secret",
+        "delete",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1407-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "secret",
+        "delete",
+        "API_TOKEN"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1408-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "d1",
+        "time-travel",
+        "restore",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1409-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "d1",
+        "time-travel",
+        "restore",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1410-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "d1",
+        "time-travel",
+        "restore",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1411-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "d1",
+        "time-travel",
+        "restore",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1412-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "d1",
+        "time-travel",
+        "restore",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1413-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "d1",
+        "time-travel",
+        "restore",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1414-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "d1",
+        "time-travel",
+        "restore",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1415-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "d1",
+        "time-travel",
+        "restore",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1416-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "d1",
+        "time-travel",
+        "restore",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1417-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "d1",
+        "time-travel",
+        "restore",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1418-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "d1",
+        "time-travel",
+        "restore",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1419-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "d1",
+        "time-travel",
+        "restore",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1420-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "queues",
+        "purge",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1421-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "queues",
+        "purge",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1422-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "queues",
+        "purge",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1423-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "queues",
+        "purge",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1424-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "queues",
+        "purge",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1425-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "queues",
+        "purge",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1426-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "queues",
+        "purge",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1427-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "queues",
+        "purge",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1428-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "queues",
+        "purge",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1429-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "queues",
+        "purge",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1430-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "queues",
+        "purge",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1431-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "queues",
+        "purge",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1432-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "pages",
+        "project",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1433-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "pages",
+        "project",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1434-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "pages",
+        "project",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1435-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "pages",
+        "project",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1436-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "pages",
+        "project",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1437-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "pages",
+        "project",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1438-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "pages",
+        "project",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1439-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "pages",
+        "project",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1440-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "pages",
+        "project",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1441-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "pages",
+        "project",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1442-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "pages",
+        "project",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1443-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "pages",
+        "project",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1444-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "pipelines",
+        "streams",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1445-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "pipelines",
+        "streams",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1446-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "pipelines",
+        "streams",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1447-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "pipelines",
+        "streams",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1448-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "pipelines",
+        "streams",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1449-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "pipelines",
+        "streams",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1450-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "pipelines",
+        "streams",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1451-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "pipelines",
+        "streams",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1452-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "pipelines",
+        "streams",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1453-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "pipelines",
+        "streams",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1454-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "pipelines",
+        "streams",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1455-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "pipelines",
+        "streams",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1456-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1457-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1458-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler@4.167.0",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1459-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "wrangler",
+        "--config=/outside/wrangler.jsonc",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1460-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1461-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1462-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler@4.167.0",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1463-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "wrangler",
+        "--config=/outside/wrangler.jsonc",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1464-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1465-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1466-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler@4.167.0",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1467-strict",
+      "profile": "strict",
+      "argv": [
+        "npm",
+        "exec",
+        "--",
+        "wrangler",
+        "--config=/outside/wrangler.jsonc",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1468-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1469-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1470-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler@4.167.0",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1471-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "wrangler",
+        "--config=/outside/wrangler.jsonc",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1472-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1473-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1474-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler@4.167.0",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1475-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "exec",
+        "wrangler",
+        "--config=/outside/wrangler.jsonc",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1476-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1477-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1478-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler@4.167.0",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1479-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "dlx",
+        "wrangler",
+        "--config=/outside/wrangler.jsonc",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1480-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1481-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1482-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler@4.167.0",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1483-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "wrangler",
+        "--config=/outside/wrangler.jsonc",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1484-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1485-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1486-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler@4.167.0",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1487-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "exec",
+        "wrangler",
+        "--config=/outside/wrangler.jsonc",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1488-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1489-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1490-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler@4.167.0",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1491-strict",
+      "profile": "strict",
+      "argv": [
+        "yarn",
+        "dlx",
+        "wrangler",
+        "--config=/outside/wrangler.jsonc",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1492-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1493-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1494-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler@4.167.0",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1495-strict",
+      "profile": "strict",
+      "argv": [
+        "bunx",
+        "wrangler",
+        "--config=/outside/wrangler.jsonc",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1496-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1497-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1498-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler@4.167.0",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1499-strict",
+      "profile": "strict",
+      "argv": [
+        "bun",
+        "x",
+        "wrangler",
+        "--config=/outside/wrangler.jsonc",
+        "r2",
+        "bucket",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1500-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "--env",
+        "production",
+        "kv",
+        "--config",
+        "wrangler.toml",
+        "namespace",
+        "delete",
+        "ExampleNamespace"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1501-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "-cwrangler.toml",
+        "-eproduction",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1502-strict",
+      "profile": "strict",
+      "argv": [
+        "npx",
+        "-y",
+        "wrangler@latest",
+        "delete",
+        "--name",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1503-strict",
+      "profile": "strict",
+      "argv": [
+        "pnpm",
+        "--dir",
+        "/outside",
+        "exec",
+        "wrangler",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1504-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "--version",
+        "deploy"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1505-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "--help",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1506-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "--config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1507-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "--cwd",
+        "/outside",
+        "dev"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1508-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1509-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler",
+        "future-command"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1510-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1511-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "future-command"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1512-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "--url",
+        "http://localhost:8080"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1513-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "run",
+        "--token",
+        "example-placeholder"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1514-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "--config",
+        "/outside/config.yml",
+        "run",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1515-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "--logfile",
+        "/outside/tunnel.log",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1516-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "route",
+        "dns",
+        "acme",
+        "app.example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1517-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "route",
+        "ip",
+        "add",
+        "192.0.2.0/24",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1518-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "access",
+        "curl",
+        "https://example.com",
+        "-X",
+        "POST",
+        "--data",
+        "@payload.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1519-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "access",
+        "ssh",
+        "--hostname",
+        "ssh.example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1520-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "access",
+        "token",
+        "--app",
+        "https://example.com"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1521-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "service",
+        "install",
+        "example-placeholder"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1522-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "--config",
+        "tunnel.yml",
+        "delete",
+        "acme",
+        "--force"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1523-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "--region",
+        "us",
+        "tunnel",
+        "route",
+        "--origincert",
+        "/outside/cert.pem",
+        "ip",
+        "delete",
+        "192.0.2.0/24"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1524-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "cleanup",
+        "--connector-id",
+        "ExampleConnector",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1525-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "vnet",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1526-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "service",
+        "uninstall"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1527-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "delete"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1528-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared",
+        "tunnel",
+        "--config"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1529-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/wrangler",
+        "deploy",
+        "src/index.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1530-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/wrangler",
+        "deploy",
+        "src/index.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1531-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/wrangler",
+        "deploy",
+        "src/index.ts"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1532-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/wrangler",
+        "deploy",
+        "src/index.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloudflare-1533-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler-unrelated",
+        "deploy",
+        "src/index.ts"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloudflare-1534-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/wrangler",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1535-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/wrangler",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1536-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/wrangler",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1537-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/wrangler",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloudflare-1538-strict",
+      "profile": "strict",
+      "argv": [
+        "wrangler-unrelated",
+        "d1",
+        "delete",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloudflare-1539-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/cloudflared",
+        "tunnel",
+        "run",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1540-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/cloudflared",
+        "tunnel",
+        "run",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1541-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/cloudflared",
+        "tunnel",
+        "run",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1542-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/cloudflared",
+        "tunnel",
+        "run",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloudflare-1543-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared-unrelated",
+        "tunnel",
+        "run",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloudflare-1544-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/cloudflared",
+        "tunnel",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1545-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/cloudflared",
+        "tunnel",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1546-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/cloudflared",
+        "tunnel",
+        "delete",
+        "acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "cloudflare-1547-strict",
+      "profile": "strict",
+      "argv": [
+        "/outside/bin/cloudflared",
+        "tunnel",
+        "delete",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloudflare-1548-strict",
+      "profile": "strict",
+      "argv": [
+        "cloudflared-unrelated",
+        "tunnel",
+        "delete",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cloudflare-unmatched-mcp-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "mcp",
+        "server": "cloudflare",
+        "tool": "delete_worker",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "cloudflare-unmatched-mcp-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "mcp",
+        "server": "cloudflare",
+        "tool": "delete_worker",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "cloudflare-unmatched-mcp-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "mcp",
+        "server": "cloudflare",
+        "tool": "delete_worker",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

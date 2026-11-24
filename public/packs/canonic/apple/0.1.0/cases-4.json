@@ -1,0 +1,2335 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "apple-880-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "runtime",
+        "list",
+        "-j"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-881-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "runtime",
+        "match",
+        "list",
+        "--json-output",
+        "reports/runtimes.json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-882-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "list",
+        "--json-output=/outside/devices.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-883-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "list",
+        "--json-output",
+        "reports/a.json",
+        "--json-output",
+        ".shield/b.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-884-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "--set",
+        "/outside/simulators",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-885-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "--profiles=.ssh/profiles",
+        "list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-886-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "list",
+        "--json-output"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-887-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "runtime",
+        "list",
+        "--json-fd=3"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-888-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "--set",
+        "simulators",
+        "delete",
+        "all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-889-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "runtime",
+        "--set",
+        "simulators",
+        "delete",
+        "all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-890-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "runtime",
+        "delete",
+        "all",
+        "--dry-run"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-891-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "devicectl",
+        "list",
+        "devices"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-892-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "devicectl",
+        "list",
+        "preferredDDI"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-893-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "devicectl",
+        "--timeout",
+        "10",
+        "list",
+        "--json-output",
+        "reports/device.json",
+        "devices",
+        "--hide-headers"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-894-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "devicectl",
+        "list",
+        "devices",
+        "-jreports/devices.json",
+        "-lreports/device.log"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-895-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "devicectl",
+        "list",
+        "devices",
+        "--future-display",
+        "--sort-by",
+        "name"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-896-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "devicectl",
+        "list",
+        "devices",
+        "--json-output=/outside/devices.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-897-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "devicectl",
+        "list",
+        "devices",
+        "-j/outside/devices.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-898-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "devicectl",
+        "list",
+        "devices",
+        "-qj/outside/devices.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-899-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "devicectl",
+        "list",
+        "devices",
+        "--log-output",
+        ".git/device.log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-900-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "devicectl",
+        "list",
+        "devices",
+        "--filter",
+        "name BEGINSWITH \"Acme\""
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-901-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "devicectl",
+        "list",
+        "devices",
+        "--json-output"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-902-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "devicectl",
+        "-q",
+        "device",
+        "--timeout",
+        "5",
+        "uninstall",
+        "app",
+        "--device",
+        "ExampleDevice",
+        "com.example.acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-903-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "security",
+        "-v",
+        "delete-keychain",
+        "build/acme.keychain"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-904-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "xcodebuild",
+        "-scheme",
+        "Acme",
+        "build",
+        "-allowProvisioningUpdates",
+        "-authenticationKeyPath",
+        "/outside/key.p8"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-905-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "xcodebuild",
+        "-version",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-906-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "--version",
+        "main.swift"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-907-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "-e",
+        "print(1)"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-908-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "--package-path",
+        "/outside",
+        "package",
+        "describe"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-909-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "package",
+        "--disable-sandbox",
+        "plugin",
+        "--allow-writing-to-package-directory",
+        "AcmePlugin"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-910-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swiftlint",
+        "lint",
+        "--fix",
+        "--config",
+        "https://example.com/swiftlint.yml",
+        "Sources"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-911-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "pod",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-912-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "pod",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-913-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "pod",
+        "install",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-914-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "pod",
+        "install",
+        "--project-directory=/outside",
+        "--ignore-modules-dependencies"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-915-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "notarytool",
+        "submit"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-916-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "erase"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-917-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "devicectl",
+        "device",
+        "uninstall",
+        "app"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-918-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-919-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "format",
+        "-i",
+        "Sources/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-920-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "lint",
+        "--strict",
+        "Sources/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-921-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "--recursive",
+        "Sources"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-922-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "format",
+        "--configuration",
+        ".swift-format",
+        "--offsets",
+        "0:10",
+        "Sources/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-923-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "format",
+        "--future-display",
+        "Sources/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-924-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "format",
+        "-ir",
+        "Sources"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-925-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "format",
+        "--enable-experimental-feature",
+        "ExampleFeature",
+        "Sources/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-926-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "format",
+        "/outside/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-927-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "lint",
+        "../Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-928-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "format",
+        ".shield/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-929-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "format",
+        "Sources/Main.swift",
+        "/outside/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-930-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "format",
+        "--configuration=/outside/format.json",
+        "Sources"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-931-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "format",
+        "--configuration",
+        ".swift-format",
+        "--configuration",
+        ".ssh/config",
+        "Sources"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-932-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "format",
+        "--assume-filename=/outside/Main.swift",
+        "Sources"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-933-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "format",
+        "-"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-934-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "format",
+        "--",
+        "/outside/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-935-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "format",
+        "--follow-symlinks",
+        "Sources"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-936-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format",
+        "format",
+        "--configuration"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-937-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-938-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "-v"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-939-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-940-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-941-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "dump-configuration"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-942-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-943-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "format",
+        "-i",
+        "Sources/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-944-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "lint",
+        "--strict",
+        "Sources/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-945-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "--recursive",
+        "Sources"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-946-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "format",
+        "--configuration",
+        ".swift-format",
+        "--offsets",
+        "0:10",
+        "Sources/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-947-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "format",
+        "--future-display",
+        "Sources/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-948-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "format",
+        "-ir",
+        "Sources"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-949-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "format",
+        "--enable-experimental-feature",
+        "ExampleFeature",
+        "Sources/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-950-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "format",
+        "/outside/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-951-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "lint",
+        "../Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-952-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "format",
+        ".shield/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-953-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "format",
+        "Sources/Main.swift",
+        "/outside/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-954-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "format",
+        "--configuration=/outside/format.json",
+        "Sources"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-955-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "format",
+        "--configuration",
+        ".swift-format",
+        "--configuration",
+        ".ssh/config",
+        "Sources"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-956-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "format",
+        "--assume-filename=/outside/Main.swift",
+        "Sources"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-957-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "format",
+        "-"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-958-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "format",
+        "--",
+        "/outside/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-959-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "format",
+        "--follow-symlinks",
+        "Sources"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-960-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "format",
+        "format",
+        "--configuration"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-961-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "xcodebuild"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-962-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "xcodebuild",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-963-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "xcode-select"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-964-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "xcode-select",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-965-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "simctl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-966-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-967-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "devicectl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-968-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "devicectl",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-969-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "xctrace"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-970-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "xctrace",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-971-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-972-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-973-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swiftc"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-974-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swiftc",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-975-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swiftlint"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-976-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swiftlint",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-977-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "pod"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-978-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "pod",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-979-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "codesign"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-980-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "codesign",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-981-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "security"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-982-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "security",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-983-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "notarytool"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-984-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "notarytool",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-985-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "altool"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-986-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "altool",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-987-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "stapler"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-988-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "stapler",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-989-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "pkgbuild"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-990-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "pkgbuild",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-991-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "productbuild"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-992-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "productbuild",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-993-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "productsign"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-994-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "productsign",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-995-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "pkgutil"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-996-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "pkgutil",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-997-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "xcresulttool"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-998-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "xcresulttool",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-999-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "xccov"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1000-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "xccov",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1001-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "dsymutil"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1002-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "dsymutil",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1003-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "dwarfdump"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1004-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "dwarfdump",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1005-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "atos"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1006-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "atos",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1007-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "symbols"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1008-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "symbols",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1009-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "agvtool"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1010-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "agvtool",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1011-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "ibtool"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1012-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "ibtool",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1013-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "actool"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1014-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "actool",
+        "future-operation"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1015-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "swift-format"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-1016-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "-r",
+        "simctl",
+        "list",
+        "--json-output",
+        "/outside/list.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-1017-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--run",
+        "simctl",
+        "list",
+        "--json-output",
+        "/outside/list.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-1018-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "-r",
+        "simctl",
+        "erase",
+        "all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1019-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--run",
+        "simctl",
+        "erase",
+        "all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1020-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "-r",
+        "swift",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-1021-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--run",
+        "swift",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-1022-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "-r",
+        "swift-format",
+        "format",
+        "-i",
+        "Sources/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-1023-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--run",
+        "swift-format",
+        "format",
+        "-i",
+        "Sources/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-1024-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "-r",
+        "swift",
+        "format",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-1025-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--run",
+        "swift",
+        "format",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-1026-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "-r",
+        "notarytool",
+        "submit",
+        "dist/Acme.zip"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1027-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--run",
+        "notarytool",
+        "submit",
+        "dist/Acme.zip"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1028-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--sdk",
+        "/outside/sdk",
+        "swift",
+        "--version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1029-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--toolchain",
+        "/outside/toolchain",
+        "simctl",
+        "list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1030-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "/outside/runner",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1031-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "sh",
+        "-c",
+        "true"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1032-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--kill-cache"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1033-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1034-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--sdk"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1035-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--sdk",
+        "iphonesimulator",
+        "simctl",
+        "erase",
+        "all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1036-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "-k",
+        "--toolchain",
+        "ExampleToolchain",
+        "simctl",
+        "--set",
+        "simulators",
+        "delete",
+        "all"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1037-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "-l",
+        "devicectl",
+        "device",
+        "uninstall",
+        "app",
+        "--device",
+        "ExampleDevice",
+        "com.example.acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1038-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--log",
+        "devicectl",
+        "device",
+        "uninstall",
+        "app",
+        "--device",
+        "ExampleDevice",
+        "com.example.acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1039-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "devicectl",
+        "-l",
+        "reports/device.log",
+        "device",
+        "uninstall",
+        "app",
+        "--device",
+        "ExampleDevice",
+        "com.example.acme"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1040-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-1041-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "-h"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-1042-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-1043-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--show-sdk-path"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-1044-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--show-sdk-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-1045-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--show-sdk-build-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-1046-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--show-sdk-platform-path"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-1047-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--show-sdk-platform-version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-1048-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--show-toolchain-path"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-1049-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "--find",
+        "swift"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-1050-strict",
+      "profile": "strict",
+      "argv": [
+        "xcrun",
+        "-f",
+        "swift"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "apple-1051-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/xcodebuild"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1052-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/xcodebuild"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1053-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/xcodebuild"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1054-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1055-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/xcodebuild"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1056-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/simctl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1057-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/simctl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1058-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/simctl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1059-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/simctl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1060-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/simctl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1061-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/devicectl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1062-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/devicectl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1063-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/devicectl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1064-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/devicectl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1065-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/devicectl"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1066-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/swift"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1067-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/swift"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1068-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/swift"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1069-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/swift"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1070-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1071-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/swift-format",
+        "format",
+        "Sources/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-1072-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/swift-format",
+        "format",
+        "Sources/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-1073-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/swift-format",
+        "format",
+        "Sources/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-1074-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/swift-format",
+        "format",
+        "Sources/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-1075-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-format",
+        "format",
+        "Sources/Main.swift"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "apple-1076-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/pod"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1077-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/pod"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1078-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/pod"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1079-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/pod"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1080-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/pod"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1081-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/codesign"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1082-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/codesign"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1083-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/codesign"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1084-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/codesign"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1085-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1086-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/security"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1087-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/security"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1088-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/security"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1089-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/security"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1090-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/security"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1091-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/bin/xcrun",
+        "swift",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1092-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/local/bin/xcrun",
+        "swift",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1093-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/homebrew/bin/xcrun",
+        "swift",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1094-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/xcrun",
+        "swift",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-1095-strict",
+      "profile": "strict",
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/xcrun",
+        "swift",
+        "build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "apple-mcp-unmatched-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "mcp",
+        "server": "apple",
+        "tool": "device_erase",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "apple-mcp-unmatched-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "mcp",
+        "server": "apple",
+        "tool": "device_erase",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "apple-mcp-unmatched-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "mcp",
+        "server": "apple",
+        "tool": "device_erase",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

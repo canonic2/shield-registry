@@ -1,0 +1,2906 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "adb-help-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "adb-version-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sdk-adb-version-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/android/sdk/platform-tools/adb",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "windows-adb-version-loose",
+      "profile": "loose",
+      "argv": [
+        "C:\\Android\\Sdk\\platform-tools\\adb.exe",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "adb-script-version-loose",
+      "profile": "loose",
+      "argv": [
+        "adb.cmd",
+        "version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-no-command-loose",
+      "profile": "loose",
+      "argv": [
+        "adb"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-devices-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "devices",
+        "-l"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-server-host-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "-H",
+        "outside.example",
+        "devices"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-server-socket-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "-L",
+        "tcp:0.0.0.0:5037",
+        "start-server"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-start-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "start-server"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-stop-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "kill-server"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-selected-version-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5554",
+        "version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-version-extra-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "version",
+        "shell",
+        "id"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-help-extra-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "help",
+        "install",
+        "./app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-device-state-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "-t",
+        "1",
+        "get-state"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-usb-state-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "-d",
+        "get-state"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-emulator-state-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "-e",
+        "get-state"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-shell-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5554",
+        "shell",
+        "getprop"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-interactive-shell-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "shell"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-exec-out-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "exec-out",
+        "screencap",
+        "-p"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-clear-data-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "shell",
+        "pm",
+        "clear",
+        "com.example.app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-install-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5554",
+        "install",
+        "-r",
+        "./app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-install-outside-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "install",
+        "/outside/app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-install-splits-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "install-multiple",
+        "./base.apk",
+        "./split.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-install-multi-package-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "install-multi-package",
+        "./one.apk",
+        "./two.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-uninstall-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "uninstall",
+        "com.example.app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-push-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "push",
+        "./fixture.txt",
+        "/sdcard/fixture.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-dry-push-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "push",
+        "-n",
+        "/outside/secret",
+        "/sdcard/fixture"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-pull-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "pull",
+        "/sdcard/photo.png",
+        "/outside/photo.png"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-sync-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "sync",
+        "-l"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-logcat-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "logcat",
+        "-d"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-logcat-file-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "logcat",
+        "-f",
+        "/outside/device.log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-bugreport-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "bugreport",
+        "/outside/report.zip"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-forward-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "forward",
+        "tcp:8080",
+        "tcp:8080"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-reverse-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "reverse",
+        "tcp:8080",
+        "tcp:8080"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-pair-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "pair",
+        "device.example:37000"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-connect-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "connect",
+        "device.example:5555"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-tcpip-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "tcpip",
+        "5555"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-root-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "root"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-remount-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "remount",
+        "-R"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-verity-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "disable-verity"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-reboot-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "reboot",
+        "bootloader"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-sideload-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "sideload",
+        "./update.zip"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-keygen-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "keygen",
+        "/outside/adbkey"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-console-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "emu",
+        "avd",
+        "snapshot",
+        "save",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-malformed-selector-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "-s"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-future-loose",
+      "profile": "loose",
+      "argv": [
+        "adb",
+        "--future-option",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-help-loose",
+      "profile": "loose",
+      "argv": [
+        "emulator",
+        "-help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-list-loose",
+      "profile": "loose",
+      "argv": [
+        "emulator",
+        "-list-avds"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-launch-loose",
+      "profile": "loose",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-no-window"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-short-launch-loose",
+      "profile": "loose",
+      "argv": [
+        "emulator",
+        "@Example_API_36"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-wipe-loose",
+      "profile": "loose",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-wipe-data"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-paths-loose",
+      "profile": "loose",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-datadir",
+        "/outside/avd"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-snapshot-loose",
+      "profile": "loose",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-snapshot",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-system-image-loose",
+      "profile": "loose",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-system",
+        "/outside/system.img"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-qemu-loose",
+      "profile": "loose",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-qemu",
+        "-hda",
+        "/outside/disk.img"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-helper-loose",
+      "profile": "loose",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-adb-path",
+        "/outside/adb"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-network-loose",
+      "profile": "loose",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-http-proxy",
+        "http://proxy.example:8080"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-list-loose",
+      "profile": "loose",
+      "argv": [
+        "sdkmanager",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-help-loose",
+      "profile": "loose",
+      "argv": [
+        "sdkmanager",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-install-loose",
+      "profile": "loose",
+      "argv": [
+        "sdkmanager",
+        "platform-tools",
+        "platforms;android-36"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-update-loose",
+      "profile": "loose",
+      "argv": [
+        "sdkmanager",
+        "--update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-remove-loose",
+      "profile": "loose",
+      "argv": [
+        "sdkmanager",
+        "--uninstall",
+        "platforms;android-36"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-licenses-loose",
+      "profile": "loose",
+      "argv": [
+        "sdkmanager",
+        "--licenses"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-root-loose",
+      "profile": "loose",
+      "argv": [
+        "sdkmanager",
+        "--sdk_root=/outside/sdk",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-proxy-loose",
+      "profile": "loose",
+      "argv": [
+        "sdkmanager",
+        "--proxy=http",
+        "--proxy_host=proxy.example",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-package-file-loose",
+      "profile": "loose",
+      "argv": [
+        "sdkmanager",
+        "--package_file=/outside/packages.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "avd-list-loose",
+      "profile": "loose",
+      "argv": [
+        "avdmanager",
+        "list",
+        "avd"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "avd-create-loose",
+      "profile": "loose",
+      "argv": [
+        "avdmanager",
+        "create",
+        "avd",
+        "-n",
+        "Example",
+        "-k",
+        "system-images;android-36;google_apis;x86_64"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "avd-overwrite-loose",
+      "profile": "loose",
+      "argv": [
+        "avdmanager",
+        "create",
+        "avd",
+        "-f",
+        "-n",
+        "Example",
+        "-p",
+        "/outside/avd"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "avd-delete-loose",
+      "profile": "loose",
+      "argv": [
+        "avdmanager",
+        "delete",
+        "avd",
+        "-n",
+        "Example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "avd-move-loose",
+      "profile": "loose",
+      "argv": [
+        "avdmanager",
+        "move",
+        "avd",
+        "-n",
+        "Example",
+        "-p",
+        "/outside/avd"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bundle-build-loose",
+      "profile": "loose",
+      "argv": [
+        "bundletool",
+        "build-apks",
+        "--bundle=./app.aab",
+        "--output=./app.apks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bundle-sign-loose",
+      "profile": "loose",
+      "argv": [
+        "bundletool",
+        "build-apks",
+        "--bundle=./app.aab",
+        "--output=./app.apks",
+        "--ks=/outside/key.jks",
+        "--ks-pass=file:/outside/password"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bundle-install-loose",
+      "profile": "loose",
+      "argv": [
+        "bundletool",
+        "install-apks",
+        "--apks=./app.apks",
+        "--device-id=emulator-5554"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bundle-spec-loose",
+      "profile": "loose",
+      "argv": [
+        "bundletool",
+        "get-device-spec",
+        "--output=/outside/device.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bundle-extract-loose",
+      "profile": "loose",
+      "argv": [
+        "bundletool",
+        "extract-apks",
+        "--apks=./app.apks",
+        "--output-dir=/outside/apks",
+        "--device-spec=./device.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bundle-validate-loose",
+      "profile": "loose",
+      "argv": [
+        "bundletool",
+        "validate",
+        "--bundle=/outside/app.aab"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bundle-help-loose",
+      "profile": "loose",
+      "argv": [
+        "bundletool",
+        "help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sign-apk-loose",
+      "profile": "loose",
+      "argv": [
+        "apksigner",
+        "sign",
+        "--ks",
+        "./key.jks",
+        "./app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sign-provider-loose",
+      "profile": "loose",
+      "argv": [
+        "apksigner",
+        "sign",
+        "--provider-class",
+        "example.Provider",
+        "./app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sign-output-loose",
+      "profile": "loose",
+      "argv": [
+        "apksigner",
+        "sign",
+        "--ks",
+        "/outside/key.jks",
+        "--out",
+        "/outside/signed.apk",
+        "./app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "verify-apk-loose",
+      "profile": "loose",
+      "argv": [
+        "apksigner",
+        "verify",
+        "--verbose",
+        "./app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sign-help-loose",
+      "profile": "loose",
+      "argv": [
+        "apksigner",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "align-check-loose",
+      "profile": "loose",
+      "argv": [
+        "zipalign",
+        "-c",
+        "-v",
+        "4",
+        "./app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "align-output-loose",
+      "profile": "loose",
+      "argv": [
+        "zipalign",
+        "-P",
+        "16",
+        "-f",
+        "-v",
+        "4",
+        "./app.apk",
+        "/outside/aligned.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "windows-sdk-loose",
+      "profile": "loose",
+      "argv": [
+        "C:\\Android\\Sdk\\cmdline-tools\\latest\\bin\\sdkmanager.bat",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-signer-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/android/sdk/build-tools/37.0.0/apksigner",
+        "verify",
+        "./app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-emulator-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/android/sdk/emulator/emulator",
+        "-avd",
+        "Example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-executable-loose",
+      "profile": "loose",
+      "argv": [
+        "android-unmodeled",
+        "help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unclassified-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "mcp",
+        "server": "android",
+        "tool": "install",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "adb-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "adb-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sdk-adb-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/android/sdk/platform-tools/adb",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "windows-adb-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "C:\\Android\\Sdk\\platform-tools\\adb.exe",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "adb-script-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb.cmd",
+        "version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-no-command-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-devices-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "devices",
+        "-l"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-server-host-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "-H",
+        "outside.example",
+        "devices"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-server-socket-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "-L",
+        "tcp:0.0.0.0:5037",
+        "start-server"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-start-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "start-server"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-stop-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "kill-server"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-selected-version-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5554",
+        "version"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-version-extra-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "version",
+        "shell",
+        "id"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-help-extra-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "help",
+        "install",
+        "./app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-device-state-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "-t",
+        "1",
+        "get-state"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-usb-state-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "-d",
+        "get-state"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-emulator-state-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "-e",
+        "get-state"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-shell-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5554",
+        "shell",
+        "getprop"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-interactive-shell-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "shell"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-exec-out-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "exec-out",
+        "screencap",
+        "-p"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-clear-data-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "shell",
+        "pm",
+        "clear",
+        "com.example.app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5554",
+        "install",
+        "-r",
+        "./app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-install-outside-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "install",
+        "/outside/app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-install-splits-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "install-multiple",
+        "./base.apk",
+        "./split.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-install-multi-package-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "install-multi-package",
+        "./one.apk",
+        "./two.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-uninstall-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "uninstall",
+        "com.example.app"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-push-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "push",
+        "./fixture.txt",
+        "/sdcard/fixture.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-dry-push-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "push",
+        "-n",
+        "/outside/secret",
+        "/sdcard/fixture"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-pull-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "pull",
+        "/sdcard/photo.png",
+        "/outside/photo.png"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-sync-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "sync",
+        "-l"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-logcat-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "logcat",
+        "-d"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-logcat-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "logcat",
+        "-f",
+        "/outside/device.log"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-bugreport-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "bugreport",
+        "/outside/report.zip"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-forward-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "forward",
+        "tcp:8080",
+        "tcp:8080"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-reverse-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "reverse",
+        "tcp:8080",
+        "tcp:8080"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-pair-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "pair",
+        "device.example:37000"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-connect-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "connect",
+        "device.example:5555"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-tcpip-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "tcpip",
+        "5555"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-root-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "root"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-remount-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "remount",
+        "-R"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-verity-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "disable-verity"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-reboot-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "reboot",
+        "bootloader"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-sideload-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "sideload",
+        "./update.zip"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-keygen-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "keygen",
+        "/outside/adbkey"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-console-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "emu",
+        "avd",
+        "snapshot",
+        "save",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-malformed-selector-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "-s"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "adb-future-recommended",
+      "profile": "recommended",
+      "argv": [
+        "adb",
+        "--future-option",
+        "future-command"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "emulator",
+        "-help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "emulator",
+        "-list-avds"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-launch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-no-window"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-short-launch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "emulator",
+        "@Example_API_36"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-wipe-recommended",
+      "profile": "recommended",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-wipe-data"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-paths-recommended",
+      "profile": "recommended",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-datadir",
+        "/outside/avd"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-snapshot-recommended",
+      "profile": "recommended",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-snapshot",
+        "example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-system-image-recommended",
+      "profile": "recommended",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-system",
+        "/outside/system.img"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-qemu-recommended",
+      "profile": "recommended",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-qemu",
+        "-hda",
+        "/outside/disk.img"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-helper-recommended",
+      "profile": "recommended",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-adb-path",
+        "/outside/adb"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "emulator-network-recommended",
+      "profile": "recommended",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-http-proxy",
+        "http://proxy.example:8080"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sdkmanager",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sdkmanager",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sdkmanager",
+        "platform-tools",
+        "platforms;android-36"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-update-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sdkmanager",
+        "--update"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-remove-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sdkmanager",
+        "--uninstall",
+        "platforms;android-36"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-licenses-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sdkmanager",
+        "--licenses"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-root-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sdkmanager",
+        "--sdk_root=/outside/sdk",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-proxy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sdkmanager",
+        "--proxy=http",
+        "--proxy_host=proxy.example",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-package-file-recommended",
+      "profile": "recommended",
+      "argv": [
+        "sdkmanager",
+        "--package_file=/outside/packages.txt"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "avd-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "avdmanager",
+        "list",
+        "avd"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "avd-create-recommended",
+      "profile": "recommended",
+      "argv": [
+        "avdmanager",
+        "create",
+        "avd",
+        "-n",
+        "Example",
+        "-k",
+        "system-images;android-36;google_apis;x86_64"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "avd-overwrite-recommended",
+      "profile": "recommended",
+      "argv": [
+        "avdmanager",
+        "create",
+        "avd",
+        "-f",
+        "-n",
+        "Example",
+        "-p",
+        "/outside/avd"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "avd-delete-recommended",
+      "profile": "recommended",
+      "argv": [
+        "avdmanager",
+        "delete",
+        "avd",
+        "-n",
+        "Example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "avd-move-recommended",
+      "profile": "recommended",
+      "argv": [
+        "avdmanager",
+        "move",
+        "avd",
+        "-n",
+        "Example",
+        "-p",
+        "/outside/avd"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bundle-build-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bundletool",
+        "build-apks",
+        "--bundle=./app.aab",
+        "--output=./app.apks"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bundle-sign-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bundletool",
+        "build-apks",
+        "--bundle=./app.aab",
+        "--output=./app.apks",
+        "--ks=/outside/key.jks",
+        "--ks-pass=file:/outside/password"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bundle-install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bundletool",
+        "install-apks",
+        "--apks=./app.apks",
+        "--device-id=emulator-5554"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bundle-spec-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bundletool",
+        "get-device-spec",
+        "--output=/outside/device.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bundle-extract-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bundletool",
+        "extract-apks",
+        "--apks=./app.apks",
+        "--output-dir=/outside/apks",
+        "--device-spec=./device.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bundle-validate-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bundletool",
+        "validate",
+        "--bundle=/outside/app.aab"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "bundle-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "bundletool",
+        "help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sign-apk-recommended",
+      "profile": "recommended",
+      "argv": [
+        "apksigner",
+        "sign",
+        "--ks",
+        "./key.jks",
+        "./app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sign-provider-recommended",
+      "profile": "recommended",
+      "argv": [
+        "apksigner",
+        "sign",
+        "--provider-class",
+        "example.Provider",
+        "./app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sign-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "apksigner",
+        "sign",
+        "--ks",
+        "/outside/key.jks",
+        "--out",
+        "/outside/signed.apk",
+        "./app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "verify-apk-recommended",
+      "profile": "recommended",
+      "argv": [
+        "apksigner",
+        "verify",
+        "--verbose",
+        "./app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sign-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "apksigner",
+        "--help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "align-check-recommended",
+      "profile": "recommended",
+      "argv": [
+        "zipalign",
+        "-c",
+        "-v",
+        "4",
+        "./app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "align-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "zipalign",
+        "-P",
+        "16",
+        "-f",
+        "-v",
+        "4",
+        "./app.apk",
+        "/outside/aligned.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "windows-sdk-recommended",
+      "profile": "recommended",
+      "argv": [
+        "C:\\Android\\Sdk\\cmdline-tools\\latest\\bin\\sdkmanager.bat",
+        "--list"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-signer-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/android/sdk/build-tools/37.0.0/apksigner",
+        "verify",
+        "./app.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "sdk-emulator-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/android/sdk/emulator/emulator",
+        "-avd",
+        "Example"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-executable-recommended",
+      "profile": "recommended",
+      "argv": [
+        "android-unmodeled",
+        "help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unclassified-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "mcp",
+        "server": "android",
+        "tool": "install",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "adb-help-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "adb-version-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "sdk-adb-version-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/android/sdk/platform-tools/adb",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "windows-adb-version-strict",
+      "profile": "strict",
+      "argv": [
+        "C:\\Android\\Sdk\\platform-tools\\adb.exe",
+        "version"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "adb-script-version-strict",
+      "profile": "strict",
+      "argv": [
+        "adb.cmd",
+        "version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-no-command-strict",
+      "profile": "strict",
+      "argv": [
+        "adb"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-devices-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "devices",
+        "-l"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-server-host-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "-H",
+        "outside.example",
+        "devices"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-server-socket-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "-L",
+        "tcp:0.0.0.0:5037",
+        "start-server"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-start-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "start-server"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-stop-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "kill-server"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-selected-version-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5554",
+        "version"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-version-extra-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "version",
+        "shell",
+        "id"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-help-extra-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "help",
+        "install",
+        "./app.apk"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-device-state-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "-t",
+        "1",
+        "get-state"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-usb-state-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "-d",
+        "get-state"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-emulator-state-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "-e",
+        "get-state"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-shell-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5554",
+        "shell",
+        "getprop"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-interactive-shell-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "shell"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-exec-out-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "exec-out",
+        "screencap",
+        "-p"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-clear-data-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "shell",
+        "pm",
+        "clear",
+        "com.example.app"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-install-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5554",
+        "install",
+        "-r",
+        "./app.apk"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-install-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "install",
+        "/outside/app.apk"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-install-splits-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "install-multiple",
+        "./base.apk",
+        "./split.apk"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-install-multi-package-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "install-multi-package",
+        "./one.apk",
+        "./two.apk"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-uninstall-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "uninstall",
+        "com.example.app"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-push-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "push",
+        "./fixture.txt",
+        "/sdcard/fixture.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-dry-push-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "push",
+        "-n",
+        "/outside/secret",
+        "/sdcard/fixture"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-pull-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "pull",
+        "/sdcard/photo.png",
+        "/outside/photo.png"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-sync-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "sync",
+        "-l"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-logcat-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "logcat",
+        "-d"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-logcat-file-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "logcat",
+        "-f",
+        "/outside/device.log"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-bugreport-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "bugreport",
+        "/outside/report.zip"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-forward-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "forward",
+        "tcp:8080",
+        "tcp:8080"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-reverse-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "reverse",
+        "tcp:8080",
+        "tcp:8080"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-pair-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "pair",
+        "device.example:37000"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-connect-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "connect",
+        "device.example:5555"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-tcpip-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "tcpip",
+        "5555"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-root-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "root"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-remount-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "remount",
+        "-R"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-verity-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "disable-verity"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-reboot-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "reboot",
+        "bootloader"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-sideload-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "sideload",
+        "./update.zip"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-keygen-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "keygen",
+        "/outside/adbkey"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-console-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "emu",
+        "avd",
+        "snapshot",
+        "save",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-malformed-selector-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "-s"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "adb-future-strict",
+      "profile": "strict",
+      "argv": [
+        "adb",
+        "--future-option",
+        "future-command"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-help-strict",
+      "profile": "strict",
+      "argv": [
+        "emulator",
+        "-help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-list-strict",
+      "profile": "strict",
+      "argv": [
+        "emulator",
+        "-list-avds"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-launch-strict",
+      "profile": "strict",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-no-window"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-short-launch-strict",
+      "profile": "strict",
+      "argv": [
+        "emulator",
+        "@Example_API_36"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-wipe-strict",
+      "profile": "strict",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-wipe-data"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-paths-strict",
+      "profile": "strict",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-datadir",
+        "/outside/avd"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-snapshot-strict",
+      "profile": "strict",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-snapshot",
+        "example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-system-image-strict",
+      "profile": "strict",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-system",
+        "/outside/system.img"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-qemu-strict",
+      "profile": "strict",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-qemu",
+        "-hda",
+        "/outside/disk.img"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-helper-strict",
+      "profile": "strict",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-adb-path",
+        "/outside/adb"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "emulator-network-strict",
+      "profile": "strict",
+      "argv": [
+        "emulator",
+        "-avd",
+        "Example_API_36",
+        "-http-proxy",
+        "http://proxy.example:8080"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sdk-list-strict",
+      "profile": "strict",
+      "argv": [
+        "sdkmanager",
+        "--list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sdk-help-strict",
+      "profile": "strict",
+      "argv": [
+        "sdkmanager",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sdk-install-strict",
+      "profile": "strict",
+      "argv": [
+        "sdkmanager",
+        "platform-tools",
+        "platforms;android-36"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sdk-update-strict",
+      "profile": "strict",
+      "argv": [
+        "sdkmanager",
+        "--update"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sdk-remove-strict",
+      "profile": "strict",
+      "argv": [
+        "sdkmanager",
+        "--uninstall",
+        "platforms;android-36"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sdk-licenses-strict",
+      "profile": "strict",
+      "argv": [
+        "sdkmanager",
+        "--licenses"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sdk-root-strict",
+      "profile": "strict",
+      "argv": [
+        "sdkmanager",
+        "--sdk_root=/outside/sdk",
+        "--list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sdk-proxy-strict",
+      "profile": "strict",
+      "argv": [
+        "sdkmanager",
+        "--proxy=http",
+        "--proxy_host=proxy.example",
+        "--list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sdk-package-file-strict",
+      "profile": "strict",
+      "argv": [
+        "sdkmanager",
+        "--package_file=/outside/packages.txt"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "avd-list-strict",
+      "profile": "strict",
+      "argv": [
+        "avdmanager",
+        "list",
+        "avd"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "avd-create-strict",
+      "profile": "strict",
+      "argv": [
+        "avdmanager",
+        "create",
+        "avd",
+        "-n",
+        "Example",
+        "-k",
+        "system-images;android-36;google_apis;x86_64"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "avd-overwrite-strict",
+      "profile": "strict",
+      "argv": [
+        "avdmanager",
+        "create",
+        "avd",
+        "-f",
+        "-n",
+        "Example",
+        "-p",
+        "/outside/avd"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "avd-delete-strict",
+      "profile": "strict",
+      "argv": [
+        "avdmanager",
+        "delete",
+        "avd",
+        "-n",
+        "Example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "avd-move-strict",
+      "profile": "strict",
+      "argv": [
+        "avdmanager",
+        "move",
+        "avd",
+        "-n",
+        "Example",
+        "-p",
+        "/outside/avd"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "bundle-build-strict",
+      "profile": "strict",
+      "argv": [
+        "bundletool",
+        "build-apks",
+        "--bundle=./app.aab",
+        "--output=./app.apks"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "bundle-sign-strict",
+      "profile": "strict",
+      "argv": [
+        "bundletool",
+        "build-apks",
+        "--bundle=./app.aab",
+        "--output=./app.apks",
+        "--ks=/outside/key.jks",
+        "--ks-pass=file:/outside/password"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "bundle-install-strict",
+      "profile": "strict",
+      "argv": [
+        "bundletool",
+        "install-apks",
+        "--apks=./app.apks",
+        "--device-id=emulator-5554"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "bundle-spec-strict",
+      "profile": "strict",
+      "argv": [
+        "bundletool",
+        "get-device-spec",
+        "--output=/outside/device.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "bundle-extract-strict",
+      "profile": "strict",
+      "argv": [
+        "bundletool",
+        "extract-apks",
+        "--apks=./app.apks",
+        "--output-dir=/outside/apks",
+        "--device-spec=./device.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "bundle-validate-strict",
+      "profile": "strict",
+      "argv": [
+        "bundletool",
+        "validate",
+        "--bundle=/outside/app.aab"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "bundle-help-strict",
+      "profile": "strict",
+      "argv": [
+        "bundletool",
+        "help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sign-apk-strict",
+      "profile": "strict",
+      "argv": [
+        "apksigner",
+        "sign",
+        "--ks",
+        "./key.jks",
+        "./app.apk"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sign-provider-strict",
+      "profile": "strict",
+      "argv": [
+        "apksigner",
+        "sign",
+        "--provider-class",
+        "example.Provider",
+        "./app.apk"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sign-output-strict",
+      "profile": "strict",
+      "argv": [
+        "apksigner",
+        "sign",
+        "--ks",
+        "/outside/key.jks",
+        "--out",
+        "/outside/signed.apk",
+        "./app.apk"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "verify-apk-strict",
+      "profile": "strict",
+      "argv": [
+        "apksigner",
+        "verify",
+        "--verbose",
+        "./app.apk"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sign-help-strict",
+      "profile": "strict",
+      "argv": [
+        "apksigner",
+        "--help"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "align-check-strict",
+      "profile": "strict",
+      "argv": [
+        "zipalign",
+        "-c",
+        "-v",
+        "4",
+        "./app.apk"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "align-output-strict",
+      "profile": "strict",
+      "argv": [
+        "zipalign",
+        "-P",
+        "16",
+        "-f",
+        "-v",
+        "4",
+        "./app.apk",
+        "/outside/aligned.apk"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "windows-sdk-strict",
+      "profile": "strict",
+      "argv": [
+        "C:\\Android\\Sdk\\cmdline-tools\\latest\\bin\\sdkmanager.bat",
+        "--list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sdk-signer-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/android/sdk/build-tools/37.0.0/apksigner",
+        "verify",
+        "./app.apk"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "sdk-emulator-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/android/sdk/emulator/emulator",
+        "-avd",
+        "Example"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unknown-executable-strict",
+      "profile": "strict",
+      "argv": [
+        "android-unmodeled",
+        "help"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "mcp-unclassified-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "mcp",
+        "server": "android",
+        "tool": "install",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}
