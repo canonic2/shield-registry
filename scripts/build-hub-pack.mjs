@@ -10,7 +10,7 @@ export const directory = new URL(`../packs/canonic/hub/${version}/`, import.meta
 export function guide() {
   return `# Hub permissions ${version}
 
-Reviewed against Hub 0.52.0 and the 101 MCP tools listed by
+Reviewed against Hub 0.52.1 with proxy MCP parity and the 113 MCP tools listed by
 \`hub mcp serve --check\`. The \`canonic/box\` pack covers the \`box\` executable.
 
 Requires Shield \`${engine}\` with \`argument-paths-v1\`, \`field-paths-v1\`
@@ -39,6 +39,10 @@ origin or a private trust root asks in all profiles. Signing in, revoking a
 login, enrolling a connector and changing hosted endpoints or public routes
 also ask in all profiles. The standalone \`hub-proxy-connector\` development
 binary follows the project's ordinary Shield policy.
+
+Endpoint creation, rename, pause, resume and deletion, route creation and deletion,
+connector revocation, logout and connection-owned connector start/stop are reviewed
+through MCP in all profiles. The login tool returns a terminal handoff for the user.
 
 Ordinary Hub use is allowed. Hub validates its own arguments, selection and
 configuration, and asks its user before the effects it confirms, so the pack

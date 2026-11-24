@@ -13,7 +13,7 @@
 import {toolPack} from './tool-pack.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 
-export const version = '0.1.8';
+export const version = '0.1.9';
 export const engine = '>=0.20.0, <1.0.0';
 
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -106,6 +106,7 @@ export const hub = {
     ...words(['proxy route', 'proxy route create', 'proxy route update', 'proxy route delete'],
       'confirmation', 'Change the assignment or availability of a public route.'),
     [['proxy', 'connect'], 'confirmation', 'Enroll an outbound connector for a local workspace.'],
+    [['proxy', 'revoke'], 'confirmation', 'Revoke a hosted connector grant.'],
     [['proxy'], 'confirmation', 'Review controller login, custom trust, connector enrollment and hosted proxy changes.'],
     [['mcp', 'workspace-headers'], 'routine', 'Verify the current checkout and start the same-user MCP passthrough when needed.'],
     [['mcp', 'workspace-launch'], 'execute', 'Launch a stdio MCP server with workspace ports and a supplied executable.'],
@@ -162,6 +163,7 @@ export const hub = {
     ...Object.keys(proxyReads).map(verb => [`proxy_${verb}`, ['inspect', inspectProxy, [
       {id: 'controller', fields: {'/controller': {text: {not: defaultController}}},
         category: 'confirmation', reason: reviewController},
+      {id: 'controller-ca', fields: {'/controller_ca': {text: {regex:'.*'}}}, category: 'confirmation', reason: reviewController},
     ]]]),
     ...['init', 'setup', 'workspace_create', 'workspace_attach', 'workspace_prepare', 'workspace_data_reset',
       'task_update', 'task_import', 'task_step_add', 'task_step_update', 'task_step_remove', 'task_check_add',
@@ -171,6 +173,10 @@ export const hub = {
       'plugin_check', 'manager_stop', 'manager_drain', 'operation_cancel']
       .map(name => [name, ['routine', 'Change Hub configuration, tasks, processes or plugins; Hub asks the host user before confirmed effects.']]),
     ['proxy_route_update', ['confirmation', 'Change the connector assignment or availability of a public route.']],
+    ...['proxy_logout', 'proxy_endpoint_create', 'proxy_endpoint_rename', 'proxy_endpoint_pause',
+      'proxy_endpoint_resume', 'proxy_endpoint_delete', 'proxy_route_create', 'proxy_route_delete',
+      'proxy_connector_revoke', 'proxy_login', 'proxy_connect', 'proxy_disconnect']
+      .map(name => [name, ['confirmation', 'Review hosted proxy configuration, credential or connector lifecycle changes.']]),
     ['workspace_remove', ['routine', 'Remove a workspace. Hub confirms disposal of resources or history.', [
       {id: 'discard', fields: {'/discard_changes': {exact: true}}, category: 'confirmedDisposal', reason: 'Discard uncommitted checkout files after Hub confirms the inventory.'},
       {id: 'forget', fields: {'/forget': {exact: true}}, category: 'confirmedDisposal', reason: 'Delete the removed-workspace record and its task after Hub confirms disposal.'}]]],
