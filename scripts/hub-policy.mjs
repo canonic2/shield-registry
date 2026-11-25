@@ -13,7 +13,7 @@
 import {toolPack} from './tool-pack.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 
-export const version = '0.1.9';
+export const version = '0.1.10';
 export const engine = '>=0.20.0, <1.0.0';
 
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -44,8 +44,11 @@ const inspectProxy = 'Read hosted proxy state from the default Canonic controlle
 const reviewController = 'Review an authenticated request to a caller-selected controller.';
 const composeAssessment = 'Probe Docker using the selected workspace recipe and check the incoming Compose model and volumes.';
 const selectedExecution = {text: {not: {exact: ''}}};
-const mutation = {flags: ['--dry-run'], values: [...workspace, '--if-revision', '--request-id', '--preview-digest', ...globals]};
+const mutation = {flags: ['--dry-run'], values: [...workspace, '--if-revision', '--request-id', '--preview-digest',
+  '--inspect', '--offset', ...globals]};
 const initial = ['--goal', '--description', '--priority', '--labels', '--check', '--goal-file', '--description-file'];
+const appValues = [...globals, '--claude-bin', '--server-key', '--agent', '--app-id', '--client-id', '--name', '--preset'];
+const appFlags = ['--app-only', '--no-browser', '--details'];
 // Complete option sets, so a file check parses every spelling of the command.
 const grammars = {
   taskUpdate: {flags: [...mutation.flags, '--clear-goal'], values: [...mutation.values, '--goal', '--goal-file',
@@ -114,8 +117,10 @@ export const hub = {
       {id: 'confirm', any: ['--yes'], forbid: ['--dry-run'], values: [...globals, '--name', '--agent', '--scope'],
         flags: ['--remove'], category: 'confirmation', reason: 'Change MCP credential routing without Hub’s terminal confirmation.'}]],
     [['mcp', 'app', 'create'], 'routine', 'Provision an MCP app after a terminal review.', [
-      {id: 'client-executable', any: ['--claude-bin'], values: [...globals, '--claude-bin', '--server-key', '--agent', '--app-id', '--client-id'],
-        flags: ['--app-only', '--no-browser'], category: 'execute', reason: 'Run the supplied native client executable before app confirmation.'}]],
+      {id: 'preview', any: ['--dry-run'], values: appValues, flags: appFlags,
+        category: 'inspect', reason: 'Prepare a Slack app review without contacting Slack, starting a native client or writing files.'},
+      {id: 'client-executable', any: ['--claude-bin'], forbid: ['--dry-run'], values: appValues,
+        flags: appFlags, category: 'execute', reason: 'Run the supplied native client executable before app confirmation.'}]],
     [['task', 'export'], 'inspect', 'Export one task revision.', [output]],
     [['task', 'update'], 'routine', 'Change the task.', [files(['--goal-file', '--description-file'], ['--goal', '--description'], grammars.taskUpdate)]],
     [['task', 'import'], 'routine', 'Apply task changes from a file.', [files(['--file'], [], grammars.taskImport)]],
@@ -160,6 +165,7 @@ export const hub = {
     ['doctor', ['inspect', 'Inspect Hub prerequisites, project and manager state.', [
       {id: 'execution', fields: {'/execution': selectedExecution}, category: 'routine', reason: composeAssessment}]]],
     ['agent_terminal_read', ['inspect', 'Read bounded terminal output owned by this Hub connection.']],
+    ['mcp_app_create_preview', ['inspect', 'Prepare a Slack app review and return the command for terminal approval and hidden input.']],
     ...Object.keys(proxyReads).map(verb => [`proxy_${verb}`, ['inspect', inspectProxy, [
       {id: 'controller', fields: {'/controller': {text: {not: defaultController}}},
         category: 'confirmation', reason: reviewController},
@@ -192,6 +198,14 @@ export const hub = {
 export function hubPack() {
   const pack = toolPack(hub);
   addPreviewTools(pack, 'hub');
+  const app = pack.rules.find(rule => rule.id === 'mcp-app-create');
+  const {require_any: _required, ...appGrammar} = pack.rules
+    .find(rule => rule.id === 'mcp-app-create-preview').conditions.arguments;
+  // Preview and provisioning must be disjoint: at the same specificity a
+  // Strict provisioning Ask would otherwise also apply to read-only preview.
+  app.conditions.arguments = {...appGrammar, forbid: ['--dry-run'],
+    values: appGrammar.values.filter(name => name !== '--claude-bin'),
+    optional_values: ['--claude-bin']};
   // CLI `hub mcp setup` owns the rule IDs mcp-setup*; give the MCP setup tool
   // its own prefix.
   for (const row of pack.rules) if (row.conditions.domain === 'mcp' && row.conditions.tool === 'setup')

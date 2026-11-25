@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "registry_id": "canonic-shield-main",
-  "sequence": 64,
+  "sequence": 65,
   "expires_at": "2027-02-03T00:00:00Z",
   "packs": [
     {
@@ -42,9 +42,9 @@
     },
     {
       "id": "canonic/baseline",
-      "version": "0.18.0",
-      "path": "packs/canonic/baseline/0.18.0/pack.yml",
-      "sha256": "9a920bd18e5c0f07aa236a79188413daf9d8863e795cd13395e434cc38338168"
+      "version": "0.19.0",
+      "path": "packs/canonic/baseline/0.19.0/pack.yml",
+      "sha256": "a032e86d1536af4584b93b0da1b51fa002812cecb7e228fcd137bbc11a0049d1"
     },
     {
       "id": "canonic/box",
@@ -102,9 +102,9 @@
     },
     {
       "id": "canonic/hub",
-      "version": "0.1.9",
-      "path": "packs/canonic/hub/0.1.9/pack.yml",
-      "sha256": "c4e55901a388d6f749aa67041a8ebd3009e27d2473e1dd3f36c3273f443b01f6"
+      "version": "0.1.10",
+      "path": "packs/canonic/hub/0.1.10/pack.yml",
+      "sha256": "cf4e035abdc8ccd9355115ba3863a7a8b624a87f870ef0f0196c3767eca9aa92"
     },
     {
       "id": "canonic/java",
@@ -174,9 +174,9 @@
     },
     {
       "id": "canonic/supabase",
-      "version": "0.1.0",
-      "path": "packs/canonic/supabase/0.1.0/pack.yml",
-      "sha256": "4a29b2867dead83a4924b9e06b6c34d8d8992d93ec620c7250b05a27801cb7dc"
+      "version": "0.1.1",
+      "path": "packs/canonic/supabase/0.1.1/pack.yml",
+      "sha256": "10a4cbc9d4b0bd5ddba0adfd9b06cad41fb3ee99964dfb99d2d5920658f8c1a1"
     },
     {
       "id": "canonic/terraform",
@@ -198,6 +198,9 @@
     }
   ],
   "commands": {
+    "canonic/baseline": [
+      "shield"
+    ],
     "canonic/cloudflare": [
       "wrangler",
       "cloudflared"
@@ -483,10 +486,10 @@
       "last": "0.1.0"
     },
     "canonic/baseline": {
-      "path": "metadata/dba7245c5b582e26629c343e0ce569dc1ee3380da349caa5200b9748690a622a.json",
-      "sha256": "dba7245c5b582e26629c343e0ce569dc1ee3380da349caa5200b9748690a622a",
+      "path": "metadata/19a4f606ca6032195da4baf1ac37279db89d7ff28207ca508b5a5fc65661612b.json",
+      "sha256": "19a4f606ca6032195da4baf1ac37279db89d7ff28207ca508b5a5fc65661612b",
       "first": "0.1.0",
-      "last": "0.18.0"
+      "last": "0.19.0"
     },
     "canonic/box": {
       "path": "metadata/37305ba2f24b5d2cff019ec03e2e172e6541b72a1dcc3ed84b381b7fedbf3775.json",
@@ -543,10 +546,10 @@
       "last": "0.1.0"
     },
     "canonic/hub": {
-      "path": "metadata/0bfc056554b9b8e444a69f6ef4a3165458f46d7c62d0a3e9a41ba86e2e13fbea.json",
-      "sha256": "0bfc056554b9b8e444a69f6ef4a3165458f46d7c62d0a3e9a41ba86e2e13fbea",
+      "path": "metadata/8c4a0980841601ada0c8d01a73380c2037ffb120e235ad6b598100048f52b721.json",
+      "sha256": "8c4a0980841601ada0c8d01a73380c2037ffb120e235ad6b598100048f52b721",
       "first": "0.1.0",
-      "last": "0.1.9"
+      "last": "0.1.10"
     },
     "canonic/java": {
       "path": "metadata/ffbcb2510c49dd2ddd587bb501235d1570b79c0e1f39f78afa1f2d449dcef58e.json",
@@ -615,10 +618,10 @@
       "last": "0.1.0"
     },
     "canonic/supabase": {
-      "path": "metadata/fc3a98bcc435917d0d19f33649afe9cee721aab99990c38a606e54d16ccadcb8.json",
-      "sha256": "fc3a98bcc435917d0d19f33649afe9cee721aab99990c38a606e54d16ccadcb8",
+      "path": "metadata/a05cde7abb28e6f736ccc6791216bfe54bcbc458dfe5ff553f1184055e24bdb6.json",
+      "sha256": "a05cde7abb28e6f736ccc6791216bfe54bcbc458dfe5ff553f1184055e24bdb6",
       "first": "0.1.0",
-      "last": "0.1.0"
+      "last": "0.1.1"
     },
     "canonic/terraform": {
       "path": "metadata/adb871994715918591321bebb7708db7c738f4333996a8c7beaab7746fdac2dd.json",

@@ -1,0 +1,5993 @@
+{
+  "schema_version": 1,
+  "kind": "pack",
+  "id": "canonic/supabase",
+  "version": "0.1.1",
+  "description": "Supabase CLI and hosted/local MCP, with reviewed lifecycle, database, deployment, credentials and storage operations.",
+  "license": "MIT",
+  "maintainers": [
+    "Canonic"
+  ],
+  "engines": {
+    "shield": ">=0.54.0, <1.0.0"
+  },
+  "capabilities": [
+    "access-paths-v1",
+    "argument-rules-v1",
+    "fallback-rules-v1",
+    "interleaved-leading-v1",
+    "location-v1",
+    "mcp-connection-facts-v1",
+    "mcp-integrations-v1",
+    "negated-selectors-v1",
+    "preconditions-v1",
+    "prefix-leading-v1",
+    "regex-v1",
+    "structured-rules-v1",
+    "unknown-options-v1",
+    "variable-list-branches-v1",
+    "variable-parts-v1",
+    "variables-v1"
+  ],
+  "variables": {
+    "read_only_sql": {
+      "type": "list",
+      "layer": "local",
+      "max_items": 16,
+      "description": "Allow SQL on each listed managed connection. Enter the Shield connection ID, one space, and its exact project-scoped Supabase URL with read_only=true and optional features=database.",
+      "items": {
+        "type": "string",
+        "match": {
+          "regex": "^[A-Za-z0-9._-]{1,128} https://mcp\\.supabase\\.com/mcp\\?(?:project_ref=[a-z]{20}&read_only=true|read_only=true&project_ref=[a-z]{20}|project_ref=[a-z]{20}&read_only=true&features=database|project_ref=[a-z]{20}&features=database&read_only=true|read_only=true&project_ref=[a-z]{20}&features=database|read_only=true&features=database&project_ref=[a-z]{20}|features=database&project_ref=[a-z]{20}&read_only=true|features=database&read_only=true&project_ref=[a-z]{20})$"
+        }
+      }
+    }
+  },
+  "mcp_integrations": {
+    "hosted": {
+      "transport": "http",
+      "fields": {
+        "/url": {
+          "text": {
+            "regex": "^https://mcp\\.supabase\\.com/mcp(?:\\?(?:project_ref=[a-z]{20}|read_only=(?:true|false)|features=[a-z]+(?:(?:,|%2[cC])[a-z]+)*|read_only=(?:true|false)&features=[a-z]+(?:(?:,|%2[cC])[a-z]+)*|features=[a-z]+(?:(?:,|%2[cC])[a-z]+)*&read_only=(?:true|false)|project_ref=[a-z]{20}&read_only=(?:true|false)|read_only=(?:true|false)&project_ref=[a-z]{20}|project_ref=[a-z]{20}&features=[a-z]+(?:(?:,|%2[cC])[a-z]+)*|features=[a-z]+(?:(?:,|%2[cC])[a-z]+)*&project_ref=[a-z]{20}|project_ref=[a-z]{20}&read_only=(?:true|false)&features=[a-z]+(?:(?:,|%2[cC])[a-z]+)*|project_ref=[a-z]{20}&features=[a-z]+(?:(?:,|%2[cC])[a-z]+)*&read_only=(?:true|false)|read_only=(?:true|false)&project_ref=[a-z]{20}&features=[a-z]+(?:(?:,|%2[cC])[a-z]+)*|read_only=(?:true|false)&features=[a-z]+(?:(?:,|%2[cC])[a-z]+)*&project_ref=[a-z]{20}|features=[a-z]+(?:(?:,|%2[cC])[a-z]+)*&project_ref=[a-z]{20}&read_only=(?:true|false)|features=[a-z]+(?:(?:,|%2[cC])[a-z]+)*&read_only=(?:true|false)&project_ref=[a-z]{20}))?$"
+          }
+        }
+      }
+    },
+    "local": {
+      "transport": "http",
+      "fields": {
+        "/url": {
+          "text": {
+            "regex": "http://(?:localhost|127\\.0\\.0\\.1):54321/mcp"
+          }
+        }
+      }
+    }
+  },
+  "preconditions": [
+    {
+      "id": "mcp-read-only-sql-connection",
+      "when": [
+        {
+          "var": "read_only_sql",
+          "set": true
+        }
+      ],
+      "conditions": {
+        "domain": "mcp",
+        "server": "hosted",
+        "tool": "execute_sql"
+      },
+      "requires_any": [
+        {
+          "connection": {
+            "/id": {
+              "text": {
+                "var": "read_only_sql",
+                "split": {
+                  "separator": " ",
+                  "index": 0
+                }
+              }
+            },
+            "/transport/url": {
+              "text": {
+                "var": "read_only_sql",
+                "split": {
+                  "separator": " ",
+                  "index": 1
+                }
+              }
+            }
+          }
+        }
+      ],
+      "on_unmet": {
+        "decision": {
+          "loose": "ask",
+          "recommended": "ask",
+          "strict": "deny"
+        },
+        "message": "Review SQL execution on this connection. Automatic allowance requires a matching reviewed connection ID and read-only URL."
+      }
+    }
+  ],
+  "rules": [
+    {
+      "id": "version",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "--version"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print the installed version."
+    },
+    {
+      "id": "version-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "exact",
+          "values": [
+            "-v"
+          ]
+        }
+      },
+      "decision": "allow",
+      "reason": "Print the installed version."
+    },
+    {
+      "id": "help",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "--help"
+          ],
+          "values": [],
+          "short_clusters": false,
+          "require_all": [
+            "--help"
+          ],
+          "operands": {
+            "match": {
+              "regex": "^[a-z][a-z0-9-]*$"
+            }
+          }
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help for any Supabase command path."
+    },
+    {
+      "id": "help-short",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [],
+          "flags": [
+            "-h"
+          ],
+          "values": [],
+          "short_clusters": false,
+          "require_all": [
+            "-h"
+          ],
+          "operands": {
+            "match": {
+              "regex": "^[a-z][a-z0-9-]*$"
+            }
+          }
+        }
+      },
+      "decision": "allow",
+      "reason": "Print built-in help for any Supabase command path."
+    },
+    {
+      "id": "projects-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "projects",
+            "list"
+          ],
+          "flags": [],
+          "values": [
+            "--output",
+            "-o",
+            "--output-format",
+            "--agent"
+          ],
+          "optional_values": [
+            "--yes"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent"
+            ],
+            "optional_values": [
+              "--yes"
+            ],
+            "interleaved": true
+          },
+          "operands": false
+        },
+        "cwd": {
+          "within": {
+            "root": "read"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "List metadata for the current Supabase account."
+    },
+    {
+      "id": "orgs-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "orgs",
+            "list"
+          ],
+          "flags": [],
+          "values": [
+            "--output",
+            "-o",
+            "--output-format",
+            "--agent"
+          ],
+          "optional_values": [
+            "--yes"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent"
+            ],
+            "optional_values": [
+              "--yes"
+            ],
+            "interleaved": true
+          },
+          "operands": false
+        },
+        "cwd": {
+          "within": {
+            "root": "read"
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "List metadata for the current Supabase account."
+    },
+    {
+      "id": "db-query",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "db",
+            "query"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "db-reset",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "db",
+            "reset"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "db-push",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "db",
+            "push"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "db-pull",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "db",
+            "pull"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "db-dump",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "db",
+            "dump"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "db-diff",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "db",
+            "diff"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "migration-up",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "migration",
+            "up"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "migration-down",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "migration",
+            "down"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "migration-repair",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "migration",
+            "repair"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "migration-squash",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "migration",
+            "squash"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "config-push",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "config",
+            "push"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "functions-deploy",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "functions",
+            "deploy"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "functions-serve",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "functions",
+            "serve"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "functions-download",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "functions",
+            "download"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "notebooks-push",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "notebooks",
+            "push"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "projects-create",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "projects",
+            "create"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "branches-create",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "branches",
+            "create"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "branches-update",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "branches",
+            "update"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "branches-unpause",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "branches",
+            "unpause"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "storage-cp",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "storage",
+            "cp"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "storage-mv",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "storage",
+            "mv"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "storage-rm",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "storage",
+            "rm"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "seed-buckets",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "seed",
+            "buckets"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "feedback-add",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "feedback",
+            "add"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "feedback-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "feedback",
+            "delete"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review the selected database, files, deployment or remote changes."
+    },
+    {
+      "id": "projects-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "projects",
+            "delete"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "This can expose credentials, change authentication or delete remote resources."
+    },
+    {
+      "id": "projects-api-keys",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "projects",
+            "api-keys"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "This can expose credentials, change authentication or delete remote resources."
+    },
+    {
+      "id": "branches-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "branches",
+            "delete"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "This can expose credentials, change authentication or delete remote resources."
+    },
+    {
+      "id": "branches-disable",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "branches",
+            "disable"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "This can expose credentials, change authentication or delete remote resources."
+    },
+    {
+      "id": "branches-pause",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "branches",
+            "pause"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "This can expose credentials, change authentication or delete remote resources."
+    },
+    {
+      "id": "functions-delete",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "functions",
+            "delete"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "This can expose credentials, change authentication or delete remote resources."
+    },
+    {
+      "id": "secrets",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "secrets"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "This can expose credentials, change authentication or delete remote resources."
+    },
+    {
+      "id": "encryption",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "encryption"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "This can expose credentials, change authentication or delete remote resources."
+    },
+    {
+      "id": "login",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "login"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "This can expose credentials, change authentication or delete remote resources."
+    },
+    {
+      "id": "logout",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "logout"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "This can expose credentials, change authentication or delete remote resources."
+    },
+    {
+      "id": "init",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "init"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review local configuration, filesystem writes and container or process lifecycle."
+    },
+    {
+      "id": "start",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "start"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review local configuration, filesystem writes and container or process lifecycle."
+    },
+    {
+      "id": "stop",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "stop"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review local configuration, filesystem writes and container or process lifecycle."
+    },
+    {
+      "id": "db-start",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "db",
+            "start"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review local configuration, filesystem writes and container or process lifecycle."
+    },
+    {
+      "id": "migration-new",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "migration",
+            "new"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review local configuration, filesystem writes and container or process lifecycle."
+    },
+    {
+      "id": "functions-new",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "functions",
+            "new"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review local configuration, filesystem writes and container or process lifecycle."
+    },
+    {
+      "id": "test-new",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "test",
+            "new"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review local configuration, filesystem writes and container or process lifecycle."
+    },
+    {
+      "id": "stack-start",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "stack",
+            "start"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review local configuration, filesystem writes and container or process lifecycle."
+    },
+    {
+      "id": "stack-stop",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "stack",
+            "stop"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review local configuration, filesystem writes and container or process lifecycle."
+    },
+    {
+      "id": "stack-restart",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "stack",
+            "restart"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review local configuration, filesystem writes and container or process lifecycle."
+    },
+    {
+      "id": "stack-install",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "stack",
+            "install"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review local configuration, filesystem writes and container or process lifecycle."
+    },
+    {
+      "id": "stack-update",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "stack",
+            "update"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review local configuration, filesystem writes and container or process lifecycle."
+    },
+    {
+      "id": "status",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "status"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "services",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "services"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "whoami",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "whoami"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "gen-types",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "gen",
+            "types"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "migration-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "migration",
+            "list"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "functions-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "functions",
+            "list"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "branches-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "branches",
+            "list"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "branches-get",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "branches",
+            "get"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "storage-ls",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "storage",
+            "ls"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "db-lint",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "db",
+            "lint"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "db-advisors",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "db",
+            "advisors"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "inspect",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "inspect"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "logs",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "logs"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "config-diff",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "config",
+            "diff"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "config-validate",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "config",
+            "validate"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "stack-status",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "stack",
+            "status"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "stack-list",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "stack",
+            "list"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "stack-logs",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "stack",
+            "logs"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "stack-outdated",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "stack",
+            "outdated"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the selected project, connection, logs and any generated output."
+    },
+    {
+      "id": "bootstrap",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "bootstrap"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "pull",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "pull"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "link",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "link"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "unlink",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "unlink"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "migration-fetch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "migration",
+            "fetch"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "config-pull",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "config",
+            "pull"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "config-convert",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "config",
+            "convert"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "db-schema",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "db",
+            "schema"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "db-branch",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "db",
+            "branch"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "db-remote",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "db",
+            "remote"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "test-db",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "test",
+            "db"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "gen-keys",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "gen",
+            "keys"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "gen-jwt",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "gen",
+            "jwt"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "notebooks-pull",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "notebooks",
+            "pull"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "issue",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "issue"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "telemetry",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "telemetry"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "orgs-create",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "orgs",
+            "create"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "snippets",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "snippets"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "completion",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "completion"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "compute",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "compute"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review implicit file changes, execution and remote project effects."
+    },
+    {
+      "id": "backups",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "backups"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review service security, backups, resource deletion or access settings."
+    },
+    {
+      "id": "domains",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "domains"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review service security, backups, resource deletion or access settings."
+    },
+    {
+      "id": "network-bans",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "network-bans"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review service security, backups, resource deletion or access settings."
+    },
+    {
+      "id": "network-restrictions",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "network-restrictions"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review service security, backups, resource deletion or access settings."
+    },
+    {
+      "id": "postgres-config",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "postgres-config"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review service security, backups, resource deletion or access settings."
+    },
+    {
+      "id": "ssl-enforcement",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "ssl-enforcement"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review service security, backups, resource deletion or access settings."
+    },
+    {
+      "id": "sso",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "sso"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review service security, backups, resource deletion or access settings."
+    },
+    {
+      "id": "vanity-subdomains",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "vanity-subdomains"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review service security, backups, resource deletion or access settings."
+    },
+    {
+      "id": "stack-destroy",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "stack",
+            "destroy"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review service security, backups, resource deletion or access settings."
+    },
+    {
+      "id": "stack-prune",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "prefix",
+          "values": [
+            "stack",
+            "prune"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          }
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review service security, backups, resource deletion or access settings."
+    },
+    {
+      "id": "db-reset-hosted",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "db",
+            "reset"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--linked",
+            "--local"
+          ],
+          "values": [
+            "--db-url",
+            "--project-ref"
+          ],
+          "optional_values": [
+            "--remote"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--remote",
+            "--linked",
+            "--db-url",
+            "--project-ref"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review destructive or schema-changing operations on an explicit hosted database target."
+    },
+    {
+      "id": "db-push-hosted",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "db",
+            "push"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--linked",
+            "--local"
+          ],
+          "values": [
+            "--db-url",
+            "--project-ref"
+          ],
+          "optional_values": [
+            "--remote"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--remote",
+            "--linked",
+            "--db-url",
+            "--project-ref"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review destructive or schema-changing operations on an explicit hosted database target."
+    },
+    {
+      "id": "migration-down-hosted",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "migration",
+            "down"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--linked",
+            "--local"
+          ],
+          "values": [
+            "--db-url",
+            "--project-ref"
+          ],
+          "optional_values": [
+            "--remote"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--remote",
+            "--linked",
+            "--db-url",
+            "--project-ref"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review destructive or schema-changing operations on an explicit hosted database target."
+    },
+    {
+      "id": "migration-repair-hosted",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "migration",
+            "repair"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--linked",
+            "--local"
+          ],
+          "values": [
+            "--db-url",
+            "--project-ref"
+          ],
+          "optional_values": [
+            "--remote"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--remote",
+            "--linked",
+            "--db-url",
+            "--project-ref"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review destructive or schema-changing operations on an explicit hosted database target."
+    },
+    {
+      "id": "migration-squash-hosted",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "options",
+          "prefix": [
+            "migration",
+            "squash"
+          ],
+          "leading": {
+            "flags": [],
+            "values": [
+              "--output",
+              "-o",
+              "--output-format",
+              "--agent",
+              "--workdir",
+              "--profile",
+              "--network-id",
+              "--dns-resolver",
+              "--log-level"
+            ],
+            "optional_values": [
+              "--yes",
+              "--debug",
+              "--experimental",
+              "--create-ticket"
+            ],
+            "interleaved": true
+          },
+          "flags": [
+            "--linked",
+            "--local"
+          ],
+          "values": [
+            "--db-url",
+            "--project-ref"
+          ],
+          "optional_values": [
+            "--remote"
+          ],
+          "operands": true,
+          "unknown_options": "skip",
+          "require_any": [
+            "--remote",
+            "--linked",
+            "--db-url",
+            "--project-ref"
+          ]
+        }
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review destructive or schema-changing operations on an explicit hosted database target."
+    },
+    {
+      "id": "cli-review",
+      "conditions": {
+        "domain": "argv",
+        "executable": {
+          "one_of": [
+            "supabase",
+            "/usr/bin/supabase",
+            "/usr/local/bin/supabase",
+            "/opt/homebrew/bin/supabase"
+          ]
+        },
+        "arguments": {
+          "kind": "any"
+        }
+      },
+      "decision": "ask",
+      "reason": "Review the Supabase command and any implicit paths, credentials or target selection.",
+      "fallback": true
+    },
+    {
+      "id": "mcp-search_docs",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "search_docs",
+        "fields": {
+          "/graphql_query": {
+            "text": {
+              "regex": "(?s:.*\\S.*)"
+            }
+          }
+        }
+      },
+      "decision": "allow",
+      "reason": "Search the public Supabase documentation."
+    },
+    {
+      "id": "mcp-get_project_url",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "get_project_url"
+      },
+      "decision": "allow",
+      "reason": "Read the configured project’s API URL."
+    },
+    {
+      "id": "mcp-get_advisors",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "get_advisors",
+        "fields": {
+          "/type": {
+            "text": {
+              "one_of": [
+                "security",
+                "performance",
+                "health"
+              ]
+            }
+          }
+        }
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read diagnostics for the configured project."
+    },
+    {
+      "id": "mcp-list_tables",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "list_tables"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read metadata for the configured project."
+    },
+    {
+      "id": "mcp-list_extensions",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "list_extensions"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read metadata for the configured project."
+    },
+    {
+      "id": "mcp-list_migrations",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "list_migrations"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read metadata for the configured project."
+    },
+    {
+      "id": "mcp-list_edge_functions",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "list_edge_functions"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read metadata for the configured project."
+    },
+    {
+      "id": "mcp-list_branches",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "list_branches"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read metadata for the configured project."
+    },
+    {
+      "id": "mcp-list_storage_buckets",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "list_storage_buckets"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read metadata for the configured project."
+    },
+    {
+      "id": "mcp-get_storage_config",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "get_storage_config"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read metadata for the configured project."
+    },
+    {
+      "id": "mcp-generate_typescript_types",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "generate_typescript_types"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read metadata for the configured project."
+    },
+    {
+      "id": "mcp-get_publishable_keys",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "get_publishable_keys"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read metadata for the configured project."
+    },
+    {
+      "id": "mcp-list_notebooks",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "list_notebooks"
+      },
+      "decision": {
+        "loose": "allow",
+        "recommended": "allow",
+        "strict": "ask"
+      },
+      "reason": "Read metadata for the configured project."
+    },
+    {
+      "id": "mcp-get_logs",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "get_logs"
+      },
+      "decision": "ask",
+      "reason": "Review access to logs, stored content or account data."
+    },
+    {
+      "id": "mcp-query_logs",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "query_logs"
+      },
+      "decision": "ask",
+      "reason": "Review access to logs, stored content or account data."
+    },
+    {
+      "id": "mcp-get_edge_function",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "get_edge_function"
+      },
+      "decision": "ask",
+      "reason": "Review access to logs, stored content or account data."
+    },
+    {
+      "id": "mcp-get_notebook",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "get_notebook"
+      },
+      "decision": "ask",
+      "reason": "Review access to logs, stored content or account data."
+    },
+    {
+      "id": "mcp-list_projects",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "list_projects"
+      },
+      "decision": "ask",
+      "reason": "Review access to logs, stored content or account data."
+    },
+    {
+      "id": "mcp-get_project",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "get_project"
+      },
+      "decision": "ask",
+      "reason": "Review access to logs, stored content or account data."
+    },
+    {
+      "id": "mcp-list_organizations",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "list_organizations"
+      },
+      "decision": "ask",
+      "reason": "Review access to logs, stored content or account data."
+    },
+    {
+      "id": "mcp-get_organization",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "get_organization"
+      },
+      "decision": "ask",
+      "reason": "Review access to logs, stored content or account data."
+    },
+    {
+      "id": "mcp-get_cost",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "get_cost"
+      },
+      "decision": "ask",
+      "reason": "Review access to logs, stored content or account data."
+    },
+    {
+      "id": "mcp-execute_sql",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "execute_sql"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL execution, deployment, billing, configuration changes or data sent to Supabase."
+    },
+    {
+      "id": "mcp-apply_migration",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "apply_migration"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL execution, deployment, billing, configuration changes or data sent to Supabase."
+    },
+    {
+      "id": "mcp-deploy_edge_function",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "deploy_edge_function"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL execution, deployment, billing, configuration changes or data sent to Supabase."
+    },
+    {
+      "id": "mcp-update_storage_config",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "update_storage_config"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL execution, deployment, billing, configuration changes or data sent to Supabase."
+    },
+    {
+      "id": "mcp-create_branch",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "create_branch"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL execution, deployment, billing, configuration changes or data sent to Supabase."
+    },
+    {
+      "id": "mcp-merge_branch",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "merge_branch"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL execution, deployment, billing, configuration changes or data sent to Supabase."
+    },
+    {
+      "id": "mcp-rebase_branch",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "rebase_branch"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL execution, deployment, billing, configuration changes or data sent to Supabase."
+    },
+    {
+      "id": "mcp-create_project",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "create_project"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL execution, deployment, billing, configuration changes or data sent to Supabase."
+    },
+    {
+      "id": "mcp-restore_project",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "restore_project"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL execution, deployment, billing, configuration changes or data sent to Supabase."
+    },
+    {
+      "id": "mcp-confirm_cost",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "confirm_cost"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL execution, deployment, billing, configuration changes or data sent to Supabase."
+    },
+    {
+      "id": "mcp-create_notebook",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "create_notebook"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL execution, deployment, billing, configuration changes or data sent to Supabase."
+    },
+    {
+      "id": "mcp-run_notebook",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "run_notebook"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL execution, deployment, billing, configuration changes or data sent to Supabase."
+    },
+    {
+      "id": "mcp-submit_feedback",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "submit_feedback"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL execution, deployment, billing, configuration changes or data sent to Supabase."
+    },
+    {
+      "id": "mcp-delete_feedback",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "delete_feedback"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "ask",
+        "strict": "deny"
+      },
+      "reason": "Review SQL execution, deployment, billing, configuration changes or data sent to Supabase."
+    },
+    {
+      "id": "mcp-create_edge_function_secret",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "create_edge_function_secret"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review changes to secrets, service availability or deletion of project resources."
+    },
+    {
+      "id": "mcp-delete_branch",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "delete_branch"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review changes to secrets, service availability or deletion of project resources."
+    },
+    {
+      "id": "mcp-reset_branch",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "reset_branch"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review changes to secrets, service availability or deletion of project resources."
+    },
+    {
+      "id": "mcp-pause_project",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "pause_project"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review changes to secrets, service availability or deletion of project resources."
+    },
+    {
+      "id": "mcp-delete_notebook",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": "delete_notebook"
+      },
+      "decision": {
+        "loose": "ask",
+        "recommended": "deny",
+        "strict": "deny"
+      },
+      "reason": "Review changes to secrets, service availability or deletion of project resources."
+    },
+    {
+      "id": "mcp-execute-sql-read-only",
+      "when": [
+        {
+          "var": "read_only_sql",
+          "set": true
+        }
+      ],
+      "conditions": {
+        "domain": "mcp",
+        "server": "hosted",
+        "tool": "execute_sql",
+        "fields": {
+          "/query": {
+            "text": {
+              "regex": "(?s:.*\\S.*)"
+            }
+          }
+        },
+        "connection": {
+          "/transport/url": {
+            "text": {
+              "regex": "^https://mcp\\.supabase\\.com/mcp\\?(?:project_ref=[a-z]{20}&read_only=true|read_only=true&project_ref=[a-z]{20}|project_ref=[a-z]{20}&read_only=true&features=database|project_ref=[a-z]{20}&features=database&read_only=true|read_only=true&project_ref=[a-z]{20}&features=database|read_only=true&features=database&project_ref=[a-z]{20}|features=database&project_ref=[a-z]{20}&read_only=true|features=database&read_only=true&project_ref=[a-z]{20})$"
+            }
+          }
+        }
+      },
+      "decision": "allow",
+      "reason": "Send SQL to the reviewed project-scoped read-only connection."
+    },
+    {
+      "id": "mcp-review",
+      "conditions": {
+        "domain": "mcp",
+        "server": {
+          "one_of": [
+            "hosted",
+            "local"
+          ]
+        },
+        "tool": {
+          "not": {
+            "one_of": [
+              "get_project_url",
+              "list_tables",
+              "list_extensions",
+              "list_migrations",
+              "list_edge_functions",
+              "list_branches",
+              "list_storage_buckets",
+              "get_storage_config",
+              "generate_typescript_types",
+              "get_publishable_keys",
+              "list_notebooks",
+              "get_logs",
+              "query_logs",
+              "get_edge_function",
+              "get_notebook",
+              "list_projects",
+              "get_project",
+              "list_organizations",
+              "get_organization",
+              "get_cost",
+              "execute_sql",
+              "apply_migration",
+              "deploy_edge_function",
+              "update_storage_config",
+              "create_branch",
+              "merge_branch",
+              "rebase_branch",
+              "create_project",
+              "restore_project",
+              "confirm_cost",
+              "create_notebook",
+              "run_notebook",
+              "submit_feedback",
+              "delete_feedback",
+              "create_edge_function_secret",
+              "delete_branch",
+              "reset_branch",
+              "pause_project",
+              "delete_notebook"
+            ]
+          }
+        }
+      },
+      "decision": "ask",
+      "reason": "Review unclassified Supabase MCP requests or requests missing required arguments.",
+      "fallback": true
+    }
+  ]
+}

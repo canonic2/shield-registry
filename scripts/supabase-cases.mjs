@@ -78,6 +78,7 @@ const shell = [
   ['supabase projects list --workdir /outside', review],
   ['supabase db --yes=true reset --remote', sensitive],
   ['supabase --debug=false projects delete abcdefghijklmnopqrst', sensitive],
+  ['supabase db push --help', allow],
 ];
 
 const expandedCli = [
@@ -108,6 +109,13 @@ const expandedCli = [
   [['migration', 'down', '--project-ref', 'abcdefghijklmnopqrst'], sensitive],
   [['migration', 'repair', '--linked'], sensitive], [['migration', 'squash', '--remote'], sensitive],
   [['db', 'reset', '--local', '--remote=staging'], sensitive],
+  [['db', '--help'], allow], [['db', 'push', '--help'], allow], [['db', 'push', '-h'], allow],
+  [['projects', 'list', '--help'], allow], [['projects', 'delete', '--help'], allow],
+  [['inspect', 'db', 'table-sizes', '--help'], allow], [['secrets', 'set', '-h'], allow],
+  [['future-command', '--help'], allow], [['future-command', 'nested', 'topic2', 'child', '-h'], allow],
+  [['db', 'push', '--help=false'], change], [['db', 'push', '--', '--help'], change],
+  [['db', 'push', '--remote', '--help'], sensitive], [['db', 'push', '--db-url', '--help'], sensitive],
+  [['db', 'push', '--workdir', '/outside', '--help'], change], [['db', 'push', '/outside', '--help'], change],
 ];
 
 const graphql_query = '{ searchDocs(query: "local development") { totalCount } }';
@@ -161,9 +169,36 @@ export const hosted = 'https://mcp.supabase.com/mcp?project_ref=abcdefghijklmnop
 
 export function mcpCase(name, profile, tool, args, expected, {
   server = 'supabase', transport = {type: 'http', url: hosted}, explicit = false,
+  variables,
 } = {}) {
   return {name, profile, expected, input: {kind: 'mcp', server, tool, arguments: args, original_input: {}},
-    mcp: {[server]: {transport, agents: {codex: server}, ...(explicit ? {packs: {'canonic/supabase': 'hosted'}} : {})}}};
+    mcp: {[server]: {transport, agents: {codex: server}, ...(explicit ? {packs: {'canonic/supabase': 'hosted'}} : {})}},
+    ...(variables ? {variables} : {})};
+}
+
+function readOnlySqlCases(profile, reviewedDecision) {
+  const first = `${hosted}&read_only=true&features=database`;
+  const second = 'https://mcp.supabase.com/mcp?read_only=true&project_ref=zyxwvutsrqponmlkjihg';
+  const variables = {read_only_sql: [`project-data ${first}`, `other-data ${second}`]};
+  const sql = {query: 'select 1'};
+  return [
+    ['first-connection', 'project-data', first, 'execute_sql', sql, 'allow'],
+    ['second-connection', 'other-data', second, 'execute_sql', sql, 'allow'],
+    ['different-connection-same-url', 'unlisted', first, 'execute_sql', sql, reviewedDecision],
+    ['submitted-connection-id', 'unlisted', first, 'execute_sql', {...sql, id: 'project-data'}, reviewedDecision],
+    ['other-reviewed-url', 'project-data', second, 'execute_sql', sql, reviewedDecision],
+    ['changed-project', 'project-data', first.replace('abcdefghijklmnopqrst', 'bcdefghijklmnopqrstu'), 'execute_sql', sql, reviewedDecision],
+    ['missing-read-only', 'project-data', hosted, 'execute_sql', sql, reviewedDecision],
+    ['writable', 'project-data', `${hosted}&read_only=false`, 'execute_sql', sql, reviewedDecision],
+    ['duplicate', 'project-data', `${first}&read_only=true`, 'execute_sql', sql, 'ask'],
+    ['conflicting', 'project-data', `${first}&read_only=false`, 'execute_sql', sql, 'ask'],
+    ['local', 'project-data', 'http://localhost:54321/mcp', 'execute_sql', sql, reviewedDecision],
+    ['missing-query', 'project-data', first, 'execute_sql', {}, reviewedDecision],
+    ['malformed-query', 'project-data', first, 'execute_sql', {query: false}, reviewedDecision],
+    ['migration', 'project-data', first, 'apply_migration', {name: 'widgets', query: 'create table widgets(id int)'}, reviewedDecision],
+  ].map(([name, server, url, tool, args, expected]) => mcpCase(
+    `opt-in-${name}-${profile}`, profile, tool, args, expected, {server, transport: {type: 'http', url}, variables},
+  ));
 }
 
 export function supabaseCases() {
@@ -195,6 +230,7 @@ export function supabaseCases() {
     mcpCase(`readonly-sql-${profile}`, profile, 'execute_sql', {query: 'select 1'}, change[index], {
       transport: {type: 'http', url: `${hosted}&read_only=true`},
     }),
+    ...readOnlySqlCases(profile, change[index]),
     mcpCase(`reordered-query-${profile}`, profile, 'search_docs', {graphql_query}, 'allow', {
       transport: {type: 'http', url: 'https://mcp.supabase.com/mcp?features=database%2Cdocs&read_only=false&project_ref=abcdefghijklmnopqrst'},
     }),

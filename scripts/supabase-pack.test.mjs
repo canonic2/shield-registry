@@ -31,7 +31,7 @@ test('Supabase release inputs reproduce with schema-valid policy and independent
   const inventory = JSON.parse(readFileSync(new URL('commands.json', directory)));
   assert.deepEqual(inventory, {schema_version: 1, commands: [{name: 'supabase', rule_ids: cliRules.map(rule => rule.id)}]});
   const tools = pack.rules.filter(rule => rule.conditions.domain === 'mcp' && !rule.fallback);
-  assert.deepEqual(tools.map(rule => rule.conditions.tool).sort(), [...reviewedMcpTools].sort());
+  assert.deepEqual(tools.map(rule => rule.conditions.tool).sort(), [...reviewedMcpTools, 'execute_sql'].sort());
 
   const manifest = JSON.parse(readFileSync(new URL('../release.json', import.meta.url)));
   assert.equal(manifest.packs.filter(path => path === `packs/${pack.id}/${pack.version}/pack.yml`).length, 1);

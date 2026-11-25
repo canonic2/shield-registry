@@ -141,12 +141,18 @@ inspection, allowed in all profiles; \`FILE\` outside them or in a protected
 location asks in all profiles. Export without \`--output\`, and the MCP
 \`task_export\` tool, return text and write no file.
 
+Task preview selectors and offsets do not change input-file review. Spec Kit
+artifact selectors choose from the bound context. Hub reads only recognized
+artifacts under that binding.
+
 ### Explicit client execution and auth confirmation
 
 Hub runs the executable supplied to \`mcp app create --claude-bin\` to check
-its version and capabilities before the app review. The override now follows
-the arbitrary-program decision. Omit it to use the installed default client
-and the ordinary provisioning decision.
+its version and capabilities before the app review. The override follows
+the arbitrary-program decision. CLI \`--dry-run\` and MCP
+\`mcp_app_create_preview\` are inspection. They prepare a terminal handoff
+without contacting Slack or starting the client. Creation requires the user
+to approve the preview and enter a token at the hidden terminal prompt.
 
 Hub applies \`mcp auth setup --yes\` without terminal confirmation, including
 when \`--remove\` restores direct server URLs. The published 0.1.3

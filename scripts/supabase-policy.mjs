@@ -1,7 +1,7 @@
 import {executableForms} from './tool-pack.mjs';
 
-export const version = '0.1.0';
-export const engine = '>=0.53.0, <1.0.0';
+export const version = '0.1.1';
+export const engine = '>=0.54.0, <1.0.0';
 
 const inspect = {loose: 'allow', recommended: 'allow', strict: 'ask'};
 const change = {loose: 'ask', recommended: 'ask', strict: 'deny'};
@@ -29,6 +29,12 @@ const queries = [projectRef, readOnly, features, `${readOnly}&${features}`, `${f
   const [second, third] = [projectRef, readOnly, features].filter(option => option !== first);
   return [`${first}&${second}&${third}`, `${first}&${third}&${second}`];
 })];
+const readOnlyQueries = queries.filter(query => query.includes(projectRef) && query.includes(readOnly))
+  .map(query => query.replace(readOnly, 'read_only=true').replace(features, 'features=database'));
+const readOnlySqlUrl = `${mcpEndpoint}\\?(?:${readOnlyQueries.join('|')})`;
+const readOnlySqlEnabled = [{var: 'read_only_sql', set: true}];
+const readOnlySqlPart = index => ({text: {var: 'read_only_sql', split: {separator: ' ', index}}});
+const hostedSql = {domain: 'mcp', server: 'hosted', tool: 'execute_sql'};
 
 const cliChanges = [
   'db query', 'db reset', 'db push', 'db pull', 'db dump', 'db diff',
@@ -80,7 +86,7 @@ export function supabasePack() {
   const argv = (id, args, decision, reason, extra = {}) => ({
     id, conditions: {domain: 'argv', executable, arguments: args, ...extra}, decision, reason,
   });
-  const exact = (id, values) => argv(id, {kind: 'exact', values}, 'allow', 'Print built-in help or the installed version.');
+  const versionRule = (id, flag) => argv(id, {kind: 'exact', values: [flag]}, 'allow', 'Print the installed version.');
   const cliEffect = (command, decision, reason) => argv(command.replaceAll(' ', '-'),
     {kind: 'prefix', values: command.split(' '), leading}, decision, reason);
   const mcp = (tool, decision, reason, fields) => ({
@@ -94,6 +100,10 @@ export function supabasePack() {
     ...mcpReview.map(tool => mcp(tool, 'ask', 'Review access to logs, stored content or account data.')),
     ...mcpChanges.map(tool => mcp(tool, change, 'Review SQL execution, deployment, billing, configuration changes or data sent to Supabase.')),
     ...mcpHighImpact.map(tool => mcp(tool, highImpact, 'Review changes to secrets, service availability or deletion of project resources.')),
+    {id: 'mcp-execute-sql-read-only', when: readOnlySqlEnabled, conditions: {...hostedSql,
+      fields: {'/query': {text: {regex: '(?s:.*\\S.*)'}}},
+      connection: {'/transport/url': {text: {regex: `^${readOnlySqlUrl}$`}}}},
+    decision: 'allow', reason: 'Send SQL to the reviewed project-scoped read-only connection.'},
   ];
   // Unconditional tool rules and fallback rules tie on specificity in Shield.
   // Exclude tools with unconditional decisions, retaining fallback for unmet fields.
@@ -104,14 +114,28 @@ export function supabasePack() {
     description: 'Supabase CLI and hosted/local MCP, with reviewed lifecycle, database, deployment, credentials and storage operations.',
     license: 'MIT', maintainers: ['Canonic'], engines: {shield: engine},
     capabilities: ['access-paths-v1', 'argument-rules-v1', 'fallback-rules-v1', 'interleaved-leading-v1',
-      'location-v1', 'mcp-integrations-v1', 'negated-selectors-v1', 'prefix-leading-v1', 'regex-v1', 'structured-rules-v1', 'unknown-options-v1'],
+      'location-v1', 'mcp-connection-facts-v1', 'mcp-integrations-v1', 'negated-selectors-v1',
+      'preconditions-v1', 'prefix-leading-v1', 'regex-v1', 'structured-rules-v1', 'unknown-options-v1',
+      'variable-list-branches-v1', 'variable-parts-v1', 'variables-v1'],
+    variables: {
+      read_only_sql: {type: 'list', layer: 'local', max_items: 16,
+        description: 'Allow SQL on each listed managed connection. Enter the Shield connection ID, one space, and its exact project-scoped Supabase URL with read_only=true and optional features=database.',
+        items: {type: 'string', match: {regex: `^[A-Za-z0-9._-]{1,128} ${readOnlySqlUrl}$`}}},
+    },
     mcp_integrations: {
       hosted: {transport: 'http', fields: {'/url': {text: {regex: `^${mcpEndpoint}(?:\\?(?:${queries.join('|')}))?$`}}}},
       local: {transport: 'http', fields: {'/url': {text: {regex: 'http://(?:localhost|127\\.0\\.0\\.1):54321/mcp'}}}},
     },
+    preconditions: [{id: 'mcp-read-only-sql-connection', when: readOnlySqlEnabled,
+      conditions: hostedSql,
+      requires_any: [{connection: {'/id': readOnlySqlPart(0), '/transport/url': readOnlySqlPart(1)}}],
+      on_unmet: {decision: change, message: 'Review SQL execution on this connection. Automatic allowance requires a matching reviewed connection ID and read-only URL.'}}],
     rules: [
-      exact('version', ['--version']), exact('version-short', ['-v']),
-      exact('help', ['--help']), exact('help-short', ['-h']),
+      versionRule('version', '--version'), versionRule('version-short', '-v'),
+      ...[['help', '--help'], ['help-short', '-h']].map(([id, flag]) => argv(id, {
+        kind: 'options', prefix: [], flags: [flag], values: [], short_clusters: false,
+        require_all: [flag], operands: {match: {regex: '^[a-z][a-z0-9-]*$'}},
+      }, 'allow', 'Print built-in help for any Supabase command path.')),
       ...['projects list', 'orgs list'].map(command => argv(command.replaceAll(' ', '-'), {
         kind: 'options', prefix: command.split(' '), ...display, leading: {...display, interleaved: true}, operands: false,
       }, inspect, 'List metadata for the current Supabase account.', {cwd: {within: {root: 'read'}}})),

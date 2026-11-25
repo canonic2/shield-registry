@@ -17,7 +17,7 @@ also cover the legacy \`get_logs\` operation. Requires Shield \`${engine}\`.
 
 | Operation | Loose | Recommended | Strict |
 | --- | --- | --- | --- |
-| CLI version and top-level help, MCP documentation search and project API URL | Allow | Allow | Allow |
+| CLI version and standalone help for any command, MCP documentation search and project API URL | Allow | Allow | Allow |
 | CLI \`projects list\` and \`orgs list\` from approved readable roots with ordinary display options | Allow | Allow | Ask |
 | MCP table, extension, migration, advisor, branch, function, storage and notebook metadata, type generation and publishable keys | Allow | Allow | Ask |
 | CLI credential commands, project and function deletion, branch deletion, disabling or pausing branches | Ask | Deny | Deny |
@@ -26,7 +26,8 @@ also cover the legacy \`get_logs\` operation. Requires Shield \`${engine}\`.
 | Local stack lifecycle, status, migration/function/test creation, type generation and project inspection | Ask | Ask | Ask |
 | Project linking/pulling, config conversion/pull, test execution, generated keys/JWTs, reports, snippets and experimental compute | Ask | Ask | Deny |
 | Unlisted CLI forms and explicit workdirs on account listings | Ask | Ask | Ask |
-| MCP SQL execution, migration application, function deployment, notebook execution, billing confirmations and remote changes | Ask | Ask | Deny |
+| MCP SQL execution on an opted-in, project-scoped read-only connection | Allow | Allow | Allow |
+| Other MCP SQL execution, migration application, function deployment, notebook execution, billing confirmations and remote changes | Ask | Ask | Deny |
 | MCP secret collection, branch deletion or reset, project pausing and notebook deletion | Ask | Deny | Deny |
 | MCP logs, stored function or notebook contents, account requests and unknown tools | Ask | Ask | Ask |
 
@@ -49,11 +50,31 @@ same decisions. The local service and port ownership are trusted host inputs.
 Custom local ports, self-hosted servers, stdio wrappers and URLs with
 \`skip_elicitations\` fall back to the host's permissions.
 Supabase's server controls the exposed tools and inserts the configured project
-ref into scoped metadata calls. Use \`read_only=true\` to enable Supabase's own
-read-only mode. Shield applies the same profile decisions to arbitrary SQL in
-either mode.
+ref into scoped metadata calls. Use \`read_only=true\` to run queries with
+Supabase's read-only Postgres user.
+
+### Allow SQL on a reviewed connection
+
+Configure a managed Shield MCP connection with the official hosted URL, a
+project ref and \`read_only=true\`. In the pack's \`read_only_sql\` setting, add
+one entry per connection. Separate the Shield connection ID from its exact
+configured URL with one space.
+
+\`project-data https://mcp.supabase.com/mcp?project_ref=abcdefghijklmnopqrst&read_only=true&features=database\`
+
+The setting is off by default. Shield matches the connection ID and URL
+together. The URL can omit \`features\` or set it to \`database\`. A changed URL
+requires a new matching entry. Host aliases discovered outside a managed
+connection and local MCP endpoints use the ordinary SQL decisions. This setting
+allows \`execute_sql\` requests to reach the selected server. Supabase and
+Postgres enforce database permissions for the submitted SQL.
 
 ## CLI effect coverage
+
+The help rule accepts \`--help\` or \`-h\` with any command path, including
+commands absent from the policy inventory. For example, run
+\`supabase db push --help\`. Other options and arguments such as URLs or file
+paths use the command's ordinary policy.
 
 The policy inventories local stack start/stop/status and experimental stack
 operations, initialization, migration creation and history, type generation,
