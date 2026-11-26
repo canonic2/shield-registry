@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
-import {destination,currentDestination,nextDestination,destination070,destination071,destination080,destination081,destination090,destination0100,graphqlGithubPack,currentGithubPack,nextGithubPack,githubPack070,githubPack071,githubPack080,githubPack081,githubPack090,githubPack0100} from './build-github-graphql-pack.mjs';
-import {graphqlGithubCases,currentGithubCases,nextGithubCases,githubCases070,githubCases071,githubCases080,githubCases081,githubCases090,githubCases0100} from './build-github-graphql-cases.mjs';
+import {destination,currentDestination,nextDestination,destination070,destination071,destination080,destination081,destination090,destination0100,destination0110,graphqlGithubPack,currentGithubPack,nextGithubPack,githubPack070,githubPack071,githubPack080,githubPack081,githubPack090,githubPack0100,githubPack0110,githubGuide0110} from './build-github-graphql-pack.mjs';
+import {graphqlGithubCases,currentGithubCases,nextGithubCases,githubCases070,githubCases071,githubCases080,githubCases081,githubCases090,githubCases0100,githubCases0110} from './build-github-graphql-cases.mjs';
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
@@ -12,6 +12,7 @@ const releases = [['0.4.0',destination,graphqlGithubPack,graphqlGithubCases],['0
 const files = cases => splitCaseFiles({schema_version:1,cases:cases()});
 releases.push(['0.8.0',destination080,githubPack080,githubCases080],['0.8.1',destination081,githubPack081,githubCases081],['0.9.0',destination090,githubPack090,githubCases090]);
 releases.push(['0.10.0',destination0100,githubPack0100,githubCases0100]);
+releases.push(['0.11.0',destination0110,githubPack0110,githubCases0110]);
 const releaseCases = new Map(releases.map(([,root,,cases])=>[root.href,cases]));
 // Run every fixture file of a release and combine their case reports.
 const run = (root,extra=[]) => {
@@ -39,6 +40,15 @@ for (const [version,root,pack,cases] of releases) {
     assert.equal(result.status,0,JSON.stringify(report.cases?.filter(row=>!row.passed)??report)+result.stderr);
   });
 }
+test('GitHub workflow watch retains existing independent cases and declares its generated release',async()=>{
+  assert.deepEqual(githubCases0110().slice(0, githubCases0100().length), githubCases0100());
+  assert.equal(readFileSync(new URL('README.md', destination0110), 'utf8'), await githubGuide0110());
+  const inventory = JSON.parse(readFileSync(new URL('commands.json', destination0110)));
+  assert.ok(inventory.commands.find(row=>row.name==='gh').rule_ids.includes('run-watch'));
+  const manifest = JSON.parse(readFileSync(new URL('../release.json', import.meta.url)));
+  assert.equal(manifest.packs.filter(path=>path==='packs/canonic/github/0.11.0/pack.yml').length,1);
+  assert.deepEqual(manifest.commands['canonic/github'], ['gh']);
+});
 // A scoped refusal names one gate: GraphQL selections for decoded inline queries,
 // the literal path for REST reads of the repository, the API boundary otherwise.
 test('GitHub 0.5.0 scoped gh api refusals carry exactly one gate message', {skip:!process.env.SHIELD_BINARY},()=>{

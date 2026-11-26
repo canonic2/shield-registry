@@ -6,9 +6,9 @@ export const requests = [
   ['view_set', {target}],
   ['annotation_list', {}],
   ['config_show', {}],
-  ['page_screenshot', {target, save: true}],
+  ['page_screenshot', {target, save: true, deviceScaleFactor: 3}],
   ['page_console', {target}],
-  ['page_snapshot', {target}],
+  ['page_snapshot', {target, timeout: 3000}],
   ['page_check', {target, sizes: ['mobile','laptop']}],
   ['page_inspect', {target, selector: 'button'}],
   ['page_sheet', {target, sizes: ['mobile','laptop']}],
@@ -17,10 +17,10 @@ export const requests = [
   ['page_list', {}],
   ['page_interact', {page: 'pg_acme', steps: [{action: 'click', target: {selector: 'button'}}]}],
   ['page_stop', {page: 'pg_acme'}],
-  ['image_inspect', {file: 'public/images/hero.png'}],
+  ['image_inspect', {file: 'public/images/hero.png'}, 'ask'],
   ['image_list', {target, sizes: ['mobile','laptop']}],
   ['image_edit', {file: 'public/images/hero.png', steps: [{trim: {}}], outputs: [{format: 'webp', densities: [1, 2]}],
-    out: 'public/images/', replace: true}],
+    out: 'public/images/', replace: true}, 'ask'],
   ['docs_list', {}],
   ['docs_search', {query: 'scenarios'}],
   ['docs_read', {path: 'agent-tools.md'}],
@@ -33,17 +33,17 @@ export function binding(transport = {type: 'defaults', pack: 'canonic/workbench'
 export function workbenchCases() {
   const cases = [];
   for (const profile of ['loose','recommended','strict']) {
-    for (const [tool, arguments_] of requests) {
+    for (const [tool, arguments_, expected = 'allow'] of requests) {
       for (const [variant, args] of [['request', arguments_], ['empty', {}], ['malformed', {target: 42, page: null, steps: 'invalid'}]]) {
         cases.push({name: `${tool}-${variant}-${profile}`, profile, mcp: binding(),
-          input: {kind: 'mcp', server: 'workbench', tool, arguments: args, original_input: {}}, expected: 'allow'});
+          input: {kind: 'mcp', server: 'workbench', tool, arguments: args, original_input: {}}, expected});
       }
     }
     for (const tool of ['future_tool','current_view','workbench_docs_read','page_interact_shell','VIEW_SHOW']) {
       cases.push({name: `unknown-${tool}-${profile}`, profile, mcp: binding(),
         input: {kind: 'mcp', server: 'workbench', tool, arguments: {}, original_input: {}}, expected: 'allow'});
     }
-    for (const command of ['workbench','/usr/local/bin/workbench','/opt/homebrew/bin/workbench',
+    for (const command of ['workbench','/usr/bin/workbench','/usr/local/bin/workbench','/opt/homebrew/bin/workbench',
       '/Users/acme/.local/bin/workbench','/home/acme/.local/bin/workbench',
       'workbench.cmd','C:\\Users\\Acme\\.local\\bin\\workbench.cmd']) {
       cases.push({name: `transport-${cases.length}-${profile}`, profile,
@@ -52,7 +52,12 @@ export function workbenchCases() {
     }
     cases.push({name: `alias-${profile}`, profile, mcp: binding(undefined, 'canvas'),
       input: {kind: 'mcp', server: 'canvas', tool: 'view_set', arguments: {target}, original_input: {}}, expected: 'allow'});
-    for (const argv of [['workbench','mcp','setup','--yes'], ['workbench','manager','stop'], ['workbench','view','set','pages/jobs.html']]) {
+    for (const argv of [
+      ['workbench','mcp','setup','--yes'], ['workbench','manager','stop'], ['workbench','view','set','pages/jobs.html'],
+      ['workbench','page','screenshot','pages/jobs.html','--device-scale-factor','3','--save'],
+      ['workbench','image','inspect','public/images/hero.png'],
+      ['workbench','docs','read','agent-tools.md'],
+    ]) {
       cases.push({name: `cli-uncovered-${cases.length}-${profile}`, profile, argv, expected: 'ask'});
     }
   }

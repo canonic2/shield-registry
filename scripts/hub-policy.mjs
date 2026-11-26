@@ -1,4 +1,4 @@
-// Reviewed Hub CLI and MCP surface of Hub 0.53.0: src/interface/cli.rs, the
+// Reviewed Hub CLI and MCP surface of Hub 0.56.0: src/interface/cli.rs, the
 // task, agent, plugin and integration argument types, and the tools of
 // src/interface/mcp/catalog.rs (`hub mcp serve --check`). Hub succeeds Box;
 // canonic/box keeps covering the box executable.
@@ -13,7 +13,7 @@
 import {toolPack} from './tool-pack.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 
-export const version = '0.1.10';
+export const version = '0.1.11';
 export const engine = '>=0.20.0, <1.0.0';
 
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -49,6 +49,9 @@ const mutation = {flags: ['--dry-run'], values: [...workspace, '--if-revision', 
 const initial = ['--goal', '--description', '--priority', '--labels', '--check', '--goal-file', '--description-file'];
 const appValues = [...globals, '--claude-bin', '--server-key', '--agent', '--app-id', '--client-id', '--name', '--preset'];
 const appFlags = ['--app-only', '--no-browser', '--details'];
+const catalogValues = [...globals, '--project', '--from', '--scope'];
+const approvedPath = root => ({within: {root}, exclude: ['.shield', '.git', '.aws', '.ssh', '.env', '.mcp.json', '.codex', '.claude']
+  .map(path => ({root: 'project', path}))});
 // Complete option sets, so a file check parses every spelling of the command.
 const grammars = {
   taskUpdate: {flags: [...mutation.flags, '--clear-goal'], values: [...mutation.values, '--goal', '--goal-file',
@@ -89,15 +92,21 @@ export const hub = {
     ...words(['status', 'workspace list', 'workspace show', 'operation show', 'operation list',
       'manager status', 'manager blocker list', 'process list', 'process url',
       'process logs', 'process stats', 'process gateway status', 'task show', 'task history', 'task step list', 'task step next',
-      'agent list', 'agent show', 'config check', 'config plan', 'config schema', 'docs list', 'docs search', 'docs read',
+      'agent list', 'agent show', 'config plan', 'config schema', 'docs list', 'docs search', 'docs read',
       'plugin list', 'plugin show', 'plugin binding list', 'plugin context show', 'plugin prepare', 'plugin workflow list', 'plugin workflow show',
       'mcp auth list', 'mcp auth show', 'mcp auth manager status', 'mcp serve'],
     'inspect', 'Inspect Hub state, configuration or documentation.'),
+    [['config', 'check'], 'inspect', 'Validate Hub configuration.', [
+      {id: 'lenient', any: ['--lenient'], flags: ['--lenient'], values: ['--set-env'], category: 'confirmation', reason: 'Launch the host Docker CLI to resolve Compose.'}]],
+    [['process', 'run'], 'routine', 'Start configured Hub targets.', [
+      {id: 'private', any: ['--show-private'], flags: ['--show-private', '--detach'], values: [...workspace, '--request-id', '--set-env'], category: 'confirmation', reason: 'Show unredacted captured output in the caller response.'}]],
+    [['process', 'forget'], 'inspect', 'Preview the recorded leftovers of a blocked execution.', [
+      {id: 'confirm', any: ['--confirm'], values: ['--confirm'], category: 'confirmation', reason: 'Accept operator responsibility for leftover resources and release Hub references.'}]],
     [['doctor'], 'inspect', 'Inspect Hub prerequisites, project and manager state.', [
       {id: 'execution', any: ['--execution'], values: ['--execution'], category: 'routine', reason: composeAssessment}]],
     ...words(['init', 'setup', 'mcp setup', 'mcp auth logout', 'mcp auth headers',
       'mcp auth manager stop', 'mcp auth manager drain', 'manager stop', 'manager drain', 'operation cancel',
-      'workspace prepare', 'process run', 'process restart', 'process pause', 'process resume', 'process stop', 'process gateway enable', 'process gateway disable', 'agent stop',
+      'workspace prepare', 'process restart', 'process pause', 'process resume', 'process stop', 'process gateway enable', 'process gateway disable', 'agent stop',
       'task step remove', 'task check add', 'task check update', 'task check remove', 'task note add', 'task note update',
       'task note remove', 'plugin enable', 'plugin disable', 'plugin reset', 'plugin binding add', 'plugin binding remove',
       'plugin workflow reconcile', 'plugin workflow abandon', 'plugin check'],
@@ -113,6 +122,10 @@ export const hub = {
     [['proxy'], 'confirmation', 'Review controller login, custom trust, connector enrollment and hosted proxy changes.'],
     [['mcp', 'workspace-headers'], 'routine', 'Verify the current checkout and start the same-user MCP passthrough when needed.'],
     [['mcp', 'workspace-launch'], 'execute', 'Launch a stdio MCP server with workspace ports and a supplied executable.'],
+    [['mcp', 'catalog'], 'routine', 'Record tool discovery evidence with an earlier Hub CLI.'],
+    [['mcp', 'catalog', 'show'], 'inspect', 'Inspect recorded tool names without contacting the server.'],
+    [['mcp', 'catalog', 'probe'], 'routine', 'Discover and record a configured anonymous MCP catalog after Hub confirms.'],
+    [['mcp', 'catalog', 'import'], 'routine', 'Record a complete saved catalog for later Hub review.'],
     [['mcp', 'auth', 'setup'], 'routine', 'Configure Hub-managed MCP credentials after a terminal review.', [
       {id: 'confirm', any: ['--yes'], forbid: ['--dry-run'], values: [...globals, '--name', '--agent', '--scope'],
         flags: ['--remove'], category: 'confirmation', reason: 'Change MCP credential routing without Hub’s terminal confirmation.'}]],
@@ -158,14 +171,22 @@ export const hub = {
   extraCapabilities: ['argument-paths-v1', 'field-paths-v1', 'preconditions-v1', 'requirements-v1'],
   mcpTools: Object.fromEntries([
     ...['workspace_list', 'workspace_show', 'status', 'operation_show', 'operation_list', 'process_list', 'process_logs', 'process_stats', 'process_url', 'process_gateway_status',
-      'manager_status', 'manager_blocker_list', 'config_check', 'config_plan', 'config_schema', 'task_show', 'task_history', 'task_export',
+      'manager_status', 'manager_blocker_list', 'config_plan', 'config_schema', 'task_show', 'task_history', 'task_export',
       'task_step_list', 'task_step_next', 'agent_list', 'agent_show', 'plugin_list', 'plugin_show', 'plugin_context_show',
       'plugin_prepare', 'plugin_binding_list', 'plugin_workflow_list', 'plugin_workflow_show', 'docs_list', 'docs_search', 'docs_read']
       .map(name => [name, ['inspect', 'Inspect Hub state, configuration or documentation.']]),
     ['doctor', ['inspect', 'Inspect Hub prerequisites, project and manager state.', [
       {id: 'execution', fields: {'/execution': selectedExecution}, category: 'routine', reason: composeAssessment}]]],
     ['agent_terminal_read', ['inspect', 'Read bounded terminal output owned by this Hub connection.']],
+    ['mcp_catalog_show', ['inspect', 'Read recorded tool names without connecting to the server.']],
+    ['mcp_catalog_probe', ['routine', 'Discover and record a configured anonymous MCP catalog after Hub asks the host user to confirm.']],
     ['mcp_app_create_preview', ['inspect', 'Prepare a Slack app review and return the command for terminal approval and hidden input.']],
+    ['config_check', ['inspect', 'Validate Hub configuration.', [
+      {id:'lenient', fields:{'/lenient':{exact:true}}, category:'confirmation', reason:'Review the older lenient Compose check when it is exposed by the server.'}]]],
+    ['config_check_compose', ['confirmation', 'Launch the host Docker CLI to resolve Compose.']],
+    ['process_run', ['routine', 'Start configured Hub targets.', [
+      {id:'private', fields:{'/show_private':{exact:true}}, category:'confirmation', reason:'Show unredacted captured output in the caller response.'}]]],
+    ['process_forget', ['routine', 'Review a blocked execution and release its references after Hub asks the host user to confirm.']],
     ...Object.keys(proxyReads).map(verb => [`proxy_${verb}`, ['inspect', inspectProxy, [
       {id: 'controller', fields: {'/controller': {text: {not: defaultController}}},
         category: 'confirmation', reason: reviewController},
@@ -173,7 +194,7 @@ export const hub = {
     ]]]),
     ...['init', 'setup', 'workspace_create', 'workspace_attach', 'workspace_prepare', 'workspace_data_reset',
       'task_update', 'task_import', 'task_step_add', 'task_step_update', 'task_step_remove', 'task_check_add',
-      'task_check_update', 'task_check_remove', 'task_note_add', 'task_note_update', 'task_note_remove', 'process_run',
+      'task_check_update', 'task_check_remove', 'task_note_add', 'task_note_update', 'task_note_remove',
       'process_restart', 'process_pause', 'process_resume', 'process_stop', 'process_gateway_enable', 'process_gateway_disable', 'agent_stop', 'plugin_enable', 'plugin_disable',
       'plugin_reset', 'plugin_binding_add', 'plugin_binding_remove', 'plugin_workflow_reconcile', 'plugin_workflow_abandon',
       'plugin_check', 'manager_stop', 'manager_drain', 'operation_cancel']
@@ -198,6 +219,7 @@ export const hub = {
 export function hubPack() {
   const pack = toolPack(hub);
   addPreviewTools(pack, 'hub');
+  addPersonalConfigurationReview(pack);
   const app = pack.rules.find(rule => rule.id === 'mcp-app-create');
   const {require_any: _required, ...appGrammar} = pack.rules
     .find(rule => rule.id === 'mcp-app-create-preview').conditions.arguments;
@@ -234,7 +256,17 @@ export function hubPack() {
       }
     }
     const leading = row.conditions.arguments?.leading;
-    if (leading) leading.values = [...new Set([...leading.values, ...globals])];
+    if (leading) {
+      const values = [...new Set([...leading.values, ...globals])];
+      // Catalog scope is inherited by its subcommands, so Clap also accepts
+      // it between `catalog` and its verb.
+      if (row.id === 'mcp-catalog-import-personal-write') {
+        values.push(row.conditions.arguments.values.find(option => option.name === '--scope'));
+      } else if (row.id.startsWith('mcp-catalog-') && row.id !== 'mcp-catalog-personal-write') {
+        values.push('--scope');
+      }
+      row.conditions.arguments.leading = {...leading, values};
+    }
     const grammar = row.requirements?.argument_paths?.grammar;
     if (grammar?.leading) grammar.leading.values = [...new Set([...grammar.leading.values, ...globals])];
   }
@@ -242,30 +274,85 @@ export function hubPack() {
   delete fields['/args/0'];
   delete fields['/args/1'];
   fields['/args'] = {exact: ['mcp', 'serve']};
-  pack.preconditions = composeConfigChecks(pack);
+  pack.preconditions = [...recipePathChecks(pack), ...['mcp-catalog', 'mcp-catalog-import'].map(id => catalogPathCheck(pack, id))];
+  separateCatalogInspection(pack);
   return pack;
 }
 
-// An explicit incoming recipe is read from the host. CLI paths resolve from
+function separateCatalogInspection(pack) {
+  // A legacy server ID may equal a current verb. The old form with --from
+  // mutates catalog evidence, while a current show never accepts --from.
+  for (const [id, values, selection] of [
+    ['mcp-catalog', catalogValues, {require_all: ['--from']}],
+    ['mcp-catalog-show', [...catalogValues, '--cursor', '--limit'], {forbid: ['--from']}],
+  ]) {
+    const rule = pack.rules.find(row => row.id === id);
+    const {leading, values: prefix} = rule.conditions.arguments;
+    rule.conditions.arguments = {kind: 'options', leading, prefix, flags: ['--json'], values,
+      operands: true, unknown_options: 'skip', ...selection};
+  }
+}
+
+function addPersonalConfigurationReview(pack) {
+  const setupValues = [...globals, '--project', '--agent', '--scope'];
+  const setupFlags = ['--json', '--yes', '--dry-run', '--details', '--remove'];
+  for (const [id, flags, values, optional_values, unattended] of [
+    ['setup', [...setupFlags, '--adopt', '--repair-hooks'], [...setupValues, '--server'], [], true],
+    ['mcp-setup', [...setupFlags, '--reset-tool-permissions'], setupValues, ['--approve-tool'], true],
+    ['mcp-catalog', ['--json'], catalogValues, [], false],
+    ['mcp-catalog-import', ['--json'], catalogValues, [], false],
+  ]) {
+    const userScope = {name: '--scope', match: {exact: 'user'}, repeat: id === 'mcp-catalog-import' ? 'last' : 'forbid'};
+    const {executable, arguments: {leading, values: prefix}} = pack.rules.find(rule => rule.id === id).conditions;
+    pack.rules.push({id: `${id}-personal-write`,
+      conditions: {domain: 'argv', executable, arguments: {kind: 'options', leading, prefix, flags,
+        values: values.map(name => name === '--scope' ? userScope : name), optional_values,
+        operands: true, unknown_options: 'skip',
+        ...(unattended ? {require_all: ['--scope', '--yes'], forbid: ['--dry-run']} : {require_all: ['--scope', '--from']})}},
+      decision: decisions.confirmation,
+      reason: 'Review an unattended write to this user’s personal Hub or agent configuration.'});
+  }
+}
+
+function catalogPathCheck(pack, id) {
+  const {executable, arguments: {leading, values: prefix}} = pack.rules.find(rule => rule.id === id).conditions;
+  const grammar = {kind: 'options', leading, prefix, flags: ['--json'], values: catalogValues,
+    operands: true, unknown_options: 'skip', require_all: ['--from']};
+  const options = {'--from': {path: approvedPath('read')}, '--agent-config': {path: approvedPath('read')},
+    '--project': {path: approvedPath('write')}};
+  return {id: `cli-${id}-paths`,
+    conditions: {domain: 'argv', executable, arguments: grammar},
+    requires_any: [
+      {cwd: {within: {root: 'write'}}, argument_paths: {grammar, options}},
+      {argument_paths: {grammar: {...grammar, require_all: ['--from', '--project']}, options}},
+    ],
+    on_unmet: {decision: 'ask', message: 'Select a catalog in approved read roots and a project in approved write roots.'},
+    reason: 'Read the named catalog and record its reviewed input in the selected project.'};
+}
+
+// An explicit recipe is read from the host. CLI paths resolve from
 // the caller's cwd, while relative MCP paths resolve from the selected checkout.
-function composeConfigChecks(pack) {
-  const path = {within: {root: 'read'}, exclude: ['.shield', '.git', '.aws', '.ssh', '.env', '.mcp.json', '.codex', '.claude']
-    .map(path => ({root: 'project', path}))};
-  const on_unmet = {decision: 'ask', message: 'Select an incoming recipe inside approved read roots, away from protected files.'};
-  const reason = 'An explicit replacement recipe selects a host file and can control the Docker provider lookup.';
+function recipePathChecks(pack) {
+  const path = approvedPath('read');
+  const on_unmet = {decision: 'ask', message: 'Select a configuration file inside approved read roots, away from protected files.'};
   return [
-    {command: 'doctor', tool: 'doctor', option: '--execution', fields: {'/execution': selectedExecution}},
-    {command: 'process-stop', tool: 'process_stop', option: '--check-replacement', fields: {'/check_replacement': {exact: true}}},
-  ].flatMap(({command, tool, option, fields}) => {
+    {command: 'doctor', tool: 'doctor', action: ['--execution'], fields: {'/execution': selectedExecution}},
+    {command: 'process-stop', tool: 'process_stop', action: ['--check-replacement'], fields: {'/check_replacement': {exact: true}}},
+    {command: 'process-run', tool: 'process_run', action: [], fields: {}},
+  ].flatMap(({command, tool, action, fields}) => {
     const {executable, arguments: {leading, values: prefix}} = pack.rules.find(rule => rule.id === command).conditions;
     const grammar = {kind: 'options', leading, prefix, operands: true, unknown_options: 'skip',
-      flags: ['--json', '--check-replacement', '--allow-self-stop'],
-      values: ['--execution', '--workspace', '-w', '--request-id', '--project', ...globals]};
+      flags: ['--json', '--check-replacement', '--allow-self-stop', '--detach', '--show-private'],
+      values: ['--execution', '--workspace', '-w', '--request-id', '--project', '--set-env', ...globals]};
+    const check = action.length ? 'replacement-config' : 'config';
+    const reason = action.length
+      ? 'An explicit replacement recipe selects a host file and can control the Docker provider lookup.'
+      : 'An explicit run configuration can select host commands and grant configured effects to Compose.';
     return [
-      {id: `cli-${command}-replacement-config`,
-        conditions: {domain: 'argv', executable, arguments: {...grammar, require_all: [option, '--config']}},
+      {id: `cli-${command}-${check}`,
+        conditions: {domain: 'argv', executable, arguments: {...grammar, require_all: [...action, '--config']}},
         requires_any: [{argument_paths: {grammar, options: {'--config': {path}}}}], on_unmet, reason},
-      {id: `mcp-${tool}-replacement-config`,
+      {id: `mcp-${tool}-${check}`,
         conditions: {domain: 'mcp', server: 'hub', tool, fields: {...fields, '/config': selectedExecution}},
         requires_any: [{field_paths: {'/config': {absolute: true, path}}}], on_unmet, reason},
     ];

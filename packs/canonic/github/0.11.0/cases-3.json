@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "scoped-workflow-watch-rerun-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "rerun",
+        "123",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny"
+    }
+  ]
+}

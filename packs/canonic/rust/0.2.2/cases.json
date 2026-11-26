@@ -1,0 +1,1577 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "metadata-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "metadata",
+        "--format-version",
+        "1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "metadata-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "metadata",
+        "--format-version",
+        "1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "metadata-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "metadata",
+        "--format-version",
+        "1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "build-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "build",
+        "--locked"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "build-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "build",
+        "--locked"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "build-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "build",
+        "--locked"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "add-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "add",
+        "serde"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "add-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "add",
+        "serde"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "add-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "add",
+        "serde"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "fetch-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "fetch",
+        "--locked"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fetch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "fetch",
+        "--locked"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "fetch-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "fetch",
+        "--locked"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "vendor-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "vendor",
+        "vendor"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vendor-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "vendor",
+        "vendor"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "vendor-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "vendor",
+        "vendor"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "toolchain-fetch-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "+stable",
+        "fetch"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "toolchain-fetch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "+stable",
+        "fetch"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "toolchain-fetch-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "+stable",
+        "fetch"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "rustup-fetch-loose",
+      "profile": "loose",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "fetch"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rustup-fetch-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "fetch"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "rustup-fetch-strict",
+      "profile": "strict",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "fetch"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "clean-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "clean"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "clean-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "clean"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "clean-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "clean"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "install-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "install",
+        "acme-tool"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "install-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "install",
+        "acme-tool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "install-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "install",
+        "acme-tool"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "login-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "login"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "login-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "login"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "login-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "login"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "registry-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "fetch",
+        "--registry",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "registry-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "fetch",
+        "--registry",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "registry-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "fetch",
+        "--registry",
+        "acme"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "topic-help-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "help",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "topic-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "help",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "topic-help-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "help",
+        "test"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unknown-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "future"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "protected-output-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "build",
+        "--target-dir",
+        ".shield"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "protected-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "build",
+        "--target-dir",
+        ".shield"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "protected-output-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "build",
+        "--target-dir",
+        ".shield"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-output-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "build",
+        "--target-dir",
+        "/outside/build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "build",
+        "--target-dir",
+        "/outside/build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "outside-output-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "build",
+        "--target-dir",
+        "/outside/build"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "rustfmt-primary-path-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/rust/bin/rustfmt",
+        "--check",
+        "src/lib.rs"
+      ],
+      "expected": "allow",
+      "variables": {
+        "rustfmt_executable": [
+          "/opt/rust/bin/rustfmt",
+          "/opt/rust-dev/bin/rustfmt"
+        ]
+      }
+    },
+    {
+      "name": "rustfmt-primary-path-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/rust/bin/rustfmt",
+        "--check",
+        "src/lib.rs"
+      ],
+      "expected": "allow",
+      "variables": {
+        "rustfmt_executable": [
+          "/opt/rust/bin/rustfmt",
+          "/opt/rust-dev/bin/rustfmt"
+        ]
+      }
+    },
+    {
+      "name": "rustfmt-primary-path-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/rust/bin/rustfmt",
+        "--check",
+        "src/lib.rs"
+      ],
+      "expected": "ask",
+      "variables": {
+        "rustfmt_executable": [
+          "/opt/rust/bin/rustfmt",
+          "/opt/rust-dev/bin/rustfmt"
+        ]
+      }
+    },
+    {
+      "name": "rustfmt-secondary-path-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/rust-dev/bin/rustfmt",
+        "--check",
+        "src/lib.rs"
+      ],
+      "expected": "allow",
+      "variables": {
+        "rustfmt_executable": [
+          "/opt/rust/bin/rustfmt",
+          "/opt/rust-dev/bin/rustfmt"
+        ]
+      }
+    },
+    {
+      "name": "rustfmt-secondary-path-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/rust-dev/bin/rustfmt",
+        "--check",
+        "src/lib.rs"
+      ],
+      "expected": "allow",
+      "variables": {
+        "rustfmt_executable": [
+          "/opt/rust/bin/rustfmt",
+          "/opt/rust-dev/bin/rustfmt"
+        ]
+      }
+    },
+    {
+      "name": "rustfmt-secondary-path-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/rust-dev/bin/rustfmt",
+        "--check",
+        "src/lib.rs"
+      ],
+      "expected": "ask",
+      "variables": {
+        "rustfmt_executable": [
+          "/opt/rust/bin/rustfmt",
+          "/opt/rust-dev/bin/rustfmt"
+        ]
+      }
+    },
+    {
+      "name": "rustfmt-unbound-path-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/other/bin/rustfmt",
+        "--check",
+        "src/lib.rs"
+      ],
+      "expected": "ask",
+      "variables": {
+        "rustfmt_executable": [
+          "/opt/rust/bin/rustfmt",
+          "/opt/rust-dev/bin/rustfmt"
+        ]
+      }
+    },
+    {
+      "name": "rustfmt-unbound-path-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/other/bin/rustfmt",
+        "--check",
+        "src/lib.rs"
+      ],
+      "expected": "ask",
+      "variables": {
+        "rustfmt_executable": [
+          "/opt/rust/bin/rustfmt",
+          "/opt/rust-dev/bin/rustfmt"
+        ]
+      }
+    },
+    {
+      "name": "rustfmt-unbound-path-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/other/bin/rustfmt",
+        "--check",
+        "src/lib.rs"
+      ],
+      "expected": "ask",
+      "variables": {
+        "rustfmt_executable": [
+          "/opt/rust/bin/rustfmt",
+          "/opt/rust-dev/bin/rustfmt"
+        ]
+      }
+    },
+    {
+      "name": "rustfmt-inline-config-loose",
+      "profile": "loose",
+      "argv": [
+        "/opt/rust-dev/bin/rustfmt",
+        "--check",
+        "--config",
+        "skip_children=true",
+        "src/lib.rs"
+      ],
+      "expected": "ask",
+      "variables": {
+        "rustfmt_executable": [
+          "/opt/rust/bin/rustfmt",
+          "/opt/rust-dev/bin/rustfmt"
+        ]
+      }
+    },
+    {
+      "name": "rustfmt-inline-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/opt/rust-dev/bin/rustfmt",
+        "--check",
+        "--config",
+        "skip_children=true",
+        "src/lib.rs"
+      ],
+      "expected": "ask",
+      "variables": {
+        "rustfmt_executable": [
+          "/opt/rust/bin/rustfmt",
+          "/opt/rust-dev/bin/rustfmt"
+        ]
+      }
+    },
+    {
+      "name": "rustfmt-inline-config-strict",
+      "profile": "strict",
+      "argv": [
+        "/opt/rust-dev/bin/rustfmt",
+        "--check",
+        "--config",
+        "skip_children=true",
+        "src/lib.rs"
+      ],
+      "expected": "ask",
+      "variables": {
+        "rustfmt_executable": [
+          "/opt/rust/bin/rustfmt",
+          "/opt/rust-dev/bin/rustfmt"
+        ]
+      }
+    },
+    {
+      "name": "nextest-focused-ignored-loose",
+      "profile": "loose",
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "nextest",
+        "run",
+        "--locked",
+        "--test",
+        "integration",
+        "--run-ignored",
+        "ignored-only",
+        "combined_setup_uses_scoped_reviews"
+      ],
+      "expected": "allow",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      }
+    },
+    {
+      "name": "nextest-focused-ignored-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "nextest",
+        "run",
+        "--locked",
+        "--test",
+        "integration",
+        "--run-ignored",
+        "ignored-only",
+        "combined_setup_uses_scoped_reviews"
+      ],
+      "expected": "allow",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      }
+    },
+    {
+      "name": "nextest-focused-ignored-strict",
+      "profile": "strict",
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "nextest",
+        "run",
+        "--locked",
+        "--test",
+        "integration",
+        "--run-ignored",
+        "ignored-only",
+        "combined_setup_uses_scoped_reviews"
+      ],
+      "expected": "ask",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      }
+    },
+    {
+      "name": "nextest-ignored-equals-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--run-ignored=only"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-ignored-equals-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--run-ignored=only"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-ignored-equals-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--run-ignored=only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-leaves-selector-validation-to-tool-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--run-ignored=future-mode"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-leaves-selector-validation-to-tool-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--run-ignored=future-mode"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-leaves-selector-validation-to-tool-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--run-ignored=future-mode"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-libtest-filter-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--",
+        "--ignored",
+        "--exact",
+        "module::test[2]"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-libtest-filter-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--",
+        "--ignored",
+        "--exact",
+        "module::test[2]"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-libtest-filter-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--",
+        "--ignored",
+        "--exact",
+        "module::test[2]"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-run-options-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "-j2",
+        "--retries",
+        "1",
+        "--no-tests=pass",
+        "--failure-output=final",
+        "--no-output-indent"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-run-options-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "-j2",
+        "--retries",
+        "1",
+        "--no-tests=pass",
+        "--failure-output=final",
+        "--no-output-indent"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-run-options-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "-j2",
+        "--retries",
+        "1",
+        "--no-tests=pass",
+        "--failure-output=final",
+        "--no-output-indent"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-live-output-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--no-capture",
+        "--cargo-quiet"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-live-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--no-capture",
+        "--cargo-quiet"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-live-output-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--no-capture",
+        "--cargo-quiet"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-list-options-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "nextest",
+        "list",
+        "--test",
+        "integration",
+        "--filterset",
+        "test(smoke)",
+        "--run-ignored=all",
+        "--list-type=binaries-only"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-list-options-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "nextest",
+        "list",
+        "--test",
+        "integration",
+        "--filterset",
+        "test(smoke)",
+        "--run-ignored=all",
+        "--list-type=binaries-only"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-list-options-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "nextest",
+        "list",
+        "--test",
+        "integration",
+        "--filterset",
+        "test(smoke)",
+        "--run-ignored=all",
+        "--list-type=binaries-only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-toolchain-loose",
+      "profile": "loose",
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "+stable",
+        "nextest",
+        "run",
+        "--run-ignored=only",
+        "--test-threads=-2"
+      ],
+      "expected": "allow",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      }
+    },
+    {
+      "name": "nextest-toolchain-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "+stable",
+        "nextest",
+        "run",
+        "--run-ignored=only",
+        "--test-threads=-2"
+      ],
+      "expected": "allow",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      }
+    },
+    {
+      "name": "nextest-toolchain-strict",
+      "profile": "strict",
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "+stable",
+        "nextest",
+        "run",
+        "--run-ignored=only",
+        "--test-threads=-2"
+      ],
+      "expected": "ask",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      }
+    },
+    {
+      "name": "nextest-rustup-run-loose",
+      "profile": "loose",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "nextest",
+        "run",
+        "--run-ignored=only"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-rustup-run-recommended",
+      "profile": "recommended",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "nextest",
+        "run",
+        "--run-ignored=only"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-rustup-run-strict",
+      "profile": "strict",
+      "argv": [
+        "rustup",
+        "run",
+        "stable",
+        "cargo",
+        "nextest",
+        "run",
+        "--run-ignored=only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-coverage-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "llvm-cov",
+        "nextest",
+        "--run-ignored=ignored-only"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-coverage-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "llvm-cov",
+        "nextest",
+        "--run-ignored=ignored-only"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "nextest-coverage-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "llvm-cov",
+        "nextest",
+        "--run-ignored=ignored-only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cargo-build-job-offset-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "build",
+        "--locked",
+        "--jobs=-1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cargo-build-job-offset-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "build",
+        "--locked",
+        "--jobs=-1"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cargo-build-job-offset-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "build",
+        "--locked",
+        "--jobs=-1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "cargo-test-default-jobs-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "test",
+        "-j",
+        "default",
+        "--",
+        "--nocapture"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cargo-test-default-jobs-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "test",
+        "-j",
+        "default",
+        "--",
+        "--nocapture"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "cargo-test-default-jobs-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "test",
+        "-j",
+        "default",
+        "--",
+        "--nocapture"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-config-override-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--run-ignored=only",
+        "--config=build.rustc-wrapper=\"custom-wrapper\""
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-config-override-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--run-ignored=only",
+        "--config=build.rustc-wrapper=\"custom-wrapper\""
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-config-override-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--run-ignored=only",
+        "--config=build.rustc-wrapper=\"custom-wrapper\""
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-external-config-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--user-config-file",
+        "/outside/nextest.toml",
+        "--run-ignored=only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-external-config-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--user-config-file",
+        "/outside/nextest.toml",
+        "--run-ignored=only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-external-config-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--user-config-file",
+        "/outside/nextest.toml",
+        "--run-ignored=only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-debugger-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--debugger=custom-debugger",
+        "--run-ignored=only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-debugger-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--debugger=custom-debugger",
+        "--run-ignored=only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-debugger-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--debugger=custom-debugger",
+        "--run-ignored=only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-tracer-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--tracer",
+        "custom-tracer",
+        "--run-ignored=only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-tracer-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--tracer",
+        "custom-tracer",
+        "--run-ignored=only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-tracer-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--tracer",
+        "custom-tracer",
+        "--run-ignored=only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-reuse-archive-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--archive-file",
+        "/outside/tests.tar.zst",
+        "--run-ignored=only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-reuse-archive-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--archive-file",
+        "/outside/tests.tar.zst",
+        "--run-ignored=only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-reuse-archive-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "nextest",
+        "run",
+        "--archive-file",
+        "/outside/tests.tar.zst",
+        "--run-ignored=only"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-reuse-build-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "nextest",
+        "list",
+        "--binaries-metadata",
+        "/outside/binaries.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-reuse-build-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "nextest",
+        "list",
+        "--binaries-metadata",
+        "/outside/binaries.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-reuse-build-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "nextest",
+        "list",
+        "--binaries-metadata",
+        "/outside/binaries.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "nextest-unbound-proxy-loose",
+      "profile": "loose",
+      "argv": [
+        "/acme/bin/cargo",
+        "nextest",
+        "run",
+        "--run-ignored=only"
+      ],
+      "expected": "ask",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      }
+    },
+    {
+      "name": "nextest-unbound-proxy-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/acme/bin/cargo",
+        "nextest",
+        "run",
+        "--run-ignored=only"
+      ],
+      "expected": "ask",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      }
+    },
+    {
+      "name": "nextest-unbound-proxy-strict",
+      "profile": "strict",
+      "argv": [
+        "/acme/bin/cargo",
+        "nextest",
+        "run",
+        "--run-ignored=only"
+      ],
+      "expected": "ask",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      }
+    },
+    {
+      "name": "nextest-protected-target-directory-loose",
+      "profile": "loose",
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "nextest",
+        "run",
+        "--run-ignored=only",
+        "--target-dir=.shield"
+      ],
+      "expected": "deny",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      }
+    },
+    {
+      "name": "nextest-protected-target-directory-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "nextest",
+        "run",
+        "--run-ignored=only",
+        "--target-dir=.shield"
+      ],
+      "expected": "deny",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      }
+    },
+    {
+      "name": "nextest-protected-target-directory-strict",
+      "profile": "strict",
+      "argv": [
+        "/acme/.cargo/bin/cargo",
+        "nextest",
+        "run",
+        "--run-ignored=only",
+        "--target-dir=.shield"
+      ],
+      "expected": "deny",
+      "variables": {
+        "cargo_executable": "/acme/.cargo/bin/cargo"
+      }
+    },
+    {
+      "name": "nextest-outside-manifest-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "nextest",
+        "list",
+        "--run-ignored=only",
+        "--manifest-path=/outside/Cargo.toml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "nextest-outside-manifest-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "nextest",
+        "list",
+        "--run-ignored=only",
+        "--manifest-path=/outside/Cargo.toml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "nextest-outside-manifest-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "nextest",
+        "list",
+        "--run-ignored=only",
+        "--manifest-path=/outside/Cargo.toml"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "nextest-outside-target-spec-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "+stable",
+        "nextest",
+        "run",
+        "--target=/outside/custom.json",
+        "--run-ignored=only"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "nextest-outside-target-spec-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "+stable",
+        "nextest",
+        "run",
+        "--target=/outside/custom.json",
+        "--run-ignored=only"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "nextest-outside-target-spec-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "+stable",
+        "nextest",
+        "run",
+        "--target=/outside/custom.json",
+        "--run-ignored=only"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "nextest-outside-coverage-output-loose",
+      "profile": "loose",
+      "argv": [
+        "cargo",
+        "llvm-cov",
+        "nextest",
+        "--run-ignored=only",
+        "--output-path=/outside/report.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "nextest-outside-coverage-output-recommended",
+      "profile": "recommended",
+      "argv": [
+        "cargo",
+        "llvm-cov",
+        "nextest",
+        "--run-ignored=only",
+        "--output-path=/outside/report.json"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "nextest-outside-coverage-output-strict",
+      "profile": "strict",
+      "argv": [
+        "cargo",
+        "llvm-cov",
+        "nextest",
+        "--run-ignored=only",
+        "--output-path=/outside/report.json"
+      ],
+      "expected": "deny"
+    }
+  ]
+}

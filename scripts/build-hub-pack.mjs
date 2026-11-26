@@ -10,9 +10,8 @@ export const directory = new URL(`../packs/canonic/hub/${version}/`, import.meta
 export function guide() {
   return `# Hub permissions ${version}
 
-Reviewed against the local Hub 0.53.0 release build with proxy MCP parity
-and the 113 MCP tools listed by
-\`hub mcp serve --check\`. The \`canonic/box\` pack covers the \`box\` executable.
+Reviewed against the Hub 0.56.0 CLI and MCP catalog. The
+\`canonic/box\` pack covers the \`box\` executable.
 
 Requires Shield \`${engine}\` with \`argument-paths-v1\`, \`field-paths-v1\`
 and \`preconditions-v1\`.
@@ -45,14 +44,17 @@ Endpoint creation, rename, pause, resume and deletion, route creation and deleti
 connector revocation, logout and connection-owned connector start/stop are reviewed
 through MCP in all profiles. The login tool returns a terminal handoff for the user.
 
-Project onboarding keeps initialization, registration and agent publication
-separate. CLI/MCP initialization, workspace attachment and setup retain their
-routine decisions; the separately named MCP setup preview is inspection.
-Runtime-configuration readiness and structured follow-up calls are report data,
-not additional effects or permission grants. Each follow-up selects its project
-again. Configuration checks and workspace lists remain inspection. Publication
-can write agent launch entries and hooks but starts no application services;
-neither saved files nor a successful report proves live Shield enforcement.
+Project setup creates missing Hub configuration, registers this directory and
+publishes agent integrations in one call. CLI and MCP project setup keep
+their routine decisions, including unattended CLI setup with \`--yes\`.
+Repeat \`--server\` to publish selected server definitions. The MCP \`setup\`
+tool accepts \`servers\` or lets the host user choose with \`select_servers\`.
+The separately named MCP setup preview stays inspection. An unattended
+\`setup\` or \`mcp setup\` with \`--scope user\` asks in every profile because it
+can write the account's personal agent settings. Hub requires a terminal review
+for changes that grant tool access. Configuration checks and workspace lists
+remain inspection. Setup writes agent launch entries and hooks without
+starting application services.
 
 Ordinary Hub use is allowed. Hub validates its own arguments, selection and
 configuration, and asks its user before the effects it confirms, so the pack
@@ -107,7 +109,12 @@ Plugin inspection reports provider capabilities without reading credentials.
 | Inspection: status, workspaces, the task, agents, processes, operations, manager blockers, plugin bindings, logs, URLs, configuration, plugin state, documentation | Allow | Allow | Allow |
 | Separately named read-only \`*_preview\` tools, which cannot apply or execute effects | Allow | Allow | Allow |
 | Routine operations: task edits, workspaces, configured \`process run\`, process stop, execution-specific \`doctor\`, setup, plugins, manager, agent stop, MCP logins and apps | Allow | Allow | Ask |
-| A replacement recipe outside approved read roots, in a protected location, or given as a relative MCP configuration path | Ask | Ask | Ask |
+| An explicit run or replacement configuration outside approved read roots, in a protected location, or given as a relative MCP configuration path | Ask | Ask | Ask |
+| \`mcp catalog import\` from approved read roots into an approved project | Allow | Allow | Ask |
+| A catalog import with \`--scope user\` or an input or project outside approved roots | Ask | Ask | Ask |
+| Offline catalog inspection with \`mcp catalog show\` or \`mcp_catalog_show\` | Allow | Allow | Allow |
+| Discovery and recording with \`mcp catalog probe\` or \`mcp_catalog_probe\` after Hub confirms with the host user | Allow | Allow | Ask |
+| Unattended \`setup\` or \`mcp setup\` with \`--scope user\` | Ask | Ask | Ask |
 | Arbitrary programs and other agents: \`process exec\`, \`shell\`, retained \`process shell\`, \`workspace create --shell\`, CLI plugin workflows and launch, \`agent start\` and \`agent message\` | Allow | Ask | Ask |
 | \`plugin_workflow_run\` and \`plugin_workflow_resume\` through Hub's program and argument confirmation | Allow | Allow | Ask |
 | \`agent attach\` and \`agent attach --resume-capture\` | Ask | Ask | Ask |
@@ -142,8 +149,20 @@ location asks in all profiles. Export without \`--output\`, and the MCP
 \`task_export\` tool, return text and write no file.
 
 Task preview selectors and offsets do not change input-file review. Spec Kit
-artifact selectors choose from the bound context. Hub reads only recognized
-artifacts under that binding.
+binding previews accept \`inspect\` and \`offset\`. Artifact selectors choose
+from the bound context. A continuation page requires the previous digest, and
+Hub reads only recognized artifacts under that binding.
+
+\`hub mcp catalog import SERVER --from FILE\` reads a saved \`tools/list\` result and
+records it locally for later review. It performs no discovery or permission
+grant. Shield checks the source and any explicit agent configuration marker
+against approved read roots and protected paths. The caller's current folder
+or an explicitly selected project must be in approved write roots. Personal
+catalog imports write to the user's Hub configuration and always require review.
+The same checks apply when \`--scope\` appears before or after \`import\`. When
+Hub accepts it in both places, the last value determines the scope.
+The retained import spelling requires a complete \`--from FILE\` option for
+Shield to recognize it.
 
 ### Explicit client execution and auth confirmation
 
@@ -154,17 +173,26 @@ the arbitrary-program decision. CLI \`--dry-run\` and MCP
 without contacting Slack or starting the client. Creation requires the user
 to approve the preview and enter a token at the hidden terminal prompt.
 
-Hub applies \`mcp auth setup --yes\` without terminal confirmation, including
-when \`--remove\` restores direct server URLs. The published 0.1.3
+Hub can apply credential routing with \`mcp auth setup --yes\`, including
+when \`--remove\` restores direct server URLs. Hub requires
+terminal review when publication changes hooks or tool approvals. The published 0.1.3
 \`auth-setup\` fixture allowed that form in Loose and Recommended. All profiles
 now ask before applying it. Omit \`--yes\` for Hub’s terminal review or use
 \`--dry-run\` to inspect the routing changes without applying them.
 
-These tighter decisions apply to forms still present in Hub 0.45.1. The
-per-group Compose \`startup_timeout_ms\` setting changes how long configured
-startup can wait and uses the existing \`process run\` decision.
+Configured \`process run\` covers named Compose steps, including \`exec_direct\`,
+borrowed services, and service settings for readiness and delegated Docker
+listeners. Hub 0.56.0 also accepts explicit Compose configuration for host
+binds, elevated container effects and shared resources. An explicit
+\`--config\` or MCP \`config\` for \`process run\` must name a file within approved
+read roots and outside protected paths. Use an absolute path for MCP.
+The earlier \`mcp-config-file\` fixture allowed an outside run configuration
+in Loose and Recommended. Both now ask because the selected file can control
+those launch effects. Approved run configurations and ordinary configured
+startup keep their routine decisions. Arbitrary CLI and MCP \`process exec\`
+keep their separate execution decision, including direct Docker fallback.
 
-Project selection, explicit configuration files, checkout paths, environment
+Project selection, other explicit configuration files, checkout paths, environment
 overrides and malformed arguments keep the operation's decision; Hub validates
 them. The raw \`--\` forms are matched by risk tokens, which Shield never lets
 allow, so they ask even in Loose; \`process exec\` and \`process shell\` are the
@@ -193,8 +221,8 @@ Bundled \`docs_*\` tools read embedded pages rather than arbitrary host files.
 Agent Kit publication through setup retains its configuration-change decision;
 neither template arguments nor pagination authorize separate execution.
 
-The retirement ledger records local-build evidence from Hub 0.39.0 and
-0.52.0. Local installations do not count as published feature releases.
+The retirement ledger records local-build evidence from Hub 0.39.0, 0.52.0
+and 0.55.0. Local installations do not count as published feature releases.
 
 | Retained form | Replacement | First verified absence | Release evidence and removal |
 | --- | --- | --- | --- |
@@ -202,6 +230,7 @@ The retirement ledger records local-build evidence from Hub 0.39.0 and
 | Documentation \`offset\`, \`start_line\`/\`end_line\` and CLI \`--start-line\` | Opaque \`cursor\` and \`limit\` | Local Hub 0.39.0 | No qualifying release evidence; removal deferred |
 | Applying MCP tools with \`dry_run\` arguments | Separately named \`*_preview\` tools | Local Hub 0.39.0 | No qualifying release evidence; removal deferred |
 | Disposal, retry and wait options on \`workspace_remove_preview\` | Review default cleanup with \`workspace_remove_preview\`; request a selected cleanup with \`workspace_remove\` for exact review and confirmation | Local Hub 0.52.0 | No qualifying release evidence; the older read-only preview remains allowed in all profiles |
+| CLI \`mcp catalog SERVER --from FILE\` | CLI \`mcp catalog import SERVER --from FILE\` | Hub 0.55.0 source | No qualifying release evidence; removal deferred |
 
 Exact permissions and independent fixtures for these forms remain. Remove no
 coverage until three subsequent published tool feature releases establish

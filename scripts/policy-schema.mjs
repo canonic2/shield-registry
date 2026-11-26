@@ -34,6 +34,11 @@ const grammar = { flags: array(optionName, 0, true), values: array(declaration(o
 // A leading phase can also be parsed between prefix words.
 const leadingGrammar = { ...grammar, interleaved: { type: 'boolean' } };
 const nullable = schema => one([schema, { type: 'null' }]);
+const prefixToken = one([text(1), array(text(1), 1, false, 32)]);
+const agentOutputs = object({ codex: object({
+  prefixes: array(array(prefixToken, 2, false, 32), 1, false, 16),
+  trust_project_node_tests: { type: 'boolean' },
+}, ['prefixes']) });
 const jsonObject = { type: 'object' };
 const stringMap = { type: 'object', maxProperties: 256, propertyNames: text(1), additionalProperties: text() };
 const guidance = { message: text(1, 512), alternatives: array(text(1, 256), 1, false, 3) };
@@ -96,6 +101,7 @@ function rule(pack, domain) {
     checks.push({ if: has('requirements'), then: has('on_unmet'), else: { not: has('on_unmet') } });
   }
   if (domain === 'argv') checks.push(eitherPredicate(['arguments']));
+  if (domain === 'argv') props.agents = agentOutputs;
   if (domain === 'web') for (const [action, field] of [['fetch', 'url'], ['search', 'query']])
     checks.push({ if: at(['conditions', 'action'], { const: action }), then: eitherPredicate([field]) });
   if (domain === 'mcp') for (const key of ['conditions', 'requirements'])
@@ -185,7 +191,7 @@ defs.graphql = {...object({carrier:{const:'gh-api'},operation:enumeration(['quer
   type:'object',minProperties:1,maxProperties:256,additionalProperties:object({types:array(text(1),1,true,64),fields:{type:'object',minProperties:1,maxProperties:256,additionalProperties:graphqlField}}),
 }})}, ['carrier','operation']),
   if:{properties:{operation:{const:'mutation'}}},then:{required:['selection','root_fields']},else:{not:{required:['root_fields']}}};
-const caps = ['structured-rules-v1', 'argument-rules-v1', 'graphql-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1', 'fallback-rules-v1', 'invocation-groups-v1', 'command-sets-v1', 'mcp-integrations-v1', 'mcp-connection-facts-v1', 'mcp-command-fields-v1', 'mcp-effective-fields-v1'];
+const caps = ['structured-rules-v1', 'argument-rules-v1', 'graphql-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1', 'fallback-rules-v1', 'invocation-groups-v1', 'command-sets-v1', 'mcp-integrations-v1', 'mcp-connection-facts-v1', 'mcp-command-fields-v1', 'mcp-effective-fields-v1', 'agent-outputs-v1', 'project-node-tests-v1'];
 caps.push('argument-paths-v1');
 caps.push('field-paths-v1');
 caps.push('field-path-arrays-v1');
@@ -228,19 +234,23 @@ const tests = array(ref('variableTest'), 1, false, 16);
 const setup = object({question: text(1, 256), unset: text(1, 64), value: text(1, 64), placeholder: text(1, 128), ask_when: tests}, []);
 const stringConstraints = {match: ref('textSelector'), max_length: {type: 'integer', minimum: 1, maximum: 1024}};
 const choices = array(text(1, 1024), 1, true);
+const fileDiscovery = [object({home: text(1, 1024)}), object({env: {...text(1, 64), pattern: '^[A-Z0-9_]+$'}, path: text(1, 1024)})];
+const pathDiscovery = object({path_search: {...text(1, 128), pattern: '^[A-Za-z0-9][A-Za-z0-9._-]*$'}});
 defs.variableDeclaration = one(['choice', 'string', 'list', 'boolean', 'path'].map(type => {
   const value = type === 'boolean' ? {type: 'boolean'} : type === 'list' ? array(text(1, 1024), 1, true) : text(1, type === 'path' ? 4096 : 1024);
   const common = {type: {const: type}, description: text(1, 512), default: value, required: {type: 'boolean'},
     layer: enumeration(['project', 'local']), setup,
     suggest: array(object({file: text(1), value}), 0, false, 16)};
   const specific = type === 'choice' ? {values: choices} : type === 'string' ? {...stringConstraints,
-    discover: array(one([object({home: text(1, 1024)}), object({env: {...text(1, 64), pattern: '^[A-Z0-9_]+$'}, path: text(1, 1024)})]), 1, false, 16)}
+    discover: array(one(fileDiscovery), 1, false, 16)}
     : type === 'path' ? {within: enumeration(['project', 'anywhere'])} : type === 'list' ? {
       items: one([object({type: {const: 'choice'}, values: choices}), object({type: {const: 'string'}, ...stringConstraints}, ['type'])]),
       min_items: {type: 'integer', minimum: 1, maximum: 256}, max_items: {type: 'integer', minimum: 1, maximum: 256},
+      discover: array(one([...fileDiscovery, pathDiscovery]), 1, false, 16),
     } : {};
   return {...object({...common, ...specific}, ['type', 'description', ...(type === 'choice' ? ['values'] : type === 'list' ? ['items'] : [])]), allOf: [
-    ...(type === 'string' ? [{if: has('discover'), then: {required: ['layer'], properties: {layer: {const: 'local'}}}}] : []),
+    ...(['string', 'list'].includes(type) ? [{if: has('discover'), then: {required: ['layer'], properties: {layer: {const: 'local'}}}}] : []),
+    ...(type === 'list' ? [{if: has('discover'), then: {allOf: [at(['items', 'type'], {const: 'string'}), {not: any([has('default'), has('suggest')])}]}}] : []),
     ...(['choice', 'boolean'].includes(type) ? [{not: any([at(['setup'], has('value')), at(['setup'], has('placeholder'))])}] : []),
     {if: {allOf: [at(['required'], {const: true}), {not: has('default')}]}, then: {not: any([at(['setup'], has('unset')), at(['setup'], has('ask_when'))])}},
   ]};
@@ -324,6 +334,8 @@ const feature = {
   'location-v1': any([at(['conditions', 'domain'], { const: 'file' }), at(['conditions', 'executable', 'root']),
     ...['cwd', 'destination', 'sources', 'targets'].map(key => eitherPredicate([key]))]),
   'requirements-v1': has('requirements'),
+  'agent-outputs-v1': has('agents'),
+  'project-node-tests-v1': at(['agents', 'codex', 'trust_project_node_tests'], { const: true }),
   'possible-effects-v1': eitherPredicate(['possible_effects']),
   'fallback-rules-v1': has('fallback'),
   'url-subdomains-v1': eitherPredicate(['url', 'subdomains']),
@@ -385,6 +397,7 @@ for (const [name, shape] of Object.entries({
   'mcp-connection-facts-v1': any([at(['rules','*'],eitherPredicate(['connection'])),at(['preconditions','*','requires_any','*','connection'])]),
   'variables-v1': at(['variables'], {minProperties: 1}),
   'executable-discovery-v1': at(['variables','@','discover'], {minItems: 1}),
+  'executable-path-lists-v1': at(['variables','@'], {allOf: [at(['type'], {const: 'list'}), has('discover')]}),
   'preconditions-v1': at(['preconditions'], {minItems: 1}),
   'directory-options-v1': at(['directory_options'], {minItems: 1}),
 })) defs.documentCapabilities.allOf.push({if: shape, then: at(['capabilities'], {contains: {const: name}}), else: at(['capabilities'], {not: {contains: {const: name}}})});
@@ -394,7 +407,7 @@ defs.documentCapabilities.allOf.push({if: at(['capabilities'], {contains: {const
     ? [at([key, '*', field], {type: 'string', pattern: '\\{\\{'})]
     : [at([key, '*', field, 'message'], {type: 'string', pattern: '\\{\\{'}), at([key, '*', field, 'alternatives', '*'], {type: 'string', pattern: '\\{\\{'})])))});
 const document = pack => {
-  const allowedCaps = pack ? [...caps, 'variables-v1', 'executable-discovery-v1', 'variable-parts-v1', 'variable-prefixes-v1', 'variable-list-branches-v1', 'preconditions-v1', 'templates-v1'] : caps;
+  const allowedCaps = pack ? [...caps, 'variables-v1', 'executable-discovery-v1', 'executable-path-lists-v1', 'variable-parts-v1', 'variable-prefixes-v1', 'variable-list-branches-v1', 'preconditions-v1', 'templates-v1'] : caps;
   const base = { schema_version: { const: 1 }, kind: { const: pack ? 'pack' : 'custom' },
     capabilities: { ...array(enumeration(allowedCaps), 1, true, allowedCaps.length), contains: { const: 'structured-rules-v1' } },
     rules: array(ref(pack ? 'packRule' : 'customRule'), 0, false, 500000),

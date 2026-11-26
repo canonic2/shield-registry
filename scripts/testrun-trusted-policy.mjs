@@ -7,17 +7,33 @@ export function trustedTestrunPack(previous) {
   const names=[...new Set(previous.rules.filter(rule=>rule.conditions.domain==='mcp'
     && typeof rule.conditions.tool==='string').map(rule=>rule.conditions.tool))];
   const executable=structuredClone(previous.rules.find(rule=>rule.id==='app-install').conditions.executable);
+  executable.one_of.push('testrun.exe');
+  const integrations=structuredClone(previous.mcp_integrations);
+  integrations.testrun.fields['/command'].text.one_of.push('testrun.exe');
+  const cliRules=[
+    {id:'cli-testrun',conditions:{domain:'argv',executable,arguments:{kind:'any'}},
+      decision:{loose:'allow',recommended:'allow',strict:'allow'},reason:'Allow Testrun QA commands; host-file arguments have their own checks.'},
+    ...hostPathCliRules(executable),
+  ];
   return {
     schema_version:1,kind:'pack',id:'canonic/testrun',version:previous.version,
     description:'Allow every Testrun CLI command and verified MCP tool, including future operations, with caller-named host files kept inside approved roots.',
     license:previous.license,maintainers:previous.maintainers,engines:{shield:'>=0.52.0, <1.0.0'},
     capabilities:[...new Set(['argument-rules-v1','fallback-rules-v1','mcp-integrations-v1','negated-selectors-v1','structured-rules-v1',
-      ...hostPathCapabilities])].sort(),
-    mcp_integrations:structuredClone(previous.mcp_integrations),
+      ...hostPathCapabilities,'variables-v1'])].sort(),
+    variables:{
+      windows_executable:{
+        type:'string',layer:'local',max_length:1024,
+        match:{regex:String.raw`(?i)[a-z]:[\\/](?:[^\x00\r\n:]+[\\/])?testrun\.exe`},
+        description:'The exact absolute path to the installed Windows Testrun CLI.',
+        setup:{question:'Use an absolute Windows Testrun executable path?',unset:'Standard command spellings'},
+      },
+    },
+    mcp_integrations:integrations,
     rules:[
-      {id:'cli-testrun',conditions:{domain:'argv',executable,arguments:{kind:'any'}},
-        decision:{loose:'allow',recommended:'allow',strict:'allow'},reason:'Allow Testrun QA commands; host-file arguments have their own checks.'},
-      ...hostPathCliRules(executable),
+      ...cliRules,
+      ...cliRules.map(rule=>({...rule,id:`local-${rule.id}`,
+        conditions:{...rule.conditions,executable:{var:'windows_executable'}}})),
       ...names.map(tool=>({id:`mcp-${tool}`,conditions:{domain:'mcp',server:'testrun',tool},
         decision:{loose:'allow',recommended:'allow',strict:'allow'},reason:'Allow this Testrun QA tool; host-file arguments have their own checks.'})),
       ...hostPathMcpRules(),
@@ -88,18 +104,22 @@ runtime limits. Other installed policies, Shield's mandatory protections and the
 agent host can still impose restrictions. This pack does not authorize
 unrelated shell commands or general file tools.
 
-## Connection
+## Executable and connection
 
 MCP permission applies to the verified \`testrun mcp serve\` stdio integration,
-including a renamed server explicitly bound to that integration. Its existing
-executable selection and exact launch arguments are retained. An arbitrary
-executable, wrapper, HTTP endpoint or extra launch arguments do not acquire the
-pack merely by using the Testrun name. CLI permission applies to the existing
-Testrun executable selectors.
+including a renamed server explicitly bound to that integration. The launch
+arguments are exactly \`mcp serve\`. On Windows, use \`testrun.exe\` on
+PATH as the stdio command. A wrapper, HTTP endpoint, extra launch arguments,
+or an absolute Windows command falls outside this integration.
+
+The CLI also recognizes \`testrun.exe\` on PATH. To invoke it by its absolute
+Windows path, review a machine-local \`windows_executable\` binding with
+\`shield pack configure canonic/testrun\`. That path gets the same host-file
+checks as the bare command.
 
 ## Coverage and compatibility
 
-Reviewed 2026-11-22 against Testrun 0.14.0 source and its read-only MCP catalog.
+Reviewed against Testrun 0.15.0 source and its read-only MCP catalog.
 The 76 current tool names, three retained documentation aliases and reviewed
 stdio integration are covered. Borrowed profiles use the write-root check
 because the browser can update them. Attachment credentials and CAs use the
@@ -107,6 +127,16 @@ read-root check. Named retained profiles, installed channel selection, and
 extension, WebMCP and PWA operations using owned references remain Allow across
 the three profiles. Compatibility cases cover the older \`storage_apply\`
 \`replace\` boolean and retired documentation names.
+
+Physical iOS Activity Monitor capture uses Testrun's explicit
+\`allowSystemTrace\` opt-in. The existing host-file rules cover native trace
+imports and explicit executable overrides in each profile.
+
+Testrun 0.15.0 is the first verified build whose \`project_init_preview\`
+input schema omits \`planDigest\`. Pass the returned digest to \`project_init\`
+when applying. Older preview inputs retain the same read-root rules.
+Retirement is deferred until three subsequent published Testrun feature
+releases follow the first published release verified to omit the field.
 
 Policy is owned by \`scripts/testrun-host-paths.mjs\` and
 \`scripts/testrun-trusted-policy.mjs\`; independent expectations by

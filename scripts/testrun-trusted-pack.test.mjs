@@ -21,7 +21,7 @@ test('Testrun allows every operation and gates only host files on approved roots
     assert.equal(rule.conditions.cwd,undefined,rule.id);
     if(!rule.requirements) {
       // Identity rules allow; overflow and opaque-JSON rules ask in every profile.
-      assert.ok(allowed(rule.decision) || asked(rule.decision) && /-overflow$|^cli-json-host-path$/.test(rule.id),rule.id);
+      assert.ok(allowed(rule.decision) || asked(rule.decision) && /-overflow$|^(?:local-)?cli-json-host-path$/.test(rule.id),rule.id);
       assert.equal(rule.on_unmet,undefined,rule.id);
       continue;
     }
@@ -33,7 +33,18 @@ test('Testrun allows every operation and gates only host files on approved roots
     assert.ok(selections.length,rule.id);
     for(const selection of selections) assert.ok(['read','write'].includes(selection.path.within.root),rule.id);
   }
-  const previous=JSON.parse(readFileSync(new URL('pack.yml',currentDirectory('testrun','0.2.9'))));
+  const previous=JSON.parse(readFileSync(new URL('pack.yml',currentDirectory('testrun','0.2.13'))));
+  for(const rule of previous.rules) {
+    const current=pack.rules.find(candidate=>candidate.id===rule.id);
+    if(rule.conditions.domain==='argv') {
+      assert.deepEqual(pack.rules.find(candidate=>candidate.id===`local-${rule.id}`),{
+        ...rule,id:`local-${rule.id}`,conditions:{...rule.conditions,executable:{var:'windows_executable'}},
+      });
+      rule.conditions.executable.one_of.push('testrun.exe');
+    }
+    assert.deepEqual(current,rule,rule.id);
+  }
+  previous.mcp_integrations.testrun.fields['/command'].text.one_of.push('testrun.exe');
   assert.deepEqual(pack.mcp_integrations,previous.mcp_integrations);
   assert.equal(readFileSync(new URL('README.md',currentDirectory('testrun')),'utf8'),
     `# Testrun permissions ${pack.version}\n\nRequires Shield \`${pack.engines.shield}\`.\n\n${trustedTestrunGuide()}`);
@@ -56,10 +67,10 @@ function passed(result) {
   return report;
 }
 
-test('Testrun retains authenticated 0.2.11 and 0.2.12 policy and companion bytes',async()=>{
+test('Testrun retains authenticated 0.2.11 through 0.2.13 policy and companion bytes',async()=>{
   const catalog=await checkPublication(new URL('../public',import.meta.url).pathname,
     readFileSync(new URL('../keys/main.pub',import.meta.url),'utf8').trim());
-  for(const version of ['0.2.11','0.2.12']) {
+  for(const version of ['0.2.11','0.2.12','0.2.13']) {
     const directory=currentDirectory('testrun',version);
     const published=catalog.releases.find(row=>row.id==='canonic/testrun' && row.version===version);
     assert.ok(published);
@@ -159,6 +170,30 @@ test('production Shield allows Testrun operations and asks for host files outsid
   t.diagnostic(`Evaluated ${total} independent operation, host-file and unrelated-command decisions.`);
 });
 
+test('iOS Activity Monitor diagnostics keep the existing trusted Testrun and host-file boundaries',
+  {skip:!process.env.SHIELD_BINARY},()=>{
+  const investigationId='diag-11111111111111111111111111111111';
+  const source={kind:'native_trace',backend:'xctrace',mode:'capture',targetId:'device:ACME',
+    appId:'com.example.acme',processId:42,template:'Activity Monitor',allowSystemTrace:true};
+  const cases=[];
+  for(const profile of ['loose','recommended','strict']) {
+    for(const [name,options,mcpDecision,cliDecision] of [
+      ['capture',source,'allow','allow'],
+      ['inside-tool',{...source,toolPath:join(process.cwd(),'bin/xcrun')},'allow','ask'],
+      ['outside-tool',{...source,toolPath:'/outside/xcrun'},'ask','ask'],
+      ['outside-import',{...source,mode:'import',path:'/outside/acme.trace'},'ask','ask'],
+    ]) {
+      cases.push({name:`ios-cpu-mcp-${name}-${profile}`,profile,mcp:binding(),
+        input:{kind:'mcp',server:'testrun',tool:'diagnostics_start',
+          arguments:{investigationId,submissionId:'acme',source:options},original_input:{}},expected:mcpDecision});
+      cases.push({name:`ios-cpu-cli-${name}-${profile}`,profile,
+        argv:['testrun','diagnostics','start',investigationId,'--submission-id','acme','--source',JSON.stringify(options)],
+        expected:cliDecision});
+    }
+  }
+  passed(evaluate(cases));
+});
+
 test('Testrun checks the last multipart field in direct, batch and act calls',
   {skip:!process.env.SHIELD_BINARY},t=>{
   const httpContext={connectionId:'11111111-1111-4111-8111-111111111111',
@@ -228,9 +263,11 @@ test('Testrun 0.2.9 reproduced the reported browser approval prompts',{skip:!pro
 test('universal Testrun permission still requires the reviewed MCP connection',{skip:!process.env.SHIELD_BINARY},()=>{
   for(const transport of [
     {type:'stdio',command:'/tmp/forged/testrun',args:['mcp','serve'],env:{}},
+    {type:'stdio',command:String.raw`C:\Other\testrun.exe`,args:['mcp','serve'],env:{}},
     {type:'stdio',command:'testrun-other',args:['mcp','serve'],env:{}},
     {type:'stdio',command:'sh',args:['-c','testrun mcp serve'],env:{}},
     {type:'stdio',command:'testrun',args:['mcp','serve','--check'],env:{}},
+    {type:'stdio',command:'testrun.exe',args:['mcp','serve','--check'],env:{}},
     {type:'http',url:'https://example.com/mcp'},
   ]) {
     const mcp=binding();mcp.testrun.transport=transport;

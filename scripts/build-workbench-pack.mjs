@@ -1,43 +1,78 @@
 import {mkdir, writeFile, copyFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {version, tools, workbenchPack} from './workbench-policy.mjs';
+import {version, shieldEngine, imageFileTools, tools, workbenchPack} from './workbench-policy.mjs';
 import {workbenchCases} from './workbench-cases.mjs';
 
 export const directory = new URL(`../packs/canonic/workbench/${version}/`, import.meta.url);
 export function guide() {
   const count = Object.keys(tools).length;
-  return `# Workbench permission pack\n\n` +
-    `Pack: \`canonic/workbench@${version}\`. Requires Shield \`>=0.20.0, <1.0.0\`.\n\n` +
-    `Every Workbench MCP tool is **Allow** in Loose, Recommended and Strict on a verified Workbench connection, ` +
-    `including canvas changes, private page creation, interaction, cleanup and image inspection and editing. ` +
-    `Decisions do not depend on arguments. The ${count} current tools are listed below; ` +
-    `tools added in later Workbench releases are also **Allow**.\n\n` +
-    `## Coverage\n\n| MCP tool | Operation | Loose / Recommended / Strict |\n| --- | --- | --- |\n` +
-    Object.entries(tools).map(([name, reason]) => `| \`${name}\` | ${reason} | Allow / Allow / Allow |`).join('\n') +
-    `\n\n\`image_edit\` saves files where \`out\` says, and overwrites existing files only when \`replace\` is \`true\`; ` +
-    `Workbench writes and reads only image files.\n\n` +
-    `## Connection\n\nThe pack matches the stdio launch \`workbench mcp serve\` with exactly those arguments, as \`workbench mcp setup\` writes it. ` +
-    `It accepts the PATH command, standard Unix install paths, the extension’s macOS/Linux \`~/.local/bin/workbench\` ` +
-    `link, and its Windows \`workbench.cmd\` launcher under the user’s \`.local/bin\`. ` +
-    `A renamed MCP server can bind to the \`workbench\` integration. Merely naming a server Workbench grants no permissions. ` +
-    `Extra launch arguments (including an explicit \`--project\` or \`--config\`), wrapper commands, arbitrary executable paths and HTTP connections ` +
-    `do not match this integration and require a separately reviewed connection. Executable identity and PATH remain host responsibilities.\n\n` +
-    `## Limits\n\nThis is an MCP-only pack: CLI, shell and general file-tool requests remain outside its coverage. ` +
-    `It authorizes these MCP tools’ documented effects, including saved captures and project code run for rendering and interaction. ` +
-    `Page interaction can trigger the project’s requests. Workbench still owns schema validation, project ` +
-    `trust, page lifetimes and resource limits; the pack allows known tool names even when arguments are missing or malformed. ` +
-    `Other installed policies can make the effective decision stricter. Native agent approval and hook trust remain separate.\n\n` +
-    `## Evidence and maintenance\n\nReviewed against Workbench 0.21’s \`server/src/mcp/catalog.rs\`, \`server/src/mcp/images.rs\`, ` +
-    `\`server/src/mcp/setup.rs\`, bundled documentation tools, ` +
-    `\`extension/src/modules/command-link/index.ts\` and \`workbench mcp serve --check\`. ` +
-    `Workbench 0.21 added \`image_inspect\`, \`image_list\` and \`image_edit\`; no reviewed tool has been removed or renamed, ` +
-    `so no coverage is in a retirement window. ` +
-    `The policy inventory and independent request fixtures are maintained separately in ` +
-    `\`scripts/workbench-policy.mjs\` and \`scripts/workbench-cases.mjs\`. ` +
-    `Regenerate with \`node scripts/build-workbench-pack.mjs\` and validate with ` +
-    `\`npm test -- --shield /absolute/path/to/shield --workbench /absolute/path/to/workbench scripts/workbench-pack.test.mjs\`. ` +
-    `Fixture validation does not establish native host or cross-platform launch acceptance.\n`;
+  const rows = Object.entries(tools).map(([name, reason]) => {
+    const decision = imageFileTools.includes(name)
+      ? 'Allow for approved paths, otherwise Ask (all profiles)'
+      : 'Allow / Allow / Allow';
+    return `| \`${name}\` | ${reason} | ${decision} |`;
+  }).join('\n');
+  return `# Workbench permission pack
+
+Pack \`canonic/workbench@${version}\`. Requires Shield \`${shieldEngine}\` with MCP field path checks.
+
+Workbench MCP tools are **Allow** in Loose, Recommended and Strict on a
+verified connection. The pack checks caller-named image files and output
+destinations against Shield’s approved folders in every profile. The ${count}
+current tools are listed below. Unlisted tools on the verified connection are
+also **Allow**.
+
+## Coverage
+
+| MCP tool | Operation | Loose / Recommended / Strict |
+| --- | --- | --- |
+${rows}
+
+Use absolute paths for \`image_inspect.file\` and \`image_edit.file\`, every
+mask’s \`file\`, and optional \`image_edit.out\`. Shield checks image inputs
+against read roots and output destinations against write roots. Relative
+paths require review because Workbench resolves them from the manifest’s
+project, which can differ from the Shield project. Workbench writes to the
+named destination when given \`out\` and replaces an existing output when
+given \`replace: true\`.
+
+## Connection
+
+The pack matches the stdio launch \`workbench mcp serve\` with exactly those
+arguments, as \`workbench mcp setup\` writes it. It accepts the PATH command,
+standard Unix install paths, the extension’s macOS/Linux
+\`~/.local/bin/workbench\` link, and its Windows \`workbench.cmd\` launcher
+under the user’s \`.local/bin\`. A renamed server can bind to the
+\`workbench\` integration. Extra launch arguments such as \`--project\`
+or \`--config\`, wrapper commands, arbitrary executable paths and HTTP
+connections require a separately reviewed connection. Executable identity
+and PATH remain host responsibilities.
+
+## Limits
+
+This pack covers MCP. CLI, shell and general file tools follow other policy.
+Rendering and interaction can run project code and trigger the project’s
+requests. Workbench validates schemas and owns project trust, page lifetimes,
+and resource limits. Other installed policies can make the effective decision
+stricter. Native agent approval and hook trust remain separate.
+
+## Evidence and maintenance
+
+Reviewed against Workbench 0.24’s CLI, \`workbench mcp serve --check\`, and
+native registration and launcher sources. The reviewed names, including the
+bundled docs tools, remain available. There are no retirements to schedule.
+
+Workbench’s image handlers resolve source, mask and output paths on the host
+and accept absolute paths outside the manifest project. This version tightens
+the image permissions from 0.2.0. Pass absolute paths inside Shield’s approved
+folders to keep those requests allowed.
+
+Regenerate with \`node scripts/build-workbench-pack.mjs\`. Validate with
+\`npm test -- --shield /absolute/path/to/shield --workbench /absolute/path/to/workbench scripts/workbench-pack.test.mjs\`.
+The independent cases live in \`scripts/workbench-cases.mjs\`. Fixture
+validation exercises the policy decisions and catalog on the validation host.
+`;
 }
 
 export async function buildWorkbenchPack() {

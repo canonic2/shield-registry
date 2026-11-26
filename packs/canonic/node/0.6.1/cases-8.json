@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "host-node-tests: without opt-in",
+      "profile": "recommended",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test --test-concurrency=1 scripts/node-host-tests.test.mjs",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "host-node-tests: recommended opted-in project test",
+      "profile": "recommended",
+      "variables": {
+        "host_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test --test-concurrency=1 scripts/node-host-tests.test.mjs",
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "host-node-tests: loose opted-in project discovery",
+      "profile": "loose",
+      "variables": {
+        "host_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test",
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "host-node-tests: strict project tests",
+      "profile": "strict",
+      "variables": {
+        "host_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test --test-concurrency=1 scripts/node-host-tests.test.mjs",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "host-node-tests: preload",
+      "profile": "recommended",
+      "variables": {
+        "host_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test --import=./scripts/test-loader.mjs",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "host-node-tests: external test path",
+      "profile": "recommended",
+      "variables": {
+        "host_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test ../outside.test.mjs",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "host-node-tests: unknown option",
+      "profile": "recommended",
+      "variables": {
+        "host_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test --not-a-test-option",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "host-node-tests: shell chain",
+      "profile": "recommended",
+      "variables": {
+        "host_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test --test-concurrency=1 scripts/node-host-tests.test.mjs && node --version",
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

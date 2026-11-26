@@ -1,10 +1,10 @@
-// Independent reviewed contract for Testrun 0.14.0: every operation is allowed
+// Independent reviewed contract for Testrun 0.15.0: every operation is allowed
 // unless it names a host file outside the approved roots, or one Shield cannot
 // check. Keep these expectations separate from the policy's rule constructors.
 // Fixtures run with the registry checkout as project, read and write root:
 // relative paths for browser files and inline build files need review because
 // Shield cannot observe the directory used to resolve them.
-export const trustedExecutables=['testrun','/usr/bin/testrun','/usr/local/bin/testrun','/opt/homebrew/bin/testrun'];
+export const trustedExecutables=['testrun','/usr/bin/testrun','/usr/local/bin/testrun','/opt/homebrew/bin/testrun','testrun.exe'];
 export function binding(server='testrun') {
   return {[server]:{transport:{type:'defaults',pack:'canonic/testrun',integration:'testrun'},
     agents:{codex:server},packs:{'canonic/testrun':'testrun'}}};
@@ -17,6 +17,8 @@ const nested='fixtures/acme/state.json';
 const outside='/outside/acme.json';
 const escape='../outside/acme.json';
 const endpoint='wss://browser.example.com/devtools/browser/fixture';
+const activityMonitor={kind:'native_trace',backend:'xctrace',mode:'capture',targetId:'device:ACME',
+  appId:'com.example.acme',processId:42,template:'Activity Monitor',allowSystemTrace:true};
 
 // [tool, arguments, expected for every profile]
 export const requests=[
@@ -61,8 +63,39 @@ export function trustedTestrunCases() {
       [['future-command','--future-option','/outside/qa'],'allow'],
       [['app','install','/outside/app.apk'],'ask'],[['app','install','build/acme.apk','--replace'],'allow'],
     ].entries()) cases.push({name:`trusted-cli-${cases.length}-${index}-${profile}`,profile,argv:[executable,...args],expected});
-    for(const argv of [['acme','connect'],['testrun-other','connect'],['/tmp/forged/testrun','connect'],
+    for(const argv of [['acme','connect'],['testrun-other','connect'],['/tmp/forged/testrun','connect'],['./testrun.exe','connect'],
       ['hub','operation','show','acme','--json']]) cases.push({name:`unrelated-${cases.length}-${profile}`,profile,argv,expected:'ask'});
+  }
+  return cases;
+}
+
+function windowsExecutableCases() {
+  const executable=String.raw`C:\Program Files\Testrun\testrun.exe`;
+  const otherExecutable=String.raw`C:\Other\testrun.exe`;
+  const variables={windows_executable:executable};
+  const launch=['browser','connect','--engine','chrome','--mode','headless','--disposable-profile'];
+  const cases=[];
+  for(const profile of ['loose','recommended','strict']) {
+    for(const [label,argv,expected,settings] of [
+      ['bare',['testrun.exe',...launch],'allow'],
+      ['bare-empty-path',['testrun.exe','browser','connect','--engine','chrome','--attachment-ca='],'ask'],
+      ['unbound',[executable,...launch],'ask'],
+      ['bound',[executable,...launch],'allow',variables],
+      ['bound-outside-path',[executable,'browser','fixture-register','/outside/acme.png'],'ask',variables],
+      ['bound-inside-path',[executable,'browser','fixture-register','fixtures/acme.png'],'allow',variables],
+      ['bound-json-path',[executable,'browser','send','{"operation":"har_register","path":"/outside/acme.har"}'],'ask',variables],
+      ['other-path',[otherExecutable,...launch],'ask',variables],
+    ]) cases.push({name:`windows-cli-${label}-${profile}`,profile,argv,expected,
+      ...(settings ? {variables:settings} : {})});
+    const mcp=binding('qa');
+    mcp.qa.transport={type:'stdio',command:'testrun.exe',args:['mcp','serve'],env:{}};
+    for(const [label,tool,arguments_,expected] of [
+      ['connect','browser_connect',{engine:'chrome',mode:'headless',profile:{kind:'disposable'}},'allow'],
+      ['outside-export','browser_send',{targetId:'browser:acme',
+        request:{operation:'har_capture_start',context:page,path:'/outside/acme.har'}},'ask'],
+      ['future','future_tool',{},'allow'],
+    ]) cases.push({name:`windows-mcp-${label}-${profile}`,profile,mcp,
+      input:{kind:'mcp',server:'qa',tool,arguments:arguments_,original_input:{}},expected});
   }
   return cases;
 }
@@ -235,12 +268,20 @@ function toolHostFileCases() {
     ['diagnostics-browser-result','diagnostics_start',start({kind:'browser_operation',targetId:'browser:acme',operationId:request2,
       request:{operation:'storage_export',context:page,options:{path:outside}}}),'allow'],
     ['diagnostics-android','diagnostics_start',start({kind:'android',targetId:'android:ACME',appId:'com.example.acme',userId:0}),'allow'],
+    ['diagnostics-ios-cpu','diagnostics_start',start(activityMonitor),'allow'],
+    ['diagnostics-ios-cpu-outside-import','diagnostics_start',
+      start({...activityMonitor,mode:'import',path:'/outside/acme.trace'}),'ask'],
+    ['diagnostics-ios-cpu-outside-tool','diagnostics_start',
+      start({...activityMonitor,toolPath:'/outside/xctrace'}),'ask'],
+    ['diagnostics-ios-cpu-empty-tool','diagnostics_start',start({...activityMonitor,toolPath:''}),'ask'],
     ['project-show-name','project_show',{root:'.',project:'mobile'},'allow'],
     ['project-show-escape','project_show',{root:'.',project:'../mobile'},'ask'],
     ['discover-eight','project_discover',{root:'.',paths:Array.from({length:8},(_,i)=>`apps/a${i}`)},'allow'],
     ['discover-overflow','project_discover',{root:'.',paths:Array.from({length:9},(_,i)=>`apps/a${i}`)},'ask'],
     ['init-overflow','project_init',{root:'.',planDigest:'1'.repeat(64),projects:Array.from({length:9},(_,i)=>({path:`apps/a${i}`}))},'ask'],
     ['init-preview-overflow','project_init_preview',{root:'.',projects:Array.from({length:9},(_,i)=>({path:`apps/a${i}`}))},'ask'],
+    ['init-preview-retained-digest','project_init_preview',{root:'.',planDigest:'1'.repeat(64)},'allow'],
+    ['init-preview-retained-digest-outside','project_init_preview',{root:'/outside/acme',planDigest:'1'.repeat(64)},'ask'],
     ['build-inline-glob','build_start',{project:'.',inline:{builder:'custom',artifact:{glob:'/outside/*.apk'}}},'ask'],
     ['build-inline-workspace','build_start',{project:'.',inline:{builder:'xcode',xcode:{workspace:'/outside/Acme.xcworkspace'}}},'ask'],
     ['docs-path','docs_read',{path:'/outside/private.txt'},'allow'],
@@ -309,6 +350,9 @@ function cliHostFileCases() {
       ['--json',...command,'--engine=chrome','--mode','headed',...options],decision])),
     ['diagnostics-source-path',['diagnostics','start',investigation,'--submission-id','acme','--source',JSON.stringify({kind:'import',path:inside,format:'bytes'})],'ask'],
     ['diagnostics-source-android',['diagnostics','start',investigation,'--submission-id','acme','--source',JSON.stringify({kind:'android',targetId:'android:ACME',appId:'com.example.acme',userId:0})],'allow'],
+    ['diagnostics-ios-cpu',['diagnostics','start',investigation,'--submission-id','acme','--source',JSON.stringify(activityMonitor)],'allow'],
+    ['diagnostics-ios-cpu-import',['diagnostics','start',investigation,'--submission-id','acme','--source',
+      JSON.stringify({...activityMonitor,mode:'import',path:'/outside/acme.trace'})],'ask'],
     ['build-inline-artifact',['build','start','--inline',JSON.stringify({builder:'custom',artifact:{path:'build/acme.apk'}})],'ask'],
     ['install-attached-replace',['app','install','--replace','build/acme.apk'],'allow'],
     ['install-leading-target',['--target','android:ACME','app','install','/outside/acme.apk'],'ask'],
@@ -411,5 +455,5 @@ export function applyTrustedTestrunExpectations(cases) {
     if(trustedExecutables.includes(fixture.argv?.[0]) || fixture.input?.kind==='mcp' && fixture.input.server==='testrun')
       fixture.expected=hostFileExpectation(fixture);
   }
-  cases.cases.push(...trustedTestrunCases(),...hostPathCases());
+  cases.cases.push(...trustedTestrunCases(),...hostPathCases(),...windowsExecutableCases());
 }

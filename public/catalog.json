@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "registry_id": "canonic-shield-main",
-  "sequence": 65,
+  "sequence": 66,
   "expires_at": "2027-02-03T00:00:00Z",
   "packs": [
     {
@@ -42,9 +42,9 @@
     },
     {
       "id": "canonic/baseline",
-      "version": "0.19.0",
-      "path": "packs/canonic/baseline/0.19.0/pack.yml",
-      "sha256": "a032e86d1536af4584b93b0da1b51fa002812cecb7e228fcd137bbc11a0049d1"
+      "version": "0.20.0",
+      "path": "packs/canonic/baseline/0.20.0/pack.yml",
+      "sha256": "d7c07a902abc67d5474ebcb9ffbb81ae4fede1214b9931b82b4b78f0c2c867e7"
     },
     {
       "id": "canonic/box",
@@ -78,9 +78,9 @@
     },
     {
       "id": "canonic/gate",
-      "version": "0.2.9",
-      "path": "packs/canonic/gate/0.2.9/pack.yml",
-      "sha256": "35ca009d0fb3f45e0402a26d0df207b664345f9f6efaf6259a82ecaab34137e3"
+      "version": "0.2.10",
+      "path": "packs/canonic/gate/0.2.10/pack.yml",
+      "sha256": "11440bd67c8b9deb558f49d63892e1037c6f00a7f66e222ff07c7bf49be64f1c"
     },
     {
       "id": "canonic/git",
@@ -90,9 +90,9 @@
     },
     {
       "id": "canonic/github",
-      "version": "0.10.0",
-      "path": "packs/canonic/github/0.10.0/pack.yml",
-      "sha256": "926314295fbf0301524cecfcab6b078c3d1788c8cd53549538fd25022db4c935"
+      "version": "0.11.0",
+      "path": "packs/canonic/github/0.11.0/pack.yml",
+      "sha256": "2adaeef250412766eed9b7ad6214542e3726367f84a4ba64639c7c678e78d8b1"
     },
     {
       "id": "canonic/go",
@@ -102,9 +102,9 @@
     },
     {
       "id": "canonic/hub",
-      "version": "0.1.10",
-      "path": "packs/canonic/hub/0.1.10/pack.yml",
-      "sha256": "cf4e035abdc8ccd9355115ba3863a7a8b624a87f870ef0f0196c3767eca9aa92"
+      "version": "0.1.11",
+      "path": "packs/canonic/hub/0.1.11/pack.yml",
+      "sha256": "8c5b0a668eb007fb6970c8930eb6e9f382429151cec6927dfbaed64fb4a6d3db"
     },
     {
       "id": "canonic/java",
@@ -114,9 +114,9 @@
     },
     {
       "id": "canonic/node",
-      "version": "0.6.0",
-      "path": "packs/canonic/node/0.6.0/pack.yml",
-      "sha256": "da68d2c6e67af1b5bc7e5184af07770dded7411bb139994ef3042e3418946a19"
+      "version": "0.6.1",
+      "path": "packs/canonic/node/0.6.1/pack.yml",
+      "sha256": "b1acb963947e6b4edf8fb1f26399d31d395080eb6b05ffc1e4c58093a1ea0472"
     },
     {
       "id": "canonic/opensearch-elasticsearch",
@@ -156,9 +156,9 @@
     },
     {
       "id": "canonic/rust",
-      "version": "0.2.1",
-      "path": "packs/canonic/rust/0.2.1/pack.yml",
-      "sha256": "7e1d65750d2f2d8b57f572546fc371d659823eb30eed56a5861b11d0f75359ea"
+      "version": "0.2.2",
+      "path": "packs/canonic/rust/0.2.2/pack.yml",
+      "sha256": "40a1e565f33813614020fa4e98d437d0f83e35a1e8e92e75a692558f26b68ded"
     },
     {
       "id": "canonic/sqlite",
@@ -186,15 +186,15 @@
     },
     {
       "id": "canonic/testrun",
-      "version": "0.2.13",
-      "path": "packs/canonic/testrun/0.2.13/pack.yml",
-      "sha256": "e2c4cfd10255ba98371518960e8df279d055cf69f6d8171c5218015d6f2c4186"
+      "version": "0.2.14",
+      "path": "packs/canonic/testrun/0.2.14/pack.yml",
+      "sha256": "f4ad8b75b93e52460c8b4d8ba649fea7f0e383a649cba3b431c529df33293c38"
     },
     {
       "id": "canonic/workbench",
-      "version": "0.2.0",
-      "path": "packs/canonic/workbench/0.2.0/pack.yml",
-      "sha256": "18128d619f9c617248f33ddc312cc6b83313b37c4581c2decaa92a1a29653593"
+      "version": "0.3.0",
+      "path": "packs/canonic/workbench/0.3.0/pack.yml",
+      "sha256": "2542de83f92ea4aa6810a525e03df7c2d39ec7c31f9dd0640e5df8710bcf54fe"
     }
   ],
   "commands": {
@@ -399,7 +399,8 @@
       "hub"
     ],
     "canonic/testrun": [
-      "testrun"
+      "testrun",
+      "testrun.exe"
     ],
     "canonic/aws": [
       "aws"
@@ -486,10 +487,10 @@
       "last": "0.1.0"
     },
     "canonic/baseline": {
-      "path": "metadata/19a4f606ca6032195da4baf1ac37279db89d7ff28207ca508b5a5fc65661612b.json",
-      "sha256": "19a4f606ca6032195da4baf1ac37279db89d7ff28207ca508b5a5fc65661612b",
+      "path": "metadata/d76932d2590872dcb0e8af100a719996fe21bfa2c84b9bb7c4dd230bfbe10e5d.json",
+      "sha256": "d76932d2590872dcb0e8af100a719996fe21bfa2c84b9bb7c4dd230bfbe10e5d",
       "first": "0.1.0",
-      "last": "0.19.0"
+      "last": "0.20.0"
     },
     "canonic/box": {
       "path": "metadata/37305ba2f24b5d2cff019ec03e2e172e6541b72a1dcc3ed84b381b7fedbf3775.json",
@@ -522,10 +523,10 @@
       "last": "0.1.0"
     },
     "canonic/gate": {
-      "path": "metadata/c1c71d75f25c4838df9ece11108c0e5f05b0c73a14de2cfbac1d8970292951da.json",
-      "sha256": "c1c71d75f25c4838df9ece11108c0e5f05b0c73a14de2cfbac1d8970292951da",
+      "path": "metadata/9dad0f7e149110ac0002bf779e7bebcd4dd192142471045882ae1e67dac320c1.json",
+      "sha256": "9dad0f7e149110ac0002bf779e7bebcd4dd192142471045882ae1e67dac320c1",
       "first": "0.1.0",
-      "last": "0.2.9"
+      "last": "0.2.10"
     },
     "canonic/git": {
       "path": "metadata/07d786811deb91450378d1d7936d17c142bc0ec96a8e2546bf40fb5d5e2fb836.json",
@@ -534,10 +535,10 @@
       "last": "0.12.1"
     },
     "canonic/github": {
-      "path": "metadata/fe5e4cffdbe6fdc50ad62b5e7b3499ae8d087c8f890dd79d7383599806c94bb4.json",
-      "sha256": "fe5e4cffdbe6fdc50ad62b5e7b3499ae8d087c8f890dd79d7383599806c94bb4",
+      "path": "metadata/476d6e30f3fabec72c4aab762fa87ce941762bc34721154c114be72838fe9e87.json",
+      "sha256": "476d6e30f3fabec72c4aab762fa87ce941762bc34721154c114be72838fe9e87",
       "first": "0.1.0",
-      "last": "0.10.0"
+      "last": "0.11.0"
     },
     "canonic/go": {
       "path": "metadata/071fadb4ed71ba8835cda5f2ccdac7df798eb4c68a1ad6cc2c04fa87d7f36dcd.json",
@@ -546,10 +547,10 @@
       "last": "0.1.0"
     },
     "canonic/hub": {
-      "path": "metadata/8c4a0980841601ada0c8d01a73380c2037ffb120e235ad6b598100048f52b721.json",
-      "sha256": "8c4a0980841601ada0c8d01a73380c2037ffb120e235ad6b598100048f52b721",
+      "path": "metadata/a1c078dafc9968d9072ccb24dab8c1862a35911f2cb4eaecebb735a85497081f.json",
+      "sha256": "a1c078dafc9968d9072ccb24dab8c1862a35911f2cb4eaecebb735a85497081f",
       "first": "0.1.0",
-      "last": "0.1.10"
+      "last": "0.1.11"
     },
     "canonic/java": {
       "path": "metadata/ffbcb2510c49dd2ddd587bb501235d1570b79c0e1f39f78afa1f2d449dcef58e.json",
@@ -558,10 +559,10 @@
       "last": "0.1.0"
     },
     "canonic/node": {
-      "path": "metadata/5be619db410c91f171c1e2e9a55946818e185925624886aa3856f66d05ff3f32.json",
-      "sha256": "5be619db410c91f171c1e2e9a55946818e185925624886aa3856f66d05ff3f32",
+      "path": "metadata/d086337f2fb83826fffbb2de15a41c17b8d56375d5fe01ba8487baf245e9e497.json",
+      "sha256": "d086337f2fb83826fffbb2de15a41c17b8d56375d5fe01ba8487baf245e9e497",
       "first": "0.1.0",
-      "last": "0.6.0"
+      "last": "0.6.1"
     },
     "canonic/opensearch-elasticsearch": {
       "path": "metadata/0e0ffcc718fa11b20931595c414efb8190dacc1c7075ef84831a4fe821866f18.json",
@@ -600,10 +601,10 @@
       "last": "0.1.0"
     },
     "canonic/rust": {
-      "path": "metadata/baac17e4b120224b28aa20cb73852e502d3d0d94b5f01b4a32830a43415512d0.json",
-      "sha256": "baac17e4b120224b28aa20cb73852e502d3d0d94b5f01b4a32830a43415512d0",
+      "path": "metadata/9b847c87077328252d0be079bdb062567b8e23c623a6652f66066918378bf884.json",
+      "sha256": "9b847c87077328252d0be079bdb062567b8e23c623a6652f66066918378bf884",
       "first": "0.1.0",
-      "last": "0.2.1"
+      "last": "0.2.2"
     },
     "canonic/sqlite": {
       "path": "metadata/8785de0d9c6877f3f921441c3a977c99127a2d80ff774b1370910453a1131932.json",
@@ -630,16 +631,16 @@
       "last": "0.1.0"
     },
     "canonic/testrun": {
-      "path": "metadata/ad9e3be21d7542813a8ee78d4be5d32f18251c8d83b66e19532dc13c5f26aa01.json",
-      "sha256": "ad9e3be21d7542813a8ee78d4be5d32f18251c8d83b66e19532dc13c5f26aa01",
+      "path": "metadata/8691e9db6d8d560fda94e432e7bc1ff2a7746410e0e04153ccf906eedda78088.json",
+      "sha256": "8691e9db6d8d560fda94e432e7bc1ff2a7746410e0e04153ccf906eedda78088",
       "first": "0.1.0",
-      "last": "0.2.13"
+      "last": "0.2.14"
     },
     "canonic/workbench": {
-      "path": "metadata/7f2f4f121b1d2bbfc452f7c9a64de1607ee0afa16882a6e1d8f26858feb2a9b6.json",
-      "sha256": "7f2f4f121b1d2bbfc452f7c9a64de1607ee0afa16882a6e1d8f26858feb2a9b6",
+      "path": "metadata/f50065957f47a7d76296f2c39eb928f773f7ec35107a0446bf5a40448288d841.json",
+      "sha256": "f50065957f47a7d76296f2c39eb928f773f7ec35107a0446bf5a40448288d841",
       "first": "0.1.0",
-      "last": "0.2.0"
+      "last": "0.3.0"
     }
   }
 }

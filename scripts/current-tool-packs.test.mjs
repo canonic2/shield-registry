@@ -14,13 +14,13 @@ import {gate} from './gate-policy.mjs';
 import {toolPack} from './tool-pack.mjs';
 
 test('Gate current names and retained compatibility names have independent profile fixtures', async () => {
-  // Reviewed from the Gate 0.33.0 catalog, independently of policy constructors.
+  // Reviewed from the Gate 0.34.0 catalog, independently of policy constructors.
   const current = ['status','diff','check','explain','doctor','remote_show','branch_list','session_status',
-    'discard','rename','init','add','apply','remote_add','remote_set_url','remote_rename','remote_remove',
+    'discard','rename','init','setup','add','apply','remote_add','remote_set_url','remote_rename','remote_remove',
     'attach','sync','migrate','commit','fetch','push',
     'switch','branch_remove','recover','session_start','session_stop','session_resume','session_promote',
     'session_remove','worktree_add','worktree_list','worktree_status','worktree_remove',
-    'discard_preview','rename_preview','sync_preview','migrate_preview','branch_remove_preview',
+    'setup_preview','discard_preview','rename_preview','sync_preview','migrate_preview','branch_remove_preview',
     'session_remove_preview','worktree_remove_preview','remote_set_url_preview','remote_rename_preview',
     'remote_remove_preview','docs_list','docs_search','docs_read'];
   const retained = ['gate_docs_list','gate_docs_search','gate_docs_read','worktree_repair'];
@@ -87,6 +87,8 @@ test('Gate MCP confirms changes within approved project and worktree paths', {sk
       for (const [label,tool,arguments_,expected] of [
         ['status','status',{config:inside},['allow','allow','allow']],
         ['stage','add',{repo:'acme',paths:['packages/acme'],config:inside},['allow','allow','allow']],
+        ['setup-preview-config','setup_preview',{config:inside},['allow','allow','allow']],
+        ['setup-preview-protected-config','setup_preview',{config:protectedFile},['ask','ask','ask']],
         ['discard-preview','discard',{repo:'acme',all:true,dry_run:true,config:inside},['allow','allow','allow']],
         ['discard','discard',{repo:'acme',all:true,config:inside},['allow','allow','deny']],
         ['discard-explicit-project','discard',{repo:'acme',all:true,project:process.cwd()},['allow','allow','deny']],
@@ -168,6 +170,25 @@ test('tool permission reset retains published setup and preview decisions', {ski
         '--pack',path.pathname,'--cases',cases],{encoding:'utf8',timeout:120000,maxBuffer:8*1024*1024});
       assert.equal(result.status,0,result.stdout+result.stderr);
       assert.equal(JSON.parse(result.stdout).passed,true);
+    }
+  } finally {rmSync(dir,{recursive:true,force:true});}
+});
+
+test('Testrun opt-in tool permissions keeps the setup decision', {skip:!process.env.SHIELD_BINARY}, () => {
+  const dir = mkdtempSync(join(tmpdir(),'testrun-setup-permissions-'));
+  try {
+    const rows = ['loose','recommended','strict'].flatMap(profile => [false,true].map(preview => ({
+      name:`${profile}-${preview}`,profile,
+      argv:['testrun','mcp','setup','--agent','codex','--tool-permissions',...(preview ? ['--dry-run'] : [])],
+      expected:'allow',
+    })));
+    const cases = join(dir,'cases.json');
+    writeFileSync(cases,JSON.stringify({schema_version:1,cases:rows}));
+    for (const version of ['0.2.13',currentToolVersions.testrun]) {
+      const pack = new URL('pack.yml',currentDirectory('testrun',version));
+      const result = spawnSync(process.env.SHIELD_BINARY,['__internal','test-pack',
+        '--pack',pack.pathname,'--cases',cases],{encoding:'utf8',timeout:120000});
+      assert.equal(result.status,0,result.stdout+result.stderr);
     }
   } finally {rmSync(dir,{recursive:true,force:true});}
 });
@@ -749,7 +770,20 @@ for (const name of Object.keys(currentToolVersions)) {
         if (old.id==='mcp-unlisted') expected.conditions.tool.not.one_of=next.conditions.tool.not.one_of;
         const grammar=expected.requirements?.argument_paths?.grammar;
         if (grammar?.kind==='options' && grammar.operands===true) widenGrammar(grammar);
-        assert.deepEqual(old.conditions.domain==='argv' ? withoutOption(next,'--config') : next,expected,old.id);
+        if (['worktree-add', 'worktree-add-folder'].includes(old.id)) {
+          grammar.values.push('--resume');
+          if (expected.conditions.arguments.kind === 'options') {
+            expected.conditions.arguments.values.push('--resume');
+          }
+        }
+        const actual = old.conditions.domain==='argv' ? withoutOption(next,'--config') : next;
+        if (['worktree-remove','worktree-remove-confirm'].includes(old.id)) {
+          const operands = actual.requirements.argument_paths.operands;
+          assert.equal(operands.path.within.root, old.id === 'worktree-remove' ? 'read' : 'write');
+          assert.ok(operands.path.exclude.some(path => path.root === 'project' && path.path === '.git'));
+          delete actual.requirements.argument_paths.operands;
+        }
+        assert.deepEqual(actual,expected,old.id);
         continue;
       }
       assert.deepEqual(next,old,old.id);

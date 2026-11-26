@@ -12,13 +12,13 @@ import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
 import {checkPublication, digest} from './registry-release.mjs';
 
-// The current interface, independently of the policy: `hub mcp serve --check`
-// of Hub 0.53.0 in catalog order (including preview identities).
-const catalog = ['init','config_check','config_plan','config_schema','setup','mcp_app_create_preview','workspace_create','workspace_attach',
+// The Hub 0.56.0 source interface, independently of the policy, in catalog
+// order (including preview identities).
+const catalog = ['init','config_check','config_check_compose','config_plan','config_schema','setup','mcp_catalog_probe','mcp_catalog_show','mcp_app_create_preview','workspace_create','workspace_attach',
   'workspace_list','workspace_show','workspace_remove','workspace_prepare','workspace_data_reset','task_show','task_update',
   'task_history','task_export','task_import','task_step_list','task_step_next','task_step_add','task_step_update',
   'task_step_remove','task_check_add','task_check_update','task_check_remove','task_note_add','task_note_update',
-  'task_note_remove','process_run','process_exec','process_restart','process_pause','process_resume','process_stop','process_list','process_logs','process_stats','process_url','process_gateway_enable',
+  'task_note_remove','process_run','process_exec','process_restart','process_pause','process_resume','process_stop','process_forget','process_list','process_logs','process_stats','process_url','process_gateway_enable',
   'process_gateway_disable','process_gateway_status','proxy_projects','proxy_status','proxy_deliveries','proxy_route_update',
   'proxy_logout','proxy_endpoint_create','proxy_endpoint_rename','proxy_endpoint_pause','proxy_endpoint_resume','proxy_endpoint_delete',
   'proxy_route_create','proxy_route_delete','proxy_connector_revoke','proxy_login','proxy_connect','proxy_disconnect',
@@ -58,6 +58,11 @@ test('Hub sources reproduce with schema-valid policy and fixtures', async () => 
   const proxyReview = pack.rules.find(rule => rule.id === 'proxy');
   assert.equal(Object.hasOwn(proxyReview.conditions, 'cwd'), false,
     'hosted proxy operations require review even outside a Hub project');
+  for (const id of ['setup', 'mcp-setup', 'mcp-catalog', 'mcp-catalog-import']) {
+    const rule = pack.rules.find(row => row.id === `${id}-personal-write`);
+    assert.equal(Object.hasOwn(rule.conditions, 'cwd'), false, id);
+    assert.deepEqual(rule.decision, {loose:'ask', recommended:'ask', strict:'ask'}, id);
+  }
   for (const id of ['shell-secret-profile', 'config-secrets-sync', 'hook-child', 'agent-attach']) {
     const rule = pack.rules.find(row => row.id === id);
     assert.equal(Object.hasOwn(rule.conditions, 'cwd'), false, id);
@@ -86,13 +91,14 @@ function evaluate(file) {
 
 // CLI --yes skips the routing form. The named MCP calls have their own forms.
 const authBypass = /^cli-auth-setup-(loose|recommended)$/;
+const unapprovedRunConfig = /^mcp-config-file-(loose|recommended)$/;
 const hubConfirmed = /^(mcp-remove-(discard|forget)-(loose|recommended)|mcp-tool-plugin_workflow_(run|resume)-recommended)$/;
 
-test('Hub retains signed release assets and replays every published fixture with reviewed exceptions', {skip:!process.env.SHIELD_BINARY}, async () => {
+test('Hub retains signed assets and replays the latest and retained fixture sets', {skip:!process.env.SHIELD_BINARY}, async () => {
   const catalog = await checkPublication(new URL('../public', import.meta.url).pathname,
     readFileSync(new URL('../keys/main.pub', import.meta.url), 'utf8').trim());
   const current = new Map(hubCases().cases.map(row => [row.name, row]));
-  for (const version of ['0.1.3', '0.1.5', '0.1.6', '0.1.7']) {
+  for (const version of ['0.1.3', '0.1.5', '0.1.6', '0.1.7', '0.1.10']) {
     const previous = new URL(`../packs/canonic/hub/${version}/`, import.meta.url);
     const signed = new URL(`../public/packs/canonic/hub/${version}/`, import.meta.url);
     const published = catalog.releases.find(row => row.id === 'canonic/hub' && row.version === version);
@@ -107,10 +113,10 @@ test('Hub retains signed release assets and replays every published fixture with
       for (const file of fixtures) {
         const document = JSON.parse(readFileSync(new URL(file, previous)));
         const cases = document.cases.map(row => {
-          const auth = version === '0.1.3' && authBypass.test(row.name);
-          if (!auth && !hubConfirmed.test(row.name)) return row;
-          assert.equal(row.expected, auth ? 'allow' : 'ask', row.name);
-          const revised = {...row, expected: auth ? 'ask' : 'allow'};
+          const tighten = (version === '0.1.3' && authBypass.test(row.name)) || unapprovedRunConfig.test(row.name);
+          if (!tighten && (version === '0.1.10' || !hubConfirmed.test(row.name))) return row;
+          assert.equal(row.expected, tighten ? 'allow' : 'ask', row.name);
+          const revised = {...row, expected: tighten ? 'ask' : 'allow'};
           assert.deepEqual(current.get(row.name), revised, row.name);
           changed += 1;
           return revised;
@@ -122,9 +128,17 @@ test('Hub retains signed release assets and replays every published fixture with
         assert.equal(result.status, 0, JSON.stringify(report.cases?.filter(row => !row.passed) ?? report) + result.stderr);
         assert.equal(report.passed, true);
       }
-      assert.equal(changed, version === '0.1.3' ? 8 : 6, version);
+      assert.equal(changed, {'0.1.3': 10, '0.1.10': 2}[version] ?? 8, version);
     } finally { rmSync(owner, {recursive:true, force:true}); }
   }
+});
+
+test('production Shield admits the Hub source pack', () => {
+  assert.ok(process.env.SHIELD_BINARY, 'Pass --shield PATH');
+  const result = spawnSync(process.env.SHIELD_BINARY, ['__internal','validate','--pack',new URL('pack.yml',directory).pathname],
+    {encoding:'utf8',timeout:120000});
+  assert.equal(result.status, 0, result.stdout + result.stderr);
+  assert.equal(JSON.parse(result.stdout).valid, true);
 });
 
 test('production Shield reproduces every independent Hub decision', {skip:!process.env.SHIELD_BINARY}, async t => {
@@ -142,7 +156,7 @@ test('production Shield reproduces every independent Hub decision', {skip:!proce
   t.diagnostic(`Evaluated all ${total} independent hub cases.`);
 });
 
-test('an absolute replacement recipe in the approved project keeps its ordinary decision', {skip:!process.env.SHIELD_BINARY}, () => {
+test('approved run and replacement recipes and catalog paths keep their ordinary decisions', {skip:!process.env.SHIELD_BINARY}, () => {
   const owner = mkdtempSync(join(tmpdir(), 'hub-replacement-recipe-'));
   try {
     const path = join(owner, 'cases.json');
@@ -151,12 +165,19 @@ test('an absolute replacement recipe in the approved project keeps its ordinary 
     const calls = [
       ['doctor', {execution, config}],
       ['process_stop', {execution, config, check_replacement: true}],
+      ['process_run', {targets: ['web'], config, detach: true, wait_ms: 30000}],
     ];
-    const cases = ['loose', 'recommended', 'strict'].flatMap(profile => calls.map(([tool, arguments_]) => ({
-      name: `${tool}-${profile}`, profile, mcp: binding(),
-      input: {kind: 'mcp', server: 'hub', tool, arguments: arguments_, original_input: {}},
-      expected: profile === 'strict' ? 'ask' : 'allow',
-    })));
+    const cases = ['loose', 'recommended', 'strict'].flatMap(profile => {
+      const expected = profile === 'strict' ? 'ask' : 'allow';
+      return [
+        ...calls.map(([tool, arguments_]) => ({name: `${tool}-${profile}`, profile, mcp: binding(),
+          input: {kind: 'mcp', server: 'hub', tool, arguments: arguments_, original_input: {}}, expected})),
+        {name: `catalog-import-${profile}`, profile,
+          argv: ['hub', '--project', process.cwd(), 'mcp', 'catalog', '--scope=project', 'import', 'acme', '--from', config], expected},
+        {name: `catalog-legacy-import-${profile}`, profile,
+          argv: ['hub', '--project', process.cwd(), 'mcp', 'catalog', 'acme', '--from', config], expected},
+      ];
+    });
     writeFileSync(path, JSON.stringify({schema_version: 1, cases}));
     const result = evaluate(path);
     const report = JSON.parse(result.stdout || '{}');

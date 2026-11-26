@@ -12,7 +12,7 @@ import {schema} from './policy-schema.mjs';
 import {checkPublication, digest} from './registry-release.mjs';
 
 // Independent source inventory: catalog.rs and its mobile, browser, build,
-// project, diagnostic and bundled-documentation schema owners, Testrun 0.14.0.
+// project, diagnostic and bundled-documentation schema owners, Testrun 0.15.0.
 const current = [
   'target_list','doctor','developer_mode_reveal','developer_support_install','connect','act','observe','status','disconnect',
   'control_status','control_acquire','control_release','app_install','app_uninstall','app_list','clipboard_read',
@@ -78,11 +78,22 @@ test('installed Testrun agrees with the reviewed current catalog when available'
     assert.ok(properties.cursor && properties.limit,name);
     assert.equal(properties.offset,undefined,name);
   }
-  // Creation requires the preview's plan digest; dryRun is a retained form.
+  // Creation requires the preview's plan digest as its authorization input.
   const init = tools.find(tool=>tool.name==='project_init').inputSchema;
   assert.deepEqual(init.required,['root','planDigest']);
-  for (const name of ['project_init','project_init_preview'])
-    assert.equal(tools.find(tool=>tool.name===name).inputSchema.properties.dryRun,undefined,name);
+  const preview = tools.find(tool=>tool.name==='project_init_preview').inputSchema;
+  assert.deepEqual(preview.required,['root']);
+  assert.equal(preview.properties.planDigest,undefined);
+  assert.equal(init.properties.dryRun,undefined);
+  assert.equal(preview.properties.dryRun,undefined);
+
+  const diagnostics = tools.find(tool=>tool.name==='diagnostics_start').inputSchema;
+  const nativeTrace = diagnostics.properties.source.oneOf.find(schema=>schema.properties.kind.const==='native_trace');
+  assert.deepEqual(nativeTrace.required,['kind','backend','mode','targetId','appId']);
+  assert.deepEqual(nativeTrace.properties.template.enum,
+    ['Time Profiler','Points of Interest','System Trace','Hangs','Allocations','Leaks','Activity Monitor']);
+  for (const field of ['path','toolPath']) assert.equal(nativeTrace.properties[field].type,'string');
+  assert.equal(nativeTrace.properties.allowSystemTrace.type,'boolean');
 });
 
 test('production Shield evaluates every independent Testrun case', {skip:!process.env.SHIELD_BINARY}, async t => {

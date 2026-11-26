@@ -2,7 +2,7 @@ import {writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {usableGithubCases} from './build-github-usable-cases.mjs';
-import {destination, currentDestination, nextDestination, destination070, destination071, destination080, destination081, destination090, destination0100} from './build-github-graphql-pack.mjs';
+import {destination, currentDestination, nextDestination, destination070, destination071, destination080, destination081, destination090, destination0100, destination0110} from './build-github-graphql-pack.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 
 export const reviewQuery = `query { repository(owner:"acme", name:"web") { pullRequest(number:12) {
@@ -507,10 +507,52 @@ export function githubCases0100() {
   return cases;
 }
 
+export function githubCases0110() {
+  const cases = githubCases0100();
+  const watches = [
+    ['deployment', ['123', '--repo', 'acme/web', '--exit-status', '--interval', '15'], 'allow', 'allow'],
+    ['second-repository', ['123', '-R', 'example/web-fork', '--compact', '-i', '5'], 'allow', 'allow'],
+    ['equals', ['--repo=acme/web', '123', '--interval=15'], 'allow', 'allow'],
+    ['attached-short-interval', ['123', '-R', 'acme/web', '-i15'], 'allow', 'allow'],
+    ['implicit-repository', ['123'], 'allow', 'deny'],
+    ['other-repository', ['123', '-R', 'outside/web'], 'allow', 'deny'],
+    ['mixed-owner-and-repository', ['123', '--repo', 'example/web'], 'allow', 'deny'],
+    ['host-qualified-repository', ['123', '--repo', 'github.example/acme/web'], 'allow', 'deny'],
+    ['override-outside', ['123', '-R', 'acme/web', '--repo', 'outside/web'], 'allow', 'deny'],
+    ['override-listed', ['123', '--repo', 'outside/web', '-R', 'acme/web'], 'allow', 'deny'],
+    ['implicit-run', ['--repo', 'acme/web'], 'ask', 'deny'],
+    ['url-run', ['https://github.com/acme/web/actions/runs/123', '-R', 'acme/web'], 'ask', 'deny'],
+    ['extra-run', ['123', '456', '-R', 'acme/web'], 'ask', 'deny'],
+    ['zero-run', ['0', '-R', 'acme/web'], 'ask', 'deny'],
+    ['zero-interval', ['123', '-R', 'acme/web', '--interval=0'], 'ask', 'deny'],
+    ['negative-interval', ['123', '-R', 'acme/web', '-i', '-1'], 'ask', 'deny'],
+    ['malformed-interval', ['123', '-R', 'acme/web', '--interval', 'fast'], 'ask', 'deny'],
+    ['missing-interval', ['123', '-R', 'acme/web', '--interval'], 'ask', 'deny'],
+    ['unknown-option', ['123', '-R', 'acme/web', '--log'], 'ask', 'deny'],
+    ['repository-after-separator', ['123', '--', '--repo', 'acme/web'], 'ask', 'deny'],
+  ];
+  const requests = [
+    ...watches.map(([name, args, ...expected]) => [name, ['run', 'watch', ...args], ...expected]),
+    ['leading-repository', ['-R', 'acme/web', 'run', 'watch', '123'], 'allow', 'allow'],
+    ['interleaved-repository', ['run', '--repo', 'example/web-fork', 'watch', '123'], 'allow', 'allow'],
+    ['leading-other-repository', ['-R', 'outside/web', 'run', 'watch', '123'], 'allow', 'deny'],
+    ['view-with-leading-repository', ['-R', 'acme/web', 'run', 'view', '123', '--json', 'status'], 'allow', 'allow'],
+    ['view-with-watch-option', ['-R', 'acme/web', 'run', 'view', '123', '--interval', '15'], 'ask', 'deny'],
+    ['rerun', ['run', 'rerun', '123', '-R', 'acme/web'], 'ask', 'deny'],
+  ];
+  for (const profile of ['loose', 'recommended', 'strict']) {
+    for (const [name, args, unscoped, scoped] of requests) for (const [scope, expected, binding] of [
+      ['unscoped', unscoped, {}], ['scoped', scoped, {variables: {repository: forkRepositories}}],
+    ]) cases.push({name: `${scope}-workflow-watch-${name}-${profile}`, profile, ...binding,
+      argv: ['gh', ...args], expected});
+  }
+  return cases;
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   // Default: the current candidate. A version argument reproduces a published release.
-  const releases = {'0.4.0': [destination, graphqlGithubCases], '0.5.0': [currentDestination, currentGithubCases], '0.6.0': [nextDestination, nextGithubCases], '0.7.0': [destination070, githubCases070], '0.7.1':[destination071,githubCases071], '0.8.0':[destination080,githubCases080], '0.8.1':[destination081,githubCases081], '0.9.0':[destination090,githubCases090]};
-  const [output, build] = releases[process.argv[2]] ?? [destination0100, githubCases0100];
+  const releases = {'0.4.0': [destination, graphqlGithubCases], '0.5.0': [currentDestination, currentGithubCases], '0.6.0': [nextDestination, nextGithubCases], '0.7.0': [destination070, githubCases070], '0.7.1':[destination071,githubCases071], '0.8.0':[destination080,githubCases080], '0.8.1':[destination081,githubCases081], '0.9.0':[destination090,githubCases090], '0.10.0':[destination0100,githubCases0100]};
+  const [output, build] = releases[process.argv[2]] ?? [destination0110, githubCases0110];
   // Larger releases continue in cases-2.json, ... at Shield's per-file limit.
   for (const [name, document] of splitCaseFiles({schema_version:1,cases:build()}))
     await writeFile(new URL(name,output),JSON.stringify(document,null,2)+'\n');

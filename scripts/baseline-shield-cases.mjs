@@ -114,6 +114,29 @@ function mcpCase(name, profile, tool, arguments_, expected, mcp, server = 'shiel
     input: {kind: 'mcp', server, tool, arguments: arguments_, original_input: {}}};
 }
 
+export const shieldRestoreToolCase = ['pack_restore', {}, 'allow'];
+
+export function shieldRestoreCases() {
+  const registered = binding(stdio('shield'));
+  const legacy = binding(stdio('shield', ['__internal', 'mcp', '--project', '.', '--agent', 'codex']));
+  const external = binding(stdio('shield', ['mcp', 'serve', '--project', '/outside', '--agent', 'codex']));
+  const wrapped = binding(stdio('env', ['shield', ...registeredArgs]));
+  const [tool, args, expected] = shieldRestoreToolCase;
+  return ['loose', 'recommended', 'strict'].flatMap(profile => [
+    {name: `shield-cli-pack-restore-help-${profile}`, profile,
+      argv: ['shield', 'pack', 'restore', '--help'], expected: 'allow'},
+    {name: `shield-cli-pack-restore-${profile}`, profile,
+      argv: ['shield', 'pack', 'restore'], expected: 'ask'},
+    mcpCase(tool, profile, tool, args, expected, registered),
+    mcpCase('restore-legacy-launcher', profile, tool, args, expected, legacy),
+    mcpCase('restore-extra-argument', profile, tool, {reference: 'main/git'}, 'ask', registered),
+    mcpCase('restore-malformed-argument', profile, tool, {project: false}, 'ask', registered),
+    mcpCase('restore-outside-project', profile, tool, args, 'ask', external),
+    mcpCase('restore-wrapped-launcher', profile, tool, args, 'ask', wrapped),
+    mcpCase('restore-server-name-only', profile, tool, args, 'ask', {}, 'shield'),
+  ]);
+}
+
 export function shieldCases() {
   const registered = binding(stdio('shield'));
   const transports = [

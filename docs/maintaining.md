@@ -26,15 +26,16 @@ Current source builders are grouped by capability rather than a release diary:
 | PostgreSQL | `scripts/postgresql-policy.mjs` and independent `scripts/postgresql-cases.mjs`; regenerate with `node scripts/build-postgresql-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/postgresql-pack.test.mjs`. |
 | AWS CDK / SAM | `scripts/aws-cdk-sam-policy.mjs` and independent `scripts/aws-cdk-sam-cases.mjs`; regenerate with `node scripts/build-aws-cdk-sam-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/aws-cdk-sam-pack.test.mjs`. |
 | Python | `scripts/python-policy.mjs` and `scripts/python-ecosystem-policy.mjs`, with independent `scripts/python-cases.mjs` and `scripts/python-ecosystem-cases.mjs`, cover the interpreter and ecosystem in one pack. Regenerate with `node scripts/build-python-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/python-pack.test.mjs`. |
-| Baseline | `scripts/build-baseline-shield.mjs` and independent `scripts/baseline-shield-cases.mjs` add Shield CLI metadata and MCP permissions to 0.18.0. Regenerate with `node scripts/build-baseline-shield.mjs`. Validate decisions and check the catalog with `npm test -- --shield /absolute/path/to/shield scripts/baseline-shield.test.mjs` using Shield 0.55.0. The preceding release's sources are `scripts/build-baseline-rsync-metadata.mjs` and `scripts/rsync-metadata-cases.mjs`. |
+| Baseline | `scripts/build-baseline-pgrep.mjs` adds process-listing guidance and locked Shield pack recovery to 0.19.0. Independent expectations are in `scripts/baseline-pgrep-cases.mjs` and `scripts/baseline-shield-cases.mjs`. Regenerate with `node scripts/build-baseline-pgrep.mjs`. Validate decisions, signed retention and the current MCP catalog with `npm test -- --shield /absolute/path/to/shield scripts/baseline-pgrep.test.mjs scripts/baseline-shield.test.mjs` using Shield 0.56.0. |
 | Git | `scripts/build-git-allow-by-default.mjs 0.12.1` adds no-op editor settings such as `-c core.editor=true` to the shared leading forms, on top of 0.12.0's writable destination checks. Independent cases are in `scripts/git-output-cases.mjs` and the builder's `editorCases`. |
 | Node | `scripts/build-node-ecosystem.mjs` extends frozen 0.5.1 into one JavaScript ecosystem pack. Policy and independent expectations are in `scripts/node-ecosystem-policy.mjs` and `scripts/node-ecosystem-cases.mjs`; Playwright/browser QA uses `scripts/node-playwright-policy.mjs` and `scripts/node-playwright-cases.mjs`. Validate the affected batch with `npm test -- --shield /absolute/path/to/shield scripts/node-playwright.test.mjs` and the combined candidate with `scripts/node-ecosystem.test.mjs`. Historical builders remain dependencies of their own releases. |
-| Rust | `scripts/build-rust-executables.mjs` prepares pending 0.2.1 from frozen 0.2.0 with reviewed local executable discovery. Validate with `scripts/rust-executables.test.mjs`; installed Claude/Codex acceptance lives in Shield's `adapters/sdk-tests/rust-executable-native.test.mjs`, selected with `SHIELD_TEST_RUST_PACK` pointing to the candidate. Historical builders remain unchanged. |
+| Node host tests | `scripts/build-node-host-tests.mjs` extends 0.6.0 with the reviewed `host_node_tests` setting and Codex prefix. Regenerate with `node scripts/build-node-host-tests.mjs` and validate with `npm test -- --shield /absolute/path/to/shield scripts/node-host-tests.test.mjs` using Shield with `project-node-tests-v1`. |
+| Rust | `scripts/build-rust-development.mjs` extends frozen 0.2.1 with routine Cargo and Nextest syntax and local executable path lists. Expected decisions live in `scripts/rust-development-cases.mjs`. Regenerate with `node scripts/build-rust-development.mjs` and validate with `npm test -- --shield /absolute/path/to/shield scripts/rust-development.test.mjs`. Installed Claude/Codex executable discovery acceptance lives in Shield's `adapters/sdk-tests/rust-executable-native.test.mjs`. |
 | AWS | `scripts/build-reviewed-profiles.mjs` and `scripts/build-reviewed-profile-cases.mjs` |
 | Box, Gate, Testrun | `scripts/build-current-tool-packs.mjs` and `scripts/current-tool-cases.mjs` extend frozen sources; the builder accepts a tool selection. Testrun's allow-by-default policy is in `scripts/testrun-trusted-policy.mjs`, its host-file checks in `scripts/testrun-host-paths.mjs` and its independent fixtures in `scripts/testrun-trusted-cases.mjs`. |
 | Hub | `scripts/hub-policy.mjs` and independent `scripts/hub-cases.mjs`; regenerate with `node scripts/build-hub-pack.mjs`; select a source build in focused tests with `--hub /absolute/path/to/hub` |
 | GitHub | `scripts/build-github-graphql-pack.mjs` and `scripts/build-github-graphql-cases.mjs` |
-| Workbench | `scripts/workbench-policy.mjs` and independent `scripts/workbench-cases.mjs`; regenerate with `node scripts/build-workbench-pack.mjs` |
+| Workbench | `scripts/workbench-policy.mjs` and independent `scripts/workbench-cases.mjs`; regenerate with `node scripts/build-workbench-pack.mjs`. Image path checks require Shield 0.55.0 with `field-path-arrays-v1`. Validate with `npm test -- --shield /absolute/path/to/shield --workbench /absolute/path/to/workbench scripts/workbench-pack.test.mjs`. |
 | Docker | `scripts/docker-policy.mjs` and independent `scripts/docker-cases.mjs`; regenerate with `node scripts/build-docker-pack.mjs` |
 | Java / JVM, Maven and Gradle | `scripts/java-policy.mjs` and independent `scripts/java-cases.mjs`; regenerate with `node scripts/build-java-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/java-pack.test.mjs`. |
 | Bun | `scripts/bun-policy.mjs` and independent `scripts/bun-cases.mjs`; regenerate with `node scripts/build-bun-pack.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/bun-pack.test.mjs`. |
@@ -64,7 +65,8 @@ node scripts/build-github-graphql-pack.mjs
 node scripts/build-github-graphql-cases.mjs
 ```
 
-These generate GitHub 0.10.0 with public repository search permissions. The pack
+These generate GitHub 0.11.0 with repository-scoped workflow watching and
+public repository search permissions. The pack
 requires `graphql-subtree-v1` and `variable-list-branches-v1`. Use a compatible
 Shield binary for validation. A version argument reproduces the corresponding
 published version.
@@ -147,6 +149,10 @@ npm run test:native -- --shield /absolute/path/to/shield
 ```
 
 ## Publish
+
+Run `git status --short --branch --untracked-files=all` to confirm the release
+branch, inspect pending paths, and check for unmerged entries. The short format
+shows conflicts without printing blob IDs.
 
 Add every pending source path to `release.json.packs` exactly once. Use
 `catalog_version: 3` for indexed publication. Retain all

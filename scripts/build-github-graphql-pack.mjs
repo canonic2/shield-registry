@@ -1,6 +1,6 @@
 // Versioned GraphQL reads; published artifacts remain immutable.
 // Field leaves follow https://docs.github.com/en/graphql/reference/objects.
-import {mkdir, writeFile, copyFile} from 'node:fs/promises';
+import {mkdir, readFile, writeFile, copyFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {usableGithubPack} from './build-github-usable-pack.mjs';
@@ -464,6 +464,65 @@ export function githubPack0100() {
   return pack;
 }
 
+export const destination0110 = new URL('../packs/canonic/github/0.11.0/', import.meta.url);
+
+export function githubPack0110() {
+  const pack = githubPack0100();
+  pack.version = '0.11.0';
+  pack.description += ' Watch workflow runs by numeric ID.';
+  const scope = pack.preconditions.find(gate => gate.id === 'cli-scope');
+  const read = pack.rules.find(rule => rule.id === 'run-view');
+  const watch = structuredClone(read.conditions.arguments);
+  watch.prefix = ['run', 'watch'];
+  watch.flags = ['--compact', '--exit-status'];
+  // A zero or negative interval can poll without waiting.
+  const interval = ['-i', '--interval'].map(name => ({name, match: {regex: '[1-9][0-9]*'}}));
+  watch.values = [...watch.leading.values, ...interval];
+  pack.rules.splice(pack.rules.indexOf(read) + 1, 0, {
+    ...read, id: 'run-watch', conditions: {...read.conditions, arguments: watch},
+    reason: 'Watch one GitHub Actions run and report its status.',
+  });
+
+  // Keep the general gate at 16 alternatives. The run gate preserves both
+  // existing view grammars and checks the watch arguments separately.
+  const viewIndex = scope.requires_any.findIndex(({arguments: args}) => sameWords(args?.prefix, ['run', 'view']));
+  const view = scope.requires_any[viewIndex];
+  const leading = view.arguments.leading;
+  const run = {kind: 'prefix', leading, values: ['run', {one_of: ['view', 'watch']}]};
+  scope.requires_any[viewIndex] = {arguments: run};
+  const scopedWatch = {...watch, leading, values: [...leading.values, ...interval],
+    require_any: view.arguments.require_any};
+  pack.preconditions.push({
+    id: 'cli-run-read-scope', when: scope.when, conditions: {...scope.conditions, arguments: run},
+    requires_any: [view,
+      {arguments: {kind: 'sequence', prefix: ['run', 'view'], rest: tokens(otherTarget)}},
+      {arguments: scopedWatch}],
+    on_unmet: {decision: 'deny', message: `For gh run watch, name ${listed} with -R or --repo and supply one numeric run ID. Use a positive refresh interval and the built-in watch options.`},
+  });
+  return pack;
+}
+
+export async function githubGuide0110() {
+  const previous = await readFile(new URL('README.md', destination0100), 'utf8');
+  return previous.replace('Version 0.10.0', 'Version 0.11.0')
+    .replace('## Repository search', `## Watch a workflow run
+
+All profiles allow \`gh run watch\` with one numeric run ID. With repository
+scope enabled, supply \`-R\` or \`--repo\` with a listed repository.
+Use \`--exit-status\` to report workflow failure, \`--compact\` to shorten
+the output, or \`-i\` / \`--interval\` with a positive number of seconds.
+
+\`\`\`sh
+gh run watch 123 --repo acme/web --exit-status --interval 15
+\`\`\`
+
+The scoped form refuses implicit repository or run selection, unlisted
+repositories, URL operands and unsupported options. See the
+[GitHub CLI manual](https://cli.github.com/manual/gh_run_watch).
+
+## Repository search`);
+}
+
 const writePack = async (pack, output) => {
   await mkdir(output, {recursive: true});
   await writeFile(new URL('pack.yml', output), JSON.stringify(pack, null, 2) + '\n');
@@ -479,7 +538,11 @@ export const buildGithubPack080 = () => writePack(githubPack080(), destination08
 export const buildGithubPack081 = () => writePack(githubPack081(), destination081);
 export const buildGithubPack090 = () => writePack(githubPack090(), destination090);
 export const buildGithubPack0100 = () => writePack(githubPack0100(), destination0100);
+export async function buildGithubPack0110() {
+  await writePack(githubPack0110(), destination0110);
+  await writeFile(new URL('README.md', destination0110), await githubGuide0110());
+}
 // Default: the current candidate. A version argument reproduces a published release.
-const builds = {'0.4.0': buildGraphqlGithubPack, '0.5.0': buildCurrentGithubPack, '0.6.0': buildNextGithubPack, '0.7.0': buildGithubPack070, '0.7.1': buildGithubPack071, '0.8.0': buildGithubPack080, '0.8.1': buildGithubPack081, '0.9.0': buildGithubPack090};
+const builds = {'0.4.0': buildGraphqlGithubPack, '0.5.0': buildCurrentGithubPack, '0.6.0': buildNextGithubPack, '0.7.0': buildGithubPack070, '0.7.1': buildGithubPack071, '0.8.0': buildGithubPack080, '0.8.1': buildGithubPack081, '0.9.0': buildGithubPack090, '0.10.0': buildGithubPack0100};
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href)
-  await (builds[process.argv[2]] ?? buildGithubPack0100)();
+  await (builds[process.argv[2]] ?? buildGithubPack0110)();

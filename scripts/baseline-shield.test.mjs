@@ -6,7 +6,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {baselineShieldCommands, baselineShieldPack, baselineShieldReleaseCases, destination, guide, previous} from './build-baseline-shield.mjs';
-import {shieldToolCases} from './baseline-shield-cases.mjs';
+import {shieldRestoreToolCase, shieldToolCases} from './baseline-shield-cases.mjs';
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
 import {checkPublication} from './registry-release.mjs';
@@ -90,7 +90,14 @@ test('Baseline classifies the installed Shield MCP catalog, including first-run 
     const catalog = replies.find(reply => reply.id === 2)?.result?.tools;
     assert.ok(Array.isArray(catalog), JSON.stringify(replies));
     const tools = new Map(catalog.map(tool => [tool.name, tool]));
-    const fixtures = shieldToolCases.map(([name]) => name).sort();
+    const version = spawnSync(process.env.SHIELD_BINARY, ['--version'], {encoding: 'utf8', timeout: 10000});
+    assert.ifError(version.error);
+    assert.equal(version.status, 0, version.stderr);
+    const parsed = /^shield (\d+)\.(\d+)\.\d+\b/.exec(version.stdout);
+    assert.ok(parsed, version.stdout);
+    const hasRestore = Number(parsed[1]) > 0 || Number(parsed[2]) >= 56;
+    const interfaceCases = hasRestore ? [...shieldToolCases, shieldRestoreToolCase] : shieldToolCases;
+    const fixtures = interfaceCases.map(([name]) => name).sort();
     assert.deepEqual([...tools.keys()].filter(name => name !== 'init').sort(),
       fixtures.filter(name => name !== 'init'));
     assert.ok(fixtures.includes('init'));
@@ -99,6 +106,14 @@ test('Baseline classifies the installed Shield MCP catalog, including first-run 
     assert.deepEqual(review.inputSchema.required, ['proposal_id']);
     assert.deepEqual(review.inputSchema.properties.proposal_id, {type: 'string', minLength: 1, maxLength: 128});
     assert.equal(review.annotations.readOnlyHint, false);
+    if (hasRestore) {
+      const restore = tools.get('pack_restore');
+      assert.deepEqual(restore.inputSchema,
+        {type: 'object', properties: {}, required: [], additionalProperties: false});
+      assert.equal(restore.annotations.readOnlyHint, false);
+      assert.equal(restore.annotations.destructiveHint, false);
+      assert.equal(restore.annotations.openWorldHint, true);
+    }
     for (const name of ['pack_add', 'pack_configure', 'pack_remove', 'pack_update',
       'rule_add', 'rule_edit', 'rule_remove', 'registry_add'])
       assert.equal(tools.get(name).inputSchema.properties.review.type, 'boolean', name);

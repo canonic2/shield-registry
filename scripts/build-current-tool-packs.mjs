@@ -11,7 +11,7 @@ import {splitCaseFiles} from './fixture-files.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 import {trustedTestrunPack,trustedTestrunGuide} from './testrun-trusted-policy.mjs';
 
-export const currentToolVersions = {box:'0.2.8', gate:'0.2.9', testrun:'0.2.13'};
+export const currentToolVersions = {box:'0.2.8', gate:'0.2.10', testrun:'0.2.14'};
 export const currentDirectory = (name, version = currentToolVersions[name]) =>
   new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -194,6 +194,10 @@ function updateBox(pack) {
 
 function updateGate(pack) {
   extend(pack, gate, [
+    [['setup'],'execute','Initialize a repository worktree or change agent registrations.',[
+      {id:'dry-run',any:['--dry-run'],values:['--agent','--scope','--config'],
+        flags:['--no-agents','--remove','--tool-permissions','--reset-tool-permissions'],
+        category:'inspect',reason:'Inspect the worktree and exact registration plan.'}]],
     ...['list','search','read'].map(verb =>
       [['docs',verb],'inspect','Read bundled documentation without accessing host files.']),
     [['rename'],'inspect','Review a repository ID migration.',[
@@ -211,6 +215,18 @@ function updateGate(pack) {
       {id:'dry-run', fields:{'/dry_run':{exact:true}}, category:'inspect', reason:'Inspect selected changes without discarding them.'}]],
     ...Object.fromEntries(gateRemoteChanges.map(([,tool,effect]) => [tool,['destroy',effect]])),
   });
+  separatePreview(pack,'setup');
+  const setupPath = pack.rules.find(rule => rule.id === 'setup-dry-run').requirements.argument_paths;
+  setupPath.grammar = structuredClone(pack.rules.find(rule => rule.id === 'setup-dry-run').conditions.arguments);
+  delete setupPath.grammar.require_any;
+  setupPath.options['--config'] = structuredClone(setupPath.options['--project']);
+  setupPath.options['--config'].path.within.root = 'read';
+  mcpRule(pack,'mcp-project-setup','setup',review);
+  mcpRule(pack,'mcp-project-setup-preview','setup_preview',allow);
+  const config = structuredClone(pack.rules.find(rule => rule.id === 'mcp-status-project').requirements.field_paths['/project']);
+  mcpRule(pack,'mcp-project-setup-preview-config','setup_preview',allow,{'/config':{not:{exact:null}}},
+    {field_paths:{'/config':config}});
+  pack.rules.find(rule => rule.id === 'mcp-unlisted').conditions.tool.not.one_of.push('setup','setup_preview');
   separatePreview(pack,'discard');
   const template = pack.rules.find(rule => rule.id === 'mcp-status-project');
   const remoteTools = gateRemoteChanges.map(([,tool]) => tool);
@@ -254,7 +270,15 @@ function updateGate(pack) {
   risky.conditions.arguments.require_any = ['--discard-changes'];
   risky.conditions.arguments.flags.push('--discard-changes','--remove-branch');
   risky.decision = destroy;
-  pack.rules.push(risky);
+  risky.reason = 'Review worktree removal that can discard uncommitted files.';
+  // Gate 0.33.0 can remove branches during a replay even without --confirm.
+  const branch = structuredClone(risky);
+  branch.id = 'worktree-remove-branch';
+  branch.conditions.arguments.require_any = ['--remove-branch'];
+  branch.conditions.arguments.forbid = ['--discard-changes'];
+  branch.decision = review;
+  branch.reason = 'Review branch cleanup, which older Gate can apply on a completed removal.';
+  pack.rules.push(risky, branch);
   // Gate names .gate/worktrees/<name> as its in-project worktree location. It
   // takes the decision and path checks of the retained .gate/tasks rule.
   const taskFolder = pack.rules.findIndex(rule => rule.id === 'mcp-worktree_add-task-folder');
@@ -263,6 +287,15 @@ function updateGate(pack) {
   worktreeFolder.conditions.fields['/path'].text.regex = '\\.gate/worktrees/[A-Za-z0-9_][A-Za-z0-9_.-]*';
   worktreeFolder.reason = 'Create a combined worktree under .gate/worktrees.';
   pack.rules.splice(taskFolder + 1, 0, worktreeFolder);
+  // A resume digest identifies a saved plan. Both CLI rules still check
+  // the destination as a writable operand.
+  for (const id of ['worktree-add', 'worktree-add-folder']) {
+    const rule = pack.rules.find(candidate => candidate.id === id);
+    rule.requirements.argument_paths.grammar.values.push('--resume');
+    if (rule.conditions.arguments.kind === 'options') {
+      rule.conditions.arguments.values.push('--resume');
+    }
+  }
   // Keep reviewed gate_docs_* permissions, the .gate/tasks worktree folder, and the relocate, worktree repair
   // and worktree_repair permissions, for older installed Gate versions until
   // their documented retirement windows have elapsed.
@@ -278,6 +311,16 @@ function updateGate(pack) {
 }
 
 function gateRemovalPathChecks(pack) {
+  const destination = pack.rules.find(rule => rule.id === 'worktree-add-folder')
+    .requirements.argument_paths.operands;
+  for (const id of ['worktree-remove', 'worktree-remove-confirm', 'worktree-remove-discard',
+    'worktree-remove-branch']) {
+    const rule = pack.rules.find(candidate => candidate.id === id);
+    const arguments_ = rule.requirements.argument_paths;
+    arguments_.operands = structuredClone(destination);
+    arguments_.operands.path.within.root = id === 'worktree-remove' ? 'read' : 'write';
+    if (rule.decision.strict === 'deny') rule.on_unmet.decision = destroy;
+  }
   const paths = pack.rules.find(rule => rule.id === 'mcp-worktree_remove-project').requirements.field_paths;
   for (const [tool, access, fields, decision] of [
     ['worktree_remove','write',{'/discard_changes':{exact:true}},destroy],
@@ -713,8 +756,8 @@ with \`npm test -- --shield /absolute/path/to/shield scripts/current-tool-packs.
   }
 }
 function gateCurrentGuide() {
-  return `Reviewed against Gate 0.33.0 source and its installed catalog:
-48 current MCP tools, including ten separate previews, plus retained
+  return `Reviewed against Gate 0.34.0 source and its catalog fixtures:
+50 current MCP tools, including eleven separate previews, plus retained
 compatibility names. The MCP \`dry_run\` argument on \`discard\`, \`rename\`,
 \`sync\`, \`migrate\`, \`branch_remove\`, \`session_remove\` and \`worktree_remove\`
 is first verified absent in 0.27.0 on 2026-11-15. Use each tool’s
@@ -725,9 +768,24 @@ removal with discarded changes. Independent fixtures cover every retained form
 across profiles. Gate has no published feature release starting this window.
 Retirement requires three subsequent published feature releases.
 
+\`gate setup\` and the MCP \`setup\` tool use Ask in each profile because they
+can initialize repositories or publish agent registrations. The CLI dry run
+and \`setup_preview\` are Allow within approved roots. Explicit policy files
+in these previews are checked against approved read paths.
+
 The CLI \`worktree status --runtime\` reports readiness and repository entry
 bindings. It keeps the same read-only decisions and project boundary as
 \`worktree status\`.
+
+\`worktree add --resume PLAN\` and MCP \`worktree_add\` with \`resume\` identify a
+saved plan. Gate checks the plan before continuing, and Shield applies the
+same destination and project checks as for ordinary creation.
+
+MCP \`status\` accepts \`details\` and \`paths\` for existing report rows. The
+paths filter the report in memory and grant no file access. CLI discard and
+worktree removal previews accept \`--details\`, and their MCP preview tools
+accept \`details: true\`. Detail flags keep the operation's review and path
+checks.
 `;
 }
 
@@ -775,11 +833,15 @@ review for this cross-worktree operation.
 
 Dirty \`worktree_remove\` without branch cleanup uses Gate's confirmation in
 Loose and Recommended when the destination is within approved writable roots.
-Strict denies dirty removal. The preview checks approved read roots.
-MCP removal or preview with \`remove_branch: true\` still needs host approval
-or is denied under the profile. The pack matches older Gate binaries whose
-completed-removal review could attempt branch cleanup. Gate releases with the
-fix require confirmation for branch cleanup even after removal completes.
+Strict denies dirty removal. Clean CLI removal previews and MCP previews check
+approved read roots. CLI removal with confirmation checks approved write roots.
+
+Gate 0.33.0 can delete branches when a completed removal is replayed with
+\`--remove-branch\`, even for a dry run. The CLI now asks in all profiles for
+branch cleanup. With \`--discard-changes\`, Strict denies it. MCP retains its
+existing review or denial for \`remove_branch: true\` inside approved roots.
+Gate 0.34.0 confirms branch cleanup regardless of whether removal has completed.
+For inspection on older versions, omit the branch-cleanup option.
 `;
 }
 

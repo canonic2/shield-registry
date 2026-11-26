@@ -49,17 +49,17 @@ pending candidates. Older artifacts remain available for pinned installations.
 | Pack | Latest version | Coverage |
 | --- | --- | --- |
 | [canonic/aws](packs/canonic/aws/0.2.0/README.md) | 0.2.0 | AWS CLI and MCP operations, optional profile and region restrictions |
-| [canonic/baseline](packs/canonic/baseline/0.19.0/README.md) | 0.19.0 | Everyday shell commands, approved file paths, read-only loopback fetches, and Shield CLI metadata and MCP review |
+| [canonic/baseline](packs/canonic/baseline/0.20.0/README.md) | 0.20.0 | Everyday shell commands, approved file paths, PID-only process lookups, and Shield CLI metadata and MCP recovery |
 | [canonic/box](packs/canonic/box/0.2.8/README.md) | 0.2.8 | Workspaces, current setup and documentation tools, read-only previews, paginated inspection, exact current-checkout MCP selection, execution, retained recovery and resource-deleting workspace removal |
 | [canonic/docker](packs/canonic/docker/0.1.0/README.md) | 0.1.0 | Local containers, images, builds and Compose, with approved context selection and review for host mounts, privileges, secrets, publication and data removal |
-| [canonic/gate](packs/canonic/gate/0.2.9/README.md) | 0.2.9 | Repository and worktree workflows, read-only previews, and reviewed discard, rename, branch cleanup and remote changes |
+| [canonic/gate](packs/canonic/gate/0.2.10/README.md) | 0.2.10 | Repository and worktree workflows, read-only previews, and reviewed discard, rename, branch cleanup and remote changes |
 | [canonic/git](packs/canonic/git/0.12.1/README.md) | 0.12.1 | Everyday local commands, network reads and rebase, with Git patch output checked against writable roots and no-op editor settings accepted |
-| [canonic/github](packs/canonic/github/0.10.0/README.md) | 0.10.0 | GitHub CLI/MCP, public repository search, reviewed mutations, and optional repository boundaries for CLI, GraphQL and REST |
-| [canonic/hub](packs/canonic/hub/0.1.10/README.md) | 0.1.10 | Workspaces, tasks, managed agents, Proxy lifecycle, project onboarding and Slack app setup previews |
-| [canonic/node](packs/canonic/node/0.6.0/README.md) | 0.6.0 | JavaScript ecosystem, package managers, TypeScript, linting, formatting, tests, monorepos and browser QA |
-| [canonic/rust](packs/canonic/rust/0.2.1/README.md) | 0.2.1 | Cargo, Rust tools, dependencies, explicit argument paths and reviewed local rustup executable discovery |
-| [canonic/testrun](packs/canonic/testrun/0.2.13/README.md) | 0.2.13 | Testrun CLI and verified MCP tools, with checks on host files such as media fixtures, borrowed browser profiles and browser attachment files |
-| [canonic/workbench](packs/canonic/workbench/0.2.0/README.md) | 0.2.0 | All 21 current Workbench MCP tools and future tools allowed across every profile, with verified stdio bindings |
+| [canonic/github](packs/canonic/github/0.11.0/README.md) | 0.11.0 | GitHub CLI/MCP, public repository search, workflow watching, reviewed mutations, and optional repository boundaries |
+| [canonic/hub](packs/canonic/hub/0.1.11/README.md) | 0.1.11 | Workspaces, tasks, managed agents, reviewed MCP catalog probes, Proxy lifecycle and project onboarding |
+| [canonic/node](packs/canonic/node/0.6.1/README.md) | 0.6.1 | JavaScript ecosystem, package managers, tests, monorepos, browser QA and opt-in Codex host access for trusted Node tests |
+| [canonic/rust](packs/canonic/rust/0.2.2/README.md) | 0.2.2 | Cargo and Nextest workflows, dependency maintenance, explicit argument paths and reviewed local executable lists |
+| [canonic/testrun](packs/canonic/testrun/0.2.14/README.md) | 0.2.14 | Testrun CLI and MCP with host-file checks for media fixtures, browser attachments, profiles and multipart uploads |
+| [canonic/workbench](packs/canonic/workbench/0.3.0/README.md) | 0.3.0 | Verified Workbench MCP connections with approved-path checks for image inputs, masks and outputs |
 | [canonic/1password](packs/canonic/1password/0.1.0/README.md) | 0.1.0 | Accounts, vaults and items, with reviewed secrets, subprocesses, sharing and mutations |
 | [canonic/android](packs/canonic/android/0.1.0/README.md) | 0.1.0 | Android devices, emulators, SDK tooling, signing and application packages |
 | [canonic/ansible](packs/canonic/ansible/0.1.0/README.md) | 0.1.0 | Nine Ansible CLIs, with reviewed configuration, plugins, remote execution, Galaxy and Vault |
@@ -81,35 +81,39 @@ pending candidates. Older artifacts remain available for pinned installations.
 | [canonic/supabase](packs/canonic/supabase/0.1.1/README.md) | 0.1.1 | Supabase CLI and MCP with opt-in SQL on a reviewed hosted read-only connection |
 | [canonic/terraform](packs/canonic/terraform/0.1.0/README.md) | 0.1.0 | Terraform infrastructure, providers, state, plans and reviewed mutations |
 
-GitHub 0.10.0 allows verified public-only repository searches in every profile.
+GitHub 0.11.0 allows watching a workflow run by numeric ID in every profile.
+When repository restrictions are configured, the command must explicitly name an
+approved repository. Verified public-only repository searches are also allowed.
 Searches without a verified public-only filter ask for approval. With a repository
 list configured, every GraphQL query root must name the same listed repository.
 Nested fields and related-object reads are unrestricted. The pack requires
 Shield `>=0.47.0, <1.0.0` with
 `graphql-v1`, `graphql-mutations-v1`, `graphql-subtree-v1`, `variable-prefixes-v1`
-and `variable-list-branches-v1`. Baseline 0.19.0 allows `policy_review` to open
-Shield's mandatory confirmation on matching Shield MCP connections. Read-only
+and `variable-list-branches-v1`. Baseline 0.20.0 allows `pack_restore` on matching
+Shield 0.56.0 MCP connections to recover exact locked artifacts. For process
+checks, use `pgrep -f` to list PIDs without showing process arguments. Read-only
 loopback fetches without redirects are allowed in Loose and Recommended and
 ask in Strict. The pack requires Shield `>=0.49.0, <1.0.0` with
 `url-subdomains-v1`. The ecosystem packs
 declare their engine minimums and exact capability requirements in their guides.
-Rust 0.2.1 requires Shield 0.53.0 for reviewed executable discovery.
+Rust 0.2.2 supports reviewed local executable lists and routine Cargo and Nextest
+commands in approved projects in Loose and Recommended.
 Git 0.12.1 can allow scoped patch
 output in Loose and Recommended on Shield 0.44.0 and later, and takes the same
 decision after a leading `-c core.editor=true` or similar no-op editor setting.
-Gate 0.2.9 uses Gate's confirmation for discard and repository rename in Loose
+Gate 0.2.10 uses Gate's confirmation for discard and repository rename in Loose
 and Recommended, with host review retained for worktree branch cleanup.
-Hub 0.1.10 allows Slack app setup previews and inspection of bounded output owned by the calling connection
-and asks from any working directory before taking keyboard control of a managed
-agent's terminal or resuming MCP capture. Explicit Compose replacement recipes
-are checked against approved read roots.
+Hub 0.1.11 covers MCP catalog inspection and reviewed probes, along with
+Compose lifecycle operations. Explicit replacement recipes are checked against
+approved read roots.
 Supabase 0.1.1 allows opt-in SQL when both the Shield connection ID and the
 exact project-scoped hosted read-only URL match the reviewed setting.
-Testrun 0.2.13 checks borrowed browser profile paths against approved write roots
-and attachment credential and CA paths against approved read roots.
-Node 0.6.0 retains
-`yarn --cwd DIR node --version` in Loose and Recommended when both directories
-are inside the project. Strict asks.
+Testrun 0.2.14 checks files named by multipart browser requests against
+approved read roots. Workbench 0.3.0 checks image inputs and masks against
+approved read roots and output paths against approved write roots. Both require
+`field-path-arrays-v1`.
+Node 0.6.1 can export a Codex host permission for trusted `node --test` calls in
+Loose and Recommended when the operator enables `host_node_tests`. Strict asks.
 Each pack declares its exact required capabilities. Clients refuse packs whose
 required capabilities they lack.
 
