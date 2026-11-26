@@ -11,8 +11,9 @@ export function guide() {
   return `# Docker permissions ${version}
 
 Reviewed against Docker 29.9.2 with Buildx and Compose v2: the \`docker\` and
-standalone \`docker-compose\` executables. Requires Shield \`${engine}\`,
-including \`argument-paths-v1\`.
+standalone \`docker-compose\` executables. Requires Shield \`${engine}\` with
+\`argument-paths-v1\` and \`docker-context-exec-trust-v1\`. Shield 0.58.0 adds
+the latter capability.
 
 Containers are the sandbox. Running, building and managing local containers,
 images, networks and volumes is allowed. The pack reviews the forms that break
@@ -89,6 +90,28 @@ contexts whose daemon you would let agents use. Without the setting, every
 \`DOCKER_HOST\`, \`DOCKER_CONTEXT\` and \`DOCKER_CONFIG\` in the environment, and
 the current \`docker context use\` selection, are host responsibilities;
 changing the context through the pack asks.
+
+## Trust commands on a selected daemon
+
+For a dedicated development daemon, optionally configure
+\`docker_trusted_exec_contexts\` alongside \`docker_contexts\`:
+
+\`\`\`sh
+shield pack configure canonic/docker --set 'docker_contexts=["desktop-linux"]' --set 'docker_trusted_exec_contexts=["desktop-linux"]'
+\`\`\`
+
+Loose and Recommended can then allow otherwise unrecognized programs in
+\`docker --context NAME exec\` and \`docker --context=NAME container exec\` when
+the context is in both lists. The grant covers every container on that daemon,
+including future containers, and the code and child processes those programs
+run. It includes the files, credentials and network resources those containers
+can access. Context selection is by name, so keep the Docker client
+configuration and the daemon selected by that name under operator control.
+
+Host-side shell operations and Docker options retain their ordinary decisions.
+Explicit Ask and Deny decisions still apply to the program and child commands
+Shield can inspect. Strict keeps exec under review. The setting is unset by
+default and applies only to the direct Docker exec commands above.
 
 Generate with \`node scripts/build-docker-pack.mjs\`. Validate with
 \`npm test -- --shield /absolute/path/to/shield scripts/docker-pack.test.mjs\`.

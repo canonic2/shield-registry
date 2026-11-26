@@ -200,6 +200,7 @@ defs.graphql = {...object({carrier:{const:'gh-api'},operation:enumeration(['quer
   if:{properties:{operation:{const:'mutation'}}},then:{required:['selection','root_fields']},else:{not:{required:['root_fields']}}};
 const caps = ['structured-rules-v1', 'argument-rules-v1', 'graphql-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1', 'fallback-rules-v1', 'invocation-groups-v1', 'command-sets-v1', 'mcp-integrations-v1', 'mcp-connection-facts-v1', 'mcp-command-fields-v1', 'mcp-effective-fields-v1', 'agent-outputs-v1', 'project-node-tests-v1'];
 caps.push('argument-paths-v1', 'argument-path-file-kind-v1', 'environment-unset-or-empty-v1', 'trust-execution-v1');
+caps.push('docker-context-exec-trust-v1');
 caps.push('field-paths-v1');
 caps.push('field-path-arrays-v1');
 caps.push('prefix-leading-v1');
@@ -409,6 +410,9 @@ for (const [name, shape] of Object.entries({
   'mcp-effective-fields-v1': at(['mcp_integrations','@','effective_fields'], {minProperties:1}),
   'mcp-connection-facts-v1': any([at(['rules','*'],eitherPredicate(['connection'])),at(['preconditions','*','requires_any','*','connection'])]),
   'variables-v1': at(['variables'], {minProperties: 1}),
+  'docker-context-exec-trust-v1': {
+    allOf: [at(['id'], {const: 'canonic/docker'}), at(['variables'], has('docker_trusted_exec_contexts'))]
+  },
   'executable-discovery-v1': at(['variables','@','discover'], {minItems: 1}),
   'executable-path-lists-v1': at(['variables','@'], {allOf: [at(['type'], {const: 'list'}), has('discover')]}),
   'preconditions-v1': at(['preconditions'], {minItems: 1}),

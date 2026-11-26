@@ -16,8 +16,8 @@
 // parsing data, not permissions. Decisions come from the value constraints,
 // forbidden options, path checks and risk scans.
 
-export const version = '0.1.0';
-export const engine = '>=0.20.0, <1.0.0';
+export const version = '0.2.0';
+export const engine = '>=0.57.0, <1.0.0';
 
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
 export const decisions = {
@@ -191,14 +191,23 @@ const risks = [
 // command. The twins reference the setting, so they are inactive while it is
 // unset and every global option keeps asking. `-c` and repeated contexts stay
 // unlisted, so the Compose scans below cover every accepted prefix.
+const contextItems = {type: 'string', match: {regex: '^[A-Za-z0-9][A-Za-z0-9_.+-]*$'}, max_length: 128};
 export const variables = {
   docker_contexts: {
     type: 'list',
     description: 'Docker contexts agents may select with --context, such as the context a workspace manager pins.',
-    items: {type: 'string', match: {regex: '^[A-Za-z0-9][A-Za-z0-9_.+-]*$'}, max_length: 128},
+    items: contextItems,
     max_items: 16,
     setup: {question: 'Allow agents to select specific Docker contexts with --context?', unset: 'No context selection',
       value: 'These contexts', placeholder: 'desktop-linux'},
+  },
+  docker_trusted_exec_contexts: {
+    type: 'list',
+    description: 'Trust programs and their descendants in every container, present or future, on the selected Docker daemons. Only contexts also listed in docker_contexts take effect.',
+    items: contextItems,
+    max_items: 16,
+    setup: {question: 'Which selected Docker contexts may run trusted commands in every container?', unset: 'Review unrecognized container commands',
+      value: 'Trust exec in these contexts', placeholder: 'desktop-linux'},
   },
 };
 const contextLeading = {flags: [], values: [{name: '--context', match: {var: 'docker_contexts'}, repeat: 'forbid'}]};
@@ -210,6 +219,18 @@ function withContext(row) {
   const grammar = twin.requirements?.argument_paths?.grammar;
   if (grammar) grammar.leading = structuredClone(contextLeading);
   return twin;
+}
+
+function withTrustedExecContext(row) {
+  const trusted = withContext(row);
+  trusted.id = `${row.id}-trusted-context`;
+  const args = trusted.conditions.arguments;
+  args.leading.values[0].match = {var: 'docker_trusted_exec_contexts'};
+  args.require_all = ['--context'];
+  // The existing env-file requirement uses the ordinary context grammar.
+  // It continues to require selection in docker_contexts and checks host files.
+  trusted.reason = 'Trust the command inside a container on the selected Docker daemon.';
+  return trusted;
 }
 
 const idOf = (executable, words) => [...(executable === 'docker' ? [] : [executable]), ...words].join('-') || executable;
@@ -241,7 +262,10 @@ export function dockerPack() {
         message: 'Name files inside the project, away from version control, credentials and agent settings.'};
     }
     rules.push(row);
-    if (executable === 'docker') rules.push(withContext(row));
+    if (executable === 'docker') {
+      rules.push(withContext(row));
+      if (name === 'exec') rules.push(withTrustedExecContext(row));
+    }
     // Every other form: unparsed or global options, host mounts, privileges,
     // forbidden options or a folder outside the approved roots.
     rules.push(argv(`${id}-review`, executable, {kind: 'prefix', values: words.length ? words : [{not: {exact: ''}}]}, 'review',
@@ -272,7 +296,7 @@ export function dockerPack() {
     schema_version: 1, kind: 'pack', id: 'canonic/docker', version, license: 'MIT', maintainers: ['Canonic'],
     description: 'Docker containers, images, builds and Compose, reviewing host mounts, privileged runtimes, the daemon socket, build secrets, registry publication, credentials and data removal.',
     engines: {shield: engine},
-    capabilities: ['access-paths-v1', 'argument-paths-v1', 'argument-rules-v1', 'location-v1', 'negated-selectors-v1',
+    capabilities: ['access-paths-v1', 'argument-paths-v1', 'argument-rules-v1', 'docker-context-exec-trust-v1', 'location-v1', 'negated-selectors-v1',
       'prefix-leading-v1', 'regex-v1', 'requirements-v1', 'structured-rules-v1', 'variables-v1'],
     variables,
     rules,

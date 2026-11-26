@@ -1,4 +1,4 @@
-// Reviewed Hub CLI and MCP surface of Hub 0.58.0: src/interface/cli.rs, the
+// Reviewed Hub CLI and MCP surface of Hub 0.60.0: src/interface/cli.rs, the
 // task, agent, plugin and integration argument types, and the tools of
 // src/interface/mcp/catalog.rs (`hub mcp serve --check`). Hub succeeds Box;
 // canonic/box keeps covering the box executable.
@@ -13,7 +13,7 @@
 import {toolPack} from './tool-pack.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 
-export const version = '0.1.12';
+export const version = '0.1.13';
 export const engine = '>=0.20.0, <1.0.0';
 
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -43,7 +43,7 @@ const proxyReads = {
 const inspectProxy = 'Read hosted proxy state from the default Canonic controller.';
 const reviewController = 'Review an authenticated request to a caller-selected controller.';
 const composeAssessment = 'Probe Docker using the selected workspace recipe and check the incoming Compose model and volumes.';
-const selectedExecution = {text: {not: {exact: ''}}};
+const nonemptyText = {text: {not: {exact: ''}}};
 const mutation = {flags: ['--dry-run'], values: [...workspace, '--if-revision', '--request-id', '--preview-digest',
   '--inspect', '--offset', ...globals]};
 const initial = ['--goal', '--description', '--priority', '--labels', '--check', '--goal-file', '--description-file'];
@@ -122,6 +122,7 @@ export const hub = {
     [['proxy'], 'confirmation', 'Review controller login, custom trust, connector enrollment and hosted proxy changes.'],
     [['mcp', 'workspace-headers'], 'routine', 'Verify the current checkout and start the same-user MCP passthrough when needed.'],
     [['mcp', 'workspace-launch'], 'execute', 'Launch a stdio MCP server with workspace ports and a supplied executable.'],
+    [['mcp', 'add'], 'confirmation', 'Capture and publish a workspace MCP server, optionally starting its target now or on future calls.'],
     [['mcp', 'catalog'], 'routine', 'Record tool discovery evidence with an earlier Hub CLI.'],
     [['mcp', 'catalog', 'show'], 'inspect', 'Inspect recorded tool names without contacting the server.'],
     [['mcp', 'catalog', 'probe'], 'routine', 'Discover and record a configured anonymous MCP catalog after Hub confirms.'],
@@ -159,6 +160,9 @@ export const hub = {
     [['shell'], 'execute', 'Open a workspace shell.', [
       {id: 'secret-profile', any: ['--secrets'], values: ['--secrets'], category: 'confirmation', reason: 'Supply a configured set of credentials to a shell and its descendants.'}]],
     [['config', 'secrets-sync'], 'confirmation', 'Write or refresh a declared secret file in a checkout.'],
+    ...['secret', 'secrets'].map(noun => [[noun, 'approve'], 'confirmation', 'Review a host process secret grant.', [
+      {id: 'preview', any: ['--dry-run'], values: [...globals, '--doppler-cli', '--doppler-scope', '--keychain-entry'],
+        category: 'inspect', reason: 'Inspect a suggested process secret grant without reading credentials or saving approval.'}]]),
     [['hook-child'], 'confirmation', 'Directly invoke the private command-hook worker with a launch plan on stdin.'],
     [['--'], 'shortcut', 'Run a command on a terminal in the current workspace.'],
     [['agent', 'start'], 'execute', 'Start an agent in the workspace checkout.', [
@@ -176,7 +180,7 @@ export const hub = {
       'plugin_prepare', 'plugin_binding_list', 'plugin_workflow_list', 'plugin_workflow_show', 'docs_list', 'docs_search', 'docs_read']
       .map(name => [name, ['inspect', 'Inspect Hub state, configuration or documentation.']]),
     ['doctor', ['inspect', 'Inspect Hub prerequisites, project and manager state.', [
-      {id: 'execution', fields: {'/execution': selectedExecution}, category: 'routine', reason: composeAssessment}]]],
+      {id: 'execution', fields: {'/execution': nonemptyText}, category: 'routine', reason: composeAssessment}]]],
     ['agent_terminal_read', ['inspect', 'Read bounded terminal output owned by this Hub connection.']],
     ['mcp_catalog_show', ['inspect', 'Read recorded tool names without connecting to the server.']],
     ['mcp_catalog_probe', ['routine', 'Discover and record a configured anonymous MCP catalog after Hub asks the host user to confirm.']],
@@ -277,7 +281,23 @@ export function hubPack() {
   fields['/args'] = {exact: ['mcp', 'serve']};
   pack.preconditions = [...recipePathChecks(pack), ...['mcp-catalog', 'mcp-catalog-import'].map(id => catalogPathCheck(pack, id))];
   separateCatalogInspection(pack);
+  separateSecretApproval(pack);
   return pack;
+}
+
+function separateSecretApproval(pack) {
+  const path = approvedPath('read');
+  for (const noun of ['secret', 'secrets']) {
+    const approval = pack.rules.find(rule => rule.id === `${noun}-approve`);
+    const preview = pack.rules.find(rule => rule.id === `${noun}-approve-preview`);
+    const {require_any: _required, ...grammar} = preview.conditions.arguments;
+    approval.conditions.arguments = {...grammar, forbid: ['--dry-run']};
+    delete approval.conditions.cwd;
+    pack.preconditions.push({id: `cli-${noun}-approval-preview-paths`, conditions: preview.conditions,
+      requires_any: [{argument_paths: {grammar: preview.conditions.arguments, options: {'--project': {path}, '--config': {path}}}}],
+      on_unmet: {decision: 'ask', message: 'Select a project and recipe in approved read roots, away from protected paths.'},
+      reason: 'Preview a suggestion from the selected project recipe.'});
+  }
 }
 
 function separateCatalogInspection(pack) {
@@ -336,25 +356,30 @@ function catalogPathCheck(pack, id) {
 function recipePathChecks(pack) {
   const path = approvedPath('read');
   const on_unmet = {decision: 'ask', message: 'Select a configuration file inside approved read roots, away from protected files.'};
+  const replacement = 'An explicit replacement recipe selects a host file and can control the Docker provider lookup.';
+  const compose = 'An explicit Compose control recipe selects a host file.';
   return [
-    {command: 'doctor', tool: 'doctor', action: ['--execution'], fields: {'/execution': selectedExecution}},
-    {command: 'process-stop', tool: 'process_stop', action: ['--check-replacement'], fields: {'/check_replacement': {exact: true}}},
-    {command: 'process-run', tool: 'process_run', action: [], fields: {}},
-  ].flatMap(({command, tool, action, fields}) => {
+    {command: 'doctor', tool: 'doctor', action: ['--execution'], fields: {'/execution': nonemptyText},
+      check: 'replacement-config', reason: replacement},
+    {command: 'process-stop', tool: 'process_stop', action: ['--check-replacement'], fields: {'/check_replacement': {exact: true}},
+      check: 'replacement-config', reason: replacement},
+    {command: 'process-run', tool: 'process_run',
+      reason: 'An explicit run configuration can select host commands and grant configured effects to Compose.'},
+    {command: 'process-restart', tool: 'process_restart', action: ['--service'], fields: {'/service': nonemptyText}, reason: compose},
+    {command: 'process-pause', tool: 'process_pause', reason: compose},
+    {command: 'process-resume', tool: 'process_resume', reason: compose},
+  ].flatMap(({command, tool, action = [], fields = {}, check = 'config', reason}) => {
     const {executable, arguments: {leading, values: prefix}} = pack.rules.find(rule => rule.id === command).conditions;
     const grammar = {kind: 'options', leading, prefix, operands: true, unknown_options: 'skip',
-      flags: ['--json', '--check-replacement', '--allow-self-stop', '--detach', '--show-private'],
-      values: ['--execution', '--workspace', '-w', '--request-id', '--project', '--set-env', ...globals]};
-    const check = action.length ? 'replacement-config' : 'config';
-    const reason = action.length
-      ? 'An explicit replacement recipe selects a host file and can control the Docker provider lookup.'
-      : 'An explicit run configuration can select host commands and grant configured effects to Compose.';
+      flags: ['--json', '--check-replacement', '--allow-self-stop', '--detach', '--show-private', '--wait-ready'],
+      values: ['--execution', '--workspace', '-w', '--request-id', '--project', '--set-env',
+        '--target', '--service', '--timeout-ms', ...globals]};
     return [
       {id: `cli-${command}-${check}`,
         conditions: {domain: 'argv', executable, arguments: {...grammar, require_all: [...action, '--config']}},
         requires_any: [{argument_paths: {grammar, options: {'--config': {path}}}}], on_unmet, reason},
       {id: `mcp-${tool}-${check}`,
-        conditions: {domain: 'mcp', server: 'hub', tool, fields: {...fields, '/config': selectedExecution}},
+        conditions: {domain: 'mcp', server: 'hub', tool, fields: {...fields, '/config': nonemptyText}},
         requires_any: [{field_paths: {'/config': {absolute: true, path}}}], on_unmet, reason},
     ];
   });

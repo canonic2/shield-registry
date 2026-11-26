@@ -125,6 +125,14 @@ test('Baseline classifies the installed Shield MCP catalog, including first-run 
     assert.equal(tools.get('mcp_setup').inputSchema.properties.repair.type, 'boolean');
     assert.equal(tools.get('mcp_setup_preview').annotations.readOnlyHint, true);
     assert.ok(tools.get('docs_read').inputSchema.required.includes('path'));
+    if (Number(parsed[1]) > 0 || Number(parsed[2]) >= 59) {
+      const docs = tools.get('docs_read');
+      const validate = schemaValidator(docs.inputSchema);
+      const path = 'getting-started.md';
+      assert.equal(docs.annotations.readOnlyHint, true);
+      assert.equal(validate({path, offset: 1, limit: 1}), true, JSON.stringify(validate.errors));
+      for (const offset of [-1, 0.5, '1']) assert.equal(validate({path, offset}), false);
+    }
     if (Number(parsed[1]) > 0 || Number(parsed[2]) >= 57) {
       const ruleList = tools.get('rule_list');
       assert.equal(ruleList.annotations.readOnlyHint, true);

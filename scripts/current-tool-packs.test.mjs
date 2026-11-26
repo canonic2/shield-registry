@@ -14,13 +14,14 @@ import {gate} from './gate-policy.mjs';
 import {toolPack} from './tool-pack.mjs';
 
 test('Gate current names and retained compatibility names have independent profile fixtures', async () => {
-  // Reviewed from the Gate 0.34.0 catalog, independently of policy constructors.
-  const current = ['status','diff','check','explain','doctor','remote_show','branch_list','session_status',
+  // Reviewed from the Gate 0.35.0 catalog, independently of policy constructors.
+  const current = ['status','diff','check','explain','doctor','remote_show','remote_list','branch_list','session_status',
     'discard','rename','init','setup','add','apply','remote_add','remote_set_url','remote_rename','remote_remove',
     'attach','sync','migrate','commit','fetch','push',
     'switch','branch_remove','recover','session_start','session_stop','session_resume','session_promote',
     'session_remove','worktree_add','worktree_list','worktree_status','worktree_remove',
-    'setup_preview','discard_preview','rename_preview','sync_preview','migrate_preview','branch_remove_preview',
+    'setup_preview','add_preview','apply_preview','commit_preview','fetch_preview','push_preview',
+    'discard_preview','rename_preview','sync_preview','migrate_preview','branch_remove_preview',
     'session_remove_preview','worktree_remove_preview','remote_set_url_preview','remote_rename_preview',
     'remote_remove_preview','docs_list','docs_search','docs_read'];
   const retained = ['gate_docs_list','gate_docs_search','gate_docs_read','worktree_repair'];
@@ -30,6 +31,14 @@ test('Gate current names and retained compatibility names have independent profi
   const {cases} = await currentToolCases('gate');
   for (const tool of [...current,...retained]) for (const profile of ['loose','recommended','strict'])
     assert.ok(cases.some(row => row.profile === profile && row.input?.tool === tool), `${tool}: ${profile}`);
+});
+
+test('Gate parity pack preserves the authenticated 0.2.10 artifact', async () => {
+  const catalog = await checkPublication(new URL('../public',import.meta.url).pathname,
+    readFileSync(new URL('../keys/main.pub',import.meta.url),'utf8').trim());
+  const prior = (catalog.releases??catalog.packs).find(row=>row.id==='canonic/gate' && row.version==='0.2.10');
+  assert.ok(prior);
+  assert.equal(digest(readFileSync(new URL('pack.yml',currentDirectory('gate','0.2.10')))),prior.sha256);
 });
 
 test('building current Gate leaves historical policy definitions and later builds unchanged', async () => {
@@ -75,7 +84,7 @@ function withoutOption(rule,option) {
   return copy;
 }
 
-test('Gate MCP confirms changes within approved project and worktree paths', {skip:!process.env.SHIELD_BINARY}, () => {
+test('Gate MCP checks project, worktree and input file paths', {skip:!process.env.SHIELD_BINARY}, () => {
   const dir=mkdtempSync(join(tmpdir(),'gate-current-config-'));
   try {
     // test-pack evaluates with its working directory as the project root.
@@ -89,6 +98,9 @@ test('Gate MCP confirms changes within approved project and worktree paths', {sk
         ['stage','add',{repo:'acme',paths:['packages/acme'],config:inside},['allow','allow','allow']],
         ['setup-preview-config','setup_preview',{config:inside},['allow','allow','allow']],
         ['setup-preview-protected-config','setup_preview',{config:protectedFile},['ask','ask','ask']],
+        ['apply-preview-file','apply_preview',{repo:'acme',patch:join(project,'changes.patch'),check:true},['allow','allow','allow']],
+        ['commit-preview-file','commit_preview',{repo:'acme',file:join(project,'message.txt')},['allow','allow','allow']],
+        ['commit-preview-protected-file','commit_preview',{repo:'acme',file:join(project,'.ssh','message.txt')},['ask','ask','ask']],
         ['discard-preview','discard',{repo:'acme',all:true,dry_run:true,config:inside},['allow','allow','allow']],
         ['discard','discard',{repo:'acme',all:true,config:inside},['allow','allow','deny']],
         ['discard-explicit-project','discard',{repo:'acme',all:true,project:process.cwd()},['allow','allow','deny']],

@@ -116,6 +116,18 @@ function mcpCase(name, profile, tool, arguments_, expected, mcp, server = 'shiel
 
 export const shieldRestoreToolCase = ['pack_restore', {}, 'allow'];
 
+export function shieldDocsPagingCases() {
+  const registered = binding(stdio('shield'));
+  const legacy = binding(stdio('shield', ['__internal', 'mcp', '--project', '.', '--agent', 'codex']));
+  const external = binding(stdio('shield', ['mcp', 'serve', '--project', '/outside', '--agent', 'codex']));
+  const args = {path: 'getting-started.md', offset: 1, limit: 1};
+  return ['loose', 'recommended', 'strict'].flatMap(profile => [
+    mcpCase('docs-read-offset', profile, 'docs_read', args, 'allow', registered),
+    mcpCase('docs-read-offset-legacy', profile, 'docs_read', args, 'allow', legacy),
+    mcpCase('docs-read-offset-outside-project', profile, 'docs_read', args, 'ask', external),
+  ]);
+}
+
 export function shieldInspectionCases() {
   const pack_selector = 'pack:15b30c2d-114b-4088-8a21-189c07e49f51';
   const registered = binding(stdio('shield'));

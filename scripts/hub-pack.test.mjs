@@ -12,7 +12,7 @@ import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
 import {checkPublication, digest} from './registry-release.mjs';
 
-// The Hub 0.58.0 source interface, independently of the policy, in catalog
+// The Hub 0.60.0 source interface, independently of the policy, in catalog
 // order (including preview identities).
 const catalog = ['init','config_check','config_check_compose','config_plan','config_schema','setup','mcp_catalog_probe','mcp_catalog_show','mcp_app_create_preview','workspace_create','workspace_attach',
   'workspace_list','workspace_show','workspace_remove','workspace_prepare','workspace_data_reset','task_show','task_update',
@@ -63,7 +63,7 @@ test('Hub sources reproduce with schema-valid policy and fixtures', async () => 
     assert.equal(Object.hasOwn(rule.conditions, 'cwd'), false, id);
     assert.deepEqual(rule.decision, {loose:'ask', recommended:'ask', strict:'ask'}, id);
   }
-  for (const id of ['shell-secret-profile', 'config-secrets-sync', 'hook-child', 'agent-attach',
+  for (const id of ['shell-secret-profile', 'config-secrets-sync', 'secret-approve', 'secrets-approve', 'hook-child', 'agent-attach',
     'config-check-lenient', 'process-run-private', 'process-forget-confirm']) {
     const rule = pack.rules.find(row => row.id === id);
     assert.equal(Object.hasOwn(rule.conditions, 'cwd'), false, id);
@@ -99,7 +99,7 @@ test('Hub retains signed assets and replays the latest and retained fixture sets
   const catalog = await checkPublication(new URL('../public', import.meta.url).pathname,
     readFileSync(new URL('../keys/main.pub', import.meta.url), 'utf8').trim());
   const current = new Map(hubCases().cases.map(row => [row.name, row]));
-  for (const version of ['0.1.3', '0.1.5', '0.1.6', '0.1.7', '0.1.10', '0.1.11']) {
+  for (const version of ['0.1.3', '0.1.5', '0.1.6', '0.1.7', '0.1.10', '0.1.11', '0.1.12']) {
     const previous = new URL(`../packs/canonic/hub/${version}/`, import.meta.url);
     const signed = new URL(`../public/packs/canonic/hub/${version}/`, import.meta.url);
     const published = catalog.releases.find(row => row.id === 'canonic/hub' && row.version === version);
@@ -114,7 +114,7 @@ test('Hub retains signed assets and replays the latest and retained fixture sets
       for (const file of fixtures) {
         const document = JSON.parse(readFileSync(new URL(file, previous)));
         const cases = document.cases.map(row => {
-          if (version === '0.1.11') return row;
+          if (version === '0.1.11' || version === '0.1.12') return row;
           const tighten = (version === '0.1.3' && authBypass.test(row.name)) || unapprovedRunConfig.test(row.name);
           if (!tighten && (version === '0.1.10' || !hubConfirmed.test(row.name))) return row;
           assert.equal(row.expected, tighten ? 'allow' : 'ask', row.name);
@@ -130,7 +130,7 @@ test('Hub retains signed assets and replays the latest and retained fixture sets
         assert.equal(result.status, 0, JSON.stringify(report.cases?.filter(row => !row.passed) ?? report) + result.stderr);
         assert.equal(report.passed, true);
       }
-      assert.equal(changed, {'0.1.3': 10, '0.1.10': 2, '0.1.11': 0}[version] ?? 8, version);
+      assert.equal(changed, {'0.1.3': 10, '0.1.10': 2, '0.1.11': 0, '0.1.12': 0}[version] ?? 8, version);
     } finally { rmSync(owner, {recursive:true, force:true}); }
   }
 });
@@ -188,7 +188,7 @@ test('production Shield reproduces every independent Hub decision', {skip:!proce
   t.diagnostic(`Evaluated all ${total} independent hub cases.`);
 });
 
-test('approved run and replacement recipes and catalog paths keep their ordinary decisions', {skip:!process.env.SHIELD_BINARY}, () => {
+test('approved recipe and catalog paths keep their ordinary decisions', {skip:!process.env.SHIELD_BINARY}, () => {
   const owner = mkdtempSync(join(tmpdir(), 'hub-replacement-recipe-'));
   try {
     const path = join(owner, 'cases.json');
@@ -198,6 +198,9 @@ test('approved run and replacement recipes and catalog paths keep their ordinary
       ['doctor', {execution, config}],
       ['process_stop', {execution, config, check_replacement: true}],
       ['process_run', {targets: ['web'], config, detach: true, wait_ms: 30000}],
+      ['process_restart', {execution, config, target: 'stack', service: 'api'}],
+      ['process_pause', {execution, config, target: 'stack'}],
+      ['process_resume', {execution, config, target: 'stack', wait_ready: true}],
     ];
     const cases = ['loose', 'recommended', 'strict'].flatMap(profile => {
       const expected = profile === 'strict' ? 'ask' : 'allow';

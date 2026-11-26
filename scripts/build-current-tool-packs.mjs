@@ -11,7 +11,7 @@ import {splitCaseFiles} from './fixture-files.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 import {testrunHomeInstallPack,trustedTestrunPack,trustedTestrunGuide} from './testrun-trusted-policy.mjs';
 
-export const currentToolVersions = {box:'0.2.8', gate:'0.2.10', testrun:'0.2.15'};
+export const currentToolVersions = {box:'0.2.8', gate:'0.2.11', testrun:'0.2.15'};
 export const currentDirectory = (name, version = currentToolVersions[name]) =>
   new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -205,16 +205,32 @@ function updateGate(pack) {
     // Without --dry-run, discard may prompt and apply even without --confirm.
     [['discard'],'destroy','Discard selected staged and working changes.',[
       {id:'dry-run', any:['--dry-run'], category:'inspect', reason:'Inspect the discard inventory without changes.'}]],
+    [['remote'],'inspect','List approved remote bindings.'],
+    [['remote','list'],'inspect','List approved remote bindings.'],
+    [['remote','get-url'],'inspect','Show the verified URL of an approved remote.'],
     ...gateRemoteChanges.flatMap(([verbs,,effect]) => verbs.map(verb =>
       [['remote',verb],'inspect','Review a change to a bound remote.',[
         {id:'confirm', any:['--confirm'], values:['--confirm','--config','--repo'],
           flags:['--dry-run'], category:'destroy', reason:effect}]])),
   ], {
+    remote_list:['inspect','List approved remote bindings without contacting them.'],
+    add_preview:['inspect','Inspect owned staging without publishing the index.'],
+    apply_preview:['inspect','Inspect a patch or check applicability without staging it.'],
+    commit_preview:['inspect','Inspect the proposed commit without running hooks.'],
+    fetch_preview:['change','Contact an approved remote and preview tracking changes.'],
+    push_preview:['change','Contact an approved remote and preview publication.'],
     rename:['change','Rename a repository ID after exact host confirmation.'],
     discard:['destroy','Discard selected staged and working changes after confirmation.',[
       {id:'dry-run', fields:{'/dry_run':{exact:true}}, category:'inspect', reason:'Inspect selected changes without discarding them.'}]],
     ...Object.fromEntries(gateRemoteChanges.map(([,tool,effect]) => [tool,['destroy',effect]])),
   });
+  // Bare `remote` lists only with options. An unlisted remote subcommand
+  // keeps the ordinary unknown-operation decision.
+  const remote = pack.rules.find(rule => rule.id === 'remote');
+  remote.conditions.arguments = {
+    kind:'options',prefix:['remote'],leading:remote.conditions.arguments.leading,
+    flags:['--json','-v','--verbose'],values:['--project','--config','-r','--repo','--cursor','--limit'],operands:false,
+  };
   separatePreview(pack,'setup');
   const setupPath = pack.rules.find(rule => rule.id === 'setup-dry-run').requirements.argument_paths;
   setupPath.grammar = structuredClone(pack.rules.find(rule => rule.id === 'setup-dry-run').conditions.arguments);
@@ -307,7 +323,45 @@ function updateGate(pack) {
     on_unmet:{decision:destroy,message:'Select a project inside approved writable roots.'},
     reason:'An explicit discard project needs writable scope.'});
   gateRemovalPathChecks(pack);
+  gateInputFileChecks(pack);
   pack.description = 'Gate repository workflows allowed by default inside the project, with explicit remote, data-loss, ownership and policy-acceptance boundaries.';
+}
+
+function gateInputFileChecks(pack) {
+  const reason = 'Gate reads the selected patch, message or pathspec from a host file.';
+  const on_unmet = {decision:'ask',message:'Use a file inside an approved read root and outside protected folders.'};
+  const read = {path:structuredClone(pack.rules.find(rule => rule.id === 'mcp-status-project')
+    .requirements.field_paths['/project'].path)};
+  for (const [tools,field] of [[['apply','apply_preview'],'patch'],[['commit','commit_preview'],'file']]) {
+    for (const tool of tools) pack.preconditions.push({id:`mcp-${tool}-input-file`,reason,on_unmet,
+      conditions:{domain:'mcp',server:'gate',tool,fields:{[`/${field}`]:{not:{exact:null}}}},
+      requires_any:[{field_paths:{[`/${field}`]:{...read,relative_to:'project'}}}],
+    });
+  }
+  for (const [command,files,flags,values,optional_values] of [
+    ['add',['--pathspec-from-file'],['-A','--all','-u','--update','-p','--patch','-f','--force','-n','--dry-run','-N','--intent-to-add','--pathspec-file-nul'],['--chmod'],[]],
+    ['commit',['-F','--file'],['-a','--all','--amend','--no-edit','--reset-author','-s','--signoff','-S','--no-gpg-sign','--allow-empty','--dry-run'],['-m','--message','-C','--reuse-message'],['--gpg-sign','--sign']],
+    ['apply',[],['--cached','--recount','--check','--stat','--numstat','--summary','-R','--reverse'],[],[]],
+  ]) {
+    const base = pack.rules.find(rule => rule.id === command);
+    const grammar = {kind:'options',prefix:[command],leading:base.conditions.arguments.leading,
+      flags:['--json',...flags],values:['--project','--config','-r','--repo',...files,...values],optional_values,operands:true,unknown_options:'skip'};
+    const selection = files.length ? {options:Object.fromEntries(files.map(file => [file,read]))} : {operands:read};
+    // Gate's literal `-` reads stdin. An alternative must match every input
+    // value, so an additional named input still gets checked as a file.
+    const stdin = {...grammar};
+    if (files.length) {
+      stdin.values = grammar.values.map(value => files.includes(value) ? {name:value,match:{exact:'-'}} : value);
+      stdin.require_any = files;
+    } else {
+      delete stdin.unknown_options;
+      stdin.operands = {match:{exact:'-'},min:1,max:1};
+    }
+    pack.preconditions.push({id:`${command}-input-file`,reason,on_unmet,
+      conditions:{domain:'argv',executable:base.conditions.executable,arguments:{kind:'prefix',values:[command],leading:grammar.leading}},
+      requires_any:[{argument_paths:{grammar,...selection}},{arguments:stdin}],
+    });
+  }
 }
 
 function gateRemovalPathChecks(pack) {
@@ -731,11 +785,10 @@ export async function buildCurrentToolPacks(names = Object.keys(currentToolVersi
 
 Requires Shield \`>=0.20.0, <1.0.0\`.
 
-The separately named \`*_preview\` tools are Allow in Loose, Recommended and
-Strict within their approved roots, subject to the worktree branch-cleanup
-compatibility rule below. Current previews and applying tools reject a
-caller-supplied dry-run argument; use the preview identity for inspection.
-Approved-root and stdio connection boundaries still apply. Unknown tool names
+Use the separately named \`*_preview\` tools to inspect a proposed operation.
+Local previews are Allow in every profile within approved roots. Network
+previews and retained branch-cleanup forms have separate decisions described
+below. Approved-root and stdio connection boundaries apply. Unknown tool names
 keep their fallback.
 
 ${name === 'gate' ? 'Bundled CLI `docs list|search|read` and MCP `docs_list|docs_search|docs_read`\nare Allow in every profile with opaque `cursor` and `limit`. Gate validates\nqueries, page names and paging arguments without acquiring host-file access.\nThe former MCP `offset` and `start_line` forms retain their permissions and\nindependent fixtures. Their first verified absence is this 2026-11-15 source\ncheckout (0.26.1); Gate has no published feature release starting retirement.\nRemoval remains deferred until three subsequent published feature releases.\n' : ''}
@@ -749,6 +802,7 @@ ${name === 'gate' ? '\nGate status supports `--entries-only` and MCP `entries_on
 ${name === 'gate' ? gatePushDestinationGuide() : ''}
 ${name === 'gate' ? gateRemoteGuide() : ''}
 ${name === 'gate' ? gateConfirmationGuide() : ''}
+${name === 'gate' ? gateParityGuide() : ''}
 Regenerate with \`node scripts/build-current-tool-packs.mjs ${name}\` and validate
 with \`npm test -- --shield /absolute/path/to/shield scripts/current-tool-packs.test.mjs\`.
 `);
@@ -756,9 +810,7 @@ with \`npm test -- --shield /absolute/path/to/shield scripts/current-tool-packs.
   }
 }
 function gateCurrentGuide() {
-  return `Reviewed against Gate 0.34.0 source and its catalog fixtures:
-50 current MCP tools, including eleven separate previews, plus retained
-compatibility names. The MCP \`dry_run\` argument on \`discard\`, \`rename\`,
+  return `The MCP \`dry_run\` argument on \`discard\`, \`rename\`,
 \`sync\`, \`migrate\`, \`branch_remove\`, \`session_remove\` and \`worktree_remove\`
 is first verified absent in 0.27.0 on 2026-11-15. Use each tool’s
 \`*_preview\` identity instead. The retained argument forms keep their decisions
@@ -781,11 +833,29 @@ bindings. It keeps the same read-only decisions and project boundary as
 saved plan. Gate checks the plan before continuing, and Shield applies the
 same destination and project checks as for ordinary creation.
 
-MCP \`status\` accepts \`details\` and \`paths\` for existing report rows. The
-paths filter the report in memory and grant no file access. CLI discard and
-worktree removal previews accept \`--details\`, and their MCP preview tools
-accept \`details: true\`. Detail flags keep the operation's review and path
-checks.
+MCP \`status\` accepts \`details\` and \`paths\` to select report rows within the
+worktree. CLI discard and worktree removal previews accept \`--details\`.
+Their MCP previews accept \`details: true\`. Detail flags keep the operation's
+review and path checks.
+`;
+}
+
+function gateParityGuide() {
+  return `Reviewed against Gate 0.35.0. Gate lists verified bindings through
+\`remote\`, \`remote list\`, and MCP \`remote_list\`. Use \`remote get-url\` to
+read a bound URL.
+Remote listing and index, patch and commit previews are Allow in every
+profile within approved roots. Fetch and push previews may contact
+an approved destination and ask in Recommended and Strict. File inputs for
+patches, commit messages and CLI pathspec lists require an approved read root
+and must stay outside protected paths. The CLI accepts \`-\` to read these inputs
+from standard input. Gate 0.35.0 requires absolute file paths in MCP calls. Use
+\`patch_text\` or \`message\` to pass content inline. Historical tool permissions
+remain available for older installations.
+
+Shield asks on \`commit -S<key>\` because its argument grammar cannot parse an
+optional attached value on a short flag while checking file inputs. Use
+\`--gpg-sign=<key>\` for the equivalent form.
 `;
 }
 

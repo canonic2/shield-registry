@@ -1,0 +1,4165 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "current-mcp-project-setup-remove-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "setup",
+        "arguments": {
+          "agents": [
+            "codex"
+          ],
+          "remove": true
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-project-setup-preview-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "setup_preview",
+        "arguments": {
+          "project": "/outside/other"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-project-setup-preview-config-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "setup_preview",
+        "arguments": {
+          "config": "/outside/gate.yml"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-project-setup-preview-config-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "setup_preview",
+        "arguments": {
+          "config": 42
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-portable-stage-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "add",
+        "arguments": {
+          "repo": "acme",
+          "paths": [
+            "packages/acme"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-add-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "add_preview",
+        "arguments": {
+          "repo": "acme",
+          "paths": [
+            "packages/acme"
+          ],
+          "update": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-apply-preview-inline-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "apply_preview",
+        "arguments": {
+          "repo": "acme",
+          "patch_text": "example patch",
+          "stat": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-apply-preview-file-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "apply_preview",
+        "arguments": {
+          "patch": "/outside/patch",
+          "stat": true
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-retained-apply-preview-file-inside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "apply_preview",
+        "arguments": {
+          "repo": "acme",
+          "patch": "patch.diff",
+          "stat": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-apply-file-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "apply",
+        "arguments": {
+          "patch": "/outside/patch"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-commit-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "commit_preview",
+        "arguments": {
+          "repo": "acme",
+          "message": "Review",
+          "all": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-commit-preview-file-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "commit_preview",
+        "arguments": {
+          "file": "/outside/message"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-retained-commit-preview-file-inside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "commit_preview",
+        "arguments": {
+          "repo": "acme",
+          "file": "message.txt"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-commit-file-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "commit",
+        "arguments": {
+          "file": "/outside/message"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-commit-file-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "commit",
+        "arguments": {
+          "file": 42
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-fetch-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "fetch_preview",
+        "arguments": {
+          "repo": "acme",
+          "remote": "origin"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-push-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "push_preview",
+        "arguments": {
+          "repo": "acme",
+          "remote": "origin"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-portable-stage-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "add",
+        "arguments": {
+          "repo": "acme",
+          "paths": [
+            "packages/acme"
+          ],
+          "project": "/outside/other"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-docs-list-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "docs_list",
+        "arguments": {
+          "offset": 0,
+          "limit": 10
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-docs-list-cursor-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "docs_list",
+        "arguments": {
+          "cursor": "opaque",
+          "limit": 2
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-docs-search-cursor-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "docs_search",
+        "arguments": {
+          "query": "worktrees",
+          "path": "native-worktrees.md",
+          "cursor": "opaque",
+          "limit": 2
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-docs-read-cursor-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "docs_read",
+        "arguments": {
+          "path": "native-worktrees.md",
+          "cursor": "opaque",
+          "limit": 2
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-retained-docs-search-offset-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "docs_search",
+        "arguments": {
+          "query": "worktrees",
+          "offset": 1,
+          "limit": 2
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-retained-docs-read-start-line-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "docs_read",
+        "arguments": {
+          "path": "native-worktrees.md",
+          "start_line": 2,
+          "limit": 2
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-docs-invalid-limit-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "docs_list",
+        "arguments": {
+          "limit": 0
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-docs-invalid-cursor-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "docs_read",
+        "arguments": {
+          "path": "README.md",
+          "cursor": 42
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-docs-search-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "docs_search",
+        "arguments": {
+          "query": "worktrees"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-docs-read-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "docs_read",
+        "arguments": {
+          "path": "native-worktrees.md"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-docs-read-missing-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "docs_read",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-docs-read-host-path-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "docs_read",
+        "arguments": {
+          "path": "/outside/private.txt"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-retained-gate_docs_list-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "gate_docs_list",
+        "arguments": {
+          "path": "native-worktrees.md",
+          "query": "worktrees"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-retained-gate_docs_search-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "gate_docs_search",
+        "arguments": {
+          "path": "native-worktrees.md",
+          "query": "worktrees"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-retained-gate_docs_read-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "gate_docs_read",
+        "arguments": {
+          "path": "native-worktrees.md",
+          "query": "worktrees"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-unknown-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "future_tool",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-unknown-field-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "status",
+        "arguments": {
+          "repo": "acme",
+          "future_field": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-amend-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "commit",
+        "arguments": {
+          "repo": "acme",
+          "message": "fix",
+          "amend": true
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-stage-ignored-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "add",
+        "arguments": {
+          "repo": "acme",
+          "paths": [
+            "build"
+          ],
+          "force": true
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-push-destination-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "push",
+        "arguments": {
+          "repo": "acme",
+          "remote": "origin",
+          "branch": "review",
+          "destination_branch": "main"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-push-destination-malformed-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "push",
+        "arguments": {
+          "repo": "acme",
+          "remote": "origin",
+          "branch": "review",
+          "destination_branch": 42
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-push-destination-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "push",
+        "arguments": {
+          "repo": "acme",
+          "remote": "origin",
+          "branch": "review",
+          "destination_branch": "main",
+          "project": "/outside/other"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-push-destination-lease-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "push",
+        "arguments": {
+          "repo": "acme",
+          "remote": "origin",
+          "branch": "review",
+          "destination_branch": "main",
+          "force_with_lease": "0123456789abcdef0123456789abcdef01234567"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-push-destination-lease-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "push",
+        "arguments": {
+          "repo": "acme",
+          "remote": "origin",
+          "branch": "review",
+          "destination_branch": "main",
+          "force_with_lease": "0123456789abcdef0123456789abcdef01234567",
+          "project": "/outside/other"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-remote-add-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "remote_add",
+        "arguments": {
+          "repo": "acme",
+          "name": "origin",
+          "url": "https://example.com/acme.git"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-rename-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "rename",
+        "arguments": {
+          "repo": "acme",
+          "new_id": "private"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-rename-project-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "rename",
+        "arguments": {
+          "repo": "acme",
+          "new_id": "private",
+          "project": "/outside/other"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-discard-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard",
+        "arguments": {
+          "repo": "acme",
+          "all": true
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-discard-paths-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard",
+        "arguments": {
+          "repo": "acme",
+          "paths": [
+            "src/main.rs"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-discard-untracked-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard",
+        "arguments": {
+          "repo": "acme",
+          "all": true,
+          "untracked": true
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-discard-resume-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard",
+        "arguments": {
+          "resume": "acme"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-discard-abandon-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard",
+        "arguments": {
+          "resume": "acme",
+          "abandon": true
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-discard-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard",
+        "arguments": {
+          "repo": "acme",
+          "all": true,
+          "project": "/outside/other"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-discard-invalid-project-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard",
+        "arguments": {
+          "repo": "acme",
+          "all": true,
+          "project": 42
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-discard-invalid-selection-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard",
+        "arguments": {
+          "repo": "acme",
+          "all": true,
+          "paths": [
+            "src"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-discard-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard",
+        "arguments": {
+          "repo": "acme",
+          "all": true,
+          "untracked": true,
+          "dry_run": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-discard-preview-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard",
+        "arguments": {
+          "repo": "acme",
+          "all": true,
+          "dry_run": true,
+          "project": "/outside/other"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-discard-preview-details-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard_preview",
+        "arguments": {
+          "repo": "acme",
+          "all": true,
+          "details": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-discard-preview-details-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard_preview",
+        "arguments": {
+          "repo": "acme",
+          "all": true,
+          "details": true,
+          "project": "/outside/other"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-worktree-discard-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove",
+        "arguments": {
+          "path": ".gate/worktrees/feature",
+          "discard_changes": true
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-worktree-discard-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove",
+        "arguments": {
+          "path": "/outside/feature",
+          "discard_changes": true
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-worktree-discard-protected-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove",
+        "arguments": {
+          "path": ".git/worktrees/feature",
+          "discard_changes": true
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-worktree-discard-branch-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove",
+        "arguments": {
+          "path": ".gate/worktrees/feature",
+          "discard_changes": true,
+          "remove_branch": true
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-worktree-remove-branch-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove",
+        "arguments": {
+          "path": ".gate/worktrees/feature",
+          "remove_branch": true
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-worktree-remove-preview-branch-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove_preview",
+        "arguments": {
+          "path": ".gate/worktrees/feature",
+          "remove_branch": true
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-worktree-remove-preview-details-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove_preview",
+        "arguments": {
+          "path": ".gate/worktrees/feature",
+          "details": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-worktree-remove-preview-details-branch-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove_preview",
+        "arguments": {
+          "path": ".gate/worktrees/feature",
+          "remove_branch": true,
+          "details": true
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-worktree-remove-preview-missing-path-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove_preview",
+        "arguments": {
+          "details": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-worktree-remove-preview-malformed-path-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove_preview",
+        "arguments": {
+          "path": 42,
+          "details": true
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-worktree-remove-preview-outside-destination-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove_preview",
+        "arguments": {
+          "path": "/outside/feature"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-worktree-remove-preview-protected-destination-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove_preview",
+        "arguments": {
+          "path": ".git/worktrees/feature"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-worktree-add-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_add",
+        "arguments": {
+          "path": ".gate/worktrees/feature",
+          "branch": "feature"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-worktree-add-name-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_add",
+        "arguments": {
+          "path": ".gate/worktrees/fix.1",
+          "branch": "feature",
+          "name": "fix.1"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-worktree-resume-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_add",
+        "arguments": {
+          "path": ".gate/worktrees/feature",
+          "branch": "feature",
+          "resume": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-worktree-resume-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_add",
+        "arguments": {
+          "path": "/outside/.gate/worktrees/feature",
+          "branch": "feature",
+          "resume": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-worktree-resume-missing-destination-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_add",
+        "arguments": {
+          "branch": "feature",
+          "resume": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-worktree-add-escape-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_add",
+        "arguments": {
+          "path": ".gate/worktrees/../../../feature",
+          "branch": "feature"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-worktree-add-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_add",
+        "arguments": {
+          "path": "/outside/.gate/worktrees/feature",
+          "branch": "feature"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-worktree-add-protected-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_add",
+        "arguments": {
+          "path": ".shield/.gate/worktrees/feature",
+          "branch": "feature"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-worktree-remove-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove",
+        "arguments": {
+          "path": ".gate/worktrees/feature"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-retained-tasks-worktree-add-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_add",
+        "arguments": {
+          "path": ".gate/tasks/feature",
+          "branch": "feature"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-retained-tasks-worktree-add-escape-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_add",
+        "arguments": {
+          "path": ".gate/tasks/../../../feature",
+          "branch": "feature"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-retained-workspaces-worktree-add-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_add",
+        "arguments": {
+          "path": ".gate/workspaces/feature",
+          "branch": "feature"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-retained-workspaces-worktree-add-escape-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_add",
+        "arguments": {
+          "path": ".gate/workspaces/../../../feature",
+          "branch": "feature"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-config-relative-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "status",
+        "arguments": {
+          "config": "gate.yml"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-workspace-base-entries-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "status",
+        "arguments": {
+          "all_repos": true,
+          "entries_only": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-config-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "status",
+        "arguments": {
+          "config": "/outside/gate.yml"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-config-outside-stage-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "add",
+        "arguments": {
+          "repo": "acme",
+          "paths": [
+            "packages/acme"
+          ],
+          "config": "/outside/gate.yml"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-config-outside-worktree-add-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_add",
+        "arguments": {
+          "path": ".gate/worktrees/feature",
+          "branch": "feature",
+          "config": "/outside/gate.yml"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-config-outside-sync-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "sync",
+        "arguments": {
+          "config": "/outside/gate.yml"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-unknown-project-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "future_tool",
+        "arguments": {
+          "project": "/outside/other"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-unknown-project-relative-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "future_tool",
+        "arguments": {
+          "project": "acme"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-config-outside-discard-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard",
+        "arguments": {
+          "repo": "acme",
+          "all": true,
+          "config": "/outside/gate.yml"
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-config-outside-discard-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard",
+        "arguments": {
+          "repo": "acme",
+          "all": true,
+          "dry_run": true,
+          "config": "/outside/gate.yml"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-config-outside-retained-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_repair",
+        "arguments": {
+          "path": ".gate/worktrees/feature",
+          "config": "/outside/gate.yml"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-config-null-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "status",
+        "arguments": {
+          "config": null
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-config-docs-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "docs_read",
+        "arguments": {
+          "path": "native-worktrees.md",
+          "config": "/outside/gate.yml"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-config-unknown-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "future_tool",
+        "arguments": {
+          "config": "/outside/gate.yml"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-retained-discard-dry-run-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard",
+        "arguments": {
+          "repo": "acme",
+          "all": true,
+          "dry_run": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-discard-preview-missing-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard_preview",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-discard-preview-invalid-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard_preview",
+        "arguments": {
+          "repo": "acme",
+          "all": true,
+          "dry_run": false,
+          "confirm": "untrusted"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-discard-readonly-preview-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard_preview",
+        "arguments": {
+          "repo": "acme",
+          "all": true,
+          "project": "/outside/other"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-retained-rename-dry-run-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "rename",
+        "arguments": {
+          "repo": "acme",
+          "new_id": "private",
+          "dry_run": true
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-rename-preview-missing-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "rename_preview",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-rename-preview-invalid-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "rename_preview",
+        "arguments": {
+          "repo": "acme",
+          "new_id": "private",
+          "dry_run": false,
+          "confirm": "untrusted"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-rename-readonly-preview-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "rename_preview",
+        "arguments": {
+          "repo": "acme",
+          "new_id": "private",
+          "project": "/outside/other"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-retained-sync-dry-run-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "sync",
+        "arguments": {
+          "dry_run": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-sync-preview-missing-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "sync_preview",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-sync-preview-invalid-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "sync_preview",
+        "arguments": {
+          "dry_run": false,
+          "confirm": "untrusted"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-sync-readonly-preview-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "sync_preview",
+        "arguments": {
+          "project": "/outside/other"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-retained-migrate-dry-run-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "migrate",
+        "arguments": {
+          "repos": [
+            "acme=repos/acme/.git"
+          ],
+          "dry_run": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-migrate-preview-missing-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "migrate_preview",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-migrate-preview-invalid-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "migrate_preview",
+        "arguments": {
+          "repos": [
+            "acme=repos/acme/.git"
+          ],
+          "dry_run": false,
+          "confirm": "untrusted"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-migrate-readonly-preview-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "migrate_preview",
+        "arguments": {
+          "repos": [
+            "acme=repos/acme/.git"
+          ],
+          "project": "/outside/other"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-retained-branch_remove-dry-run-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "branch_remove",
+        "arguments": {
+          "repo": "acme",
+          "branches": [
+            "feature"
+          ],
+          "dry_run": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-branch_remove-preview-missing-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "branch_remove_preview",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-branch_remove-preview-invalid-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "branch_remove_preview",
+        "arguments": {
+          "repo": "acme",
+          "branches": [
+            "feature"
+          ],
+          "dry_run": false,
+          "confirm": "untrusted"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-branch_remove-readonly-preview-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "branch_remove_preview",
+        "arguments": {
+          "repo": "acme",
+          "branches": [
+            "feature"
+          ],
+          "project": "/outside/other"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-retained-session_remove-dry-run-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "session_remove",
+        "arguments": {
+          "session": "acme",
+          "dry_run": true
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-session_remove-preview-missing-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "session_remove_preview",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-session_remove-preview-invalid-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "session_remove_preview",
+        "arguments": {
+          "session": "acme",
+          "dry_run": false,
+          "confirm": "untrusted"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-session_remove-readonly-preview-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "session_remove_preview",
+        "arguments": {
+          "session": "acme",
+          "project": "/outside/other"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-retained-worktree_remove-dry-run-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove",
+        "arguments": {
+          "path": ".gate/worktrees/feature",
+          "dry_run": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-worktree_remove-preview-missing-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove_preview",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-worktree_remove-preview-invalid-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove_preview",
+        "arguments": {
+          "path": ".gate/worktrees/feature",
+          "dry_run": false,
+          "confirm": "untrusted"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-worktree_remove-readonly-preview-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove_preview",
+        "arguments": {
+          "path": ".gate/worktrees/feature",
+          "project": "/outside/other"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "current-mcp-retained-branch-force-dry-run-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "branch_remove",
+        "arguments": {
+          "repo": "acme",
+          "branches": [
+            "feature"
+          ],
+          "force": true,
+          "dry_run": true
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-retained-worktree-discard-dry-run-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove",
+        "arguments": {
+          "path": ".gate/worktrees/feature",
+          "discard_changes": true,
+          "dry_run": true
+        },
+        "original_input": {}
+      },
+      "expected": "deny"
+    },
+    {
+      "name": "current-mcp-branch-force-readonly-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "branch_remove_preview",
+        "arguments": {
+          "repo": "acme",
+          "branches": [
+            "feature"
+          ],
+          "force": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-worktree-discard-readonly-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove_preview",
+        "arguments": {
+          "path": ".gate/worktrees/feature",
+          "discard_changes": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-setup-readonly-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "setup_preview",
+        "arguments": {
+          "agents": [
+            "codex"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-discard-readonly-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "discard_preview",
+        "arguments": {
+          "repo": "acme",
+          "all": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-rename-readonly-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "rename_preview",
+        "arguments": {
+          "repo": "acme",
+          "new_id": "private"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-sync-readonly-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "sync_preview",
+        "arguments": {
+          "config": "/outside/gate.yml"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-migrate-readonly-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "migrate_preview",
+        "arguments": {
+          "repos": [
+            "acme=repos/acme/.git"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-branch_remove-readonly-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "branch_remove_preview",
+        "arguments": {
+          "repo": "acme",
+          "branches": [
+            "feature"
+          ]
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-session_remove-readonly-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "session_remove_preview",
+        "arguments": {
+          "session": "acme"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-worktree_remove-readonly-preview-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove_preview",
+        "arguments": {
+          "path": ".gate/worktrees/feature",
+          "discard_changes": true
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "current-mcp-preview-other-project-strict",
+      "profile": "strict",
+      "mcp": {
+        "gate": {
+          "transport": {
+            "type": "defaults",
+            "pack": "canonic/gate",
+            "integration": "gate"
+          },
+          "agents": {
+            "codex": "gate"
+          },
+          "packs": {
+            "canonic/gate": "gate"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "gate",
+        "tool": "worktree_remove_preview",
+        "arguments": {
+          "workspace": "feature",
+          "project": "/outside/other"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

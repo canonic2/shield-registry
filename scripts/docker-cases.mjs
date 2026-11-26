@@ -337,6 +337,30 @@ const unbound = [
   ['compose-push', ctx('compose', 'push'), deny],
 ];
 
+const trusted = {...contexts, docker_trusted_exec_contexts: ['desktop-linux']};
+const trustedExec = 'docker --context desktop-linux exec acme-db';
+const postgres = 'psql -U postgres -At -c "select count(*) from acme.items"';
+const nested = [
+  ['trusted-exec', `${trustedExec} ${postgres}`, trusted, routine],
+  ['trusted-container-exec', 'docker --context=desktop-linux container exec acme-db acme-inspect', trusted, routine],
+  ['trusted-shell', `${trustedExec} sh -c 'acme-inspect "$1"' sh sample`, trusted, routine],
+  ['trusted-detach-keys', 'docker --context desktop-linux exec --detach-keys ctrl-x acme-db acme-inspect', trusted, routine],
+  ['selection-only', `${trustedExec} ${postgres}`, contexts, review],
+  ['trust-without-selection', `${trustedExec} ${postgres}`,
+    {docker_contexts: ['colima'], docker_trusted_exec_contexts: ['desktop-linux']}, review],
+  ['other-selected-context', `docker --context colima exec acme-db ${postgres}`, trusted, review],
+  ['implicit-context', `docker exec acme-db ${postgres}`, trusted, review],
+  ['repeated-context', 'docker --context desktop-linux --context desktop-linux exec acme-db acme-inspect', trusted, review],
+  ['host-override', 'docker --context desktop-linux -H unix:///other.sock exec acme-db acme-inspect', trusted, review],
+  ['outside-env-file', 'docker --context desktop-linux exec --env-file ../outside.env acme-db acme-inspect', trusted, review],
+  ['privileged-exec', 'docker --context desktop-linux exec --privileged acme-db acme-inspect', trusted, deny],
+  ['untrusted-run', 'docker --context desktop-linux run --entrypoint acme-inspect alpine', trusted, review],
+  ['untrusted-compose-exec', 'docker --context desktop-linux compose exec acme-db acme-inspect', trusted, review],
+  ['host-command', `${trustedExec} acme-inspect; acme-host-command`, trusted, review],
+  ['host-substitution', `${trustedExec} acme-inspect "$(printf value)"`, trusted, review],
+  ['host-redirect', `${trustedExec} acme-inspect > ../outside.txt`, trusted, review],
+];
+
 // Standard install locations decide like `docker`; lookalikes are not Docker.
 const executables = [
   ['/usr/local/bin/docker', allow], ['/opt/homebrew/bin/docker', allow],
@@ -352,6 +376,9 @@ export function dockerCases() {
       cases.push({name:`context-${label}-${profile}`,profile,variables:contexts,argv,expected:expected[index]});
     for (const [label,argv,expected] of unbound)
       cases.push({name:`context-unset-${label}-${profile}`,profile,argv,expected:expected[index]});
+    for (const [label,source,variables,expected] of nested)
+      cases.push({name:`shell-${label}-${profile}`,profile,variables,
+        input:{kind:'shell',dialect:'bash',dialect_version:null,source,original_input:{}},expected:expected[index]});
     for (const [executable,expected] of executables)
       cases.push({name:`executable-${executable.replaceAll('/','-')}-${profile}`,profile,argv:[executable,'ps'],
         expected:expected ? expected[index] : 'ask'});

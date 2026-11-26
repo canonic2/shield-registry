@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "registry_id": "canonic-shield-main",
-  "sequence": 67,
+  "sequence": 68,
   "expires_at": "2027-02-03T00:00:00Z",
   "packs": [
     {
@@ -42,9 +42,9 @@
     },
     {
       "id": "canonic/baseline",
-      "version": "0.21.0",
-      "path": "packs/canonic/baseline/0.21.0/pack.yml",
-      "sha256": "4d16327eef075b060f26907914c9ed670643ec250d7ebfaabcf33407ece146d0"
+      "version": "0.21.1",
+      "path": "packs/canonic/baseline/0.21.1/pack.yml",
+      "sha256": "2eaa65c7b911fc224c548079014be51a1598a346ea3cd045c926f8cb308538d1"
     },
     {
       "id": "canonic/box",
@@ -66,9 +66,9 @@
     },
     {
       "id": "canonic/docker",
-      "version": "0.1.0",
-      "path": "packs/canonic/docker/0.1.0/pack.yml",
-      "sha256": "62e6739e83df2cfcdbca8fc353e1efee75ff72b339b92787964d627ae8a2a230"
+      "version": "0.2.0",
+      "path": "packs/canonic/docker/0.2.0/pack.yml",
+      "sha256": "23f879d9d2342f0fc39b6732ffd5570cb648d38c9728218024c4ef556a1d0c4a"
     },
     {
       "id": "canonic/doppler",
@@ -78,9 +78,9 @@
     },
     {
       "id": "canonic/gate",
-      "version": "0.2.10",
-      "path": "packs/canonic/gate/0.2.10/pack.yml",
-      "sha256": "11440bd67c8b9deb558f49d63892e1037c6f00a7f66e222ff07c7bf49be64f1c"
+      "version": "0.2.11",
+      "path": "packs/canonic/gate/0.2.11/pack.yml",
+      "sha256": "341220bef87796a4130c9adf8119c9ec1fbf405bc2893d8d8474d86759e71759"
     },
     {
       "id": "canonic/git",
@@ -102,9 +102,9 @@
     },
     {
       "id": "canonic/hub",
-      "version": "0.1.12",
-      "path": "packs/canonic/hub/0.1.12/pack.yml",
-      "sha256": "02e6c8c100ef8271654cbea620999b12c5e5e8f676a7e36edb513b5590c5f3f5"
+      "version": "0.1.13",
+      "path": "packs/canonic/hub/0.1.13/pack.yml",
+      "sha256": "51474e3863d7713331374d0971a6cf8ec789b07ee261b95adcd4c5322e58e7e8"
     },
     {
       "id": "canonic/java",
@@ -487,10 +487,10 @@
       "last": "0.1.0"
     },
     "canonic/baseline": {
-      "path": "metadata/c55b7bb6f65089b93df994ba432f7ad14cd2f8263ac5ddb4c11acda10ba126e7.json",
-      "sha256": "c55b7bb6f65089b93df994ba432f7ad14cd2f8263ac5ddb4c11acda10ba126e7",
+      "path": "metadata/c0ae8fde017c639f753b082ef1a5187d61aa64a8a1219b8716f7d7e78986758c.json",
+      "sha256": "c0ae8fde017c639f753b082ef1a5187d61aa64a8a1219b8716f7d7e78986758c",
       "first": "0.1.0",
-      "last": "0.21.0"
+      "last": "0.21.1"
     },
     "canonic/box": {
       "path": "metadata/37305ba2f24b5d2cff019ec03e2e172e6541b72a1dcc3ed84b381b7fedbf3775.json",
@@ -511,10 +511,10 @@
       "last": "0.1.0"
     },
     "canonic/docker": {
-      "path": "metadata/a6b978b3606019bb1f0d9b2118b2854c1a9d3ba069bb814757f6e83f6f339cee.json",
-      "sha256": "a6b978b3606019bb1f0d9b2118b2854c1a9d3ba069bb814757f6e83f6f339cee",
+      "path": "metadata/0dcf40df41bb2f82732a2e75d8a78428f8d4c98a1b0e09748b4d9167f41506ea.json",
+      "sha256": "0dcf40df41bb2f82732a2e75d8a78428f8d4c98a1b0e09748b4d9167f41506ea",
       "first": "0.1.0",
-      "last": "0.1.0"
+      "last": "0.2.0"
     },
     "canonic/doppler": {
       "path": "metadata/eb191e37e0dfda0fb35e0a53091d5614ebb667c640549c8df14c837006ffa51e.json",
@@ -523,10 +523,10 @@
       "last": "0.1.0"
     },
     "canonic/gate": {
-      "path": "metadata/9dad0f7e149110ac0002bf779e7bebcd4dd192142471045882ae1e67dac320c1.json",
-      "sha256": "9dad0f7e149110ac0002bf779e7bebcd4dd192142471045882ae1e67dac320c1",
+      "path": "metadata/fc068b32cd606ad059ed41a4825426aeb6969c359b28c3be0f84a148e3acda3c.json",
+      "sha256": "fc068b32cd606ad059ed41a4825426aeb6969c359b28c3be0f84a148e3acda3c",
       "first": "0.1.0",
-      "last": "0.2.10"
+      "last": "0.2.11"
     },
     "canonic/git": {
       "path": "metadata/07d786811deb91450378d1d7936d17c142bc0ec96a8e2546bf40fb5d5e2fb836.json",
@@ -547,10 +547,10 @@
       "last": "0.1.0"
     },
     "canonic/hub": {
-      "path": "metadata/0a8773fd1a66f6ee4be63b614f7aaba6330a7b459dac3a07a146fb42cfdfdb1d.json",
-      "sha256": "0a8773fd1a66f6ee4be63b614f7aaba6330a7b459dac3a07a146fb42cfdfdb1d",
+      "path": "metadata/b5f47da072a4385cd3771ce1dc7398810f6368aa89b7c461d41b4f0995ccf153.json",
+      "sha256": "b5f47da072a4385cd3771ce1dc7398810f6368aa89b7c461d41b4f0995ccf153",
       "first": "0.1.0",
-      "last": "0.1.12"
+      "last": "0.1.13"
     },
     "canonic/java": {
       "path": "metadata/ffbcb2510c49dd2ddd587bb501235d1570b79c0e1f39f78afa1f2d449dcef58e.json",

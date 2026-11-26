@@ -1,0 +1,1034 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "shield-cli-filtered-rule-list-help-loose",
+      "profile": "loose",
+      "argv": [
+        "shield",
+        "rule",
+        "list",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "shield-cli-filtered-rule-list-loose",
+      "profile": "loose",
+      "argv": [
+        "shield",
+        "rule",
+        "list",
+        "--section",
+        "invocations",
+        "--pack-selector",
+        "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-shared-by-pack-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "shared",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-invocations-by-pack-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "invocations",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-command_sets-by-pack-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "command_sets",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-legacy-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "__internal",
+              "mcp",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-outside-project-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              "/outside"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-missing-pack-selector-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "invocations"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-malformed-pack-selector-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": 123
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-evaluate-mcp-normalized-input-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "policy_evaluate",
+        "arguments": {
+          "input": {
+            "kind": "mcp",
+            "server": "acme",
+            "tool": "search",
+            "arguments": {
+              "query": "documentation"
+            },
+            "original_input": {}
+          },
+          "context": {
+            "cwd": "/project"
+          }
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-cli-filtered-rule-list-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "shield",
+        "rule",
+        "list",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "shield-cli-filtered-rule-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "shield",
+        "rule",
+        "list",
+        "--section",
+        "invocations",
+        "--pack-selector",
+        "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-shared-by-pack-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "shared",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-invocations-by-pack-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "invocations",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-command_sets-by-pack-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "command_sets",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-legacy-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "__internal",
+              "mcp",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-outside-project-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              "/outside"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-missing-pack-selector-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "invocations"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-malformed-pack-selector-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": 123
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-evaluate-mcp-normalized-input-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "policy_evaluate",
+        "arguments": {
+          "input": {
+            "kind": "mcp",
+            "server": "acme",
+            "tool": "search",
+            "arguments": {
+              "query": "documentation"
+            },
+            "original_input": {}
+          },
+          "context": {
+            "cwd": "/project"
+          }
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-cli-filtered-rule-list-help-strict",
+      "profile": "strict",
+      "argv": [
+        "shield",
+        "rule",
+        "list",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "shield-cli-filtered-rule-list-strict",
+      "profile": "strict",
+      "argv": [
+        "shield",
+        "rule",
+        "list",
+        "--section",
+        "invocations",
+        "--pack-selector",
+        "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-shared-by-pack-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "shared",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-invocations-by-pack-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "invocations",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-command_sets-by-pack-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "command_sets",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-legacy-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "__internal",
+              "mcp",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-outside-project-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              "/outside"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-missing-pack-selector-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "invocations"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-malformed-pack-selector-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": 123
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-evaluate-mcp-normalized-input-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "policy_evaluate",
+        "arguments": {
+          "input": {
+            "kind": "mcp",
+            "server": "acme",
+            "tool": "search",
+            "arguments": {
+              "query": "documentation"
+            },
+            "original_input": {}
+          },
+          "context": {
+            "cwd": "/project"
+          }
+        },
+        "original_input": {}
+      }
+    }
+  ]
+}

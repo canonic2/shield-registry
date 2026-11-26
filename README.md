@@ -49,13 +49,13 @@ pending candidates. Older artifacts remain available for pinned installations.
 | Pack | Latest version | Coverage |
 | --- | --- | --- |
 | [canonic/aws](packs/canonic/aws/0.2.0/README.md) | 0.2.0 | AWS CLI and MCP operations, optional profile and region restrictions |
-| [canonic/baseline](packs/canonic/baseline/0.21.0/README.md) | 0.21.0 | Everyday shell commands, approved file paths, literal sed expressions, and Shield CLI metadata and MCP inspection and recovery |
+| [canonic/baseline](packs/canonic/baseline/0.21.1/README.md) | 0.21.1 | Everyday shell commands, approved file paths, reader wildcard guidance, and Shield CLI metadata and MCP inspection and recovery |
 | [canonic/box](packs/canonic/box/0.2.8/README.md) | 0.2.8 | Workspaces, current setup and documentation tools, read-only previews, paginated inspection, exact current-checkout MCP selection, execution, retained recovery and resource-deleting workspace removal |
-| [canonic/docker](packs/canonic/docker/0.1.0/README.md) | 0.1.0 | Local containers, images, builds and Compose, with approved context selection and review for host mounts, privileges, secrets, publication and data removal |
-| [canonic/gate](packs/canonic/gate/0.2.10/README.md) | 0.2.10 | Repository and worktree workflows, read-only previews, and reviewed discard, rename, branch cleanup and remote changes |
+| [canonic/docker](packs/canonic/docker/0.2.0/README.md) | 0.2.0 | Local Docker and Compose, with opt-in trust for commands on selected daemons and review for host mounts, privileges, secrets, publication and data removal |
+| [canonic/gate](packs/canonic/gate/0.2.11/README.md) | 0.2.11 | Repository and worktree workflows, verified remote listings, operation previews, and approved paths for patch, commit message and pathspec files |
 | [canonic/git](packs/canonic/git/0.12.1/README.md) | 0.12.1 | Everyday local commands, network reads and rebase, with Git patch output checked against writable roots and no-op editor settings accepted |
 | [canonic/github](packs/canonic/github/0.11.0/README.md) | 0.11.0 | GitHub CLI/MCP, public repository search, workflow watching, reviewed mutations, and optional repository boundaries |
-| [canonic/hub](packs/canonic/hub/0.1.12/README.md) | 0.1.12 | Workspaces, tasks, managed agents, reviewed MCP catalog probes, Proxy lifecycle and project onboarding |
+| [canonic/hub](packs/canonic/hub/0.1.13/README.md) | 0.1.13 | Workspaces, tasks, managed agents, Compose recipes, development secret grant previews and reviewed MCP setup |
 | [canonic/node](packs/canonic/node/0.6.2/README.md) | 0.6.2 | JavaScript ecosystem, package managers, monorepos, browser QA, and separate opt-ins for trusted Node tests and Codex host access |
 | [canonic/rust](packs/canonic/rust/0.2.2/README.md) | 0.2.2 | Cargo and Nextest workflows, dependency maintenance, explicit argument paths and reviewed local executable lists |
 | [canonic/testrun](packs/canonic/testrun/0.2.15/README.md) | 0.2.15 | Testrun CLI and MCP, including per-user installs, with host-file checks for fixtures, profiles, and uploads |
@@ -89,8 +89,9 @@ list configured, every GraphQL query root must name the same listed repository.
 Nested fields and related-object reads are unrestricted. The pack requires
 Shield `>=0.47.0, <1.0.0` with
 `graphql-v1`, `graphql-mutations-v1`, `graphql-subtree-v1`, `variable-prefixes-v1`
-and `variable-list-branches-v1`. Baseline 0.21.0 checks the paths used by literal
-`sed -e` expressions with Shield 0.57.0. On matching Shield MCP connections,
+and `variable-list-branches-v1`. Baseline 0.21.1 explains how to retry reader
+commands with explicit filenames when Shield cannot verify a shell wildcard.
+On matching Shield MCP connections,
 agents can filter `rule_list` by pack and restore exact locked artifacts with
 `pack_restore`. The ecosystem packs
 declare their engine minimums and exact capability requirements in their guides.
@@ -99,10 +100,15 @@ commands in approved projects in Loose and Recommended.
 Git 0.12.1 can allow scoped patch
 output in Loose and Recommended on Shield 0.44.0 and later, and takes the same
 decision after a leading `-c core.editor=true` or similar no-op editor setting.
-Gate 0.2.10 uses Gate's confirmation for discard and repository rename in Loose
-and Recommended, with host review retained for worktree branch cleanup.
-Hub 0.1.12 keeps review for lenient Compose checks, private output, and
-confirmed release of blocked executions from any working directory.
+Gate 0.2.11 covers verified remote listings and local operation previews. Fetch
+and push previews require review in Recommended and Strict. Patch, commit
+message and CLI pathspec files must be in approved read roots.
+Docker 0.2.0 adds opt-in trust for direct `docker exec` on selected daemons in
+Loose and Recommended with Shield 0.58.0. Strict still asks. Explicit
+restrictions on the command and child commands Shield can inspect still apply.
+Hub 0.1.13 allows previews of development secret grants with
+approved paths, keeps grant approval under review in every profile, and checks
+explicit Compose control recipes against approved read roots.
 Supabase 0.1.1 allows opt-in SQL when both the Shield connection ID and the
 exact project-scoped hosted read-only URL match the reviewed setting.
 Testrun 0.2.15 recognizes standard macOS and Linux per-user installs while

@@ -10,7 +10,7 @@ export const directory = new URL(`../packs/canonic/hub/${version}/`, import.meta
 export function guide() {
   return `# Hub permissions ${version}
 
-Reviewed against the Hub 0.58.0 CLI and MCP catalog. The
+Reviewed against the Hub 0.60.0 CLI and MCP catalog. The
 \`canonic/box\` pack covers the \`box\` executable.
 
 Requires Shield \`${engine}\` with \`argument-paths-v1\`, \`field-paths-v1\`
@@ -61,6 +61,15 @@ Compose resolution runs the host Docker CLI. Shield asks in all profiles for
 private output with \`process run --show-private\` or \`process_run.show_private\`
 also asks in all profiles.
 
+Hub 0.59.0 lets projects suggest development secret grants.
+\`hub secret approve GRANT --dry-run\` previews the provider source and destinations.
+Explicit \`--project\` and \`--config\` paths must be in approved read roots and
+outside protected locations. Shield asks about approval calls without
+\`--dry-run\` in every profile. Saving requires a trusted approval host.
+The \`hub secrets approve\` alias has the same decisions.
+\`hub config check --secrets\` checks the private host grants file without
+retrieving credentials.
+
 \`process forget EXECUTION\` previews a blocked execution. With
 \`--confirm DIGEST\` it releases leases and references after the operator handles
 the listed leftovers. The MCP \`process_forget\` tool uses Hub's confirmation
@@ -76,12 +85,16 @@ configuration, and asks its user before the effects it confirms, so the pack
 does not match every option. It reviews only the forms an agent could use to
 escape other command policy or cause loss that cannot be undone.
 
-Compose member restart (CLI \`process restart\`, MCP \`process_restart\`) has
-the routine process-change decision. Hub verifies execution, target, service,
-engine and exact container ownership; restart accepts no arbitrary command.
-Compose pause/resume have the same routine decision and can affect a shared
-generation's other owners. Live member logs and bounded container stats are
-inspection, allowed in all profiles; selectors cannot select arbitrary containers.
+Restarting one process service (CLI \`process restart\`, MCP \`process_restart\`)
+uses its saved launch plan and preserves its port assignments. Supplying a
+Compose service selects an owned container after Hub verifies the execution,
+target, engine, and container ownership. Both restart forms use the routine
+process-change decision. Compose pause and resume use the same decision and
+can affect other owners of the generation. An explicit Compose control recipe
+must be inside approved read roots and outside protected paths. MCP callers
+must supply an absolute recipe path, since Hub resolves relative paths from the
+selected checkout. Live member logs and bounded container stats are inspection,
+allowed in all profiles for containers owned by the execution.
 Checked Compose stop keeps the routine stop decision. \`doctor --execution\`
 and MCP \`doctor\` with \`execution\` also use the routine decision because the
 incoming recipe supplies the executable lookup for Docker probes. Plain
@@ -124,6 +137,7 @@ Plugin inspection reports provider capabilities without reading credentials.
 | Inspection: status, workspaces, the task, agents, processes, operations, manager blockers, plugin bindings, logs, URLs, configuration, plugin state, documentation | Allow | Allow | Allow |
 | Separately named read-only \`*_preview\` tools, which cannot apply or execute effects | Allow | Allow | Allow |
 | Routine operations: task edits, workspaces, configured \`process run\`, process stop, execution-specific \`doctor\`, setup, plugins, manager, agent stop, MCP logins and apps | Allow | Allow | Ask |
+| \`process restart\` and \`process_restart\` for a process service or a Compose member referenced by a live execution | Allow | Allow | Ask |
 | Lenient Compose configuration checks, private run output, or CLI \`process forget --confirm\` | Ask | Ask | Ask |
 | CLI \`process forget EXECUTION\` preview from an approved working directory | Allow | Allow | Allow |
 | MCP \`process_forget\` with Hub's confirmation form | Allow | Allow | Ask |
@@ -132,12 +146,16 @@ Plugin inspection reports provider capabilities without reading credentials.
 | A catalog import with \`--scope user\` or an input or project outside approved roots | Ask | Ask | Ask |
 | Offline catalog inspection with \`mcp catalog show\` or \`mcp_catalog_show\` | Allow | Allow | Allow |
 | Discovery and recording with \`mcp catalog probe\` or \`mcp_catalog_probe\` after Hub confirms with the host user | Allow | Allow | Ask |
+| \`mcp add\` publishes a workspace route and can authorize service startup | Ask | Ask | Ask |
 | Unattended \`setup\` or \`mcp setup\` with \`--scope user\` | Ask | Ask | Ask |
 | Arbitrary programs and other agents: \`process exec\`, \`shell\`, retained \`process shell\`, \`workspace create --shell\`, CLI plugin workflows and launch, \`agent start\` and \`agent message\` | Allow | Ask | Ask |
 | \`plugin_workflow_run\` and \`plugin_workflow_resume\` through Hub's program and argument confirmation | Allow | Allow | Ask |
 | \`agent attach\` and \`agent attach --resume-capture\` | Ask | Ask | Ask |
 | App creation with an explicit \`--claude-bin\` | Allow | Ask | Ask |
 | \`shell --secrets PROFILE\` and \`config secrets-sync TARGET FILE\` | Ask | Ask | Ask |
+| \`secret approve GRANT\` and its plural alias without \`--dry-run\` | Ask | Ask | Ask |
+| \`secret approve GRANT --dry-run\` and its plural alias with approved paths | Allow | Allow | Allow |
+| \`config check --secrets\` | Allow | Allow | Allow |
 | MCP auth setup with \`--yes\` and without \`--dry-run\` | Ask | Ask | Ask |
 | Hosted proxy inspection at the default Canonic controller with default trust | Allow | Allow | Allow |
 | Hosted proxy access with another controller or private trust root, login changes, connector enrollment and endpoint or route changes | Ask | Ask | Ask |
