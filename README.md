@@ -49,16 +49,16 @@ pending candidates. Older artifacts remain available for pinned installations.
 | Pack | Latest version | Coverage |
 | --- | --- | --- |
 | [canonic/aws](packs/canonic/aws/0.2.0/README.md) | 0.2.0 | AWS CLI and MCP operations, optional profile and region restrictions |
-| [canonic/baseline](packs/canonic/baseline/0.20.0/README.md) | 0.20.0 | Everyday shell commands, approved file paths, PID-only process lookups, and Shield CLI metadata and MCP recovery |
+| [canonic/baseline](packs/canonic/baseline/0.21.0/README.md) | 0.21.0 | Everyday shell commands, approved file paths, literal sed expressions, and Shield CLI metadata and MCP inspection and recovery |
 | [canonic/box](packs/canonic/box/0.2.8/README.md) | 0.2.8 | Workspaces, current setup and documentation tools, read-only previews, paginated inspection, exact current-checkout MCP selection, execution, retained recovery and resource-deleting workspace removal |
 | [canonic/docker](packs/canonic/docker/0.1.0/README.md) | 0.1.0 | Local containers, images, builds and Compose, with approved context selection and review for host mounts, privileges, secrets, publication and data removal |
 | [canonic/gate](packs/canonic/gate/0.2.10/README.md) | 0.2.10 | Repository and worktree workflows, read-only previews, and reviewed discard, rename, branch cleanup and remote changes |
 | [canonic/git](packs/canonic/git/0.12.1/README.md) | 0.12.1 | Everyday local commands, network reads and rebase, with Git patch output checked against writable roots and no-op editor settings accepted |
 | [canonic/github](packs/canonic/github/0.11.0/README.md) | 0.11.0 | GitHub CLI/MCP, public repository search, workflow watching, reviewed mutations, and optional repository boundaries |
-| [canonic/hub](packs/canonic/hub/0.1.11/README.md) | 0.1.11 | Workspaces, tasks, managed agents, reviewed MCP catalog probes, Proxy lifecycle and project onboarding |
-| [canonic/node](packs/canonic/node/0.6.1/README.md) | 0.6.1 | JavaScript ecosystem, package managers, tests, monorepos, browser QA and opt-in Codex host access for trusted Node tests |
+| [canonic/hub](packs/canonic/hub/0.1.12/README.md) | 0.1.12 | Workspaces, tasks, managed agents, reviewed MCP catalog probes, Proxy lifecycle and project onboarding |
+| [canonic/node](packs/canonic/node/0.6.2/README.md) | 0.6.2 | JavaScript ecosystem, package managers, monorepos, browser QA, and separate opt-ins for trusted Node tests and Codex host access |
 | [canonic/rust](packs/canonic/rust/0.2.2/README.md) | 0.2.2 | Cargo and Nextest workflows, dependency maintenance, explicit argument paths and reviewed local executable lists |
-| [canonic/testrun](packs/canonic/testrun/0.2.14/README.md) | 0.2.14 | Testrun CLI and MCP with host-file checks for media fixtures, browser attachments, profiles and multipart uploads |
+| [canonic/testrun](packs/canonic/testrun/0.2.15/README.md) | 0.2.15 | Testrun CLI and MCP, including per-user installs, with host-file checks for fixtures, profiles, and uploads |
 | [canonic/workbench](packs/canonic/workbench/0.3.0/README.md) | 0.3.0 | Verified Workbench MCP connections with approved-path checks for image inputs, masks and outputs |
 | [canonic/1password](packs/canonic/1password/0.1.0/README.md) | 0.1.0 | Accounts, vaults and items, with reviewed secrets, subprocesses, sharing and mutations |
 | [canonic/android](packs/canonic/android/0.1.0/README.md) | 0.1.0 | Android devices, emulators, SDK tooling, signing and application packages |
@@ -89,12 +89,10 @@ list configured, every GraphQL query root must name the same listed repository.
 Nested fields and related-object reads are unrestricted. The pack requires
 Shield `>=0.47.0, <1.0.0` with
 `graphql-v1`, `graphql-mutations-v1`, `graphql-subtree-v1`, `variable-prefixes-v1`
-and `variable-list-branches-v1`. Baseline 0.20.0 allows `pack_restore` on matching
-Shield 0.56.0 MCP connections to recover exact locked artifacts. For process
-checks, use `pgrep -f` to list PIDs without showing process arguments. Read-only
-loopback fetches without redirects are allowed in Loose and Recommended and
-ask in Strict. The pack requires Shield `>=0.49.0, <1.0.0` with
-`url-subdomains-v1`. The ecosystem packs
+and `variable-list-branches-v1`. Baseline 0.21.0 checks the paths used by literal
+`sed -e` expressions with Shield 0.57.0. On matching Shield MCP connections,
+agents can filter `rule_list` by pack and restore exact locked artifacts with
+`pack_restore`. The ecosystem packs
 declare their engine minimums and exact capability requirements in their guides.
 Rust 0.2.2 supports reviewed local executable lists and routine Cargo and Nextest
 commands in approved projects in Loose and Recommended.
@@ -103,17 +101,16 @@ output in Loose and Recommended on Shield 0.44.0 and later, and takes the same
 decision after a leading `-c core.editor=true` or similar no-op editor setting.
 Gate 0.2.10 uses Gate's confirmation for discard and repository rename in Loose
 and Recommended, with host review retained for worktree branch cleanup.
-Hub 0.1.11 covers MCP catalog inspection and reviewed probes, along with
-Compose lifecycle operations. Explicit replacement recipes are checked against
-approved read roots.
+Hub 0.1.12 keeps review for lenient Compose checks, private output, and
+confirmed release of blocked executions from any working directory.
 Supabase 0.1.1 allows opt-in SQL when both the Shield connection ID and the
 exact project-scoped hosted read-only URL match the reviewed setting.
-Testrun 0.2.14 checks files named by multipart browser requests against
-approved read roots. Workbench 0.3.0 checks image inputs and masks against
+Testrun 0.2.15 recognizes standard macOS and Linux per-user installs while
+checking multipart files against approved read roots. Workbench 0.3.0 checks image inputs and masks against
 approved read roots and output paths against approved write roots. Both require
 `field-path-arrays-v1`.
-Node 0.6.1 can export a Codex host permission for trusted `node --test` calls in
-Loose and Recommended when the operator enables `host_node_tests`. Strict asks.
+Node 0.6.2 offers separate settings to trust project `node --test` calls and
+grant Codex host access in Loose and Recommended. Strict asks.
 Each pack declares its exact required capabilities. Clients refuse packs whose
 required capabilities they lack.
 

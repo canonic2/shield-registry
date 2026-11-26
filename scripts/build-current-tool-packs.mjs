@@ -9,9 +9,9 @@ import {testrun} from './testrun-policy.mjs';
 import {currentToolCases} from './current-tool-cases.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
-import {trustedTestrunPack,trustedTestrunGuide} from './testrun-trusted-policy.mjs';
+import {testrunHomeInstallPack,trustedTestrunPack,trustedTestrunGuide} from './testrun-trusted-policy.mjs';
 
-export const currentToolVersions = {box:'0.2.8', gate:'0.2.10', testrun:'0.2.14'};
+export const currentToolVersions = {box:'0.2.8', gate:'0.2.10', testrun:'0.2.15'};
 export const currentDirectory = (name, version = currentToolVersions[name]) =>
   new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -705,7 +705,7 @@ export async function currentToolPack(name) {
   delete fields['/args/0'];
   delete fields['/args/1'];
   fields['/args'] = {exact:['mcp','serve']};
-  return pack;
+  return name === 'testrun' ? testrunHomeInstallPack(pack) : pack;
 }
 
 export async function buildCurrentToolPacks(names = Object.keys(currentToolVersions)) {

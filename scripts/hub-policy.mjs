@@ -1,4 +1,4 @@
-// Reviewed Hub CLI and MCP surface of Hub 0.56.0: src/interface/cli.rs, the
+// Reviewed Hub CLI and MCP surface of Hub 0.58.0: src/interface/cli.rs, the
 // task, agent, plugin and integration argument types, and the tools of
 // src/interface/mcp/catalog.rs (`hub mcp serve --check`). Hub succeeds Box;
 // canonic/box keeps covering the box executable.
@@ -13,7 +13,7 @@
 import {toolPack} from './tool-pack.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 
-export const version = '0.1.11';
+export const version = '0.1.12';
 export const engine = '>=0.20.0, <1.0.0';
 
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -97,11 +97,11 @@ export const hub = {
       'mcp auth list', 'mcp auth show', 'mcp auth manager status', 'mcp serve'],
     'inspect', 'Inspect Hub state, configuration or documentation.'),
     [['config', 'check'], 'inspect', 'Validate Hub configuration.', [
-      {id: 'lenient', any: ['--lenient'], flags: ['--lenient'], values: ['--set-env'], category: 'confirmation', reason: 'Launch the host Docker CLI to resolve Compose.'}]],
+      {id: 'lenient', any: ['--lenient'], flags: ['--lenient'], values: [...globals, '--set-env'], category: 'confirmation', reason: 'Launch the host Docker CLI to resolve Compose.'}]],
     [['process', 'run'], 'routine', 'Start configured Hub targets.', [
-      {id: 'private', any: ['--show-private'], flags: ['--show-private', '--detach'], values: [...workspace, '--request-id', '--set-env'], category: 'confirmation', reason: 'Show unredacted captured output in the caller response.'}]],
+      {id: 'private', any: ['--show-private'], flags: ['--show-private', '--detach'], values: [...globals, ...workspace, '--request-id', '--set-env'], category: 'confirmation', reason: 'Show unredacted captured output in the caller response.'}]],
     [['process', 'forget'], 'inspect', 'Preview the recorded leftovers of a blocked execution.', [
-      {id: 'confirm', any: ['--confirm'], values: ['--confirm'], category: 'confirmation', reason: 'Accept operator responsibility for leftover resources and release Hub references.'}]],
+      {id: 'confirm', any: ['--confirm'], values: [...globals, '--confirm'], category: 'confirmation', reason: 'Accept operator responsibility for leftover resources and release Hub references.'}]],
     [['doctor'], 'inspect', 'Inspect Hub prerequisites, project and manager state.', [
       {id: 'execution', any: ['--execution'], values: ['--execution'], category: 'routine', reason: composeAssessment}]],
     ...words(['init', 'setup', 'mcp setup', 'mcp auth logout', 'mcp auth headers',
@@ -240,7 +240,8 @@ export function hubPack() {
     // rule only asks, so the current directory cannot weaken it.
     // An explicit project can select a checkout from another directory.
     // The hook worker accepts a host launch request independently of cwd.
-    if (['mcp-auth-setup-confirm', 'shell-secret-profile', 'config-secrets-sync', 'hook-child', 'agent-attach'].includes(row.id))
+    if (['mcp-auth-setup-confirm', 'shell-secret-profile', 'config-secrets-sync', 'hook-child', 'agent-attach',
+      'config-check-lenient', 'process-run-private', 'process-forget-confirm'].includes(row.id))
       delete row.conditions.cwd;
     if (row.conditions.domain === 'argv' && (row.id === 'proxy' || row.id.startsWith('proxy-'))) {
       // Controller operations also work outside Hub projects. Keep the review

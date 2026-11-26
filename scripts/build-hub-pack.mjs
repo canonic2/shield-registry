@@ -10,7 +10,7 @@ export const directory = new URL(`../packs/canonic/hub/${version}/`, import.meta
 export function guide() {
   return `# Hub permissions ${version}
 
-Reviewed against the Hub 0.56.0 CLI and MCP catalog. The
+Reviewed against the Hub 0.58.0 CLI and MCP catalog. The
 \`canonic/box\` pack covers the \`box\` executable.
 
 Requires Shield \`${engine}\` with \`argument-paths-v1\`, \`field-paths-v1\`
@@ -55,6 +55,21 @@ can write the account's personal agent settings. Hub requires a terminal review
 for changes that grant tool access. Configuration checks and workspace lists
 remain inspection. Setup writes agent launch entries and hooks without
 starting application services.
+
+Compose resolution runs the host Docker CLI. Shield asks in all profiles for
+\`config check --lenient\` and \`config_check_compose\`. Returning captured
+private output with \`process run --show-private\` or \`process_run.show_private\`
+also asks in all profiles.
+
+\`process forget EXECUTION\` previews a blocked execution. With
+\`--confirm DIGEST\` it releases leases and references after the operator handles
+the listed leftovers. The MCP \`process_forget\` tool uses Hub's confirmation
+form. Hub keeps the receipts for audit.
+
+Pack 0.1.11 scoped the three CLI review rules to approved working directories.
+From elsewhere, selecting a project with \`--project\` could fall through to
+Loose Allow. The review rules for lenient Compose checks, private run output
+and confirmed release now apply from any working directory.
 
 Ordinary Hub use is allowed. Hub validates its own arguments, selection and
 configuration, and asks its user before the effects it confirms, so the pack
@@ -109,6 +124,9 @@ Plugin inspection reports provider capabilities without reading credentials.
 | Inspection: status, workspaces, the task, agents, processes, operations, manager blockers, plugin bindings, logs, URLs, configuration, plugin state, documentation | Allow | Allow | Allow |
 | Separately named read-only \`*_preview\` tools, which cannot apply or execute effects | Allow | Allow | Allow |
 | Routine operations: task edits, workspaces, configured \`process run\`, process stop, execution-specific \`doctor\`, setup, plugins, manager, agent stop, MCP logins and apps | Allow | Allow | Ask |
+| Lenient Compose configuration checks, private run output, or CLI \`process forget --confirm\` | Ask | Ask | Ask |
+| CLI \`process forget EXECUTION\` preview from an approved working directory | Allow | Allow | Allow |
+| MCP \`process_forget\` with Hub's confirmation form | Allow | Allow | Ask |
 | An explicit run or replacement configuration outside approved read roots, in a protected location, or given as a relative MCP configuration path | Ask | Ask | Ask |
 | \`mcp catalog import\` from approved read roots into an approved project | Allow | Allow | Ask |
 | A catalog import with \`--scope user\` or an input or project outside approved roots | Ask | Ask | Ask |
@@ -207,13 +225,18 @@ unlisted Loose allowance. These operations now ask in all profiles from any
 directory. Use ordinary workspace lifecycle commands for approved project
 hooks. Use a plain shell for sessions that require no secret profile.
 
+Hub 0.58.0 supports Doppler CLI login and multiple exact destinations in a
+private host grant. The host grant selects the Doppler executable and the
+authorized consumers. Configured process runs keep their routine decision.
+
 ## Pagination and compatibility
 
 \`process list\`, \`operation list\`, \`manager blocker list\` and
 \`plugin binding list\` (and their MCP names \`process_list\`, \`operation_list\`,
 \`manager_blocker_list\` and \`plugin_binding_list\`) inspect retained state
 without starting work. They are allowed in all profiles. Saved logs accept
-\`tail\`, and waiting \`operation_show\` remains inspection. A detached
+\`tail\`, and MCP \`process_logs\` also returns each page as text. Waiting
+\`operation_show\` remains inspection. A detached
 \`process_run\` with \`wait_ms\` keeps the configured-target decision. Current
 collections, logs and bundled documentation use opaque \`cursor\` and \`limit\`
 arguments. Hub validates their types, bounds and selection.
@@ -221,8 +244,8 @@ Bundled \`docs_*\` tools read embedded pages rather than arbitrary host files.
 Agent Kit publication through setup retains its configuration-change decision;
 neither template arguments nor pagination authorize separate execution.
 
-The retirement ledger records local-build evidence from Hub 0.39.0, 0.52.0
-and 0.55.0. Local installations do not count as published feature releases.
+The retirement ledger records local-build evidence from Hub 0.39.0, 0.52.0,
+0.55.0 and 0.57.0. Local installations do not count as published feature releases.
 
 | Retained form | Replacement | First verified absence | Release evidence and removal |
 | --- | --- | --- | --- |
@@ -231,6 +254,7 @@ and 0.55.0. Local installations do not count as published feature releases.
 | Applying MCP tools with \`dry_run\` arguments | Separately named \`*_preview\` tools | Local Hub 0.39.0 | No qualifying release evidence; removal deferred |
 | Disposal, retry and wait options on \`workspace_remove_preview\` | Review default cleanup with \`workspace_remove_preview\`; request a selected cleanup with \`workspace_remove\` for exact review and confirmation | Local Hub 0.52.0 | No qualifying release evidence; the older read-only preview remains allowed in all profiles |
 | CLI \`mcp catalog SERVER --from FILE\` | CLI \`mcp catalog import SERVER --from FILE\` | Hub 0.55.0 source | No qualifying release evidence; removal deferred |
+| MCP \`config_check\` with \`lenient: true\` | MCP \`config_check_compose\` | Local Hub 0.57.0 | No qualifying release evidence; existing Ask decision retained |
 
 Exact permissions and independent fixtures for these forms remain. Remove no
 coverage until three subsequent published tool feature releases establish

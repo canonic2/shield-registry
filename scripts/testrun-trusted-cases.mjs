@@ -1,4 +1,4 @@
-// Independent reviewed contract for Testrun 0.15.0: every operation is allowed
+// Independent reviewed contract for Testrun 0.16.0: every operation is allowed
 // unless it names a host file outside the approved roots, or one Shield cannot
 // check. Keep these expectations separate from the policy's rule constructors.
 // Fixtures run with the registry checkout as project, read and write root:
@@ -95,6 +95,41 @@ function windowsExecutableCases() {
         request:{operation:'har_capture_start',context:page,path:'/outside/acme.har'}},'ask'],
       ['future','future_tool',{},'allow'],
     ]) cases.push({name:`windows-mcp-${label}-${profile}`,profile,mcp,
+      input:{kind:'mcp',server:'qa',tool,arguments:arguments_,original_input:{}},expected});
+  }
+  return cases;
+}
+
+function homeInstallCases() {
+  const cases=[];
+  const investigationId='diag-11111111111111111111111111111111';
+  const analysisId='analysis-33333333333333333333333333333333';
+  for(const [host,executable] of [
+    ['macos','/Users/acme/.local/bin/testrun'],
+    ['linux','/home/acme/.local/bin/testrun'],
+  ]) for(const profile of ['loose','recommended','strict']) {
+    for(const [label,args,expected] of [
+      ['setup-yes',['mcp','setup','--scope','user','--agent','codex','--yes'],'allow'],
+      ['setup-picker',['mcp','setup','--agent','codex','--tool-permissions'],'allow'],
+      ['app-in-root',['app','install','fixtures/acme.apk'],'allow'],
+      ['app-outside',['app','install','/outside/acme.apk'],'ask'],
+      ['export-in-root',['diagnostics','export',investigationId,analysisId,'--path','reports/acme.json'],'allow'],
+      ['export-outside',['diagnostics','export',investigationId,analysisId,'--path','/outside/acme.json'],'ask'],
+    ]) cases.push({name:`home-cli-${host}-${label}-${profile}`,profile,argv:[executable,...args],expected});
+    cases.push({name:`home-cli-other-executable-${host}-${profile}`,profile,
+      argv:[`${executable}.sh`,'mcp','serve'],expected:'ask'});
+
+    const mcp=binding('qa');
+    mcp.qa.transport={type:'stdio',command:executable,args:['mcp','serve'],env:{}};
+    for(const [label,tool,arguments_,expected] of [
+      ['docs','docs_read',{path:'cli.md'},'allow'],
+      ['retained-docs','testrun_docs_read',{path:'cli.md'},'allow'],
+      ['future','future_tool',{},'allow'],
+      ['app-in-root','app_install',{path:'fixtures/acme.apk'},'allow'],
+      ['app-outside','app_install',{path:'/outside/acme.apk'},'ask'],
+      ['export-in-root','diagnostics_export',{investigationId,analysisId,path:'reports/acme.json'},'allow'],
+      ['export-outside','diagnostics_export',{investigationId,analysisId,path:'/outside/acme.json'},'ask'],
+    ]) cases.push({name:`home-mcp-${host}-${label}-${profile}`,profile,mcp,
       input:{kind:'mcp',server:'qa',tool,arguments:arguments_,original_input:{}},expected});
   }
   return cases;
@@ -455,5 +490,5 @@ export function applyTrustedTestrunExpectations(cases) {
     if(trustedExecutables.includes(fixture.argv?.[0]) || fixture.input?.kind==='mcp' && fixture.input.server==='testrun')
       fixture.expected=hostFileExpectation(fixture);
   }
-  cases.cases.push(...trustedTestrunCases(),...hostPathCases(),...windowsExecutableCases());
+  cases.cases.push(...trustedTestrunCases(),...hostPathCases(),...windowsExecutableCases(),...homeInstallCases());
 }

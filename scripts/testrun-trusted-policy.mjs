@@ -1,4 +1,5 @@
 import {hostPathCapabilities,hostPathCliRules,hostPathMcpRules} from './testrun-host-paths.mjs';
+import {homeInstallPattern} from './tool-pack.mjs';
 
 // Testrun is allowed by default for public use: arguments and profile add no
 // approval boundary except host files, which must stay inside approved roots.
@@ -41,6 +42,18 @@ export function trustedTestrunPack(previous) {
         decision:'allow',reason:'Allow other tools from the verified Testrun server, including future QA operations.'},
     ],
   };
+}
+
+/** Add the standard per-user install to the fixed CLI and MCP launch forms. */
+export function testrunHomeInstallPack(pack) {
+  const integration=pack.mcp_integrations.testrun;
+  const forms=integration.fields['/command'].text.one_of;
+  integration.fields['/command'].text={regex:`^(?:${homeInstallPattern('testrun','.local/bin',forms)})$`};
+  const home={regex:`^${homeInstallPattern('testrun','.local/bin')}$`};
+  const cliRules=pack.rules.filter(rule=>rule.conditions.domain==='argv' && rule.conditions.executable.one_of);
+  pack.rules.push(...cliRules.map(rule=>({...rule,id:`home-${rule.id}`,
+    conditions:{...rule.conditions,executable:home}})));
+  return pack;
 }
 
 export function trustedTestrunGuide() {
@@ -108,7 +121,10 @@ unrelated shell commands or general file tools.
 
 MCP permission applies to the verified \`testrun mcp serve\` stdio integration,
 including a renamed server explicitly bound to that integration. The launch
-arguments are exactly \`mcp serve\`. On Windows, use \`testrun.exe\` on
+arguments are exactly \`mcp serve\`. On macOS and Linux, the standard
+\`~/.local/bin/testrun\` installation also matches by its absolute path under
+\`/Users\` or \`/home\`. The same host-file rules apply when the CLI is invoked
+by that path. On Windows, use \`testrun.exe\` on
 PATH as the stdio command. A wrapper, HTTP endpoint, extra launch arguments,
 or an absolute Windows command falls outside this integration.
 
@@ -119,7 +135,7 @@ checks as the bare command.
 
 ## Coverage and compatibility
 
-Reviewed against Testrun 0.15.0 source and its read-only MCP catalog.
+Reviewed against Testrun 0.16.0 source and its read-only MCP catalog.
 The 76 current tool names, three retained documentation aliases and reviewed
 stdio integration are covered. Borrowed profiles use the write-root check
 because the browser can update them. Attachment credentials and CAs use the

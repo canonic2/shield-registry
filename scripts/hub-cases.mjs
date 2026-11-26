@@ -1,4 +1,4 @@
-// Independent expected decisions for canonic/hub, reviewed against Hub 0.56.0.
+// Independent expected decisions for canonic/hub, reviewed against Hub 0.58.0.
 // Keep these explicit rather than importing the policy's inventory or deriving
 // expectations from its decisions.
 const profiles = ['loose','recommended','strict'];
@@ -12,6 +12,16 @@ const id = '11111111111111111111111111111111';
 const prepare = {operation:id,generation:'22222222222222222222222222222222',request_id:'33333333333333333333333333333333'};
 const mutation = {if_revision:3,request_id:id};
 const confirmedDisposal = ['allow','allow','deny'];
+
+// Each form can select a project independently of its working directory.
+export const crossDirectoryReview = [
+  ['config-check-lenient-selected-project',
+    ['hub','config','--project=/outside/acme','check','--config','stack.yml','--lenient'],review],
+  ['run-private-output-selected-project',
+    ['hub','--project','/outside/acme','process','run','web','--agent-config=.hub/config.yml','--show-private','--detach'],review],
+  ['forget-execution-confirm-selected-project',
+    ['hub','process','forget',id,'--confirm=reviewed-digest','--project','/outside/acme','--json'],review],
+];
 
 // Every current MCP tool with an ordinary request.
 export const tools = [
@@ -207,6 +217,9 @@ const mcp = [
   ['run-detach','process_run',{targets:['web'],detach:true,wait_ms:0},routine],
   ['run-detach-wait','process_run',{targets:['web'],detach:true,wait_ms:30000},routine],
   ['run-private-output','process_run',{targets:['web'],show_private:true},review],
+  ['run-private-output-disabled','process_run',{targets:['web'],show_private:false},routine],
+  ['forget-execution-missing-id','process_forget',{},routine],
+  ['config-check-compose-malformed-overrides','config_check_compose',{set_env:'MODE=dev'},review],
   ['config-check-lenient','config_check',{lenient:true},review],
   ['run-detach-malformed-wait','process_run',{targets:['web'],detach:true,wait_ms:'soon'},routine],
   ['operation-wait','operation_show',{id,wait_ms:1000},allow],
@@ -285,6 +298,7 @@ const cli = [
   ['run-private-output',['hub','process','run','web','--show-private'],review],
   ['forget-execution-preview',['hub','process','forget',id],allow],
   ['forget-execution-confirm',['hub','process','forget',id,'--confirm','reviewed-digest'],review],
+  ...crossDirectoryReview,
   ['docs-read',['hub','docs','read','workspaces.md','--start-line','1'],allow],
   ['docs-read-cursor',['hub','docs','read','workspaces.md','--cursor','opaque-cursor','--limit','20'],allow],
   ['docs-search-cursor',['hub','docs','search','workspace','--path','workspaces.md','--cursor','opaque-cursor','--limit','10'],allow],

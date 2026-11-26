@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "playwright-mcp-browser_snapshot-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "mcp",
+        "server": "playwright",
+        "tool": "browser_snapshot",
+        "arguments": {
+          "url": "http://localhost:3000"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "playwright-mcp-test_list_tests-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "mcp",
+        "server": "playwright",
+        "tool": "test_list_tests",
+        "arguments": {
+          "url": "http://localhost:3000"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "playwright-mcp-future_tool-loose",
+      "profile": "loose",
+      "input": {
+        "kind": "mcp",
+        "server": "playwright",
+        "tool": "future_tool",
+        "arguments": {
+          "url": "http://localhost:3000"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "playwright-mcp-browser_navigate-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "mcp",
+        "server": "playwright",
+        "tool": "browser_navigate",
+        "arguments": {
+          "url": "http://localhost:3000"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "playwright-mcp-browser_snapshot-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "mcp",
+        "server": "playwright",
+        "tool": "browser_snapshot",
+        "arguments": {
+          "url": "http://localhost:3000"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "playwright-mcp-test_list_tests-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "mcp",
+        "server": "playwright",
+        "tool": "test_list_tests",
+        "arguments": {
+          "url": "http://localhost:3000"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "playwright-mcp-future_tool-recommended",
+      "profile": "recommended",
+      "input": {
+        "kind": "mcp",
+        "server": "playwright",
+        "tool": "future_tool",
+        "arguments": {
+          "url": "http://localhost:3000"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "playwright-mcp-browser_navigate-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "mcp",
+        "server": "playwright",
+        "tool": "browser_navigate",
+        "arguments": {
+          "url": "http://localhost:3000"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "playwright-mcp-browser_snapshot-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "mcp",
+        "server": "playwright",
+        "tool": "browser_snapshot",
+        "arguments": {
+          "url": "http://localhost:3000"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "playwright-mcp-test_list_tests-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "mcp",
+        "server": "playwright",
+        "tool": "test_list_tests",
+        "arguments": {
+          "url": "http://localhost:3000"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "playwright-mcp-future_tool-strict",
+      "profile": "strict",
+      "input": {
+        "kind": "mcp",
+        "server": "playwright",
+        "tool": "future_tool",
+        "arguments": {
+          "url": "http://localhost:3000"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "playwright-manager-selection-yarn",
+      "profile": "recommended",
+      "variables": {
+        "package_manager": "npm"
+      },
+      "argv": [
+        "yarn",
+        "playwright",
+        "install",
+        "--list"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "playwright-manager-selection-pnpm",
+      "profile": "recommended",
+      "variables": {
+        "package_manager": "npm"
+      },
+      "argv": [
+        "pnpm",
+        "playwright",
+        "install",
+        "--list"
+      ],
+      "expected": "deny"
+    }
+  ]
+}

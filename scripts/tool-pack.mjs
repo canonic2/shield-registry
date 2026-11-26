@@ -36,7 +36,9 @@ export const executableForms = name => [name, `/usr/bin/${name}`, `/usr/local/bi
 const escape = value => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 // A per-user install folder such as `.local/bin`, under any macOS or Linux
 // home. The user segment cannot be `.` or `..`.
-const homeInstall = (name, folder) => `/(?:Users|home)/[A-Za-z0-9_][A-Za-z0-9_.-]*/${escape(folder)}/${escape(name)}`;
+export const homeInstallPattern = (name, folder, forms = []) => [
+  ...forms.map(escape), `/(?:Users|home)/[A-Za-z0-9_][A-Za-z0-9_.-]*/${escape(folder)}/${escape(name)}`,
+].join('|');
 
 // Explicitly named files must stay inside the approved roots and away from
 // version control, Shield state, credentials and agent settings.
@@ -211,7 +213,7 @@ export function toolPack(tool) {
     capabilities: [...new Set([...baseCapabilities, ...(tool.homeInstall ? ['regex-v1'] : []), ...(tool.extraCapabilities ?? [])])].sort(),
     mcp_integrations: {[server]: {transport: 'stdio', fields: {
       '/command': {text: tool.homeInstall
-        ? {regex: [...executableForms(tool.name).map(escape), homeInstall(tool.name, tool.homeInstall)].join('|')}
+        ? {regex: homeInstallPattern(tool.name, tool.homeInstall, executableForms(tool.name))}
         : {one_of: executableForms(tool.name)}},
       '/args/0': {exact: 'mcp'}, '/args/1': {exact: 'serve'},
     }, defaults: {type: 'stdio', command: tool.name, args: ['mcp', 'serve'], env: {}}}},

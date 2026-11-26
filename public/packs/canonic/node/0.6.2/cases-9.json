@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "project-node-tests: defaults ask",
+      "profile": "recommended",
+      "variables": {},
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "project-node-tests: trust discovery",
+      "profile": "loose",
+      "variables": {
+        "project_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test",
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "project-node-tests: trust first test",
+      "profile": "recommended",
+      "variables": {
+        "project_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test scripts/node-host-tests.test.mjs",
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "project-node-tests: trust second test",
+      "profile": "recommended",
+      "variables": {
+        "project_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test --test-concurrency=2 scripts/node-project-tests.test.mjs",
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "project-node-tests: strict asks",
+      "profile": "strict",
+      "variables": {
+        "project_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test scripts/node-host-tests.test.mjs",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "project-node-tests: host access alone asks",
+      "profile": "recommended",
+      "variables": {
+        "codex_host_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test scripts/node-host-tests.test.mjs",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "project-node-tests: both permissions",
+      "profile": "recommended",
+      "variables": {
+        "project_node_tests": "enabled",
+        "codex_host_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test scripts/node-host-tests.test.mjs",
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "project-node-tests: legacy binding",
+      "profile": "recommended",
+      "variables": {
+        "host_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test scripts/node-host-tests.test.mjs",
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "project-node-tests: missing file",
+      "profile": "recommended",
+      "variables": {
+        "project_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test missing.test.mjs",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "project-node-tests: directory",
+      "profile": "recommended",
+      "variables": {
+        "project_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test scripts",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "project-node-tests: outside project",
+      "profile": "recommended",
+      "variables": {
+        "project_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test ../external.test.mjs",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "project-node-tests: unresolved test glob",
+      "profile": "recommended",
+      "variables": {
+        "project_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test 'scripts/*.test.mjs'",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "project-node-tests: startup preload",
+      "profile": "recommended",
+      "variables": {
+        "project_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test --import scripts/node-host-tests.test.mjs",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "project-node-tests: startup environment assignment",
+      "profile": "recommended",
+      "variables": {
+        "project_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "NODE_OPTIONS=--require=scripts/node-host-tests.test.mjs node --test",
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "project-node-tests: shell chain",
+      "profile": "recommended",
+      "variables": {
+        "project_node_tests": "enabled"
+      },
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "node --test scripts/node-host-tests.test.mjs && node --version",
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

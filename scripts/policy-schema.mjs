@@ -101,7 +101,11 @@ function rule(pack, domain) {
     checks.push({ if: has('requirements'), then: has('on_unmet'), else: { not: has('on_unmet') } });
   }
   if (domain === 'argv') checks.push(eitherPredicate(['arguments']));
-  if (domain === 'argv') props.agents = agentOutputs;
+  if (domain === 'argv') {
+    props.agents = agentOutputs;
+    props.trust_execution = { const: true };
+    checks.push({ if: has('trust_execution'), then: { allOf: [allows, { not: has('fallback') }] } });
+  }
   if (domain === 'web') for (const [action, field] of [['fetch', 'url'], ['search', 'query']])
     checks.push({ if: at(['conditions', 'action'], { const: action }), then: eitherPredicate([field]) });
   if (domain === 'mcp') for (const key of ['conditions', 'requirements'])
@@ -141,7 +145,8 @@ const defs = {
   pathPredicate: one([object({ exact: ref('pathReference') }), object({ outside: ref('pathReference') }),
     object({ within: ref('pathReference'), exclude: array(ref('pathReference')), match: ref('textSelector') }, ['within'])]),
   targets: one([target, array(target, 1)]),
-  environment: one([object({ exact: stringMap }), object({ fields: { type: 'object', minProperties: 1, maxProperties: 256, propertyNames: text(1), additionalProperties: ref('textSelector') } })]),
+  environment: one([object({ exact: stringMap }), object({ fields: { type: 'object', minProperties: 1, maxProperties: 256, propertyNames: text(1), additionalProperties: ref('textSelector') } }),
+    object({ unset_or_empty: array({ ...text(1, 256), pattern: '^[A-Za-z0-9_]+$' }, 1) })]),
   url: object({ schemes: array(enumeration(['http', 'https']), 1, true), hosts: array({ ...text(1), pattern: '^[^A-Z/@?#\\s]+$' }, 1, true),
     ports: array({ type: 'integer', minimum: 1, maximum: 65535 }, 0, true), path: ref('textSelector'), subdomains: { type: 'boolean' } }, ['schemes', 'hosts']),
   arguments: one([
@@ -161,11 +166,13 @@ const defs = {
   ]),
 };
 const input = (kind, properties) => object({ kind: { const: kind }, ...properties, original_input: jsonObject });
+const argumentPath = object({path: ref('pathPredicate'), recursive: {type: 'boolean'}, kind: {const: 'file'}}, ['path']);
+argumentPath.allOf = [{if: has('kind'), then: {not: at(['recursive'], {const: true})}}];
 defs.argumentPaths = object({
   grammar: {allOf: [ref('arguments'), at(['kind'], {const: 'options'})]},
   options: {type: 'object', maxProperties: 256, propertyNames: optionName,
-    additionalProperties: object({path: ref('pathPredicate'), recursive: {type: 'boolean'}}, ['path'])},
-  operands: object({path: ref('pathPredicate'), recursive: {type: 'boolean'}}, ['path']),
+    additionalProperties: argumentPath},
+  operands: argumentPath,
 }, ['grammar']);
 defs.argumentPaths.anyOf = [at(['options'], {minProperties: 1}), has('operands')];
 defs.input = one([
@@ -192,7 +199,7 @@ defs.graphql = {...object({carrier:{const:'gh-api'},operation:enumeration(['quer
 }})}, ['carrier','operation']),
   if:{properties:{operation:{const:'mutation'}}},then:{required:['selection','root_fields']},else:{not:{required:['root_fields']}}};
 const caps = ['structured-rules-v1', 'argument-rules-v1', 'graphql-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1', 'fallback-rules-v1', 'invocation-groups-v1', 'command-sets-v1', 'mcp-integrations-v1', 'mcp-connection-facts-v1', 'mcp-command-fields-v1', 'mcp-effective-fields-v1', 'agent-outputs-v1', 'project-node-tests-v1'];
-caps.push('argument-paths-v1');
+caps.push('argument-paths-v1', 'argument-path-file-kind-v1', 'environment-unset-or-empty-v1', 'trust-execution-v1');
 caps.push('field-paths-v1');
 caps.push('field-path-arrays-v1');
 caps.push('prefix-leading-v1');
@@ -309,6 +316,11 @@ const feature = {
   'graphql-subtree-v1': eitherPredicate(['graphql', 'selection', 'states', '@', 'fields', '@', 'subtree'], {const: true}),
   'prefix-leading-v1': eitherPredicate(['arguments'], {allOf: [at(['kind'], {const: 'prefix'}), has('leading')]}),
   'argument-paths-v1': eitherPredicate(['argument_paths']),
+  'argument-path-file-kind-v1': any([
+    eitherPredicate(['argument_paths', 'operands', 'kind']),
+    eitherPredicate(['argument_paths', 'options', '@', 'kind']),
+  ]),
+  'environment-unset-or-empty-v1': eitherPredicate(['environment', 'unset_or_empty']),
   'field-paths-v1': eitherPredicate(['field_paths']),
   'field-path-arrays-v1': eitherPredicate(['field_paths', '@', 'each']),
   'invocation-groups-v1': has('invocation'),
@@ -336,6 +348,7 @@ const feature = {
   'requirements-v1': has('requirements'),
   'agent-outputs-v1': has('agents'),
   'project-node-tests-v1': at(['agents', 'codex', 'trust_project_node_tests'], { const: true }),
+  'trust-execution-v1': at(['trust_execution'], { const: true }),
   'possible-effects-v1': eitherPredicate(['possible_effects']),
   'fallback-rules-v1': has('fallback'),
   'url-subdomains-v1': eitherPredicate(['url', 'subdomains']),

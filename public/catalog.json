@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "registry_id": "canonic-shield-main",
-  "sequence": 66,
+  "sequence": 67,
   "expires_at": "2027-02-03T00:00:00Z",
   "packs": [
     {
@@ -42,9 +42,9 @@
     },
     {
       "id": "canonic/baseline",
-      "version": "0.20.0",
-      "path": "packs/canonic/baseline/0.20.0/pack.yml",
-      "sha256": "d7c07a902abc67d5474ebcb9ffbb81ae4fede1214b9931b82b4b78f0c2c867e7"
+      "version": "0.21.0",
+      "path": "packs/canonic/baseline/0.21.0/pack.yml",
+      "sha256": "4d16327eef075b060f26907914c9ed670643ec250d7ebfaabcf33407ece146d0"
     },
     {
       "id": "canonic/box",
@@ -102,9 +102,9 @@
     },
     {
       "id": "canonic/hub",
-      "version": "0.1.11",
-      "path": "packs/canonic/hub/0.1.11/pack.yml",
-      "sha256": "8c5b0a668eb007fb6970c8930eb6e9f382429151cec6927dfbaed64fb4a6d3db"
+      "version": "0.1.12",
+      "path": "packs/canonic/hub/0.1.12/pack.yml",
+      "sha256": "02e6c8c100ef8271654cbea620999b12c5e5e8f676a7e36edb513b5590c5f3f5"
     },
     {
       "id": "canonic/java",
@@ -114,9 +114,9 @@
     },
     {
       "id": "canonic/node",
-      "version": "0.6.1",
-      "path": "packs/canonic/node/0.6.1/pack.yml",
-      "sha256": "b1acb963947e6b4edf8fb1f26399d31d395080eb6b05ffc1e4c58093a1ea0472"
+      "version": "0.6.2",
+      "path": "packs/canonic/node/0.6.2/pack.yml",
+      "sha256": "c2906a772f743fc919488e732e17574515196162b12eade3a552782169190b7d"
     },
     {
       "id": "canonic/opensearch-elasticsearch",
@@ -186,9 +186,9 @@
     },
     {
       "id": "canonic/testrun",
-      "version": "0.2.14",
-      "path": "packs/canonic/testrun/0.2.14/pack.yml",
-      "sha256": "f4ad8b75b93e52460c8b4d8ba649fea7f0e383a649cba3b431c529df33293c38"
+      "version": "0.2.15",
+      "path": "packs/canonic/testrun/0.2.15/pack.yml",
+      "sha256": "a0e4117b49505415d206bb2ab20b7fe13488fa2add3e4300fe2c498bd74c8cb3"
     },
     {
       "id": "canonic/workbench",
@@ -487,10 +487,10 @@
       "last": "0.1.0"
     },
     "canonic/baseline": {
-      "path": "metadata/d76932d2590872dcb0e8af100a719996fe21bfa2c84b9bb7c4dd230bfbe10e5d.json",
-      "sha256": "d76932d2590872dcb0e8af100a719996fe21bfa2c84b9bb7c4dd230bfbe10e5d",
+      "path": "metadata/c55b7bb6f65089b93df994ba432f7ad14cd2f8263ac5ddb4c11acda10ba126e7.json",
+      "sha256": "c55b7bb6f65089b93df994ba432f7ad14cd2f8263ac5ddb4c11acda10ba126e7",
       "first": "0.1.0",
-      "last": "0.20.0"
+      "last": "0.21.0"
     },
     "canonic/box": {
       "path": "metadata/37305ba2f24b5d2cff019ec03e2e172e6541b72a1dcc3ed84b381b7fedbf3775.json",
@@ -547,10 +547,10 @@
       "last": "0.1.0"
     },
     "canonic/hub": {
-      "path": "metadata/a1c078dafc9968d9072ccb24dab8c1862a35911f2cb4eaecebb735a85497081f.json",
-      "sha256": "a1c078dafc9968d9072ccb24dab8c1862a35911f2cb4eaecebb735a85497081f",
+      "path": "metadata/0a8773fd1a66f6ee4be63b614f7aaba6330a7b459dac3a07a146fb42cfdfdb1d.json",
+      "sha256": "0a8773fd1a66f6ee4be63b614f7aaba6330a7b459dac3a07a146fb42cfdfdb1d",
       "first": "0.1.0",
-      "last": "0.1.11"
+      "last": "0.1.12"
     },
     "canonic/java": {
       "path": "metadata/ffbcb2510c49dd2ddd587bb501235d1570b79c0e1f39f78afa1f2d449dcef58e.json",
@@ -559,10 +559,10 @@
       "last": "0.1.0"
     },
     "canonic/node": {
-      "path": "metadata/d086337f2fb83826fffbb2de15a41c17b8d56375d5fe01ba8487baf245e9e497.json",
-      "sha256": "d086337f2fb83826fffbb2de15a41c17b8d56375d5fe01ba8487baf245e9e497",
+      "path": "metadata/26b0a84205926f76c1211f10d6dd1ac327ea372ce241acbcce8c9f76b911efb5.json",
+      "sha256": "26b0a84205926f76c1211f10d6dd1ac327ea372ce241acbcce8c9f76b911efb5",
       "first": "0.1.0",
-      "last": "0.6.1"
+      "last": "0.6.2"
     },
     "canonic/opensearch-elasticsearch": {
       "path": "metadata/0e0ffcc718fa11b20931595c414efb8190dacc1c7075ef84831a4fe821866f18.json",
@@ -631,10 +631,10 @@
       "last": "0.1.0"
     },
     "canonic/testrun": {
-      "path": "metadata/8691e9db6d8d560fda94e432e7bc1ff2a7746410e0e04153ccf906eedda78088.json",
-      "sha256": "8691e9db6d8d560fda94e432e7bc1ff2a7746410e0e04153ccf906eedda78088",
+      "path": "metadata/a3014be964dc8e5d1e07fd30cb439cf4dc3c61c3ee8374240c62db95f48711e0.json",
+      "sha256": "a3014be964dc8e5d1e07fd30cb439cf4dc3c61c3ee8374240c62db95f48711e0",
       "first": "0.1.0",
-      "last": "0.2.14"
+      "last": "0.2.15"
     },
     "canonic/workbench": {
       "path": "metadata/f50065957f47a7d76296f2c39eb928f773f7ec35107a0446bf5a40448288d841.json",

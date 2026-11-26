@@ -116,6 +116,31 @@ function mcpCase(name, profile, tool, arguments_, expected, mcp, server = 'shiel
 
 export const shieldRestoreToolCase = ['pack_restore', {}, 'allow'];
 
+export function shieldInspectionCases() {
+  const pack_selector = 'pack:15b30c2d-114b-4088-8a21-189c07e49f51';
+  const registered = binding(stdio('shield'));
+  const legacy = binding(stdio('shield', ['__internal', 'mcp', '--project', '.', '--agent', 'codex']));
+  const external = binding(stdio('shield', ['mcp', 'serve', '--project', '/outside']));
+  return ['loose', 'recommended', 'strict'].flatMap(profile => [
+    {name: `shield-cli-filtered-rule-list-help-${profile}`, profile,
+      argv: ['shield', 'rule', 'list', '--help'], expected: 'allow'},
+    {name: `shield-cli-filtered-rule-list-${profile}`, profile,
+      argv: ['shield', 'rule', 'list', '--section', 'invocations', '--pack-selector', pack_selector], expected: 'ask'},
+    mcpCase('rule-list-by-pack', profile, 'rule_list', {pack_selector}, 'allow', registered),
+    ...['shared', 'invocations', 'command_sets'].map(section =>
+      mcpCase(`rule-list-${section}-by-pack`, profile, 'rule_list', {section, pack_selector}, 'allow', registered)),
+    mcpCase('rule-list-by-pack-legacy', profile, 'rule_list', {pack_selector}, 'allow', legacy),
+    mcpCase('rule-list-by-pack-outside-project', profile, 'rule_list', {pack_selector}, 'ask', external),
+    // Shield rejects invalid input in the inspection tool without any side effects.
+    mcpCase('rule-list-missing-pack-selector', profile, 'rule_list', {section: 'invocations'}, 'allow', registered),
+    mcpCase('rule-list-malformed-pack-selector', profile, 'rule_list', {pack_selector: 123}, 'allow', registered),
+    mcpCase('evaluate-mcp-normalized-input', profile, 'policy_evaluate', {
+      input: {kind: 'mcp', server: 'acme', tool: 'search', arguments: {query: 'documentation'}, original_input: {}},
+      context: {cwd: '/project'},
+    }, 'allow', registered),
+  ]);
+}
+
 export function shieldRestoreCases() {
   const registered = binding(stdio('shield'));
   const legacy = binding(stdio('shield', ['__internal', 'mcp', '--project', '.', '--agent', 'codex']));

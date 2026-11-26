@@ -1,7 +1,7 @@
-"""Real fresh-process native hooks; Python only drives isolated test fixtures.
+"""Real fresh-process native hooks over isolated policy fixtures.
 
-Never execute submitted commands. Initialization uses Shield's real confirmed
-operator workflow through a controlling terminal, with isolated home/cache roots.
+Never execute submitted commands. Old Shield versions load the fixture policy
+through a controlling terminal when they require initialization confirmation.
 """
 import fcntl
 import json
@@ -18,9 +18,22 @@ import termios
 import time
 
 
-def initialize(binary, project, env):
+def shield_version(binary):
     version = subprocess.run([binary, "--version"], text=True, capture_output=True, check=True, timeout=10)
-    major, minor = map(int, re.match(r"shield (\d+)\.(\d+)", version.stdout).groups())
+    return tuple(map(int, re.match(r"shield (\d+)\.(\d+)", version.stdout).groups()))
+
+
+def initialize(binary, project, env):
+    major, minor = shield_version(binary)
+    if major > 0 or minor >= 30:
+        result = subprocess.run(
+            [binary, "init", "--project", str(project), "--no-setup", "--no-baseline",
+             "--cache-dir", str(project / ".shield/cache"), "--json"],
+            text=True, capture_output=True, env=env, timeout=30,
+        )
+        assert result.returncode == 0, result.stdout + result.stderr
+        assert (project / ".shield/state/state.json").is_file(), result.stdout
+        return
     if major > 0 or minor >= 10:
         return initialize_current(binary, project, env)
     master, slave = pty.openpty()

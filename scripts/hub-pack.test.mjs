@@ -1,18 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync, mkdtempSync, writeFileSync, rmSync} from 'node:fs';
+import {readFileSync, mkdtempSync, realpathSync, writeFileSync, rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {hubPack} from './hub-policy.mjs';
-import {hubCases, tools, binding} from './hub-cases.mjs';
+import {hubCases, tools, binding, crossDirectoryReview} from './hub-cases.mjs';
 import {directory, guide} from './build-hub-pack.mjs';
 import {splitCaseFiles, caseFileNames} from './fixture-files.mjs';
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
 import {checkPublication, digest} from './registry-release.mjs';
 
-// The Hub 0.56.0 source interface, independently of the policy, in catalog
+// The Hub 0.58.0 source interface, independently of the policy, in catalog
 // order (including preview identities).
 const catalog = ['init','config_check','config_check_compose','config_plan','config_schema','setup','mcp_catalog_probe','mcp_catalog_show','mcp_app_create_preview','workspace_create','workspace_attach',
   'workspace_list','workspace_show','workspace_remove','workspace_prepare','workspace_data_reset','task_show','task_update',
@@ -63,7 +63,8 @@ test('Hub sources reproduce with schema-valid policy and fixtures', async () => 
     assert.equal(Object.hasOwn(rule.conditions, 'cwd'), false, id);
     assert.deepEqual(rule.decision, {loose:'ask', recommended:'ask', strict:'ask'}, id);
   }
-  for (const id of ['shell-secret-profile', 'config-secrets-sync', 'hook-child', 'agent-attach']) {
+  for (const id of ['shell-secret-profile', 'config-secrets-sync', 'hook-child', 'agent-attach',
+    'config-check-lenient', 'process-run-private', 'process-forget-confirm']) {
     const rule = pack.rules.find(row => row.id === id);
     assert.equal(Object.hasOwn(rule.conditions, 'cwd'), false, id);
     assert.deepEqual(rule.decision, {loose:'ask', recommended:'ask', strict:'ask'}, id);
@@ -83,9 +84,9 @@ test('Hub coverage names exactly the current MCP catalog', () => {
   assert.deepEqual([...fallback.conditions.tool.not.one_of].sort(), [...catalog].sort());
 });
 
-function evaluate(file) {
+function evaluate(file, pack = new URL('pack.yml', directory).pathname, extra = []) {
   assert.ok(process.env.SHIELD_BINARY, 'Pass --shield PATH; the new pack must not skip evaluator validation');
-  return spawnSync(process.env.SHIELD_BINARY, ['__internal','test-pack','--pack',new URL('pack.yml',directory).pathname,'--cases',file],
+  return spawnSync(process.env.SHIELD_BINARY, ['__internal','test-pack','--pack',pack,'--cases',file,...extra],
     {encoding:'utf8', timeout:120000, maxBuffer:32*1024*1024});
 }
 
@@ -98,7 +99,7 @@ test('Hub retains signed assets and replays the latest and retained fixture sets
   const catalog = await checkPublication(new URL('../public', import.meta.url).pathname,
     readFileSync(new URL('../keys/main.pub', import.meta.url), 'utf8').trim());
   const current = new Map(hubCases().cases.map(row => [row.name, row]));
-  for (const version of ['0.1.3', '0.1.5', '0.1.6', '0.1.7', '0.1.10']) {
+  for (const version of ['0.1.3', '0.1.5', '0.1.6', '0.1.7', '0.1.10', '0.1.11']) {
     const previous = new URL(`../packs/canonic/hub/${version}/`, import.meta.url);
     const signed = new URL(`../public/packs/canonic/hub/${version}/`, import.meta.url);
     const published = catalog.releases.find(row => row.id === 'canonic/hub' && row.version === version);
@@ -113,6 +114,7 @@ test('Hub retains signed assets and replays the latest and retained fixture sets
       for (const file of fixtures) {
         const document = JSON.parse(readFileSync(new URL(file, previous)));
         const cases = document.cases.map(row => {
+          if (version === '0.1.11') return row;
           const tighten = (version === '0.1.3' && authBypass.test(row.name)) || unapprovedRunConfig.test(row.name);
           if (!tighten && (version === '0.1.10' || !hubConfirmed.test(row.name))) return row;
           assert.equal(row.expected, tighten ? 'allow' : 'ask', row.name);
@@ -128,9 +130,40 @@ test('Hub retains signed assets and replays the latest and retained fixture sets
         assert.equal(result.status, 0, JSON.stringify(report.cases?.filter(row => !row.passed) ?? report) + result.stderr);
         assert.equal(report.passed, true);
       }
-      assert.equal(changed, {'0.1.3': 10, '0.1.10': 2}[version] ?? 8, version);
+      assert.equal(changed, {'0.1.3': 10, '0.1.10': 2, '0.1.11': 0}[version] ?? 8, version);
     } finally { rmSync(owner, {recursive:true, force:true}); }
   }
+});
+
+test('Hub reviews the three sensitive CLI forms from outside the approved working directory', {skip:!process.env.SHIELD_BINARY}, () => {
+  // Test-pack starts in the project. Evaluate a shell whose Hub operation
+  // runs after changing to an existing directory outside that project.
+  const owner = mkdtempSync(join(tmpdir(), 'hub-outside-'));
+  try {
+    const cwd = realpathSync(owner);
+    const path = join(owner, 'cases.json');
+    const quote = value => "'" + value.replaceAll("'", "'\\''") + "'";
+    const cases = ['loose','recommended','strict'].flatMap(profile =>
+      crossDirectoryReview.map(([label, argv]) => ({
+        name: `${label}-${profile}`, profile, expected: 'ask',
+        input: {kind:'shell', dialect:'bash', original_input:{},
+          source: `cd ${quote(cwd)} && ${argv.map(quote).join(' ')}`},
+      })));
+    writeFileSync(path, JSON.stringify({schema_version:1,cases}));
+    const published = new URL('../public/packs/canonic/hub/0.1.11/pack.yml', import.meta.url).pathname;
+    for (const [pack, loose] of [[published,'allow'], [undefined,'ask']]) {
+      const result = evaluate(path, pack, ['--details']);
+      assert.ok([0,1].includes(result.status), result.stdout + result.stderr);
+      const report = JSON.parse(result.stdout);
+      assert.equal(report.cases.length, cases.length);
+      for (const row of report.cases) {
+        const operation = row.evaluation.analysis_coverage.operations.at(-1);
+        assert.equal(operation.request.executable, 'hub', row.name);
+        assert.equal(operation.cwd, cwd, row.name);
+        assert.equal(operation.evaluation.decision, row.profile === 'loose' ? loose : 'ask', row.name);
+      }
+    }
+  } finally { rmSync(owner, {recursive:true, force:true}); }
 });
 
 test('production Shield admits the Hub source pack', {skip:!process.env.SHIELD_BINARY}, () => {

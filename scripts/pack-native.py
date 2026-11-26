@@ -27,7 +27,7 @@ def hook(binary, project, env, agent, event, name, source, expected, workdir=Non
     details = output.get("hookSpecificOutput", {})
     if event == "PermissionRequest":
         if expected != "ask":
-            assert details.get("hookEventName") == event, output
+            assert details.get("hookEventName") == event, (name, expected, output)
         actual = details.get("decision", {}).get("behavior")
         encoded = None if expected == "ask" else expected
     else:
@@ -35,11 +35,13 @@ def hook(binary, project, env, agent, event, name, source, expected, workdir=Non
         actual = details.get("permissionDecision")
         encoded = {"allow": None, "ask": "deny"}.get(expected, expected) if agent == "codex" else expected
     assert actual == encoded, (agent, event, name, expected, output)
+    return details
 
 
 def run(binary, baseline_pack, git_pack):
     results = []
     version = json.loads(Path(baseline_pack).read_text())["version"]
+    protected_reset = fixtures.load("baseline-native").shield_version(binary) >= (0, 30)
     for profile in ["loose", "recommended", "strict"]:
         with fixtures.fixture(baseline_pack, git_pack, profile) as (project, home, outside, env):
             fixtures.usable.initialize(binary, project, env)
@@ -48,7 +50,7 @@ def run(binary, baseline_pack, git_pack):
                           if name in fixtures.NATIVE_ONLY]
             boundaries += [("allow-reply", "git status -u", "allow"),
                            ("ask-reply", "npm install", "ask"), ("deny-reply", "printenv", "deny")]
-            if version == "0.8.0":
+            if version in ("0.8.0", "0.8.1"):
                 boundaries += [("pager-less", "less item.txt", "ask"),
                                ("pager-more", "more item.txt", "ask"),
                                ("pager-flags", "less -F item.txt", "ask"),
@@ -63,13 +65,16 @@ def run(binary, baseline_pack, git_pack):
             for name, source, expected, workdir in [
                 ("explicit-cwd", f"git -C '{project}' log --oneline -17", "allow", None),
                 ("cwd-fallback", "git log --oneline -17", "allow", None),
-                ("explicit-force", f"git -C '{project}' reset --hard HEAD", "ask" if profile == "loose" else "deny", None),
+                ("explicit-force", f"git -C '{project}' reset --hard HEAD",
+                 "deny" if protected_reset or profile != "loose" else "ask", None),
                 ("explicit-amend", f"git -C '{project}' commit --amend --no-edit", "ask", None),
                 ("explicit-branch-delete", f"git -C '{project}' branch -d feature", "ask" if profile == "strict" else "allow", None),
                 ("workdir-precedence", "cat item.txt", "deny", outside),
                 ("permission-deny", "printenv", "deny", None),
             ]:
-                hook(binary, project, env, "codex", "PermissionRequest", name, source, expected, workdir)
+                details = hook(binary, project, env, "codex", "PermissionRequest", name, source, expected, workdir)
+                if protected_reset and name == "explicit-force" and profile == "loose":
+                    assert "Shield's policy files" in details["decision"]["message"], details
                 results.append({"profile": profile, "agent": "codex", "name": name})
             assert (project / ".shield/config.yml").read_bytes() == state
     return {"passed": True, "cases": results}

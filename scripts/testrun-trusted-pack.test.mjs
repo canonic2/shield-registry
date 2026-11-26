@@ -21,7 +21,7 @@ test('Testrun allows every operation and gates only host files on approved roots
     assert.equal(rule.conditions.cwd,undefined,rule.id);
     if(!rule.requirements) {
       // Identity rules allow; overflow and opaque-JSON rules ask in every profile.
-      assert.ok(allowed(rule.decision) || asked(rule.decision) && /-overflow$|^(?:local-)?cli-json-host-path$/.test(rule.id),rule.id);
+      assert.ok(allowed(rule.decision) || asked(rule.decision) && /-overflow$|^(?:(?:local|home)-)?cli-json-host-path$/.test(rule.id),rule.id);
       assert.equal(rule.on_unmet,undefined,rule.id);
       continue;
     }
@@ -33,19 +33,20 @@ test('Testrun allows every operation and gates only host files on approved roots
     assert.ok(selections.length,rule.id);
     for(const selection of selections) assert.ok(['read','write'].includes(selection.path.within.root),rule.id);
   }
-  const previous=JSON.parse(readFileSync(new URL('pack.yml',currentDirectory('testrun','0.2.13'))));
+  const previous=JSON.parse(readFileSync(new URL('pack.yml',currentDirectory('testrun','0.2.14'))));
   for(const rule of previous.rules) {
     const current=pack.rules.find(candidate=>candidate.id===rule.id);
-    if(rule.conditions.domain==='argv') {
-      assert.deepEqual(pack.rules.find(candidate=>candidate.id===`local-${rule.id}`),{
-        ...rule,id:`local-${rule.id}`,conditions:{...rule.conditions,executable:{var:'windows_executable'}},
-      });
-      rule.conditions.executable.one_of.push('testrun.exe');
+    if(rule.conditions.domain==='argv' && rule.conditions.executable.one_of) {
+      const home=pack.rules.find(candidate=>candidate.id===`home-${rule.id}`);
+      assert.match(home?.conditions.executable.regex ?? '', /^\^\//);
+      assert.deepEqual({...home,id:rule.id,conditions:{...home.conditions,executable:rule.conditions.executable}},
+        rule);
     }
     assert.deepEqual(current,rule,rule.id);
   }
-  previous.mcp_integrations.testrun.fields['/command'].text.one_of.push('testrun.exe');
-  assert.deepEqual(pack.mcp_integrations,previous.mcp_integrations);
+  const currentIntegration=structuredClone(pack.mcp_integrations.testrun);
+  currentIntegration.fields['/command']=previous.mcp_integrations.testrun.fields['/command'];
+  assert.deepEqual(currentIntegration,previous.mcp_integrations.testrun);
   assert.equal(readFileSync(new URL('README.md',currentDirectory('testrun')),'utf8'),
     `# Testrun permissions ${pack.version}\n\nRequires Shield \`${pack.engines.shield}\`.\n\n${trustedTestrunGuide()}`);
 });
@@ -67,10 +68,10 @@ function passed(result) {
   return report;
 }
 
-test('Testrun retains authenticated 0.2.11 through 0.2.13 policy and companion bytes',async()=>{
+test('Testrun retains authenticated 0.2.11 through 0.2.14 policy and companion bytes',async()=>{
   const catalog=await checkPublication(new URL('../public',import.meta.url).pathname,
     readFileSync(new URL('../keys/main.pub',import.meta.url),'utf8').trim());
-  for(const version of ['0.2.11','0.2.12','0.2.13']) {
+  for(const version of ['0.2.11','0.2.12','0.2.13','0.2.14']) {
     const directory=currentDirectory('testrun',version);
     const published=catalog.releases.find(row=>row.id==='canonic/testrun' && row.version===version);
     assert.ok(published);

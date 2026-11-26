@@ -12,7 +12,7 @@ import {schema} from './policy-schema.mjs';
 import {checkPublication, digest} from './registry-release.mjs';
 
 // Independent source inventory: catalog.rs and its mobile, browser, build,
-// project, diagnostic and bundled-documentation schema owners, Testrun 0.15.0.
+// project, diagnostic and bundled-documentation schema owners, Testrun 0.16.0.
 const current = [
   'target_list','doctor','developer_mode_reveal','developer_support_install','connect','act','observe','status','disconnect',
   'control_status','control_acquire','control_release','app_install','app_uninstall','app_list','clipboard_read',
@@ -147,6 +147,9 @@ test('Testrun rejects foreign executable, wrapper, HTTP and extra launch argumen
     for (const transport of [
       {type:'stdio',command:'testrun',args:['mcp','serve','--check'],env:{}},
       {type:'stdio',command:'/tmp/forged/testrun',args:['mcp','serve'],env:{}},
+      {type:'stdio',command:'/Users/acme/project/.local/bin/testrun',args:['mcp','serve'],env:{}},
+      {type:'stdio',command:'/Users/acme/.local/bin/testrun.sh',args:['mcp','serve'],env:{}},
+      {type:'stdio',command:'/home/acme/.local/bin/testrun',args:['mcp','serve','--check'],env:{}},
       {type:'stdio',command:'sh',args:['-c','testrun mcp serve'],env:{}},
       {type:'http',url:'https://example.com/mcp'},
     ]) {
