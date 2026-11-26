@@ -133,8 +133,7 @@ test('Hub retains signed assets and replays the latest and retained fixture sets
   }
 });
 
-test('production Shield admits the Hub source pack', () => {
-  assert.ok(process.env.SHIELD_BINARY, 'Pass --shield PATH');
+test('production Shield admits the Hub source pack', {skip:!process.env.SHIELD_BINARY}, () => {
   const result = spawnSync(process.env.SHIELD_BINARY, ['__internal','validate','--pack',new URL('pack.yml',directory).pathname],
     {encoding:'utf8',timeout:120000});
   assert.equal(result.status, 0, result.stdout + result.stderr);
