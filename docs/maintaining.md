@@ -29,7 +29,7 @@ Current source builders are grouped by capability rather than a release diary:
 | Baseline | `scripts/build-baseline-pgrep.mjs` adds process-listing guidance and locked Shield pack recovery to 0.19.0. Independent expectations are in `scripts/baseline-pgrep-cases.mjs` and `scripts/baseline-shield-cases.mjs`. Regenerate with `node scripts/build-baseline-pgrep.mjs`. Validate decisions, signed retention and the current MCP catalog with `npm test -- --shield /absolute/path/to/shield scripts/baseline-pgrep.test.mjs scripts/baseline-shield.test.mjs` using Shield 0.56.0. |
 | Baseline 0.21.0 | `scripts/build-baseline-sed-expressions.mjs` extends 0.20.0 with literal `sed -e` expressions and checks Shield's pack-filtered MCP inspection. Regenerate with `node scripts/build-baseline-sed-expressions.mjs` and validate with `npm test -- --shield /absolute/path/to/shield scripts/baseline-sed-expressions.test.mjs scripts/baseline-shield.test.mjs` using Shield 0.57.0 or later. |
 | Baseline 0.21.1 | `scripts/build-baseline-reader-guidance.mjs` updates fallback guidance for `cat`, `head`, `tail` and `wc`. Regenerate with `node scripts/build-baseline-reader-guidance.mjs` and validate with `npm test -- --shield /absolute/path/to/shield scripts/baseline-reader-guidance.test.mjs scripts/baseline-shield.test.mjs` using Shield 0.59.0 or later for checked Bash readers, `find` batches and Shield MCP pagination. |
-| Git | `scripts/build-git-allow-by-default.mjs 0.12.1` adds no-op editor settings such as `-c core.editor=true` to the shared leading forms, on top of 0.12.0's writable destination checks. Independent cases are in `scripts/git-output-cases.mjs` and the builder's `editorCases`. |
+| Git | `node scripts/build-git-allow-by-default.mjs 0.12.2` adds project-scoped repository selectors for `git log` to the 0.12.1 policy. Independent decisions are in `scripts/git-repository-path-cases.mjs`. Validate with `npm test -- --shield /absolute/path/to/shield scripts/git-repository-paths.test.mjs`. |
 | Node | `scripts/build-node-ecosystem.mjs` extends frozen 0.5.1 into one JavaScript ecosystem pack. Policy and independent expectations are in `scripts/node-ecosystem-policy.mjs` and `scripts/node-ecosystem-cases.mjs`; Playwright/browser QA uses `scripts/node-playwright-policy.mjs` and `scripts/node-playwright-cases.mjs`. Validate the affected batch with `npm test -- --shield /absolute/path/to/shield scripts/node-playwright.test.mjs` and the combined candidate with `scripts/node-ecosystem.test.mjs`. Historical builders remain dependencies of their own releases. |
 | Node host tests | `scripts/build-node-host-tests.mjs` extends 0.6.0 with the reviewed `host_node_tests` setting and Codex prefix. Regenerate with `node scripts/build-node-host-tests.mjs` and validate with `npm test -- --shield /absolute/path/to/shield scripts/node-host-tests.test.mjs` using Shield with `project-node-tests-v1`. |
 | Node project tests | `scripts/build-node-project-tests.mjs` extends 0.6.1 with separate project test execution and Codex host settings. Regenerate with `node scripts/build-node-project-tests.mjs` and validate with `npm test -- --shield /absolute/path/to/shield scripts/node-project-tests.test.mjs` using Shield with `trust-execution-v1`. |
@@ -68,8 +68,8 @@ node scripts/build-github-graphql-pack.mjs
 node scripts/build-github-graphql-cases.mjs
 ```
 
-These generate GitHub 0.11.0 with repository-scoped workflow watching and
-public repository search permissions. The pack
+These generate GitHub 0.11.1 with repository-scoped workflow watching, structured
+workflow output formatting, and public repository search permissions. The pack
 requires `graphql-subtree-v1` and `variable-list-branches-v1`. Use a compatible
 Shield binary for validation. A version argument reproduces the corresponding
 published version.

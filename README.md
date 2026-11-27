@@ -53,12 +53,12 @@ pending candidates. Older artifacts remain available for pinned installations.
 | [canonic/box](packs/canonic/box/0.2.8/README.md) | 0.2.8 | Workspaces, current setup and documentation tools, read-only previews, paginated inspection, exact current-checkout MCP selection, execution, retained recovery and resource-deleting workspace removal |
 | [canonic/docker](packs/canonic/docker/0.2.0/README.md) | 0.2.0 | Local Docker and Compose, with opt-in trust for commands on selected daemons and review for host mounts, privileges, secrets, publication and data removal |
 | [canonic/gate](packs/canonic/gate/0.2.11/README.md) | 0.2.11 | Repository and worktree workflows, verified remote listings, operation previews, and approved paths for patch, commit message and pathspec files |
-| [canonic/git](packs/canonic/git/0.12.1/README.md) | 0.12.1 | Everyday local commands, network reads and rebase, with Git patch output checked against writable roots and no-op editor settings accepted |
-| [canonic/github](packs/canonic/github/0.11.0/README.md) | 0.11.0 | GitHub CLI/MCP, public repository search, workflow watching, reviewed mutations, and optional repository boundaries |
-| [canonic/hub](packs/canonic/hub/0.1.13/README.md) | 0.1.13 | Workspaces, tasks, managed agents, Compose recipes, development secret grant previews and reviewed MCP setup |
+| [canonic/git](packs/canonic/git/0.12.2/README.md) | 0.12.2 | Everyday local commands, network reads and rebase, with project-scoped repository selectors for log and writable-root checks for patch output |
+| [canonic/github](packs/canonic/github/0.11.1/README.md) | 0.11.1 | GitHub CLI/MCP, public repository search, workflow run formatting and watching, reviewed mutations, and optional repository boundaries |
+| [canonic/hub](packs/canonic/hub/0.1.14/README.md) | 0.1.14 | Workspaces, tasks, managed agents, Compose recipes, development secret grant previews and reviewed MCP publication |
 | [canonic/node](packs/canonic/node/0.6.2/README.md) | 0.6.2 | JavaScript ecosystem, package managers, monorepos, browser QA, and separate opt-ins for trusted Node tests and Codex host access |
 | [canonic/rust](packs/canonic/rust/0.2.2/README.md) | 0.2.2 | Cargo and Nextest workflows, dependency maintenance, explicit argument paths and reviewed local executable lists |
-| [canonic/testrun](packs/canonic/testrun/0.2.15/README.md) | 0.2.15 | Testrun CLI and MCP, including per-user installs, with host-file checks for fixtures, profiles, and uploads |
+| [canonic/testrun](packs/canonic/testrun/0.2.16/README.md) | 0.2.16 | Testrun CLI and MCP, including per-user installs, with host-file checks for fixtures, profiles, uploads and screenshot output |
 | [canonic/workbench](packs/canonic/workbench/0.3.0/README.md) | 0.3.0 | Verified Workbench MCP connections with approved-path checks for image inputs, masks and outputs |
 | [canonic/1password](packs/canonic/1password/0.1.0/README.md) | 0.1.0 | Accounts, vaults and items, with reviewed secrets, subprocesses, sharing and mutations |
 | [canonic/android](packs/canonic/android/0.1.0/README.md) | 0.1.0 | Android devices, emulators, SDK tooling, signing and application packages |
@@ -81,8 +81,9 @@ pending candidates. Older artifacts remain available for pinned installations.
 | [canonic/supabase](packs/canonic/supabase/0.1.1/README.md) | 0.1.1 | Supabase CLI and MCP with opt-in SQL on a reviewed hosted read-only connection |
 | [canonic/terraform](packs/canonic/terraform/0.1.0/README.md) | 0.1.0 | Terraform infrastructure, providers, state, plans and reviewed mutations |
 
-GitHub 0.11.0 allows watching a workflow run by numeric ID in every profile.
-When repository restrictions are configured, the command must explicitly name an
+GitHub 0.11.1 allows watching a workflow run by numeric ID and formatting run
+details with `--jq` or `--template`. Expressions that may read environment
+values require review. When repository restrictions are configured, name an
 approved repository. Verified public-only repository searches are also allowed.
 Searches without a verified public-only filter ask for approval. With a repository
 list configured, every GraphQL query root must name the same listed repository.
@@ -97,22 +98,21 @@ agents can filter `rule_list` by pack and restore exact locked artifacts with
 declare their engine minimums and exact capability requirements in their guides.
 Rust 0.2.2 supports reviewed local executable lists and routine Cargo and Nextest
 commands in approved projects in Loose and Recommended.
-Git 0.12.1 can allow scoped patch
-output in Loose and Recommended on Shield 0.44.0 and later, and takes the same
-decision after a leading `-c core.editor=true` or similar no-op editor setting.
+Git 0.12.2 accepts explicit `--git-dir` and `--work-tree` paths for `git log`
+in Loose and Recommended when the selectors and working directory resolve
+inside the project. Strict reviews explicit repository selection.
 Gate 0.2.11 covers verified remote listings and local operation previews. Fetch
 and push previews require review in Recommended and Strict. Patch, commit
 message and CLI pathspec files must be in approved read roots.
 Docker 0.2.0 adds opt-in trust for direct `docker exec` on selected daemons in
 Loose and Recommended with Shield 0.58.0. Strict still asks. Explicit
 restrictions on the command and child commands Shield can inspect still apply.
-Hub 0.1.13 allows previews of development secret grants with
-approved paths, keeps grant approval under review in every profile, and checks
-explicit Compose control recipes against approved read roots.
+Hub 0.1.14 reviews `hub mcp add` in every profile, including when `--project`
+selects a project from another working directory.
 Supabase 0.1.1 allows opt-in SQL when both the Shield connection ID and the
 exact project-scoped hosted read-only URL match the reviewed setting.
-Testrun 0.2.15 recognizes standard macOS and Linux per-user installs while
-checking multipart files against approved read roots. Workbench 0.3.0 checks image inputs and masks against
+Testrun 0.2.16 checks browser screenshot output paths against approved write
+roots and multipart files against approved read roots. Workbench 0.3.0 checks image inputs and masks against
 approved read roots and output paths against approved write roots. Both require
 `field-path-arrays-v1`.
 Node 0.6.2 offers separate settings to trust project `node --test` calls and

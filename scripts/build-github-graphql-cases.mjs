@@ -2,7 +2,7 @@ import {writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {usableGithubCases} from './build-github-usable-cases.mjs';
-import {destination, currentDestination, nextDestination, destination070, destination071, destination080, destination081, destination090, destination0100, destination0110} from './build-github-graphql-pack.mjs';
+import {destination, currentDestination, nextDestination, destination070, destination071, destination080, destination081, destination090, destination0100, destination0110, destination0111} from './build-github-graphql-pack.mjs';
 import {splitCaseFiles} from './fixture-files.mjs';
 
 export const reviewQuery = `query { repository(owner:"acme", name:"web") { pullRequest(number:12) {
@@ -549,10 +549,38 @@ export function githubCases0110() {
   return cases;
 }
 
+export function githubCases0111() {
+  const cases = githubCases0110();
+  const output = ['--json', 'headSha,url,jobs'];
+  const filter = '{headSha,url,jobs:[.jobs[]|{name,conclusion}]}';
+  const scope = ['--repo', 'acme/web'];
+  const requests = [
+    ['object-filter', ['run', 'view', '123', ...scope, ...output, '--jq', filter], 'allow', 'allow'],
+    ['filter-equals', ['run', 'view', '123', ...scope, ...output, `--jq=${filter}`], 'allow', 'allow'],
+    ['leading-short-filter', [...scope, 'run', 'view', '123', ...output, '-q', filter], 'allow', 'allow'],
+    ['template', ['run', ...scope, 'view', '123', ...output, '-t', '{{.headSha}}:{{.url}}'], 'allow', 'allow'],
+    ['environment-filter', ['run', 'view', '123', ...scope, ...output, '--jq', '{value:env}'], 'ask', 'ask'],
+    ['leading-environment-filter', [...scope, 'run', 'view', '123', ...output, '-q', '{value:$ENV}'], 'ask', 'ask'],
+    ['other-repository', ['run', 'view', '123', '-R', 'outside/web', ...output, '--jq', filter], 'allow', 'deny'],
+    ['missing-repository', ['run', 'view', '123', ...output, '--jq', filter], 'allow', 'deny'],
+    ['other-target', [...scope, 'run', 'view', 'https://github.com/outside/web/actions/runs/123', ...output, '--jq', filter], 'ask', 'deny'],
+    ['missing-filter', [...scope, 'run', 'view', '123', ...output, '--jq'], 'ask', 'deny'],
+  ];
+  for (const profile of ['loose', 'recommended', 'strict']) {
+    for (const [name, args, unscoped, scoped] of requests) {
+      cases.push(
+        {name: `unscoped-run-view-${name}-${profile}`, profile, argv: ['gh', ...args], expected: unscoped},
+        {name: `scoped-run-view-${name}-${profile}`, profile, variables: {repository: forkRepositories},
+          argv: ['gh', ...args], expected: scoped});
+    }
+  }
+  return cases;
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   // Default: the current candidate. A version argument reproduces a published release.
-  const releases = {'0.4.0': [destination, graphqlGithubCases], '0.5.0': [currentDestination, currentGithubCases], '0.6.0': [nextDestination, nextGithubCases], '0.7.0': [destination070, githubCases070], '0.7.1':[destination071,githubCases071], '0.8.0':[destination080,githubCases080], '0.8.1':[destination081,githubCases081], '0.9.0':[destination090,githubCases090], '0.10.0':[destination0100,githubCases0100]};
-  const [output, build] = releases[process.argv[2]] ?? [destination0110, githubCases0110];
+  const releases = {'0.4.0': [destination, graphqlGithubCases], '0.5.0': [currentDestination, currentGithubCases], '0.6.0': [nextDestination, nextGithubCases], '0.7.0': [destination070, githubCases070], '0.7.1':[destination071,githubCases071], '0.8.0':[destination080,githubCases080], '0.8.1':[destination081,githubCases081], '0.9.0':[destination090,githubCases090], '0.10.0':[destination0100,githubCases0100], '0.11.0':[destination0110,githubCases0110]};
+  const [output, build] = releases[process.argv[2]] ?? [destination0111, githubCases0111];
   // Larger releases continue in cases-2.json, ... at Shield's per-file limit.
   for (const [name, document] of splitCaseFiles({schema_version:1,cases:build()}))
     await writeFile(new URL(name,output),JSON.stringify(document,null,2)+'\n');

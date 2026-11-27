@@ -1,0 +1,1200 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "scoped-workflow-watch-rerun-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "rerun",
+        "123",
+        "-R",
+        "acme/web"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unscoped-run-view-object-filter-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-object-filter-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unscoped-run-view-filter-equals-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq={headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-filter-equals-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq={headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unscoped-run-view-leading-short-filter-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-q",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-leading-short-filter-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-q",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unscoped-run-view-template-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "run",
+        "--repo",
+        "acme/web",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-t",
+        "{{.headSha}}:{{.url}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-template-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "--repo",
+        "acme/web",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-t",
+        "{{.headSha}}:{{.url}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unscoped-run-view-environment-filter-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{value:env}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-run-view-environment-filter-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{value:env}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unscoped-run-view-leading-environment-filter-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-q",
+        "{value:$ENV}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-run-view-leading-environment-filter-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-q",
+        "{value:$ENV}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unscoped-run-view-other-repository-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "-R",
+        "outside/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-other-repository-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "-R",
+        "outside/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unscoped-run-view-missing-repository-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-missing-repository-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unscoped-run-view-other-target-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "https://github.com/outside/web/actions/runs/123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-run-view-other-target-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "https://github.com/outside/web/actions/runs/123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unscoped-run-view-missing-filter-loose",
+      "profile": "loose",
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-run-view-missing-filter-loose",
+      "profile": "loose",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unscoped-run-view-object-filter-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-object-filter-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unscoped-run-view-filter-equals-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq={headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-filter-equals-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq={headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unscoped-run-view-leading-short-filter-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-q",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-leading-short-filter-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-q",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unscoped-run-view-template-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "run",
+        "--repo",
+        "acme/web",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-t",
+        "{{.headSha}}:{{.url}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-template-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "--repo",
+        "acme/web",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-t",
+        "{{.headSha}}:{{.url}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unscoped-run-view-environment-filter-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{value:env}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-run-view-environment-filter-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{value:env}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unscoped-run-view-leading-environment-filter-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-q",
+        "{value:$ENV}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-run-view-leading-environment-filter-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-q",
+        "{value:$ENV}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unscoped-run-view-other-repository-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "-R",
+        "outside/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-other-repository-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "-R",
+        "outside/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unscoped-run-view-missing-repository-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-missing-repository-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unscoped-run-view-other-target-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "https://github.com/outside/web/actions/runs/123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-run-view-other-target-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "https://github.com/outside/web/actions/runs/123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unscoped-run-view-missing-filter-recommended",
+      "profile": "recommended",
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-run-view-missing-filter-recommended",
+      "profile": "recommended",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unscoped-run-view-object-filter-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-object-filter-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unscoped-run-view-filter-equals-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq={headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-filter-equals-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq={headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unscoped-run-view-leading-short-filter-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-q",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-leading-short-filter-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-q",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unscoped-run-view-template-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "run",
+        "--repo",
+        "acme/web",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-t",
+        "{{.headSha}}:{{.url}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-template-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "--repo",
+        "acme/web",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-t",
+        "{{.headSha}}:{{.url}}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "unscoped-run-view-environment-filter-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{value:env}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-run-view-environment-filter-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--repo",
+        "acme/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{value:env}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unscoped-run-view-leading-environment-filter-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-q",
+        "{value:$ENV}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-run-view-leading-environment-filter-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "-q",
+        "{value:$ENV}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "unscoped-run-view-other-repository-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "-R",
+        "outside/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-other-repository-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "-R",
+        "outside/web",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unscoped-run-view-missing-repository-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "scoped-run-view-missing-repository-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unscoped-run-view-other-target-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "https://github.com/outside/web/actions/runs/123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-run-view-other-target-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "https://github.com/outside/web/actions/runs/123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq",
+        "{headSha,url,jobs:[.jobs[]|{name,conclusion}]}"
+      ],
+      "expected": "deny"
+    },
+    {
+      "name": "unscoped-run-view-missing-filter-strict",
+      "profile": "strict",
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "scoped-run-view-missing-filter-strict",
+      "profile": "strict",
+      "variables": {
+        "repository": [
+          "acme/web",
+          "example/web-fork"
+        ]
+      },
+      "argv": [
+        "gh",
+        "--repo",
+        "acme/web",
+        "run",
+        "view",
+        "123",
+        "--json",
+        "headSha,url,jobs",
+        "--jq"
+      ],
+      "expected": "deny"
+    }
+  ]
+}

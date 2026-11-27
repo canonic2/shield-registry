@@ -18,10 +18,12 @@ import {readFile, writeFile, mkdir, copyFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {gitOutputCases} from './git-output-cases.mjs';
+import {gitRepositoryPathCases} from './git-repository-path-cases.mjs';
 
 export const revision = ['0.10.0', '0.11.0'];
 export const outputRevision = '0.12.0';
 export const editorRevision = '0.12.1';
+export const repositoryPathRevision = '0.12.2';
 const split = value => value.split(' ');
 const everyday = {loose: 'allow', recommended: 'allow', strict: 'ask'};
 const always = {loose: 'ask', recommended: 'ask', strict: 'ask'};
@@ -380,6 +382,47 @@ export function gitNoopEditorCases() {
       name: `noop-editor-${name}-${profile}`, profile, argv: ['git', ...argv], expected: decisions[index]})))];
 }
 
+export async function gitRepositoryPathPack() {
+  const pack = await gitNoopEditorPack();
+  pack.version = repositoryPathRevision;
+  pack.engines.shield = '>=0.58.0, <1.0.0';
+  pack.capabilities = [...new Set([...pack.capabilities, 'argument-paths-v1',
+    'argument-path-file-kind-v1', 'requirements-v1', 'unknown-options-v1',
+    'option-abbreviations-v1'])].sort();
+
+  const selectors = ['--git-dir', '--work-tree'];
+  const grammar = {
+    kind: 'options', prefix: ['log'],
+    leading: {flags: ['--no-pager', '-P'], short_clusters: false,
+      values: selectors.map(name => ({name, repeat: 'forbid', match: {regex: '[^-\\x00\\r\\n][^\\x00\\r\\n]*'}}))},
+    flags: ['--ext-diff', '--textconv'], values: ['--output'],
+    operands: true, unknown_options: 'skip', long_abbreviations: true,
+    require_any: selectors, forbid: ['--ext-diff', '--textconv', '--output'],
+  };
+  const path = {within: {root: 'project'},
+    exclude: ['.shield', '.config/shield', '.codex', '.claude', '.aws', '.ssh', '.env']
+      .map(path => ({root: 'project', path}))};
+  pack.rules.push({
+    id: 'log-repository-paths', decision: everyday,
+    reason: 'Inspect Git history with explicit repository paths inside the project.',
+    conditions: {...git, cwd: {within: {root: 'project'}}, arguments: grammar},
+    requirements: {argument_paths: {grammar,
+      options: Object.fromEntries(selectors.map(name => [name, {path}]))}},
+    on_unmet: {decision: 'ask', message: 'Use repository paths inside the project or ask for approval.'},
+  }, {
+    id: 'log-gitfile', decision: always,
+    reason: 'Review a Git directory selector that names a file, which can point to another repository.',
+    conditions: {...git, cwd: {within: {root: 'project'}}, arguments: grammar,
+      argument_paths: {grammar: {...grammar, require_all: ['--git-dir']},
+        options: {'--git-dir': {path, kind: 'file'}}}},
+  });
+  return pack;
+}
+
+export function gitRepositoryPathFixtureCases() {
+  return [...gitNoopEditorCases(), ...gitRepositoryPathCases()];
+}
+
 const outputReadme = `# Git permissions ${outputRevision}
 
 Requires Shield \`>=0.20.0, <1.0.0\`.
@@ -424,10 +467,33 @@ Generate with \`node scripts/build-git-allow-by-default.mjs ${editorRevision}\`.
 Validate with \`npm test -- --shield /absolute/path/to/shield scripts/git-noop-editor.test.mjs\`.
 `;
 
+const repositoryPathReadme = `# Git permissions ${repositoryPathRevision}
+
+Requires Shield \`>=0.58.0, <1.0.0\`.
+
+Loose and Recommended allow \`git --git-dir=.git --work-tree=. log --oneline\`
+when the working directory and both explicit paths resolve inside the project.
+Either selector works alone. Both accept a separate value or an equals sign.
+An initial \`-C\` changes the base for relative paths. Strict reviews explicit
+repository selection.
+
+Outside or protected paths, Git directory pointers, repeated selectors, file
+output, external diff and text conversion options require review. The path
+check covers the submitted selectors. Git still loads the selected repository's
+configuration and object storage as usual.
+
+Other commands follow [${editorRevision}](../${editorRevision}/README.md).
+
+Generate with \`node scripts/build-git-allow-by-default.mjs ${repositoryPathRevision}\`.
+Validate with \`npm test -- --shield /absolute/path/to/shield scripts/git-repository-paths.test.mjs\`.
+`;
+
 const builds = {
   [revision[1]]: {pack: gitAllowByDefaultPack, cases: gitAllowByDefaultCases, previous: revision[0], readme},
   [outputRevision]: {pack: gitScopedOutputPack, cases: gitOutputCases, previous: revision[1], readme: outputReadme},
   [editorRevision]: {pack: gitNoopEditorPack, cases: gitNoopEditorCases, previous: outputRevision, readme: editorReadme},
+  [repositoryPathRevision]: {pack: gitRepositoryPathPack, cases: gitRepositoryPathFixtureCases,
+    previous: editorRevision, readme: repositoryPathReadme},
 };
 
 export async function buildGitAllowByDefault(version = revision[1]) {

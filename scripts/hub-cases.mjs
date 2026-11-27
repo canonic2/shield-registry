@@ -23,6 +23,13 @@ export const crossDirectoryReview = [
     ['hub','process','forget',id,'--confirm=reviewed-digest','--project','/outside/acme','--json'],review],
 ];
 
+export const workspaceCatalogReview = [
+  ['mcp-add-selected-project',
+    ['hub','--project=/outside/acme','mcp','add','acme-local','--route','web','--agent','codex','--yes','--json'],review],
+  ['mcp-add-start-selected-project',
+    ['hub','mcp','add','acme-local','--project','/outside/acme','--route=web','--start','--yes','--json'],review],
+];
+
 // Every current MCP tool with an ordinary request.
 export const tools = [
   ['init',{},routine],
@@ -153,6 +160,7 @@ const mcp = [
   ['checked-compose-stop','process_stop',{execution:id,check_replacement:true},routine],
   ['checked-compose-stop-missing-execution','process_stop',{workspace:'feature',check_replacement:true},routine],
   ['checked-compose-stop-outside-config','process_stop',{execution:id,check_replacement:true,config:'/outside/hub.yml'},review],
+  ['compose-stop-recovery','process_stop',{project:'/acme',execution:id},routine],
   ['secret-provider-plugin','plugin_show',{plugin:'1password'},allow],
   ['secret-provider-plugin-keychain','plugin_show',{plugin:'keychain'},allow],
   ['secret-provider-plugin-vault','plugin_show',{plugin:'vault'},allow],
@@ -211,6 +219,8 @@ const mcp = [
   ['setup-conflicting-server-selection','setup',{servers:['acme'],select_servers:true},routine],
   ['catalog-show-malformed-page','mcp_catalog_show',{server:'acme',cursor:7,limit:0},allow],
   ['catalog-probe-missing-server','mcp_catalog_probe',{},routine],
+  ['catalog-probe-personal','mcp_catalog_probe',{server:'acme',scope:'user'},routine],
+  ['catalog-probe-selected-marker','mcp_catalog_probe',{server:'acme',project:'/acme',agent_config:'/acme/.config/hub/config.yml'},routine],
   ['setup-preview','setup',{dry_run:true},routine],
   ['create-path','workspace_create',{name:'feature',path:'/outside/acme-feature',provider:'gate',repo_from:{a:'HEAD'}},routine],
   ['create-cached-source','workspace_create',{name:'optimization',from:'HEAD',source:'feature',copy_source:'main',no_fetch:true},routine],
@@ -284,6 +294,7 @@ const cli = [
   ['checked-compose-stop',['hub','process','stop','--execution',id,'--check-replacement'],routine],
   ['checked-compose-stop-config-inside',['hub','process','--config=hub.yml','stop','--check-replacement','--execution',id],routine],
   ['checked-compose-stop-config-outside',['hub','process','stop','--check-replacement','--execution',id,'--config=/outside/hub.yml'],review],
+  ['compose-stop-recovery',['hub','--project','/acme','process','stop','--execution',id],routine],
   ['workspace-list',['hub','workspace','list','--removed','--label','acme'],allow],
   ['workspace-show',['hub','workspace','--json','show','--workspace','acme#feature'],allow],
   ['process-list',['hub','process','list','-w','feature','--cursor','opaque-cursor','--limit','1'],allow],
@@ -398,6 +409,7 @@ const cli = [
   ['mcp-catalog-legacy-server-named-show',['hub','mcp','catalog','show','--from','notes/tools.json'],routine],
   ['mcp-catalog-probe',['hub','mcp','catalog','probe','acme'],routine],
   ['mcp-catalog-probe-personal',['hub','mcp','catalog','--scope','user','probe','acme'],routine],
+  ['mcp-catalog-probe-selected-marker',['hub','--project','/acme','--agent-config','/acme/.config/hub/config.yml','mcp','catalog','probe','acme'],routine],
   ['mcp-catalog-import',['hub','mcp','catalog','import','acme','--from','notes/tools.json'],routine],
   ['mcp-catalog-import-scoped-project',['hub','mcp','catalog','--scope=project','import','acme','--from','notes/tools.json'],routine],
   ['mcp-catalog-import-sensitive',['hub','mcp','catalog','import','acme','--from=.codex/config.toml'],review],
@@ -411,6 +423,7 @@ const cli = [
   ['mcp-catalog-import-marker-outside',['hub','mcp','catalog','--agent-config=/outside/config.yml','import','acme','--from','notes/tools.json'],review],
   ['mcp-catalog-import-missing-file',['hub','mcp','catalog','import','acme'],routine],
   ['scoped-setup',['hub','setup','--server','acme','--server','other','--agent','codex'],routine],
+  ['setup-terminal-review',['hub','--project','/acme','setup','--agent','codex','--server','acme'],routine],
   ['scoped-personal-setup',['hub','setup','--server','acme','--scope','user','--yes'],review],
   ['scoped-personal-setup-repeated',['hub','setup','--server=acme','--scope=user','--server','other','--yes'],review],
   ['auth-setup',['hub','mcp','auth','setup','slack','--yes'],review],
@@ -421,14 +434,18 @@ const cli = [
   ['auth-setup-dry-run-token-as-value',['hub','mcp','auth','setup','slack','--agent-config','agent.yml','--name=--dry-run','--yes'],review],
   ['auth-logout',['hub','mcp','auth','logout','slack'],routine],
   ['auth-headers',['hub','mcp','auth','headers'],routine],
+  ['auth-manager-drain',['hub','mcp','auth','manager','drain'],routine],
+  ['auth-manager-stop',['hub','mcp','auth','manager','stop'],routine],
   ['workspace-headers',['hub','mcp','workspace-headers'],routine],
   ['workspace-headers-configured-port',['hub','mcp','workspace-headers','--port','4851'],routine],
+  ['workspace-headers-catalog',['hub','mcp','workspace-headers','--port','4851','--catalog'],routine],
   ['workspace-headers-malformed-port',['hub','mcp','workspace-headers','--port=out-of-range'],routine],
   ['workspace-launch',['hub','mcp','workspace-launch','opaque-definition'],execute],
   ['mcp-add-workspace',['hub','mcp','add','acme-local','--route','web','--path','/mcp'],review],
   ['mcp-add-start',['hub','mcp','add','acme-local','--route=web','--start'],review],
   ['mcp-add-start-on-call',['hub','mcp','add','acme-local','--route','web','--start-on-call','--agent','codex'],review],
   ['mcp-add-missing-route',['hub','mcp','add','acme-local'],review],
+  ...workspaceCatalogReview,
   ['app-create',['hub','mcp','app','create','slack'],routine],
   ['app-create-preview',['hub','--json','mcp','app','create','slack','--dry-run','--details','--name=Acme Slack','--preset=collaborate'],allow],
   ['app-create-preview-override',['hub','mcp','app','create','slack','--claude-bin=/acme/bin/client','--dry-run'],allow],

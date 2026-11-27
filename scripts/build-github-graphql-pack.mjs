@@ -523,6 +523,49 @@ repositories, URL operands and unsupported options. See the
 ## Repository search`);
 }
 
+export const destination0111 = new URL('../packs/canonic/github/0.11.1/', import.meta.url);
+
+export function githubPack0111() {
+  const pack = githubPack0110();
+  pack.version = '0.11.1';
+  const read = pack.rules.find(rule => rule.id === 'run-view');
+  const watch = pack.preconditions.find(gate => gate.id === 'cli-run-read-scope');
+  const [view, fallback, scopedWatch] = watch.requires_any;
+  const formatOptions = ['-q', '--jq', '-t', '--template'];
+
+  // Parse formatter values before checking the run operand. Only the read
+  // rule checks the expression; the scope gate checks the repository and ID.
+  view.arguments.values.push(...formatOptions);
+  read.conditions.arguments.values.push(...formatOptions.map(name => ({name, match: quietExpression})));
+
+  pack.preconditions.push({
+    ...watch,
+    id: 'cli-run-view-scope',
+    conditions: {...watch.conditions, arguments: {...watch.conditions.arguments, values: ['run', 'view']}},
+    requires_any: [view, fallback],
+    on_unmet: {decision: 'deny', message: `For gh run view, name ${listed} with -R or --repo and supply one numeric run ID. Check the options and operands.`},
+  });
+  watch.id = 'cli-run-watch-scope';
+  watch.conditions.arguments = {...watch.conditions.arguments, values: ['run', 'watch']};
+  watch.requires_any = [scopedWatch];
+  return pack;
+}
+
+export async function githubGuide0111() {
+  return (await githubGuide0110()).replace('Version 0.11.0', 'Version 0.11.1')
+    .replace('## Watch a workflow run', `## View and format a workflow run
+
+Use a numeric run ID and, when repository scope is enabled, name a listed
+repository. Shield reads \`--jq\` and \`--template\` values as formatting expressions.
+Expressions that may read environment values require review.
+
+\`\`\`sh
+gh run view 123 --repo acme/web --json headSha,jobs --jq '{headSha,jobs:[.jobs[]|{name,conclusion}]}'
+\`\`\`
+
+## Watch a workflow run`);
+}
+
 const writePack = async (pack, output) => {
   await mkdir(output, {recursive: true});
   await writeFile(new URL('pack.yml', output), JSON.stringify(pack, null, 2) + '\n');
@@ -542,7 +585,11 @@ export async function buildGithubPack0110() {
   await writePack(githubPack0110(), destination0110);
   await writeFile(new URL('README.md', destination0110), await githubGuide0110());
 }
+export async function buildGithubPack0111() {
+  await writePack(githubPack0111(), destination0111);
+  await writeFile(new URL('README.md', destination0111), await githubGuide0111());
+}
 // Default: the current candidate. A version argument reproduces a published release.
-const builds = {'0.4.0': buildGraphqlGithubPack, '0.5.0': buildCurrentGithubPack, '0.6.0': buildNextGithubPack, '0.7.0': buildGithubPack070, '0.7.1': buildGithubPack071, '0.8.0': buildGithubPack080, '0.8.1': buildGithubPack081, '0.9.0': buildGithubPack090, '0.10.0': buildGithubPack0100};
+const builds = {'0.4.0': buildGraphqlGithubPack, '0.5.0': buildCurrentGithubPack, '0.6.0': buildNextGithubPack, '0.7.0': buildGithubPack070, '0.7.1': buildGithubPack071, '0.8.0': buildGithubPack080, '0.8.1': buildGithubPack081, '0.9.0': buildGithubPack090, '0.10.0': buildGithubPack0100, '0.11.0': buildGithubPack0110};
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href)
-  await (builds[process.argv[2]] ?? buildGithubPack0110)();
+  await (builds[process.argv[2]] ?? buildGithubPack0111)();

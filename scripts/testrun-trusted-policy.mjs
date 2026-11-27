@@ -72,6 +72,8 @@ installation, diagnostics, cleanup and MCP setup.
 ## Host files
 
 Reads must stay inside approved read roots and writes inside approved write roots.
+Browser \`page_screenshot\` through \`browser_send\` or \`act\`, and browser
+\`observe\`, check \`capture.outputPath\` against approved write roots when supplied.
 Use absolute paths for caller-named browser files and inline build file selectors
 over MCP so Shield can check the same location Testrun uses. Shield evaluates
 other relative MCP paths against the enrolled project.

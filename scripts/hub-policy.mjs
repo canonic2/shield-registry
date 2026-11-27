@@ -1,4 +1,4 @@
-// Reviewed Hub CLI and MCP surface of Hub 0.60.0: src/interface/cli.rs, the
+// Reviewed Hub CLI and MCP surface of Hub 0.61.1: src/interface/cli.rs, the
 // task, agent, plugin and integration argument types, and the tools of
 // src/interface/mcp/catalog.rs (`hub mcp serve --check`). Hub succeeds Box;
 // canonic/box keeps covering the box executable.
@@ -13,7 +13,7 @@
 import {toolPack} from './tool-pack.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 
-export const version = '0.1.13';
+export const version = '0.1.14';
 export const engine = '>=0.20.0, <1.0.0';
 
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -125,7 +125,7 @@ export const hub = {
     [['mcp', 'add'], 'confirmation', 'Capture and publish a workspace MCP server, optionally starting its target now or on future calls.'],
     [['mcp', 'catalog'], 'routine', 'Record tool discovery evidence with an earlier Hub CLI.'],
     [['mcp', 'catalog', 'show'], 'inspect', 'Inspect recorded tool names without contacting the server.'],
-    [['mcp', 'catalog', 'probe'], 'routine', 'Discover and record a configured anonymous MCP catalog after Hub confirms.'],
+    [['mcp', 'catalog', 'probe'], 'routine', 'After Hub confirms, start a configured stdio server or contact a configured HTTP endpoint and record its tool catalog.'],
     [['mcp', 'catalog', 'import'], 'routine', 'Record a complete saved catalog for later Hub review.'],
     [['mcp', 'auth', 'setup'], 'routine', 'Configure Hub-managed MCP credentials after a terminal review.', [
       {id: 'confirm', any: ['--yes'], forbid: ['--dry-run'], values: [...globals, '--name', '--agent', '--scope'],
@@ -183,7 +183,7 @@ export const hub = {
       {id: 'execution', fields: {'/execution': nonemptyText}, category: 'routine', reason: composeAssessment}]]],
     ['agent_terminal_read', ['inspect', 'Read bounded terminal output owned by this Hub connection.']],
     ['mcp_catalog_show', ['inspect', 'Read recorded tool names without connecting to the server.']],
-    ['mcp_catalog_probe', ['routine', 'Discover and record a configured anonymous MCP catalog after Hub asks the host user to confirm.']],
+    ['mcp_catalog_probe', ['routine', 'After Hub asks the host user to confirm, start a configured stdio server or contact a configured HTTP endpoint and record its tool catalog.']],
     ['mcp_app_create_preview', ['inspect', 'Prepare a Slack app review and return the command for terminal approval and hidden input.']],
     ['config_check', ['inspect', 'Validate Hub configuration.', [
       {id:'lenient', fields:{'/lenient':{exact:true}}, category:'confirmation', reason:'Review the older lenient Compose check when it is exposed by the server.'}]]],
@@ -245,7 +245,7 @@ export function hubPack() {
     // An explicit project can select a checkout from another directory.
     // The hook worker accepts a host launch request independently of cwd.
     if (['mcp-auth-setup-confirm', 'shell-secret-profile', 'config-secrets-sync', 'hook-child', 'agent-attach',
-      'config-check-lenient', 'process-run-private', 'process-forget-confirm'].includes(row.id))
+      'config-check-lenient', 'process-run-private', 'process-forget-confirm', 'mcp-add'].includes(row.id))
       delete row.conditions.cwd;
     if (row.conditions.domain === 'argv' && (row.id === 'proxy' || row.id.startsWith('proxy-'))) {
       // Controller operations also work outside Hub projects. Keep the review

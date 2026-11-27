@@ -12,7 +12,7 @@ import {schema} from './policy-schema.mjs';
 import {checkPublication, digest} from './registry-release.mjs';
 
 // Independent source inventory: catalog.rs and its mobile, browser, build,
-// project, diagnostic and bundled-documentation schema owners, Testrun 0.16.0.
+// project, diagnostic and bundled-documentation schema owners, Testrun 0.18.0.
 const current = [
   'target_list','doctor','developer_mode_reveal','developer_support_install','connect','act','observe','status','disconnect',
   'control_status','control_acquire','control_release','app_install','app_uninstall','app_list','clipboard_read',
@@ -64,7 +64,8 @@ test('Testrun current names and retained aliases have separate complete inventor
 });
 
 test('installed Testrun agrees with the reviewed current catalog when available', t => {
-  const result = spawnSync(process.env.TESTRUN_BINARY || 'testrun',['mcp','serve','--check','--json'],
+  const binary = process.env.TESTRUN_BINARY || 'testrun';
+  const result = spawnSync(binary,['mcp','serve','--check','--json'],
     {encoding:'utf8',timeout:10000,maxBuffer:8*1024*1024});
   if (result.error?.code==='ENOENT' && !process.env.TESTRUN_BINARY) {
     t.skip('Testrun is not installed; set TESTRUN_BINARY to validate a selected build');
@@ -73,11 +74,28 @@ test('installed Testrun agrees with the reviewed current catalog when available'
   assert.equal(result.status,0,result.stderr);
   const tools = JSON.parse(result.stdout).tools;
   assert.deepEqual(tools.map(tool=>tool.name),current);
-  for (const name of ['docs_list','docs_search','docs_read','project_list','project_discover','build_log']) {
+  for (const name of ['docs_list','docs_search','project_list','project_discover','build_log']) {
     const properties = tools.find(tool=>tool.name===name).inputSchema.properties;
     assert.ok(properties.cursor && properties.limit,name);
     assert.equal(properties.offset,undefined,name);
   }
+  const docsRead = tools.find(tool=>tool.name==='docs_read').inputSchema;
+  assert.deepEqual(docsRead.required,['path']);
+  assert.ok(docsRead.properties.cursor && docsRead.properties.limit);
+  const {type,minimum,maximum} = docsRead.properties.offset;
+  assert.deepEqual({type,minimum,maximum},{type:'integer',minimum:0,maximum:1048576});
+  assert.equal(docsRead.properties.start_line,undefined);
+  const docsPage = spawnSync(binary,['docs','read','mcp.md','--offset','2','--limit','1','--json'],
+    {encoding:'utf8',timeout:10000});
+  assert.equal(docsPage.status,0,docsPage.stderr);
+  assert.equal(JSON.parse(docsPage.stdout).start_line,3);
+
+  const browserSend = tools.find(tool=>tool.name==='browser_send').inputSchema;
+  const fixture = browserSend.$defs.browserRequest.oneOf
+    .find(schema=>schema.properties?.operation?.const==='fixture_register').properties.fixture;
+  assert.deepEqual(fixture.required,['name','mimeType','dataBase64','provenance','cleared']);
+  assert.equal(fixture.properties.dataBase64.maxLength,5592408); // 4 MiB encoded as base64
+  assert.equal(fixture.properties.path,undefined);
   // Creation requires the preview's plan digest as its authorization input.
   const init = tools.find(tool=>tool.name==='project_init').inputSchema;
   assert.deepEqual(init.required,['root','planDigest']);
@@ -95,6 +113,64 @@ test('installed Testrun agrees with the reviewed current catalog when available'
   for (const field of ['path','toolPath']) assert.equal(nativeTrace.properties[field].type,'string');
   assert.equal(nativeTrace.properties.allowSystemTrace.type,'boolean');
 });
+
+test('published Testrun permissions cover 0.18.0 read, fixture and cleanup forms',
+  {skip:!process.env.SHIELD_BINARY}, () => {
+    const owner = mkdtempSync(join(tmpdir(),'testrun-0.18-pack-'));
+    try {
+      const file = join(owner,'cases.json');
+      const android = 'android:ACME';
+      const simulator = 'simulator:11111111-1111-4111-8111-111111111111';
+      const browser = 'browser:22222222-2222-4222-8222-222222222222';
+      const condition = {kind:'foreground',appId:'com.example.acme'};
+      const fixtureOptions = ['--target',browser,'--mime-type','text/csv','--provenance','synthetic_generated',
+        '--cleared-by','Acme QA','--clearance-method','Generated test data'];
+      const cli = [
+        ['android-observe',['observe','--target',android],'allow'],
+        ['iphone-fast-observe',['observe','--target','device:ACME','--profile','fast'],'allow'],
+        ['android-app-list',['app','list','--target',android],'allow'],
+        ['android-ui-snapshot',['ui','snapshot','--target',android],'allow'],
+        ['android-ui-find',['ui','find','--label','Acme','--target',android],'allow'],
+        ['android-ui-read',['ui','read','{"query":{"label":"Acme"}}','--target',android],'allow'],
+        ['android-wait',['wait',JSON.stringify([condition]),'--target',android],'allow'],
+        ['android-media-status',['media','status','--target',android],'allow'],
+        ['android-volume-get',['volume','get','--target',android],'allow'],
+        ['simulator-clipboard',['clipboard','read','--target',simulator],'allow'],
+        ['docs-search-terms',['docs','search','device connect'],'allow'],
+        ['docs-read-offset',['docs','read','mcp.md','--offset','2'],'allow'],
+        ['browser-fixture-inside',['browser','fixture-register','fixtures/acme.csv',...fixtureOptions],'allow'],
+        ['browser-fixture-outside',['browser','fixture-register','/outside/acme.csv',...fixtureOptions],'ask'],
+        ['browser-disconnect',['browser','disconnect','--target',browser],'allow'],
+      ];
+      const mcp = [
+        ['read-connected-screenshot','observe',{targetId:android,profile:'fast'}],
+        ['list-named-device-apps','app_list',{targetId:android}],
+        ['wait-connected-device','wait',{targetId:android,conditions:[condition]}],
+        ['wait-missing-app-id','wait',{targetId:android,conditions:[{kind:'foreground'}]}],
+        ['docs-search-terms','docs_search',{query:'device connect'}],
+        ['docs-read-offset','docs_read',{path:'mcp.md',offset:2}],
+        ['docs-malformed-offset','docs_read',{path:'mcp.md',offset:'2'}],
+        ['docs-offset-with-cursor','docs_read',{path:'mcp.md',offset:2,cursor:'opaque'}],
+        ['browser-fixture-bytes','browser_send',{targetId:browser,request:{operation:'fixture_register',
+          fixture:{name:'acme.csv',mimeType:'text/csv',dataBase64:'QWNtZQo=',provenance:'synthetic_generated',
+            cleared:{by:'Acme QA',method:'Generated test data'}}}}],
+        ['browser-disconnect','browser_disconnect',{targetId:browser}],
+      ];
+      // Shield checks permissions. Testrun validates its own argument schema.
+      const cases = ['loose','recommended','strict'].flatMap(profile=>[
+        ...cli.map(([name,args,expected])=>({name:`cli-${name}-${profile}`,profile,argv:['testrun',...args],expected})),
+        ...mcp.map(([name,tool,arguments_])=>({name:`mcp-${name}-${profile}`,profile,mcp:binding,
+          input:{kind:'mcp',server:'testrun',tool,arguments:arguments_,original_input:{}},expected:'allow'})),
+      ]);
+      writeFileSync(file,JSON.stringify({schema_version:1,cases}));
+      const pack = new URL('pack.yml',currentDirectory('testrun','0.2.15')).pathname;
+      const result = evaluate(file,pack);
+      const report = JSON.parse(result.stdout || '{}');
+      assert.equal(result.status,0,JSON.stringify(report.cases?.filter(row=>!row.passed) ?? report)+result.stderr);
+      assert.equal(report.passed,true);
+      assert.equal(report.cases.length,cases.length);
+    } finally {rmSync(owner,{recursive:true,force:true});}
+  });
 
 test('production Shield evaluates every independent Testrun case', {skip:!process.env.SHIELD_BINARY}, async t => {
   let total = 0;

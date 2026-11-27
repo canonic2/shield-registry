@@ -34,15 +34,22 @@ test('Testrun allows every operation and gates only host files on approved roots
     for(const selection of selections) assert.ok(['read','write'].includes(selection.path.within.root),rule.id);
   }
   const previous=JSON.parse(readFileSync(new URL('pack.yml',currentDirectory('testrun','0.2.14'))));
+  const comparable=rule=>{
+    if(rule.id!=='cli-json-host-path' && rule.id!=='local-cli-json-host-path') return rule;
+    const retained=structuredClone(rule);
+    const screenshot=retained.conditions.arguments.any_of.pop();
+    assert.match(screenshot.regex,/outputPath/);
+    return retained;
+  };
   for(const rule of previous.rules) {
     const current=pack.rules.find(candidate=>candidate.id===rule.id);
     if(rule.conditions.domain==='argv' && rule.conditions.executable.one_of) {
       const home=pack.rules.find(candidate=>candidate.id===`home-${rule.id}`);
       assert.match(home?.conditions.executable.regex ?? '', /^\^\//);
-      assert.deepEqual({...home,id:rule.id,conditions:{...home.conditions,executable:rule.conditions.executable}},
+      assert.deepEqual(comparable({...home,id:rule.id,conditions:{...home.conditions,executable:rule.conditions.executable}}),
         rule);
     }
-    assert.deepEqual(current,rule,rule.id);
+    assert.deepEqual(comparable(current),rule,rule.id);
   }
   const currentIntegration=structuredClone(pack.mcp_integrations.testrun);
   currentIntegration.fields['/command']=previous.mcp_integrations.testrun.fields['/command'];
@@ -68,10 +75,29 @@ function passed(result) {
   return report;
 }
 
-test('Testrun retains authenticated 0.2.11 through 0.2.14 policy and companion bytes',async()=>{
+test('browser screenshot output permits an absolute path in the approved write root',
+  {skip:!process.env.SHIELD_BINARY},()=>{
+    const page={connectionId:'11111111-1111-4111-8111-111111111111',
+      generation:'22222222-2222-4222-8222-222222222222',id:'33333333-3333-4333-8333-333333333333'};
+    const capture={outputPath:join(process.cwd(),'packs','acme-screenshot.png')};
+    const request={operation:'page_screenshot',page,capture};
+    const targetId='browser:acme';
+    const tools=[
+      ['browser_send',{targetId,request}],
+      ['act',{targetId,actions:[{action:'page_screenshot',page,capture}]}],
+      ['observe',{targetId,page,capture}],
+    ];
+    const cases=['loose','recommended','strict'].flatMap(profile=>tools.map(([tool,arguments_])=>({
+      name:'screenshot-absolute-'+tool+'-'+profile,profile,mcp:binding(),
+      input:{kind:'mcp',server:'testrun',tool,arguments:arguments_,original_input:{}},expected:'allow',
+    })));
+    assert.equal(passed(evaluate(cases)).cases.length,cases.length);
+  });
+
+test('Testrun retains authenticated 0.2.11 through 0.2.15 policy and companion bytes',async()=>{
   const catalog=await checkPublication(new URL('../public',import.meta.url).pathname,
     readFileSync(new URL('../keys/main.pub',import.meta.url),'utf8').trim());
-  for(const version of ['0.2.11','0.2.12','0.2.13','0.2.14']) {
+  for(const version of ['0.2.11','0.2.12','0.2.13','0.2.14','0.2.15']) {
     const directory=currentDirectory('testrun',version);
     const published=catalog.releases.find(row=>row.id==='canonic/testrun' && row.version===version);
     assert.ok(published);

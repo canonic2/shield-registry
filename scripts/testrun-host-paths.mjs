@@ -10,7 +10,7 @@ const anyString = {text:{regex:'(?s).*'}};
 const present = {not:{exact:null}};
 const within = root => ({relative_to:'project', path:{within:{root}}});
 const explicitPath = root => ({absolute:true, path:{within:{root}}});
-const browserTools = new Set(['browser_send','act','browser_connect','connect']);
+const browserTools = new Set(['browser_send','act','browser_connect','connect','observe']);
 const message = {read:'Name a host file inside the approved read roots.',
   write:'Name a host file inside the approved write roots.'};
 const reason = {read:'Testrun reads this host file.', write:'Testrun writes this host file.'};
@@ -29,6 +29,7 @@ const browserFields = [
   ['/options/path','write',['storage_export','http_context_storage_state']],
   ['/options/filePath','write',['trace_start']],
   ['/options/recordHar/path','write',['context_create']],
+  ['/capture/outputPath','write',['page_screenshot']],
 ];
 // Arrays have no wildcard pointer, so entries are checked by index up to a
 // bound, and a longer array asks because its remaining entries go unchecked.
@@ -95,6 +96,7 @@ export function hostPathMcpRules() {
     ...Array.from({length:8}, (_, index) => browserRequestRules('act', `/actions/${index}`, 'action')).flat(),
     ...contextFields('browser_connect'),
     ...contextFields('connect'),
+    ...toolRules('observe', [['/capture/outputPath','write']]),
     ...toolRules('app_install', [['/path','read']]),
     ...toolRules('diagnostics_export', [['/path','write']]),
     // Collector sources name host evidence, endpoint and configuration files and
@@ -126,6 +128,7 @@ export const jsonHostPathPatterns = [
   {regex:'(?s).*(?:"artifact"\\s*:\\s*\\{.*"glob"\\s*:\\s*"|"xcode"\\s*:\\s*\\{.*"workspace"\\s*:\\s*").*'},
   {regex:'(?s).*"sourceFiles"\\s*:\\s*\\[\\s*".*'},
   {regex:'(?s).*\\\\u.*'},
+  {regex:'(?s).*"outputPath"\\s*:\\s*".*'},
 ];
 
 const leading = {flags:['--json'], values:['--target'], interleaved:true};
