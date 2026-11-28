@@ -11,7 +11,7 @@ import {splitCaseFiles} from './fixture-files.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 import {testrunHomeInstallPack,trustedTestrunPack,trustedTestrunGuide} from './testrun-trusted-policy.mjs';
 
-export const currentToolVersions = {box:'0.2.8', gate:'0.2.12', testrun:'0.2.16'};
+export const currentToolVersions = {box:'0.2.8', gate:'0.2.12', testrun:'0.2.17'};
 export const currentDirectory = (name, version = currentToolVersions[name]) =>
   new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});

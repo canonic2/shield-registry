@@ -1,0 +1,287 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "home-cli-linux-app-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "/home/acme/.local/bin/testrun",
+        "app",
+        "install",
+        "/outside/acme.apk"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "home-cli-linux-export-in-root-strict",
+      "profile": "strict",
+      "argv": [
+        "/home/acme/.local/bin/testrun",
+        "diagnostics",
+        "export",
+        "diag-11111111111111111111111111111111",
+        "analysis-33333333333333333333333333333333",
+        "--path",
+        "reports/acme.json"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "home-cli-linux-export-outside-strict",
+      "profile": "strict",
+      "argv": [
+        "/home/acme/.local/bin/testrun",
+        "diagnostics",
+        "export",
+        "diag-11111111111111111111111111111111",
+        "analysis-33333333333333333333333333333333",
+        "--path",
+        "/outside/acme.json"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "home-cli-other-executable-linux-strict",
+      "profile": "strict",
+      "argv": [
+        "/home/acme/.local/bin/testrun.sh",
+        "mcp",
+        "serve"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "home-mcp-linux-docs-strict",
+      "profile": "strict",
+      "mcp": {
+        "qa": {
+          "transport": {
+            "type": "stdio",
+            "command": "/home/acme/.local/bin/testrun",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "qa"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "qa",
+        "tool": "docs_read",
+        "arguments": {
+          "path": "cli.md"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "home-mcp-linux-retained-docs-strict",
+      "profile": "strict",
+      "mcp": {
+        "qa": {
+          "transport": {
+            "type": "stdio",
+            "command": "/home/acme/.local/bin/testrun",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "qa"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "qa",
+        "tool": "testrun_docs_read",
+        "arguments": {
+          "path": "cli.md"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "home-mcp-linux-future-strict",
+      "profile": "strict",
+      "mcp": {
+        "qa": {
+          "transport": {
+            "type": "stdio",
+            "command": "/home/acme/.local/bin/testrun",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "qa"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "qa",
+        "tool": "future_tool",
+        "arguments": {},
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "home-mcp-linux-app-in-root-strict",
+      "profile": "strict",
+      "mcp": {
+        "qa": {
+          "transport": {
+            "type": "stdio",
+            "command": "/home/acme/.local/bin/testrun",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "qa"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "qa",
+        "tool": "app_install",
+        "arguments": {
+          "path": "fixtures/acme.apk"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "home-mcp-linux-app-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "qa": {
+          "transport": {
+            "type": "stdio",
+            "command": "/home/acme/.local/bin/testrun",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "qa"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "qa",
+        "tool": "app_install",
+        "arguments": {
+          "path": "/outside/acme.apk"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    },
+    {
+      "name": "home-mcp-linux-export-in-root-strict",
+      "profile": "strict",
+      "mcp": {
+        "qa": {
+          "transport": {
+            "type": "stdio",
+            "command": "/home/acme/.local/bin/testrun",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "qa"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "qa",
+        "tool": "diagnostics_export",
+        "arguments": {
+          "investigationId": "diag-11111111111111111111111111111111",
+          "analysisId": "analysis-33333333333333333333333333333333",
+          "path": "reports/acme.json"
+        },
+        "original_input": {}
+      },
+      "expected": "allow"
+    },
+    {
+      "name": "home-mcp-linux-export-outside-strict",
+      "profile": "strict",
+      "mcp": {
+        "qa": {
+          "transport": {
+            "type": "stdio",
+            "command": "/home/acme/.local/bin/testrun",
+            "args": [
+              "mcp",
+              "serve"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "qa"
+          },
+          "packs": {
+            "canonic/testrun": "testrun"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "qa",
+        "tool": "diagnostics_export",
+        "arguments": {
+          "investigationId": "diag-11111111111111111111111111111111",
+          "analysisId": "analysis-33333333333333333333333333333333",
+          "path": "/outside/acme.json"
+        },
+        "original_input": {}
+      },
+      "expected": "ask"
+    }
+  ]
+}

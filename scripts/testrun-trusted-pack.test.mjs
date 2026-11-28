@@ -33,27 +33,19 @@ test('Testrun allows every operation and gates only host files on approved roots
     assert.ok(selections.length,rule.id);
     for(const selection of selections) assert.ok(['read','write'].includes(selection.path.within.root),rule.id);
   }
-  const previous=JSON.parse(readFileSync(new URL('pack.yml',currentDirectory('testrun','0.2.14'))));
+  const previous=JSON.parse(readFileSync(new URL('pack.yml',currentDirectory('testrun','0.2.16'))));
   const comparable=rule=>{
-    if(rule.id!=='cli-json-host-path' && rule.id!=='local-cli-json-host-path') return rule;
+    if(!/^(?:(?:local|home)-)?cli-json-host-path$/.test(rule.id)) return rule;
     const retained=structuredClone(rule);
-    const screenshot=retained.conditions.arguments.any_of.pop();
-    assert.match(screenshot.regex,/outputPath/);
+    const deviceSet=retained.conditions.arguments.any_of.pop();
+    assert.match(deviceSet.regex,/deviceSet/);
     return retained;
   };
   for(const rule of previous.rules) {
     const current=pack.rules.find(candidate=>candidate.id===rule.id);
-    if(rule.conditions.domain==='argv' && rule.conditions.executable.one_of) {
-      const home=pack.rules.find(candidate=>candidate.id===`home-${rule.id}`);
-      assert.match(home?.conditions.executable.regex ?? '', /^\^\//);
-      assert.deepEqual(comparable({...home,id:rule.id,conditions:{...home.conditions,executable:rule.conditions.executable}}),
-        rule);
-    }
     assert.deepEqual(comparable(current),rule,rule.id);
   }
-  const currentIntegration=structuredClone(pack.mcp_integrations.testrun);
-  currentIntegration.fields['/command']=previous.mcp_integrations.testrun.fields['/command'];
-  assert.deepEqual(currentIntegration,previous.mcp_integrations.testrun);
+  assert.deepEqual(pack.mcp_integrations.testrun,previous.mcp_integrations.testrun);
   assert.equal(readFileSync(new URL('README.md',currentDirectory('testrun')),'utf8'),
     `# Testrun permissions ${pack.version}\n\nRequires Shield \`${pack.engines.shield}\`.\n\n${trustedTestrunGuide()}`);
 });
@@ -94,10 +86,10 @@ test('browser screenshot output permits an absolute path in the approved write r
     assert.equal(passed(evaluate(cases)).cases.length,cases.length);
   });
 
-test('Testrun retains authenticated 0.2.11 through 0.2.15 policy and companion bytes',async()=>{
+test('Testrun retains authenticated 0.2.11 through 0.2.16 policy and companion bytes',async()=>{
   const catalog=await checkPublication(new URL('../public',import.meta.url).pathname,
     readFileSync(new URL('../keys/main.pub',import.meta.url),'utf8').trim());
-  for(const version of ['0.2.11','0.2.12','0.2.13','0.2.14','0.2.15']) {
+  for(const version of ['0.2.11','0.2.12','0.2.13','0.2.14','0.2.15','0.2.16']) {
     const directory=currentDirectory('testrun',version);
     const published=catalog.releases.find(row=>row.id==='canonic/testrun' && row.version===version);
     assert.ok(published);
@@ -107,6 +99,22 @@ test('Testrun retains authenticated 0.2.11 through 0.2.15 policy and companion b
         readFileSync(new URL(`../public/packs/canonic/testrun/${version}/${file}`,import.meta.url)),file);
   }
 });
+
+test('iOS diagnostics check explicit simulator device sets in every profile',
+  {skip:!process.env.SHIELD_BINARY},()=>{
+    const source={kind:'ios',targetId:'simulator:11111111-1111-4111-8111-111111111111',appId:'com.example.acme'};
+    const investigationId='diag-11111111111111111111111111111111';
+    const deviceSet=join(process.cwd(),'packs');
+    const cases=['loose','recommended','strict'].flatMap(profile=>[
+      {name:`ios-approved-device-set-${profile}`,profile,mcp:binding(),
+        input:{kind:'mcp',server:'testrun',tool:'diagnostics_start',
+          arguments:{investigationId,submissionId:'acme',source:{...source,deviceSet}},original_input:{}},expected:'allow'},
+      {name:`ios-cli-opaque-approved-device-set-${profile}`,profile,
+        argv:['testrun','diagnostics','start',investigationId,'--submission-id','acme','--source',
+          JSON.stringify({...source,deviceSet})],expected:'ask'},
+    ]);
+    assert.equal(passed(evaluate(cases)).cases.length,cases.length);
+  });
 
 // Independent Testrun 0.10.0 expectations. Clock inputs name no host files;
 // another request in the same batch still retains its ordinary path boundary.

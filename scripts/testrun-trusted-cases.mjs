@@ -1,4 +1,4 @@
-// Independent reviewed contract for Testrun 0.16.0: every operation is allowed
+// Independent reviewed contract for Testrun 0.20.0: every operation is allowed
 // unless it names a host file outside the approved roots, or one Shield cannot
 // check. Keep these expectations separate from the policy's rule constructors.
 // Fixtures run with the registry checkout as project, read and write root:
@@ -19,6 +19,7 @@ const escape='../outside/acme.json';
 const endpoint='wss://browser.example.com/devtools/browser/fixture';
 const activityMonitor={kind:'native_trace',backend:'xctrace',mode:'capture',targetId:'device:ACME',
   appId:'com.example.acme',processId:42,template:'Activity Monitor',allowSystemTrace:true};
+const iosDiagnostics={kind:'ios',targetId:'simulator:ACME',appId:'com.example.acme'};
 
 // [tool, arguments, expected for every profile]
 export const requests=[
@@ -307,6 +308,10 @@ function toolHostFileCases() {
     ['diagnostics-browser-result','diagnostics_start',start({kind:'browser_operation',targetId:'browser:acme',operationId:request2,
       request:{operation:'storage_export',context:page,options:{path:outside}}}),'allow'],
     ['diagnostics-android','diagnostics_start',start({kind:'android',targetId:'android:ACME',appId:'com.example.acme',userId:0}),'allow'],
+    ['diagnostics-ios-default-device-set','diagnostics_start',start(iosDiagnostics),'allow'],
+    ['diagnostics-ios-relative-device-set','diagnostics_start',start({...iosDiagnostics,deviceSet:'fixtures/simulators'}),'ask'],
+    ['diagnostics-ios-outside-device-set','diagnostics_start',start({...iosDiagnostics,deviceSet:'/outside/simulators'}),'ask'],
+    ['diagnostics-ios-empty-device-set','diagnostics_start',start({...iosDiagnostics,deviceSet:''}),'ask'],
     ['diagnostics-ios-cpu','diagnostics_start',start(activityMonitor),'allow'],
     ['diagnostics-ios-cpu-outside-import','diagnostics_start',
       start({...activityMonitor,mode:'import',path:'/outside/acme.trace'}),'ask'],
@@ -392,6 +397,12 @@ function cliHostFileCases() {
       ['--json',...command,'--engine=chrome','--mode','headed',...options],decision])),
     ['diagnostics-source-path',['diagnostics','start',investigation,'--submission-id','acme','--source',JSON.stringify({kind:'import',path:inside,format:'bytes'})],'ask'],
     ['diagnostics-source-android',['diagnostics','start',investigation,'--submission-id','acme','--source',JSON.stringify({kind:'android',targetId:'android:ACME',appId:'com.example.acme',userId:0})],'allow'],
+    ['diagnostics-ios-device-set-default',['diagnostics','start',investigation,'--submission-id','acme','--source',
+      JSON.stringify(iosDiagnostics)],'allow'],
+    ['diagnostics-ios-device-set-opaque',['--json','diagnostics','start',investigation,'--submission-id','acme',
+      `--source=${JSON.stringify({deviceSet:'/outside/simulators',...iosDiagnostics})}`],'ask'],
+    ['diagnostics-ios-device-set-opaque-relative',['diagnostics','start',investigation,'--submission-id','acme','--source',
+      JSON.stringify({...iosDiagnostics,deviceSet:'fixtures/simulators'})],'ask'],
     ['diagnostics-ios-cpu',['diagnostics','start',investigation,'--submission-id','acme','--source',JSON.stringify(activityMonitor)],'allow'],
     ['diagnostics-ios-cpu-import',['diagnostics','start',investigation,'--submission-id','acme','--source',
       JSON.stringify({...activityMonitor,mode:'import',path:'/outside/acme.trace'})],'ask'],

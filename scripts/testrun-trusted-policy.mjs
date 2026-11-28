@@ -84,7 +84,7 @@ other relative MCP paths against the enrolled project.
 | \`browser_connect\`, browser \`connect\` | \`context.storageState\` given as a path, \`context.clientCertificates[]\` files, \`mediaFixtures.microphonePath\`, \`mediaFixtures.cameraPath\`, \`attachment.credentialPath\` and \`attachment.caPath\` | \`context.recordHar.path\`, \`profile.path\` when \`profile.kind\` is \`borrowed\` |
 | CLI \`connect\` and \`browser connect\` | \`--microphone-fixture\`, \`--camera-fixture\`, \`--attachment-credential\` and \`--attachment-ca\` | \`--borrowed-profile\` |
 | \`app_install\`, CLI \`app install\` | \`path\` | |
-| \`diagnostics_start\` source | \`path\`, \`reportDirectory\`, \`endpointFile\`, \`project\`, \`configFile\`, \`toolPath\` | |
+| \`diagnostics_start\` source | \`path\`, \`reportDirectory\`, \`endpointFile\`, \`project\`, \`configFile\`, \`toolPath\`, absolute \`deviceSet\` for iOS simulator diagnostics | |
 | \`diagnostics_export\`, CLI \`diagnostics export --path\` | | \`path\` |
 | Configuration, project and build tools and CLI options | \`root\`, \`project\`, \`config\`, project discovery \`paths[]\` and \`projects[].path\`, build \`config\`, \`inline.artifact.path\`, \`inline.artifact.glob\`, \`inline.xcode.project\`, \`inline.xcode.workspace\` | \`config_init\` and \`project_init\` \`root\`/\`config\`, build \`root\`/\`project\`, CLI \`init\` without \`--dry-run\` |
 | CLI \`browser fixture-register\` | file operand | |
@@ -137,7 +137,7 @@ checks as the bare command.
 
 ## Coverage and compatibility
 
-Reviewed against Testrun 0.16.0 source and its read-only MCP catalog.
+Reviewed against Testrun 0.20.0 source and its read-only MCP catalog.
 The 76 current tool names, three retained documentation aliases and reviewed
 stdio integration are covered. Borrowed profiles use the write-root check
 because the browser can update them. Attachment credentials and CAs use the
@@ -149,6 +149,14 @@ the three profiles. Compatibility cases cover the older \`storage_apply\`
 Physical iOS Activity Monitor capture uses Testrun's explicit
 \`allowSystemTrace\` opt-in. The existing host-file rules cover native trace
 imports and explicit executable overrides in each profile.
+Compact browser status, explicit details and bounded waits stay Allow.
+Perfetto buffer size, fill policy and start acknowledgement stay Allow without
+changing checks on caller-selected files. For a custom simulator device set,
+send an absolute approved path with MCP \`diagnostics_start\`. Pack 0.2.16 left
+this path unchecked. Testrun passes the selected directory to Xcode's
+simulator tools, which read the set for the diagnostic capture. The CLI asks
+when \`--source\` JSON names a device set because Shield cannot check the path
+inside that argument. The default device set stays Allow.
 
 Testrun 0.15.0 is the first verified build whose \`project_init_preview\`
 input schema omits \`planDigest\`. Pass the returned digest to \`project_init\`

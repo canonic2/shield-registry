@@ -42,7 +42,8 @@ const multipartBodies = [['http_fetch','/request/body'], ['http_fetch_request','
 const slug = pointer => pointer.replace(/^\//,'').replaceAll('/','-').toLowerCase() || 'item';
 
 function pathRule(id, tool, pointer, access, fields = {}) {
-  const absolute = browserTools.has(tool) || tool === 'build_start' && pointer.startsWith('/inline/');
+  const absolute = browserTools.has(tool) || tool === 'build_start' && pointer.startsWith('/inline/')
+    || tool === 'diagnostics_start' && pointer === '/source/deviceSet';
   return {id, conditions:{domain:'mcp', server:'testrun', tool, fields:{...fields, [pointer]:anyString}},
     decision:allow, requirements:{field_paths:{[pointer]:(absolute ? explicitPath : within)(access)}},
     on_unmet:{decision:'ask', message:absolute ? message[access].replace('a host file','an absolute host path') : message[access]}, reason:reason[access]};
@@ -103,6 +104,8 @@ export function hostPathMcpRules() {
     // native tools to run. A browser_operation source's request is not re-run.
     ...toolRules('diagnostics_start', ['path','reportDirectory','endpointFile','project','configFile','toolPath']
       .map(field => [`/source/${field}`,'read'])),
+    pathRule('path-diagnostics-start-ios-device-set', 'diagnostics_start', '/source/deviceSet', 'read',
+      {'/source/kind':{exact:'ios'}}),
     ...configuration.flatMap(tool => toolRules(tool, ['/root','/project','/config'].map(pointer => [pointer,'read']))),
     ...toolRules('config_init', ['/root','/project','/config'].map(pointer => [pointer,'write'])),
     ...toolRules('project_init', [['/root','write'], ['/config','write']]),
@@ -122,6 +125,8 @@ const pathOperations = [...new Set(browserFields.flatMap(([pointer,,operations])
   pointer.endsWith('/path') ? operations : []))];
 const pathOwner = `(?:"(?:operation|action)"\\s*:\\s*"(?:${pathOperations.join('|')})"|"kind"\\s*:\\s*"(?:import|native_trace|file_path)"|"(?:artifact|recordHar)"\\s*:\\s*\\{)`;
 const namedPath = '"path"\\s*:\\s*"';
+const iosSource = '"kind"\\s*:\\s*"ios"';
+const simulatorSet = '"deviceSet"\\s*:\\s*"';
 export const jsonHostPathPatterns = [
   {regex:'(?s).*"(filePath|resourcesDir|storageState|certPath|keyPath|pfxPath|reportDirectory|endpointFile|configFile|toolPath|project)"\\s*:\\s*".*'},
   {regex:`(?s).*(?:${pathOwner}.*${namedPath}|${namedPath}.*${pathOwner}).*`},
@@ -129,6 +134,7 @@ export const jsonHostPathPatterns = [
   {regex:'(?s).*"sourceFiles"\\s*:\\s*\\[\\s*".*'},
   {regex:'(?s).*\\\\u.*'},
   {regex:'(?s).*"outputPath"\\s*:\\s*".*'},
+  {regex:`(?s).*(?:${iosSource}.*${simulatorSet}|${simulatorSet}.*${iosSource}).*`},
 ];
 
 const leading = {flags:['--json'], values:['--target'], interleaved:true};

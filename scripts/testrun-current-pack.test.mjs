@@ -12,7 +12,7 @@ import {schema} from './policy-schema.mjs';
 import {checkPublication, digest} from './registry-release.mjs';
 
 // Independent source inventory: catalog.rs and its mobile, browser, build,
-// project, diagnostic and bundled-documentation schema owners, Testrun 0.18.0.
+// project, diagnostic and bundled-documentation schema owners, Testrun 0.20.0.
 const current = [
   'target_list','doctor','developer_mode_reveal','developer_support_install','connect','act','observe','status','disconnect',
   'control_status','control_acquire','control_release','app_install','app_uninstall','app_list','clipboard_read',
@@ -105,13 +105,30 @@ test('installed Testrun agrees with the reviewed current catalog when available'
   assert.equal(init.properties.dryRun,undefined);
   assert.equal(preview.properties.dryRun,undefined);
 
+  const browserStatus = tools.find(tool=>tool.name==='browser_status').inputSchema;
+  const sharedStatus = tools.find(tool=>tool.name==='status').inputSchema.anyOf
+    .find(schema=>schema.properties.includeDetails);
+  for (const {properties} of [browserStatus,sharedStatus]) {
+    assert.equal(properties.includeDetails.type,'boolean');
+    assert.equal(properties.includeDetails.default,false);
+    assert.equal(properties.waitMs.maximum,30000);
+  }
   const diagnostics = tools.find(tool=>tool.name==='diagnostics_start').inputSchema;
+  const ios = diagnostics.properties.source.oneOf.find(schema=>schema.properties.kind.const==='ios');
+  assert.equal(ios.properties.deviceSet.type,'string');
+  assert.ok(!ios.required.includes('deviceSet'));
   const nativeTrace = diagnostics.properties.source.oneOf.find(schema=>schema.properties.kind.const==='native_trace');
   assert.deepEqual(nativeTrace.required,['kind','backend','mode','targetId','appId']);
   assert.deepEqual(nativeTrace.properties.template.enum,
     ['Time Profiler','Points of Interest','System Trace','Hangs','Allocations','Leaks','Activity Monitor']);
   for (const field of ['path','toolPath']) assert.equal(nativeTrace.properties[field].type,'string');
   assert.equal(nativeTrace.properties.allowSystemTrace.type,'boolean');
+  const bufferSize = nativeTrace.properties.perfettoBufferKib;
+  assert.equal(bufferSize.type,'integer');
+  assert.equal(bufferSize.minimum,256);
+  assert.equal(bufferSize.maximum,3840);
+  assert.deepEqual(nativeTrace.properties.perfettoFillPolicy.enum,['discard','ring_buffer']);
+  assert.equal(nativeTrace.properties.waitForPerfettoStart.type,'boolean');
 });
 
 test('published Testrun permissions cover 0.18.0 read, fixture and cleanup forms',
@@ -171,6 +188,55 @@ test('published Testrun permissions cover 0.18.0 read, fixture and cleanup forms
       assert.equal(report.cases.length,cases.length);
     } finally {rmSync(owner,{recursive:true,force:true});}
   });
+
+test('Status and Perfetto options preserve published and candidate decisions across profiles', {skip:!process.env.SHIELD_BINARY}, async () => {
+  const catalog = await checkPublication(new URL('../public',import.meta.url).pathname,
+    readFileSync(new URL('../keys/main.pub',import.meta.url),'utf8').trim());
+  const published = catalog.releases.find(row=>row.id==='canonic/testrun' && row.version==='0.2.16');
+  const pack = new URL('pack.yml',currentDirectory('testrun','0.2.16')).pathname;
+  assert.equal(digest(readFileSync(pack)),published?.sha256);
+  const owner = mkdtempSync(join(tmpdir(),'testrun-compact-status-pack-'));
+  try {
+    const file = join(owner,'cases.json');
+    const targetId = 'browser:22222222-2222-4222-8222-222222222222';
+    const options = [['compact',{limit:1}],['details',{includeDetails:true}],['wait',{waitMs:500}]];
+    const investigationId = 'diag-11111111111111111111111111111111';
+    const perfetto = {kind:'native_trace',backend:'perfetto',mode:'capture',targetId:'android:ACME',
+      appId:'com.example.acme',allowSystemTrace:true,perfettoBufferKib:3840,
+      perfettoFillPolicy:'ring_buffer',waitForPerfettoStart:true};
+    const cases = ['loose','recommended','strict'].flatMap(profile=>[
+      ...['browser_status','status'].flatMap(tool=>options.map(([label,fields])=>({
+        name:`${tool}-${label}-${profile}`,profile,mcp:binding,
+        input:{kind:'mcp',server:'testrun',tool,arguments:{targetId,...fields},original_input:{}},expected:'allow',
+      }))),
+      ...[['browser','status'],['status']].map(command=>({
+        name:`cli-${command.join('-')}-details-${profile}`,profile,
+        argv:['testrun',...command,'--target',targetId,'--include-details','--wait-ms','500'],expected:'allow',
+      })),
+      ...[[undefined,'allow','allow'],[join(process.cwd(),'bin/trace-processor'),'allow','ask'],
+        ['/outside/trace-processor','ask','ask']]
+        .flatMap(([toolPath,mcpDecision,cliDecision],index)=>{
+          const source = {...perfetto,toolPath};
+          return [
+            {name:`mcp-perfetto-${index}-${profile}`,profile,mcp:binding,
+              input:{kind:'mcp',server:'testrun',tool:'diagnostics_start',
+                arguments:{investigationId,submissionId:'acme',source},original_input:{}},expected:mcpDecision},
+            {name:`cli-perfetto-${index}-${profile}`,profile,
+              argv:['testrun','diagnostics','start',investigationId,'--submission-id','acme','--source',JSON.stringify(source)],
+              expected:cliDecision},
+          ];
+        }),
+    ]);
+    writeFileSync(file,JSON.stringify({schema_version:1,cases}));
+    for (const policy of [pack,new URL('pack.yml',directory).pathname]) {
+      const result = evaluate(file,policy);
+      const report = JSON.parse(result.stdout || '{}');
+      assert.equal(result.status,0,JSON.stringify(report.cases?.filter(row=>!row.passed) ?? report)+result.stderr);
+      assert.equal(report.passed,true);
+      assert.equal(report.cases.length,cases.length);
+    }
+  } finally {rmSync(owner,{recursive:true,force:true});}
+});
 
 test('production Shield evaluates every independent Testrun case', {skip:!process.env.SHIELD_BINARY}, async t => {
   let total = 0;
