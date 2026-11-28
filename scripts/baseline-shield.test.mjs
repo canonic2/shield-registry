@@ -6,7 +6,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {baselineShieldCommands, baselineShieldPack, baselineShieldReleaseCases, destination, guide, previous} from './build-baseline-shield.mjs';
-import {shieldRestoreToolCase, shieldToolCases} from './baseline-shield-cases.mjs';
+import {shieldCodexApplyArguments, shieldRequestApproval, shieldRestoreToolCase, shieldToolCases} from './baseline-shield-cases.mjs';
 import {schemaValidator} from './schema-validation.mjs';
 import {schema} from './policy-schema.mjs';
 import {checkPublication} from './registry-release.mjs';
@@ -70,32 +70,56 @@ test('Production Shield admits the complete Baseline and decides CLI and MCP bou
     t.diagnostic(`Verified ${report.cases.length} Baseline decisions.`);
   });
 
+function readCatalog(project, agent) {
+  const requests = [
+    {id: 1, method: 'initialize', params: {protocolVersion: '2025-11-25', capabilities: {},
+      clientInfo: {name: 'Acme', version: '1'}}},
+    {method: 'notifications/initialized'},
+    {id: 2, method: 'tools/list'},
+  ];
+  const args = ['mcp', 'serve', '--project', '.'];
+  if (agent) args.push('--agent', agent);
+  const result = spawnSync(process.env.SHIELD_BINARY, args, {
+    cwd: project, encoding: 'utf8', timeout: 10000, maxBuffer: 4 * 1024 * 1024,
+    input: requests.map(request => JSON.stringify({jsonrpc: '2.0', ...request})).join('\n') + '\n',
+  });
+  assert.ifError(result.error);
+  assert.equal(result.status, 0, result.stderr);
+  const replies = result.stdout.trim().split('\n').map(line => JSON.parse(line));
+  const catalog = replies.find(reply => reply.id === 2)?.result?.tools;
+  assert.ok(Array.isArray(catalog), JSON.stringify(replies));
+  return new Map(catalog.map(tool => [tool.name, tool]));
+}
+
 test('Baseline classifies the installed Shield MCP catalog, including first-run compatibility',
   {skip: !process.env.SHIELD_BINARY}, t => {
     const project = mkdtempSync(join(tmpdir(), 'shield-baseline-mcp-'));
     t.after(() => rmSync(project, {recursive: true, force: true}));
-    const requests = [
-      {id: 1, method: 'initialize', params: {protocolVersion: '2025-11-25', capabilities: {},
-        clientInfo: {name: 'Acme', version: '1'}}},
-      {method: 'notifications/initialized'},
-      {id: 2, method: 'tools/list'},
-    ];
-    const result = spawnSync(process.env.SHIELD_BINARY, ['mcp', 'serve', '--project', '.'], {
-      cwd: project, encoding: 'utf8', timeout: 10000, maxBuffer: 4 * 1024 * 1024,
-      input: requests.map(request => JSON.stringify({jsonrpc: '2.0', ...request})).join('\n') + '\n',
-    });
-    assert.ifError(result.error);
-    assert.equal(result.status, 0, result.stderr);
-    const replies = result.stdout.trim().split('\n').map(line => JSON.parse(line));
-    const catalog = replies.find(reply => reply.id === 2)?.result?.tools;
-    assert.ok(Array.isArray(catalog), JSON.stringify(replies));
-    const tools = new Map(catalog.map(tool => [tool.name, tool]));
+    const tools = readCatalog(project);
     const version = spawnSync(process.env.SHIELD_BINARY, ['--version'], {encoding: 'utf8', timeout: 10000});
     assert.ifError(version.error);
     assert.equal(version.status, 0, version.stderr);
     const parsed = /^shield (\d+)\.(\d+)\.\d+\b/.exec(version.stdout);
     assert.ok(parsed, version.stdout);
     const hasRestore = Number(parsed[1]) > 0 || Number(parsed[2]) >= 56;
+    if (Number(parsed[1]) > 0 || Number(parsed[2]) >= 61) {
+      const {single, group} = shieldRequestApproval;
+      for (const agent of ['claude', 'codex']) {
+        const approval = readCatalog(project, agent).get('request_approve');
+        assert.ok(approval, agent);
+        assert.match(approval.description, /Supply exactly one/);
+        assert.equal(approval.annotations.readOnlyHint, false);
+        for (const keyword of ['oneOf', 'anyOf', 'allOf'])
+          assert.equal(Object.hasOwn(approval.inputSchema, keyword), false, agent);
+        const validate = schemaValidator(approval.inputSchema);
+        for (const args of [single, group])
+          assert.equal(validate(args), true, JSON.stringify({agent, args, errors: validate.errors}));
+        for (const args of [{}, {...single, ...group}, {request_ids: []},
+          {request_ids: [single.request_id, single.request_id]}, {request_ids: [123]},
+          {request_ids: Array.from({length: 9}, (_, index) => `hook-request-acme-${index}`)}])
+          assert.equal(validate(args), false, JSON.stringify({agent, args}));
+      }
+    }
     const interfaceCases = hasRestore ? [...shieldToolCases, shieldRestoreToolCase] : shieldToolCases;
     const fixtures = interfaceCases.map(([name]) => name).sort();
     assert.deepEqual([...tools.keys()].filter(name => name !== 'init').sort(),
@@ -106,6 +130,19 @@ test('Baseline classifies the installed Shield MCP catalog, including first-run 
     assert.deepEqual(review.inputSchema.required, ['proposal_id']);
     assert.deepEqual(review.inputSchema.properties.proposal_id, {type: 'string', minLength: 1, maxLength: 128});
     assert.equal(review.annotations.readOnlyHint, false);
+    if (Number(parsed[1]) > 0 || Number(parsed[2]) >= 60) {
+      const apply = tools.get('policy_apply');
+      const validate = schemaValidator(apply.inputSchema);
+      const retained = {proposal_id: 'proposal-a', candidate_digest: 'digest-a', changes: [],
+        review: {packs: {}, comparison: {}}};
+      assert.equal(apply.annotations.readOnlyHint, false);
+      assert.equal(apply.annotations.destructiveHint, true);
+      for (const args of [shieldCodexApplyArguments, retained])
+        assert.equal(validate(args), true, JSON.stringify(validate.errors));
+      for (const args of [{}, {...shieldCodexApplyArguments, reference: 'short'},
+        {...shieldCodexApplyArguments, proposal_id: 'proposal-a'}])
+        assert.equal(validate(args), false, JSON.stringify(args));
+    }
     if (hasRestore) {
       const restore = tools.get('pack_restore');
       assert.deepEqual(restore.inputSchema,

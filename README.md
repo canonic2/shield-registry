@@ -49,11 +49,11 @@ pending candidates. Older artifacts remain available for pinned installations.
 | Pack | Latest version | Coverage |
 | --- | --- | --- |
 | [canonic/aws](packs/canonic/aws/0.2.0/README.md) | 0.2.0 | AWS CLI and MCP operations, optional profile and region restrictions |
-| [canonic/baseline](packs/canonic/baseline/0.21.1/README.md) | 0.21.1 | Everyday shell commands, approved file paths, reader wildcard guidance, and Shield CLI metadata and MCP inspection and recovery |
+| [canonic/baseline](packs/canonic/baseline/0.21.2/README.md) | 0.21.2 | Everyday shell commands, approved file paths, macOS interface address lookup, and Shield CLI metadata and MCP inspection and recovery |
 | [canonic/box](packs/canonic/box/0.2.8/README.md) | 0.2.8 | Workspaces, current setup and documentation tools, read-only previews, paginated inspection, exact current-checkout MCP selection, execution, retained recovery and resource-deleting workspace removal |
 | [canonic/docker](packs/canonic/docker/0.2.0/README.md) | 0.2.0 | Local Docker and Compose, with opt-in trust for commands on selected daemons and review for host mounts, privileges, secrets, publication and data removal |
-| [canonic/gate](packs/canonic/gate/0.2.11/README.md) | 0.2.11 | Repository and worktree workflows, verified remote listings, operation previews, and approved paths for patch, commit message and pathspec files |
-| [canonic/git](packs/canonic/git/0.12.2/README.md) | 0.12.2 | Everyday local commands, network reads and rebase, with project-scoped repository selectors for log and writable-root checks for patch output |
+| [canonic/gate](packs/canonic/gate/0.2.12/README.md) | 0.2.12 | Repository and worktree workflows, verified remote listings, operation previews, and support for the default per-user Gate installation |
+| [canonic/git](packs/canonic/git/0.12.3/README.md) | 0.12.3 | Everyday local commands, network reads and rebase, with project-scoped repository selectors for log and tree listings |
 | [canonic/github](packs/canonic/github/0.11.1/README.md) | 0.11.1 | GitHub CLI/MCP, public repository search, workflow run formatting and watching, reviewed mutations, and optional repository boundaries |
 | [canonic/hub](packs/canonic/hub/0.1.14/README.md) | 0.1.14 | Workspaces, tasks, managed agents, Compose recipes, development secret grant previews and reviewed MCP publication |
 | [canonic/node](packs/canonic/node/0.6.2/README.md) | 0.6.2 | JavaScript ecosystem, package managers, monorepos, browser QA, and separate opt-ins for trusted Node tests and Codex host access |
@@ -78,7 +78,7 @@ pending candidates. Older artifacts remain available for pinned installations.
 | [canonic/python](packs/canonic/python/0.1.0/README.md) | 0.1.0 | Python, package environments, tests, linting, formatting, types and security tools |
 | [canonic/sqlite](packs/canonic/sqlite/0.1.0/README.md) | 0.1.0 | SQLite shell, SQL, exports, analysis, differences and synchronization |
 | [canonic/ssh](packs/canonic/ssh/0.1.0/README.md) | 0.1.0 | SSH, SCP, SFTP, rsync, keys and agent operations |
-| [canonic/supabase](packs/canonic/supabase/0.1.1/README.md) | 0.1.1 | Supabase CLI and MCP with opt-in SQL on a reviewed hosted read-only connection |
+| [canonic/supabase](packs/canonic/supabase/0.1.2/README.md) | 0.1.2 | Checked local migration creation and Supabase MCP with opt-in SQL on a reviewed hosted read-only connection |
 | [canonic/terraform](packs/canonic/terraform/0.1.0/README.md) | 0.1.0 | Terraform infrastructure, providers, state, plans and reviewed mutations |
 
 GitHub 0.11.1 allows watching a workflow run by numeric ID and formatting run
@@ -90,27 +90,33 @@ list configured, every GraphQL query root must name the same listed repository.
 Nested fields and related-object reads are unrestricted. The pack requires
 Shield `>=0.47.0, <1.0.0` with
 `graphql-v1`, `graphql-mutations-v1`, `graphql-subtree-v1`, `variable-prefixes-v1`
-and `variable-list-branches-v1`. Baseline 0.21.1 explains how to retry reader
-commands with explicit filenames when Shield cannot verify a shell wildcard.
+and `variable-list-branches-v1`. Baseline 0.21.2 allows macOS `ipconfig getifaddr`
+for one literal interface name. Shield 0.62.0 supports checked `find -exec wc`
+on Unix and checked container grep when the Docker pack allows the context.
 On matching Shield MCP connections,
 agents can filter `rule_list` by pack and restore exact locked artifacts with
 `pack_restore`. The ecosystem packs
 declare their engine minimums and exact capability requirements in their guides.
 Rust 0.2.2 supports reviewed local executable lists and routine Cargo and Nextest
 commands in approved projects in Loose and Recommended.
-Git 0.12.2 accepts explicit `--git-dir` and `--work-tree` paths for `git log`
-in Loose and Recommended when the selectors and working directory resolve
-inside the project. Strict reviews explicit repository selection.
-Gate 0.2.11 covers verified remote listings and local operation previews. Fetch
-and push previews require review in Recommended and Strict. Patch, commit
-message and CLI pathspec files must be in approved read roots.
+Git 0.12.3 accepts explicit `--git-dir` and `--work-tree` paths for `git log`
+and `git ls-tree` in Loose and Recommended when the selectors and working
+directory resolve inside the project. Strict reviews explicit repository
+selection.
+Gate 0.2.12 applies the same CLI rules to the default `~/.local/bin/gate`
+installation and covers verified remote listings with `gate remote list -r`.
+Fetch and push previews require review in Recommended and Strict. Patch,
+commit message and CLI pathspec files must be in approved read roots.
 Docker 0.2.0 adds opt-in trust for direct `docker exec` on selected daemons in
 Loose and Recommended with Shield 0.58.0. Strict still asks. Explicit
 restrictions on the command and child commands Shield can inspect still apply.
 Hub 0.1.14 reviews `hub mcp add` in every profile, including when `--project`
 selects a project from another working directory.
-Supabase 0.1.1 allows opt-in SQL when both the Shield connection ID and the
-exact project-scoped hosted read-only URL match the reviewed setting.
+Supabase 0.1.2 allows default `migration new` when Shield verifies the write
+destination inside the checkout. A reviewed local Docker database binding allows
+bare `test db` when Shield verifies both database routes and the checkout test
+tree. Opt-in SQL requires a matching Shield connection ID and project-scoped
+hosted read-only URL.
 Testrun 0.2.16 checks browser screenshot output paths against approved write
 roots and multipart files against approved read roots. Workbench 0.3.0 checks image inputs and masks against
 approved read roots and output paths against approved write roots. Both require

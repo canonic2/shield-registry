@@ -1,0 +1,1430 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "shield-cli-filtered-rule-list-help-loose",
+      "profile": "loose",
+      "argv": [
+        "shield",
+        "rule",
+        "list",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "shield-cli-filtered-rule-list-loose",
+      "profile": "loose",
+      "argv": [
+        "shield",
+        "rule",
+        "list",
+        "--section",
+        "invocations",
+        "--pack-selector",
+        "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-shared-by-pack-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "shared",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-invocations-by-pack-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "invocations",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-command_sets-by-pack-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "command_sets",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-legacy-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "__internal",
+              "mcp",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-outside-project-loose",
+      "profile": "loose",
+      "expected": "ask",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              "/outside"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-missing-pack-selector-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "invocations"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-malformed-pack-selector-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": 123
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-evaluate-mcp-normalized-input-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "policy_evaluate",
+        "arguments": {
+          "input": {
+            "kind": "mcp",
+            "server": "acme",
+            "tool": "search",
+            "arguments": {
+              "query": "documentation"
+            },
+            "original_input": {}
+          },
+          "context": {
+            "cwd": "/project"
+          }
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-cli-filtered-rule-list-help-recommended",
+      "profile": "recommended",
+      "argv": [
+        "shield",
+        "rule",
+        "list",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "shield-cli-filtered-rule-list-recommended",
+      "profile": "recommended",
+      "argv": [
+        "shield",
+        "rule",
+        "list",
+        "--section",
+        "invocations",
+        "--pack-selector",
+        "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-shared-by-pack-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "shared",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-invocations-by-pack-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "invocations",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-command_sets-by-pack-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "command_sets",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-legacy-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "__internal",
+              "mcp",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-outside-project-recommended",
+      "profile": "recommended",
+      "expected": "ask",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              "/outside"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-missing-pack-selector-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "invocations"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-malformed-pack-selector-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": 123
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-evaluate-mcp-normalized-input-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "policy_evaluate",
+        "arguments": {
+          "input": {
+            "kind": "mcp",
+            "server": "acme",
+            "tool": "search",
+            "arguments": {
+              "query": "documentation"
+            },
+            "original_input": {}
+          },
+          "context": {
+            "cwd": "/project"
+          }
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-cli-filtered-rule-list-help-strict",
+      "profile": "strict",
+      "argv": [
+        "shield",
+        "rule",
+        "list",
+        "--help"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "shield-cli-filtered-rule-list-strict",
+      "profile": "strict",
+      "argv": [
+        "shield",
+        "rule",
+        "list",
+        "--section",
+        "invocations",
+        "--pack-selector",
+        "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-shared-by-pack-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "shared",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-invocations-by-pack-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "invocations",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-command_sets-by-pack-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "command_sets",
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-legacy-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "__internal",
+              "mcp",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-by-pack-outside-project-strict",
+      "profile": "strict",
+      "expected": "ask",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              "/outside"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": "pack:15b30c2d-114b-4088-8a21-189c07e49f51"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-missing-pack-selector-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "section": "invocations"
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-rule-list-malformed-pack-selector-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "rule_list",
+        "arguments": {
+          "pack_selector": 123
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "shield-mcp-evaluate-mcp-normalized-input-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "mcp": {
+        "shield-tools": {
+          "transport": {
+            "type": "stdio",
+            "command": "shield",
+            "args": [
+              "mcp",
+              "serve",
+              "--project",
+              ".",
+              "--agent",
+              "codex"
+            ],
+            "env": {}
+          },
+          "agents": {
+            "codex": "shield-tools"
+          }
+        }
+      },
+      "input": {
+        "kind": "mcp",
+        "server": "shield-tools",
+        "tool": "policy_evaluate",
+        "arguments": {
+          "input": {
+            "kind": "mcp",
+            "server": "acme",
+            "tool": "search",
+            "arguments": {
+              "query": "documentation"
+            },
+            "original_input": {}
+          },
+          "context": {
+            "cwd": "/project"
+          }
+        },
+        "original_input": {}
+      }
+    },
+    {
+      "name": "interface-address-loose",
+      "profile": "loose",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        "en0"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "interface-address-system-path-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/sbin/ipconfig",
+        "getifaddr",
+        "utun2"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "interface-address-missing-loose",
+      "profile": "loose",
+      "argv": [
+        "ipconfig",
+        "getifaddr"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-empty-loose",
+      "profile": "loose",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        ""
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-extra-loose",
+      "profile": "loose",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        "en0",
+        "en1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-option-loose",
+      "profile": "loose",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        "-en0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-path-loose",
+      "profile": "loose",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        "./en0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-overlong-loose",
+      "profile": "loose",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        "interface1234567"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-custom-binary-loose",
+      "profile": "loose",
+      "argv": [
+        "./ipconfig",
+        "getifaddr",
+        "en0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-set-loose",
+      "profile": "loose",
+      "argv": [
+        "ipconfig",
+        "set",
+        "en0",
+        "DHCP"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-getpacket-loose",
+      "profile": "loose",
+      "argv": [
+        "/usr/sbin/ipconfig",
+        "getpacket",
+        "en0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-windows-renew-loose",
+      "profile": "loose",
+      "argv": [
+        "ipconfig",
+        "/renew"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-shell-loose",
+      "profile": "loose",
+      "expected": "allow",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "ipconfig getifaddr en0",
+        "original_input": {}
+      }
+    },
+    {
+      "name": "interface-address-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        "en0"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "interface-address-system-path-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/sbin/ipconfig",
+        "getifaddr",
+        "utun2"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "interface-address-missing-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ipconfig",
+        "getifaddr"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-empty-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        ""
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-extra-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        "en0",
+        "en1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-option-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        "-en0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-path-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        "./en0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-overlong-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        "interface1234567"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-custom-binary-recommended",
+      "profile": "recommended",
+      "argv": [
+        "./ipconfig",
+        "getifaddr",
+        "en0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-set-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ipconfig",
+        "set",
+        "en0",
+        "DHCP"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-getpacket-recommended",
+      "profile": "recommended",
+      "argv": [
+        "/usr/sbin/ipconfig",
+        "getpacket",
+        "en0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-windows-renew-recommended",
+      "profile": "recommended",
+      "argv": [
+        "ipconfig",
+        "/renew"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-shell-recommended",
+      "profile": "recommended",
+      "expected": "allow",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "ipconfig getifaddr en0",
+        "original_input": {}
+      }
+    },
+    {
+      "name": "interface-address-strict",
+      "profile": "strict",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        "en0"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "interface-address-system-path-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/sbin/ipconfig",
+        "getifaddr",
+        "utun2"
+      ],
+      "expected": "allow"
+    },
+    {
+      "name": "interface-address-missing-strict",
+      "profile": "strict",
+      "argv": [
+        "ipconfig",
+        "getifaddr"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-empty-strict",
+      "profile": "strict",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        ""
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-extra-strict",
+      "profile": "strict",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        "en0",
+        "en1"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-option-strict",
+      "profile": "strict",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        "-en0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-path-strict",
+      "profile": "strict",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        "./en0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-overlong-strict",
+      "profile": "strict",
+      "argv": [
+        "ipconfig",
+        "getifaddr",
+        "interface1234567"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-custom-binary-strict",
+      "profile": "strict",
+      "argv": [
+        "./ipconfig",
+        "getifaddr",
+        "en0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-set-strict",
+      "profile": "strict",
+      "argv": [
+        "ipconfig",
+        "set",
+        "en0",
+        "DHCP"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-getpacket-strict",
+      "profile": "strict",
+      "argv": [
+        "/usr/sbin/ipconfig",
+        "getpacket",
+        "en0"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-windows-renew-strict",
+      "profile": "strict",
+      "argv": [
+        "ipconfig",
+        "/renew"
+      ],
+      "expected": "ask"
+    },
+    {
+      "name": "interface-address-shell-strict",
+      "profile": "strict",
+      "expected": "allow",
+      "input": {
+        "kind": "shell",
+        "dialect": "posix",
+        "dialect_version": null,
+        "source": "ipconfig getifaddr en0",
+        "original_input": {}
+      }
+    }
+  ]
+}

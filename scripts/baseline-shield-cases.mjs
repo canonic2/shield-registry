@@ -116,6 +116,37 @@ function mcpCase(name, profile, tool, arguments_, expected, mcp, server = 'shiel
 
 export const shieldRestoreToolCase = ['pack_restore', {}, 'allow'];
 
+export const shieldCodexApplyArguments = {
+  change: 'Review one exact project rule',
+  details: 'Review the selected command and working directory.',
+  reference: '0123456789abcdef01234567',
+};
+
+export const shieldRequestApproval = {
+  single: {request_id: 'hook-request-acme-1'},
+  group: {request_ids: ['hook-request-acme-1', 'hook-request-acme-2']},
+};
+
+export function shieldApprovalArgumentCases() {
+  const registered = binding(stdio('shield'));
+  const legacy = binding(stdio('shield', ['__internal', 'mcp', '--project', '.', '--agent', 'codex']));
+  const remote = binding({type: 'http', url: 'https://shield.example/mcp'});
+  const {single, group} = shieldRequestApproval;
+  return ['loose', 'recommended', 'strict'].flatMap(profile => [
+    mcpCase('codex-apply', profile, 'policy_apply', shieldCodexApplyArguments, 'ask', registered),
+    mcpCase('codex-apply-legacy', profile, 'policy_apply', shieldCodexApplyArguments, 'ask', legacy),
+    mcpCase('codex-apply-malformed-reference', profile, 'policy_apply',
+      {...shieldCodexApplyArguments, reference: 123}, 'ask', registered),
+    mcpCase('codex-apply-remote', profile, 'policy_apply', shieldCodexApplyArguments, 'ask', remote),
+    mcpCase('request-approve-single', profile, 'request_approve', single, 'ask', registered),
+    mcpCase('request-approve-group', profile, 'request_approve', group, 'ask', registered),
+    mcpCase('request-approve-legacy-group', profile, 'request_approve', group, 'ask', legacy),
+    mcpCase('request-approve-missing-ids', profile, 'request_approve', {}, 'ask', registered),
+    mcpCase('request-approve-both-id-forms', profile, 'request_approve', {...single, ...group}, 'ask', registered),
+    mcpCase('request-approve-remote-group', profile, 'request_approve', group, 'ask', remote),
+  ]);
+}
+
 export function shieldDocsPagingCases() {
   const registered = binding(stdio('shield'));
   const legacy = binding(stdio('shield', ['__internal', 'mcp', '--project', '.', '--agent', 'codex']));

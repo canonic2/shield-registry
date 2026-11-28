@@ -1,7 +1,7 @@
 import {executableForms} from './tool-pack.mjs';
 
-export const version = '0.1.1';
-export const engine = '>=0.54.0, <1.0.0';
+export const version = '0.1.2';
+export const engine = '>=0.60.1, <1.0.0';
 
 const inspect = {loose: 'allow', recommended: 'allow', strict: 'ask'};
 const change = {loose: 'ask', recommended: 'ask', strict: 'deny'};
@@ -51,7 +51,7 @@ const cliHighImpact = [
 // Review implicit project files and process ownership for local operations.
 // A local database can contain valuable data, so destructive local operations
 // retain review even when their target is explicitly local.
-const cliLocal = ['init', 'start', 'stop', 'db start', 'migration new', 'functions new',
+const cliLocal = ['init', 'start', 'stop', 'db start', 'functions new',
   'test new', 'stack start', 'stack stop', 'stack restart', 'stack install', 'stack update'];
 const cliReads = ['status', 'services', 'whoami', 'gen types', 'migration list', 'functions list',
   'branches list', 'branches get', 'storage ls', 'db lint', 'db advisors', 'inspect',
@@ -113,11 +113,14 @@ export function supabasePack() {
     schema_version: 1, kind: 'pack', id: 'canonic/supabase', version,
     description: 'Supabase CLI and hosted/local MCP, with reviewed lifecycle, database, deployment, credentials and storage operations.',
     license: 'MIT', maintainers: ['Canonic'], engines: {shield: engine},
-    capabilities: ['access-paths-v1', 'argument-rules-v1', 'fallback-rules-v1', 'interleaved-leading-v1',
+    capabilities: ['access-paths-v1', 'argument-rules-v1', 'environment-unset-or-empty-v1', 'fallback-rules-v1', 'interleaved-leading-v1',
       'location-v1', 'mcp-connection-facts-v1', 'mcp-integrations-v1', 'negated-selectors-v1',
-      'preconditions-v1', 'prefix-leading-v1', 'regex-v1', 'structured-rules-v1', 'unknown-options-v1',
+      'preconditions-v1', 'prefix-leading-v1', 'regex-v1', 'requirements-v1', 'structured-rules-v1', 'supabase-test-db-v1', 'unknown-options-v1',
       'variable-list-branches-v1', 'variable-parts-v1', 'variables-v1'],
     variables: {
+      test_db_container: {type: 'string', layer: 'local',
+        description: 'Trust test code in this checkout to run against its verified local Docker database. Enter the full container ID for its reviewed Supabase database.',
+        match: {regex: '^[0-9a-f]{64}$'}},
       read_only_sql: {type: 'list', layer: 'local', max_items: 16,
         description: 'Allow SQL on each listed managed connection. Enter the Shield connection ID, one space, and its exact project-scoped Supabase URL with read_only=true and optional features=database.',
         items: {type: 'string', match: {regex: `^[A-Za-z0-9._-]{1,128} ${readOnlySqlUrl}$`}}},
@@ -142,8 +145,27 @@ export function supabasePack() {
       ...cliChanges.map(command => cliEffect(command, change, 'Review the selected database, files, deployment or remote changes.')),
       ...cliHighImpact.map(command => cliEffect(command, highImpact, 'This can expose credentials, change authentication or delete remote resources.')),
       ...cliLocal.map(command => cliEffect(command, 'ask', 'Review local configuration, filesystem writes and container or process lifecycle.')),
+      {
+        ...cliEffect('migration new', 'allow', 'Create a local migration in the approved checkout.'),
+        requirements: {
+          arguments: {kind: 'sequence', prefix: ['migration', 'new', {regex: '^[A-Za-z0-9][A-Za-z0-9_-]*$'}], rest: {kind: 'none'}},
+          cwd: {within: {root: 'project'}},
+          environment: {unset_or_empty: ['SUPABASE_WORKDIR', 'SUPABASE_PROFILE', 'SUPABASE_HOME', 'BUN_OPTIONS']},
+          targets: {action: 'write', all: {within: {root: 'project'}, exclude: [
+            {root: 'project', path: '.git'}, {root: 'project', path: '.shield'},
+          ]}},
+        },
+        on_unmet: {decision: 'ask', message: 'Review the migration. Automatic allowance requires one slug, default CLI configuration and a verified destination in the checkout.'},
+      },
       ...cliReads.map(command => cliEffect(command, 'ask', 'Review the selected project, connection, logs and any generated output.')),
       ...additionalChanges.map(command => cliEffect(command, change, 'Review implicit file changes, execution and remote project effects.')),
+      {
+        ...argv('test-db-local', {kind: 'exact', values: ['test', 'db']}, 'allow',
+          'Run checkout pgTAP tests on its verified local Docker database.'),
+        when: [{var: 'test_db_container', set: true}],
+        requirements: {supabase_test_db: {var: 'test_db_container'}},
+        on_unmet: {decision: change, message: 'Review the Supabase test run. The default test tree and reviewed running Docker database must both be verified.'},
+      },
       ...additionalHighImpact.map(command => cliEffect(command, highImpact, 'Review service security, backups, resource deletion or access settings.')),
       ...['db reset', 'db push', 'migration down', 'migration repair', 'migration squash'].map(command => argv(
         `${command.replaceAll(' ', '-')}-hosted`, {kind: 'options', prefix: command.split(' '), leading,

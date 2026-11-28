@@ -122,7 +122,7 @@ export async function currentToolCases(name) {
       ['project-setup-dry-token',['gate','setup','--agent','--dry-run'],review],
       ['portable-stage',['gate','add','-r','acme','packages/acme'],allow],
       ['diff-staged-stat',['gate','diff','-r','acme','--staged','--stat'],allow],
-      ['remote-list',['gate','remote','list','--cursor','opaque','--limit','1'],allow],
+      ['remote-list',['gate','remote','list','-r','acme','--cursor','opaque','--limit','1'],allow],
       ['remote-list-alias',['gate','remote','-v','--limit','1'],allow],
       ['remote-get-url',['gate','remote','get-url','--push','origin'],allow],
       ['remote-unknown',['gate','remote','future-subcommand'],routine],

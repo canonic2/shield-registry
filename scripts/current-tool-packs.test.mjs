@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync, mkdtempSync, writeFileSync, rmSync} from 'node:fs';
-import {tmpdir} from 'node:os';
+import {homedir, tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {currentToolVersions,currentDirectory,currentToolPack,gateRelaxed,widenGrammar} from './build-current-tool-packs.mjs';
@@ -151,6 +151,35 @@ test('Gate current transport admits only reviewed stdio launches', {skip:!proces
       else assert.match(result.stdout,/connection does not match its pack integration/);
     }
   } finally {rmSync(dir,{recursive:true,force:true});}
+});
+
+test('Gate default CLI install keeps remote listing and push decisions', {skip:!process.env.SHIELD_BINARY}, () => {
+  const directory = mkdtempSync(join(tmpdir(), 'gate-default-cli-install-'));
+  try {
+    const installed = join(homedir(), '.local', 'bin', 'gate');
+    const cases = ['loose', 'recommended', 'strict'].flatMap(profile => [
+      {name:`remote-list-${profile}`, profile,
+        argv:[installed,'remote','list','-r','acme'], expected:'allow'},
+      {name:`remote-list-outside-${profile}`, profile,
+        argv:[installed,'remote','list','-r','acme','--project','/outside/other'], expected:'ask'},
+      {name:`unrecognized-gate-${profile}`, profile,
+        argv:[join(directory,'gate'),'remote','list','-r','acme'], expected:'ask'},
+      {name:`force-push-${profile}`, profile,
+        argv:[installed,'push','-r','acme','origin','main','--force-with-lease','0123abcd'],
+        expected:profile === 'strict' ? 'deny' : 'ask'},
+    ]);
+    const fixture = join(directory, 'cases.json');
+    writeFileSync(fixture, JSON.stringify({schema_version:1, cases}));
+    const pack = new URL('pack.yml', currentDirectory('gate')).pathname;
+    const result = spawnSync(process.env.SHIELD_BINARY,
+      ['__internal','test-pack','--pack',pack,'--cases',fixture], {encoding:'utf8', timeout:120000});
+    const report = JSON.parse(result.stdout || '{}');
+    assert.equal(result.status, 0, JSON.stringify(report.cases?.filter(row => !row.passed) ?? report) + result.stderr);
+    assert.equal(report.passed, true);
+    assert.equal(report.cases.length, cases.length);
+  } finally {
+    rmSync(directory, {recursive:true, force:true});
+  }
 });
 
 test('tool permission reset retains published setup and preview decisions', {skip:!process.env.SHIELD_BINARY}, async () => {
@@ -778,6 +807,9 @@ for (const name of Object.keys(currentToolVersions)) {
         const expected=structuredClone(old);
         Object.assign(expected.decision,gateRelaxed[old.id]?.decision);
         if (gateRelaxed[old.id]?.reason) expected.reason=gateRelaxed[old.id].reason;
+        if (expected.conditions.executable?.one_of?.includes('gate')) {
+          expected.conditions.executable.one_of.push('~/.local/bin/gate');
+        }
         // New MCP tools join the unknown-tool exclusion list.
         if (old.id==='mcp-unlisted') expected.conditions.tool.not.one_of=next.conditions.tool.not.one_of;
         const grammar=expected.requirements?.argument_paths?.grammar;

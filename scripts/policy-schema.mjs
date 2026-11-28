@@ -96,7 +96,10 @@ function rule(pack, domain) {
     { if: has('invocation'), then: { allOf: [at(['conditions','executable'],one([text(1),object({exact:text(1)})])),at(['conditions'],has('arguments')),{not:at(['conditions','arguments'],has('leading'))}] } },
   );
   if (domain !== 'exact_request') {
-    props.requirements = { ...object({ ...common, ...predicates[domain] }, []), minProperties: 1 };
+    const supabase = domain === 'argv' ? {
+      supabase_test_db: pack ? one([text(1), ref('variableReference')]) : text(1),
+    } : {};
+    props.requirements = { ...object({ ...common, ...predicates[domain], ...supabase }, []), minProperties: 1 };
     props.on_unmet = object({ decision: unmet, ...guidance }, ['decision']);
     checks.push({ if: has('requirements'), then: has('on_unmet'), else: { not: has('on_unmet') } });
   }
@@ -201,6 +204,7 @@ defs.graphql = {...object({carrier:{const:'gh-api'},operation:enumeration(['quer
 const caps = ['structured-rules-v1', 'argument-rules-v1', 'graphql-v1', 'glob-v1', 'regex-v1', 'location-v1', 'requirements-v1', 'possible-effects-v1', 'dependencies-v1', 'access-paths-v1', 'fallback-rules-v1', 'invocation-groups-v1', 'command-sets-v1', 'mcp-integrations-v1', 'mcp-connection-facts-v1', 'mcp-command-fields-v1', 'mcp-effective-fields-v1', 'agent-outputs-v1', 'project-node-tests-v1'];
 caps.push('argument-paths-v1', 'argument-path-file-kind-v1', 'environment-unset-or-empty-v1', 'trust-execution-v1');
 caps.push('docker-context-exec-trust-v1');
+caps.push('supabase-test-db-v1');
 caps.push('field-paths-v1');
 caps.push('field-path-arrays-v1');
 caps.push('prefix-leading-v1');
@@ -322,6 +326,7 @@ const feature = {
     eitherPredicate(['argument_paths', 'options', '@', 'kind']),
   ]),
   'environment-unset-or-empty-v1': eitherPredicate(['environment', 'unset_or_empty']),
+  'supabase-test-db-v1': at(['requirements'], has('supabase_test_db')),
   'field-paths-v1': eitherPredicate(['field_paths']),
   'field-path-arrays-v1': eitherPredicate(['field_paths', '@', 'each']),
   'invocation-groups-v1': has('invocation'),

@@ -2,6 +2,15 @@
 // loopback services, shared by the artifact and its focused suite.
 const profiles = ['loose', 'recommended', 'strict'];
 
+function casesFor(examples) {
+  return examples.flatMap(([name, source, decisions]) => profiles.map((profile, index) => ({
+    name: `loopback-${name}-${profile}`,
+    profile,
+    input: {kind: 'shell', source, dialect: 'bash', dialect_version: null, original_input: {}},
+    expected: decisions[index],
+  })));
+}
+
 export function loopbackFetchCases() {
   // [name, shell source, decisions for loose, recommended, strict]
   const examples = [
@@ -31,10 +40,20 @@ export function loopbackFetchCases() {
     ['output-outside', 'curl -s -o ../outside http://localhost:3000/data', ['deny', 'deny', 'deny']],
     ['output-git', 'curl -s -o .git/config http://localhost:3000/data', ['deny', 'deny', 'deny']],
   ];
-  return examples.flatMap(([name, source, decisions]) => profiles.map((profile, index) => ({
-    name: `loopback-${name}-${profile}`,
-    profile,
-    input: {kind: 'shell', source, dialect: 'bash', dialect_version: null, original_input: {}},
-    expected: decisions[index],
-  })));
+  return casesFor(examples);
+}
+
+// Shield 0.60 recognizes these forms using the published fetch and output rules.
+export function loopbackProxyBypassCases() {
+  const local = 'http://127.0.0.1:4780/healthz';
+  return casesFor([
+    ['host-proxy-bypass', `curl -q -s --noproxy 127.0.0.1 ${local}`, ['allow', 'allow', 'ask']],
+    ['wildcard-proxy-bypass-head', `curl -q -sI --noproxy '*' --url ${local}`, ['allow', 'allow', 'ask']],
+    ['proxy-bypass-with-config', `curl -s --noproxy 127.0.0.1 ${local}`, ['ask', 'ask', 'ask']],
+    ['proxy-bypass-with-redirects', `curl -q -sL --noproxy '*' ${local}`, ['ask', 'ask', 'ask']],
+    ['proxy-bypass-external', "curl -q -s --noproxy '*' https://example.com/", ['ask', 'ask', 'ask']],
+    ['proxy-bypass-mixed-hosts', `curl -q -s --noproxy '*' ${local} https://example.com/`, ['ask', 'ask', 'ask']],
+    ['proxy-bypass-host-list', `curl -q -s --noproxy '127.0.0.1,example.com' ${local}`, ['ask', 'ask', 'ask']],
+    ['proxy-bypass-output-outside', `curl -q -s --noproxy 127.0.0.1 -o ../outside ${local}`, ['deny', 'deny', 'deny']],
+  ]);
 }

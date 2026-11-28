@@ -6,8 +6,9 @@ import {join} from 'node:path';
 import test from 'node:test';
 import {fileURLToPath} from 'node:url';
 import {shieldVersion} from './baseline-preview.mjs';
-import {shieldDocsPagingCases} from './baseline-shield-cases.mjs';
+import {shieldApprovalArgumentCases, shieldDocsPagingCases} from './baseline-shield-cases.mjs';
 import {baselineReaderGuidancePack, companions, destination, guide, previous} from './build-baseline-reader-guidance.mjs';
+import {loopbackProxyBypassCases} from './loopback-fetch-cases.mjs';
 import {schema} from './policy-schema.mjs';
 import {checkPublication} from './registry-release.mjs';
 import {schemaValidator} from './schema-validation.mjs';
@@ -15,16 +16,18 @@ import {schemaValidator} from './schema-validation.mjs';
 const read = (name, root = destination) => readFileSync(new URL(name, root));
 const packPath = fileURLToPath(new URL('pack.yml', destination));
 
-test('Baseline reader guidance extends the signed release without changing its decisions', async () => {
+test('Baseline reader guidance preserves the signed releases and their decisions', async () => {
   const publicDirectory = new URL('../public/', import.meta.url);
   const catalog = await checkPublication(fileURLToPath(publicDirectory),
     read('../keys/main.pub', import.meta.url).toString().trim());
-  const entry = (catalog.releases ?? catalog.packs)
-    .find(row => row.id === 'canonic/baseline' && row.version === '0.21.0');
-  assert.ok(entry);
-  const published = new URL('.', new URL(entry.path, publicDirectory));
-  for (const name of ['pack.yml', 'README.md', ...companions])
-    assert.deepEqual(read(name, previous), read(name, published), name);
+  for (const [version, source] of [['0.21.0', previous], ['0.21.1', destination]]) {
+    const entry = (catalog.releases ?? catalog.packs)
+      .find(row => row.id === 'canonic/baseline' && row.version === version);
+    assert.ok(entry, `Missing published Baseline ${version}`);
+    const published = new URL('.', new URL(entry.path, publicDirectory));
+    for (const name of ['pack.yml', 'README.md', ...companions])
+      assert.deepEqual(read(name, source), read(name, published), `${version} ${name}`);
+  }
   for (const name of companions) assert.deepEqual(read(name), read(name, previous), name);
   assert.equal(read('README.md').toString(), guide);
 
@@ -88,6 +91,35 @@ test('Baseline classifies paginated Shield docs on local and external transports
     const file = join(cwd, 'fixtures.json');
     writeFileSync(file, JSON.stringify({schema_version: 1, cases: shieldDocsPagingCases()}));
     decisions(file, [], cwd);
+  });
+
+test('Baseline keeps proxy bypass inside loopback fetch and output rules in Shield 0.60 or later',
+  {skip: !process.env.SHIELD_BINARY}, t => {
+    const [major, minor] = shieldVersion().split('.').map(Number);
+    if (major === 0 && minor < 60) return t.skip('Loopback proxy bypass requires Shield 0.60 or later');
+
+    const cwd = mkdtempSync(join(tmpdir(), 'shield-baseline-loopback-'));
+    t.after(() => rmSync(cwd, {recursive: true, force: true}));
+    const file = join(cwd, 'fixtures.json');
+    const cases = loopbackProxyBypassCases();
+    writeFileSync(file, JSON.stringify({schema_version: 1, cases}));
+    assert.equal(decisions(file, [], cwd).length, cases.length);
+  });
+
+test('Baseline keeps policy apply and request approvals under explicit review on matching Shield connections',
+  {skip: !process.env.SHIELD_BINARY}, t => {
+    const cwd = mkdtempSync(join(tmpdir(), 'shield-baseline-approval-'));
+    t.after(() => rmSync(cwd, {recursive: true, force: true}));
+    const file = join(cwd, 'fixtures.json');
+    const cases = shieldApprovalArgumentCases();
+    writeFileSync(file, JSON.stringify({schema_version: 1, cases}));
+    const results = decisions(file, ['--details'], cwd);
+    assert.equal(results.length, cases.length);
+    for (const row of results) {
+      const explicitReview = row.evaluation.explanation.matches.some(match =>
+        match.applied && match.rule_id === 'shield-mcp-confirmation');
+      assert.equal(explicitReview, !row.name.includes('-remote-'), row.name);
+    }
   });
 
 test('Baseline composes with checked Bash readers and find in Shield 0.59 or later',

@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "registry_id": "canonic-shield-main",
-  "sequence": 69,
+  "sequence": 70,
   "expires_at": "2027-02-03T00:00:00Z",
   "packs": [
     {
@@ -42,9 +42,9 @@
     },
     {
       "id": "canonic/baseline",
-      "version": "0.21.1",
-      "path": "packs/canonic/baseline/0.21.1/pack.yml",
-      "sha256": "2eaa65c7b911fc224c548079014be51a1598a346ea3cd045c926f8cb308538d1"
+      "version": "0.21.2",
+      "path": "packs/canonic/baseline/0.21.2/pack.yml",
+      "sha256": "21b7740720a64555d9b964afaf0c38faedaaac5688538b4890798b15480e593b"
     },
     {
       "id": "canonic/box",
@@ -78,15 +78,15 @@
     },
     {
       "id": "canonic/gate",
-      "version": "0.2.11",
-      "path": "packs/canonic/gate/0.2.11/pack.yml",
-      "sha256": "341220bef87796a4130c9adf8119c9ec1fbf405bc2893d8d8474d86759e71759"
+      "version": "0.2.12",
+      "path": "packs/canonic/gate/0.2.12/pack.yml",
+      "sha256": "ff7fe292454f8fd4be4940abf238f726b689a5e46a97a617caea5684c53c16e6"
     },
     {
       "id": "canonic/git",
-      "version": "0.12.2",
-      "path": "packs/canonic/git/0.12.2/pack.yml",
-      "sha256": "9d744b039d4a0bd2fc82eb651ac043f4e057c5cc0fa1836a68913abd1f124238"
+      "version": "0.12.3",
+      "path": "packs/canonic/git/0.12.3/pack.yml",
+      "sha256": "8b1fffbabb7b02bb11579aba587ff7a5ec0e4396a6c17e6f90f4e46580fcc3ec"
     },
     {
       "id": "canonic/github",
@@ -174,9 +174,9 @@
     },
     {
       "id": "canonic/supabase",
-      "version": "0.1.1",
-      "path": "packs/canonic/supabase/0.1.1/pack.yml",
-      "sha256": "10a4cbc9d4b0bd5ddba0adfd9b06cad41fb3ee99964dfb99d2d5920658f8c1a1"
+      "version": "0.1.2",
+      "path": "packs/canonic/supabase/0.1.2/pack.yml",
+      "sha256": "64b8bb6ff1d762807b20da81c8651dd8b60db0af550dc3d306b4e94971df5866"
     },
     {
       "id": "canonic/terraform",
@@ -487,10 +487,10 @@
       "last": "0.1.0"
     },
     "canonic/baseline": {
-      "path": "metadata/c0ae8fde017c639f753b082ef1a5187d61aa64a8a1219b8716f7d7e78986758c.json",
-      "sha256": "c0ae8fde017c639f753b082ef1a5187d61aa64a8a1219b8716f7d7e78986758c",
+      "path": "metadata/0059772bc24d9e81f5811483074010bd2238a5e1173467062ab4884e8e514d26.json",
+      "sha256": "0059772bc24d9e81f5811483074010bd2238a5e1173467062ab4884e8e514d26",
       "first": "0.1.0",
-      "last": "0.21.1"
+      "last": "0.21.2"
     },
     "canonic/box": {
       "path": "metadata/37305ba2f24b5d2cff019ec03e2e172e6541b72a1dcc3ed84b381b7fedbf3775.json",
@@ -523,16 +523,16 @@
       "last": "0.1.0"
     },
     "canonic/gate": {
-      "path": "metadata/fc068b32cd606ad059ed41a4825426aeb6969c359b28c3be0f84a148e3acda3c.json",
-      "sha256": "fc068b32cd606ad059ed41a4825426aeb6969c359b28c3be0f84a148e3acda3c",
+      "path": "metadata/a89ee2e7003538761df7b838e4c9bec256a9513ff84e691b9d25cfa05e4e94ba.json",
+      "sha256": "a89ee2e7003538761df7b838e4c9bec256a9513ff84e691b9d25cfa05e4e94ba",
       "first": "0.1.0",
-      "last": "0.2.11"
+      "last": "0.2.12"
     },
     "canonic/git": {
-      "path": "metadata/031207c899e7729c4b2ab3865cb868a9ad9b106fcbbe59a0e5e8dd7baf82799a.json",
-      "sha256": "031207c899e7729c4b2ab3865cb868a9ad9b106fcbbe59a0e5e8dd7baf82799a",
+      "path": "metadata/7aed8c24627f9c4e20732dfff8d7aa5bbb1c3820ff59993f0ea95350663edff6.json",
+      "sha256": "7aed8c24627f9c4e20732dfff8d7aa5bbb1c3820ff59993f0ea95350663edff6",
       "first": "0.1.0",
-      "last": "0.12.2"
+      "last": "0.12.3"
     },
     "canonic/github": {
       "path": "metadata/f34a8c500777f83b84e817d54d499cbd786029d47b7222b2987b7ef99e6849e6.json",
@@ -619,10 +619,10 @@
       "last": "0.1.0"
     },
     "canonic/supabase": {
-      "path": "metadata/a05cde7abb28e6f736ccc6791216bfe54bcbc458dfe5ff553f1184055e24bdb6.json",
-      "sha256": "a05cde7abb28e6f736ccc6791216bfe54bcbc458dfe5ff553f1184055e24bdb6",
+      "path": "metadata/daf6c07e9fde47ba2791ad66329935aa0ce92f90cfdd1f402e36297837880076.json",
+      "sha256": "daf6c07e9fde47ba2791ad66329935aa0ce92f90cfdd1f402e36297837880076",
       "first": "0.1.0",
-      "last": "0.1.1"
+      "last": "0.1.2"
     },
     "canonic/terraform": {
       "path": "metadata/adb871994715918591321bebb7708db7c738f4333996a8c7beaab7746fdac2dd.json",

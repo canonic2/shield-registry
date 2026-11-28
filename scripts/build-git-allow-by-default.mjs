@@ -18,12 +18,13 @@ import {readFile, writeFile, mkdir, copyFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {gitOutputCases} from './git-output-cases.mjs';
-import {gitRepositoryPathCases} from './git-repository-path-cases.mjs';
+import {gitRepositoryPathCases, gitTreeRepositoryPathCases} from './git-repository-path-cases.mjs';
 
 export const revision = ['0.10.0', '0.11.0'];
 export const outputRevision = '0.12.0';
 export const editorRevision = '0.12.1';
 export const repositoryPathRevision = '0.12.2';
+export const treeRepositoryPathRevision = '0.12.3';
 const split = value => value.split(' ');
 const everyday = {loose: 'allow', recommended: 'allow', strict: 'ask'};
 const always = {loose: 'ask', recommended: 'ask', strict: 'ask'};
@@ -382,6 +383,34 @@ export function gitNoopEditorCases() {
       name: `noop-editor-${name}-${profile}`, profile, argv: ['git', ...argv], expected: decisions[index]})))];
 }
 
+function repositoryPathRules(command, reason, {forbid, ...options}) {
+  const selectors = ['--git-dir', '--work-tree'];
+  const grammar = {
+    kind: 'options', prefix: [command],
+    leading: {flags: ['--no-pager', '-P'], short_clusters: false,
+      values: selectors.map(name => ({name, repeat: 'forbid', match: {regex: '[^-\\x00\\r\\n][^\\x00\\r\\n]*'}}))},
+    ...options,
+    operands: true, unknown_options: 'skip', long_abbreviations: true,
+    require_any: selectors, ...(forbid && {forbid}),
+  };
+  const path = {within: {root: 'project'},
+    exclude: ['.shield', '.config/shield', '.codex', '.claude', '.aws', '.ssh', '.env']
+      .map(path => ({root: 'project', path}))};
+  return [{
+    id: `${command}-repository-paths`, decision: everyday, reason,
+    conditions: {...git, cwd: {within: {root: 'project'}}, arguments: grammar},
+    requirements: {argument_paths: {grammar,
+      options: Object.fromEntries(selectors.map(name => [name, {path}]))}},
+    on_unmet: {decision: 'ask', message: 'Use repository paths inside the project or ask for approval.'},
+  }, {
+    id: `${command}-gitfile`, decision: always,
+    reason: 'Review a Git directory selector that names a file, which can point to another repository.',
+    conditions: {...git, cwd: {within: {root: 'project'}}, arguments: grammar,
+      argument_paths: {grammar: {...grammar, require_all: ['--git-dir']},
+        options: {'--git-dir': {path, kind: 'file'}}}},
+  }];
+}
+
 export async function gitRepositoryPathPack() {
   const pack = await gitNoopEditorPack();
   pack.version = repositoryPathRevision;
@@ -389,38 +418,32 @@ export async function gitRepositoryPathPack() {
   pack.capabilities = [...new Set([...pack.capabilities, 'argument-paths-v1',
     'argument-path-file-kind-v1', 'requirements-v1', 'unknown-options-v1',
     'option-abbreviations-v1'])].sort();
-
-  const selectors = ['--git-dir', '--work-tree'];
-  const grammar = {
-    kind: 'options', prefix: ['log'],
-    leading: {flags: ['--no-pager', '-P'], short_clusters: false,
-      values: selectors.map(name => ({name, repeat: 'forbid', match: {regex: '[^-\\x00\\r\\n][^\\x00\\r\\n]*'}}))},
-    flags: ['--ext-diff', '--textconv'], values: ['--output'],
-    operands: true, unknown_options: 'skip', long_abbreviations: true,
-    require_any: selectors, forbid: ['--ext-diff', '--textconv', '--output'],
-  };
-  const path = {within: {root: 'project'},
-    exclude: ['.shield', '.config/shield', '.codex', '.claude', '.aws', '.ssh', '.env']
-      .map(path => ({root: 'project', path}))};
-  pack.rules.push({
-    id: 'log-repository-paths', decision: everyday,
-    reason: 'Inspect Git history with explicit repository paths inside the project.',
-    conditions: {...git, cwd: {within: {root: 'project'}}, arguments: grammar},
-    requirements: {argument_paths: {grammar,
-      options: Object.fromEntries(selectors.map(name => [name, {path}]))}},
-    on_unmet: {decision: 'ask', message: 'Use repository paths inside the project or ask for approval.'},
-  }, {
-    id: 'log-gitfile', decision: always,
-    reason: 'Review a Git directory selector that names a file, which can point to another repository.',
-    conditions: {...git, cwd: {within: {root: 'project'}}, arguments: grammar,
-      argument_paths: {grammar: {...grammar, require_all: ['--git-dir']},
-        options: {'--git-dir': {path, kind: 'file'}}}},
-  });
+  pack.rules.push(...repositoryPathRules('log',
+    'Inspect Git history with explicit repository paths inside the project.', {
+      flags: ['--ext-diff', '--textconv'], values: ['--output'],
+      forbid: ['--ext-diff', '--textconv', '--output'],
+    }));
   return pack;
 }
 
 export function gitRepositoryPathFixtureCases() {
   return [...gitNoopEditorCases(), ...gitRepositoryPathCases()];
+}
+
+export async function gitTreeRepositoryPathPack() {
+  const pack = await gitRepositoryPathPack();
+  pack.version = treeRepositoryPathRevision;
+  pack.rules.push(...repositoryPathRules('ls-tree',
+    'List entries in a Git tree with explicit repository paths inside the project.', {
+      flags: ['-d', '-r', '-t', '-z', '-l', '--long', '--name-only', '--name-status',
+        '--object-only', '--full-name', '--full-tree'],
+      values: ['--format'], optional_values: ['--abbrev'],
+    }));
+  return pack;
+}
+
+export function gitTreeRepositoryPathFixtureCases() {
+  return [...gitRepositoryPathFixtureCases(), ...gitTreeRepositoryPathCases()];
 }
 
 const outputReadme = `# Git permissions ${outputRevision}
@@ -488,12 +511,35 @@ Generate with \`node scripts/build-git-allow-by-default.mjs ${repositoryPathRevi
 Validate with \`npm test -- --shield /absolute/path/to/shield scripts/git-repository-paths.test.mjs\`.
 `;
 
+const treeRepositoryPathReadme = `# Git permissions ${treeRepositoryPathRevision}
+
+Requires Shield \`>=0.58.0, <1.0.0\`.
+
+Loose and Recommended allow \`git ls-tree\` with explicit repository selectors
+when the working directory and the supplied \`--git-dir\` and \`--work-tree\`
+paths resolve inside the project. This includes listing tracked migration
+filenames from a local remote-tracking ref in a Gate checkout:
+
+\`\`\`sh
+git --git-dir=.gate/repos/public/.git --work-tree=. ls-tree --name-only origin/staging supabase/migrations/
+\`\`\`
+
+Strict reviews explicit repository selection. Outside or protected paths,
+repeated selectors and Git directory pointers require review in every profile.
+The same checks apply to \`git log\` as in [${repositoryPathRevision}](../${repositoryPathRevision}/README.md).
+
+Generate with \`node scripts/build-git-allow-by-default.mjs ${treeRepositoryPathRevision}\`.
+Validate with \`npm test -- --shield /absolute/path/to/shield scripts/git-repository-paths.test.mjs\`.
+`;
+
 const builds = {
   [revision[1]]: {pack: gitAllowByDefaultPack, cases: gitAllowByDefaultCases, previous: revision[0], readme},
   [outputRevision]: {pack: gitScopedOutputPack, cases: gitOutputCases, previous: revision[1], readme: outputReadme},
   [editorRevision]: {pack: gitNoopEditorPack, cases: gitNoopEditorCases, previous: outputRevision, readme: editorReadme},
   [repositoryPathRevision]: {pack: gitRepositoryPathPack, cases: gitRepositoryPathFixtureCases,
     previous: editorRevision, readme: repositoryPathReadme},
+  [treeRepositoryPathRevision]: {pack: gitTreeRepositoryPathPack, cases: gitTreeRepositoryPathFixtureCases,
+    previous: repositoryPathRevision, readme: treeRepositoryPathReadme},
 };
 
 export async function buildGitAllowByDefault(version = revision[1]) {

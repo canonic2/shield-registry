@@ -11,7 +11,7 @@ import {splitCaseFiles} from './fixture-files.mjs';
 import {addPreviewTools} from './dry-run-tools.mjs';
 import {testrunHomeInstallPack,trustedTestrunPack,trustedTestrunGuide} from './testrun-trusted-policy.mjs';
 
-export const currentToolVersions = {box:'0.2.8', gate:'0.2.11', testrun:'0.2.16'};
+export const currentToolVersions = {box:'0.2.8', gate:'0.2.12', testrun:'0.2.16'};
 export const currentDirectory = (name, version = currentToolVersions[name]) =>
   new URL(`../packs/canonic/${name}/${version}/`, import.meta.url);
 const profiles = (loose, recommended = loose, strict = recommended) => ({loose, recommended, strict});
@@ -754,6 +754,16 @@ export async function currentToolPack(name) {
   pack.version = currentToolVersions[name];
   ({box:updateBox, gate:updateGate, testrun:updateTestrun})[name](pack);
   addPreviewTools(pack, name);
+  if (name === 'gate') {
+    pack.engines.shield = '>=0.60.0, <1.0.0';
+    // Treat the default install as the same executable across decisions and path checks.
+    for (const rule of [...pack.rules, ...pack.preconditions]) {
+      const executable = rule.conditions.executable;
+      if (executable?.one_of?.includes('gate')) {
+        rule.conditions.executable = {one_of:[...executable.one_of, '~/.local/bin/gate']};
+      }
+    }
+  }
   if (name === 'testrun') pack = trustedTestrunPack(pack);
   const fields = pack.mcp_integrations[name].fields;
   delete fields['/args/0'];
@@ -783,7 +793,7 @@ export async function buildCurrentToolPacks(names = Object.keys(currentToolVersi
       const previous = {gate:'0.2.7',testrun:'0.2.9'}[name];
       await writeFile(new URL('README.md',directory), `# ${name === 'gate' ? 'Gate' : 'Testrun'} permissions ${currentToolVersions[name]}
 
-Requires Shield \`>=0.20.0, <1.0.0\`.
+Requires Shield \`${pack.engines.shield}\`.
 
 Use the separately named \`*_preview\` tools to inspect a proposed operation.
 Local previews are Allow in every profile within approved roots. Network
@@ -874,7 +884,12 @@ No policy decision or historical source changes for destination selection.
 }
 
 function gateRemoteGuide() {
-  return `Gate 0.33.0 exposes \`remote set-url\`, \`remote rename\`, and
+  return `\`gate remote list -r acme\` reads approved local remote bindings and is Allow
+in every profile inside the approved project. The same CLI rules apply to the
+default \`~/.local/bin/gate\` installation, including project checks and push
+decisions. For older Shield engines, use the [0.2.11 pack](../0.2.11/README.md).
+
+Gate 0.33.0 exposes \`remote set-url\`, \`remote rename\`, and
 \`remote remove\` (alias \`rm\`). CLI reviews and the three dedicated MCP
 preview tools are Allow in all profiles inside approved project roots.
 The applying MCP tools are Allow in Loose and Recommended within approved

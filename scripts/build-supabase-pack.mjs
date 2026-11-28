@@ -23,8 +23,10 @@ also cover the legacy \`get_logs\` operation. Requires Shield \`${engine}\`.
 | CLI credential commands, project and function deletion, branch deletion, disabling or pausing branches | Ask | Deny | Deny |
 | Explicit hosted database reset/push and migration rollback/history changes, security administration, backups, stack destroy/prune | Ask | Deny | Deny |
 | Recognized CLI database queries, resets, pushes, dumps, migration changes, function serving and deployments, and other reviewed write operations | Ask | Ask | Deny |
-| Local stack lifecycle, status, migration/function/test creation, type generation and project inspection | Ask | Ask | Ask |
-| Project linking/pulling, config conversion/pull, test execution, generated keys/JWTs, reports, snippets and experimental compute | Ask | Ask | Deny |
+| CLI \`migration new <slug>\` with default configuration and verified writes inside the checkout | Allow | Allow | Allow |
+| Local stack lifecycle, status, function/test creation, type generation and project inspection | Ask | Ask | Ask |
+| Bare \`test db\` on an opted-in, verified local Docker database with checkout-scoped tests | Allow | Allow | Allow |
+| Other database test runs, project linking/pulling, config conversion/pull, generated keys/JWTs, reports, snippets and experimental compute | Ask | Ask | Deny |
 | Unlisted CLI forms and explicit workdirs on account listings | Ask | Ask | Ask |
 | MCP SQL execution on an opted-in, project-scoped read-only connection | Allow | Allow | Allow |
 | Other MCP SQL execution, migration application, function deployment, notebook execution, billing confirmations and remote changes | Ask | Ask | Deny |
@@ -69,6 +71,22 @@ connection and local MCP endpoints use the ordinary SQL decisions. This setting
 allows \`execute_sql\` requests to reach the selected server. Supabase and
 Postgres enforce database permissions for the submitted SQL.
 
+## Run local pgTAP tests
+
+The local \`test_db_container\` setting lets you trust the test code in this
+checkout to run on its existing legacy Supabase Docker database. From the
+checkout root, review the running database container and copy its full ID from
+\`docker inspect --format '{{.Id}}' supabase_db_<project-id>\` into:
+
+\`shield pack configure canonic/supabase --local --set test_db_container=<container-id>\`
+
+Run \`supabase test db\` from the checkout root. Shield checks the default
+\`supabase/tests\` tree and verifies the reviewed container's published Postgres
+port and Docker network alias. The check supports the default local Unix socket
+and the local Docker Desktop context. A replaced container needs a new review.
+Managed stacks, explicit targets and test paths, and target or runtime overrides
+use the ordinary review policy.
+
 ## CLI effect coverage
 
 The help rule accepts \`--help\` or \`-h\` with any command path, including
@@ -83,9 +101,15 @@ functions, storage, configuration, tests, account operations, credentials and
 security administration. Fixtures cover both current \`--remote\` selection
 and retained \`--linked\`, \`--db-url\` and \`--project-ref\` spellings.
 
-Local lifecycle and file-generation commands ask because their configuration
-can select implicit files, containers and ports. An explicitly local reset or
-push retains Ask in Loose and Recommended and Deny in Strict. An explicit
+\`supabase migration new <slug>\` allows one name starting with an ASCII letter
+or digit, followed by ASCII letters, digits, underscores or hyphens. Shield
+checks where the CLI would write \`supabase/migrations/<timestamp>_<slug>.sql\`.
+Directory and profile overrides, linked output files and unverified
+destinations require review. Shield builds without the Supabase destination
+model also ask. Other local lifecycle and file-generation commands ask because
+their configuration can select implicit files, containers and ports.
+An explicitly local reset or push retains Ask in Loose and Recommended and Deny
+in Strict. An explicit
 hosted target on reset/push or rollback/history-changing migration commands
 uses Ask in Loose and Deny in Recommended and Strict. A linked project can
 contain production data, and local data also requires review before deletion.
@@ -104,7 +128,7 @@ standard Unix install paths. Package runners and shell redirects use their own
 policies.
 
 Generate the artifacts with \`node scripts/build-supabase-pack.mjs\` and run
-\`npm test -- --shield /absolute/path/to/shield scripts/supabase-pack.test.mjs\`.
+\`npm test -- --shield /absolute/path/to/shield scripts/supabase-pack.test.mjs scripts/supabase-test-db.test.mjs\`.
 `;
 }
 

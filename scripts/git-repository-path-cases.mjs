@@ -37,3 +37,31 @@ export function gitRepositoryPathCases() {
   });
   return cases;
 }
+
+export function gitTreeRepositoryPathCases() {
+  const gate = ['--git-dir=.gate/repos/public/.git', '--work-tree=.', 'ls-tree',
+    '--name-only', 'origin/staging', 'supabase/migrations/'];
+  const scenarios = [
+    ['gate-checkout', gate, routine],
+    ['git-dir', ['--git-dir', '.git', 'ls-tree', '-r', '--format=%(path)', 'HEAD'], routine],
+    ['work-tree', ['--work-tree=.', 'ls-tree', '--abbrev=12', 'HEAD'], routine],
+    ['chdir', ['-C', 'scripts', '--git-dir=../.git', '--work-tree=..', 'ls-tree', '--full-tree', 'HEAD'], routine],
+    ['git-dir-outside', ['--git-dir=../other/.git', 'ls-tree', 'HEAD'], review],
+    ['work-tree-outside', ['--git-dir=.git', '--work-tree=..', 'ls-tree', 'HEAD'], review],
+    ['protected-selector', ['--git-dir=.shield', 'ls-tree', 'HEAD'], review],
+    ['repeated-selector', ['--git-dir=../other/.git', '--git-dir=.git', 'ls-tree', 'HEAD'], review],
+    ['empty-selector', ['--git-dir=', 'ls-tree', 'HEAD'], review],
+    ['missing-selector-value', ['--git-dir', '--work-tree=.', 'ls-tree', 'HEAD'], review],
+    ['config-override', ['--git-dir=.git', '-c', 'core.pager=helper', 'ls-tree', 'HEAD'], review],
+  ];
+  const cases = scenarios.flatMap(([name, argv, decisions]) =>
+    ['loose', 'recommended', 'strict'].map((profile, index) => ({
+      name: `tree-repository-paths-${name}-${profile}`, profile, argv: ['git', ...argv], expected: decisions[index],
+    })));
+  cases.push({
+    name: 'tree-repository-paths-gate-bash-recommended', profile: 'recommended', expected: 'allow',
+    input: {kind: 'shell', dialect: 'bash', dialect_version: null, original_input: {},
+      source: `git ${gate.join(' ')}`},
+  });
+  return cases;
+}
