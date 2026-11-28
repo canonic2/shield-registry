@@ -44,8 +44,9 @@ test('Supabase preserves the authenticated 0.1.1 release and its companion files
   const source = 'packs/canonic/supabase/0.1.1/';
   const key = readFileSync(new URL('../keys/main.pub', import.meta.url), 'utf8').trim();
   const catalog = await checkPublication(fileURLToPath(published), key);
-  const release = catalog.packs.find(pack => pack.id === 'canonic/supabase');
-  assert.equal(release?.version, '0.1.1');
+  const releases = catalog.releases ?? catalog.packs;
+  const release = releases.find(pack => pack.id === 'canonic/supabase' && pack.version === '0.1.1');
+  assert.ok(release, 'Supabase 0.1.1 must remain in the authenticated catalog history');
   assert.equal(digest(readFileSync(new URL(`../${source}pack.yml`, import.meta.url))), release.sha256);
   for (const name of ['pack.yml', 'cases.json', 'commands.json', 'README.md', 'LICENSE']) {
     assert.deepEqual(readFileSync(new URL(`../${source}${name}`, import.meta.url)),
